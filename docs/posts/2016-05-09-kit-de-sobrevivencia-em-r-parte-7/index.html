@@ -1,0 +1,1813 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"/>
+  <meta name="generator" content="distill" />
+
+  <style type="text/css">
+  /* Hide doc at startup (prevent jankiness while JS renders/transforms) */
+  body {
+    visibility: hidden;
+  }
+  </style>
+
+ <!--radix_placeholder_import_source-->
+ <!--/radix_placeholder_import_source-->
+
+  <!--radix_placeholder_meta_tags-->
+<title>Fulljoin: Kit de sobrevivência em R - Parte 7: Avançando e Aprofundando</title>
+
+<meta property="description" itemprop="description" content="Chegamos ao fim do [kit de sobrevivência em R]({{root_url}}/blog/categories/introducao-ao-r). Nesse último post da série vamos retomar alguns pontos que merecem ser complementados e revisados, além de apresentar um pouco mais de transformações e operações usando apenas funções básicas do R."/>
+
+
+<!--  https://schema.org/Article -->
+<meta property="article:published" itemprop="datePublished" content="2016-05-09"/>
+<meta property="article:created" itemprop="dateCreated" content="2016-05-09"/>
+
+<!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
+<meta property="og:title" content="Fulljoin: Kit de sobrevivência em R - Parte 7: Avançando e Aprofundando"/>
+<meta property="og:type" content="article"/>
+<meta property="og:description" content="Chegamos ao fim do [kit de sobrevivência em R]({{root_url}}/blog/categories/introducao-ao-r). Nesse último post da série vamos retomar alguns pontos que merecem ser complementados e revisados, além de apresentar um pouco mais de transformações e operações usando apenas funções básicas do R."/>
+<meta property="og:locale" content="en_US"/>
+<meta property="og:site_name" content="Fulljoin"/>
+
+<!--  https://dev.twitter.com/cards/types/summary -->
+<meta property="twitter:card" content="summary"/>
+<meta property="twitter:title" content="Fulljoin: Kit de sobrevivência em R - Parte 7: Avançando e Aprofundando"/>
+<meta property="twitter:description" content="Chegamos ao fim do [kit de sobrevivência em R]({{root_url}}/blog/categories/introducao-ao-r). Nesse último post da série vamos retomar alguns pontos que merecem ser complementados e revisados, além de apresentar um pouco mais de transformações e operações usando apenas funções básicas do R."/>
+
+<!--/radix_placeholder_meta_tags-->
+  <!--radix_placeholder_rmarkdown_metadata-->
+
+<script type="text/json" id="radix-rmarkdown-metadata">
+{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["output","description","title","date"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]}]},{"type":"character","attributes":{},"value":["Chegamos ao fim do [kit de sobrevivência em R]({{root_url}}/blog/categories/introducao-ao-r). Nesse último post da série vamos retomar alguns pontos que merecem ser complementados e revisados, além de apresentar um pouco mais de transformações e operações usando apenas funções básicas do R."]},{"type":"character","attributes":{},"value":["Kit de sobrevivência em R - Parte 7: Avançando e Aprofundando"]},{"type":"character","attributes":{},"value":["2016-05-09"]}]}
+</script>
+<!--/radix_placeholder_rmarkdown_metadata-->
+  
+  <script type="text/json" id="radix-resource-manifest">
+  {"type":"NULL"}
+  </script>
+  <!--radix_placeholder_navigation_in_header-->
+
+<script type="application/javascript">
+
+  window.headroom_prevent_pin = false;
+
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+
+    // initialize headroom for banner
+    var header = $('header').get(0);
+    var headerHeight = header.offsetHeight;
+    var headroom = new Headroom(header, {
+      onPin : function() {
+        if (window.headroom_prevent_pin) {
+          window.headroom_prevent_pin = false;
+          headroom.unpin();
+        }
+      }
+    });
+    headroom.init();
+    if(window.location.hash)
+      headroom.unpin();
+    $(header).addClass('headroom--transition');
+
+    // offset scroll location for banner on hash change
+    // (see: https://github.com/WickyNilliams/headroom.js/issues/38)
+    window.addEventListener("hashchange", function(event) {
+      window.scrollTo(0, window.pageYOffset - (headerHeight + 25));
+    });
+
+    // responsive menu
+    $('.distill-site-header').each(function(i, val) {
+      var topnav = $(this);
+      var toggle = topnav.find('.nav-toggle');
+      toggle.on('click', function() {
+        topnav.toggleClass('responsive');
+      });
+    });
+
+    // nav dropdowns
+    $('.nav-dropbtn').click(function(e) {
+      $(this).next('.nav-dropdown-content').toggleClass('nav-dropdown-active');
+      $(this).parent().siblings('.nav-dropdown')
+         .children('.nav-dropdown-content').removeClass('nav-dropdown-active');
+    });
+    $("body").click(function(e){
+      $('.nav-dropdown-content').removeClass('nav-dropdown-active');
+    });
+    $(".nav-dropdown").click(function(e){
+      e.stopPropagation();
+    });
+  });
+</script>
+
+<style type="text/css">
+
+/* Theme (user-documented overrideables for nav appearance) */
+
+.distill-site-nav {
+  color: rgba(255, 255, 255, 0.8);
+  background-color: #455a64;
+  font-size: 15px;
+  font-weight: 300;
+}
+
+.distill-site-nav a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.distill-site-nav a:hover {
+  color: white;
+}
+
+@media print {
+  .distill-site-nav {
+    display: none;
+  }
+}
+
+.distill-site-header {
+
+}
+
+.distill-site-footer {
+
+}
+
+
+/* Site Header */
+
+.distill-site-header {
+  width: 100%;
+  box-sizing: border-box;
+  z-index: 3;
+}
+
+.distill-site-header .nav-left {
+  display: inline-block;
+  margin-left: 8px;
+}
+
+@media screen and (max-width: 768px) {
+  .distill-site-header .nav-left {
+    margin-left: 0;
+  }
+}
+
+
+.distill-site-header .nav-right {
+  float: right;
+  margin-right: 8px;
+}
+
+.distill-site-header a,
+.distill-site-header .title {
+  display: inline-block;
+  text-align: center;
+  padding: 14px 10px 14px 10px;
+}
+
+.distill-site-header .title {
+  font-size: 18px;
+}
+
+.distill-site-header .logo {
+  padding: 0;
+}
+
+.distill-site-header .logo img {
+  display: none;
+  max-height: 20px;
+  width: auto;
+  margin-bottom: -4px;
+}
+
+.distill-site-header .nav-image img {
+  max-height: 18px;
+  width: auto;
+  display: inline-block;
+  margin-bottom: -3px;
+}
+
+
+
+@media screen and (min-width: 1000px) {
+  .distill-site-header .logo img {
+    display: inline-block;
+  }
+  .distill-site-header .nav-left {
+    margin-left: 20px;
+  }
+  .distill-site-header .nav-right {
+    margin-right: 20px;
+  }
+  .distill-site-header .title {
+    padding-left: 12px;
+  }
+}
+
+
+.distill-site-header .nav-toggle {
+  display: none;
+}
+
+.nav-dropdown {
+  display: inline-block;
+  position: relative;
+}
+
+.nav-dropdown .nav-dropbtn {
+  border: none;
+  outline: none;
+  color: rgba(255, 255, 255, 0.8);
+  padding: 16px 10px;
+  background-color: transparent;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  margin: 0;
+  margin-top: 1px;
+  z-index: 2;
+}
+
+.nav-dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: white;
+  min-width: 200px;
+  border: 1px solid rgba(0,0,0,0.15);
+  border-radius: 4px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.1);
+  z-index: 1;
+  margin-top: 2px;
+  white-space: nowrap;
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+.nav-dropdown-content hr {
+  margin-top: 4px;
+  margin-bottom: 4px;
+  border: none;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.nav-dropdown-active {
+  display: block;
+}
+
+.nav-dropdown-content a, .nav-dropdown-content .nav-dropdown-header {
+  color: black;
+  padding: 6px 24px;
+  text-decoration: none;
+  display: block;
+  text-align: left;
+}
+
+.nav-dropdown-content .nav-dropdown-header {
+  display: block;
+  padding: 5px 24px;
+  padding-bottom: 0;
+  text-transform: uppercase;
+  font-size: 14px;
+  color: #999999;
+  white-space: nowrap;
+}
+
+.nav-dropdown:hover .nav-dropbtn {
+  color: white;
+}
+
+.nav-dropdown-content a:hover {
+  background-color: #ddd;
+  color: black;
+}
+
+.nav-right .nav-dropdown-content {
+  margin-left: -45%;
+  right: 0;
+}
+
+@media screen and (max-width: 768px) {
+  .distill-site-header a, .distill-site-header .nav-dropdown  {display: none;}
+  .distill-site-header a.nav-toggle {
+    float: right;
+    display: block;
+  }
+  .distill-site-header .title {
+    margin-left: 0;
+  }
+  .distill-site-header .nav-right {
+    margin-right: 0;
+  }
+  .distill-site-header {
+    overflow: hidden;
+  }
+  .nav-right .nav-dropdown-content {
+    margin-left: 0;
+  }
+}
+
+
+@media screen and (max-width: 768px) {
+  .distill-site-header.responsive {position: relative;}
+  .distill-site-header.responsive a.nav-toggle {
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+  .distill-site-header.responsive a,
+  .distill-site-header.responsive .nav-dropdown {
+    display: block;
+    text-align: left;
+  }
+  .distill-site-header.responsive .nav-left,
+  .distill-site-header.responsive .nav-right {
+    width: 100%;
+  }
+  .distill-site-header.responsive .nav-dropdown {float: none;}
+  .distill-site-header.responsive .nav-dropdown-content {position: relative;}
+  .distill-site-header.responsive .nav-dropdown .nav-dropbtn {
+    display: block;
+    width: 100%;
+    text-align: left;
+  }
+}
+
+/* Site Footer */
+
+.distill-site-footer {
+  width: 100%;
+  overflow: hidden;
+  box-sizing: border-box;
+  z-index: 3;
+  margin-top: 30px;
+  padding-top: 30px;
+  padding-bottom: 30px;
+  text-align: center;
+}
+
+/* Headroom */
+
+d-title {
+  padding-top: 6rem;
+}
+
+@media print {
+  d-title {
+    padding-top: 4rem;
+  }
+}
+
+.headroom {
+  z-index: 1000;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+
+.headroom--transition {
+  transition: all .4s ease-in-out;
+}
+
+.headroom--unpinned {
+  top: -100px;
+}
+
+.headroom--pinned {
+  top: 0;
+}
+
+</style>
+
+<link href="../../site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet"/>
+<link href="../../site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet"/>
+<script src="../../site_libs/headroom-0.9.4/headroom.min.js"></script>
+<!--/radix_placeholder_navigation_in_header-->
+  <!--radix_placeholder_distill-->
+
+<style type="text/css">
+
+body {
+  background-color: white;
+}
+
+.pandoc-table {
+  width: 100%;
+}
+
+.pandoc-table>caption {
+  margin-bottom: 10px;
+}
+
+.pandoc-table th:not([align]) {
+  text-align: left;
+}
+
+.pagedtable-footer {
+  font-size: 15px;
+}
+
+.html-widget {
+  margin-bottom: 2.0em;
+}
+
+.l-screen-inset {
+  padding-right: 16px;
+}
+
+.l-screen .caption {
+  margin-left: 10px;
+}
+
+.shaded {
+  background: rgb(247, 247, 247);
+  padding-top: 20px;
+  padding-bottom: 20px;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.shaded .html-widget {
+  margin-bottom: 0;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.shaded .shaded-content {
+  background: white;
+}
+
+.text-output {
+  margin-top: 0;
+  line-height: 1.5em;
+}
+
+.hidden {
+  display: none !important;
+}
+
+d-article {
+  padding-bottom: 30px;
+}
+
+d-appendix {
+  padding-top: 30px;
+}
+
+d-article>p>img {
+  width: 100%;
+}
+
+d-article iframe {
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  margin-bottom: 2.0em;
+  width: 100%;
+}
+
+figure img.external {
+  background: white;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+  padding: 18px;
+  box-sizing: border-box;
+}
+
+/* CSS for table of contents */
+
+.d-toc {
+  color: rgba(0,0,0,0.8);
+  font-size: 0.8em;
+  line-height: 1em;
+}
+
+.d-toc-header {
+  font-size: 0.6rem;
+  font-weight: 400;
+  color: rgba(0, 0, 0, 0.5);
+  text-transform: uppercase;
+  margin-top: 0;
+  margin-bottom: 1.3em;
+}
+
+.d-toc a {
+  border-bottom: none;
+}
+
+.d-toc ul {
+  padding-left: 0;
+}
+
+.d-toc li>ul {
+  padding-top: 0.8em;
+  padding-left: 16px;
+  margin-bottom: 0.6em;
+}
+
+.d-toc ul,
+.d-toc li {
+  list-style-type: none;
+}
+
+.d-toc li {
+  margin-bottom: 0.9em;
+}
+
+.d-toc-separator {
+  margin-top: 20px;
+  margin-bottom: 2em;
+}
+
+.d-article-with-toc {
+  border-top: none;
+  padding-top: 0;
+}
+
+
+
+/* Tweak code blocks (note that this CSS is repeated above in an injection
+   into the d-code shadow dom) */
+
+d-code {
+  overflow-x: auto !important;
+}
+
+pre.d-code code.d-code {
+  padding-left: 10px;
+  font-size: 12px;
+  border-left: 2px solid rgba(0,0,0,0.1);
+}
+
+pre.text-output {
+
+  font-size: 12px;
+  color: black;
+  background: none;
+  font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+  text-align: left;
+  white-space: pre;
+  word-spacing: normal;
+  word-break: normal;
+  word-wrap: normal;
+  line-height: 1.5;
+
+  -moz-tab-size: 4;
+  -o-tab-size: 4;
+  tab-size: 4;
+
+  -webkit-hyphens: none;
+  -moz-hyphens: none;
+  -ms-hyphens: none;
+  hyphens: none;
+}
+
+@media(min-width: 768px) {
+
+d-code {
+  overflow-x: visible !important;
+}
+
+pre.d-code code.d-code  {
+    padding-left: 18px;
+    font-size: 14px;
+}
+pre.text-output {
+  font-size: 14px;
+}
+}
+
+/* Figure */
+
+.figure {
+  position: relative;
+  margin-bottom: 2.5em;
+  margin-top: 1.5em;
+}
+
+.figure img {
+  width: 100%;
+}
+
+.figure .caption {
+  color: rgba(0, 0, 0, 0.6);
+  font-size: 12px;
+  line-height: 1.5em;
+}
+
+.figure img.external {
+  background: white;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+  padding: 18px;
+  box-sizing: border-box;
+}
+
+.figure .caption a {
+  color: rgba(0, 0, 0, 0.6);
+}
+
+.figure .caption b,
+.figure .caption strong, {
+  font-weight: 600;
+  color: rgba(0, 0, 0, 1.0);
+}
+
+
+
+/* Tweak 1000px media break to show more text */
+
+@media(min-width: 1000px) {
+  .base-grid,
+  distill-header,
+  d-title,
+  d-abstract,
+  d-article,
+  d-appendix,
+  distill-appendix,
+  d-byline,
+  d-footnote-list,
+  d-citation-list,
+  distill-footer {
+    grid-template-columns: [screen-start] 1fr [page-start kicker-start] 80px [middle-start] 50px [text-start kicker-end] 65px 65px 65px 65px 65px 65px 65px 65px [text-end gutter-start] 65px [middle-end] 65px [page-end gutter-end] 1fr [screen-end];
+    grid-column-gap: 16px;
+  }
+
+  .grid {
+    grid-column-gap: 16px;
+  }
+
+  d-article {
+    font-size: 1.06rem;
+    line-height: 1.7em;
+  }
+  figure .caption, .figure .caption, figure figcaption {
+    font-size: 13px;
+  }
+}
+
+@media(min-width: 1180px) {
+  .base-grid,
+  distill-header,
+  d-title,
+  d-abstract,
+  d-article,
+  d-appendix,
+  distill-appendix,
+  d-byline,
+  d-footnote-list,
+  d-citation-list,
+  distill-footer {
+    grid-template-columns: [screen-start] 1fr [page-start kicker-start] 60px [middle-start] 60px [text-start kicker-end] 60px 60px 60px 60px 60px 60px 60px 60px [text-end gutter-start] 60px [middle-end] 60px [page-end gutter-end] 1fr [screen-end];
+    grid-column-gap: 32px;
+  }
+
+  .grid {
+    grid-column-gap: 32px;
+  }
+}
+
+
+/* Get the citation styles for the appendix (not auto-injected on render since
+   we do our own rendering of the citation appendix) */
+
+d-appendix .citation-appendix,
+.d-appendix .citation-appendix {
+  font-size: 11px;
+  line-height: 15px;
+  border-left: 1px solid rgba(0, 0, 0, 0.1);
+  padding-left: 18px;
+  border: 1px solid rgba(0,0,0,0.1);
+  background: rgba(0, 0, 0, 0.02);
+  padding: 10px 18px;
+  border-radius: 3px;
+  color: rgba(150, 150, 150, 1);
+  overflow: hidden;
+  margin-top: -12px;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+
+/* Social footer */
+
+.social_footer {
+  margin-top: 30px;
+  margin-bottom: 0;
+  color: rgba(0,0,0,0.67);
+}
+
+.disqus-comments {
+  margin-right: 30px;
+}
+
+.disqus-comment-count {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+  cursor: pointer;
+}
+
+#disqus_thread {
+  margin-top: 30px;
+}
+
+.article-sharing a {
+  border-bottom: none;
+  margin-right: 8px;
+}
+
+.article-sharing a:hover {
+  border-bottom: none;
+}
+
+.sidebar-section.subscribe {
+  font-size: 12px;
+  line-height: 1.6em;
+}
+
+.subscribe p {
+  margin-bottom: 0.5em;
+}
+
+
+.article-footer .subscribe {
+  font-size: 15px;
+  margin-top: 45px;
+}
+
+
+/* Improve display for browsers without grid (IE/Edge <= 15) */
+
+.downlevel {
+  line-height: 1.6em;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
+  margin: 0;
+}
+
+.downlevel .d-title {
+  padding-top: 6rem;
+  padding-bottom: 1.5rem;
+}
+
+.downlevel .d-title h1 {
+  font-size: 50px;
+  font-weight: 700;
+  line-height: 1.1em;
+  margin: 0 0 0.5rem;
+}
+
+.downlevel .d-title p {
+  font-weight: 300;
+  font-size: 1.2rem;
+  line-height: 1.55em;
+  margin-top: 0;
+}
+
+.downlevel .d-byline {
+  padding-top: 0.8em;
+  padding-bottom: 0.8em;
+  font-size: 0.8rem;
+  line-height: 1.8em;
+}
+
+.downlevel .section-separator {
+  border: none;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.downlevel .d-article {
+  font-size: 1.06rem;
+  line-height: 1.7em;
+  padding-top: 1rem;
+  padding-bottom: 2rem;
+}
+
+
+.downlevel .d-appendix {
+  padding-left: 0;
+  padding-right: 0;
+  max-width: none;
+  font-size: 0.8em;
+  line-height: 1.7em;
+  margin-bottom: 0;
+  color: rgba(0,0,0,0.5);
+  padding-top: 40px;
+  padding-bottom: 48px;
+}
+
+.downlevel .footnotes ol {
+  padding-left: 13px;
+}
+
+.downlevel .base-grid,
+.downlevel .distill-header,
+.downlevel .d-title,
+.downlevel .d-abstract,
+.downlevel .d-article,
+.downlevel .d-appendix,
+.downlevel .distill-appendix,
+.downlevel .d-byline,
+.downlevel .d-footnote-list,
+.downlevel .d-citation-list,
+.downlevel .distill-footer,
+.downlevel .appendix-bottom,
+.downlevel .posts-container {
+  padding-left: 40px;
+  padding-right: 40px;
+}
+
+@media(min-width: 768px) {
+  .downlevel .base-grid,
+  .downlevel .distill-header,
+  .downlevel .d-title,
+  .downlevel .d-abstract,
+  .downlevel .d-article,
+  .downlevel .d-appendix,
+  .downlevel .distill-appendix,
+  .downlevel .d-byline,
+  .downlevel .d-footnote-list,
+  .downlevel .d-citation-list,
+  .downlevel .distill-footer,
+  .downlevel .appendix-bottom,
+  .downlevel .posts-container {
+  padding-left: 150px;
+  padding-right: 150px;
+  max-width: 900px;
+}
+}
+
+.downlevel pre code {
+  display: block;
+  border-left: 2px solid rgba(0, 0, 0, .1);
+  padding: 0 0 0 20px;
+  font-size: 14px;
+}
+
+.downlevel code, .downlevel pre {
+  color: black;
+  background: none;
+  font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+  text-align: left;
+  white-space: pre;
+  word-spacing: normal;
+  word-break: normal;
+  word-wrap: normal;
+  line-height: 1.5;
+
+  -moz-tab-size: 4;
+  -o-tab-size: 4;
+  tab-size: 4;
+
+  -webkit-hyphens: none;
+  -moz-hyphens: none;
+  -ms-hyphens: none;
+  hyphens: none;
+}
+
+</style>
+
+<script type="application/javascript">
+
+function is_downlevel_browser() {
+  if (bowser.isUnsupportedBrowser({ msie: "12", msedge: "16"},
+                                 window.navigator.userAgent)) {
+    return true;
+  } else {
+    return window.load_distill_framework === undefined;
+  }
+}
+
+// show body when load is complete
+function on_load_complete() {
+
+  // set body to visible
+  document.body.style.visibility = 'visible';
+
+  // force redraw for leaflet widgets
+  if (window.HTMLWidgets) {
+    var maps = window.HTMLWidgets.findAll(".leaflet");
+    $.each(maps, function(i, el) {
+      var map = this.getMap();
+      map.invalidateSize();
+      map.eachLayer(function(layer) {
+        if (layer instanceof L.TileLayer)
+          layer.redraw();
+      });
+    });
+  }
+
+  // trigger 'shown' so htmlwidgets resize
+  $('d-article').trigger('shown');
+}
+
+function init_distill() {
+
+  init_common();
+
+  // create front matter
+  var front_matter = $('<d-front-matter></d-front-matter>');
+  $('#distill-front-matter').wrap(front_matter);
+
+  // create d-title
+  $('.d-title').changeElementType('d-title');
+
+  // create d-byline
+  var byline = $('<d-byline></d-byline>');
+  $('.d-byline').replaceWith(byline);
+
+  // create d-article
+  var article = $('<d-article></d-article>');
+  $('.d-article').wrap(article).children().unwrap();
+
+  // move posts container into article
+  $('.posts-container').appendTo($('d-article'));
+
+  // create d-appendix
+  $('.d-appendix').changeElementType('d-appendix');
+
+  // create d-bibliography
+  var bibliography = $('<d-bibliography></d-bibliography>');
+  $('#distill-bibliography').wrap(bibliography);
+
+  // flag indicating that we have appendix items
+  var appendix = $('.appendix-bottom').children('h3').length > 0;
+
+  // replace citations with <d-cite>
+  $('.citation').each(function(i, val) {
+    appendix = true;
+    var cites = $(this).attr('data-cites').split(" ");
+    var dt_cite = $('<d-cite></d-cite>');
+    dt_cite.attr('key', cites.join());
+    $(this).replaceWith(dt_cite);
+  });
+  // remove refs
+  $('#refs').remove();
+
+  // replace footnotes with <d-footnote>
+  $('.footnote-ref').each(function(i, val) {
+    appendix = true;
+    var href = $(this).attr('href');
+    var id = href.replace('#', '');
+    var fn = $('#' + id);
+    var fn_p = $('#' + id + '>p');
+    fn_p.find('.footnote-back').remove();
+    var text = fn_p.html();
+    var dtfn = $('<d-footnote></d-footnote>');
+    dtfn.html(text);
+    $(this).replaceWith(dtfn);
+  });
+  // remove footnotes
+  $('.footnotes').remove();
+
+  $('h1.appendix, h2.appendix').each(function(i, val) {
+    $(this).changeElementType('h3');
+  });
+  $('h3.appendix').each(function(i, val) {
+    var id = $(this).attr('id');
+    $('.d-toc a[href="#' + id + '"]').parent().remove();
+    appendix = true;
+    $(this).nextUntil($('h1, h2, h3')).addBack().appendTo($('d-appendix'));
+  });
+
+  // show d-appendix if we have appendix content
+  $("d-appendix").css('display', appendix ? 'grid' : 'none');
+
+  // replace code blocks with d-code
+  $('pre>code').each(function(i, val) {
+    var code = $(this);
+    var pre = code.parent();
+    var clz = "";
+    var language = pre.attr('class');
+    if (language) {
+      // map unknown languages to "clike" (without this they just dissapear)
+      if ($.inArray(language, ["bash", "clike", "css", "go", "html",
+                               "javascript", "js", "julia", "lua", "markdown",
+                               "markup", "mathml", "python", "svg", "xml"]) == -1)
+        language = "clike";
+      language = ' language="' + language + '"';
+      var dt_code = $('<d-code block' + language + clz + '></d-code>');
+      dt_code.text(code.text());
+      pre.replaceWith(dt_code);
+    } else {
+      code.addClass('text-output').unwrap().changeElementType('pre');
+    }
+  });
+
+  // localize layout chunks to just output
+  $('.layout-chunk').each(function(i, val) {
+
+    // capture layout
+    var layout = $(this).attr('data-layout');
+
+    // apply layout to markdown level block elements
+    var elements = $(this).children().not('d-code, pre.text-output, script');
+    elements.each(function(i, el) {
+      var layout_div = $('<div class="' + layout + '"></div>');
+      if (layout_div.hasClass('shaded')) {
+        var shaded_content = $('<div class="shaded-content"></div>');
+        $(this).wrap(shaded_content);
+        $(this).parent().wrap(layout_div);
+      } else {
+        $(this).wrap(layout_div);
+      }
+    });
+
+
+    // unwrap the layout-chunk div
+    $(this).children().unwrap();
+  });
+
+  // load distill framework
+  load_distill_framework();
+
+  // wait for window.distillRunlevel == 4 to do post processing
+  function distill_post_process() {
+
+    if (!window.distillRunlevel || window.distillRunlevel < 4)
+      return;
+
+    // hide author/affiliations entirely if we have no authors
+    var front_matter = JSON.parse($("#distill-front-matter").html());
+    var have_authors = front_matter.authors && front_matter.authors.length > 0;
+    if (!have_authors)
+      $('d-byline').addClass('hidden');
+
+    // table of contents
+    if (have_authors) // adjust border if we are in authors
+      $('.d-toc').parent().addClass('d-article-with-toc');
+
+    // strip links that point to #
+    $('.authors-affiliations').find('a[href="#"]').removeAttr('href');
+
+    // hide elements of author/affiliations grid that have no value
+    function hide_byline_column(caption) {
+      $('d-byline').find('h3:contains("' + caption + '")').parent().css('visibility', 'hidden');
+    }
+
+    // affiliations
+    var have_affiliations = false;
+    for (var i = 0; i<front_matter.authors.length; ++i) {
+      var author = front_matter.authors[i];
+      if (author.affiliation !== "&nbsp;") {
+        have_affiliations = true;
+        break;
+      }
+    }
+    if (!have_affiliations)
+      $('d-byline').find('h3:contains("Affiliations")').css('visibility', 'hidden');
+
+    // published date
+    if (!front_matter.publishedDate)
+      hide_byline_column("Published");
+
+    // document object identifier
+    var doi = $('d-byline').find('h3:contains("DOI")');
+    var doi_p = doi.next().empty();
+    if (!front_matter.doi) {
+      // if we have a citation and valid citationText then link to that
+      if ($('#citation').length > 0 && front_matter.citationText) {
+        doi.html('Citation');
+        $('<a href="#citation"></a>')
+          .text(front_matter.citationText)
+          .appendTo(doi_p);
+      } else {
+        hide_byline_column("DOI");
+      }
+    } else {
+      $('<a></a>')
+         .attr('href', "https://doi.org/" + front_matter.doi)
+         .html(front_matter.doi)
+         .appendTo(doi_p);
+    }
+
+     // change plural form of authors/affiliations
+    if (front_matter.authors.length === 1) {
+      var grid = $('.authors-affiliations');
+      grid.children('h3:contains("Authors")').text('Author');
+      grid.children('h3:contains("Affiliations")').text('Affiliation');
+    }
+
+    // inject pre code styles (can't do this with a global stylesheet b/c a shadow root is used)
+    $('d-code').each(function(i, val) {
+      var style = document.createElement('style');
+      style.innerHTML = 'pre code { padding-left: 10px; font-size: 12px; border-left: 2px solid rgba(0,0,0,0.1); } ' +
+                        '@media(min-width: 768px) { pre code { padding-left: 18px; font-size: 14px; } }';
+      if (this.shadowRoot)
+        this.shadowRoot.appendChild(style);
+    });
+
+    // move appendix-bottom entries to the bottom
+    $('.appendix-bottom').appendTo('d-appendix').children().unwrap();
+    $('.appendix-bottom').remove();
+
+    // clear polling timer
+    clearInterval(tid);
+
+    // show body now that everything is ready
+    on_load_complete();
+  }
+
+  var tid = setInterval(distill_post_process, 50);
+  distill_post_process();
+
+}
+
+function init_downlevel() {
+
+  init_common();
+
+   // insert hr after d-title
+  $('.d-title').after($('<hr class="section-separator"/>'));
+
+  // check if we have authors
+  var front_matter = JSON.parse($("#distill-front-matter").html());
+  var have_authors = front_matter.authors && front_matter.authors.length > 0;
+
+  // manage byline/border
+  if (!have_authors)
+    $('.d-byline').remove();
+  $('.d-byline').after($('<hr class="section-separator"/>'));
+  $('.d-byline a').remove();
+
+  // remove toc
+  $('.d-toc-header').remove();
+  $('.d-toc').remove();
+  $('.d-toc-separator').remove();
+
+  // move appendix elements
+  $('h1.appendix, h2.appendix').each(function(i, val) {
+    $(this).changeElementType('h3');
+  });
+  $('h3.appendix').each(function(i, val) {
+    $(this).nextUntil($('h1, h2, h3')).addBack().appendTo($('.d-appendix'));
+  });
+
+
+  // inject headers into references and footnotes
+  var refs_header = $('<h3></h3>');
+  refs_header.text('References');
+  $('#refs').prepend(refs_header);
+
+  var footnotes_header = $('<h3></h3');
+  footnotes_header.text('Footnotes');
+  $('.footnotes').children('hr').first().replaceWith(footnotes_header);
+
+  // move appendix-bottom entries to the bottom
+  $('.appendix-bottom').appendTo('.d-appendix').children().unwrap();
+  $('.appendix-bottom').remove();
+
+  // remove appendix if it's empty
+  if ($('.d-appendix').children().length === 0)
+    $('.d-appendix').remove();
+
+  // prepend separator above appendix
+  $('.d-appendix').before($('<hr class="section-separator" style="clear: both"/>'));
+
+  // trim code
+  $('pre>code').each(function(i, val) {
+    $(this).html($.trim($(this).html()));
+  });
+
+  // move posts-container right before article
+  $('.posts-container').insertBefore($('.d-article'));
+
+  $('body').addClass('downlevel');
+
+  on_load_complete();
+}
+
+
+function init_common() {
+
+  // jquery plugin to change element types
+  (function($) {
+    $.fn.changeElementType = function(newType) {
+      var attrs = {};
+
+      $.each(this[0].attributes, function(idx, attr) {
+        attrs[attr.nodeName] = attr.nodeValue;
+      });
+
+      this.replaceWith(function() {
+        return $("<" + newType + "/>", attrs).append($(this).contents());
+      });
+    };
+  })(jQuery);
+
+  // prevent underline for linked images
+  $('a > img').parent().css({'border-bottom' : 'none'});
+
+  // mark non-body figures created by knitr chunks as 100% width
+  $('.layout-chunk').each(function(i, val) {
+    var figures = $(this).find('img, .html-widget');
+    if ($(this).attr('data-layout') !== "l-body") {
+      figures.css('width', '100%');
+    } else {
+      figures.css('max-width', '100%');
+      figures.filter("[width]").each(function(i, val) {
+        var fig = $(this);
+        fig.css('width', fig.attr('width') + 'px');
+      });
+
+    }
+  });
+
+  // auto-append index.html to post-preview links in file: protocol
+  // and in rstudio ide preview
+  $('.post-preview').each(function(i, val) {
+    if (window.location.protocol === "file:")
+      $(this).attr('href', $(this).attr('href') + "index.html");
+  });
+
+  // get rid of index.html references in header
+  if (window.location.protocol !== "file:") {
+    $('.distill-site-header a[href]').each(function(i,val) {
+      $(this).attr('href', $(this).attr('href').replace("index.html", "./"));
+    });
+  }
+
+  // add class to pandoc style tables
+  $('tr.header').parent('thead').parent('table').addClass('pandoc-table');
+  $('.kable-table').children('table').addClass('pandoc-table');
+
+  // add figcaption style to table captions
+  $('caption').parent('table').addClass("figcaption");
+
+  // initialize posts list
+  if (window.init_posts_list)
+    window.init_posts_list();
+
+  // implmement disqus comment link
+  $('.disqus-comment-count').click(function() {
+    window.headroom_prevent_pin = true;
+    $('#disqus_thread').toggleClass('hidden');
+    if (!$('#disqus_thread').hasClass('hidden')) {
+      var offset = $(this).offset();
+      $(window).resize();
+      $('html, body').animate({
+        scrollTop: offset.top - 35
+      });
+    }
+  });
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  if (is_downlevel_browser())
+    init_downlevel();
+  else
+    window.addEventListener('WebComponentsReady', init_distill);
+});
+
+</script>
+
+<!--/radix_placeholder_distill-->
+  <script src="../../site_libs/jquery-1.11.3/jquery.min.js"></script>
+  <script src="../../site_libs/bowser-1.9.3/bowser.min.js"></script>
+  <script src="../../site_libs/webcomponents-2.0.0/webcomponents.js"></script>
+  <script src="../../site_libs/distill-2.2.21/template.v2.js"></script>
+  <!--radix_placeholder_site_in_header-->
+<!--/radix_placeholder_site_in_header-->
+
+
+</head>
+
+<body>
+
+<!--radix_placeholder_front_matter-->
+
+<script id="distill-front-matter" type="text/json">
+{"title":"Kit de sobrevivência em R - Parte 7: Avançando e Aprofundando","description":"Chegamos ao fim do [kit de sobrevivência em R]({{root_url}}/blog/categories/introducao-ao-r). Nesse último post da série vamos retomar alguns pontos que merecem ser complementados e revisados, além de apresentar um pouco mais de transformações e operações usando apenas funções básicas do R.","authors":[],"publishedDate":"2016-05-09T00:00:00.000-03:00"}
+</script>
+
+<!--/radix_placeholder_front_matter-->
+<!--radix_placeholder_navigation_before_body-->
+<header class="header header--fixed" role="banner">
+<nav class="distill-site-nav distill-site-header">
+<div class="nav-left">
+<a href="../../index.html" class="title">Fulljoin</a>
+</div>
+<div class="nav-right">
+<a href="../../index.html">Home</a>
+<a href="../../about.html">About</a>
+<a href="javascript:void(0);" class="nav-toggle">&#9776;</a>
+</div>
+</nav>
+</header>
+<!--/radix_placeholder_navigation_before_body-->
+<!--radix_placeholder_site_before_body-->
+<!--/radix_placeholder_site_before_body-->
+
+<div class="d-title">
+<h1>Kit de sobrevivência em R - Parte 7: Avançando e Aprofundando</h1>
+<p>Chegamos ao fim do <a href="%7B%7Broot_url%7D%7D/blog/categories/introducao-ao-r">kit de sobrevivência em R</a>. Nesse último post da série vamos retomar alguns pontos que merecem ser complementados e revisados, além de apresentar um pouco mais de transformações e operações usando apenas funções básicas do R.</p>
+</div>
+
+
+<div class="d-article">
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<!-- More -->
+<p>Se você seguiu a sequência e chegou até aqui, parabéns! Você provavelmente conhece o básico de R e o suficiente para começar a aprofundar em aspectos mais interessantes sobre operações com massas de dados.</p>
+<h2 id="breve-revisao-sobre-pacotes">Breve revisão sobre pacotes</h2>
+<p>Mostramos que pacotes são conjuntos de funções específicas agrupadas para objetivos temáticos: carregar dados, gráficos, machine learning. É muito simples carregar e utilizar pacotes. Vamos relembrar os principais comandos envolvidos:</p>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<h2 id="carregando-dados">Carregando dados</h2>
+<p>Lembre-se que antes de carregar um arquivo de dados você precisa informar onde o R deve ler o arquivo. Para isso usamos o comando <code>setwd()</code>.</p>
+<p>A função mais básica para leitura de dados estruturados (csv, tabular, tamanho fixo, com separadores, etc.) é o famoso <code>read.table()</code>. Lembra dos principais parâmetros? Nome do arquivo, separador, se tem cabeçalho ou não, e, no caso de campos com tamanho fixo, o tamanho de cada campo.</p>
+<p>Se quiser exercitar com diversos arquivos de dados diferentes, tente o <a href="http://dados.gov.br/">Portal Brasileiro de Dados Abertos</a> ou <a href="https://github.com/caesar0301/awesome-public-datasets">esse repositório de dados públicos</a> (em inglês).</p>
+<p>Comentamos sobre algumas funções básicas para começar a explorar seus dados carregados. Você lembra?</p>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<blockquote>
+<p>Dica: se estiver usando o RStudio, tente visualizar seu data.frame com a função <code>View()</code> (com V maiúsculo). Ela cria uma planilha para ver melhor os dados!</p>
+</blockquote>
+<h2 id="tipos-e-estrutura-de-dados">Tipos e estrutura de dados</h2>
+<p>Conhecer os tipos e estruturas de dados em R será fundamental daqui pra frente. Achamos importante revisar e apresentar alguns dos principais.</p>
+<h3 id="tipos-basicos">Tipos básicos</h3>
+<table>
+<colgroup>
+<col style="width: 30%" />
+<col style="width: 70%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Tipo</th>
+<th style="text-align: left;">Descrição</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>logical</strong></td>
+<td style="text-align: left;">Valor lógico, <code>TRUE</code> ou <code>FALSE</code>. Usado com os operadores lógicos <code>&amp;, |, ==, !=, &gt;, &lt;, &gt;=, &lt;=</code></td>
+</tr>
+<tr class="even">
+<td><strong>integer</strong></td>
+<td style="text-align: left;">Valores de números inteiros</td>
+</tr>
+<tr class="odd">
+<td><strong>numeric</strong></td>
+<td style="text-align: left;">Valores de números decimais. Também representam números inteiros</td>
+</tr>
+<tr class="even">
+<td><strong>character</strong></td>
+<td style="text-align: left;">Valores textuais, também conhecidos como string</td>
+</tr>
+</tbody>
+</table>
+<p><br/></p>
+<h3 id="conversoes">Conversões</h3>
+<p>Existem algumas operações de conversões entre os tipos. São bastante usadas em transformações de campos. Por exemplo:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre><code>
+[1] 20</code></pre>
+<pre><code>
+[1] &quot;20&quot;</code></pre>
+<pre><code>
+[1] 3</code></pre>
+</div>
+<h3 id="estruturas-basicas">Estruturas básicas</h3>
+<p>Dominar as estruturas de dados do R será fundamental no desenvolvimento das suas análises. Inicialmente, a ideia de estrutura de dados pode parecer um pouco abstrata, mas conhecê-las e saber suas características será útil para você perceber quais são as possibilidades.</p>
+<p>A tabela abaixo apresenta um resumo das estruturas básicas. Ela está baseada na explicação que está no livro do <a href="http://adv-r.had.co.nz/Data-structures.html"><em>Advanced R</em></a> do Hadley Wickham (leitura recomendada pra quem deseja aprofundar seus conhecimento em R).</p>
+<table>
+<colgroup>
+<col style="width: 18%" />
+<col style="width: 25%" />
+<col style="width: 18%" />
+<col style="width: 18%" />
+<col style="width: 18%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Tipo</th>
+<th style="text-align: left;">Descrição</th>
+<th>Dimensões</th>
+<th>Homogêneo</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>vector</strong></td>
+<td style="text-align: left;">Coleção de elementos simples. Todos os elementos precisam ser do mesmo tipo básico de dado</td>
+<td>1</td>
+<td>Sim</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><strong>array</strong></td>
+<td style="text-align: left;">Coleção que se parece com o vector, mas é multidimensional</td>
+<td>n</td>
+<td>Sim</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><strong>matrix</strong></td>
+<td style="text-align: left;">Tipo especial de array com duas dimensões</td>
+<td>2</td>
+<td>Sim</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><strong>list</strong></td>
+<td style="text-align: left;">Objeto complexo com elementos que podem ser de diferentes tipos</td>
+<td>1</td>
+<td>Não</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><strong>data.frame</strong></td>
+<td style="text-align: left;">Tipo especial de lista onde cada coluna é um vetor de apenas um tipo e todos as colunas têm o mesmo número de registros. É o tipo mais utilizado se trabalhar com dados</td>
+<td>2</td>
+<td>Não</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><strong>factor</strong></td>
+<td style="text-align: left;">Tipo especial de vector que só contém valores pré definidos (levels) e categóricos (characters). Não é possível adicionar novas categorias sem criação de novos levels</td>
+<td>1</td>
+<td>Não</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><br/></p>
+<p>Do que se trata o campo <code>Dimensões</code> na tabela? Na prática, isso afetará como você usará partes desse objeto. Por exemplo, um objeto com duas dimensões tem linhas e colunas. Assim, você usará <code>[ , ]</code> (com vírgula separando linha e coluna, respectivamente) para acessar a dimensão que você deseja selecionar. Já um objeto unidimensional terá seus elementos acessados usando apenas <code>[ ]</code>. A lista, por sua vez, tem seus elementos acessados com <code>[[ ]]</code>.</p>
+<p>E o campo <code>Homogêneo</code> da tabela? Trata-se de mais uma características das estruturas de dados. Diz respeito à variedade de tipos básicos que um objeto pode conter. Por exemplo, vetores só aceitam um tipo de dado. Assim, se você atribuir dois tipos diferentes, ele forçará para um único tipo. Listas e data frames aceitam diferentes tipos de dados.</p>
+<h3 id="observacoes-sobre-listas">Observações sobre listas</h3>
+<p>Lista pode causar um pouco de confusão no começo. Daremos alguns exemplos para explicar melhor.</p>
+<p>Iremos criar listas com duas bases de dados que já são fornecidas como exemplos no próprio R. Primeiramente, vamos carregar as duas bases de dados:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre><code>
+[1] &quot;data.frame&quot;</code></pre>
+<pre><code>
+[1] &quot;data.frame&quot;</code></pre>
+</div>
+<p>Veja que temos dois data frames. Agora, vamos criar um objeto único que irá receber essas duas bases. Além disso, a fim de mostrar a heterogeneidade, iremos incluir um objeto que será um vetor.</p>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<p>Faça um teste e digite <code>lista.teste</code> no console para ver o resultado.</p>
+<p>E como eu faço pra acessar partes específicas? Como dissemos a lista tem uma pequena diferença, será necessário usar o <code>[[ ]]</code>. Lembre-se que, como a lista é um objeto de dimensão 1, só precisaremos passar o índice que temos interesse. O vetor <code>x</code> é o terceiro elemento. Logo, para acessá-lo podemos fazer o seguinte:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre><code>
+ [1]  1  2  3  4  5  6  7  8  9 10</code></pre>
+</div>
+Para terminar essa breve explicação sobre listas, vamos mostrar que cada objeto de uma lista pode ter um nome:
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+Dessa forma, você <em>também</em> poderá acessar usando o nome com o auxílio do <code>$</code>:
+<div class="layout-chunk" data-layout="l-body">
+<pre><code>
+ [1]  1  2  3  4  5  6  7  8  9 10</code></pre>
+</div>
+<p><br/></p>
+<h3 id="observacoes-sobre-vectors">Observações sobre vectors</h3>
+<p>Vectors possuem algumas propriedades muito úteis como <code>length()</code>, <code>typeof()</code> e <code>unique()</code>. Você também poderá usar o <code>length()</code> para saber o tamanho de uma lista.</p>
+<h3 id="observacoes-sobre-data.frames">Observações sobre data.frames</h3>
+<p>As funções <code>nrow()</code> e <code>ncol()</code> podem ser usadas para saber, respectivamente, o número de linhas e colunas de um data.frame (ou de uma matriz).</p>
+<p>Data.frames também podem ter o nome das colunas alterados. Veja o exemplo a seguir:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre><code>
+  Sepal.Length Sepal.Width Petal.Length Petal.Width Species
+1          5.1         3.5          1.4         0.2  setosa
+2          4.9         3.0          1.4         0.2  setosa
+3          4.7         3.2          1.3         0.2  setosa
+4          4.6         3.1          1.5         0.2  setosa
+5          5.0         3.6          1.4         0.2  setosa
+6          5.4         3.9          1.7         0.4  setosa</code></pre>
+<pre><code>
+[1] &quot;Sepal.Length&quot; &quot;Sepal.Width&quot;  &quot;Petal.Length&quot; &quot;Petal.Width&quot; 
+[5] &quot;Species&quot;     </code></pre>
+<pre><code>
+  campo1 campo2 campo3 campo4 campo5
+1    5.1    3.5    1.4    0.2 setosa
+2    4.9    3.0    1.4    0.2 setosa
+3    4.7    3.2    1.3    0.2 setosa
+4    4.6    3.1    1.5    0.2 setosa
+5    5.0    3.6    1.4    0.2 setosa
+6    5.4    3.9    1.7    0.4 setosa</code></pre>
+</div>
+<h2 id="valores-faltantes-missing">Valores Faltantes (Missing)</h2>
+<p>O R atribui <code>NA</code> para valores faltantes. Ou seja, se por acaso uma determinada posição de um vetor ou de uma coluna de um data.frame não possui valor algum, o R mostrará <code>NA</code>.</p>
+<p>É muito comum lidar com conjuntos de dados que tenham ocorrências de <code>NA</code> em alguns campos. É importante saber o que fazer em casos de <code>NA</code>, e nem sempre a solução será a mesma, vai variar de acordo com as suas necessidades.</p>
+<p>Em algumas bases de dados, quem gera o dado atribui valores genéricos como 999 ou até mesmo um “texto vazio” <code>' '</code>. Nesse caso, você provavelmente terá que substituir esses valores “omissos” por <code>NA</code>.</p>
+<p>Vamos explicar as funções básicas para começar a lidar com <code>NA</code> no R.</p>
+<p>Em primeiro lugar, criaremos um simples data.frame para exemplificar:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre><code>
+  col1 col2
+1    a   10
+2    b   20
+3    c   30
+4    d   NA
+5    e   50
+6    f   NA</code></pre>
+<pre><code>
+ col1       col2     
+ a:1   Min.   :10.0  
+ b:1   1st Qu.:17.5  
+ c:1   Median :25.0  
+ d:1   Mean   :27.5  
+ e:1   3rd Qu.:35.0  
+ f:1   Max.   :50.0  
+       NA&#39;s   :2     </code></pre>
+</div>
+<p>Usamos o <code>letters</code> que é uma lista pré construída no R e que retorna as 26 letras do alfabeto. No caso, usamos só as seis primeiras. Na segunda coluna, colocamos alguns <code>NA</code>’s.</p>
+<p>A função <code>summary</code> mostra que existem dois <code>NA</code>’s na <code>col2</code>. Nesse exemplo fica fácil para encontrar onde estão os <code>NA</code>’s e fazer alguma modificação caso deseje, mas considere um caso em que seu data.frame é grande. Você não iria conseguir identificar no olho. Assim, é necessário usar algumas funções. Vamos começar como o <code>is.na()</code>:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre><code>
+[1] FALSE FALSE FALSE  TRUE FALSE  TRUE</code></pre>
+<pre><code>
+[1] 4 6</code></pre>
+</div>
+<p>O <code>is.na()</code> realiza um teste para saber se cada elemento da variável <code>col2</code> é um missing. Além disso, se usarmos o <code>is.na()</code> dentro da função <code>which()</code> saberemos quais as posições que possuem o <code>NA</code>. Um detalhe importante sobre funções que retornam <code>TRUE</code> ou <code>FALSE</code> como o <code>is.na()</code> é que você pode usar a <code>!</code> para fazer o teste ao contrário. Isto é, se quisermos saber quais não são <code>NA</code>, faremos o seguinte:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre><code>
+[1]  TRUE  TRUE  TRUE FALSE  TRUE FALSE</code></pre>
+</div>
+<p>Notou que a função retornou o contrário de <code>is.na(data.ex$col2)</code>?</p>
+<p>Agora iremos introduzir a função <code>complete.cases()</code>. Bastante utilizada, essa função retorna <code>TRUE</code> para as linhas em que todas as colunas possuem valores válidos e <code>FALSE</code> para as linhas em que em alguma coluna existe um <code>NA</code>. Ou seja, essa função diz quais são as linhas (amostras) completas em todas suas características (campos).</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre><code>
+[1]  TRUE  TRUE  TRUE FALSE  TRUE FALSE</code></pre>
+<pre><code>
+[1] FALSE FALSE FALSE  TRUE FALSE  TRUE</code></pre>
+</div>
+<p>Podemos usar o retorno dessa função para selecionar linhas do nosso data.frame:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre><code>
+  col1 col2
+4    d   NA
+6    f   NA</code></pre>
+<pre><code>
+  col1 col2
+1    a   10
+2    b   20
+3    c   30
+5    e   50</code></pre>
+</div>
+<p>Você poderia usar a função <code>na.omit()</code> para obter o mesmo resultado da seleção de linhas com o <code>complete.cases()</code>:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre><code>
+  col1 col2
+1    a   10
+2    b   20
+3    c   30
+5    e   50</code></pre>
+</div>
+<p>Por fim, iremos imputar a média da <code>col2</code> nas linhas em que há <code>NA</code>. Para isso, usaremos o <code>ifelse()</code> que tratamos na <a href="%7B%7Broot_url%7D%7D/blog/2016/05/01/kit-de-sobrevivencia-em-r-parte-6/">parte 6</a> e o <code>is.na()</code>, além da função <code>mean()</code>.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre><code>
+[1] 27.5</code></pre>
+<pre><code>
+  col1 col2
+1    a 10.0
+2    b 20.0
+3    c 30.0
+4    d 27.5
+5    e 50.0
+6    f 27.5</code></pre>
+</div>
+<p>Note que na função <code>mean()</code> usamos o argumento <code>na.rm</code>. Ele significa “remover <code>NA</code>”, o que é necessário nesse cálculo, pois se os <code>NA</code>’s não forem retirados, a média será <code>NA</code> também.</p>
+<p>Imputar dados em casos de <code>NA</code> é uma das várias estratégias para lidar com ocorrência de missing no conjunto dos dados.</p>
+<h2 id="exemplo-final-titanic">Exemplo final: Titanic</h2>
+<p>Vamos dar um exemplo final de algumas transformações e manipulações de dados na tentativa de resumir todos os aspectos tratados no kit de sobrevivência em R.</p>
+<p>Escolhemos a base de dados dos passageiros do Titanic! É uma base muito utilizada como tutorial de machine learning onde o objetivo é criar um modelo para prever os sobreviventes do acidente. Se você pretende aprender machine learning, certamente vai esbarrar (ou já esbarrou) com essa base de dados. Inclusive há uma série de <a href="https://www.kaggle.com/c/titanic">tutoriais de machine learning com essa base no Kaggle</a>.</p>
+<p>Nosso objetivo não é criar nenhum modelo nem ensinar a fazer isso, vamos apenas explorar a base, manipular, transformar e criar algumas variáveis. Teremos muitos posts em breve sobre modelos preditivos e machine learning!</p>
+<p>Primeiro criamos um novo script, lembre-se sempre de salvar o seu trabalho para não perder nada. Em seguida vamos limpar o ambiente de memória para começar.</p>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<p>Vamos instalar e carregar o pacote R que disponibiliza os dados.</p>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<p>O data frame que iremos usar já estará carregado na memória e se chama <code>titanic_train</code>. Trata-se da base de treinamento usada para treinar modelos. Vamos dar uma olhada. As bases de treinamento já vem com a resposta na variável que você quer descobrir na base de teste. Nesse caso os modelos que usam essa base são treinados para descobrir a variável <code>Survived</code>.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre><code>
+&#39;data.frame&#39;:   891 obs. of  12 variables:
+ $ PassengerId: int  1 2 3 4 5 6 7 8 9 10 ...
+ $ Survived   : int  0 1 1 1 0 0 0 0 1 1 ...
+ $ Pclass     : int  3 1 3 1 3 3 1 3 3 2 ...
+ $ Name       : chr  &quot;Braund, Mr. Owen Harris&quot; &quot;Cumings, Mrs. John Bradley (Florence Briggs Thayer)&quot; &quot;Heikkinen, Miss. Laina&quot; &quot;Futrelle, Mrs. Jacques Heath (Lily May Peel)&quot; ...
+ $ Sex        : chr  &quot;male&quot; &quot;female&quot; &quot;female&quot; &quot;female&quot; ...
+ $ Age        : num  22 38 26 35 35 NA 54 2 27 14 ...
+ $ SibSp      : int  1 1 0 1 0 0 0 3 0 1 ...
+ $ Parch      : int  0 0 0 0 0 0 0 1 2 0 ...
+ $ Ticket     : chr  &quot;A/5 21171&quot; &quot;PC 17599&quot; &quot;STON/O2. 3101282&quot; &quot;113803&quot; ...
+ $ Fare       : num  7.25 71.28 7.92 53.1 8.05 ...
+ $ Cabin      : chr  &quot;&quot; &quot;C85&quot; &quot;&quot; &quot;C123&quot; ...
+ $ Embarked   : chr  &quot;S&quot; &quot;C&quot; &quot;S&quot; &quot;S&quot; ...</code></pre>
+<pre><code>
+  PassengerId Survived Pclass
+1           1        0      3
+2           2        1      1
+3           3        1      3
+4           4        1      1
+5           5        0      3
+6           6        0      3
+                                                 Name    Sex Age
+1                             Braund, Mr. Owen Harris   male  22
+2 Cumings, Mrs. John Bradley (Florence Briggs Thayer) female  38
+3                              Heikkinen, Miss. Laina female  26
+4        Futrelle, Mrs. Jacques Heath (Lily May Peel) female  35
+5                            Allen, Mr. William Henry   male  35
+6                                    Moran, Mr. James   male  NA
+  SibSp Parch           Ticket    Fare Cabin Embarked
+1     1     0        A/5 21171  7.2500              S
+2     1     0         PC 17599 71.2833   C85        C
+3     0     0 STON/O2. 3101282  7.9250              S
+4     1     0           113803 53.1000  C123        S
+5     0     0           373450  8.0500              S
+6     0     0           330877  8.4583              Q</code></pre>
+</div>
+<p>Repare que cada linha representa um passageiro e cada campo representa uma característica desse passageiro. As variáveis (campos) estão em inglês e talvez não sejam tão óbvias. Segue explicação de cada uma:</p>
+<table>
+<thead>
+<tr class="header">
+<th>Nome do campo</th>
+<th style="text-align: left;">Descrição do campo</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Survived</strong></td>
+<td style="text-align: left;">Passageiro sobrevivente (1) ou morto (0)</td>
+</tr>
+<tr class="even">
+<td><strong>Pclass</strong></td>
+<td style="text-align: left;">Classe do passageiro</td>
+</tr>
+<tr class="odd">
+<td><strong>Name</strong></td>
+<td style="text-align: left;">Nome do passageiro</td>
+</tr>
+<tr class="even">
+<td><strong>Sex</strong></td>
+<td style="text-align: left;">Gênero do passageiro (male ou female)</td>
+</tr>
+<tr class="odd">
+<td><strong>Age</strong></td>
+<td style="text-align: left;">Idade do passageiro</td>
+</tr>
+<tr class="even">
+<td><strong>SibSp</strong></td>
+<td style="text-align: left;">Número de irmãos ou cônjuges a bordo</td>
+</tr>
+<tr class="odd">
+<td><strong>Parch</strong></td>
+<td style="text-align: left;">Número de pais ou filhos a bordo</td>
+</tr>
+<tr class="even">
+<td><strong>Ticket</strong></td>
+<td style="text-align: left;">Número do tíquete</td>
+</tr>
+<tr class="odd">
+<td><strong>Fare</strong></td>
+<td style="text-align: left;">Preço do tíquete</td>
+</tr>
+<tr class="even">
+<td><strong>Cabin</strong></td>
+<td style="text-align: left;">Cabine</td>
+</tr>
+<tr class="odd">
+<td><strong>Embarked</strong></td>
+<td style="text-align: left;">Portão de embarque</td>
+</tr>
+</tbody>
+</table>
+<p><br/></p>
+<p>Vamos traduzir os nomes dos campos para facilitar o entendimento. Para isso usaremos a função <code>names()</code></p>
+<div class="layout-chunk" data-layout="l-body">
+<pre><code>
+ [1] &quot;PassengerId&quot; &quot;Survived&quot;    &quot;Pclass&quot;      &quot;Name&quot;       
+ [5] &quot;Sex&quot;         &quot;Age&quot;         &quot;SibSp&quot;       &quot;Parch&quot;      
+ [9] &quot;Ticket&quot;      &quot;Fare&quot;        &quot;Cabin&quot;       &quot;Embarked&quot;   </code></pre>
+</div>
+<p>Como o objetivo dessa base de dados é treinar um modelo para descobrir se um passageiro vai sobreviver ou não, vamos manipular e criar variáveis para tentar ajudar a atingir esse objetivo. O ideal é fazer uma bela análise exploratória dos dados, com auxílio de gráficos e estatística básica, mas nosso foco agora é apenas na transformação de dados, portanto, tentaremos um pouco de intuição e criatividade para criar variáveis possivelmente úteis.</p>
+<p>Vamos começar com a variável <code>idade</code>. Há um comportamento interessante nessa variável: missings!</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre><code>
+ [1] 22.00 38.00 26.00 35.00    NA 54.00  2.00 27.00 14.00  4.00 58.00
+[12] 20.00 39.00 55.00 31.00 34.00 15.00 28.00  8.00 19.00 40.00 66.00
+[23] 42.00 21.00 18.00  3.00  7.00 49.00 29.00 65.00 28.50  5.00 11.00
+[34] 45.00 17.00 32.00 16.00 25.00  0.83 30.00 33.00 23.00 24.00 46.00
+[45] 59.00 71.00 37.00 47.00 14.50 70.50 32.50 12.00  9.00 36.50 51.00
+[56] 55.50 40.50 44.00  1.00 61.00 56.00 50.00 36.00 45.50 20.50 62.00
+[67] 41.00 52.00 63.00 23.50  0.92 43.00 60.00 10.00 64.00 13.00 48.00
+[78]  0.75 53.00 57.00 80.00 70.00 24.50  6.00  0.67 30.50  0.42 34.50
+[89] 74.00</code></pre>
+<pre><code>
+[1] 177</code></pre>
+</div>
+<p>Usando <code>sum()</code> junto com <code>is.na()</code> conseguimos contar a quantidade total de <code>NA</code> na variável.</p>
+<p>Nesse nosso caso específico, vamos interpretar <code>NA</code> como se o passageiro tivesse a idade desconhecida, seja lá qual for o motivo. Dependendo do algoritmo de machine learning que será aplicado a esses dados, a presença de <code>NA</code> não é bem vinda. Portanto, precisamos lidar com os <code>NA</code>s dessa variável.</p>
+<p>A título de exemplificação, vamos adicionar a média geral das idades quando não soubermos a idade do passageiro. (Veja, essa nem sempre é uma boa estratégia para imputação de dados. Vamos usá-la agora apenas por ser bem simples).</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre><code>
+[1] 29.69912</code></pre>
+</div>
+<p>Calculamos a média desconsiderando ocorrências de <code>NA</code>, em seguida atribuímos a média (arredondada) às ocorrências de <code>NA</code>.</p>
+<p>Agora todos os passageiros tem idade, alguns a idade correta, outros uma idade atribuída. Vamos criar agora uma classificação de <code>jovem</code>, <code>adulto</code> ou <code>idoso</code> para essa variável.</p>
+<p>Pode ser que isso ajude algum algoritmo a prever melhor quem vive ou quem morre no acidente, pois, intuitivamente, talvez jovens sejam imaturos fiquem mais assustados, talvez idosos tenham menos habilidade de fuga e adultos talvez lidem melhor com situações de emergência.</p>
+<p>Sendo assim, até 20 anos chamaremos de <code>jovem</code>, de 21 a 54 chamaremos de <code>adulto</code>, e acima de 55 chamaremos de <code>idoso</code>. Vamos chamar essa variável de <code>faixa_etaria</code>.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre><code>
+   idade faixa_etaria
+1     22       adulto
+2     38       adulto
+3     26       adulto
+4     35       adulto
+5     35       adulto
+6     30       adulto
+7     54       adulto
+8      2        jovem
+9     27       adulto
+10    14        jovem
+11     4        jovem
+12    58        idoso
+13    20        jovem
+14    39       adulto
+15    14        jovem</code></pre>
+</div>
+<p>Uma outra variável que pode ser interessante para ajudar modelos preditivos pode ser o total de parentes. Será que quanto mais parentes o passageiro tiver, mais ele se preocupe em salvar a vida dos seus entes queridos, botando a sua vida em risco? Ou será que a prioridade “mulheres e crianças primeiro” ajudou quem tinha família a sobreviver?</p>
+<p>Há uma variável para irmãos e cônjuges, e outra para crianças ou pais. Vamos somá-las e criar o <code>total_parentes</code>.</p>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<p>Para complementar essa ideia, vamos tentar distinguir quem tinha família e quem não tinha, criando uma variável categórica simplesmente indicando se o passageiro tem família ou não:</p>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<p>Seguindo com as transformações, o título do passageiro pode dizer algo sobre ele. Vamos tentar isolar o título em uma variável para explicitar isso aos possíveis algoritmos:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre><code>
+                                                  nome  titulo
+1                              Braund, Mr. Owen Harris      Mr
+2  Cumings, Mrs. John Bradley (Florence Briggs Thayer)     Mrs
+3                               Heikkinen, Miss. Laina    Miss
+4         Futrelle, Mrs. Jacques Heath (Lily May Peel)     Mrs
+5                             Allen, Mr. William Henry      Mr
+6                                     Moran, Mr. James      Mr
+7                              McCarthy, Mr. Timothy J      Mr
+8                       Palsson, Master. Gosta Leonard  Master
+9    Johnson, Mrs. Oscar W (Elisabeth Vilhelmina Berg)     Mrs
+10                 Nasser, Mrs. Nicholas (Adele Achem)     Mrs
+11                     Sandstrom, Miss. Marguerite Rut    Miss
+12                            Bonnell, Miss. Elizabeth    Miss
+13                      Saundercock, Mr. William Henry      Mr
+14                         Andersson, Mr. Anders Johan      Mr
+15                Vestrom, Miss. Hulda Amanda Adolfina    Miss</code></pre>
+</div>
+<p>O comando usado talvez seja um pouco avançado, mas vamos tentar explicar por partes. Primeiramente usamos o <code>strsplit()</code>, uma função que lida com caracteres e divide uma string baseado numa marcação. Nesse caso, estamos dividindo o nome do passageiro em dois pontos: vírgula <code>,</code> e ponto <code>.</code>, que é justamente o padrão textual que separa o título no nome.</p>
+<p>O resultado do <code>strsplit()</code> é uma lista com as partes da separação. Para acessar exatamente o segundo elemento da lista, que é onde está o título, usamos o <code>lapply()</code>, uma função da família <code>apply</code>, que executa um comando repetidamente ao longo de uma estrutura (coluna, array, listas, matrizes, etc…). O efeito prático das funções da família <code>apply</code> se assemelha muito à loops.</p>
+<p>Dominar a família <code>apply</code> pode ser muito interessante para se tornar um bom analista de dados. Certamente faremos uma sequência de posts explicando detalhadamente todas as funções da família <code>apply</code>, aguarde!</p>
+<h2 id="conclusao">Conclusão</h2>
+<p>E é isso pessoal. Chegamos ao fim da sequência. Esperamos que tenha gostado e aprendido o kit básico de sobrevivência em R. Daqui em diante os posts serão intermediários e avançados, tratando de questões mais profundas como junção de dados, visualização de dados, análise exploratória, estatística, machine learning.</p>
+<h2 id="referencias">Referências</h2>
+<ul>
+<li><a href="http://www.uni-kiel.de/psychologie/rexrepos/posts/missingData.html">Deal with missing data</a></li>
+<li><a href="http://www.statmethods.net/input/missingdata.html">Missing data</a></li>
+<li><a href="https://nsaunders.wordpress.com/2010/08/20/a-brief-introduction-to-apply-in-r/">A brief introduction to “apply” in R</a></li>
+<li><a href="https://www.datacamp.com/community/tutorials/r-tutorial-apply-family">R tutorial on the Apply family of functions</a></li>
+</ul>
+<h2 id="demais-posts-da-sequencia">Demais posts da sequência:</h2>
+<ul>
+<li><a href="%7B%7Broot_url%7D%7D/blog/2016/03/23/kit-de-sobrevivencia-em-r-parte-1">Kit de sobrevivência em R - Parte 1: Visão Geral e Instalação</a></li>
+<li><a href="%7B%7Broot_url%7D%7D/blog/2016/04/03/kit-de-sobrevivencia-em-r-parte-2">Kit de sobrevivência em R - Parte 2: Operações, Variáveis e Funções</a></li>
+<li><a href="%7B%7Broot_url%7D%7D/blog/2016/04/03/kit-de-sobrevivencia-em-r-parte-3">Kit de sobrevivência em R - Parte 3: Pacotes</a></li>
+<li><a href="%7B%7Broot_url%7D%7D/blog/2016/04/12/kit-de-sobrevivencia-em-r-parte-4">Kit de sobrevivência em R - Parte 4: Carregando Dados</a></li>
+<li><a href="%7B%7Broot_url%7D%7D/blog/2016/04/21/kit-de-sobrevivencia-em-r-parte-5">Kit de sobrevivência em R - Parte 5: Tipos de Dados e Transformações</a></li>
+<li><a href="%7B%7Broot_url%7D%7D/blog/2016/05/01/kit-de-sobrevivencia-em-r-parte-6">Kit de sobrevivência em R - Parte 6: Estruturas de Controle</a></li>
+<li><a href="%7B%7Broot_url%7D%7D/blog/2016/05/09/kit-de-sobrevivencia-em-r-parte-7">Kit de sobrevivência em R - Parte 7: Avançando e Aprofundando</a></li>
+</ul>
+<!--radix_placeholder_article_footer-->
+<!--/radix_placeholder_article_footer-->
+</div>
+
+<div class="d-appendix">
+</div>
+
+
+<!--radix_placeholder_site_after_body-->
+<!--/radix_placeholder_site_after_body-->
+<!--radix_placeholder_appendices-->
+<div class="appendix-bottom"></div>
+<!--/radix_placeholder_appendices-->
+<!--radix_placeholder_navigation_after_body-->
+<!--/radix_placeholder_navigation_after_body-->
+
+</body>
+
+</html>

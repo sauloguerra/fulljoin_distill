@@ -1,0 +1,1328 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"/>
+  <meta name="generator" content="distill" />
+
+  <style type="text/css">
+  /* Hide doc at startup (prevent jankiness while JS renders/transforms) */
+  body {
+    visibility: hidden;
+  }
+  </style>
+
+ <!--radix_placeholder_import_source-->
+ <!--/radix_placeholder_import_source-->
+
+  <!--radix_placeholder_meta_tags-->
+  <title>Tudo sobre Joins (merge) em R</title>
+  
+  <meta property="description" itemprop="description" content="Nessa sequência de posts aprenderemos tudo sobre Joins (merges) em R, abordando questões teóricas e práticas, com exemplos usando R base e o pacote dplyr. Após ler esse post, você vai saber o que é, para que serve, quando e como usar diversos tipo de joins."/>
+  
+  
+  <!--  https://schema.org/Article -->
+  <meta property="article:published" itemprop="datePublished" content="2016-05-25"/>
+  <meta property="article:created" itemprop="dateCreated" content="2016-05-25"/>
+  
+  <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
+  <meta property="og:title" content="Tudo sobre Joins (merge) em R"/>
+  <meta property="og:type" content="article"/>
+  <meta property="og:description" content="Nessa sequência de posts aprenderemos tudo sobre Joins (merges) em R, abordando questões teóricas e práticas, com exemplos usando R base e o pacote dplyr. Após ler esse post, você vai saber o que é, para que serve, quando e como usar diversos tipo de joins."/>
+  <meta property="og:locale" content="en_US"/>
+  
+  <!--  https://dev.twitter.com/cards/types/summary -->
+  <meta property="twitter:card" content="summary"/>
+  <meta property="twitter:title" content="Tudo sobre Joins (merge) em R"/>
+  <meta property="twitter:description" content="Nessa sequência de posts aprenderemos tudo sobre Joins (merges) em R, abordando questões teóricas e práticas, com exemplos usando R base e o pacote dplyr. Após ler esse post, você vai saber o que é, para que serve, quando e como usar diversos tipo de joins."/>
+  
+  <!--/radix_placeholder_meta_tags-->
+  <!--radix_placeholder_rmarkdown_metadata-->
+  
+  <script type="text/json" id="radix-rmarkdown-metadata">
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["output","description","title","date"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]}]},{"type":"character","attributes":{},"value":["Nessa sequência de posts aprenderemos tudo sobre Joins (merges) em R, abordando questões teóricas e práticas, com exemplos usando R base e o pacote dplyr. Após ler esse post, você vai saber o que é, para que serve, quando e como usar diversos tipo de joins.\n"]},{"type":"character","attributes":{},"value":["Tudo sobre Joins (merge) em R"]},{"type":"character","attributes":{},"value":["2016-05-25"]}]}
+  </script>
+  <!--/radix_placeholder_rmarkdown_metadata-->
+  
+  <script type="text/json" id="radix-resource-manifest">
+  {"type":"NULL"}
+  </script>
+  <!--radix_placeholder_navigation_in_header-->
+  <!--/radix_placeholder_navigation_in_header-->
+  <!--radix_placeholder_distill-->
+  
+  <style type="text/css">
+  
+  body {
+    background-color: white;
+  }
+  
+  .pandoc-table {
+    width: 100%;
+  }
+  
+  .pandoc-table>caption {
+    margin-bottom: 10px;
+  }
+  
+  .pandoc-table th:not([align]) {
+    text-align: left;
+  }
+  
+  .pagedtable-footer {
+    font-size: 15px;
+  }
+  
+  .html-widget {
+    margin-bottom: 2.0em;
+  }
+  
+  .l-screen-inset {
+    padding-right: 16px;
+  }
+  
+  .l-screen .caption {
+    margin-left: 10px;
+  }
+  
+  .shaded {
+    background: rgb(247, 247, 247);
+    padding-top: 20px;
+    padding-bottom: 20px;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  }
+  
+  .shaded .html-widget {
+    margin-bottom: 0;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+  }
+  
+  .shaded .shaded-content {
+    background: white;
+  }
+  
+  .text-output {
+    margin-top: 0;
+    line-height: 1.5em;
+  }
+  
+  .hidden {
+    display: none !important;
+  }
+  
+  d-article {
+    padding-bottom: 30px;
+  }
+  
+  d-appendix {
+    padding-top: 30px;
+  }
+  
+  d-article>p>img {
+    width: 100%;
+  }
+  
+  d-article iframe {
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    margin-bottom: 2.0em;
+    width: 100%;
+  }
+  
+  figure img.external {
+    background: white;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+    padding: 18px;
+    box-sizing: border-box;
+  }
+  
+  /* CSS for table of contents */
+  
+  .d-toc {
+    color: rgba(0,0,0,0.8);
+    font-size: 0.8em;
+    line-height: 1em;
+  }
+  
+  .d-toc-header {
+    font-size: 0.6rem;
+    font-weight: 400;
+    color: rgba(0, 0, 0, 0.5);
+    text-transform: uppercase;
+    margin-top: 0;
+    margin-bottom: 1.3em;
+  }
+  
+  .d-toc a {
+    border-bottom: none;
+  }
+  
+  .d-toc ul {
+    padding-left: 0;
+  }
+  
+  .d-toc li>ul {
+    padding-top: 0.8em;
+    padding-left: 16px;
+    margin-bottom: 0.6em;
+  }
+  
+  .d-toc ul,
+  .d-toc li {
+    list-style-type: none;
+  }
+  
+  .d-toc li {
+    margin-bottom: 0.9em;
+  }
+  
+  .d-toc-separator {
+    margin-top: 20px;
+    margin-bottom: 2em;
+  }
+  
+  .d-article-with-toc {
+    border-top: none;
+    padding-top: 0;
+  }
+  
+  
+  
+  /* Tweak code blocks (note that this CSS is repeated above in an injection
+     into the d-code shadow dom) */
+  
+  d-code {
+    overflow-x: auto !important;
+  }
+  
+  pre.d-code code.d-code {
+    padding-left: 10px;
+    font-size: 12px;
+    border-left: 2px solid rgba(0,0,0,0.1);
+  }
+  
+  pre.text-output {
+  
+    font-size: 12px;
+    color: black;
+    background: none;
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+    text-align: left;
+    white-space: pre;
+    word-spacing: normal;
+    word-break: normal;
+    word-wrap: normal;
+    line-height: 1.5;
+  
+    -moz-tab-size: 4;
+    -o-tab-size: 4;
+    tab-size: 4;
+  
+    -webkit-hyphens: none;
+    -moz-hyphens: none;
+    -ms-hyphens: none;
+    hyphens: none;
+  }
+  
+  @media(min-width: 768px) {
+  
+  d-code {
+    overflow-x: visible !important;
+  }
+  
+  pre.d-code code.d-code  {
+      padding-left: 18px;
+      font-size: 14px;
+  }
+  pre.text-output {
+    font-size: 14px;
+  }
+  }
+  
+  /* Figure */
+  
+  .figure {
+    position: relative;
+    margin-bottom: 2.5em;
+    margin-top: 1.5em;
+  }
+  
+  .figure img {
+    width: 100%;
+  }
+  
+  .figure .caption {
+    color: rgba(0, 0, 0, 0.6);
+    font-size: 12px;
+    line-height: 1.5em;
+  }
+  
+  .figure img.external {
+    background: white;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+    padding: 18px;
+    box-sizing: border-box;
+  }
+  
+  .figure .caption a {
+    color: rgba(0, 0, 0, 0.6);
+  }
+  
+  .figure .caption b,
+  .figure .caption strong, {
+    font-weight: 600;
+    color: rgba(0, 0, 0, 1.0);
+  }
+  
+  
+  
+  /* Tweak 1000px media break to show more text */
+  
+  @media(min-width: 1000px) {
+    .base-grid,
+    distill-header,
+    d-title,
+    d-abstract,
+    d-article,
+    d-appendix,
+    distill-appendix,
+    d-byline,
+    d-footnote-list,
+    d-citation-list,
+    distill-footer {
+      grid-template-columns: [screen-start] 1fr [page-start kicker-start] 80px [middle-start] 50px [text-start kicker-end] 65px 65px 65px 65px 65px 65px 65px 65px [text-end gutter-start] 65px [middle-end] 65px [page-end gutter-end] 1fr [screen-end];
+      grid-column-gap: 16px;
+    }
+  
+    .grid {
+      grid-column-gap: 16px;
+    }
+  
+    d-article {
+      font-size: 1.06rem;
+      line-height: 1.7em;
+    }
+    figure .caption, .figure .caption, figure figcaption {
+      font-size: 13px;
+    }
+  }
+  
+  @media(min-width: 1180px) {
+    .base-grid,
+    distill-header,
+    d-title,
+    d-abstract,
+    d-article,
+    d-appendix,
+    distill-appendix,
+    d-byline,
+    d-footnote-list,
+    d-citation-list,
+    distill-footer {
+      grid-template-columns: [screen-start] 1fr [page-start kicker-start] 60px [middle-start] 60px [text-start kicker-end] 60px 60px 60px 60px 60px 60px 60px 60px [text-end gutter-start] 60px [middle-end] 60px [page-end gutter-end] 1fr [screen-end];
+      grid-column-gap: 32px;
+    }
+  
+    .grid {
+      grid-column-gap: 32px;
+    }
+  }
+  
+  
+  /* Get the citation styles for the appendix (not auto-injected on render since
+     we do our own rendering of the citation appendix) */
+  
+  d-appendix .citation-appendix,
+  .d-appendix .citation-appendix {
+    font-size: 11px;
+    line-height: 15px;
+    border-left: 1px solid rgba(0, 0, 0, 0.1);
+    padding-left: 18px;
+    border: 1px solid rgba(0,0,0,0.1);
+    background: rgba(0, 0, 0, 0.02);
+    padding: 10px 18px;
+    border-radius: 3px;
+    color: rgba(150, 150, 150, 1);
+    overflow: hidden;
+    margin-top: -12px;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+  }
+  
+  
+  /* Social footer */
+  
+  .social_footer {
+    margin-top: 30px;
+    margin-bottom: 0;
+    color: rgba(0,0,0,0.67);
+  }
+  
+  .disqus-comments {
+    margin-right: 30px;
+  }
+  
+  .disqus-comment-count {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+    cursor: pointer;
+  }
+  
+  #disqus_thread {
+    margin-top: 30px;
+  }
+  
+  .article-sharing a {
+    border-bottom: none;
+    margin-right: 8px;
+  }
+  
+  .article-sharing a:hover {
+    border-bottom: none;
+  }
+  
+  .sidebar-section.subscribe {
+    font-size: 12px;
+    line-height: 1.6em;
+  }
+  
+  .subscribe p {
+    margin-bottom: 0.5em;
+  }
+  
+  
+  .article-footer .subscribe {
+    font-size: 15px;
+    margin-top: 45px;
+  }
+  
+  
+  /* Improve display for browsers without grid (IE/Edge <= 15) */
+  
+  .downlevel {
+    line-height: 1.6em;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
+    margin: 0;
+  }
+  
+  .downlevel .d-title {
+    padding-top: 6rem;
+    padding-bottom: 1.5rem;
+  }
+  
+  .downlevel .d-title h1 {
+    font-size: 50px;
+    font-weight: 700;
+    line-height: 1.1em;
+    margin: 0 0 0.5rem;
+  }
+  
+  .downlevel .d-title p {
+    font-weight: 300;
+    font-size: 1.2rem;
+    line-height: 1.55em;
+    margin-top: 0;
+  }
+  
+  .downlevel .d-byline {
+    padding-top: 0.8em;
+    padding-bottom: 0.8em;
+    font-size: 0.8rem;
+    line-height: 1.8em;
+  }
+  
+  .downlevel .section-separator {
+    border: none;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+  }
+  
+  .downlevel .d-article {
+    font-size: 1.06rem;
+    line-height: 1.7em;
+    padding-top: 1rem;
+    padding-bottom: 2rem;
+  }
+  
+  
+  .downlevel .d-appendix {
+    padding-left: 0;
+    padding-right: 0;
+    max-width: none;
+    font-size: 0.8em;
+    line-height: 1.7em;
+    margin-bottom: 0;
+    color: rgba(0,0,0,0.5);
+    padding-top: 40px;
+    padding-bottom: 48px;
+  }
+  
+  .downlevel .footnotes ol {
+    padding-left: 13px;
+  }
+  
+  .downlevel .base-grid,
+  .downlevel .distill-header,
+  .downlevel .d-title,
+  .downlevel .d-abstract,
+  .downlevel .d-article,
+  .downlevel .d-appendix,
+  .downlevel .distill-appendix,
+  .downlevel .d-byline,
+  .downlevel .d-footnote-list,
+  .downlevel .d-citation-list,
+  .downlevel .distill-footer,
+  .downlevel .appendix-bottom,
+  .downlevel .posts-container {
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+  
+  @media(min-width: 768px) {
+    .downlevel .base-grid,
+    .downlevel .distill-header,
+    .downlevel .d-title,
+    .downlevel .d-abstract,
+    .downlevel .d-article,
+    .downlevel .d-appendix,
+    .downlevel .distill-appendix,
+    .downlevel .d-byline,
+    .downlevel .d-footnote-list,
+    .downlevel .d-citation-list,
+    .downlevel .distill-footer,
+    .downlevel .appendix-bottom,
+    .downlevel .posts-container {
+    padding-left: 150px;
+    padding-right: 150px;
+    max-width: 900px;
+  }
+  }
+  
+  .downlevel pre code {
+    display: block;
+    border-left: 2px solid rgba(0, 0, 0, .1);
+    padding: 0 0 0 20px;
+    font-size: 14px;
+  }
+  
+  .downlevel code, .downlevel pre {
+    color: black;
+    background: none;
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+    text-align: left;
+    white-space: pre;
+    word-spacing: normal;
+    word-break: normal;
+    word-wrap: normal;
+    line-height: 1.5;
+  
+    -moz-tab-size: 4;
+    -o-tab-size: 4;
+    tab-size: 4;
+  
+    -webkit-hyphens: none;
+    -moz-hyphens: none;
+    -ms-hyphens: none;
+    hyphens: none;
+  }
+  
+  </style>
+  
+  <script type="application/javascript">
+  
+  function is_downlevel_browser() {
+    if (bowser.isUnsupportedBrowser({ msie: "12", msedge: "16"},
+                                   window.navigator.userAgent)) {
+      return true;
+    } else {
+      return window.load_distill_framework === undefined;
+    }
+  }
+  
+  // show body when load is complete
+  function on_load_complete() {
+  
+    // set body to visible
+    document.body.style.visibility = 'visible';
+  
+    // force redraw for leaflet widgets
+    if (window.HTMLWidgets) {
+      var maps = window.HTMLWidgets.findAll(".leaflet");
+      $.each(maps, function(i, el) {
+        var map = this.getMap();
+        map.invalidateSize();
+        map.eachLayer(function(layer) {
+          if (layer instanceof L.TileLayer)
+            layer.redraw();
+        });
+      });
+    }
+  
+    // trigger 'shown' so htmlwidgets resize
+    $('d-article').trigger('shown');
+  }
+  
+  function init_distill() {
+  
+    init_common();
+  
+    // create front matter
+    var front_matter = $('<d-front-matter></d-front-matter>');
+    $('#distill-front-matter').wrap(front_matter);
+  
+    // create d-title
+    $('.d-title').changeElementType('d-title');
+  
+    // create d-byline
+    var byline = $('<d-byline></d-byline>');
+    $('.d-byline').replaceWith(byline);
+  
+    // create d-article
+    var article = $('<d-article></d-article>');
+    $('.d-article').wrap(article).children().unwrap();
+  
+    // move posts container into article
+    $('.posts-container').appendTo($('d-article'));
+  
+    // create d-appendix
+    $('.d-appendix').changeElementType('d-appendix');
+  
+    // create d-bibliography
+    var bibliography = $('<d-bibliography></d-bibliography>');
+    $('#distill-bibliography').wrap(bibliography);
+  
+    // flag indicating that we have appendix items
+    var appendix = $('.appendix-bottom').children('h3').length > 0;
+  
+    // replace citations with <d-cite>
+    $('.citation').each(function(i, val) {
+      appendix = true;
+      var cites = $(this).attr('data-cites').split(" ");
+      var dt_cite = $('<d-cite></d-cite>');
+      dt_cite.attr('key', cites.join());
+      $(this).replaceWith(dt_cite);
+    });
+    // remove refs
+    $('#refs').remove();
+  
+    // replace footnotes with <d-footnote>
+    $('.footnote-ref').each(function(i, val) {
+      appendix = true;
+      var href = $(this).attr('href');
+      var id = href.replace('#', '');
+      var fn = $('#' + id);
+      var fn_p = $('#' + id + '>p');
+      fn_p.find('.footnote-back').remove();
+      var text = fn_p.html();
+      var dtfn = $('<d-footnote></d-footnote>');
+      dtfn.html(text);
+      $(this).replaceWith(dtfn);
+    });
+    // remove footnotes
+    $('.footnotes').remove();
+  
+    $('h1.appendix, h2.appendix').each(function(i, val) {
+      $(this).changeElementType('h3');
+    });
+    $('h3.appendix').each(function(i, val) {
+      var id = $(this).attr('id');
+      $('.d-toc a[href="#' + id + '"]').parent().remove();
+      appendix = true;
+      $(this).nextUntil($('h1, h2, h3')).addBack().appendTo($('d-appendix'));
+    });
+  
+    // show d-appendix if we have appendix content
+    $("d-appendix").css('display', appendix ? 'grid' : 'none');
+  
+    // replace code blocks with d-code
+    $('pre>code').each(function(i, val) {
+      var code = $(this);
+      var pre = code.parent();
+      var clz = "";
+      var language = pre.attr('class');
+      if (language) {
+        // map unknown languages to "clike" (without this they just dissapear)
+        if ($.inArray(language, ["bash", "clike", "css", "go", "html",
+                                 "javascript", "js", "julia", "lua", "markdown",
+                                 "markup", "mathml", "python", "svg", "xml"]) == -1)
+          language = "clike";
+        language = ' language="' + language + '"';
+        var dt_code = $('<d-code block' + language + clz + '></d-code>');
+        dt_code.text(code.text());
+        pre.replaceWith(dt_code);
+      } else {
+        code.addClass('text-output').unwrap().changeElementType('pre');
+      }
+    });
+  
+    // localize layout chunks to just output
+    $('.layout-chunk').each(function(i, val) {
+  
+      // capture layout
+      var layout = $(this).attr('data-layout');
+  
+      // apply layout to markdown level block elements
+      var elements = $(this).children().not('d-code, pre.text-output, script');
+      elements.each(function(i, el) {
+        var layout_div = $('<div class="' + layout + '"></div>');
+        if (layout_div.hasClass('shaded')) {
+          var shaded_content = $('<div class="shaded-content"></div>');
+          $(this).wrap(shaded_content);
+          $(this).parent().wrap(layout_div);
+        } else {
+          $(this).wrap(layout_div);
+        }
+      });
+  
+  
+      // unwrap the layout-chunk div
+      $(this).children().unwrap();
+    });
+  
+    // load distill framework
+    load_distill_framework();
+  
+    // wait for window.distillRunlevel == 4 to do post processing
+    function distill_post_process() {
+  
+      if (!window.distillRunlevel || window.distillRunlevel < 4)
+        return;
+  
+      // hide author/affiliations entirely if we have no authors
+      var front_matter = JSON.parse($("#distill-front-matter").html());
+      var have_authors = front_matter.authors && front_matter.authors.length > 0;
+      if (!have_authors)
+        $('d-byline').addClass('hidden');
+  
+      // table of contents
+      if (have_authors) // adjust border if we are in authors
+        $('.d-toc').parent().addClass('d-article-with-toc');
+  
+      // strip links that point to #
+      $('.authors-affiliations').find('a[href="#"]').removeAttr('href');
+  
+      // hide elements of author/affiliations grid that have no value
+      function hide_byline_column(caption) {
+        $('d-byline').find('h3:contains("' + caption + '")').parent().css('visibility', 'hidden');
+      }
+  
+      // affiliations
+      var have_affiliations = false;
+      for (var i = 0; i<front_matter.authors.length; ++i) {
+        var author = front_matter.authors[i];
+        if (author.affiliation !== "&nbsp;") {
+          have_affiliations = true;
+          break;
+        }
+      }
+      if (!have_affiliations)
+        $('d-byline').find('h3:contains("Affiliations")').css('visibility', 'hidden');
+  
+      // published date
+      if (!front_matter.publishedDate)
+        hide_byline_column("Published");
+  
+      // document object identifier
+      var doi = $('d-byline').find('h3:contains("DOI")');
+      var doi_p = doi.next().empty();
+      if (!front_matter.doi) {
+        // if we have a citation and valid citationText then link to that
+        if ($('#citation').length > 0 && front_matter.citationText) {
+          doi.html('Citation');
+          $('<a href="#citation"></a>')
+            .text(front_matter.citationText)
+            .appendTo(doi_p);
+        } else {
+          hide_byline_column("DOI");
+        }
+      } else {
+        $('<a></a>')
+           .attr('href', "https://doi.org/" + front_matter.doi)
+           .html(front_matter.doi)
+           .appendTo(doi_p);
+      }
+  
+       // change plural form of authors/affiliations
+      if (front_matter.authors.length === 1) {
+        var grid = $('.authors-affiliations');
+        grid.children('h3:contains("Authors")').text('Author');
+        grid.children('h3:contains("Affiliations")').text('Affiliation');
+      }
+  
+      // inject pre code styles (can't do this with a global stylesheet b/c a shadow root is used)
+      $('d-code').each(function(i, val) {
+        var style = document.createElement('style');
+        style.innerHTML = 'pre code { padding-left: 10px; font-size: 12px; border-left: 2px solid rgba(0,0,0,0.1); } ' +
+                          '@media(min-width: 768px) { pre code { padding-left: 18px; font-size: 14px; } }';
+        if (this.shadowRoot)
+          this.shadowRoot.appendChild(style);
+      });
+  
+      // move appendix-bottom entries to the bottom
+      $('.appendix-bottom').appendTo('d-appendix').children().unwrap();
+      $('.appendix-bottom').remove();
+  
+      // clear polling timer
+      clearInterval(tid);
+  
+      // show body now that everything is ready
+      on_load_complete();
+    }
+  
+    var tid = setInterval(distill_post_process, 50);
+    distill_post_process();
+  
+  }
+  
+  function init_downlevel() {
+  
+    init_common();
+  
+     // insert hr after d-title
+    $('.d-title').after($('<hr class="section-separator"/>'));
+  
+    // check if we have authors
+    var front_matter = JSON.parse($("#distill-front-matter").html());
+    var have_authors = front_matter.authors && front_matter.authors.length > 0;
+  
+    // manage byline/border
+    if (!have_authors)
+      $('.d-byline').remove();
+    $('.d-byline').after($('<hr class="section-separator"/>'));
+    $('.d-byline a').remove();
+  
+    // remove toc
+    $('.d-toc-header').remove();
+    $('.d-toc').remove();
+    $('.d-toc-separator').remove();
+  
+    // move appendix elements
+    $('h1.appendix, h2.appendix').each(function(i, val) {
+      $(this).changeElementType('h3');
+    });
+    $('h3.appendix').each(function(i, val) {
+      $(this).nextUntil($('h1, h2, h3')).addBack().appendTo($('.d-appendix'));
+    });
+  
+  
+    // inject headers into references and footnotes
+    var refs_header = $('<h3></h3>');
+    refs_header.text('References');
+    $('#refs').prepend(refs_header);
+  
+    var footnotes_header = $('<h3></h3');
+    footnotes_header.text('Footnotes');
+    $('.footnotes').children('hr').first().replaceWith(footnotes_header);
+  
+    // move appendix-bottom entries to the bottom
+    $('.appendix-bottom').appendTo('.d-appendix').children().unwrap();
+    $('.appendix-bottom').remove();
+  
+    // remove appendix if it's empty
+    if ($('.d-appendix').children().length === 0)
+      $('.d-appendix').remove();
+  
+    // prepend separator above appendix
+    $('.d-appendix').before($('<hr class="section-separator" style="clear: both"/>'));
+  
+    // trim code
+    $('pre>code').each(function(i, val) {
+      $(this).html($.trim($(this).html()));
+    });
+  
+    // move posts-container right before article
+    $('.posts-container').insertBefore($('.d-article'));
+  
+    $('body').addClass('downlevel');
+  
+    on_load_complete();
+  }
+  
+  
+  function init_common() {
+  
+    // jquery plugin to change element types
+    (function($) {
+      $.fn.changeElementType = function(newType) {
+        var attrs = {};
+  
+        $.each(this[0].attributes, function(idx, attr) {
+          attrs[attr.nodeName] = attr.nodeValue;
+        });
+  
+        this.replaceWith(function() {
+          return $("<" + newType + "/>", attrs).append($(this).contents());
+        });
+      };
+    })(jQuery);
+  
+    // prevent underline for linked images
+    $('a > img').parent().css({'border-bottom' : 'none'});
+  
+    // mark non-body figures created by knitr chunks as 100% width
+    $('.layout-chunk').each(function(i, val) {
+      var figures = $(this).find('img, .html-widget');
+      if ($(this).attr('data-layout') !== "l-body") {
+        figures.css('width', '100%');
+      } else {
+        figures.css('max-width', '100%');
+        figures.filter("[width]").each(function(i, val) {
+          var fig = $(this);
+          fig.css('width', fig.attr('width') + 'px');
+        });
+  
+      }
+    });
+  
+    // auto-append index.html to post-preview links in file: protocol
+    // and in rstudio ide preview
+    $('.post-preview').each(function(i, val) {
+      if (window.location.protocol === "file:")
+        $(this).attr('href', $(this).attr('href') + "index.html");
+    });
+  
+    // get rid of index.html references in header
+    if (window.location.protocol !== "file:") {
+      $('.distill-site-header a[href]').each(function(i,val) {
+        $(this).attr('href', $(this).attr('href').replace("index.html", "./"));
+      });
+    }
+  
+    // add class to pandoc style tables
+    $('tr.header').parent('thead').parent('table').addClass('pandoc-table');
+    $('.kable-table').children('table').addClass('pandoc-table');
+  
+    // add figcaption style to table captions
+    $('caption').parent('table').addClass("figcaption");
+  
+    // initialize posts list
+    if (window.init_posts_list)
+      window.init_posts_list();
+  
+    // implmement disqus comment link
+    $('.disqus-comment-count').click(function() {
+      window.headroom_prevent_pin = true;
+      $('#disqus_thread').toggleClass('hidden');
+      if (!$('#disqus_thread').hasClass('hidden')) {
+        var offset = $(this).offset();
+        $(window).resize();
+        $('html, body').animate({
+          scrollTop: offset.top - 35
+        });
+      }
+    });
+  }
+  
+  document.addEventListener('DOMContentLoaded', function() {
+    if (is_downlevel_browser())
+      init_downlevel();
+    else
+      window.addEventListener('WebComponentsReady', init_distill);
+  });
+  
+  </script>
+  
+  <!--/radix_placeholder_distill-->
+  <script src="tudo-sobre-joins_files/jquery-1.11.3/jquery.min.js"></script>
+  <script src="tudo-sobre-joins_files/bowser-1.9.3/bowser.min.js"></script>
+  <script src="tudo-sobre-joins_files/webcomponents-2.0.0/webcomponents.js"></script>
+  <script src="tudo-sobre-joins_files/distill-2.2.21/template.v2.js"></script>
+  <!--radix_placeholder_site_in_header-->
+  <!--/radix_placeholder_site_in_header-->
+
+
+</head>
+
+<body>
+
+<!--radix_placeholder_front_matter-->
+
+<script id="distill-front-matter" type="text/json">
+{"title":"Tudo sobre Joins (merge) em R","description":"Nessa sequência de posts aprenderemos tudo sobre Joins (merges) em R, abordando questões teóricas e práticas, com exemplos usando R base e o pacote dplyr. Após ler esse post, você vai saber o que é, para que serve, quando e como usar diversos tipo de joins.","authors":[],"publishedDate":"2016-05-25T00:00:00.000-03:00"}
+</script>
+
+<!--/radix_placeholder_front_matter-->
+<!--radix_placeholder_navigation_before_body-->
+<!--/radix_placeholder_navigation_before_body-->
+<!--radix_placeholder_site_before_body-->
+<!--/radix_placeholder_site_before_body-->
+
+<div class="d-title">
+<h1>Tudo sobre Joins (merge) em R</h1>
+<p>Nessa sequência de posts aprenderemos tudo sobre Joins (merges) em R, abordando questões teóricas e práticas, com exemplos usando R base e o pacote dplyr. Após ler esse post, você vai saber o que é, para que serve, quando e como usar diversos tipo de joins.</p>
+</div>
+
+
+<div class="d-article">
+<!-- More -->
+<p>Join é um conceito bastante comum para quem já trabalha com bancos de dados (principalmente com SQL). Porém, para quem está se desenvolvendo em Análise de Dados sem um background em programação de sistemas, talvez esse conceito não seja básico.</p>
+<h2 id="afinal-o-que-e-join-ou-merge">Afinal, o que é Join (ou merge)?</h2>
+<p>Nada mais é do que juntar dois conjuntos de dados por meio de um ou mais campos em comum. Esses campos em comum são geralmente chamados de chaves.</p>
+<p>Existem vários tipos de joins, dos mais simples aos mais complexos, cada um com sua utilidade e momento certo de uso. Além disso existem várias questões que devem ser observadas no uso de joins, como a granularidade dos dados e ocorrência das amostras nos dois conjuntos de dados.</p>
+<h2 id="por-que-usar-joins">Por que usar joins?</h2>
+<p>Se você é novo no mundo da manipulação de dados, talvez já tenha se perguntado: “De onde vem essa necessidade de usar joins? Por que insistem em usar tantos códigos e separar os dados uns dos outros em tabelas e arquivos diferentes? Por que não simplificar as coisas?”.</p>
+<p>Pois saiba que o uso dos joins é uma consequência direta de uma boa prática imposta pelos bancos de dados relacionais: a normalização. Normalização são “regras” para estruturar seus dados de forma que eles ocupem o menor espaço possível e fiquem bastante consistentes na hora de inserir, alterar ou excluir dados.</p>
+<p>No entanto, essas regras adicionam complexidade à estrutura dos dados, e graças a essa complexidade estrutural que surge a necessidade dos joins: juntar dados separados num lugar só.</p>
+<p>Em um conjunto de dados normalizado (praticamente TODOS originados de sistemas), existe o conceito de chave: um código que representa uma ocorrência de forma única e inconfundível. Exemplos intuitivos de chave seriam o CPF, o CNPJ, código de um produto, o título de eleitor, etc…</p>
+<p>Existem vários tipos de chaves (chave natural, surrogate, chave estrangeira, etc…), mas não vamos entrar nesse nível de detalhe. Para aprofundar mais sobre isso, sugiro <a href="http://www.programmerinterview.com/index.php/database-sql/differences-between-primary-and-foreign-keys/">essa leitura</a>.</p>
+<p>Apenas mais uma observação: Os termos e conceitos usados a seguir são originários do mundo dos bancos de dados e SQL, mas, acredite, vale muito a pena conhecer os termos. Portanto, não se assuste! Os conceitos e a utilidade dos tipos de junções são mais importantes do que as nomenclaturas.</p>
+<blockquote>
+<p>Dica: se você tem familiaridade com Excel, join nada mais é do que o famoso PROCV().</p>
+</blockquote>
+<h2 id="inner-join-ou-apenas-join">Inner join (ou apenas join)</h2>
+<p>Trata-se do join mais simples, mais básico e mais usado dentre todos os outros tipos. Vamos explicar com um exemplo bem simples. Primeiro, vamos montar o conjunto de dados e carregar o pacote <code>dplyr</code>:</p>
+<ul>
+<li><code>empregados</code>, com id, nome, idade, uf e id de um cargo</li>
+</ul>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+library(dplyr)
+
+id.empregado &lt;- 1:11
+nome.empregado &lt;- c(&#39;Renato&#39;, &#39;Miguel&#39;, &#39;Paulo&#39;, &#39;Patrícia&#39;, &#39;Inês&#39;, &#39;Saulo&#39;, &#39;Diego&#39;, &#39;Maria&#39;, &#39;Jose&#39;, &#39;Julia&#39;, &#39;Tiago&#39;)
+idade &lt;- c(30, 31, 29, 30, 25, 30, 30, 35, 24, 31, 29)
+uf &lt;- c(&#39;MG&#39;, &#39;DF&#39;, &#39;CE&#39;, &#39;DF&#39;, &#39;DF&#39;, &#39;DF&#39;, &#39;RJ&#39;, &#39;SP&#39;, &#39;RS&#39;, &#39;SC&#39;, &#39;BA&#39;)
+id.cargo &lt;- c(4, 4, 4, 4, 5, 4, 6, 3, 1, 2, 8)
+(empregados &lt;- data.frame(id.empregado, nome.empregado, idade, uf, id.cargo))</code></pre>
+<pre><code>
+   id.empregado nome.empregado idade uf id.cargo
+1             1         Renato    30 MG        4
+2             2         Miguel    31 DF        4
+3             3          Paulo    29 CE        4
+4             4       Patrícia    30 DF        4
+5             5           Inês    25 DF        5
+6             6          Saulo    30 DF        4
+7             7          Diego    30 RJ        6
+8             8          Maria    35 SP        3
+9             9           Jose    24 RS        1
+10           10          Julia    31 SC        2
+11           11          Tiago    29 BA        8</code></pre>
+</div>
+<ul>
+<li><code>cargos</code>, com id, nome, e salário do cargo</li>
+</ul>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+id.cargo &lt;- 1:7
+nome.cargo &lt;- c(&#39;Técnico&#39;, &#39;Assistente&#39;, &#39;Consultor&#39;, &#39;Analista&#39;, &#39;Auditor&#39;, &#39;Gerente&#39;, &#39;Gestor&#39;)
+salario &lt;- c(7000, 4000, 15000, 11000, 10000, 13000, 20000)
+(cargos &lt;- data.frame(id.cargo, nome.cargo, salario))</code></pre>
+<pre><code>
+  id.cargo nome.cargo salario
+1        1    Técnico    7000
+2        2 Assistente    4000
+3        3  Consultor   15000
+4        4   Analista   11000
+5        5    Auditor   10000
+6        6    Gerente   13000
+7        7     Gestor   20000</code></pre>
+</div>
+<p>Imagine que você recebeu essas dois conjuntos de dados será necessário calcular uma média salarial dos empregados por UF.</p>
+<p>Se olharmos apenas <code>empregados</code>, cada ocorrência possui um código de cargo que ocupa, mas não temos nem o nome nem o salário do cargo. Se olharmos apenas <code>cargos</code>, cada ocorrência possui código de cargo mas não informações de quem o ocupa.</p>
+<p>Para calcular a média por UF, precisaremos juntar esses dois conjuntos. Nesse caso, faremos isso usando o <em>INNER JOIN</em>.</p>
+<p>Esse tipo de join cria um data frame com todos os campos de ambos conjuntos, mas retornando somente as ocorrências (linhas) que possuem chaves iguais. Nossa chave é o campo <code>id.cargo</code>. Veja:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+(merge.r.base &lt;- merge(empregados, cargos)) # inner join com R Base</code></pre>
+<pre><code>
+   id.cargo id.empregado nome.empregado idade uf nome.cargo salario
+1         1            9           Jose    24 RS    Técnico    7000
+2         2           10          Julia    31 SC Assistente    4000
+3         3            8          Maria    35 SP  Consultor   15000
+4         4            1         Renato    30 MG   Analista   11000
+5         4            2         Miguel    31 DF   Analista   11000
+6         4            4       Patrícia    30 DF   Analista   11000
+7         4            6          Saulo    30 DF   Analista   11000
+8         4            3          Paulo    29 CE   Analista   11000
+9         5            5           Inês    25 DF    Auditor   10000
+10        6            7          Diego    30 RJ    Gerente   13000</code></pre>
+<pre class="r"><code>
+(join.dplyr &lt;- inner_join(empregados, cargos)) # inner join com Dplyr</code></pre>
+<pre><code>
+   id.empregado nome.empregado idade uf id.cargo nome.cargo salario
+1             1         Renato    30 MG        4   Analista   11000
+2             2         Miguel    31 DF        4   Analista   11000
+3             3          Paulo    29 CE        4   Analista   11000
+4             4       Patrícia    30 DF        4   Analista   11000
+5             5           Inês    25 DF        5    Auditor   10000
+6             6          Saulo    30 DF        4   Analista   11000
+7             7          Diego    30 RJ        6    Gerente   13000
+8             8          Maria    35 SP        3  Consultor   15000
+9             9           Jose    24 RS        1    Técnico    7000
+10           10          Julia    31 SC        2 Assistente    4000</code></pre>
+</div>
+<blockquote>
+<p>Dica: coloque parênteses entre as atribuições e o R mostrará o resultado dela imediatamente</p>
+</blockquote>
+<p>Repare que nenhuma pessoa tem o cargo de <code>id.cargo</code> 7, então o cargo <code>Gestor</code> não aparece no conjunto final já que não há chave igual. Repare também que a pessoa <code>Tiago</code> possui <code>id.cargo</code> 8, que não é igual a nenhum cargo, então ele também não aparece.</p>
+<p>Tanto o <code>merge()</code> do R base quanto o <code>inner_join()</code> do dplyr tentam descobrir as chaves em comum buscando campos com o mesmo nome. Mas vamos supor que os campos chave tivessem nomes diferentes (o que é bem comum!). Para simular, trocaremos o nome <code>id.cargo</code> em <code>cargos</code>:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+names(cargos) &lt;- c(&quot;cargo&quot;, &quot;nome.cargo&quot;, &quot;salario&quot;) 
+(merge.r.base &lt;- merge(empregados, cargos, by.x = &quot;id.cargo&quot;, by.y = &quot;cargo&quot;)) # inner join com R Base, com nomes de chaves diferentes</code></pre>
+<pre><code>
+   id.cargo id.empregado nome.empregado idade uf nome.cargo salario
+1         1            9           Jose    24 RS    Técnico    7000
+2         2           10          Julia    31 SC Assistente    4000
+3         3            8          Maria    35 SP  Consultor   15000
+4         4            1         Renato    30 MG   Analista   11000
+5         4            2         Miguel    31 DF   Analista   11000
+6         4            4       Patrícia    30 DF   Analista   11000
+7         4            6          Saulo    30 DF   Analista   11000
+8         4            3          Paulo    29 CE   Analista   11000
+9         5            5           Inês    25 DF    Auditor   10000
+10        6            7          Diego    30 RJ    Gerente   13000</code></pre>
+<pre class="r"><code>
+(join.dplyr &lt;- inner_join(empregados, cargos, by = c(&quot;id.cargo&quot; = &quot;cargo&quot;))) # inner join com Dplyr com nomes de chaves diferentes</code></pre>
+<pre><code>
+   id.empregado nome.empregado idade uf id.cargo nome.cargo salario
+1             1         Renato    30 MG        4   Analista   11000
+2             2         Miguel    31 DF        4   Analista   11000
+3             3          Paulo    29 CE        4   Analista   11000
+4             4       Patrícia    30 DF        4   Analista   11000
+5             5           Inês    25 DF        5    Auditor   10000
+6             6          Saulo    30 DF        4   Analista   11000
+7             7          Diego    30 RJ        6    Gerente   13000
+8             8          Maria    35 SP        3  Consultor   15000
+9             9           Jose    24 RS        1    Técnico    7000
+10           10          Julia    31 SC        2 Assistente    4000</code></pre>
+</div>
+<p>No R base usamos <code>by.x</code> e <code>by.y</code> para especificar o nome do campo chave do primeiro e segundo data.frame. No <code>inner_join()</code> do dplyr usamos um vetor no formato <code>c(&quot;chave.x&quot; = &quot;chave.y&quot;)</code>.</p>
+<p>Resumindo, o inner join retorna todos os campos de ambos os data.frames, mas somente as linhas em que as chaves são iguais.</p>
+<h2 id="outer-join">Outer join</h2>
+<p>O inner join despreza os registros de ambos os data.frames onde as chaves não coincidem. Mas existem situações em que esse descarte de registro não é interessante. Nesses casos usamos Outer join.</p>
+<p>Existem 3 tipos básicos de outer join: full outer join (ou apenas full join), left outer join (ou só left join) e o right outer join (ou só right join).</p>
+<p>Vejamos o seguinte exemplo:</p>
+<ul>
+<li><code>pacientes</code>, com id do paciente, nome abreviado, e resultados de exame A, B e C</li>
+</ul>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+id.paciente &lt;- 1:9
+nome.abreviado &lt;- c(&quot;A.A.M&quot;, &quot;S.S.G.F&quot;, &quot;T.I.A&quot;, &quot;L.O.S.M&quot;, &quot;Y.Q.W&quot;, &quot;F.A&quot;, &quot;T.B.N&quot;, &quot;J.J.L&quot;, &quot;M.S.S&quot;)
+exame.a &lt;- c(3.8, 3.8, 3.9, 4.0, 4.4, 3.8, 3.7, 3.6, 4.0)
+exame.b &lt;- c(109.98, 109.90, 109.89, 109.99, 110.01, 109.95, 109.98, 109.93, 110.00)
+exame.c &lt;- c(0, 1, 1, 0, 1, 1, 0, 0, 1)
+pacientes &lt;- data.frame(id.paciente, nome.abreviado, exame.a, exame.b, exame.c)
+pacientes</code></pre>
+<pre><code>
+  id.paciente nome.abreviado exame.a exame.b exame.c
+1           1          A.A.M     3.8  109.98       0
+2           2        S.S.G.F     3.8  109.90       1
+3           3          T.I.A     3.9  109.89       1
+4           4        L.O.S.M     4.0  109.99       0
+5           5          Y.Q.W     4.4  110.01       1
+6           6            F.A     3.8  109.95       1
+7           7          T.B.N     3.7  109.98       0
+8           8          J.J.L     3.6  109.93       0
+9           9          M.S.S     4.0  110.00       1</code></pre>
+</div>
+<ul>
+<li><code>controle</code>, com id do paciente, e o tipo de remédio que tomou</li>
+</ul>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+id.paciente &lt;- c(1, 4, 5, 7, 8, 11, 15, 25)
+tipo.remedio &lt;- c(&quot;A&quot;, &quot;B&quot;, &quot;A&quot;, &quot;B&quot;, &quot;A&quot;, &quot;A&quot;, &quot;B&quot;, &quot;B&quot;)
+controle &lt;- data.frame(id.paciente, tipo.remedio)
+controle</code></pre>
+<pre><code>
+  id.paciente tipo.remedio
+1           1            A
+2           4            B
+3           5            A
+4           7            B
+5           8            A
+6          11            A
+7          15            B
+8          25            B</code></pre>
+</div>
+<p>Em <code>pacientes</code> temos uma lista de pessoas hospitalizadas com uma mesma doença e o resultado de seus exames. Em <code>controle</code> temos uma lista controlada de pessoas que participaram de um experimento tomando tipo A e tipo B de um remédio.</p>
+<p>Você precisa montar um conjunto consolidado para avaliar o se houve impacto dos remédios nos exames dos pacientes hospitalizados, para isso, precisa comparar o exame dos que tomaram remédio e dos que não tomaram. Mas nesse caso queremos um join que preserve todos os registros dos <code>pacientes</code>, e queremos desprezar os registros de <code>controle</code> que não correspondem a pacientes hospitalizados.</p>
+<h3 id="left-outer-join-left-join">Left outer join (Left join)</h3>
+<p>Portanto, usaremos o left outer join (ou simplesmente left join):</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+(left.join.r.base &lt;- merge(pacientes, controle, all.x = TRUE)) # left join com R base</code></pre>
+<pre><code>
+  id.paciente nome.abreviado exame.a exame.b exame.c tipo.remedio
+1           1          A.A.M     3.8  109.98       0            A
+2           2        S.S.G.F     3.8  109.90       1         &lt;NA&gt;
+3           3          T.I.A     3.9  109.89       1         &lt;NA&gt;
+4           4        L.O.S.M     4.0  109.99       0            B
+5           5          Y.Q.W     4.4  110.01       1            A
+6           6            F.A     3.8  109.95       1         &lt;NA&gt;
+7           7          T.B.N     3.7  109.98       0            B
+8           8          J.J.L     3.6  109.93       0            A
+9           9          M.S.S     4.0  110.00       1         &lt;NA&gt;</code></pre>
+<pre class="r"><code>
+(left.join.dplyr &lt;- left_join(pacientes, controle)) # left join com dplyr</code></pre>
+<pre><code>
+  id.paciente nome.abreviado exame.a exame.b exame.c tipo.remedio
+1           1          A.A.M     3.8  109.98       0            A
+2           2        S.S.G.F     3.8  109.90       1         &lt;NA&gt;
+3           3          T.I.A     3.9  109.89       1         &lt;NA&gt;
+4           4        L.O.S.M     4.0  109.99       0            B
+5           5          Y.Q.W     4.4  110.01       1            A
+6           6            F.A     3.8  109.95       1         &lt;NA&gt;
+7           7          T.B.N     3.7  109.98       0            B
+8           8          J.J.L     3.6  109.93       0            A
+9           9          M.S.S     4.0  110.00       1         &lt;NA&gt;</code></pre>
+</div>
+<p>Repare que nos resultados temos todos os campos de <code>pacientes</code> e <code>controle</code> e temos também todos registros de <code>pacientes</code>. Quando não há ocorrência da chave <code>id.paciente</code> em <code>controle</code>, é colocado um <code>NA</code> no campo.</p>
+<p>Chama-se LEFT outer join pois o “conjunto da esquerda”, <code>pacientes</code>, deve prevalecer além da interseção. Ou seja, retorna todos os registros onde as chaves são iguais com todos os campos preenchidos dos dois conjuntos, mas também retorna os registros onde as chaves não são iguais sem valor para os campos do conjunto à direita.</p>
+<h3 id="right-outer-join-right-join">Right outer join (Right join)</h3>
+<p>O princípio é EXATAMENTE o mesmo do left join. A única diferença é a permanência dos registros do conjunto da direita. Vamos simular o mesmo resultado, usando right join, apenas mudando os conjuntos de lugar na chamada da função:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+(right.join.r.base &lt;- merge(controle, pacientes, all.y = TRUE)) # left join com R base</code></pre>
+<pre><code>
+  id.paciente tipo.remedio nome.abreviado exame.a exame.b exame.c
+1           1            A          A.A.M     3.8  109.98       0
+2           2         &lt;NA&gt;        S.S.G.F     3.8  109.90       1
+3           3         &lt;NA&gt;          T.I.A     3.9  109.89       1
+4           4            B        L.O.S.M     4.0  109.99       0
+5           5            A          Y.Q.W     4.4  110.01       1
+6           6         &lt;NA&gt;            F.A     3.8  109.95       1
+7           7            B          T.B.N     3.7  109.98       0
+8           8            A          J.J.L     3.6  109.93       0
+9           9         &lt;NA&gt;          M.S.S     4.0  110.00       1</code></pre>
+<pre class="r"><code>
+(right.join.dplyr &lt;- right_join(controle, pacientes)) # left join com dplyr</code></pre>
+<pre><code>
+  id.paciente tipo.remedio nome.abreviado exame.a exame.b exame.c
+1           1            A          A.A.M     3.8  109.98       0
+2           2         &lt;NA&gt;        S.S.G.F     3.8  109.90       1
+3           3         &lt;NA&gt;          T.I.A     3.9  109.89       1
+4           4            B        L.O.S.M     4.0  109.99       0
+5           5            A          Y.Q.W     4.4  110.01       1
+6           6         &lt;NA&gt;            F.A     3.8  109.95       1
+7           7            B          T.B.N     3.7  109.98       0
+8           8            A          J.J.L     3.6  109.93       0
+9           9         &lt;NA&gt;          M.S.S     4.0  110.00       1</code></pre>
+</div>
+<p>Temos o mesmo conteúdo, apenas mudando a ordem dos data.frames e ajustando alguns parâmetros na função.</p>
+<p>Tanto o left quanto o right join são usados pra preservar todos os registros de apenas “um lado” do join, trazendo os demais campos do outro conjunto como vazio, e preenchido apenas os registros em que as chaves forem iguais.</p>
+<h3 id="full-outer-join-full-join">Full outer join (Full join)</h3>
+<p>Há situações em que é necessário preservar todos os registros de ambos os conjuntos de dados. Vamos testar o seguinte exemplo:</p>
+<ul>
+<li><code>exportacoes</code>, com produto e valor exportado</li>
+</ul>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+produto &lt;- c(&quot;A&quot;, &quot;C&quot;, &quot;D&quot;, &quot;H&quot;, &quot;I&quot;, &quot;J&quot;, &quot;K&quot;, &quot;O&quot;, &quot;Y&quot;)
+valor &lt;- c(993801, 1829300, 833952, 775831, 59143, 1192920, 6938018, 2927318, 393178)
+(exportacoes &lt;- data.frame(produto, valor))</code></pre>
+<pre><code>
+  produto   valor
+1       A  993801
+2       C 1829300
+3       D  833952
+4       H  775831
+5       I   59143
+6       J 1192920
+7       K 6938018
+8       O 2927318
+9       Y  393178</code></pre>
+</div>
+<ul>
+<li><code>importacoes</code>, com produto e valor importado</li>
+</ul>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+produto &lt;- c(&quot;B&quot;, &quot;C&quot;, &quot;D&quot;, &quot;E&quot;, &quot;F&quot;, &quot;H&quot;, &quot;I&quot;, &quot;J&quot;, &quot;M&quot;, &quot;N&quot;, &quot;O&quot;, &quot;Z&quot;)
+valor &lt;- c(983125, 71983, 61328, 51939, 10928810, 979192, 6019278, 352918, 178263, 64129229, 447009, 1620129)
+(importacoes &lt;- data.frame(produto, valor))</code></pre>
+<pre><code>
+   produto    valor
+1        B   983125
+2        C    71983
+3        D    61328
+4        E    51939
+5        F 10928810
+6        H   979192
+7        I  6019278
+8        J   352918
+9        M   178263
+10       N 64129229
+11       O   447009
+12       Z  1620129</code></pre>
+</div>
+<p>Você recebeu dois conjuntos de dados que representam as importações e as exportações de produtos de um pequeno país. Sua missão é fazer uma simples análise de saldo, balança e fluxo de comércio exterior desse país, e produzir alguns relatórios e gráficos comparando produto a produto.</p>
+<p>Sendo assim, não é interessante perder nenhum registro de nenhum dos dois data.frames, ambos devem ser preservados para a comparação.</p>
+<p>O join da vez é o full join (nome do blog!). Vejamos:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+(full.join.r.base &lt;- merge(exportacoes, importacoes, by.x = &quot;produto&quot;, by.y = &quot;produto&quot;, all.x = TRUE, all.y = TRUE)) # left join com R base</code></pre>
+<pre><code>
+   produto valor.x  valor.y
+1        A  993801       NA
+2        C 1829300    71983
+3        D  833952    61328
+4        H  775831   979192
+5        I   59143  6019278
+6        J 1192920   352918
+7        K 6938018       NA
+8        O 2927318   447009
+9        Y  393178       NA
+10       B      NA   983125
+11       E      NA    51939
+12       F      NA 10928810
+13       M      NA   178263
+14       N      NA 64129229
+15       Z      NA  1620129</code></pre>
+<pre class="r"><code>
+(full.join.dplyr &lt;- full_join(exportacoes, importacoes, by = c(&quot;produto&quot; = &quot;produto&quot;))) # left join com dplyr</code></pre>
+<pre><code>
+   produto valor.x  valor.y
+1        A  993801       NA
+2        C 1829300    71983
+3        D  833952    61328
+4        H  775831   979192
+5        I   59143  6019278
+6        J 1192920   352918
+7        K 6938018       NA
+8        O 2927318   447009
+9        Y  393178       NA
+10       B      NA   983125
+11       E      NA    51939
+12       F      NA 10928810
+13       M      NA   178263
+14       N      NA 64129229
+15       Z      NA  1620129</code></pre>
+</div>
+<p>Repare que em nosso exemplo há uma particularidade com as chaves. Quando não explicitamos na função os nomes das chaves em <code>by</code>, o join é feito pelos campos com nomes iguais. Mas nesse caso, ambos os campos <code>produto</code> e <code>valor</code> têm nomes iguais nos dois data.frames. Precisamos então explicitar o que queremos que seja chave: apenas <code>produto</code>.</p>
+<p>O full join preserva todos os registros de ambos os conjuntos. Quando as chaves são iguais, retorna preenchido em todos os campos, quando não são iguais, retorna <code>NA</code> em qualquer um dos “lados”.</p>
+<p>Em nosso exemplo, alguns produtos foram somente exportados e alguns foram somente importados, bem como alguns foram exportados e importados. Como precisamos da totalidade das exportações e importações, o full join atende bem nossa necessidade. Com esse resultado já poderíamos partir para análise do comércio desse país.</p>
+<h2 id="proximos-posts">Próximos posts</h2>
+<p>Em breve faremos mais posts sobre joins, explicando alguns outros tipos menos comuns, como CROSS JOIN, SEMI JOIN, ANTI JOIN, SELF JOIN.</p>
+<p>Até o momento apresentamos junções baseadas na igualdade de joins (equi joins), mas nos próximos posts sobre o assunto mostraremos exemplos onde a comparação das chaves não se da por relação de igualdade (theta join).</p>
+<h2 id="referencias">Referências</h2>
+<ul>
+<li><a href="http://stat545.com/bit001_dplyr-cheatsheet.html">Cheatsheet for dplyr join functions</a></li>
+<li><a href="http://www.rforexcelusers.com/book/shape-your-data/merging-data-frames/">R for Excel users: Merging Data Frames</a></li>
+<li><a href="http://www.dummies.com/how-to/content/how-to-use-the-merge-function-with-data-sets-in-r.html">How to Use the merge() Function with Data Sets in R</a></li>
+<li><a href="http://www.princeton.edu/~mattg/statar/join-and-reshape.html">R for Stat users: Join datasets</a></li>
+</ul>
+<!--radix_placeholder_article_footer-->
+<!--/radix_placeholder_article_footer-->
+</div>
+
+<div class="d-appendix">
+</div>
+
+
+<!--radix_placeholder_site_after_body-->
+<!--/radix_placeholder_site_after_body-->
+<!--radix_placeholder_appendices-->
+<div class="appendix-bottom"></div>
+<!--/radix_placeholder_appendices-->
+<!--radix_placeholder_navigation_after_body-->
+<!--/radix_placeholder_navigation_after_body-->
+
+</body>
+
+</html>

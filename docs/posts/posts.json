@@ -1,0 +1,177 @@
+[
+  {
+    "path": "posts/2017-03-12-introducao-d3plusr/",
+    "title": "Introdução ao D3plusR",
+    "description": "Visualização de dados é uma das principais tarefas de um analista de dados. A partir de visualizações, é possível explorar os dados e comunicar resultados de maneira mais efetiva. No R, além de visualizações estáticas, principalmente desenvolvidas com ggplot2 R, existem um conjunto de pacotes que são desenvolvidos utilizando o _framework_ fornecido pelo pacote `htmlwidgets`. A ideia é trazer o mundo de bibliotecas de visualizações de dados em javascript para o R.",
+    "author": [],
+    "date": "2017-03-12",
+    "categories": [],
+    "preview": {},
+    "last_modified": "2019-07-13T17:07:08-03:00"
+  },
+  {
+    "path": "posts/2017-01-28-bases-de-dados-kaggle/",
+    "title": "Bases de Dados Públicas - Kaggle",
+    "description": "Durante o processo de aprendizagem de análise de dados é fundamental aplicar os conhecimentos adquiridos aos dados. Todavia, muitas vezes nos vemos obrigados a trabalhar com dados de exemplos que não apresentam as dificuldades do mundo real ou não guardam nenhuma relação com os dados que serão enfrentados no dia a dia. Nesse sentido, a possibilidade de acesso a outras base de dados pode ser bastante útil.",
+    "author": [],
+    "date": "2017-01-28",
+    "categories": [],
+    "preview": {},
+    "last_modified": "2019-07-13T17:07:17-03:00"
+  },
+  {
+    "path": "posts/2016-08-26-visualizacao-de-dados-parte-1/",
+    "title": "Visualização de dados - Parte 1: Introdução ao ggplot2",
+    "description": "A visualização de dados é parte fundamental do [_workflow_]({{root_url}}/blog/2016/03/14/como-aplicar-ciencia-de-dados/) de um analista de dados. Essa tarefa é muito importante tanto para explorar os dados, como para comunicar resultados. Ou seja, dominar ferramentas de visualização é imprescindível. E é aí que entra o ggplot2.",
+    "author": [],
+    "date": "2016-09-07",
+    "categories": [],
+    "preview": "posts/2016-08-26-visualizacao-de-dados-parte-1/visualizacao-de-dados-parte-1_files/figure-html5/unnamed-chunk-4-1.png",
+    "last_modified": "2019-07-13T17:10:48-03:00"
+  },
+  {
+    "path": "posts/2016-08-01-manipulacao-de-dados-parte-1/",
+    "title": "Manipulação de dados - Parte 1: dplyr básico",
+    "description": "Dominar a manipulação de dados é uma das habilidades mais básicas que um analista de dados deve ter. Nesse post ensinaremos as principais atividades relacionadas a manipulação de dados utilizando o pacote dplyr, um dos melhores pacotes disponíveis no R para essa finalidade.",
+    "author": [],
+    "date": "2016-08-16",
+    "categories": [],
+    "preview": {},
+    "last_modified": "2019-07-13T17:11:26-03:00"
+  },
+  {
+    "path": "posts/2016-07-30-comex-vis/",
+    "title": "Comex Vis e a visualização de dados no Brasil",
+    "description": "No dia 28/07/2016 a Secretaria de Comércio Exterior lançou o [Comex Vis](http://www.mdic.gov.br/comercio-exterior/estatisticas-de-comercio-exterior/comex-vis), uma ferramenta de visualização interativa de dados do comércio exterior brasileiro. Nesse post faremos alguns comentários sobre o Comex Vis e sobre a visualização de dados em geral.",
+    "author": [],
+    "date": "2016-07-30",
+    "categories": [],
+    "preview": {},
+    "last_modified": "2019-07-13T17:11:43-03:00"
+  },
+  {
+    "path": "posts/2016-06-06-intro-modelos-r/",
+    "title": "Introdução a Modelos no R",
+    "description": "Neste post, vamos introduzir alguns conceitos para começar a trabalhar com modelos no R. Abordaremos o modelo linear de regressão utilizando a função `lm()`. Aprender a estrutura básica de modelos a partir do modelo linear será bastante útil para entender e utilizar outros modelos mais complexos.",
+    "author": [],
+    "date": "2016-07-10",
+    "categories": [],
+    "preview": "posts/2016-06-06-intro-modelos-r/intro-modelos-r_files/figure-html5/unnamed-chunk-22-1.png",
+    "last_modified": "2019-07-13T17:12:26-03:00"
+  },
+  {
+    "path": "posts/2016-05-12-tudo-sobre-joins/",
+    "title": "Tudo sobre Joins (merge) em R",
+    "description": "Nessa sequência de posts aprenderemos tudo sobre Joins (merges) em R, abordando questões teóricas e práticas, com exemplos usando R base e o pacote dplyr. Após ler esse post, você vai saber o que é, para que serve, quando e como usar diversos tipo de joins.",
+    "author": [],
+    "date": "2016-05-25",
+    "categories": [],
+    "preview": {},
+    "last_modified": "2019-07-13T17:12:40-03:00"
+  },
+  {
+    "path": "posts/2016-05-09-kit-de-sobrevivencia-em-r-parte-7/",
+    "title": "Kit de sobrevivência em R - Parte 7: Avançando e Aprofundando",
+    "description": "Chegamos ao fim do [kit de sobrevivência em R]({{root_url}}/blog/categories/introducao-ao-r). Nesse último post da série vamos retomar alguns pontos que merecem ser complementados e revisados, além de apresentar um pouco mais de transformações e operações usando apenas funções básicas do R.",
+    "author": [],
+    "date": "2016-05-09",
+    "categories": [],
+    "preview": {},
+    "last_modified": "2019-07-13T16:53:49-03:00"
+  },
+  {
+    "path": "posts/2016-05-01-kit-de-sobrevivencia-em-r-parte-6/",
+    "title": "Kit de sobrevivência em R - Parte 6: Estruturas de Controle",
+    "description": "No último post, você aprendeu um pouco sobre os tipos de dados e como realizar algumas transformações. Neste post, trataremos um pouco sobre estruturas de controles (for, if, else, while etc.). Estruturas de controles serão bastante usadas durante o processo de análise de dados, sendo importante que você domine esse tópico.",
+    "author": [],
+    "date": "2016-05-01",
+    "categories": [],
+    "preview": "posts/2016-05-01-kit-de-sobrevivencia-em-r-parte-6/kit-de-sobrevivencia-em-r-parte-6_files/figure-html5/unnamed-chunk-11-1.png",
+    "last_modified": "2019-07-13T17:39:22-03:00"
+  },
+  {
+    "path": "posts/2016-04-11-kit-de-sobrevivencia-em-r-parte-5/",
+    "title": "Kit de sobrevivência em R - Parte 5: Tipos de dados e transformações",
+    "description": "Você já aprendeu como carregar um arquivo de dados no R para começar a trabalhar com ele. Agora vamos conhecer o básico necessário para manipular os dados e prepará-los para a análise propriamente dita. Para isso será necessário saber sobre alguns tipos básicos de dados e algumas formas de transformação de dados.",
+    "author": [],
+    "date": "2016-04-21",
+    "categories": [],
+    "preview": {},
+    "last_modified": "2019-07-13T16:55:51-03:00"
+  },
+  {
+    "path": "posts/2016-04-07-kit-de-sobrevivencia-em-r-parte-4/",
+    "title": "Kit de sobrevivência em R - Parte 4: Carregando Dados",
+    "description": "Seguindo a sequência do *Kit de sobrevivência em R*, vamos abordar um pouco sobre uma das partes iniciais de qualquer análise ou trabalho que vá ser feito no R: carregamento e leitura de dados. Nesse post você irá aprender formas básicas de carregar dados e começar os trabalhos.",
+    "author": [],
+    "date": "2016-04-12",
+    "categories": [],
+    "preview": {},
+    "last_modified": "2019-07-13T17:36:33-03:00"
+  },
+  {
+    "path": "posts/2016-03-28-kit-de-sobrevivencia-em-r-parte-3/",
+    "title": "Kit de Sobrevivência em R - Parte 3: Pacotes",
+    "description": "Neste post, você aprenderá um pouco sobre os pacotes, trabalhará com o console para fazer algumas operações e ir se familiarizando mais com o R. Aprenderá como usar as funções disponíveis no R e as funções adicionais em pacotes.",
+    "author": [],
+    "date": "2016-04-03",
+    "categories": [],
+    "preview": {},
+    "last_modified": "2019-07-13T17:35:52-03:00"
+  },
+  {
+    "path": "posts/2016-03-25-kit-de-sobrevivencia-em-r-parte-2/",
+    "title": "Kit de sobrevivência em R - Parte 2: Operações, Variáveis e Funções",
+    "description": "Seguindo a proposta da sequência *Kit de sobrevivência em R*, vamos aprofundar um pouco mais no funcionamento do R e como fazer uso disso. Nesse post trataremos sobre comandos de console, operações básicas, variáveis, funções, e script R no editor de códigos.",
+    "author": [],
+    "date": "2016-04-02",
+    "categories": [],
+    "preview": {},
+    "last_modified": "2019-07-13T17:31:25-03:00"
+  },
+  {
+    "path": "posts/2016-03-20-kit-de-sobrevivencia-em-r-parte-1/",
+    "title": "Kit de sobrevivência em R - Parte 1: Visão Geral e Instalação",
+    "description": "Nesta sequência de posts, iremos tratar o básico necessário para quem deseja iniciar o aprendizado em [R](https://www.r-project.org/about.html). Trata-se de uma linguagem de programação muito usada para cálculos estatísticos. Neste e nos próximos posts, discutiremos tópicos como instalação, importação de dados, tipos de dados, etc. \nA nossa expectativa é que, com essa sequência, seja quebrada a barreira inicial para aqueles que pretendem entrar nesse mundo (cuidado, esse é um caminho sem volta!).",
+    "author": [],
+    "date": "2016-03-20",
+    "categories": [],
+    "preview": {},
+    "last_modified": "2019-07-13T17:34:40-03:00"
+  },
+  {
+    "path": "posts/2016-03-20-aplicando-ciencia-de-dados-parte-2-equipe/",
+    "title": "Aplicando ciência de dados - parte 2: Equipe",
+    "description": "Para aplicação da Ciência de Dados em um projeto, não basta ter uma ótima fonte de dados disponível e os melhores equipamentos e ferramentas prontos para uso. É necessário uma equipe.",
+    "author": [],
+    "date": "2016-03-19",
+    "categories": [],
+    "preview": {},
+    "last_modified": "2019-07-13T17:33:43-03:00"
+  },
+  {
+    "path": "posts/2016-03-14-como-aplicar-ciencia-de-dados/",
+    "title": "Aplicando ciência de dados - parte 1: Workflow",
+    "description": "No geral, atividades envolvendo aplicação da ciência de dados assumem o formato de projeto: empreendimentos de esforços durante um tempo (início e fim), usando recursos (pessoas e ferramentas) para alcançar um objetivo específico.",
+    "author": [],
+    "date": "2016-03-14",
+    "categories": [],
+    "preview": {},
+    "last_modified": "2019-07-13T17:29:51-03:00"
+  },
+  {
+    "path": "posts/2016-03-09-hello-world/",
+    "title": "Hello World",
+    "description": "E nasce hoje o Full Join! \nUm blog sobre data science e tudo mais que envolve a arte de trabalhar com dados. \nA ideia é postar sobre programação, estatística, machine learning e análise de dados, buscando consolidar nosso conhecimento e ajudar quem está começando (ou evoluindo!) na carreira de Cientista de Dados.",
+    "author": [
+      {
+        "name": "Saulo Guerra",
+        "url": {}
+      }
+    ],
+    "date": "2016-03-09",
+    "categories": [],
+    "preview": {},
+    "last_modified": "2019-07-13T11:41:24-03:00"
+  }
+]

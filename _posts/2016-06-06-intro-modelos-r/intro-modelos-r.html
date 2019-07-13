@@ -1,0 +1,1530 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"/>
+  <meta name="generator" content="distill" />
+
+  <style type="text/css">
+  /* Hide doc at startup (prevent jankiness while JS renders/transforms) */
+  body {
+    visibility: hidden;
+  }
+  </style>
+
+ <!--radix_placeholder_import_source-->
+ <!--/radix_placeholder_import_source-->
+
+  <!--radix_placeholder_meta_tags-->
+  <title>Introdução a Modelos no R</title>
+  
+  <meta property="description" itemprop="description" content="Neste post, vamos introduzir alguns conceitos para começar a trabalhar com modelos no R. Abordaremos o modelo linear de regressão utilizando a função `lm()`. Aprender a estrutura básica de modelos a partir do modelo linear será bastante útil para entender e utilizar outros modelos mais complexos."/>
+  
+  
+  <!--  https://schema.org/Article -->
+  <meta property="article:published" itemprop="datePublished" content="2016-07-10"/>
+  <meta property="article:created" itemprop="dateCreated" content="2016-07-10"/>
+  
+  <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
+  <meta property="og:title" content="Introdução a Modelos no R"/>
+  <meta property="og:type" content="article"/>
+  <meta property="og:description" content="Neste post, vamos introduzir alguns conceitos para começar a trabalhar com modelos no R. Abordaremos o modelo linear de regressão utilizando a função `lm()`. Aprender a estrutura básica de modelos a partir do modelo linear será bastante útil para entender e utilizar outros modelos mais complexos."/>
+  <meta property="og:locale" content="en_US"/>
+  
+  <!--  https://dev.twitter.com/cards/types/summary -->
+  <meta property="twitter:card" content="summary"/>
+  <meta property="twitter:title" content="Introdução a Modelos no R"/>
+  <meta property="twitter:description" content="Neste post, vamos introduzir alguns conceitos para começar a trabalhar com modelos no R. Abordaremos o modelo linear de regressão utilizando a função `lm()`. Aprender a estrutura básica de modelos a partir do modelo linear será bastante útil para entender e utilizar outros modelos mais complexos."/>
+  
+  <!--/radix_placeholder_meta_tags-->
+  <!--radix_placeholder_rmarkdown_metadata-->
+  
+  <script type="text/json" id="radix-rmarkdown-metadata">
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["output","description","title","date"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]}]},{"type":"character","attributes":{},"value":["Neste post, vamos introduzir alguns conceitos para começar a trabalhar com modelos no R. Abordaremos o modelo linear de regressão utilizando a função `lm()`. Aprender a estrutura básica de modelos a partir do modelo linear será bastante útil para entender e utilizar outros modelos mais complexos.\n"]},{"type":"character","attributes":{},"value":["Introdução a Modelos no R"]},{"type":"character","attributes":{},"value":["2016-07-10"]}]}
+  </script>
+  <!--/radix_placeholder_rmarkdown_metadata-->
+  
+  <script type="text/json" id="radix-resource-manifest">
+  {"type":"character","attributes":{},"value":["intro-modelos-r_files/figure-html5/unnamed-chunk-22-1.png","intro-modelos-r_files/figure-html5/unnamed-chunk-22-2.png","intro-modelos-r_files/figure-html5/unnamed-chunk-22-3.png","intro-modelos-r_files/figure-html5/unnamed-chunk-22-4.png"]}
+  </script>
+  <!--radix_placeholder_navigation_in_header-->
+  <!--/radix_placeholder_navigation_in_header-->
+  <!--radix_placeholder_distill-->
+  
+  <style type="text/css">
+  
+  body {
+    background-color: white;
+  }
+  
+  .pandoc-table {
+    width: 100%;
+  }
+  
+  .pandoc-table>caption {
+    margin-bottom: 10px;
+  }
+  
+  .pandoc-table th:not([align]) {
+    text-align: left;
+  }
+  
+  .pagedtable-footer {
+    font-size: 15px;
+  }
+  
+  .html-widget {
+    margin-bottom: 2.0em;
+  }
+  
+  .l-screen-inset {
+    padding-right: 16px;
+  }
+  
+  .l-screen .caption {
+    margin-left: 10px;
+  }
+  
+  .shaded {
+    background: rgb(247, 247, 247);
+    padding-top: 20px;
+    padding-bottom: 20px;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  }
+  
+  .shaded .html-widget {
+    margin-bottom: 0;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+  }
+  
+  .shaded .shaded-content {
+    background: white;
+  }
+  
+  .text-output {
+    margin-top: 0;
+    line-height: 1.5em;
+  }
+  
+  .hidden {
+    display: none !important;
+  }
+  
+  d-article {
+    padding-bottom: 30px;
+  }
+  
+  d-appendix {
+    padding-top: 30px;
+  }
+  
+  d-article>p>img {
+    width: 100%;
+  }
+  
+  d-article iframe {
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    margin-bottom: 2.0em;
+    width: 100%;
+  }
+  
+  figure img.external {
+    background: white;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+    padding: 18px;
+    box-sizing: border-box;
+  }
+  
+  /* CSS for table of contents */
+  
+  .d-toc {
+    color: rgba(0,0,0,0.8);
+    font-size: 0.8em;
+    line-height: 1em;
+  }
+  
+  .d-toc-header {
+    font-size: 0.6rem;
+    font-weight: 400;
+    color: rgba(0, 0, 0, 0.5);
+    text-transform: uppercase;
+    margin-top: 0;
+    margin-bottom: 1.3em;
+  }
+  
+  .d-toc a {
+    border-bottom: none;
+  }
+  
+  .d-toc ul {
+    padding-left: 0;
+  }
+  
+  .d-toc li>ul {
+    padding-top: 0.8em;
+    padding-left: 16px;
+    margin-bottom: 0.6em;
+  }
+  
+  .d-toc ul,
+  .d-toc li {
+    list-style-type: none;
+  }
+  
+  .d-toc li {
+    margin-bottom: 0.9em;
+  }
+  
+  .d-toc-separator {
+    margin-top: 20px;
+    margin-bottom: 2em;
+  }
+  
+  .d-article-with-toc {
+    border-top: none;
+    padding-top: 0;
+  }
+  
+  
+  
+  /* Tweak code blocks (note that this CSS is repeated above in an injection
+     into the d-code shadow dom) */
+  
+  d-code {
+    overflow-x: auto !important;
+  }
+  
+  pre.d-code code.d-code {
+    padding-left: 10px;
+    font-size: 12px;
+    border-left: 2px solid rgba(0,0,0,0.1);
+  }
+  
+  pre.text-output {
+  
+    font-size: 12px;
+    color: black;
+    background: none;
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+    text-align: left;
+    white-space: pre;
+    word-spacing: normal;
+    word-break: normal;
+    word-wrap: normal;
+    line-height: 1.5;
+  
+    -moz-tab-size: 4;
+    -o-tab-size: 4;
+    tab-size: 4;
+  
+    -webkit-hyphens: none;
+    -moz-hyphens: none;
+    -ms-hyphens: none;
+    hyphens: none;
+  }
+  
+  @media(min-width: 768px) {
+  
+  d-code {
+    overflow-x: visible !important;
+  }
+  
+  pre.d-code code.d-code  {
+      padding-left: 18px;
+      font-size: 14px;
+  }
+  pre.text-output {
+    font-size: 14px;
+  }
+  }
+  
+  /* Figure */
+  
+  .figure {
+    position: relative;
+    margin-bottom: 2.5em;
+    margin-top: 1.5em;
+  }
+  
+  .figure img {
+    width: 100%;
+  }
+  
+  .figure .caption {
+    color: rgba(0, 0, 0, 0.6);
+    font-size: 12px;
+    line-height: 1.5em;
+  }
+  
+  .figure img.external {
+    background: white;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+    padding: 18px;
+    box-sizing: border-box;
+  }
+  
+  .figure .caption a {
+    color: rgba(0, 0, 0, 0.6);
+  }
+  
+  .figure .caption b,
+  .figure .caption strong, {
+    font-weight: 600;
+    color: rgba(0, 0, 0, 1.0);
+  }
+  
+  
+  
+  /* Tweak 1000px media break to show more text */
+  
+  @media(min-width: 1000px) {
+    .base-grid,
+    distill-header,
+    d-title,
+    d-abstract,
+    d-article,
+    d-appendix,
+    distill-appendix,
+    d-byline,
+    d-footnote-list,
+    d-citation-list,
+    distill-footer {
+      grid-template-columns: [screen-start] 1fr [page-start kicker-start] 80px [middle-start] 50px [text-start kicker-end] 65px 65px 65px 65px 65px 65px 65px 65px [text-end gutter-start] 65px [middle-end] 65px [page-end gutter-end] 1fr [screen-end];
+      grid-column-gap: 16px;
+    }
+  
+    .grid {
+      grid-column-gap: 16px;
+    }
+  
+    d-article {
+      font-size: 1.06rem;
+      line-height: 1.7em;
+    }
+    figure .caption, .figure .caption, figure figcaption {
+      font-size: 13px;
+    }
+  }
+  
+  @media(min-width: 1180px) {
+    .base-grid,
+    distill-header,
+    d-title,
+    d-abstract,
+    d-article,
+    d-appendix,
+    distill-appendix,
+    d-byline,
+    d-footnote-list,
+    d-citation-list,
+    distill-footer {
+      grid-template-columns: [screen-start] 1fr [page-start kicker-start] 60px [middle-start] 60px [text-start kicker-end] 60px 60px 60px 60px 60px 60px 60px 60px [text-end gutter-start] 60px [middle-end] 60px [page-end gutter-end] 1fr [screen-end];
+      grid-column-gap: 32px;
+    }
+  
+    .grid {
+      grid-column-gap: 32px;
+    }
+  }
+  
+  
+  /* Get the citation styles for the appendix (not auto-injected on render since
+     we do our own rendering of the citation appendix) */
+  
+  d-appendix .citation-appendix,
+  .d-appendix .citation-appendix {
+    font-size: 11px;
+    line-height: 15px;
+    border-left: 1px solid rgba(0, 0, 0, 0.1);
+    padding-left: 18px;
+    border: 1px solid rgba(0,0,0,0.1);
+    background: rgba(0, 0, 0, 0.02);
+    padding: 10px 18px;
+    border-radius: 3px;
+    color: rgba(150, 150, 150, 1);
+    overflow: hidden;
+    margin-top: -12px;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+  }
+  
+  
+  /* Social footer */
+  
+  .social_footer {
+    margin-top: 30px;
+    margin-bottom: 0;
+    color: rgba(0,0,0,0.67);
+  }
+  
+  .disqus-comments {
+    margin-right: 30px;
+  }
+  
+  .disqus-comment-count {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+    cursor: pointer;
+  }
+  
+  #disqus_thread {
+    margin-top: 30px;
+  }
+  
+  .article-sharing a {
+    border-bottom: none;
+    margin-right: 8px;
+  }
+  
+  .article-sharing a:hover {
+    border-bottom: none;
+  }
+  
+  .sidebar-section.subscribe {
+    font-size: 12px;
+    line-height: 1.6em;
+  }
+  
+  .subscribe p {
+    margin-bottom: 0.5em;
+  }
+  
+  
+  .article-footer .subscribe {
+    font-size: 15px;
+    margin-top: 45px;
+  }
+  
+  
+  /* Improve display for browsers without grid (IE/Edge <= 15) */
+  
+  .downlevel {
+    line-height: 1.6em;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
+    margin: 0;
+  }
+  
+  .downlevel .d-title {
+    padding-top: 6rem;
+    padding-bottom: 1.5rem;
+  }
+  
+  .downlevel .d-title h1 {
+    font-size: 50px;
+    font-weight: 700;
+    line-height: 1.1em;
+    margin: 0 0 0.5rem;
+  }
+  
+  .downlevel .d-title p {
+    font-weight: 300;
+    font-size: 1.2rem;
+    line-height: 1.55em;
+    margin-top: 0;
+  }
+  
+  .downlevel .d-byline {
+    padding-top: 0.8em;
+    padding-bottom: 0.8em;
+    font-size: 0.8rem;
+    line-height: 1.8em;
+  }
+  
+  .downlevel .section-separator {
+    border: none;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+  }
+  
+  .downlevel .d-article {
+    font-size: 1.06rem;
+    line-height: 1.7em;
+    padding-top: 1rem;
+    padding-bottom: 2rem;
+  }
+  
+  
+  .downlevel .d-appendix {
+    padding-left: 0;
+    padding-right: 0;
+    max-width: none;
+    font-size: 0.8em;
+    line-height: 1.7em;
+    margin-bottom: 0;
+    color: rgba(0,0,0,0.5);
+    padding-top: 40px;
+    padding-bottom: 48px;
+  }
+  
+  .downlevel .footnotes ol {
+    padding-left: 13px;
+  }
+  
+  .downlevel .base-grid,
+  .downlevel .distill-header,
+  .downlevel .d-title,
+  .downlevel .d-abstract,
+  .downlevel .d-article,
+  .downlevel .d-appendix,
+  .downlevel .distill-appendix,
+  .downlevel .d-byline,
+  .downlevel .d-footnote-list,
+  .downlevel .d-citation-list,
+  .downlevel .distill-footer,
+  .downlevel .appendix-bottom,
+  .downlevel .posts-container {
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+  
+  @media(min-width: 768px) {
+    .downlevel .base-grid,
+    .downlevel .distill-header,
+    .downlevel .d-title,
+    .downlevel .d-abstract,
+    .downlevel .d-article,
+    .downlevel .d-appendix,
+    .downlevel .distill-appendix,
+    .downlevel .d-byline,
+    .downlevel .d-footnote-list,
+    .downlevel .d-citation-list,
+    .downlevel .distill-footer,
+    .downlevel .appendix-bottom,
+    .downlevel .posts-container {
+    padding-left: 150px;
+    padding-right: 150px;
+    max-width: 900px;
+  }
+  }
+  
+  .downlevel pre code {
+    display: block;
+    border-left: 2px solid rgba(0, 0, 0, .1);
+    padding: 0 0 0 20px;
+    font-size: 14px;
+  }
+  
+  .downlevel code, .downlevel pre {
+    color: black;
+    background: none;
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+    text-align: left;
+    white-space: pre;
+    word-spacing: normal;
+    word-break: normal;
+    word-wrap: normal;
+    line-height: 1.5;
+  
+    -moz-tab-size: 4;
+    -o-tab-size: 4;
+    tab-size: 4;
+  
+    -webkit-hyphens: none;
+    -moz-hyphens: none;
+    -ms-hyphens: none;
+    hyphens: none;
+  }
+  
+  </style>
+  
+  <script type="application/javascript">
+  
+  function is_downlevel_browser() {
+    if (bowser.isUnsupportedBrowser({ msie: "12", msedge: "16"},
+                                   window.navigator.userAgent)) {
+      return true;
+    } else {
+      return window.load_distill_framework === undefined;
+    }
+  }
+  
+  // show body when load is complete
+  function on_load_complete() {
+  
+    // set body to visible
+    document.body.style.visibility = 'visible';
+  
+    // force redraw for leaflet widgets
+    if (window.HTMLWidgets) {
+      var maps = window.HTMLWidgets.findAll(".leaflet");
+      $.each(maps, function(i, el) {
+        var map = this.getMap();
+        map.invalidateSize();
+        map.eachLayer(function(layer) {
+          if (layer instanceof L.TileLayer)
+            layer.redraw();
+        });
+      });
+    }
+  
+    // trigger 'shown' so htmlwidgets resize
+    $('d-article').trigger('shown');
+  }
+  
+  function init_distill() {
+  
+    init_common();
+  
+    // create front matter
+    var front_matter = $('<d-front-matter></d-front-matter>');
+    $('#distill-front-matter').wrap(front_matter);
+  
+    // create d-title
+    $('.d-title').changeElementType('d-title');
+  
+    // create d-byline
+    var byline = $('<d-byline></d-byline>');
+    $('.d-byline').replaceWith(byline);
+  
+    // create d-article
+    var article = $('<d-article></d-article>');
+    $('.d-article').wrap(article).children().unwrap();
+  
+    // move posts container into article
+    $('.posts-container').appendTo($('d-article'));
+  
+    // create d-appendix
+    $('.d-appendix').changeElementType('d-appendix');
+  
+    // create d-bibliography
+    var bibliography = $('<d-bibliography></d-bibliography>');
+    $('#distill-bibliography').wrap(bibliography);
+  
+    // flag indicating that we have appendix items
+    var appendix = $('.appendix-bottom').children('h3').length > 0;
+  
+    // replace citations with <d-cite>
+    $('.citation').each(function(i, val) {
+      appendix = true;
+      var cites = $(this).attr('data-cites').split(" ");
+      var dt_cite = $('<d-cite></d-cite>');
+      dt_cite.attr('key', cites.join());
+      $(this).replaceWith(dt_cite);
+    });
+    // remove refs
+    $('#refs').remove();
+  
+    // replace footnotes with <d-footnote>
+    $('.footnote-ref').each(function(i, val) {
+      appendix = true;
+      var href = $(this).attr('href');
+      var id = href.replace('#', '');
+      var fn = $('#' + id);
+      var fn_p = $('#' + id + '>p');
+      fn_p.find('.footnote-back').remove();
+      var text = fn_p.html();
+      var dtfn = $('<d-footnote></d-footnote>');
+      dtfn.html(text);
+      $(this).replaceWith(dtfn);
+    });
+    // remove footnotes
+    $('.footnotes').remove();
+  
+    $('h1.appendix, h2.appendix').each(function(i, val) {
+      $(this).changeElementType('h3');
+    });
+    $('h3.appendix').each(function(i, val) {
+      var id = $(this).attr('id');
+      $('.d-toc a[href="#' + id + '"]').parent().remove();
+      appendix = true;
+      $(this).nextUntil($('h1, h2, h3')).addBack().appendTo($('d-appendix'));
+    });
+  
+    // show d-appendix if we have appendix content
+    $("d-appendix").css('display', appendix ? 'grid' : 'none');
+  
+    // replace code blocks with d-code
+    $('pre>code').each(function(i, val) {
+      var code = $(this);
+      var pre = code.parent();
+      var clz = "";
+      var language = pre.attr('class');
+      if (language) {
+        // map unknown languages to "clike" (without this they just dissapear)
+        if ($.inArray(language, ["bash", "clike", "css", "go", "html",
+                                 "javascript", "js", "julia", "lua", "markdown",
+                                 "markup", "mathml", "python", "svg", "xml"]) == -1)
+          language = "clike";
+        language = ' language="' + language + '"';
+        var dt_code = $('<d-code block' + language + clz + '></d-code>');
+        dt_code.text(code.text());
+        pre.replaceWith(dt_code);
+      } else {
+        code.addClass('text-output').unwrap().changeElementType('pre');
+      }
+    });
+  
+    // localize layout chunks to just output
+    $('.layout-chunk').each(function(i, val) {
+  
+      // capture layout
+      var layout = $(this).attr('data-layout');
+  
+      // apply layout to markdown level block elements
+      var elements = $(this).children().not('d-code, pre.text-output, script');
+      elements.each(function(i, el) {
+        var layout_div = $('<div class="' + layout + '"></div>');
+        if (layout_div.hasClass('shaded')) {
+          var shaded_content = $('<div class="shaded-content"></div>');
+          $(this).wrap(shaded_content);
+          $(this).parent().wrap(layout_div);
+        } else {
+          $(this).wrap(layout_div);
+        }
+      });
+  
+  
+      // unwrap the layout-chunk div
+      $(this).children().unwrap();
+    });
+  
+    // load distill framework
+    load_distill_framework();
+  
+    // wait for window.distillRunlevel == 4 to do post processing
+    function distill_post_process() {
+  
+      if (!window.distillRunlevel || window.distillRunlevel < 4)
+        return;
+  
+      // hide author/affiliations entirely if we have no authors
+      var front_matter = JSON.parse($("#distill-front-matter").html());
+      var have_authors = front_matter.authors && front_matter.authors.length > 0;
+      if (!have_authors)
+        $('d-byline').addClass('hidden');
+  
+      // table of contents
+      if (have_authors) // adjust border if we are in authors
+        $('.d-toc').parent().addClass('d-article-with-toc');
+  
+      // strip links that point to #
+      $('.authors-affiliations').find('a[href="#"]').removeAttr('href');
+  
+      // hide elements of author/affiliations grid that have no value
+      function hide_byline_column(caption) {
+        $('d-byline').find('h3:contains("' + caption + '")').parent().css('visibility', 'hidden');
+      }
+  
+      // affiliations
+      var have_affiliations = false;
+      for (var i = 0; i<front_matter.authors.length; ++i) {
+        var author = front_matter.authors[i];
+        if (author.affiliation !== "&nbsp;") {
+          have_affiliations = true;
+          break;
+        }
+      }
+      if (!have_affiliations)
+        $('d-byline').find('h3:contains("Affiliations")').css('visibility', 'hidden');
+  
+      // published date
+      if (!front_matter.publishedDate)
+        hide_byline_column("Published");
+  
+      // document object identifier
+      var doi = $('d-byline').find('h3:contains("DOI")');
+      var doi_p = doi.next().empty();
+      if (!front_matter.doi) {
+        // if we have a citation and valid citationText then link to that
+        if ($('#citation').length > 0 && front_matter.citationText) {
+          doi.html('Citation');
+          $('<a href="#citation"></a>')
+            .text(front_matter.citationText)
+            .appendTo(doi_p);
+        } else {
+          hide_byline_column("DOI");
+        }
+      } else {
+        $('<a></a>')
+           .attr('href', "https://doi.org/" + front_matter.doi)
+           .html(front_matter.doi)
+           .appendTo(doi_p);
+      }
+  
+       // change plural form of authors/affiliations
+      if (front_matter.authors.length === 1) {
+        var grid = $('.authors-affiliations');
+        grid.children('h3:contains("Authors")').text('Author');
+        grid.children('h3:contains("Affiliations")').text('Affiliation');
+      }
+  
+      // inject pre code styles (can't do this with a global stylesheet b/c a shadow root is used)
+      $('d-code').each(function(i, val) {
+        var style = document.createElement('style');
+        style.innerHTML = 'pre code { padding-left: 10px; font-size: 12px; border-left: 2px solid rgba(0,0,0,0.1); } ' +
+                          '@media(min-width: 768px) { pre code { padding-left: 18px; font-size: 14px; } }';
+        if (this.shadowRoot)
+          this.shadowRoot.appendChild(style);
+      });
+  
+      // move appendix-bottom entries to the bottom
+      $('.appendix-bottom').appendTo('d-appendix').children().unwrap();
+      $('.appendix-bottom').remove();
+  
+      // clear polling timer
+      clearInterval(tid);
+  
+      // show body now that everything is ready
+      on_load_complete();
+    }
+  
+    var tid = setInterval(distill_post_process, 50);
+    distill_post_process();
+  
+  }
+  
+  function init_downlevel() {
+  
+    init_common();
+  
+     // insert hr after d-title
+    $('.d-title').after($('<hr class="section-separator"/>'));
+  
+    // check if we have authors
+    var front_matter = JSON.parse($("#distill-front-matter").html());
+    var have_authors = front_matter.authors && front_matter.authors.length > 0;
+  
+    // manage byline/border
+    if (!have_authors)
+      $('.d-byline').remove();
+    $('.d-byline').after($('<hr class="section-separator"/>'));
+    $('.d-byline a').remove();
+  
+    // remove toc
+    $('.d-toc-header').remove();
+    $('.d-toc').remove();
+    $('.d-toc-separator').remove();
+  
+    // move appendix elements
+    $('h1.appendix, h2.appendix').each(function(i, val) {
+      $(this).changeElementType('h3');
+    });
+    $('h3.appendix').each(function(i, val) {
+      $(this).nextUntil($('h1, h2, h3')).addBack().appendTo($('.d-appendix'));
+    });
+  
+  
+    // inject headers into references and footnotes
+    var refs_header = $('<h3></h3>');
+    refs_header.text('References');
+    $('#refs').prepend(refs_header);
+  
+    var footnotes_header = $('<h3></h3');
+    footnotes_header.text('Footnotes');
+    $('.footnotes').children('hr').first().replaceWith(footnotes_header);
+  
+    // move appendix-bottom entries to the bottom
+    $('.appendix-bottom').appendTo('.d-appendix').children().unwrap();
+    $('.appendix-bottom').remove();
+  
+    // remove appendix if it's empty
+    if ($('.d-appendix').children().length === 0)
+      $('.d-appendix').remove();
+  
+    // prepend separator above appendix
+    $('.d-appendix').before($('<hr class="section-separator" style="clear: both"/>'));
+  
+    // trim code
+    $('pre>code').each(function(i, val) {
+      $(this).html($.trim($(this).html()));
+    });
+  
+    // move posts-container right before article
+    $('.posts-container').insertBefore($('.d-article'));
+  
+    $('body').addClass('downlevel');
+  
+    on_load_complete();
+  }
+  
+  
+  function init_common() {
+  
+    // jquery plugin to change element types
+    (function($) {
+      $.fn.changeElementType = function(newType) {
+        var attrs = {};
+  
+        $.each(this[0].attributes, function(idx, attr) {
+          attrs[attr.nodeName] = attr.nodeValue;
+        });
+  
+        this.replaceWith(function() {
+          return $("<" + newType + "/>", attrs).append($(this).contents());
+        });
+      };
+    })(jQuery);
+  
+    // prevent underline for linked images
+    $('a > img').parent().css({'border-bottom' : 'none'});
+  
+    // mark non-body figures created by knitr chunks as 100% width
+    $('.layout-chunk').each(function(i, val) {
+      var figures = $(this).find('img, .html-widget');
+      if ($(this).attr('data-layout') !== "l-body") {
+        figures.css('width', '100%');
+      } else {
+        figures.css('max-width', '100%');
+        figures.filter("[width]").each(function(i, val) {
+          var fig = $(this);
+          fig.css('width', fig.attr('width') + 'px');
+        });
+  
+      }
+    });
+  
+    // auto-append index.html to post-preview links in file: protocol
+    // and in rstudio ide preview
+    $('.post-preview').each(function(i, val) {
+      if (window.location.protocol === "file:")
+        $(this).attr('href', $(this).attr('href') + "index.html");
+    });
+  
+    // get rid of index.html references in header
+    if (window.location.protocol !== "file:") {
+      $('.distill-site-header a[href]').each(function(i,val) {
+        $(this).attr('href', $(this).attr('href').replace("index.html", "./"));
+      });
+    }
+  
+    // add class to pandoc style tables
+    $('tr.header').parent('thead').parent('table').addClass('pandoc-table');
+    $('.kable-table').children('table').addClass('pandoc-table');
+  
+    // add figcaption style to table captions
+    $('caption').parent('table').addClass("figcaption");
+  
+    // initialize posts list
+    if (window.init_posts_list)
+      window.init_posts_list();
+  
+    // implmement disqus comment link
+    $('.disqus-comment-count').click(function() {
+      window.headroom_prevent_pin = true;
+      $('#disqus_thread').toggleClass('hidden');
+      if (!$('#disqus_thread').hasClass('hidden')) {
+        var offset = $(this).offset();
+        $(window).resize();
+        $('html, body').animate({
+          scrollTop: offset.top - 35
+        });
+      }
+    });
+  }
+  
+  document.addEventListener('DOMContentLoaded', function() {
+    if (is_downlevel_browser())
+      init_downlevel();
+    else
+      window.addEventListener('WebComponentsReady', init_distill);
+  });
+  
+  </script>
+  
+  <!--/radix_placeholder_distill-->
+  <script src="intro-modelos-r_files/jquery-1.11.3/jquery.min.js"></script>
+  <script src="intro-modelos-r_files/bowser-1.9.3/bowser.min.js"></script>
+  <script src="intro-modelos-r_files/webcomponents-2.0.0/webcomponents.js"></script>
+  <script src="intro-modelos-r_files/distill-2.2.21/template.v2.js"></script>
+  <!--radix_placeholder_site_in_header-->
+  <!--/radix_placeholder_site_in_header-->
+
+
+</head>
+
+<body>
+
+<!--radix_placeholder_front_matter-->
+
+<script id="distill-front-matter" type="text/json">
+{"title":"Introdução a Modelos no R","description":"Neste post, vamos introduzir alguns conceitos para começar a trabalhar com modelos no R. Abordaremos o modelo linear de regressão utilizando a função `lm()`. Aprender a estrutura básica de modelos a partir do modelo linear será bastante útil para entender e utilizar outros modelos mais complexos.","authors":[],"publishedDate":"2016-07-10T00:00:00.000-03:00"}
+</script>
+
+<!--/radix_placeholder_front_matter-->
+<!--radix_placeholder_navigation_before_body-->
+<!--/radix_placeholder_navigation_before_body-->
+<!--radix_placeholder_site_before_body-->
+<!--/radix_placeholder_site_before_body-->
+
+<div class="d-title">
+<h1>Introdução a Modelos no R</h1>
+<p>Neste post, vamos introduzir alguns conceitos para começar a trabalhar com modelos no R. Abordaremos o modelo linear de regressão utilizando a função <code>lm()</code>. Aprender a estrutura básica de modelos a partir do modelo linear será bastante útil para entender e utilizar outros modelos mais complexos.</p>
+</div>
+
+
+<div class="d-article">
+<!-- More -->
+<h2 id="o-que-sao-modelos">O que são modelos?</h2>
+<p>Se você já tem uma noção do que é modelagem matemática, pule para o próximo tópico <strong>Dados</strong>.</p>
+<p>Modelos são representações da realidade. São usados nas ciências sociais e exatas na tentativa de estudar e entender como o mundo funciona.</p>
+<p>Um modelo matemático é uma representação, em linguagem matemática, do comportamento de algo. Por se tratar de representações, obviamente modelos matemáticos são bem mais simples do que a realidade, mas isso não significa dizer que um bom modelo não sirva para descrever e entender determinados aspectos e comportamentos reais.</p>
+<p>Modelo de regressão linear talvez seja uma das formas mais simples de modelagem estatística. É uma abordagem que tenta representar a relação entre variáveis, uma chamada variável dependente (y), e uma ou mais denominadas de variáveis explicativas (<strong>x</strong>). Adicionalmente, o modelo também inclui um termo aleatório, o que o torna um modelo estatístico.</p>
+<p>Usa-se o termo “regressão” pois o modelo tenta descrever o comportamento de y em relação a x em situações desconhecidas tomando como base situações conhecidas, ou seja, o modelo calcula um fator de forma que se você conhece o(s) valor(es) de x, consegue estimar o valor de y. O termo linear deve-se ao fato de como os parâmetros e o termo aleatório entram na equação estimada. A relação linear deve existir entre <span class="math inline">\(y\)</span> e <span class="math inline">\(x\)</span> ou entre <span class="math inline">\(y\)</span> e alguma função de <span class="math inline">\(x\)</span>. Ou seja, se o modelo a ser estimado é <span class="math display">\[ y_i = \alpha + \beta\ln(x_i) + e_i\]</span>, fica evidente que o efeito de <span class="math inline">\(x\)</span> em <span class="math inline">\(y\)</span> não é linear, mas o efeito de <span class="math inline">\(\ln(x)\)</span>, sim.</p>
+<p>Também é importante notar que, como todo modelo, o modelo de regressão linear tem uma série de hipóteses, e as inferências em relação aos parâmetros são realizadas sob essas hipóteses. Se elas são violadas de alguma maneira, a inferência que está sendo realizada pode estar errada.</p>
+<p>Feita essa pequena introdução sobre modelos, iremos para a parte prática de como estimar o modelo linear usando o R.</p>
+<h2 id="dados">Dados</h2>
+<p>Primeiramente, precisaremos de uma base de dados para exemplificar como podemos usar um modelo no R. Vamos utilizar a base de dados <code>Carseats</code> que está disponível no pacote <code>ISLR</code>, que é um pacote complementar ao livro <a href="http://www-bcf.usc.edu/~gareth/ISL/getbook.html">Introduction to Statistical Learning with Applications in R</a>. Trata-se de um conjunto de dados simulados de vendas de cadeirinhas de carros para crianças. A tabela abaixo lista as variáveis presente nessa base de dados:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+library(ISLR) # Instale o pacote se necessário install.packages(&quot;ISLR&quot;)
+data(&quot;Carseats&quot;)</code></pre>
+</div>
+<table>
+<colgroup>
+<col style="width: 54%" />
+<col style="width: 45%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Nome</th>
+<th style="text-align: left;">Descrição</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Sales</td>
+<td style="text-align: left;">Milhares de unidades vendidas em cada local</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">CompPrice</td>
+<td style="text-align: left;">Preço cobrado pelo competidor em cada local</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Income</td>
+<td style="text-align: left;">Nível de renda local (milhares de dólares)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Advertising</td>
+<td style="text-align: left;">Orçamento disponível para publicidade em cada local (milhares de dólares)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Population</td>
+<td style="text-align: left;">Tamanho da população regional (mil)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Price</td>
+<td style="text-align: left;">Preço da empresa em cada local</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ShelveLoc</td>
+<td style="text-align: left;">Fator com três níveis: ruim, bom e médio. Indica a qualidade do local da prateleira para as cadeiras de carro em cada loja</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Age</td>
+<td style="text-align: left;">Idade média da população local</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Education</td>
+<td style="text-align: left;">Nível educacional de cada local</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Urban</td>
+<td style="text-align: left;">Fator com dois níveis: sim e não. Indica se a loja está localizada em um área urbana ou rural</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">US</td>
+<td style="text-align: left;">Fator com dois níveis: sim e não. Indica se a loja está localizada nos Estados Unidos ou não</td>
+</tr>
+</tbody>
+</table>
+<p>Para termos uma ideia da “cara” dos dados, vamos olhar as primeiras linhas usando o <code>head()</code>.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+head(Carseats)</code></pre>
+<pre><code>
+  Sales CompPrice Income Advertising Population Price ShelveLoc Age
+1  9.50       138     73          11        276   120       Bad  42
+2 11.22       111     48          16        260    83      Good  65
+3 10.06       113     35          10        269    80    Medium  59
+4  7.40       117    100           4        466    97    Medium  55
+5  4.15       141     64           3        340   128       Bad  38
+6 10.81       124    113          13        501    72       Bad  78
+  Education Urban  US
+1        17   Yes Yes
+2        10   Yes Yes
+3        12   Yes Yes
+4        14   Yes Yes
+5        13   Yes  No
+6        16    No Yes</code></pre>
+</div>
+<p>Essa base dados é interessante, pois possui variáveis quantitativas e qualitativas/categóricas. Se você quiser ver algumas estatísticas sobre cada coluna dos seus dados, pode-se usar o <code>summary()</code>.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+summary(Carseats)</code></pre>
+<pre><code>
+     Sales          CompPrice       Income        Advertising    
+ Min.   : 0.000   Min.   : 77   Min.   : 21.00   Min.   : 0.000  
+ 1st Qu.: 5.390   1st Qu.:115   1st Qu.: 42.75   1st Qu.: 0.000  
+ Median : 7.490   Median :125   Median : 69.00   Median : 5.000  
+ Mean   : 7.496   Mean   :125   Mean   : 68.66   Mean   : 6.635  
+ 3rd Qu.: 9.320   3rd Qu.:135   3rd Qu.: 91.00   3rd Qu.:12.000  
+ Max.   :16.270   Max.   :175   Max.   :120.00   Max.   :29.000  
+   Population        Price        ShelveLoc        Age       
+ Min.   : 10.0   Min.   : 24.0   Bad   : 96   Min.   :25.00  
+ 1st Qu.:139.0   1st Qu.:100.0   Good  : 85   1st Qu.:39.75  
+ Median :272.0   Median :117.0   Medium:219   Median :54.50  
+ Mean   :264.8   Mean   :115.8                Mean   :53.32  
+ 3rd Qu.:398.5   3rd Qu.:131.0                3rd Qu.:66.00  
+ Max.   :509.0   Max.   :191.0                Max.   :80.00  
+   Education    Urban       US     
+ Min.   :10.0   No :118   No :142  
+ 1st Qu.:12.0   Yes:282   Yes:258  
+ Median :14.0                      
+ Mean   :13.9                      
+ 3rd Qu.:16.0                      
+ Max.   :18.0                      </code></pre>
+</div>
+<h2 id="modelo-linear">Modelo Linear</h2>
+<p>Usar o modelo de regressão linear no R é bastante simples. Vamos estimar um modelo linear (função <code>lm()</code>) em que a variável dependente (y) é a variável de vendas, <em>Sales</em>, e utilizaremos duas variáveis independentes (<em>features</em>), <em>Price</em> e <em>CompPrice</em>.</p>
+<p>A função <code>lm()</code> utiliza a estrutura de fórmula para definição do modelo. Essa estrutura é uma organização muito comum em diversas funções de modelo no R. A estrutura de fórmula separa a variável dependente das demais variáveis explicativas pelo símbolo <code>~</code>. À esquerda de <code>~</code> fica a variável dependente que você deseja estimar, e à direita as demais variáveis explicativas.</p>
+<p>No parâmetro <code>data</code>, é informado o conjunto de dados que contém as variáveis que estão listadas na fórmula. Essa função possui outros parâmetros opcionais que estão listados no <em>help</em> (<code>?lm</code>).</p>
+<p>Apesar de comum, é importante ressaltar que a estrutura de fórmula não é utilizada em todos os modelos no R. Em alguns casos, o modelo pode ser definido por dois parâmetros, <code>x</code> e <code>y</code>, que recebem os valores das variáveis independentes e dependente, respectivamente. Eventualmente, iremos trabalhar com algum modelo que está estruturado dessa forma. Podem existir outras formas de estruturação de um modelo no R, mas são mais raras.</p>
+<p>Como dito, usar o modelo linear em R é muito simples:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+fit &lt;- lm(Sales ~ Price + CompPrice, data = Carseats)
+fit</code></pre>
+<pre><code>
+Call:
+lm(formula = Sales ~ Price + CompPrice, data = Carseats)
+
+Coefficients:
+(Intercept)        Price    CompPrice  
+    6.27869     -0.08746      0.09078  </code></pre>
+</div>
+<p>Bem, como quase tudo no R, não existe uma única forma de executar essa função. Você poderia estimar o modelo direto sem informar o parâmetro <code>data</code>:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+fit &lt;- lm(Carseats$Sales ~ Carseats$Price + Carseats$CompPrice)
+fit</code></pre>
+<pre><code>
+Call:
+lm(formula = Carseats$Sales ~ Carseats$Price + Carseats$CompPrice)
+
+Coefficients:
+       (Intercept)      Carseats$Price  Carseats$CompPrice  
+           6.27869            -0.08746             0.09078  </code></pre>
+</div>
+<p>Percebeu que o resultado foi igual? Além disso, considerando que as vendas estão controladas só por esses dois fatores, você vê que as vendas são negativamente afetadas pelo próprio preço e positivamente afetas pelo preço do competidor. Porém, não estamos vendo os desvios-padrão para fazer a análise mais correta. Como fazer pra ver mais detalhes. Novamente, usaremos o <code>summary()</code>.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+fit &lt;- lm(Sales ~ Price + CompPrice, data = Carseats)
+summary(fit)</code></pre>
+<pre><code>
+Call:
+lm(formula = Sales ~ Price + CompPrice, data = Carseats)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-5.5285 -1.6207 -0.2404  1.5269  6.2437 
+
+Coefficients:
+             Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)  6.278692   0.932774   6.731 5.91e-11 ***
+Price       -0.087458   0.005914 -14.788  &lt; 2e-16 ***
+CompPrice    0.090777   0.009132   9.941  &lt; 2e-16 ***
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+
+Residual standard error: 2.269 on 397 degrees of freedom
+Multiple R-squared:  0.3578,    Adjusted R-squared:  0.3546 
+F-statistic: 110.6 on 2 and 397 DF,  p-value: &lt; 2.2e-16</code></pre>
+</div>
+<p>Se você tiver que usar todas as variáveis e sua base dados possuir um grande número de colunas (variáveis), não é necessário explicitá-las uma a uma. Basta utilizar <code>.</code>.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+fit &lt;- lm(Sales ~ ., data = Carseats)
+summary(fit)</code></pre>
+<pre><code>
+Call:
+lm(formula = Sales ~ ., data = Carseats)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-2.8692 -0.6908  0.0211  0.6636  3.4115 
+
+Coefficients:
+                  Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)      5.6606231  0.6034487   9.380  &lt; 2e-16 ***
+CompPrice        0.0928153  0.0041477  22.378  &lt; 2e-16 ***
+Income           0.0158028  0.0018451   8.565 2.58e-16 ***
+Advertising      0.1230951  0.0111237  11.066  &lt; 2e-16 ***
+Population       0.0002079  0.0003705   0.561    0.575    
+Price           -0.0953579  0.0026711 -35.700  &lt; 2e-16 ***
+ShelveLocGood    4.8501827  0.1531100  31.678  &lt; 2e-16 ***
+ShelveLocMedium  1.9567148  0.1261056  15.516  &lt; 2e-16 ***
+Age             -0.0460452  0.0031817 -14.472  &lt; 2e-16 ***
+Education       -0.0211018  0.0197205  -1.070    0.285    
+UrbanYes         0.1228864  0.1129761   1.088    0.277    
+USYes           -0.1840928  0.1498423  -1.229    0.220    
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+
+Residual standard error: 1.019 on 388 degrees of freedom
+Multiple R-squared:  0.8734,    Adjusted R-squared:  0.8698 
+F-statistic: 243.4 on 11 and 388 DF,  p-value: &lt; 2.2e-16</code></pre>
+</div>
+<p>E se você quiser excluir alguma variável da análise? Da mesma forma que você utiliza o <code>+</code> pra adicionar variáveis, o <code>-</code> pode ser utilizado pra excluí-las.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+fit &lt;- lm(Sales ~ . - Urban, data = Carseats)
+summary(fit)</code></pre>
+<pre><code>
+Call:
+lm(formula = Sales ~ . - Urban, data = Carseats)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-2.8498 -0.6992  0.0300  0.6436  3.4616 
+
+Coefficients:
+                  Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)      5.7267269  0.6005220   9.536   &lt;2e-16 ***
+CompPrice        0.0930440  0.0041433  22.457   &lt;2e-16 ***
+Income           0.0158656  0.0018447   8.601   &lt;2e-16 ***
+Advertising      0.1235923  0.0111169  11.118   &lt;2e-16 ***
+Population       0.0001822  0.0003698   0.493    0.622    
+Price           -0.0953182  0.0026715 -35.680   &lt;2e-16 ***
+ShelveLocGood    4.8365318  0.1526307  31.688   &lt;2e-16 ***
+ShelveLocMedium  1.9458754  0.1257409  15.475   &lt;2e-16 ***
+Age             -0.0459156  0.0031802 -14.438   &lt;2e-16 ***
+Education       -0.0219546  0.0197095  -1.114    0.266    
+USYes           -0.1836133  0.1498769  -1.225    0.221    
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+
+Residual standard error: 1.019 on 389 degrees of freedom
+Multiple R-squared:  0.873, Adjusted R-squared:  0.8698 
+F-statistic: 267.5 on 10 and 389 DF,  p-value: &lt; 2.2e-16</code></pre>
+</div>
+<h2 id="acessando-os-resultados">Acessando os resultados</h2>
+<p>O objeto <code>fit</code> que foi criado a partir da função <code>lm()</code> carrega consigo uma série de resultados que podem ser recuperados a qualquer momento. Se você quiser acessar os resíduos, existem duas formas:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+# vamos mostrar apenas os 10 primeiros
+fit$residuals[1:10]</code></pre>
+<pre><code>
+         1          2          3          4          5          6 
+ 2.2886707 -1.1584731  0.8147224 -1.0624075 -1.9131450  1.0342126 
+         7          8          9         10 
+ 0.4669361  0.3339878  0.3492739 -1.2152188 </code></pre>
+<pre class="r"><code>
+residuals(fit)[1:10]</code></pre>
+<pre><code>
+         1          2          3          4          5          6 
+ 2.2886707 -1.1584731  0.8147224 -1.0624075 -1.9131450  1.0342126 
+         7          8          9         10 
+ 0.4669361  0.3339878  0.3492739 -1.2152188 </code></pre>
+</div>
+<p>Para acessar os valores previstos (com dados utilizados na estimação), também existem duas formas:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+# vamos mostrar apenas os 10 primeiros
+fit$fitted.values[1:10]</code></pre>
+<pre><code>
+        1         2         3         4         5         6         7 
+ 7.211329 12.378473  9.245278  8.462407  6.063145  9.775787  6.163064 
+        8         9        10 
+11.516012  6.190726  5.905219 </code></pre>
+<pre class="r"><code>
+fitted(fit)[1:10]</code></pre>
+<pre><code>
+        1         2         3         4         5         6         7 
+ 7.211329 12.378473  9.245278  8.462407  6.063145  9.775787  6.163064 
+        8         9        10 
+11.516012  6.190726  5.905219 </code></pre>
+</div>
+<p>O mesmo vale para acessar os coeficientes estimados.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+coef(fit)</code></pre>
+<pre><code>
+    (Intercept)       CompPrice          Income     Advertising 
+   5.7267268794    0.0930440486    0.0158655664    0.1235923300 
+     Population           Price   ShelveLocGood ShelveLocMedium 
+   0.0001822397   -0.0953181549    4.8365318149    1.9458754343 
+            Age       Education           USYes 
+  -0.0459156254   -0.0219546072   -0.1836132570 </code></pre>
+<pre class="r"><code>
+fit$coefficients</code></pre>
+<pre><code>
+    (Intercept)       CompPrice          Income     Advertising 
+   5.7267268794    0.0930440486    0.0158655664    0.1235923300 
+     Population           Price   ShelveLocGood ShelveLocMedium 
+   0.0001822397   -0.0953181549    4.8365318149    1.9458754343 
+            Age       Education           USYes 
+  -0.0459156254   -0.0219546072   -0.1836132570 </code></pre>
+</div>
+<p>Para verificar tudo que está disponível no objeto <code>fit</code>, podemos listar seus nomes usando a função <code>names()</code>. O objeto <code>fit</code> é uma lista na verdade em que são alocados vários objetos de diversos tipos diferentes.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+names(fit)</code></pre>
+<pre><code>
+ [1] &quot;coefficients&quot;  &quot;residuals&quot;     &quot;effects&quot;       &quot;rank&quot;         
+ [5] &quot;fitted.values&quot; &quot;assign&quot;        &quot;qr&quot;            &quot;df.residual&quot;  
+ [9] &quot;contrasts&quot;     &quot;xlevels&quot;       &quot;call&quot;          &quot;terms&quot;        
+[13] &quot;model&quot;        </code></pre>
+</div>
+<p>Outro ponto importante é sobre o <code>summary()</code> aplicado ao <code>fit</code>. Como você notou, ele apresenta os resultados de uma maneira diferente. Para acessar os resultados do <code>summary(fit)</code>, podemos fazer o seguinte:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+summary.fit &lt;- summary(fit)
+names(summary.fit)</code></pre>
+<pre><code>
+ [1] &quot;call&quot;          &quot;terms&quot;         &quot;residuals&quot;     &quot;coefficients&quot; 
+ [5] &quot;aliased&quot;       &quot;sigma&quot;         &quot;df&quot;            &quot;r.squared&quot;    
+ [9] &quot;adj.r.squared&quot; &quot;fstatistic&quot;    &quot;cov.unscaled&quot; </code></pre>
+<pre class="r"><code>
+summary.fit$coefficients</code></pre>
+<pre><code>
+                     Estimate   Std. Error     t value      Pr(&gt;|t|)
+(Intercept)      5.7267268794 0.6005219791   9.5362486  1.650454e-19
+CompPrice        0.0930440486 0.0041432948  22.4565357  3.210578e-72
+Income           0.0158655664 0.0018446501   8.6008540  1.965977e-16
+Advertising      0.1235923300 0.0111169041  11.1175134  4.032236e-25
+Population       0.0001822397 0.0003697923   0.4928164  6.224204e-01
+Price           -0.0953181549 0.0026714558 -35.6802286 9.833525e-125
+ShelveLocGood    4.8365318149 0.1526306709  31.6878107 8.259393e-110
+ShelveLocMedium  1.9458754343 0.1257408746  15.4752815  1.955843e-42
+Age             -0.0459156254 0.0031802330 -14.4378181  3.870315e-38
+Education       -0.0219546072 0.0197095406  -1.1139076  2.660066e-01
+USYes           -0.1836132570 0.1498769114  -1.2250937  2.212812e-01</code></pre>
+<pre class="r"><code>
+summary.fit$adj.r.squared</code></pre>
+<pre><code>
+[1] 0.8697633</code></pre>
+</div>
+<h2 id="variaveis-categoricas">Variáveis Categóricas</h2>
+<p>Se você prestou atenção, você percebeu que o R tratou automaticamente as variáveis categóricas, escolhendo um nível como base e estimando um parâmetro para os demais níveis. O efeito seria o mesmo de você modificar sua base para transformar cada nível em uma variável <em>dummy</em> (0 ou 1) e excluir um determinado nível no momento de estimação do modelo.</p>
+<p>O R automaticamente considera o primeiro nível como base. Veja que para a variável <em>ShelveLoc</em> o nível <em>Bad</em> foi escolhido como base. Para verificarmos se ele é realmente o primeiro nível, façamos o seguinte:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+levels(Carseats$ShelveLoc)</code></pre>
+<pre><code>
+[1] &quot;Bad&quot;    &quot;Good&quot;   &quot;Medium&quot;</code></pre>
+</div>
+<p>Para mudar o nível de referência, vamos utilizar a função <code>contrast()</code>. Basicamente, essa função irá criar os atributos que serão utilizados pela função <code>lm()</code> no momento de estimação do modelo. Por exemplo:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+contrasts(Carseats$ShelveLoc)</code></pre>
+<pre><code>
+       Good Medium
+Bad       0      0
+Good      1      0
+Medium    0      1</code></pre>
+</div>
+<p>Para alterar o nível de referência podemos a função <code>contr.treatment()</code>:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+contrasts(Carseats$ShelveLoc) &lt;- contr.treatment(n = levels(Carseats$ShelveLoc),
+                                                 base = 2)
+contrasts(Carseats$ShelveLoc)</code></pre>
+<pre><code>
+       Bad Medium
+Bad      1      0
+Good     0      0
+Medium   0      1</code></pre>
+</div>
+<p>Informamos quais eram os níveis e dissemos que queremos que o segundo (<em>Good</em>) seja usado como referência.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+fit &lt;- lm(Sales ~ ., data = Carseats)
+summary(fit)</code></pre>
+<pre><code>
+Call:
+lm(formula = Sales ~ ., data = Carseats)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-2.8692 -0.6908  0.0211  0.6636  3.4115 
+
+Coefficients:
+                  Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)     10.5108058  0.6039582  17.403  &lt; 2e-16 ***
+CompPrice        0.0928153  0.0041477  22.378  &lt; 2e-16 ***
+Income           0.0158028  0.0018451   8.565 2.58e-16 ***
+Advertising      0.1230951  0.0111237  11.066  &lt; 2e-16 ***
+Population       0.0002079  0.0003705   0.561    0.575    
+Price           -0.0953579  0.0026711 -35.700  &lt; 2e-16 ***
+ShelveLocBad    -4.8501827  0.1531100 -31.678  &lt; 2e-16 ***
+ShelveLocMedium -2.8934679  0.1308928 -22.106  &lt; 2e-16 ***
+Age             -0.0460452  0.0031817 -14.472  &lt; 2e-16 ***
+Education       -0.0211018  0.0197205  -1.070    0.285    
+UrbanYes         0.1228864  0.1129761   1.088    0.277    
+USYes           -0.1840928  0.1498423  -1.229    0.220    
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+
+Residual standard error: 1.019 on 388 degrees of freedom
+Multiple R-squared:  0.8734,    Adjusted R-squared:  0.8698 
+F-statistic: 243.4 on 11 and 388 DF,  p-value: &lt; 2.2e-16</code></pre>
+</div>
+<p>Para retornar para estrutura de <em>contrast</em> padrão é preciso definir como <code>NULL</code> o atributo <code>contrasts</code> da variável <code>ShelveLoc</code>.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+attr(Carseats$ShelveLoc, &quot;contrasts&quot;) &lt;- NULL</code></pre>
+</div>
+<h2 id="interacoes-entre-variaveis">Interações entre variáveis</h2>
+<p>Para realizar interações entre variáveis, utiliza-se o símbolo <code>*</code>. Ou seja, se você quiser a interação entre as variáveis <code>V1</code> e <code>V2</code> no seu modelo basta incluir <code>V1 * V2</code> na fórmula do seu modelo.</p>
+<p>Voltando ao nosso exemplo, podemos fazer a interação entre as variáveis <code>Price</code> e <code>Urban</code> da seguinte forma:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+fit &lt;- lm(Sales ~ . + Price*Urban, data = Carseats)
+summary(fit)</code></pre>
+<pre><code>
+Call:
+lm(formula = Sales ~ . + Price * Urban, data = Carseats)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-2.8723 -0.7011  0.0298  0.6723  3.3937 
+
+Coefficients:
+                  Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)      5.5386942  0.7371346   7.514 4.02e-13 ***
+CompPrice        0.0928744  0.0041576  22.338  &lt; 2e-16 ***
+Income           0.0157950  0.0018475   8.549 2.91e-16 ***
+Advertising      0.1233524  0.0111724  11.041  &lt; 2e-16 ***
+Population       0.0002072  0.0003709   0.559    0.577    
+Price           -0.0943707  0.0043411 -21.739  &lt; 2e-16 ***
+ShelveLocGood    4.8492903  0.1533223  31.628  &lt; 2e-16 ***
+ShelveLocMedium  1.9557229  0.1263016  15.485  &lt; 2e-16 ***
+Age             -0.0461214  0.0031964 -14.429  &lt; 2e-16 ***
+Education       -0.0206165  0.0198153  -1.040    0.299    
+UrbanYes         0.2845509  0.5712614   0.498    0.619    
+USYes           -0.1855349  0.1501027  -1.236    0.217    
+Price:UrbanYes  -0.0014091  0.0048808  -0.289    0.773    
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+
+Residual standard error: 1.02 on 387 degrees of freedom
+Multiple R-squared:  0.8734,    Adjusted R-squared:  0.8695 
+F-statistic: 222.6 on 12 and 387 DF,  p-value: &lt; 2.2e-16</code></pre>
+</div>
+<p>Um detalhe importante é que esse tipo de interação não funciona quando o objetivo é elevar uma variável contínuo ao quadrado. Por exemplo: <code>Price * Price</code> ou <code>Price^2</code>. Para conseguir obter o resultado pretendido usamos o <code>I(.)</code>.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+fit &lt;- lm(Sales ~ . + I(Price^2), data = Carseats, x = TRUE)
+summary(fit)</code></pre>
+<pre><code>
+Call:
+lm(formula = Sales ~ . + I(Price^2), data = Carseats, x = TRUE)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-2.8593 -0.7138  0.0228  0.6729  3.3583 
+
+Coefficients:
+                  Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)      6.247e+00  9.648e-01   6.475 2.87e-10 ***
+CompPrice        9.296e-02  4.154e-03  22.379  &lt; 2e-16 ***
+Income           1.578e-02  1.846e-03   8.545 3.01e-16 ***
+Advertising      1.232e-01  1.113e-02  11.070  &lt; 2e-16 ***
+Population       2.133e-04  3.707e-04   0.575    0.565    
+Price           -1.060e-01  1.392e-02  -7.618 2.00e-13 ***
+ShelveLocGood    4.845e+00  1.533e-01  31.602  &lt; 2e-16 ***
+ShelveLocMedium  1.957e+00  1.262e-01  15.513  &lt; 2e-16 ***
+Age             -4.593e-02  3.187e-03 -14.412  &lt; 2e-16 ***
+Education       -2.296e-02  1.987e-02  -1.155    0.249    
+UrbanYes         1.196e-01  1.131e-01   1.057    0.291    
+USYes           -1.793e-01  1.500e-01  -1.195    0.233    
+I(Price^2)       4.638e-05  5.948e-05   0.780    0.436    
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+
+Residual standard error: 1.019 on 387 degrees of freedom
+Multiple R-squared:  0.8736,    Adjusted R-squared:  0.8697 
+F-statistic: 222.9 on 12 and 387 DF,  p-value: &lt; 2.2e-16</code></pre>
+</div>
+<h2 id="realizando-predicoes">Realizando predições</h2>
+<p>Concluindo essa primeira explanação sobre modelos no R, vamos falar sobre predições. No caso, da função <code>predict()</code>. Como o <code>summary()</code>, a função <code>predict()</code> é uma função genérica. Isto significa que ela se adapta ao objeto que está sendo passado para função. Isto é, ela não é exclusiva da função <code>lm()</code>, podendo ser utilizada com outros modelos.</p>
+<p>Vamos separar os dados em dois grupos, um para estimar o modelo e outro para realizar as predições. No desenvolvimento de modelos de aprendizado de máquina (<em>machine learning</em>) esses grupos são chamados, respectivamente, de grupo de treinamento e grupo de teste.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+# Número de observações
+N &lt;- nrow(Carseats) 
+# Fixar a seed para reproduzir os resultados
+set.seed(3943)
+# índices para separar dados de treinamento/teste
+idx &lt;- sample(1:N, round(0.8*N), replace = FALSE)
+# Base de dados de treinamento 
+Carseats.train &lt;- Carseats[idx,]
+# Base de dados de teste
+# As linhas que estão listadas no objeto idx são excluídas
+Carseats.test &lt;- Carseats[-idx,]
+# Estima o modelo
+fit &lt;- lm(Sales ~ ., data = Carseats.train)
+# Predição a partir do modelo estimado
+pred &lt;- predict(object = fit, newdata = Carseats.test)
+head(pred)</code></pre>
+<pre><code>
+        3         7        14        15        22        25 
+ 9.229138  6.157952 11.786486  9.517201 11.078857 10.037942 </code></pre>
+</div>
+<p>Um fato importante sobre o argumento <code>newdata</code> é que é necessário que ele possua todas as variáveis que estão no modelo original. Se mais variáveis forem providas, elas serão desconsideradas pela função.</p>
+<h2 id="diagnosticos">Diagnósticos</h2>
+<p>Após a estimação do modelo, é comum verificar se algumas hipóteses realmente são válidas. Uma maneira informal de se fazer isso é checar alguns gráficos. O R fornece uma série de diagnósticos ao passar o objeto que contém o modelo estimado (<code>fit</code> no nosso caso) na função <code>plot()</code>.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+plot(fit)</code></pre>
+<p><img src="intro-modelos-r_files/figure-html5/unnamed-chunk-22-1.png" width="624" /><img src="intro-modelos-r_files/figure-html5/unnamed-chunk-22-2.png" width="624" /><img src="intro-modelos-r_files/figure-html5/unnamed-chunk-22-3.png" width="624" /><img src="intro-modelos-r_files/figure-html5/unnamed-chunk-22-4.png" width="624" /></p>
+</div>
+<p>A função retornará 4 gráficos que auxiliarão a análise sobre a violação de alguma hipótese. Testes formais também podem ser realizados, mas vamos nos restringir aqui a essa análise gráfica.</p>
+<p>O primeiro plot (canto superior esquerdo) tem o objetivo de identificar a possível existência de não-linearidade nos dados.</p>
+<p>O segundo gráfico tenta evidenciar se o resíduos são normalmente distribuídos. Se os valores se afastam da linha traçada, é sinal de não-normalidade dos resíduos.</p>
+<p>O terceiro plot (canto inferior esquerdo) dá um indicativo sobre a violação ou não da hipótese de homocedasticidade (variância constante do termo aleatório). Quanto mais horizontal for a linha vermelha, mais forte é a evidência de homocedasticidade.</p>
+<p>Por último, o quarto gráfico auxilia a identificação de pontos (valores extremos ou <em>outliers</em>) que influenciam consideravelmente a reta de regressão. Nem todo <em>outlier</em> afetará a reta, mas aqueles que alteram podem afetar consideravelmente o poder de generalização do modelo. Assim, pode ser necessário excluí-los do processo de estimação do modelo.</p>
+<p>No nosso caso, os limites calculados para identificação de outliers não aparecem no gráfico, indicando que não há valores extremos que estão influenciando a reta estimada. No entanto, caso esse limite apareça e algum ponto esteja além desse limite, há indicação de que aquele ponto pode estar exercendo influência sobre a reta.</p>
+<p>Para testes formais, dê uma olhada no pacote <code>lmtest</code>.</p>
+<h2 id="interpretando-os-resultados-e-consideracoes-finais">Interpretando os resultados e considerações finais</h2>
+<p>Nosso objetivo com esse post foi explicar o uso básico de modelos no R com a função <code>lm()</code>. Interpretar os resultados de um modelo envolvem alguns conceitos estatísticos que talvez mereçam posts específicos.</p>
+<p>Porém, para ajudar no entendimento e dar mais sentido à alguns detalhes do <code>summary()</code> usado para ver resultados de um modelo, segue alguns links com ótimas explicações de como entender e interpretar modelos.</p>
+<ul>
+<li><a href="http://www.theanalysisfactor.com/interpreting-regression-coefficients/">Interpreting Regression Coefficients</a></li>
+<li><a href="http://blog.yhat.com/posts/r-lm-summary.html">Interpreting Linear Models in R</a></li>
+<li><a href="https://rstudio-pubs-static.s3.amazonaws.com/119859_a290e183ff2f46b2858db66c3bc9ed3a.html">Interpreting Simple Linear Model Output in R</a></li>
+<li><a href="https://pt.wikipedia.org/wiki/Desvio_padr%C3%A3o">Desvio Padrão</a></li>
+<li><a href="https://pt.wikipedia.org/wiki/Valor-p">P-Valor</a></li>
+</ul>
+<p>A ideia até aqui é que tenha sido quebrada a primeira barreira e que você já consiga estimar o modelo de regressão linear no R.</p>
+<p>Provavelmente, você necessitará usar outros modelos nas suas análises, mas entender como funciona o modelo linear já é uma grande ajuda para estimação de diversos outros modelos.</p>
+<p>Como dito, esse é um assunto que merece diversos outros posts mais detalhados e específicos, e eles virão com o tempo. Até lá, deixe seu comentário com sugestões ou dúvidas para que possamos ajudar!</p>
+<h2 id="referencias">Referências</h2>
+<ul>
+<li><a href="http://data.princeton.edu/R/linearModels.html">Linear Models</a></li>
+<li><a href="http://www.statmethods.net/stats/regression.html">Multiple (Linear) Regression</a></li>
+<li><a href="http://www.montefiore.ulg.ac.be/~kvansteen/GBIO0009-1/ac20092010/Class8/Using%20R%20for%20linear%20regression.pdf">Using R for Linear Regression</a></li>
+<li><a href="http://www.statmethods.net/stats/rdiagnostics.html">Regression Diagnostics</a></li>
+</ul>
+<!--radix_placeholder_article_footer-->
+<!--/radix_placeholder_article_footer-->
+</div>
+
+<div class="d-appendix">
+</div>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+<!--radix_placeholder_site_after_body-->
+<!--/radix_placeholder_site_after_body-->
+<!--radix_placeholder_appendices-->
+<div class="appendix-bottom"></div>
+<!--/radix_placeholder_appendices-->
+<!--radix_placeholder_navigation_after_body-->
+<!--/radix_placeholder_navigation_after_body-->
+
+</body>
+
+</html>

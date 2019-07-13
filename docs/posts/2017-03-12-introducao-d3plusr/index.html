@@ -1,0 +1,1495 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"/>
+  <meta name="generator" content="distill" />
+
+  <style type="text/css">
+  /* Hide doc at startup (prevent jankiness while JS renders/transforms) */
+  body {
+    visibility: hidden;
+  }
+  </style>
+
+ <!--radix_placeholder_import_source-->
+ <!--/radix_placeholder_import_source-->
+
+  <!--radix_placeholder_meta_tags-->
+<title>Fulljoin: Introdução ao D3plusR</title>
+
+<meta property="description" itemprop="description" content="Visualização de dados é uma das principais tarefas de um analista de dados. A partir de visualizações, é possível explorar os dados e comunicar resultados de maneira mais efetiva. No R, além de visualizações estáticas, principalmente desenvolvidas com ggplot2 R, existem um conjunto de pacotes que são desenvolvidos utilizando o _framework_ fornecido pelo pacote `htmlwidgets`. A ideia é trazer o mundo de bibliotecas de visualizações de dados em javascript para o R."/>
+
+
+<!--  https://schema.org/Article -->
+<meta property="article:published" itemprop="datePublished" content="2017-03-12"/>
+<meta property="article:created" itemprop="dateCreated" content="2017-03-12"/>
+
+<!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
+<meta property="og:title" content="Fulljoin: Introdução ao D3plusR"/>
+<meta property="og:type" content="article"/>
+<meta property="og:description" content="Visualização de dados é uma das principais tarefas de um analista de dados. A partir de visualizações, é possível explorar os dados e comunicar resultados de maneira mais efetiva. No R, além de visualizações estáticas, principalmente desenvolvidas com ggplot2 R, existem um conjunto de pacotes que são desenvolvidos utilizando o _framework_ fornecido pelo pacote `htmlwidgets`. A ideia é trazer o mundo de bibliotecas de visualizações de dados em javascript para o R."/>
+<meta property="og:locale" content="en_US"/>
+<meta property="og:site_name" content="Fulljoin"/>
+
+<!--  https://dev.twitter.com/cards/types/summary -->
+<meta property="twitter:card" content="summary"/>
+<meta property="twitter:title" content="Fulljoin: Introdução ao D3plusR"/>
+<meta property="twitter:description" content="Visualização de dados é uma das principais tarefas de um analista de dados. A partir de visualizações, é possível explorar os dados e comunicar resultados de maneira mais efetiva. No R, além de visualizações estáticas, principalmente desenvolvidas com ggplot2 R, existem um conjunto de pacotes que são desenvolvidos utilizando o _framework_ fornecido pelo pacote `htmlwidgets`. A ideia é trazer o mundo de bibliotecas de visualizações de dados em javascript para o R."/>
+
+<!--/radix_placeholder_meta_tags-->
+  <!--radix_placeholder_rmarkdown_metadata-->
+
+<script type="text/json" id="radix-rmarkdown-metadata">
+{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["output","description","title","date"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]}]},{"type":"character","attributes":{},"value":["Visualização de dados é uma das principais tarefas de um analista de dados. A partir de visualizações, é possível explorar os dados e comunicar resultados de maneira mais efetiva. No R, além de visualizações estáticas, principalmente desenvolvidas com ggplot2 R, existem um conjunto de pacotes que são desenvolvidos utilizando o _framework_ fornecido pelo pacote `htmlwidgets`. A ideia é trazer o mundo de bibliotecas de visualizações de dados em javascript para o R."]},{"type":"character","attributes":{},"value":["Introdução ao D3plusR"]},{"type":"character","attributes":{},"value":["2017-03-12"]}]}
+</script>
+<!--/radix_placeholder_rmarkdown_metadata-->
+  
+  <script type="text/json" id="radix-resource-manifest">
+  {"type":"character","attributes":{},"value":["introducao-d3plusr_files/bowser-1.9.3/bowser.min.js","introducao-d3plusr_files/d3plus-1.9.6/d3-format.v1.min.js","introducao-d3plusr_files/d3plus-1.9.6/d3.min.js","introducao-d3plusr_files/d3plus-1.9.6/d3plus.min.js","introducao-d3plusr_files/d3plus-1.9.6/index.html","introducao-d3plusr_files/d3plus-1.9.6/LICENSE","introducao-d3plusr_files/d3plus-1.9.6/README.md","introducao-d3plusr_files/d3plus-1.9.6/topojson.js","introducao-d3plusr_files/d3plus-1.9.6/topojson.min.js","introducao-d3plusr_files/d3plus-binding-0.0.1/d3plus.js","introducao-d3plusr_files/distill-2.2.21/template.v2.js","introducao-d3plusr_files/htmlwidgets-1.3/htmlwidgets.js","introducao-d3plusr_files/jquery-3.2.1/jquery-3.2.1.min.js","introducao-d3plusr_files/jquery-3.2.1/jquery.3.1.1.slim.min.js","introducao-d3plusr_files/webcomponents-2.0.0/webcomponents.js"]}
+  </script>
+  <!--radix_placeholder_navigation_in_header-->
+
+<script type="application/javascript">
+
+  window.headroom_prevent_pin = false;
+
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+
+    // initialize headroom for banner
+    var header = $('header').get(0);
+    var headerHeight = header.offsetHeight;
+    var headroom = new Headroom(header, {
+      onPin : function() {
+        if (window.headroom_prevent_pin) {
+          window.headroom_prevent_pin = false;
+          headroom.unpin();
+        }
+      }
+    });
+    headroom.init();
+    if(window.location.hash)
+      headroom.unpin();
+    $(header).addClass('headroom--transition');
+
+    // offset scroll location for banner on hash change
+    // (see: https://github.com/WickyNilliams/headroom.js/issues/38)
+    window.addEventListener("hashchange", function(event) {
+      window.scrollTo(0, window.pageYOffset - (headerHeight + 25));
+    });
+
+    // responsive menu
+    $('.distill-site-header').each(function(i, val) {
+      var topnav = $(this);
+      var toggle = topnav.find('.nav-toggle');
+      toggle.on('click', function() {
+        topnav.toggleClass('responsive');
+      });
+    });
+
+    // nav dropdowns
+    $('.nav-dropbtn').click(function(e) {
+      $(this).next('.nav-dropdown-content').toggleClass('nav-dropdown-active');
+      $(this).parent().siblings('.nav-dropdown')
+         .children('.nav-dropdown-content').removeClass('nav-dropdown-active');
+    });
+    $("body").click(function(e){
+      $('.nav-dropdown-content').removeClass('nav-dropdown-active');
+    });
+    $(".nav-dropdown").click(function(e){
+      e.stopPropagation();
+    });
+  });
+</script>
+
+<style type="text/css">
+
+/* Theme (user-documented overrideables for nav appearance) */
+
+.distill-site-nav {
+  color: rgba(255, 255, 255, 0.8);
+  background-color: #455a64;
+  font-size: 15px;
+  font-weight: 300;
+}
+
+.distill-site-nav a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.distill-site-nav a:hover {
+  color: white;
+}
+
+@media print {
+  .distill-site-nav {
+    display: none;
+  }
+}
+
+.distill-site-header {
+
+}
+
+.distill-site-footer {
+
+}
+
+
+/* Site Header */
+
+.distill-site-header {
+  width: 100%;
+  box-sizing: border-box;
+  z-index: 3;
+}
+
+.distill-site-header .nav-left {
+  display: inline-block;
+  margin-left: 8px;
+}
+
+@media screen and (max-width: 768px) {
+  .distill-site-header .nav-left {
+    margin-left: 0;
+  }
+}
+
+
+.distill-site-header .nav-right {
+  float: right;
+  margin-right: 8px;
+}
+
+.distill-site-header a,
+.distill-site-header .title {
+  display: inline-block;
+  text-align: center;
+  padding: 14px 10px 14px 10px;
+}
+
+.distill-site-header .title {
+  font-size: 18px;
+}
+
+.distill-site-header .logo {
+  padding: 0;
+}
+
+.distill-site-header .logo img {
+  display: none;
+  max-height: 20px;
+  width: auto;
+  margin-bottom: -4px;
+}
+
+.distill-site-header .nav-image img {
+  max-height: 18px;
+  width: auto;
+  display: inline-block;
+  margin-bottom: -3px;
+}
+
+
+
+@media screen and (min-width: 1000px) {
+  .distill-site-header .logo img {
+    display: inline-block;
+  }
+  .distill-site-header .nav-left {
+    margin-left: 20px;
+  }
+  .distill-site-header .nav-right {
+    margin-right: 20px;
+  }
+  .distill-site-header .title {
+    padding-left: 12px;
+  }
+}
+
+
+.distill-site-header .nav-toggle {
+  display: none;
+}
+
+.nav-dropdown {
+  display: inline-block;
+  position: relative;
+}
+
+.nav-dropdown .nav-dropbtn {
+  border: none;
+  outline: none;
+  color: rgba(255, 255, 255, 0.8);
+  padding: 16px 10px;
+  background-color: transparent;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  margin: 0;
+  margin-top: 1px;
+  z-index: 2;
+}
+
+.nav-dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: white;
+  min-width: 200px;
+  border: 1px solid rgba(0,0,0,0.15);
+  border-radius: 4px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.1);
+  z-index: 1;
+  margin-top: 2px;
+  white-space: nowrap;
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+.nav-dropdown-content hr {
+  margin-top: 4px;
+  margin-bottom: 4px;
+  border: none;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.nav-dropdown-active {
+  display: block;
+}
+
+.nav-dropdown-content a, .nav-dropdown-content .nav-dropdown-header {
+  color: black;
+  padding: 6px 24px;
+  text-decoration: none;
+  display: block;
+  text-align: left;
+}
+
+.nav-dropdown-content .nav-dropdown-header {
+  display: block;
+  padding: 5px 24px;
+  padding-bottom: 0;
+  text-transform: uppercase;
+  font-size: 14px;
+  color: #999999;
+  white-space: nowrap;
+}
+
+.nav-dropdown:hover .nav-dropbtn {
+  color: white;
+}
+
+.nav-dropdown-content a:hover {
+  background-color: #ddd;
+  color: black;
+}
+
+.nav-right .nav-dropdown-content {
+  margin-left: -45%;
+  right: 0;
+}
+
+@media screen and (max-width: 768px) {
+  .distill-site-header a, .distill-site-header .nav-dropdown  {display: none;}
+  .distill-site-header a.nav-toggle {
+    float: right;
+    display: block;
+  }
+  .distill-site-header .title {
+    margin-left: 0;
+  }
+  .distill-site-header .nav-right {
+    margin-right: 0;
+  }
+  .distill-site-header {
+    overflow: hidden;
+  }
+  .nav-right .nav-dropdown-content {
+    margin-left: 0;
+  }
+}
+
+
+@media screen and (max-width: 768px) {
+  .distill-site-header.responsive {position: relative;}
+  .distill-site-header.responsive a.nav-toggle {
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+  .distill-site-header.responsive a,
+  .distill-site-header.responsive .nav-dropdown {
+    display: block;
+    text-align: left;
+  }
+  .distill-site-header.responsive .nav-left,
+  .distill-site-header.responsive .nav-right {
+    width: 100%;
+  }
+  .distill-site-header.responsive .nav-dropdown {float: none;}
+  .distill-site-header.responsive .nav-dropdown-content {position: relative;}
+  .distill-site-header.responsive .nav-dropdown .nav-dropbtn {
+    display: block;
+    width: 100%;
+    text-align: left;
+  }
+}
+
+/* Site Footer */
+
+.distill-site-footer {
+  width: 100%;
+  overflow: hidden;
+  box-sizing: border-box;
+  z-index: 3;
+  margin-top: 30px;
+  padding-top: 30px;
+  padding-bottom: 30px;
+  text-align: center;
+}
+
+/* Headroom */
+
+d-title {
+  padding-top: 6rem;
+}
+
+@media print {
+  d-title {
+    padding-top: 4rem;
+  }
+}
+
+.headroom {
+  z-index: 1000;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+
+.headroom--transition {
+  transition: all .4s ease-in-out;
+}
+
+.headroom--unpinned {
+  top: -100px;
+}
+
+.headroom--pinned {
+  top: 0;
+}
+
+</style>
+
+<link href="../../site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet"/>
+<link href="../../site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet"/>
+<script src="../../site_libs/headroom-0.9.4/headroom.min.js"></script>
+<!--/radix_placeholder_navigation_in_header-->
+  <!--radix_placeholder_distill-->
+
+<style type="text/css">
+
+body {
+  background-color: white;
+}
+
+.pandoc-table {
+  width: 100%;
+}
+
+.pandoc-table>caption {
+  margin-bottom: 10px;
+}
+
+.pandoc-table th:not([align]) {
+  text-align: left;
+}
+
+.pagedtable-footer {
+  font-size: 15px;
+}
+
+.html-widget {
+  margin-bottom: 2.0em;
+}
+
+.l-screen-inset {
+  padding-right: 16px;
+}
+
+.l-screen .caption {
+  margin-left: 10px;
+}
+
+.shaded {
+  background: rgb(247, 247, 247);
+  padding-top: 20px;
+  padding-bottom: 20px;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.shaded .html-widget {
+  margin-bottom: 0;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.shaded .shaded-content {
+  background: white;
+}
+
+.text-output {
+  margin-top: 0;
+  line-height: 1.5em;
+}
+
+.hidden {
+  display: none !important;
+}
+
+d-article {
+  padding-bottom: 30px;
+}
+
+d-appendix {
+  padding-top: 30px;
+}
+
+d-article>p>img {
+  width: 100%;
+}
+
+d-article iframe {
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  margin-bottom: 2.0em;
+  width: 100%;
+}
+
+figure img.external {
+  background: white;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+  padding: 18px;
+  box-sizing: border-box;
+}
+
+/* CSS for table of contents */
+
+.d-toc {
+  color: rgba(0,0,0,0.8);
+  font-size: 0.8em;
+  line-height: 1em;
+}
+
+.d-toc-header {
+  font-size: 0.6rem;
+  font-weight: 400;
+  color: rgba(0, 0, 0, 0.5);
+  text-transform: uppercase;
+  margin-top: 0;
+  margin-bottom: 1.3em;
+}
+
+.d-toc a {
+  border-bottom: none;
+}
+
+.d-toc ul {
+  padding-left: 0;
+}
+
+.d-toc li>ul {
+  padding-top: 0.8em;
+  padding-left: 16px;
+  margin-bottom: 0.6em;
+}
+
+.d-toc ul,
+.d-toc li {
+  list-style-type: none;
+}
+
+.d-toc li {
+  margin-bottom: 0.9em;
+}
+
+.d-toc-separator {
+  margin-top: 20px;
+  margin-bottom: 2em;
+}
+
+.d-article-with-toc {
+  border-top: none;
+  padding-top: 0;
+}
+
+
+
+/* Tweak code blocks (note that this CSS is repeated above in an injection
+   into the d-code shadow dom) */
+
+d-code {
+  overflow-x: auto !important;
+}
+
+pre.d-code code.d-code {
+  padding-left: 10px;
+  font-size: 12px;
+  border-left: 2px solid rgba(0,0,0,0.1);
+}
+
+pre.text-output {
+
+  font-size: 12px;
+  color: black;
+  background: none;
+  font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+  text-align: left;
+  white-space: pre;
+  word-spacing: normal;
+  word-break: normal;
+  word-wrap: normal;
+  line-height: 1.5;
+
+  -moz-tab-size: 4;
+  -o-tab-size: 4;
+  tab-size: 4;
+
+  -webkit-hyphens: none;
+  -moz-hyphens: none;
+  -ms-hyphens: none;
+  hyphens: none;
+}
+
+@media(min-width: 768px) {
+
+d-code {
+  overflow-x: visible !important;
+}
+
+pre.d-code code.d-code  {
+    padding-left: 18px;
+    font-size: 14px;
+}
+pre.text-output {
+  font-size: 14px;
+}
+}
+
+/* Figure */
+
+.figure {
+  position: relative;
+  margin-bottom: 2.5em;
+  margin-top: 1.5em;
+}
+
+.figure img {
+  width: 100%;
+}
+
+.figure .caption {
+  color: rgba(0, 0, 0, 0.6);
+  font-size: 12px;
+  line-height: 1.5em;
+}
+
+.figure img.external {
+  background: white;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+  padding: 18px;
+  box-sizing: border-box;
+}
+
+.figure .caption a {
+  color: rgba(0, 0, 0, 0.6);
+}
+
+.figure .caption b,
+.figure .caption strong, {
+  font-weight: 600;
+  color: rgba(0, 0, 0, 1.0);
+}
+
+
+
+/* Tweak 1000px media break to show more text */
+
+@media(min-width: 1000px) {
+  .base-grid,
+  distill-header,
+  d-title,
+  d-abstract,
+  d-article,
+  d-appendix,
+  distill-appendix,
+  d-byline,
+  d-footnote-list,
+  d-citation-list,
+  distill-footer {
+    grid-template-columns: [screen-start] 1fr [page-start kicker-start] 80px [middle-start] 50px [text-start kicker-end] 65px 65px 65px 65px 65px 65px 65px 65px [text-end gutter-start] 65px [middle-end] 65px [page-end gutter-end] 1fr [screen-end];
+    grid-column-gap: 16px;
+  }
+
+  .grid {
+    grid-column-gap: 16px;
+  }
+
+  d-article {
+    font-size: 1.06rem;
+    line-height: 1.7em;
+  }
+  figure .caption, .figure .caption, figure figcaption {
+    font-size: 13px;
+  }
+}
+
+@media(min-width: 1180px) {
+  .base-grid,
+  distill-header,
+  d-title,
+  d-abstract,
+  d-article,
+  d-appendix,
+  distill-appendix,
+  d-byline,
+  d-footnote-list,
+  d-citation-list,
+  distill-footer {
+    grid-template-columns: [screen-start] 1fr [page-start kicker-start] 60px [middle-start] 60px [text-start kicker-end] 60px 60px 60px 60px 60px 60px 60px 60px [text-end gutter-start] 60px [middle-end] 60px [page-end gutter-end] 1fr [screen-end];
+    grid-column-gap: 32px;
+  }
+
+  .grid {
+    grid-column-gap: 32px;
+  }
+}
+
+
+/* Get the citation styles for the appendix (not auto-injected on render since
+   we do our own rendering of the citation appendix) */
+
+d-appendix .citation-appendix,
+.d-appendix .citation-appendix {
+  font-size: 11px;
+  line-height: 15px;
+  border-left: 1px solid rgba(0, 0, 0, 0.1);
+  padding-left: 18px;
+  border: 1px solid rgba(0,0,0,0.1);
+  background: rgba(0, 0, 0, 0.02);
+  padding: 10px 18px;
+  border-radius: 3px;
+  color: rgba(150, 150, 150, 1);
+  overflow: hidden;
+  margin-top: -12px;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+
+/* Social footer */
+
+.social_footer {
+  margin-top: 30px;
+  margin-bottom: 0;
+  color: rgba(0,0,0,0.67);
+}
+
+.disqus-comments {
+  margin-right: 30px;
+}
+
+.disqus-comment-count {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+  cursor: pointer;
+}
+
+#disqus_thread {
+  margin-top: 30px;
+}
+
+.article-sharing a {
+  border-bottom: none;
+  margin-right: 8px;
+}
+
+.article-sharing a:hover {
+  border-bottom: none;
+}
+
+.sidebar-section.subscribe {
+  font-size: 12px;
+  line-height: 1.6em;
+}
+
+.subscribe p {
+  margin-bottom: 0.5em;
+}
+
+
+.article-footer .subscribe {
+  font-size: 15px;
+  margin-top: 45px;
+}
+
+
+/* Improve display for browsers without grid (IE/Edge <= 15) */
+
+.downlevel {
+  line-height: 1.6em;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
+  margin: 0;
+}
+
+.downlevel .d-title {
+  padding-top: 6rem;
+  padding-bottom: 1.5rem;
+}
+
+.downlevel .d-title h1 {
+  font-size: 50px;
+  font-weight: 700;
+  line-height: 1.1em;
+  margin: 0 0 0.5rem;
+}
+
+.downlevel .d-title p {
+  font-weight: 300;
+  font-size: 1.2rem;
+  line-height: 1.55em;
+  margin-top: 0;
+}
+
+.downlevel .d-byline {
+  padding-top: 0.8em;
+  padding-bottom: 0.8em;
+  font-size: 0.8rem;
+  line-height: 1.8em;
+}
+
+.downlevel .section-separator {
+  border: none;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.downlevel .d-article {
+  font-size: 1.06rem;
+  line-height: 1.7em;
+  padding-top: 1rem;
+  padding-bottom: 2rem;
+}
+
+
+.downlevel .d-appendix {
+  padding-left: 0;
+  padding-right: 0;
+  max-width: none;
+  font-size: 0.8em;
+  line-height: 1.7em;
+  margin-bottom: 0;
+  color: rgba(0,0,0,0.5);
+  padding-top: 40px;
+  padding-bottom: 48px;
+}
+
+.downlevel .footnotes ol {
+  padding-left: 13px;
+}
+
+.downlevel .base-grid,
+.downlevel .distill-header,
+.downlevel .d-title,
+.downlevel .d-abstract,
+.downlevel .d-article,
+.downlevel .d-appendix,
+.downlevel .distill-appendix,
+.downlevel .d-byline,
+.downlevel .d-footnote-list,
+.downlevel .d-citation-list,
+.downlevel .distill-footer,
+.downlevel .appendix-bottom,
+.downlevel .posts-container {
+  padding-left: 40px;
+  padding-right: 40px;
+}
+
+@media(min-width: 768px) {
+  .downlevel .base-grid,
+  .downlevel .distill-header,
+  .downlevel .d-title,
+  .downlevel .d-abstract,
+  .downlevel .d-article,
+  .downlevel .d-appendix,
+  .downlevel .distill-appendix,
+  .downlevel .d-byline,
+  .downlevel .d-footnote-list,
+  .downlevel .d-citation-list,
+  .downlevel .distill-footer,
+  .downlevel .appendix-bottom,
+  .downlevel .posts-container {
+  padding-left: 150px;
+  padding-right: 150px;
+  max-width: 900px;
+}
+}
+
+.downlevel pre code {
+  display: block;
+  border-left: 2px solid rgba(0, 0, 0, .1);
+  padding: 0 0 0 20px;
+  font-size: 14px;
+}
+
+.downlevel code, .downlevel pre {
+  color: black;
+  background: none;
+  font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+  text-align: left;
+  white-space: pre;
+  word-spacing: normal;
+  word-break: normal;
+  word-wrap: normal;
+  line-height: 1.5;
+
+  -moz-tab-size: 4;
+  -o-tab-size: 4;
+  tab-size: 4;
+
+  -webkit-hyphens: none;
+  -moz-hyphens: none;
+  -ms-hyphens: none;
+  hyphens: none;
+}
+
+</style>
+
+<script type="application/javascript">
+
+function is_downlevel_browser() {
+  if (bowser.isUnsupportedBrowser({ msie: "12", msedge: "16"},
+                                 window.navigator.userAgent)) {
+    return true;
+  } else {
+    return window.load_distill_framework === undefined;
+  }
+}
+
+// show body when load is complete
+function on_load_complete() {
+
+  // set body to visible
+  document.body.style.visibility = 'visible';
+
+  // force redraw for leaflet widgets
+  if (window.HTMLWidgets) {
+    var maps = window.HTMLWidgets.findAll(".leaflet");
+    $.each(maps, function(i, el) {
+      var map = this.getMap();
+      map.invalidateSize();
+      map.eachLayer(function(layer) {
+        if (layer instanceof L.TileLayer)
+          layer.redraw();
+      });
+    });
+  }
+
+  // trigger 'shown' so htmlwidgets resize
+  $('d-article').trigger('shown');
+}
+
+function init_distill() {
+
+  init_common();
+
+  // create front matter
+  var front_matter = $('<d-front-matter></d-front-matter>');
+  $('#distill-front-matter').wrap(front_matter);
+
+  // create d-title
+  $('.d-title').changeElementType('d-title');
+
+  // create d-byline
+  var byline = $('<d-byline></d-byline>');
+  $('.d-byline').replaceWith(byline);
+
+  // create d-article
+  var article = $('<d-article></d-article>');
+  $('.d-article').wrap(article).children().unwrap();
+
+  // move posts container into article
+  $('.posts-container').appendTo($('d-article'));
+
+  // create d-appendix
+  $('.d-appendix').changeElementType('d-appendix');
+
+  // create d-bibliography
+  var bibliography = $('<d-bibliography></d-bibliography>');
+  $('#distill-bibliography').wrap(bibliography);
+
+  // flag indicating that we have appendix items
+  var appendix = $('.appendix-bottom').children('h3').length > 0;
+
+  // replace citations with <d-cite>
+  $('.citation').each(function(i, val) {
+    appendix = true;
+    var cites = $(this).attr('data-cites').split(" ");
+    var dt_cite = $('<d-cite></d-cite>');
+    dt_cite.attr('key', cites.join());
+    $(this).replaceWith(dt_cite);
+  });
+  // remove refs
+  $('#refs').remove();
+
+  // replace footnotes with <d-footnote>
+  $('.footnote-ref').each(function(i, val) {
+    appendix = true;
+    var href = $(this).attr('href');
+    var id = href.replace('#', '');
+    var fn = $('#' + id);
+    var fn_p = $('#' + id + '>p');
+    fn_p.find('.footnote-back').remove();
+    var text = fn_p.html();
+    var dtfn = $('<d-footnote></d-footnote>');
+    dtfn.html(text);
+    $(this).replaceWith(dtfn);
+  });
+  // remove footnotes
+  $('.footnotes').remove();
+
+  $('h1.appendix, h2.appendix').each(function(i, val) {
+    $(this).changeElementType('h3');
+  });
+  $('h3.appendix').each(function(i, val) {
+    var id = $(this).attr('id');
+    $('.d-toc a[href="#' + id + '"]').parent().remove();
+    appendix = true;
+    $(this).nextUntil($('h1, h2, h3')).addBack().appendTo($('d-appendix'));
+  });
+
+  // show d-appendix if we have appendix content
+  $("d-appendix").css('display', appendix ? 'grid' : 'none');
+
+  // replace code blocks with d-code
+  $('pre>code').each(function(i, val) {
+    var code = $(this);
+    var pre = code.parent();
+    var clz = "";
+    var language = pre.attr('class');
+    if (language) {
+      // map unknown languages to "clike" (without this they just dissapear)
+      if ($.inArray(language, ["bash", "clike", "css", "go", "html",
+                               "javascript", "js", "julia", "lua", "markdown",
+                               "markup", "mathml", "python", "svg", "xml"]) == -1)
+        language = "clike";
+      language = ' language="' + language + '"';
+      var dt_code = $('<d-code block' + language + clz + '></d-code>');
+      dt_code.text(code.text());
+      pre.replaceWith(dt_code);
+    } else {
+      code.addClass('text-output').unwrap().changeElementType('pre');
+    }
+  });
+
+  // localize layout chunks to just output
+  $('.layout-chunk').each(function(i, val) {
+
+    // capture layout
+    var layout = $(this).attr('data-layout');
+
+    // apply layout to markdown level block elements
+    var elements = $(this).children().not('d-code, pre.text-output, script');
+    elements.each(function(i, el) {
+      var layout_div = $('<div class="' + layout + '"></div>');
+      if (layout_div.hasClass('shaded')) {
+        var shaded_content = $('<div class="shaded-content"></div>');
+        $(this).wrap(shaded_content);
+        $(this).parent().wrap(layout_div);
+      } else {
+        $(this).wrap(layout_div);
+      }
+    });
+
+
+    // unwrap the layout-chunk div
+    $(this).children().unwrap();
+  });
+
+  // load distill framework
+  load_distill_framework();
+
+  // wait for window.distillRunlevel == 4 to do post processing
+  function distill_post_process() {
+
+    if (!window.distillRunlevel || window.distillRunlevel < 4)
+      return;
+
+    // hide author/affiliations entirely if we have no authors
+    var front_matter = JSON.parse($("#distill-front-matter").html());
+    var have_authors = front_matter.authors && front_matter.authors.length > 0;
+    if (!have_authors)
+      $('d-byline').addClass('hidden');
+
+    // table of contents
+    if (have_authors) // adjust border if we are in authors
+      $('.d-toc').parent().addClass('d-article-with-toc');
+
+    // strip links that point to #
+    $('.authors-affiliations').find('a[href="#"]').removeAttr('href');
+
+    // hide elements of author/affiliations grid that have no value
+    function hide_byline_column(caption) {
+      $('d-byline').find('h3:contains("' + caption + '")').parent().css('visibility', 'hidden');
+    }
+
+    // affiliations
+    var have_affiliations = false;
+    for (var i = 0; i<front_matter.authors.length; ++i) {
+      var author = front_matter.authors[i];
+      if (author.affiliation !== "&nbsp;") {
+        have_affiliations = true;
+        break;
+      }
+    }
+    if (!have_affiliations)
+      $('d-byline').find('h3:contains("Affiliations")').css('visibility', 'hidden');
+
+    // published date
+    if (!front_matter.publishedDate)
+      hide_byline_column("Published");
+
+    // document object identifier
+    var doi = $('d-byline').find('h3:contains("DOI")');
+    var doi_p = doi.next().empty();
+    if (!front_matter.doi) {
+      // if we have a citation and valid citationText then link to that
+      if ($('#citation').length > 0 && front_matter.citationText) {
+        doi.html('Citation');
+        $('<a href="#citation"></a>')
+          .text(front_matter.citationText)
+          .appendTo(doi_p);
+      } else {
+        hide_byline_column("DOI");
+      }
+    } else {
+      $('<a></a>')
+         .attr('href', "https://doi.org/" + front_matter.doi)
+         .html(front_matter.doi)
+         .appendTo(doi_p);
+    }
+
+     // change plural form of authors/affiliations
+    if (front_matter.authors.length === 1) {
+      var grid = $('.authors-affiliations');
+      grid.children('h3:contains("Authors")').text('Author');
+      grid.children('h3:contains("Affiliations")').text('Affiliation');
+    }
+
+    // inject pre code styles (can't do this with a global stylesheet b/c a shadow root is used)
+    $('d-code').each(function(i, val) {
+      var style = document.createElement('style');
+      style.innerHTML = 'pre code { padding-left: 10px; font-size: 12px; border-left: 2px solid rgba(0,0,0,0.1); } ' +
+                        '@media(min-width: 768px) { pre code { padding-left: 18px; font-size: 14px; } }';
+      if (this.shadowRoot)
+        this.shadowRoot.appendChild(style);
+    });
+
+    // move appendix-bottom entries to the bottom
+    $('.appendix-bottom').appendTo('d-appendix').children().unwrap();
+    $('.appendix-bottom').remove();
+
+    // clear polling timer
+    clearInterval(tid);
+
+    // show body now that everything is ready
+    on_load_complete();
+  }
+
+  var tid = setInterval(distill_post_process, 50);
+  distill_post_process();
+
+}
+
+function init_downlevel() {
+
+  init_common();
+
+   // insert hr after d-title
+  $('.d-title').after($('<hr class="section-separator"/>'));
+
+  // check if we have authors
+  var front_matter = JSON.parse($("#distill-front-matter").html());
+  var have_authors = front_matter.authors && front_matter.authors.length > 0;
+
+  // manage byline/border
+  if (!have_authors)
+    $('.d-byline').remove();
+  $('.d-byline').after($('<hr class="section-separator"/>'));
+  $('.d-byline a').remove();
+
+  // remove toc
+  $('.d-toc-header').remove();
+  $('.d-toc').remove();
+  $('.d-toc-separator').remove();
+
+  // move appendix elements
+  $('h1.appendix, h2.appendix').each(function(i, val) {
+    $(this).changeElementType('h3');
+  });
+  $('h3.appendix').each(function(i, val) {
+    $(this).nextUntil($('h1, h2, h3')).addBack().appendTo($('.d-appendix'));
+  });
+
+
+  // inject headers into references and footnotes
+  var refs_header = $('<h3></h3>');
+  refs_header.text('References');
+  $('#refs').prepend(refs_header);
+
+  var footnotes_header = $('<h3></h3');
+  footnotes_header.text('Footnotes');
+  $('.footnotes').children('hr').first().replaceWith(footnotes_header);
+
+  // move appendix-bottom entries to the bottom
+  $('.appendix-bottom').appendTo('.d-appendix').children().unwrap();
+  $('.appendix-bottom').remove();
+
+  // remove appendix if it's empty
+  if ($('.d-appendix').children().length === 0)
+    $('.d-appendix').remove();
+
+  // prepend separator above appendix
+  $('.d-appendix').before($('<hr class="section-separator" style="clear: both"/>'));
+
+  // trim code
+  $('pre>code').each(function(i, val) {
+    $(this).html($.trim($(this).html()));
+  });
+
+  // move posts-container right before article
+  $('.posts-container').insertBefore($('.d-article'));
+
+  $('body').addClass('downlevel');
+
+  on_load_complete();
+}
+
+
+function init_common() {
+
+  // jquery plugin to change element types
+  (function($) {
+    $.fn.changeElementType = function(newType) {
+      var attrs = {};
+
+      $.each(this[0].attributes, function(idx, attr) {
+        attrs[attr.nodeName] = attr.nodeValue;
+      });
+
+      this.replaceWith(function() {
+        return $("<" + newType + "/>", attrs).append($(this).contents());
+      });
+    };
+  })(jQuery);
+
+  // prevent underline for linked images
+  $('a > img').parent().css({'border-bottom' : 'none'});
+
+  // mark non-body figures created by knitr chunks as 100% width
+  $('.layout-chunk').each(function(i, val) {
+    var figures = $(this).find('img, .html-widget');
+    if ($(this).attr('data-layout') !== "l-body") {
+      figures.css('width', '100%');
+    } else {
+      figures.css('max-width', '100%');
+      figures.filter("[width]").each(function(i, val) {
+        var fig = $(this);
+        fig.css('width', fig.attr('width') + 'px');
+      });
+
+    }
+  });
+
+  // auto-append index.html to post-preview links in file: protocol
+  // and in rstudio ide preview
+  $('.post-preview').each(function(i, val) {
+    if (window.location.protocol === "file:")
+      $(this).attr('href', $(this).attr('href') + "index.html");
+  });
+
+  // get rid of index.html references in header
+  if (window.location.protocol !== "file:") {
+    $('.distill-site-header a[href]').each(function(i,val) {
+      $(this).attr('href', $(this).attr('href').replace("index.html", "./"));
+    });
+  }
+
+  // add class to pandoc style tables
+  $('tr.header').parent('thead').parent('table').addClass('pandoc-table');
+  $('.kable-table').children('table').addClass('pandoc-table');
+
+  // add figcaption style to table captions
+  $('caption').parent('table').addClass("figcaption");
+
+  // initialize posts list
+  if (window.init_posts_list)
+    window.init_posts_list();
+
+  // implmement disqus comment link
+  $('.disqus-comment-count').click(function() {
+    window.headroom_prevent_pin = true;
+    $('#disqus_thread').toggleClass('hidden');
+    if (!$('#disqus_thread').hasClass('hidden')) {
+      var offset = $(this).offset();
+      $(window).resize();
+      $('html, body').animate({
+        scrollTop: offset.top - 35
+      });
+    }
+  });
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  if (is_downlevel_browser())
+    init_downlevel();
+  else
+    window.addEventListener('WebComponentsReady', init_distill);
+});
+
+</script>
+
+<!--/radix_placeholder_distill-->
+  <script src="../../site_libs/htmlwidgets-1.3/htmlwidgets.js"></script>
+  <script src="../../site_libs/jquery-3.2.1/jquery-3.2.1.min.js"></script>
+  <script src="../../site_libs/d3plus-1.9.6/d3.min.js"></script>
+  <script src="../../site_libs/d3plus-1.9.6/d3plus.min.js"></script>
+  <script src="../../site_libs/d3plus-1.9.6/topojson.js"></script>
+  <script src="../../site_libs/d3plus-binding-0.0.1/d3plus.js"></script>
+  <script src="../../site_libs/bowser-1.9.3/bowser.min.js"></script>
+  <script src="../../site_libs/webcomponents-2.0.0/webcomponents.js"></script>
+  <script src="../../site_libs/distill-2.2.21/template.v2.js"></script>
+  <!--radix_placeholder_site_in_header-->
+<!--/radix_placeholder_site_in_header-->
+
+
+</head>
+
+<body>
+
+<!--radix_placeholder_front_matter-->
+
+<script id="distill-front-matter" type="text/json">
+{"title":"Introdução ao D3plusR","description":"Visualização de dados é uma das principais tarefas de um analista de dados. A partir de visualizações, é possível explorar os dados e comunicar resultados de maneira mais efetiva. No R, além de visualizações estáticas, principalmente desenvolvidas com ggplot2 R, existem um conjunto de pacotes que são desenvolvidos utilizando o _framework_ fornecido pelo pacote `htmlwidgets`. A ideia é trazer o mundo de bibliotecas de visualizações de dados em javascript para o R.","authors":[],"publishedDate":"2017-03-12T00:00:00.000-03:00"}
+</script>
+
+<!--/radix_placeholder_front_matter-->
+<!--radix_placeholder_navigation_before_body-->
+<header class="header header--fixed" role="banner">
+<nav class="distill-site-nav distill-site-header">
+<div class="nav-left">
+<a href="../../index.html" class="title">Fulljoin</a>
+</div>
+<div class="nav-right">
+<a href="../../index.html">Home</a>
+<a href="../../about.html">About</a>
+<a href="javascript:void(0);" class="nav-toggle">&#9776;</a>
+</div>
+</nav>
+</header>
+<!--/radix_placeholder_navigation_before_body-->
+<!--radix_placeholder_site_before_body-->
+<!--/radix_placeholder_site_before_body-->
+
+<div class="d-title">
+<h1>Introdução ao D3plusR</h1>
+<p>Visualização de dados é uma das principais tarefas de um analista de dados. A partir de visualizações, é possível explorar os dados e comunicar resultados de maneira mais efetiva. No R, além de visualizações estáticas, principalmente desenvolvidas com ggplot2 R, existem um conjunto de pacotes que são desenvolvidos utilizando o <em>framework</em> fornecido pelo pacote <code>htmlwidgets</code>. A ideia é trazer o mundo de bibliotecas de visualizações de dados em javascript para o R.</p>
+</div>
+
+
+<div class="d-article">
+<!-- More -->
+<h2 id="htmlwidgets">Htmlwidgets</h2>
+<p>Como já mencionado, o <code>htmlwidgets</code> permite a criação de <em>widgets</em> que trazem a interatividade das visualizações em javascript para o R. A partir de pacotes criados com esse <em>framework</em> é possível visualizar os widgets no próprio RStudio, em documentos criados por RMarkdown ou em aplicações criadas em <a href="https://shiny.rstudio.com/">shiny</a>.</p>
+<p><a href="http://gallery.htmlwidgets.org/">Aqui</a> está uma galeria dos <em>widgets</em> disponíveis. Por sinal, já existe um <a href="https://github.com/jpmarindiaz/d3plus">pacote em desenvolvimento</a> para trazer o d3plus para dentro do R. A nossa opção em desenvolver um outro pacote deve-se à nossa expectativa de que <strong>talvez</strong> a estrutura que resolvemos adotar é mais flexível e conseguirá incorporar mais rapidamente todas as possibilidades do <a href="https://d3plus.org/">D3plus</a>.</p>
+<h2 id="sobre-o-d3-e-o-d3plus">Sobre o D3 e o D3plus</h2>
+<p>D3plus é uma biblioteca criada em cima de outra chamada D3. Então, vamos começar falando sobre o D3. A biblioteca <a href="https://d3js.org/">D3 (Data-Driven Documents)</a> é focada na manipulação de documentos que são baseados em dados, geralmente páginas webs em que se deve apresentar dados de uma maneira eficiente.</p>
+<p>Por ser bastante flexível, o aprendizado pode não ser fácil, sendo necessário gastar um certo tempo para aprender a criar as suas próprias visualizações. Nesse sentido, o D3plus busca facilitar a criação de visualizações ao disponibilizar um conjunto de opões de gráficos que já estão pré-construídos.</p>
+<p>Assim, basicamente o que se faz é trocar a flexibilidade por facilidade. Todavia, os criadores do D3plus fornecem um <a href="https://d3plus.org/blog/advanced/2014/09/28/new-visualization-guide/">tutorial</a> de como criar outras visualizações, o que devolve a flexibilidade novamente para os usuários.</p>
+<p><a href="https://d3plus.org/examples/">Neste link</a> estão vários exemplos de visualizações que podem ser construídas com o D3plus, inclusive com o código em javascript. Além do próprio site do D3plus, sugiro esses sites:</p>
+<ul>
+<li><a href="https://datausa.io/">Data USA</a></li>
+<li><a href="http://atlas.media.mit.edu/en/">The Observatory of Economic Complexity</a></li>
+<li><a href="http://dataviva.info/">DataViva</a></li>
+<li><a href="http://www.mdic.gov.br/comercio-exterior/estatisticas-de-comercio-exterior/comex-vis">Comex Vis</a></li>
+</ul>
+<p>Bem, agora vamos ao pacote para usar o D3plus no R.</p>
+<h2 id="instalando-o-pacote">Instalando o pacote</h2>
+<p>Como o pacote está em desenvolvimento, ele apenas está <a href="https://github.com/paulofelipe/D3plusR">disponível no github</a>. O código abaixo instala o pacote caso ele ainda não esteja instalado.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+if(!require(D3plusR)){
+  devtools::install_github(&#39;paulofelipe/D3plusR&#39;)
+}</code></pre>
+</div>
+<h2 id="a-estrutura-logica-do-pacote">A estrutura lógica do pacote</h2>
+<p>A função <code>d3plus</code> é a função principal do pacote. Ela é responsável por inicializar a visualização e nela são passados alguns argumentos que são comuns à maioria das visualizações. Depois de inicializada, outras funções são encadeadas. Por exemplo:</p>
+<ul>
+<li><code>d3plusSize</code>: define a variável/coluna responsável por definir o tamanho do retângulo de um <em>treemap</em> por exemplo, além de outros parâmetros referentes a essa característica do gráfico. <code>.size()</code> no pacote original;</li>
+<li><code>d3plusLabel</code>: define a variável/coluna responsável pelos rótulos e outras opções, como o tamanho da fonte. <code>.label()</code> no pacote original.</li>
+</ul>
+<p>Para quem não conhece o D3plus pode ser um confuso em um primeiro momento, mas talvez com o exemplo abaixo fique mais claro.</p>
+<p>De toda forma, as funções do pacote estão intimamente ligadas aos métodos disponíveis na biblioteca original. A lista de métodos e suas opções estão listadas <a href="https://github.com/alexandersimoes/d3plus/wiki/Visualizations">nesta página</a>. Esta página é fundamental, pois é lá que estarão listadas todas opções disponíveis. O importante é você saber como essas opções serão passadas dentro do R.</p>
+<p>Algumas opções recebem um único valor, enquanto outras opções possuem opções internas, ou seja, recebem múltiplos valores. Quando uma opção tiver opções internas, os valores devem ser passados por meio de uma lista do R.</p>
+<p>Por exemplo, o código original em javascript:</p>
+<pre class="js"><code>
+var visualization = d3plus.viz()
+    .container(&quot;#viz&quot;)
+    .data(data)
+    .type(&quot;bar&quot;)
+    .id(&quot;name&quot;)
+    .x(&quot;year&quot;)
+    .y(&quot;value&quot;)
+    .draw()</code></pre>
+<p>Agora, no R:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+d3plus(data = data,
+       type = &quot;bar&quot;,
+       id = &quot;name&quot;,
+       elementId = &quot;viz&quot;) %&gt;% 
+  d3plusX(value = &quot;year&quot;) %&gt;% 
+  d3plusY(value = &quot;value&quot;)</code></pre>
+</div>
+<p>Veja que para <code>data</code>, <code>type</code>, <code>id</code> e <code>elementid</code> não foram criadas funções separadas, pois todas as visualizações conterão esses métodos. Se o <code>elementId</code> não é informado, um id para o widget será automaticamente gerado.</p>
+<p>Agora, vamos estender o exemplo para incluir um título e alterar algumas opções de legenda. A opção de fonte (chamada de <em>key</em> no pacote original) é passada em <code>font</code> que pode receber outras opções (<em>keys</em>), como <code>size</code>, <code>align</code>, <code>weight</code> etc. O código seria o seguinte:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+d3plus(data = data,
+       type = &quot;bar&quot;,
+       id = &quot;name&quot;) %&gt;% 
+  d3plusX(value = &quot;year&quot;) %&gt;% 
+  d3plusY(value = &quot;value&quot;) %&gt;% 
+  d3plusTitle(value = &quot;Título&quot;, font = list(size = 12, align = &quot;left&quot;)) %&gt;% 
+  d3plusTooltip(font = list(align = &quot;left&quot;))</code></pre>
+</div>
+<p>O importante é ter isso em mente, que opções dentro de opções devem ser passadas em listas.</p>
+<p>Atualmente, ainda não estão disponíveis funções para todos os métodos do D3plus, mas a ideia é que todos estejam disponíveis em breve. Reforço que <a href="https://github.com/alexandersimoes/d3plus/wiki/Visualizations">esta página</a> é fundamental para encontrar todas as opções disponíveis.</p>
+<h2 id="primeiro-exemplo">Primeiro Exemplo</h2>
+<p>Para o primeiro exemplo, vamos utilizar um conjunto de dados que está disponível pelo próprio pacote. Para carregá-lo, basta usar o código abaixo:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+data(&quot;trade_bra_chn&quot;)
+head(trade_bra_chn)</code></pre>
+<pre><code>
+  Period Trade.Flow Reporter.Code Reporter Partner.Code Partner
+1   2005     Export            76   Brazil          156   China
+2   2005     Import            76   Brazil          156   China
+3   2006     Export            76   Brazil          156   China
+4   2006     Import            76   Brazil          156   China
+5   2007     Export            76   Brazil          156   China
+6   2007     Import            76   Brazil          156   China
+   TradeValue
+1  6834996980
+2  5354519158
+3  8402368827
+4  7989343057
+5 10748813792
+6 12617754515</code></pre>
+</div>
+<p>Os dados referem-se às exportações/importações brasileiras para/da China para os anos de 2005 a 2015. O nosso objetivo é criar um gráfico de barras. O que é estritamente necessário é informar os dados (<code>data</code>), o identificador (<code>id</code>) e os valores para os eixos X e Y usando as funções <code>d3plusX()</code> e <code>d3plusY()</code>, respectivamente. Outras funções estão sendo utilizadas para adicionar outras funcionalidades ao gráfico.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+library(dplyr)
+d3plus(data = trade_bra_chn, # dados
+       id = &quot;Trade.Flow&quot;, # identificador das barras
+       type = &quot;bar&quot;, # gráfico de barras
+       height = 400, # altura da visualização em px
+       locale = &quot;pt_BR&quot;, # definição de localização
+       width = &quot;100%&quot;) %&gt;% # largura de 100%. Não é sempre necessário 
+  d3plusX(value = &quot;Period&quot;) %&gt;% 
+  d3plusY(value = &quot;TradeValue&quot;) %&gt;% 
+  d3plusColor(value = &quot;Trade.Flow&quot;) %&gt;% 
+  d3plusLegend(value = TRUE, size = 30, data = FALSE) %&gt;% 
+  d3plusTooltip(value = c(&quot;Period&quot;, &quot;TradeValue&quot;)) %&gt;% 
+  d3plusTitle(value = &quot;Exportações/Importações Brasileiras para/da China&quot;)</code></pre>
+<div id="htmlwidget-0501c8cdeadeb26160e8" style="width:100%;height:400px;" class="d3plus html-widget"></div>
+<script type="application/json" data-for="htmlwidget-0501c8cdeadeb26160e8">{"x":{"data":[{"Period":"2005","Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Partner.Code":156,"Partner":"China","TradeValue":6834996980},{"Period":"2005","Trade.Flow":"Import","Reporter.Code":76,"Reporter":"Brazil","Partner.Code":156,"Partner":"China","TradeValue":5354519158},{"Period":"2006","Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Partner.Code":156,"Partner":"China","TradeValue":8402368827},{"Period":"2006","Trade.Flow":"Import","Reporter.Code":76,"Reporter":"Brazil","Partner.Code":156,"Partner":"China","TradeValue":7989343057},{"Period":"2007","Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Partner.Code":156,"Partner":"China","TradeValue":10748813792},{"Period":"2007","Trade.Flow":"Import","Reporter.Code":76,"Reporter":"Brazil","Partner.Code":156,"Partner":"China","TradeValue":12617754515},{"Period":"2008","Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Partner.Code":156,"Partner":"China","TradeValue":16403038989},{"Period":"2008","Trade.Flow":"Import","Reporter.Code":76,"Reporter":"Brazil","Partner.Code":156,"Partner":"China","TradeValue":20040022368},{"Period":"2009","Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Partner.Code":156,"Partner":"China","TradeValue":20190831368},{"Period":"2009","Trade.Flow":"Import","Reporter.Code":76,"Reporter":"Brazil","Partner.Code":156,"Partner":"China","TradeValue":15911144513},{"Period":"2010","Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Partner.Code":156,"Partner":"China","TradeValue":30752355631},{"Period":"2010","Trade.Flow":"Import","Reporter.Code":76,"Reporter":"Brazil","Partner.Code":156,"Partner":"China","TradeValue":25535684189},{"Period":"2011","Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Partner.Code":156,"Partner":"China","TradeValue":44314595336},{"Period":"2011","Trade.Flow":"Import","Reporter.Code":76,"Reporter":"Brazil","Partner.Code":156,"Partner":"China","TradeValue":32788424507},{"Period":"2012","Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Partner.Code":156,"Partner":"China","TradeValue":41227540253},{"Period":"2012","Trade.Flow":"Import","Reporter.Code":76,"Reporter":"Brazil","Partner.Code":156,"Partner":"China","TradeValue":34248497709},{"Period":"2013","Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Partner.Code":156,"Partner":"China","TradeValue":46026153046},{"Period":"2013","Trade.Flow":"Import","Reporter.Code":76,"Reporter":"Brazil","Partner.Code":156,"Partner":"China","TradeValue":37302150042},{"Period":"2014","Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Partner.Code":156,"Partner":"China","TradeValue":40616107929},{"Period":"2014","Trade.Flow":"Import","Reporter.Code":76,"Reporter":"Brazil","Partner.Code":156,"Partner":"China","TradeValue":37340607027},{"Period":"2015","Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Partner.Code":156,"Partner":"China","TradeValue":35607523612},{"Period":"2015","Trade.Flow":"Import","Reporter.Code":76,"Reporter":"Brazil","Partner.Code":156,"Partner":"China","TradeValue":30719405022}],"settings":{"type":"bar","id":["Trade.Flow"],"title":["function (main = NULL, sub = NULL, xlab = NULL, ylab = NULL, ","    line = NA, outer = FALSE, ...) ","{","    main <- as.graphicsAnnot(main)","    sub <- as.graphicsAnnot(sub)","    xlab <- as.graphicsAnnot(xlab)","    ylab <- as.graphicsAnnot(ylab)","    .External.graphics(C_title, main, sub, xlab, ylab, line, ","        outer, ...)","    invisible()","}"],"currency":"US$","number_text":["K","M","M","B","B"],"currency_var":null,"percent_var":null,"noformat_number_var":null,"d3plus_number_format":true,"locale":"pt_BR","clean_previous":false,"dictionary":{}},"d3plusAxisX":{"value":"Period"},"d3plusAxisY":{"value":"TradeValue"},"d3plusColor":{"value":"Trade.Flow"},"d3plusLegend":{"value":true,"size":30,"data":false},"d3plusTooltip":{"value":["Period","TradeValue"]},"d3plusTitle":{"value":"Exportações/Importações Brasileiras para/da China"}},"evals":[],"jsHooks":[]}</script>
+</div>
+<p>Perceba que o D3plus automaticamente converte <code>30.000.000.000</code> para <code>30 B</code>. Para alterar esse comportamento, podemos usar o argumento <code>number_text</code> na função <code>d3plus()</code>. O usuário deve informar o texto para mil, milhão, milhões, bilhão e bilhões. Além disso, vamos informar o símbolo da moeda e qual variável é monetária:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+d3plus(data = trade_bra_chn, # dados
+       id = &quot;Trade.Flow&quot;, # identificador das barras
+       type = &quot;bar&quot;, # gráfico de barras
+       height = 400, # altura da visualização em px
+       locale = &quot;pt_BR&quot;, # definição de localização
+       width = &quot;100%&quot;, # largura de 100%. Não é sempre necessário 
+       currency = &quot;US$&quot;,
+       currency_var = &quot;TradeValue&quot;,
+       number_text = c(&quot;Mil&quot;, &quot;Milhão&quot;, &quot;Milhões&quot;, &quot;Bilhão&quot;, &quot;Bilhões&quot;)) %&gt;% 
+  d3plusX(value = &quot;Period&quot;) %&gt;% 
+  d3plusY(value = &quot;TradeValue&quot;) %&gt;% 
+  d3plusColor(value = &quot;Trade.Flow&quot;) %&gt;% 
+  d3plusLegend(value = TRUE, size = 30, data = FALSE) %&gt;% 
+  d3plusTooltip(value = c(&quot;Period&quot;, &quot;TradeValue&quot;)) %&gt;% 
+  d3plusTitle(value = &quot;Exportações/Importações Brasileiras para/da China&quot;)</code></pre>
+<div id="htmlwidget-dcdbc36f419a1b8b698f" style="width:100%;height:400px;" class="d3plus html-widget"></div>
+<script type="application/json" data-for="htmlwidget-dcdbc36f419a1b8b698f">{"x":{"data":[{"Period":"2005","Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Partner.Code":156,"Partner":"China","TradeValue":6834996980},{"Period":"2005","Trade.Flow":"Import","Reporter.Code":76,"Reporter":"Brazil","Partner.Code":156,"Partner":"China","TradeValue":5354519158},{"Period":"2006","Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Partner.Code":156,"Partner":"China","TradeValue":8402368827},{"Period":"2006","Trade.Flow":"Import","Reporter.Code":76,"Reporter":"Brazil","Partner.Code":156,"Partner":"China","TradeValue":7989343057},{"Period":"2007","Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Partner.Code":156,"Partner":"China","TradeValue":10748813792},{"Period":"2007","Trade.Flow":"Import","Reporter.Code":76,"Reporter":"Brazil","Partner.Code":156,"Partner":"China","TradeValue":12617754515},{"Period":"2008","Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Partner.Code":156,"Partner":"China","TradeValue":16403038989},{"Period":"2008","Trade.Flow":"Import","Reporter.Code":76,"Reporter":"Brazil","Partner.Code":156,"Partner":"China","TradeValue":20040022368},{"Period":"2009","Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Partner.Code":156,"Partner":"China","TradeValue":20190831368},{"Period":"2009","Trade.Flow":"Import","Reporter.Code":76,"Reporter":"Brazil","Partner.Code":156,"Partner":"China","TradeValue":15911144513},{"Period":"2010","Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Partner.Code":156,"Partner":"China","TradeValue":30752355631},{"Period":"2010","Trade.Flow":"Import","Reporter.Code":76,"Reporter":"Brazil","Partner.Code":156,"Partner":"China","TradeValue":25535684189},{"Period":"2011","Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Partner.Code":156,"Partner":"China","TradeValue":44314595336},{"Period":"2011","Trade.Flow":"Import","Reporter.Code":76,"Reporter":"Brazil","Partner.Code":156,"Partner":"China","TradeValue":32788424507},{"Period":"2012","Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Partner.Code":156,"Partner":"China","TradeValue":41227540253},{"Period":"2012","Trade.Flow":"Import","Reporter.Code":76,"Reporter":"Brazil","Partner.Code":156,"Partner":"China","TradeValue":34248497709},{"Period":"2013","Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Partner.Code":156,"Partner":"China","TradeValue":46026153046},{"Period":"2013","Trade.Flow":"Import","Reporter.Code":76,"Reporter":"Brazil","Partner.Code":156,"Partner":"China","TradeValue":37302150042},{"Period":"2014","Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Partner.Code":156,"Partner":"China","TradeValue":40616107929},{"Period":"2014","Trade.Flow":"Import","Reporter.Code":76,"Reporter":"Brazil","Partner.Code":156,"Partner":"China","TradeValue":37340607027},{"Period":"2015","Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Partner.Code":156,"Partner":"China","TradeValue":35607523612},{"Period":"2015","Trade.Flow":"Import","Reporter.Code":76,"Reporter":"Brazil","Partner.Code":156,"Partner":"China","TradeValue":30719405022}],"settings":{"type":"bar","id":["Trade.Flow"],"title":["function (main = NULL, sub = NULL, xlab = NULL, ylab = NULL, ","    line = NA, outer = FALSE, ...) ","{","    main <- as.graphicsAnnot(main)","    sub <- as.graphicsAnnot(sub)","    xlab <- as.graphicsAnnot(xlab)","    ylab <- as.graphicsAnnot(ylab)","    .External.graphics(C_title, main, sub, xlab, ylab, line, ","        outer, ...)","    invisible()","}"],"currency":"US$","number_text":["Mil","Milhão","Milhões","Bilhão","Bilhões"],"currency_var":"TradeValue","percent_var":null,"noformat_number_var":null,"d3plus_number_format":true,"locale":"pt_BR","clean_previous":false,"dictionary":{}},"d3plusAxisX":{"value":"Period"},"d3plusAxisY":{"value":"TradeValue"},"d3plusColor":{"value":"Trade.Flow"},"d3plusLegend":{"value":true,"size":30,"data":false},"d3plusTooltip":{"value":["Period","TradeValue"]},"d3plusTitle":{"value":"Exportações/Importações Brasileiras para/da China"}},"evals":[],"jsHooks":[]}</script>
+</div>
+<h2 id="segundo-exemplo">Segundo Exemplo</h2>
+<p>No segundo exemplo, vamos criar um <a href="https://pt.wikipedia.org/wiki/Treemapping"><em>Tree Map</em></a> com os destinos das exportações brasileiras por continente e país (hierarquia) no ano de 2015. A profundidade (<code>d3plusDepth()</code>) inicial escolhida é continente, que é definida pelo valor <code>0</code>. A cor está definida pela região. Além disso, foi alterado o ordenamento da legenda para apresentar primeiro os continentes de “maior tamanho”.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+data(&quot;bra_exp_2015&quot;) # dados
+
+d3plus(data = bra_exp_2015,
+       type = &quot;tree_map&quot;,
+       id = c(&quot;region&quot;, &quot;Partner&quot;),
+       width = &quot;100%&quot;,
+       height = 400) %&gt;% 
+  d3plusSize(value = &quot;Trade.Value..US..&quot;) %&gt;% 
+  d3plusLegend(value = TRUE, order = list(sort = &quot;desc&quot;, value = &quot;size&quot;)) %&gt;% 
+  d3plusColor(&quot;region&quot;) %&gt;% 
+  d3plusDepth(0) %&gt;% 
+  d3plusLabels(valign = &quot;top&quot;)</code></pre>
+<div id="htmlwidget-9449f8d99ed868b1a71d" style="width:100%;height:400px;" class="d3plus html-widget"></div>
+<script type="application/json" data-for="htmlwidget-9449f8d99ed868b1a71d">{"x":{"data":[{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":4,"Partner":"Afghanistan","Partner.ISO":"AFG","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":6733281,"Flag":0,"name":"Afghanistan","alpha.2":"AF","country.code":4,"iso_3166.2":"ISO 3166-2:AF","region":"Asia","sub.region":"Southern Asia","region.code":142,"sub.region.code":34},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":8,"Partner":"Albania","Partner.ISO":"ALB","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":36559955,"Flag":0,"name":"Albania","alpha.2":"AL","country.code":8,"iso_3166.2":"ISO 3166-2:AL","region":"Europe","sub.region":"Southern Europe","region.code":150,"sub.region.code":39},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":12,"Partner":"Algeria","Partner.ISO":"DZA","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":993045770,"Flag":0,"name":"Algeria","alpha.2":"DZ","country.code":12,"iso_3166.2":"ISO 3166-2:DZ","region":"Africa","sub.region":"Northern Africa","region.code":2,"sub.region.code":15},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":16,"Partner":"American Samoa","Partner.ISO":"ASM","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":40679,"Flag":0,"name":"American Samoa","alpha.2":"AS","country.code":16,"iso_3166.2":"ISO 3166-2:AS","region":"Oceania","sub.region":"Polynesia","region.code":9,"sub.region.code":61},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":20,"Partner":"Andorra","Partner.ISO":"AND","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":152825,"Flag":0,"name":"Andorra","alpha.2":"AD","country.code":20,"iso_3166.2":"ISO 3166-2:AD","region":"Europe","sub.region":"Southern Europe","region.code":150,"sub.region.code":39},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":24,"Partner":"Angola","Partner.ISO":"AGO","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":647986587,"Flag":0,"name":"Angola","alpha.2":"AO","country.code":24,"iso_3166.2":"ISO 3166-2:AO","region":"Africa","sub.region":"Middle Africa","region.code":2,"sub.region.code":17},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":28,"Partner":"Antigua and Barbuda","Partner.ISO":"ATG","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":6019469,"Flag":0,"name":"Antigua and Barbuda","alpha.2":"AG","country.code":28,"iso_3166.2":"ISO 3166-2:AG","region":"Americas","sub.region":"Caribbean","region.code":19,"sub.region.code":29},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":31,"Partner":"Azerbaijan","Partner.ISO":"AZE","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":25940482,"Flag":0,"name":"Azerbaijan","alpha.2":"AZ","country.code":31,"iso_3166.2":"ISO 3166-2:AZ","region":"Asia","sub.region":"Western Asia","region.code":142,"sub.region.code":145},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":32,"Partner":"Argentina","Partner.ISO":"ARG","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":12800015447,"Flag":0,"name":"Argentina","alpha.2":"AR","country.code":32,"iso_3166.2":"ISO 3166-2:AR","region":"Americas","sub.region":"South America","region.code":19,"sub.region.code":5},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":36,"Partner":"Australia","Partner.ISO":"AUS","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":400298520,"Flag":0,"name":"Australia","alpha.2":"AU","country.code":36,"iso_3166.2":"ISO 3166-2:AU","region":"Oceania","sub.region":"Australia and New Zealand","region.code":9,"sub.region.code":53},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":40,"Partner":"Austria","Partner.ISO":"AUT","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":139100372,"Flag":0,"name":"Austria","alpha.2":"AT","country.code":40,"iso_3166.2":"ISO 3166-2:AT","region":"Europe","sub.region":"Western Europe","region.code":150,"sub.region.code":155},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":44,"Partner":"Bahamas","Partner.ISO":"BHS","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":593539741,"Flag":0,"name":"Bahamas","alpha.2":"BS","country.code":44,"iso_3166.2":"ISO 3166-2:BS","region":"Americas","sub.region":"Caribbean","region.code":19,"sub.region.code":29},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":48,"Partner":"Bahrain","Partner.ISO":"BHR","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":309106623,"Flag":0,"name":"Bahrain","alpha.2":"BH","country.code":48,"iso_3166.2":"ISO 3166-2:BH","region":"Asia","sub.region":"Western Asia","region.code":142,"sub.region.code":145},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":50,"Partner":"Bangladesh","Partner.ISO":"BGD","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":1147410889,"Flag":0,"name":"Bangladesh","alpha.2":"BD","country.code":50,"iso_3166.2":"ISO 3166-2:BD","region":"Asia","sub.region":"Southern Asia","region.code":142,"sub.region.code":34},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":51,"Partner":"Armenia","Partner.ISO":"ARM","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":20878983,"Flag":0,"name":"Armenia","alpha.2":"AM","country.code":51,"iso_3166.2":"ISO 3166-2:AM","region":"Asia","sub.region":"Western Asia","region.code":142,"sub.region.code":145},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":52,"Partner":"Barbados","Partner.ISO":"BRB","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":16405325,"Flag":0,"name":"Barbados","alpha.2":"BB","country.code":52,"iso_3166.2":"ISO 3166-2:BB","region":"Americas","sub.region":"Caribbean","region.code":19,"sub.region.code":29},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":56,"Partner":"Belgium","Partner.ISO":"BEL","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":2989689298,"Flag":0,"name":"Belgium","alpha.2":"BE","country.code":56,"iso_3166.2":"ISO 3166-2:BE","region":"Europe","sub.region":"Western Europe","region.code":150,"sub.region.code":155},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":60,"Partner":"Bermuda","Partner.ISO":"BMU","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":1877206,"Flag":0,"name":"Bermuda","alpha.2":"BM","country.code":60,"iso_3166.2":"ISO 3166-2:BM","region":"Americas","sub.region":"Northern America","region.code":19,"sub.region.code":21},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":64,"Partner":"Bhutan","Partner.ISO":"BTN","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":4465,"Flag":0,"name":"Bhutan","alpha.2":"BT","country.code":64,"iso_3166.2":"ISO 3166-2:BT","region":"Asia","sub.region":"Southern Asia","region.code":142,"sub.region.code":34},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":68,"Partner":"Bolivia (Plurinational State of)","Partner.ISO":"BOL","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":1482007999,"Flag":0,"name":"Bolivia (Plurinational State of)","alpha.2":"BO","country.code":68,"iso_3166.2":"ISO 3166-2:BO","region":"Americas","sub.region":"South America","region.code":19,"sub.region.code":5},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":70,"Partner":"Bosnia Herzegovina","Partner.ISO":"BIH","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":924707,"Flag":0,"name":"Bosnia and Herzegovina","alpha.2":"BA","country.code":70,"iso_3166.2":"ISO 3166-2:BA","region":"Europe","sub.region":"Southern Europe","region.code":150,"sub.region.code":39},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":72,"Partner":"Botswana","Partner.ISO":"BWA","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":3822357,"Flag":0,"name":"Botswana","alpha.2":"BW","country.code":72,"iso_3166.2":"ISO 3166-2:BW","region":"Africa","sub.region":"Southern Africa","region.code":2,"sub.region.code":18},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":84,"Partner":"Belize","Partner.ISO":"BLZ","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":7559875,"Flag":0,"name":"Belize","alpha.2":"BZ","country.code":84,"iso_3166.2":"ISO 3166-2:BZ","region":"Americas","sub.region":"Central America","region.code":19,"sub.region.code":13},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":90,"Partner":"Solomon Isds","Partner.ISO":"SLB","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":324501,"Flag":0,"name":"Solomon Islands","alpha.2":"SB","country.code":90,"iso_3166.2":"ISO 3166-2:SB","region":"Oceania","sub.region":"Melanesia","region.code":9,"sub.region.code":54},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":92,"Partner":"Br. Virgin Isds","Partner.ISO":"VGB","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":16281113,"Flag":0,"name":"Virgin Islands (British)","alpha.2":"VG","country.code":92,"iso_3166.2":"ISO 3166-2:VG","region":"Americas","sub.region":"Caribbean","region.code":19,"sub.region.code":29},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":96,"Partner":"Brunei Darussalam","Partner.ISO":"BRN","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":1346483,"Flag":0,"name":"Brunei Darussalam","alpha.2":"BN","country.code":96,"iso_3166.2":"ISO 3166-2:BN","region":"Asia","sub.region":"South-Eastern Asia","region.code":142,"sub.region.code":35},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":100,"Partner":"Bulgaria","Partner.ISO":"BGR","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":117910940,"Flag":0,"name":"Bulgaria","alpha.2":"BG","country.code":100,"iso_3166.2":"ISO 3166-2:BG","region":"Europe","sub.region":"Eastern Europe","region.code":150,"sub.region.code":151},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":104,"Partner":"Myanmar","Partner.ISO":"MMR","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":40138331,"Flag":0,"name":"Myanmar","alpha.2":"MM","country.code":104,"iso_3166.2":"ISO 3166-2:MM","region":"Asia","sub.region":"South-Eastern Asia","region.code":142,"sub.region.code":35},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":108,"Partner":"Burundi","Partner.ISO":"BDI","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":115392,"Flag":0,"name":"Burundi","alpha.2":"BI","country.code":108,"iso_3166.2":"ISO 3166-2:BI","region":"Africa","sub.region":"Eastern Africa","region.code":2,"sub.region.code":14},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":112,"Partner":"Belarus","Partner.ISO":"BLR","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":11970035,"Flag":0,"name":"Belarus","alpha.2":"BY","country.code":112,"iso_3166.2":"ISO 3166-2:BY","region":"Europe","sub.region":"Eastern Europe","region.code":150,"sub.region.code":151},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":116,"Partner":"Cambodia","Partner.ISO":"KHM","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":3531458,"Flag":0,"name":"Cambodia","alpha.2":"KH","country.code":116,"iso_3166.2":"ISO 3166-2:KH","region":"Asia","sub.region":"South-Eastern Asia","region.code":142,"sub.region.code":35},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":120,"Partner":"Cameroon","Partner.ISO":"CMR","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":67373543,"Flag":0,"name":"Cameroon","alpha.2":"CM","country.code":120,"iso_3166.2":"ISO 3166-2:CM","region":"Africa","sub.region":"Middle Africa","region.code":2,"sub.region.code":17},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":124,"Partner":"Canada","Partner.ISO":"CAN","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":2362544620,"Flag":0,"name":"Canada","alpha.2":"CA","country.code":124,"iso_3166.2":"ISO 3166-2:CA","region":"Americas","sub.region":"Northern America","region.code":19,"sub.region.code":21},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":132,"Partner":"Cabo Verde","Partner.ISO":"CPV","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":21373063,"Flag":0,"name":"Cabo Verde","alpha.2":"CV","country.code":132,"iso_3166.2":"ISO 3166-2:CV","region":"Africa","sub.region":"Western Africa","region.code":2,"sub.region.code":11},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":136,"Partner":"Cayman Isds","Partner.ISO":"CYM","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":56099815,"Flag":0,"name":"Cayman Islands","alpha.2":"KY","country.code":136,"iso_3166.2":"ISO 3166-2:KY","region":"Americas","sub.region":"Caribbean","region.code":19,"sub.region.code":29},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":140,"Partner":"Central African Rep.","Partner.ISO":"CAF","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":1737356,"Flag":0,"name":"Central African Republic","alpha.2":"CF","country.code":140,"iso_3166.2":"ISO 3166-2:CF","region":"Africa","sub.region":"Middle Africa","region.code":2,"sub.region.code":17},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":144,"Partner":"Sri Lanka","Partner.ISO":"LKA","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":116768269,"Flag":0,"name":"Sri Lanka","alpha.2":"LK","country.code":144,"iso_3166.2":"ISO 3166-2:LK","region":"Asia","sub.region":"Southern Asia","region.code":142,"sub.region.code":34},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":148,"Partner":"Chad","Partner.ISO":"TCD","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":1188659,"Flag":0,"name":"Chad","alpha.2":"TD","country.code":148,"iso_3166.2":"ISO 3166-2:TD","region":"Africa","sub.region":"Middle Africa","region.code":2,"sub.region.code":17},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":152,"Partner":"Chile","Partner.ISO":"CHL","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":3978438486,"Flag":0,"name":"Chile","alpha.2":"CL","country.code":152,"iso_3166.2":"ISO 3166-2:CL","region":"Americas","sub.region":"South America","region.code":19,"sub.region.code":5},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":156,"Partner":"China","Partner.ISO":"CHN","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":35607523612,"Flag":0,"name":"China","alpha.2":"CN","country.code":156,"iso_3166.2":"ISO 3166-2:CN","region":"Asia","sub.region":"Eastern Asia","region.code":142,"sub.region.code":30},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":170,"Partner":"Colombia","Partner.ISO":"COL","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":2115234768,"Flag":0,"name":"Colombia","alpha.2":"CO","country.code":170,"iso_3166.2":"ISO 3166-2:CO","region":"Americas","sub.region":"South America","region.code":19,"sub.region.code":5},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":174,"Partner":"Comoros","Partner.ISO":"COM","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":869352,"Flag":0,"name":"Comoros","alpha.2":"KM","country.code":174,"iso_3166.2":"ISO 3166-2:KM","region":"Africa","sub.region":"Eastern Africa","region.code":2,"sub.region.code":14},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":178,"Partner":"Congo","Partner.ISO":"COG","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":66819518,"Flag":0,"name":"Congo","alpha.2":"CG","country.code":178,"iso_3166.2":"ISO 3166-2:CG","region":"Africa","sub.region":"Middle Africa","region.code":2,"sub.region.code":17},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":180,"Partner":"Dem. Rep. of the Congo","Partner.ISO":"COD","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":42099117,"Flag":0,"name":"Congo (Democratic Republic of the)","alpha.2":"CD","country.code":180,"iso_3166.2":"ISO 3166-2:CD","region":"Africa","sub.region":"Middle Africa","region.code":2,"sub.region.code":17},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":184,"Partner":"Cook Isds","Partner.ISO":"COK","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":12558,"Flag":0,"name":"Cook Islands","alpha.2":"CK","country.code":184,"iso_3166.2":"ISO 3166-2:CK","region":"Oceania","sub.region":"Polynesia","region.code":9,"sub.region.code":61},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":188,"Partner":"Costa Rica","Partner.ISO":"CRI","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":267507344,"Flag":0,"name":"Costa Rica","alpha.2":"CR","country.code":188,"iso_3166.2":"ISO 3166-2:CR","region":"Americas","sub.region":"Central America","region.code":19,"sub.region.code":13},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":191,"Partner":"Croatia","Partner.ISO":"HRV","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":78607504,"Flag":0,"name":"Croatia","alpha.2":"HR","country.code":191,"iso_3166.2":"ISO 3166-2:HR","region":"Europe","sub.region":"Southern Europe","region.code":150,"sub.region.code":39},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":192,"Partner":"Cuba","Partner.ISO":"CUB","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":513556571,"Flag":0,"name":"Cuba","alpha.2":"CU","country.code":192,"iso_3166.2":"ISO 3166-2:CU","region":"Americas","sub.region":"Caribbean","region.code":19,"sub.region.code":29},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":196,"Partner":"Cyprus","Partner.ISO":"CYP","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":9271686,"Flag":0,"name":"Cyprus","alpha.2":"CY","country.code":196,"iso_3166.2":"ISO 3166-2:CY","region":"Asia","sub.region":"Western Asia","region.code":142,"sub.region.code":145},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":203,"Partner":"Czechia","Partner.ISO":"CZE","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":26071991,"Flag":0,"name":"Czech Republic","alpha.2":"CZ","country.code":203,"iso_3166.2":"ISO 3166-2:CZ","region":"Europe","sub.region":"Eastern Europe","region.code":150,"sub.region.code":151},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":204,"Partner":"Benin","Partner.ISO":"BEN","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":109898815,"Flag":0,"name":"Benin","alpha.2":"BJ","country.code":204,"iso_3166.2":"ISO 3166-2:BJ","region":"Africa","sub.region":"Western Africa","region.code":2,"sub.region.code":11},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":208,"Partner":"Denmark","Partner.ISO":"DNK","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":321918378,"Flag":0,"name":"Denmark","alpha.2":"DK","country.code":208,"iso_3166.2":"ISO 3166-2:DK","region":"Europe","sub.region":"Northern Europe","region.code":150,"sub.region.code":154},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":212,"Partner":"Dominica","Partner.ISO":"DMA","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":2711670,"Flag":0,"name":"Dominica","alpha.2":"DM","country.code":212,"iso_3166.2":"ISO 3166-2:DM","region":"Americas","sub.region":"Caribbean","region.code":19,"sub.region.code":29},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":214,"Partner":"Dominican Rep.","Partner.ISO":"DOM","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":523161378,"Flag":0,"name":"Dominican Republic","alpha.2":"DO","country.code":214,"iso_3166.2":"ISO 3166-2:DO","region":"Americas","sub.region":"Caribbean","region.code":19,"sub.region.code":29},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":218,"Partner":"Ecuador","Partner.ISO":"ECU","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":665462387,"Flag":0,"name":"Ecuador","alpha.2":"EC","country.code":218,"iso_3166.2":"ISO 3166-2:EC","region":"Americas","sub.region":"South America","region.code":19,"sub.region.code":5},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":222,"Partner":"El Salvador","Partner.ISO":"SLV","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":106196907,"Flag":0,"name":"El Salvador","alpha.2":"SV","country.code":222,"iso_3166.2":"ISO 3166-2:SV","region":"Americas","sub.region":"Central America","region.code":19,"sub.region.code":13},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":226,"Partner":"Equatorial Guinea","Partner.ISO":"GNQ","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":25190992,"Flag":0,"name":"Equatorial Guinea","alpha.2":"GQ","country.code":226,"iso_3166.2":"ISO 3166-2:GQ","region":"Africa","sub.region":"Middle Africa","region.code":2,"sub.region.code":17},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":231,"Partner":"Ethiopia","Partner.ISO":"ETH","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":21962083,"Flag":0,"name":"Ethiopia","alpha.2":"ET","country.code":231,"iso_3166.2":"ISO 3166-2:ET","region":"Africa","sub.region":"Eastern Africa","region.code":2,"sub.region.code":14},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":232,"Partner":"Eritrea","Partner.ISO":"ERI","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":1280226,"Flag":0,"name":"Eritrea","alpha.2":"ER","country.code":232,"iso_3166.2":"ISO 3166-2:ER","region":"Africa","sub.region":"Eastern Africa","region.code":2,"sub.region.code":14},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":233,"Partner":"Estonia","Partner.ISO":"EST","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":32767888,"Flag":0,"name":"Estonia","alpha.2":"EE","country.code":233,"iso_3166.2":"ISO 3166-2:EE","region":"Europe","sub.region":"Northern Europe","region.code":150,"sub.region.code":154},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":234,"Partner":"Faeroe Isds","Partner.ISO":"FRO","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":55893,"Flag":0,"name":"Faroe Islands","alpha.2":"FO","country.code":234,"iso_3166.2":"ISO 3166-2:FO","region":"Europe","sub.region":"Northern Europe","region.code":150,"sub.region.code":154},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":238,"Partner":"Falkland Isds (Malvinas)","Partner.ISO":"FLK","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":111864,"Flag":0,"name":"Falkland Islands (Malvinas)","alpha.2":"FK","country.code":238,"iso_3166.2":"ISO 3166-2:FK","region":"Americas","sub.region":"South America","region.code":19,"sub.region.code":5},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":242,"Partner":"Fiji","Partner.ISO":"FJI","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":1031909,"Flag":0,"name":"Fiji","alpha.2":"FJ","country.code":242,"iso_3166.2":"ISO 3166-2:FJ","region":"Oceania","sub.region":"Melanesia","region.code":9,"sub.region.code":54},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":246,"Partner":"Finland","Partner.ISO":"FIN","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":269320136,"Flag":0,"name":"Finland","alpha.2":"FI","country.code":246,"iso_3166.2":"ISO 3166-2:FI","region":"Europe","sub.region":"Northern Europe","region.code":150,"sub.region.code":154},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":251,"Partner":"France","Partner.ISO":"FRA","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":2270225356,"Flag":0,"name":"France","alpha.2":"FR","country.code":250,"iso_3166.2":"ISO 3166-2:FR","region":"Europe","sub.region":"Western Europe","region.code":150,"sub.region.code":155},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":258,"Partner":"French Polynesia","Partner.ISO":"PYF","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":975891,"Flag":0,"name":"French Polynesia","alpha.2":"PF","country.code":258,"iso_3166.2":"ISO 3166-2:PF","region":"Oceania","sub.region":"Polynesia","region.code":9,"sub.region.code":61},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":262,"Partner":"Djibouti","Partner.ISO":"DJI","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":14339864,"Flag":0,"name":"Djibouti","alpha.2":"DJ","country.code":262,"iso_3166.2":"ISO 3166-2:DJ","region":"Africa","sub.region":"Eastern Africa","region.code":2,"sub.region.code":14},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":266,"Partner":"Gabon","Partner.ISO":"GAB","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":36479508,"Flag":0,"name":"Gabon","alpha.2":"GA","country.code":266,"iso_3166.2":"ISO 3166-2:GA","region":"Africa","sub.region":"Middle Africa","region.code":2,"sub.region.code":17},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":268,"Partner":"Georgia","Partner.ISO":"GEO","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":194406000,"Flag":0,"name":"Georgia","alpha.2":"GE","country.code":268,"iso_3166.2":"ISO 3166-2:GE","region":"Asia","sub.region":"Western Asia","region.code":142,"sub.region.code":145},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":270,"Partner":"Gambia","Partner.ISO":"GMB","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":78989961,"Flag":0,"name":"Gambia","alpha.2":"GM","country.code":270,"iso_3166.2":"ISO 3166-2:GM","region":"Africa","sub.region":"Western Africa","region.code":2,"sub.region.code":11},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":275,"Partner":"State of Palestine","Partner.ISO":"PSE","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":47004018,"Flag":0,"name":"Palestine, State of","alpha.2":"PS","country.code":275,"iso_3166.2":"ISO 3166-2:PS","region":"Asia","sub.region":"Western Asia","region.code":142,"sub.region.code":145},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":276,"Partner":"Germany","Partner.ISO":"DEU","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":5171570751,"Flag":0,"name":"Germany","alpha.2":"DE","country.code":276,"iso_3166.2":"ISO 3166-2:DE","region":"Europe","sub.region":"Western Europe","region.code":150,"sub.region.code":155},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":288,"Partner":"Ghana","Partner.ISO":"GHA","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":183164163,"Flag":0,"name":"Ghana","alpha.2":"GH","country.code":288,"iso_3166.2":"ISO 3166-2:GH","region":"Africa","sub.region":"Western Africa","region.code":2,"sub.region.code":11},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":292,"Partner":"Gibraltar","Partner.ISO":"GIB","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":147857,"Flag":0,"name":"Gibraltar","alpha.2":"GI","country.code":292,"iso_3166.2":"ISO 3166-2:GI","region":"Europe","sub.region":"Southern Europe","region.code":150,"sub.region.code":39},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":296,"Partner":"Kiribati","Partner.ISO":"KIR","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":34099,"Flag":0,"name":"Kiribati","alpha.2":"KI","country.code":296,"iso_3166.2":"ISO 3166-2:KI","region":"Oceania","sub.region":"Micronesia","region.code":9,"sub.region.code":57},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":300,"Partner":"Greece","Partner.ISO":"GRC","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":117029617,"Flag":0,"name":"Greece","alpha.2":"GR","country.code":300,"iso_3166.2":"ISO 3166-2:GR","region":"Europe","sub.region":"Southern Europe","region.code":150,"sub.region.code":39},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":304,"Partner":"Greenland","Partner.ISO":"GRL","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":8913,"Flag":0,"name":"Greenland","alpha.2":"GL","country.code":304,"iso_3166.2":"ISO 3166-2:GL","region":"Americas","sub.region":"Northern America","region.code":19,"sub.region.code":21},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":308,"Partner":"Grenada","Partner.ISO":"GRD","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":7689899,"Flag":0,"name":"Grenada","alpha.2":"GD","country.code":308,"iso_3166.2":"ISO 3166-2:GD","region":"Americas","sub.region":"Caribbean","region.code":19,"sub.region.code":29},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":316,"Partner":"Guam","Partner.ISO":"GUM","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":102542,"Flag":0,"name":"Guam","alpha.2":"GU","country.code":316,"iso_3166.2":"ISO 3166-2:GU","region":"Oceania","sub.region":"Micronesia","region.code":9,"sub.region.code":57},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":320,"Partner":"Guatemala","Partner.ISO":"GTM","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":224320899,"Flag":0,"name":"Guatemala","alpha.2":"GT","country.code":320,"iso_3166.2":"ISO 3166-2:GT","region":"Americas","sub.region":"Central America","region.code":19,"sub.region.code":13},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":324,"Partner":"Guinea","Partner.ISO":"GIN","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":53888774,"Flag":0,"name":"Guinea","alpha.2":"GN","country.code":324,"iso_3166.2":"ISO 3166-2:GN","region":"Africa","sub.region":"Western Africa","region.code":2,"sub.region.code":11},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":328,"Partner":"Guyana","Partner.ISO":"GUY","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":21887096,"Flag":0,"name":"Guyana","alpha.2":"GY","country.code":328,"iso_3166.2":"ISO 3166-2:GY","region":"Americas","sub.region":"South America","region.code":19,"sub.region.code":5},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":332,"Partner":"Haiti","Partner.ISO":"HTI","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":37750911,"Flag":0,"name":"Haiti","alpha.2":"HT","country.code":332,"iso_3166.2":"ISO 3166-2:HT","region":"Americas","sub.region":"Caribbean","region.code":19,"sub.region.code":29},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":340,"Partner":"Honduras","Partner.ISO":"HND","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":102263194,"Flag":0,"name":"Honduras","alpha.2":"HN","country.code":340,"iso_3166.2":"ISO 3166-2:HN","region":"Americas","sub.region":"Central America","region.code":19,"sub.region.code":13},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":344,"Partner":"China, Hong Kong SAR","Partner.ISO":"HKG","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":2108001994,"Flag":0,"name":"Hong Kong","alpha.2":"HK","country.code":344,"iso_3166.2":"ISO 3166-2:HK","region":"Asia","sub.region":"Eastern Asia","region.code":142,"sub.region.code":30},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":348,"Partner":"Hungary","Partner.ISO":"HUN","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":239097236,"Flag":0,"name":"Hungary","alpha.2":"HU","country.code":348,"iso_3166.2":"ISO 3166-2:HU","region":"Europe","sub.region":"Eastern Europe","region.code":150,"sub.region.code":151},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":352,"Partner":"Iceland","Partner.ISO":"ISL","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":292864900,"Flag":0,"name":"Iceland","alpha.2":"IS","country.code":352,"iso_3166.2":"ISO 3166-2:IS","region":"Europe","sub.region":"Northern Europe","region.code":150,"sub.region.code":154},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":360,"Partner":"Indonesia","Partner.ISO":"IDN","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":2180799748,"Flag":0,"name":"Indonesia","alpha.2":"ID","country.code":360,"iso_3166.2":"ISO 3166-2:ID","region":"Asia","sub.region":"South-Eastern Asia","region.code":142,"sub.region.code":35},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":364,"Partner":"Iran","Partner.ISO":"IRN","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":1666185295,"Flag":0,"name":"Iran (Islamic Republic of)","alpha.2":"IR","country.code":364,"iso_3166.2":"ISO 3166-2:IR","region":"Asia","sub.region":"Southern Asia","region.code":142,"sub.region.code":34},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":368,"Partner":"Iraq","Partner.ISO":"IRQ","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":306583030,"Flag":0,"name":"Iraq","alpha.2":"IQ","country.code":368,"iso_3166.2":"ISO 3166-2:IQ","region":"Asia","sub.region":"Western Asia","region.code":142,"sub.region.code":145},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":372,"Partner":"Ireland","Partner.ISO":"IRL","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":383432875,"Flag":0,"name":"Ireland","alpha.2":"IE","country.code":372,"iso_3166.2":"ISO 3166-2:IE","region":"Europe","sub.region":"Northern Europe","region.code":150,"sub.region.code":154},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":376,"Partner":"Israel","Partner.ISO":"ISR","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":380751042,"Flag":0,"name":"Israel","alpha.2":"IL","country.code":376,"iso_3166.2":"ISO 3166-2:IL","region":"Asia","sub.region":"Western Asia","region.code":142,"sub.region.code":145},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":381,"Partner":"Italy","Partner.ISO":"ITA","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":3270224753,"Flag":0,"name":"Italy","alpha.2":"IT","country.code":380,"iso_3166.2":"ISO 3166-2:IT","region":"Europe","sub.region":"Southern Europe","region.code":150,"sub.region.code":39},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":384,"Partner":"Côte d'Ivoire","Partner.ISO":"CIV","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":47074850,"Flag":0,"name":"Côte d'Ivoire","alpha.2":"CI","country.code":384,"iso_3166.2":"ISO 3166-2:CI","region":"Africa","sub.region":"Western Africa","region.code":2,"sub.region.code":11},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":388,"Partner":"Jamaica","Partner.ISO":"JAM","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":59252709,"Flag":0,"name":"Jamaica","alpha.2":"JM","country.code":388,"iso_3166.2":"ISO 3166-2:JM","region":"Americas","sub.region":"Caribbean","region.code":19,"sub.region.code":29},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":392,"Partner":"Japan","Partner.ISO":"JPN","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":4844959300,"Flag":0,"name":"Japan","alpha.2":"JP","country.code":392,"iso_3166.2":"ISO 3166-2:JP","region":"Asia","sub.region":"Eastern Asia","region.code":142,"sub.region.code":30},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":398,"Partner":"Kazakhstan","Partner.ISO":"KAZ","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":8107355,"Flag":0,"name":"Kazakhstan","alpha.2":"KZ","country.code":398,"iso_3166.2":"ISO 3166-2:KZ","region":"Asia","sub.region":"Central Asia","region.code":142,"sub.region.code":143},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":400,"Partner":"Jordan","Partner.ISO":"JOR","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":242302249,"Flag":0,"name":"Jordan","alpha.2":"JO","country.code":400,"iso_3166.2":"ISO 3166-2:JO","region":"Asia","sub.region":"Western Asia","region.code":142,"sub.region.code":145},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":404,"Partner":"Kenya","Partner.ISO":"KEN","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":60675037,"Flag":0,"name":"Kenya","alpha.2":"KE","country.code":404,"iso_3166.2":"ISO 3166-2:KE","region":"Africa","sub.region":"Eastern Africa","region.code":2,"sub.region.code":14},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":408,"Partner":"Dem. People's Rep. of Korea","Partner.ISO":"PRK","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":2482040,"Flag":0,"name":"Korea (Democratic People's Republic of)","alpha.2":"KP","country.code":408,"iso_3166.2":"ISO 3166-2:KP","region":"Asia","sub.region":"Eastern Asia","region.code":142,"sub.region.code":30},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":410,"Partner":"Rep. of Korea","Partner.ISO":"KOR","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":3122202786,"Flag":0,"name":"Korea (Republic of)","alpha.2":"KR","country.code":410,"iso_3166.2":"ISO 3166-2:KR","region":"Asia","sub.region":"Eastern Asia","region.code":142,"sub.region.code":30},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":414,"Partner":"Kuwait","Partner.ISO":"KWT","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":239533983,"Flag":0,"name":"Kuwait","alpha.2":"KW","country.code":414,"iso_3166.2":"ISO 3166-2:KW","region":"Asia","sub.region":"Western Asia","region.code":142,"sub.region.code":145},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":417,"Partner":"Kyrgyzstan","Partner.ISO":"KGZ","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":2889667,"Flag":0,"name":"Kyrgyzstan","alpha.2":"KG","country.code":417,"iso_3166.2":"ISO 3166-2:KG","region":"Asia","sub.region":"Central Asia","region.code":142,"sub.region.code":143},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":418,"Partner":"Lao People's Dem. Rep.","Partner.ISO":"LAO","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":205573,"Flag":0,"name":"Lao People's Democratic Republic","alpha.2":"LA","country.code":418,"iso_3166.2":"ISO 3166-2:LA","region":"Asia","sub.region":"South-Eastern Asia","region.code":142,"sub.region.code":35},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":422,"Partner":"Lebanon","Partner.ISO":"LBN","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":286774982,"Flag":0,"name":"Lebanon","alpha.2":"LB","country.code":422,"iso_3166.2":"ISO 3166-2:LB","region":"Asia","sub.region":"Western Asia","region.code":142,"sub.region.code":145},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":426,"Partner":"Lesotho","Partner.ISO":"LSO","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":14111,"Flag":0,"name":"Lesotho","alpha.2":"LS","country.code":426,"iso_3166.2":"ISO 3166-2:LS","region":"Africa","sub.region":"Southern Africa","region.code":2,"sub.region.code":18},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":428,"Partner":"Latvia","Partner.ISO":"LVA","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":26714950,"Flag":0,"name":"Latvia","alpha.2":"LV","country.code":428,"iso_3166.2":"ISO 3166-2:LV","region":"Europe","sub.region":"Northern Europe","region.code":150,"sub.region.code":154},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":430,"Partner":"Liberia","Partner.ISO":"LBR","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":26412010,"Flag":0,"name":"Liberia","alpha.2":"LR","country.code":430,"iso_3166.2":"ISO 3166-2:LR","region":"Africa","sub.region":"Western Africa","region.code":2,"sub.region.code":11},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":434,"Partner":"Libya","Partner.ISO":"LBY","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":147870040,"Flag":0,"name":"Libya","alpha.2":"LY","country.code":434,"iso_3166.2":"ISO 3166-2:LY","region":"Africa","sub.region":"Northern Africa","region.code":2,"sub.region.code":15},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":440,"Partner":"Lithuania","Partner.ISO":"LTU","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":52102571,"Flag":0,"name":"Lithuania","alpha.2":"LT","country.code":440,"iso_3166.2":"ISO 3166-2:LT","region":"Europe","sub.region":"Northern Europe","region.code":150,"sub.region.code":154},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":442,"Partner":"Luxembourg","Partner.ISO":"LUX","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":36379805,"Flag":0,"name":"Luxembourg","alpha.2":"LU","country.code":442,"iso_3166.2":"ISO 3166-2:LU","region":"Europe","sub.region":"Western Europe","region.code":150,"sub.region.code":155},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":446,"Partner":"China, Macao SAR","Partner.ISO":"MAC","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":497029,"Flag":0,"name":"Macao","alpha.2":"MO","country.code":446,"iso_3166.2":"ISO 3166-2:MO","region":"Asia","sub.region":"Eastern Asia","region.code":142,"sub.region.code":30},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":450,"Partner":"Madagascar","Partner.ISO":"MDG","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":22734199,"Flag":0,"name":"Madagascar","alpha.2":"MG","country.code":450,"iso_3166.2":"ISO 3166-2:MG","region":"Africa","sub.region":"Eastern Africa","region.code":2,"sub.region.code":14},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":454,"Partner":"Malawi","Partner.ISO":"MWI","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":1157224,"Flag":0,"name":"Malawi","alpha.2":"MW","country.code":454,"iso_3166.2":"ISO 3166-2:MW","region":"Africa","sub.region":"Eastern Africa","region.code":2,"sub.region.code":14},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":458,"Partner":"Malaysia","Partner.ISO":"MYS","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":1829670184,"Flag":0,"name":"Malaysia","alpha.2":"MY","country.code":458,"iso_3166.2":"ISO 3166-2:MY","region":"Asia","sub.region":"South-Eastern Asia","region.code":142,"sub.region.code":35},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":462,"Partner":"Maldives","Partner.ISO":"MDV","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":12407998,"Flag":0,"name":"Maldives","alpha.2":"MV","country.code":462,"iso_3166.2":"ISO 3166-2:MV","region":"Asia","sub.region":"Southern Asia","region.code":142,"sub.region.code":34},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":466,"Partner":"Mali","Partner.ISO":"MLI","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":7977850,"Flag":0,"name":"Mali","alpha.2":"ML","country.code":466,"iso_3166.2":"ISO 3166-2:ML","region":"Africa","sub.region":"Western Africa","region.code":2,"sub.region.code":11},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":470,"Partner":"Malta","Partner.ISO":"MLT","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":15425875,"Flag":0,"name":"Malta","alpha.2":"MT","country.code":470,"iso_3166.2":"ISO 3166-2:MT","region":"Europe","sub.region":"Southern Europe","region.code":150,"sub.region.code":39},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":478,"Partner":"Mauritania","Partner.ISO":"MRT","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":141696324,"Flag":0,"name":"Mauritania","alpha.2":"MR","country.code":478,"iso_3166.2":"ISO 3166-2:MR","region":"Africa","sub.region":"Western Africa","region.code":2,"sub.region.code":11},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":480,"Partner":"Mauritius","Partner.ISO":"MUS","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":39921529,"Flag":0,"name":"Mauritius","alpha.2":"MU","country.code":480,"iso_3166.2":"ISO 3166-2:MU","region":"Africa","sub.region":"Eastern Africa","region.code":2,"sub.region.code":14},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":484,"Partner":"Mexico","Partner.ISO":"MEX","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":3588345840,"Flag":0,"name":"Mexico","alpha.2":"MX","country.code":484,"iso_3166.2":"ISO 3166-2:MX","region":"Americas","sub.region":"Central America","region.code":19,"sub.region.code":13},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":496,"Partner":"Mongolia","Partner.ISO":"MNG","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":1194527,"Flag":0,"name":"Mongolia","alpha.2":"MN","country.code":496,"iso_3166.2":"ISO 3166-2:MN","region":"Asia","sub.region":"Eastern Asia","region.code":142,"sub.region.code":30},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":498,"Partner":"Rep. of Moldova","Partner.ISO":"MDA","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":2093183,"Flag":0,"name":"Moldova (Republic of)","alpha.2":"MD","country.code":498,"iso_3166.2":"ISO 3166-2:MD","region":"Europe","sub.region":"Eastern Europe","region.code":150,"sub.region.code":151},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":499,"Partner":"Montenegro","Partner.ISO":"MNE","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":21474075,"Flag":0,"name":"Montenegro","alpha.2":"ME","country.code":499,"iso_3166.2":"ISO 3166-2:ME","region":"Europe","sub.region":"Southern Europe","region.code":150,"sub.region.code":39},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":500,"Partner":"Montserrat","Partner.ISO":"MSR","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":6026,"Flag":0,"name":"Montserrat","alpha.2":"MS","country.code":500,"iso_3166.2":"ISO 3166-2:MS","region":"Americas","sub.region":"Caribbean","region.code":19,"sub.region.code":29},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":504,"Partner":"Morocco","Partner.ISO":"MAR","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":494287164,"Flag":0,"name":"Morocco","alpha.2":"MA","country.code":504,"iso_3166.2":"ISO 3166-2:MA","region":"Africa","sub.region":"Northern Africa","region.code":2,"sub.region.code":15},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":508,"Partner":"Mozambique","Partner.ISO":"MOZ","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":69099529,"Flag":0,"name":"Mozambique","alpha.2":"MZ","country.code":508,"iso_3166.2":"ISO 3166-2:MZ","region":"Africa","sub.region":"Eastern Africa","region.code":2,"sub.region.code":14},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":512,"Partner":"Oman","Partner.ISO":"OMN","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":583945782,"Flag":0,"name":"Oman","alpha.2":"OM","country.code":512,"iso_3166.2":"ISO 3166-2:OM","region":"Asia","sub.region":"Western Asia","region.code":142,"sub.region.code":145},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":516,"Partner":"Namibia","Partner.ISO":"NAM","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":7020710,"Flag":0,"name":"Namibia","country.code":516,"iso_3166.2":"ISO 3166-2:NA","region":"Africa","sub.region":"Southern Africa","region.code":2,"sub.region.code":18},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":524,"Partner":"Nepal","Partner.ISO":"NPL","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":840061,"Flag":0,"name":"Nepal","alpha.2":"NP","country.code":524,"iso_3166.2":"ISO 3166-2:NP","region":"Asia","sub.region":"Southern Asia","region.code":142,"sub.region.code":34},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":528,"Partner":"Netherlands","Partner.ISO":"NLD","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":10044465679,"Flag":0,"name":"Netherlands","alpha.2":"NL","country.code":528,"iso_3166.2":"ISO 3166-2:NL","region":"Europe","sub.region":"Western Europe","region.code":150,"sub.region.code":155},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":531,"Partner":"Curaçao","Partner.ISO":"CUW","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":532656961,"Flag":0,"name":"Curaçao","alpha.2":"CW","country.code":531,"iso_3166.2":"ISO 3166-2:CW","region":"Americas","sub.region":"Caribbean","region.code":19,"sub.region.code":29},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":533,"Partner":"Aruba","Partner.ISO":"ABW","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":30301263,"Flag":0,"name":"Aruba","alpha.2":"AW","country.code":533,"iso_3166.2":"ISO 3166-2:AW","region":"Americas","sub.region":"Caribbean","region.code":19,"sub.region.code":29},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":534,"Partner":"Saint Maarten","Partner.ISO":"SXM","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":41009,"Flag":0,"name":"Sint Maarten (Dutch part)","alpha.2":"SX","country.code":534,"iso_3166.2":"ISO 3166-2:SX","region":"Americas","sub.region":"Caribbean","region.code":19,"sub.region.code":29},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":540,"Partner":"New Caledonia","Partner.ISO":"NCL","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":6263728,"Flag":0,"name":"New Caledonia","alpha.2":"NC","country.code":540,"iso_3166.2":"ISO 3166-2:NC","region":"Oceania","sub.region":"Melanesia","region.code":9,"sub.region.code":54},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":548,"Partner":"Vanuatu","Partner.ISO":"VUT","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":220889,"Flag":0,"name":"Vanuatu","alpha.2":"VU","country.code":548,"iso_3166.2":"ISO 3166-2:VU","region":"Oceania","sub.region":"Melanesia","region.code":9,"sub.region.code":54},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":554,"Partner":"New Zealand","Partner.ISO":"NZL","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":64200352,"Flag":0,"name":"New Zealand","alpha.2":"NZ","country.code":554,"iso_3166.2":"ISO 3166-2:NZ","region":"Oceania","sub.region":"Australia and New Zealand","region.code":9,"sub.region.code":53},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":558,"Partner":"Nicaragua","Partner.ISO":"NIC","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":94036913,"Flag":0,"name":"Nicaragua","alpha.2":"NI","country.code":558,"iso_3166.2":"ISO 3166-2:NI","region":"Americas","sub.region":"Central America","region.code":19,"sub.region.code":13},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":562,"Partner":"Niger","Partner.ISO":"NER","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":754681,"Flag":0,"name":"Niger","alpha.2":"NE","country.code":562,"iso_3166.2":"ISO 3166-2:NE","region":"Africa","sub.region":"Western Africa","region.code":2,"sub.region.code":11},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":566,"Partner":"Nigeria","Partner.ISO":"NGA","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":688377146,"Flag":0,"name":"Nigeria","alpha.2":"NG","country.code":566,"iso_3166.2":"ISO 3166-2:NG","region":"Africa","sub.region":"Western Africa","region.code":2,"sub.region.code":11},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":570,"Partner":"Niue","Partner.ISO":"NIU","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":253680,"Flag":0,"name":"Niue","alpha.2":"NU","country.code":570,"iso_3166.2":"ISO 3166-2:NU","region":"Oceania","sub.region":"Polynesia","region.code":9,"sub.region.code":61},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":579,"Partner":"Norway","Partner.ISO":"NOR","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":678970774,"Flag":0,"name":"Norway","alpha.2":"NO","country.code":578,"iso_3166.2":"ISO 3166-2:NO","region":"Europe","sub.region":"Northern Europe","region.code":150,"sub.region.code":154},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":580,"Partner":"N. Mariana Isds","Partner.ISO":"MNP","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":76,"Flag":0,"name":"Northern Mariana Islands","alpha.2":"MP","country.code":580,"iso_3166.2":"ISO 3166-2:MP","region":"Oceania","sub.region":"Micronesia","region.code":9,"sub.region.code":57},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":583,"Partner":"FS Micronesia","Partner.ISO":"FSM","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":211771,"Flag":0,"name":"Micronesia (Federated States of)","alpha.2":"FM","country.code":583,"iso_3166.2":"ISO 3166-2:FM","region":"Oceania","sub.region":"Micronesia","region.code":9,"sub.region.code":57},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":584,"Partner":"Marshall Isds","Partner.ISO":"MHL","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":11610227,"Flag":0,"name":"Marshall Islands","alpha.2":"MH","country.code":584,"iso_3166.2":"ISO 3166-2:MH","region":"Oceania","sub.region":"Micronesia","region.code":9,"sub.region.code":57},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":586,"Partner":"Pakistan","Partner.ISO":"PAK","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":297853140,"Flag":0,"name":"Pakistan","alpha.2":"PK","country.code":586,"iso_3166.2":"ISO 3166-2:PK","region":"Asia","sub.region":"Southern Asia","region.code":142,"sub.region.code":34},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":591,"Partner":"Panama","Partner.ISO":"PAN","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":304737870,"Flag":0,"name":"Panama","alpha.2":"PA","country.code":591,"iso_3166.2":"ISO 3166-2:PA","region":"Americas","sub.region":"Central America","region.code":19,"sub.region.code":13},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":598,"Partner":"Papua New Guinea","Partner.ISO":"PNG","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":3335192,"Flag":0,"name":"Papua New Guinea","alpha.2":"PG","country.code":598,"iso_3166.2":"ISO 3166-2:PG","region":"Oceania","sub.region":"Melanesia","region.code":9,"sub.region.code":54},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":600,"Partner":"Paraguay","Partner.ISO":"PRY","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":2473348262,"Flag":0,"name":"Paraguay","alpha.2":"PY","country.code":600,"iso_3166.2":"ISO 3166-2:PY","region":"Americas","sub.region":"South America","region.code":19,"sub.region.code":5},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":604,"Partner":"Peru","Partner.ISO":"PER","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":1815632198,"Flag":0,"name":"Peru","alpha.2":"PE","country.code":604,"iso_3166.2":"ISO 3166-2:PE","region":"Americas","sub.region":"South America","region.code":19,"sub.region.code":5},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":608,"Partner":"Philippines","Partner.ISO":"PHL","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":728633861,"Flag":0,"name":"Philippines","alpha.2":"PH","country.code":608,"iso_3166.2":"ISO 3166-2:PH","region":"Asia","sub.region":"South-Eastern Asia","region.code":142,"sub.region.code":35},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":612,"Partner":"Pitcairn","Partner.ISO":"PCN","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":362,"Flag":0,"name":"Pitcairn","alpha.2":"PN","country.code":612,"iso_3166.2":"ISO 3166-2:PN","region":"Oceania","sub.region":"Polynesia","region.code":9,"sub.region.code":61},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":616,"Partner":"Poland","Partner.ISO":"POL","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":495035464,"Flag":0,"name":"Poland","alpha.2":"PL","country.code":616,"iso_3166.2":"ISO 3166-2:PL","region":"Europe","sub.region":"Eastern Europe","region.code":150,"sub.region.code":151},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":620,"Partner":"Portugal","Partner.ISO":"PRT","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":822104983,"Flag":0,"name":"Portugal","alpha.2":"PT","country.code":620,"iso_3166.2":"ISO 3166-2:PT","region":"Europe","sub.region":"Southern Europe","region.code":150,"sub.region.code":39},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":624,"Partner":"Guinea-Bissau","Partner.ISO":"GNB","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":2885872,"Flag":0,"name":"Guinea-Bissau","alpha.2":"GW","country.code":624,"iso_3166.2":"ISO 3166-2:GW","region":"Africa","sub.region":"Western Africa","region.code":2,"sub.region.code":11},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":626,"Partner":"Timor-Leste","Partner.ISO":"TLS","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":6228732,"Flag":0,"name":"Timor-Leste","alpha.2":"TL","country.code":626,"iso_3166.2":"ISO 3166-2:TL","region":"Asia","sub.region":"South-Eastern Asia","region.code":142,"sub.region.code":35},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":634,"Partner":"Qatar","Partner.ISO":"QAT","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":356953936,"Flag":0,"name":"Qatar","alpha.2":"QA","country.code":634,"iso_3166.2":"ISO 3166-2:QA","region":"Asia","sub.region":"Western Asia","region.code":142,"sub.region.code":145},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":642,"Partner":"Romania","Partner.ISO":"ROU","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":242329934,"Flag":0,"name":"Romania","alpha.2":"RO","country.code":642,"iso_3166.2":"ISO 3166-2:RO","region":"Europe","sub.region":"Eastern Europe","region.code":150,"sub.region.code":151},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":643,"Partner":"Russian Federation","Partner.ISO":"RUS","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":2464430326,"Flag":0,"name":"Russian Federation","alpha.2":"RU","country.code":643,"iso_3166.2":"ISO 3166-2:RU","region":"Europe","sub.region":"Eastern Europe","region.code":150,"sub.region.code":151},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":646,"Partner":"Rwanda","Partner.ISO":"RWA","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":698475,"Flag":0,"name":"Rwanda","alpha.2":"RW","country.code":646,"iso_3166.2":"ISO 3166-2:RW","region":"Africa","sub.region":"Eastern Africa","region.code":2,"sub.region.code":14},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":652,"Partner":"Saint Barthélemy","Partner.ISO":"BLM","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":2047,"Flag":0,"name":"Saint Barthélemy","alpha.2":"BL","country.code":652,"iso_3166.2":"ISO 3166-2:BL","region":"Americas","sub.region":"Caribbean","region.code":19,"sub.region.code":29},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":654,"Partner":"Saint Helena","Partner.ISO":"SHN","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":4603,"Flag":0,"name":"Saint Helena, Ascension and Tristan da Cunha","alpha.2":"SH","country.code":654,"iso_3166.2":"ISO 3166-2:SH","region":"Africa","sub.region":"Western Africa","region.code":2,"sub.region.code":11},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":659,"Partner":"Saint Kitts and Nevis","Partner.ISO":"KNA","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":3277384,"Flag":0,"name":"Saint Kitts and Nevis","alpha.2":"KN","country.code":659,"iso_3166.2":"ISO 3166-2:KN","region":"Americas","sub.region":"Caribbean","region.code":19,"sub.region.code":29},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":660,"Partner":"Anguilla","Partner.ISO":"AIA","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":716610,"Flag":0,"name":"Anguilla","alpha.2":"AI","country.code":660,"iso_3166.2":"ISO 3166-2:AI","region":"Americas","sub.region":"Caribbean","region.code":19,"sub.region.code":29},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":662,"Partner":"Saint Lucia","Partner.ISO":"LCA","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":672825717,"Flag":0,"name":"Saint Lucia","alpha.2":"LC","country.code":662,"iso_3166.2":"ISO 3166-2:LC","region":"Americas","sub.region":"Caribbean","region.code":19,"sub.region.code":29},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":670,"Partner":"Saint Vincent and the Grenadines","Partner.ISO":"VCT","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":3285101,"Flag":0,"name":"Saint Vincent and the Grenadines","alpha.2":"VC","country.code":670,"iso_3166.2":"ISO 3166-2:VC","region":"Americas","sub.region":"Caribbean","region.code":19,"sub.region.code":29},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":674,"Partner":"San Marino","Partner.ISO":"SMR","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":8337,"Flag":0,"name":"San Marino","alpha.2":"SM","country.code":674,"iso_3166.2":"ISO 3166-2:SM","region":"Europe","sub.region":"Southern Europe","region.code":150,"sub.region.code":39},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":678,"Partner":"Sao Tome and Principe","Partner.ISO":"STP","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":881964,"Flag":0,"name":"Sao Tome and Principe","alpha.2":"ST","country.code":678,"iso_3166.2":"ISO 3166-2:ST","region":"Africa","sub.region":"Middle Africa","region.code":2,"sub.region.code":17},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":682,"Partner":"Saudi Arabia","Partner.ISO":"SAU","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":2750366922,"Flag":0,"name":"Saudi Arabia","alpha.2":"SA","country.code":682,"iso_3166.2":"ISO 3166-2:SA","region":"Asia","sub.region":"Western Asia","region.code":142,"sub.region.code":145},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":686,"Partner":"Senegal","Partner.ISO":"SEN","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":131900123,"Flag":0,"name":"Senegal","alpha.2":"SN","country.code":686,"iso_3166.2":"ISO 3166-2:SN","region":"Africa","sub.region":"Western Africa","region.code":2,"sub.region.code":11},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":688,"Partner":"Serbia","Partner.ISO":"SRB","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":33197080,"Flag":0,"name":"Serbia","alpha.2":"RS","country.code":688,"iso_3166.2":"ISO 3166-2:RS","region":"Europe","sub.region":"Southern Europe","region.code":150,"sub.region.code":39},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":690,"Partner":"Seychelles","Partner.ISO":"SYC","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":7708524,"Flag":0,"name":"Seychelles","alpha.2":"SC","country.code":690,"iso_3166.2":"ISO 3166-2:SC","region":"Africa","sub.region":"Eastern Africa","region.code":2,"sub.region.code":14},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":694,"Partner":"Sierra Leone","Partner.ISO":"SLE","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":45749022,"Flag":0,"name":"Sierra Leone","alpha.2":"SL","country.code":694,"iso_3166.2":"ISO 3166-2:SL","region":"Africa","sub.region":"Western Africa","region.code":2,"sub.region.code":11},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":699,"Partner":"India","Partner.ISO":"IND","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":3617449354,"Flag":0,"name":"India","alpha.2":"IN","country.code":356,"iso_3166.2":"ISO 3166-2:IN","region":"Asia","sub.region":"Southern Asia","region.code":142,"sub.region.code":34},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":702,"Partner":"Singapore","Partner.ISO":"SGP","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":2045353055,"Flag":0,"name":"Singapore","alpha.2":"SG","country.code":702,"iso_3166.2":"ISO 3166-2:SG","region":"Asia","sub.region":"South-Eastern Asia","region.code":142,"sub.region.code":35},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":703,"Partner":"Slovakia","Partner.ISO":"SVK","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":21273637,"Flag":0,"name":"Slovakia","alpha.2":"SK","country.code":703,"iso_3166.2":"ISO 3166-2:SK","region":"Europe","sub.region":"Eastern Europe","region.code":150,"sub.region.code":151},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":704,"Partner":"Viet Nam","Partner.ISO":"VNM","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":2124310401,"Flag":0,"name":"Viet Nam","alpha.2":"VN","country.code":704,"iso_3166.2":"ISO 3166-2:VN","region":"Asia","sub.region":"South-Eastern Asia","region.code":142,"sub.region.code":35},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":705,"Partner":"Slovenia","Partner.ISO":"SVN","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":380791103,"Flag":0,"name":"Slovenia","alpha.2":"SI","country.code":705,"iso_3166.2":"ISO 3166-2:SI","region":"Europe","sub.region":"Southern Europe","region.code":150,"sub.region.code":39},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":706,"Partner":"Somalia","Partner.ISO":"SOM","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":36870683,"Flag":0,"name":"Somalia","alpha.2":"SO","country.code":706,"iso_3166.2":"ISO 3166-2:SO","region":"Africa","sub.region":"Eastern Africa","region.code":2,"sub.region.code":14},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":710,"Partner":"South Africa","Partner.ISO":"ZAF","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":1353771220,"Flag":0,"name":"South Africa","alpha.2":"ZA","country.code":710,"iso_3166.2":"ISO 3166-2:ZA","region":"Africa","sub.region":"Southern Africa","region.code":2,"sub.region.code":18},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":716,"Partner":"Zimbabwe","Partner.ISO":"ZWE","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":11178157,"Flag":0,"name":"Zimbabwe","alpha.2":"ZW","country.code":716,"iso_3166.2":"ISO 3166-2:ZW","region":"Africa","sub.region":"Eastern Africa","region.code":2,"sub.region.code":14},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":724,"Partner":"Spain","Partner.ISO":"ESP","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":2971693265,"Flag":0,"name":"Spain","alpha.2":"ES","country.code":724,"iso_3166.2":"ISO 3166-2:ES","region":"Europe","sub.region":"Southern Europe","region.code":150,"sub.region.code":39},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":728,"Partner":"South Sudan","Partner.ISO":"SSD","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":692002,"Flag":0,"name":"South Sudan","alpha.2":"SS","country.code":728,"iso_3166.2":"ISO 3166-2:SS","region":"Africa","sub.region":"Eastern Africa","region.code":2,"sub.region.code":14},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":729,"Partner":"Sudan","Partner.ISO":"SDN","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":23377285,"Flag":0,"name":"Sudan","alpha.2":"SD","country.code":729,"iso_3166.2":"ISO 3166-2:SD","region":"Africa","sub.region":"Northern Africa","region.code":2,"sub.region.code":15},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":740,"Partner":"Suriname","Partner.ISO":"SUR","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":38430148,"Flag":0,"name":"Suriname","alpha.2":"SR","country.code":740,"iso_3166.2":"ISO 3166-2:SR","region":"Americas","sub.region":"South America","region.code":19,"sub.region.code":5},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":748,"Partner":"Swaziland","Partner.ISO":"SWZ","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":360871,"Flag":0,"name":"Swaziland","alpha.2":"SZ","country.code":748,"iso_3166.2":"ISO 3166-2:SZ","region":"Africa","sub.region":"Southern Africa","region.code":2,"sub.region.code":18},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":752,"Partner":"Sweden","Partner.ISO":"SWE","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":503477420,"Flag":0,"name":"Sweden","alpha.2":"SE","country.code":752,"iso_3166.2":"ISO 3166-2:SE","region":"Europe","sub.region":"Northern Europe","region.code":150,"sub.region.code":154},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":757,"Partner":"Switzerland","Partner.ISO":"CHE","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":1944981832,"Flag":0,"name":"Switzerland","alpha.2":"CH","country.code":756,"iso_3166.2":"ISO 3166-2:CH","region":"Europe","sub.region":"Western Europe","region.code":150,"sub.region.code":155},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":760,"Partner":"Syria","Partner.ISO":"SYR","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":69664750,"Flag":0,"name":"Syrian Arab Republic","alpha.2":"SY","country.code":760,"iso_3166.2":"ISO 3166-2:SY","region":"Asia","sub.region":"Western Asia","region.code":142,"sub.region.code":145},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":762,"Partner":"Tajikistan","Partner.ISO":"TJK","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":2741947,"Flag":0,"name":"Tajikistan","alpha.2":"TJ","country.code":762,"iso_3166.2":"ISO 3166-2:TJ","region":"Asia","sub.region":"Central Asia","region.code":142,"sub.region.code":143},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":764,"Partner":"Thailand","Partner.ISO":"THA","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":1749311727,"Flag":0,"name":"Thailand","alpha.2":"TH","country.code":764,"iso_3166.2":"ISO 3166-2:TH","region":"Asia","sub.region":"South-Eastern Asia","region.code":142,"sub.region.code":35},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":768,"Partner":"Togo","Partner.ISO":"TGO","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":67857031,"Flag":0,"name":"Togo","alpha.2":"TG","country.code":768,"iso_3166.2":"ISO 3166-2:TG","region":"Africa","sub.region":"Western Africa","region.code":2,"sub.region.code":11},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":776,"Partner":"Tonga","Partner.ISO":"TON","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":868648,"Flag":0,"name":"Tonga","alpha.2":"TO","country.code":776,"iso_3166.2":"ISO 3166-2:TO","region":"Oceania","sub.region":"Polynesia","region.code":9,"sub.region.code":61},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":780,"Partner":"Trinidad and Tobago","Partner.ISO":"TTO","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":266632831,"Flag":0,"name":"Trinidad and Tobago","alpha.2":"TT","country.code":780,"iso_3166.2":"ISO 3166-2:TT","region":"Americas","sub.region":"Caribbean","region.code":19,"sub.region.code":29},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":784,"Partner":"United Arab Emirates","Partner.ISO":"ARE","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":2503670227,"Flag":0,"name":"United Arab Emirates","alpha.2":"AE","country.code":784,"iso_3166.2":"ISO 3166-2:AE","region":"Asia","sub.region":"Western Asia","region.code":142,"sub.region.code":145},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":788,"Partner":"Tunisia","Partner.ISO":"TUN","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":302968833,"Flag":0,"name":"Tunisia","alpha.2":"TN","country.code":788,"iso_3166.2":"ISO 3166-2:TN","region":"Africa","sub.region":"Northern Africa","region.code":2,"sub.region.code":15},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":792,"Partner":"Turkey","Partner.ISO":"TUR","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":1335561698,"Flag":0,"name":"Turkey","alpha.2":"TR","country.code":792,"iso_3166.2":"ISO 3166-2:TR","region":"Asia","sub.region":"Western Asia","region.code":142,"sub.region.code":145},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":795,"Partner":"Turkmenistan","Partner.ISO":"TKM","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":2747288,"Flag":0,"name":"Turkmenistan","alpha.2":"TM","country.code":795,"iso_3166.2":"ISO 3166-2:TM","region":"Asia","sub.region":"Central Asia","region.code":142,"sub.region.code":143},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":796,"Partner":"Turks and Caicos Isds","Partner.ISO":"TCA","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":3341907,"Flag":0,"name":"Turks and Caicos Islands","alpha.2":"TC","country.code":796,"iso_3166.2":"ISO 3166-2:TC","region":"Americas","sub.region":"Caribbean","region.code":19,"sub.region.code":29},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":800,"Partner":"Uganda","Partner.ISO":"UGA","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":5967203,"Flag":0,"name":"Uganda","alpha.2":"UG","country.code":800,"iso_3166.2":"ISO 3166-2:UG","region":"Africa","sub.region":"Eastern Africa","region.code":2,"sub.region.code":14},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":804,"Partner":"Ukraine","Partner.ISO":"UKR","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":84619099,"Flag":0,"name":"Ukraine","alpha.2":"UA","country.code":804,"iso_3166.2":"ISO 3166-2:UA","region":"Europe","sub.region":"Eastern Europe","region.code":150,"sub.region.code":151},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":807,"Partner":"TFYR of Macedonia","Partner.ISO":"MKD","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":17715776,"Flag":0,"name":"Macedonia (the former Yugoslav Republic of)","alpha.2":"MK","country.code":807,"iso_3166.2":"ISO 3166-2:MK","region":"Europe","sub.region":"Southern Europe","region.code":150,"sub.region.code":39},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":818,"Partner":"Egypt","Partner.ISO":"EGY","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":2056588300,"Flag":0,"name":"Egypt","alpha.2":"EG","country.code":818,"iso_3166.2":"ISO 3166-2:EG","region":"Africa","sub.region":"Northern Africa","region.code":2,"sub.region.code":15},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":826,"Partner":"United Kingdom","Partner.ISO":"GBR","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":2916045626,"Flag":0,"name":"United Kingdom of Great Britain and Northern Ireland","alpha.2":"GB","country.code":826,"iso_3166.2":"ISO 3166-2:GB","region":"Europe","sub.region":"Northern Europe","region.code":150,"sub.region.code":154},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":834,"Partner":"United Rep. of Tanzania","Partner.ISO":"TZA","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":16779350,"Flag":0,"name":"Tanzania, United Republic of","alpha.2":"TZ","country.code":834,"iso_3166.2":"ISO 3166-2:TZ","region":"Africa","sub.region":"Eastern Africa","region.code":2,"sub.region.code":14},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":842,"Partner":"USA","Partner.ISO":"USA","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":24215973746,"Flag":0,"name":"United States of America","alpha.2":"US","country.code":840,"iso_3166.2":"ISO 3166-2:US","region":"Americas","sub.region":"Northern America","region.code":19,"sub.region.code":21},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":854,"Partner":"Burkina Faso","Partner.ISO":"BFA","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":893158,"Flag":0,"name":"Burkina Faso","alpha.2":"BF","country.code":854,"iso_3166.2":"ISO 3166-2:BF","region":"Africa","sub.region":"Western Africa","region.code":2,"sub.region.code":11},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":858,"Partner":"Uruguay","Partner.ISO":"URY","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":2726867064,"Flag":0,"name":"Uruguay","alpha.2":"UY","country.code":858,"iso_3166.2":"ISO 3166-2:UY","region":"Americas","sub.region":"South America","region.code":19,"sub.region.code":5},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":860,"Partner":"Uzbekistan","Partner.ISO":"UZB","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":9963015,"Flag":0,"name":"Uzbekistan","alpha.2":"UZ","country.code":860,"iso_3166.2":"ISO 3166-2:UZ","region":"Asia","sub.region":"Central Asia","region.code":142,"sub.region.code":143},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":862,"Partner":"Venezuela","Partner.ISO":"VEN","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":2986603820,"Flag":0,"name":"Venezuela (Bolivarian Republic of)","alpha.2":"VE","country.code":862,"iso_3166.2":"ISO 3166-2:VE","region":"Americas","sub.region":"South America","region.code":19,"sub.region.code":5},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":882,"Partner":"Samoa","Partner.ISO":"WSM","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":375494,"Flag":0,"name":"Samoa","alpha.2":"WS","country.code":882,"iso_3166.2":"ISO 3166-2:WS","region":"Oceania","sub.region":"Polynesia","region.code":9,"sub.region.code":61},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":887,"Partner":"Yemen","Partner.ISO":"YEM","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":214545471,"Flag":0,"name":"Yemen","alpha.2":"YE","country.code":887,"iso_3166.2":"ISO 3166-2:YE","region":"Asia","sub.region":"Western Asia","region.code":142,"sub.region.code":145},{"Classification":"H4","Year":2015,"Period":2015,"Period.Desc.":2015,"Aggregate.Level":0,"Is.Leaf.Code":0,"Trade.Flow.Code":2,"Trade.Flow":"Export","Reporter.Code":76,"Reporter":"Brazil","Reporter.ISO":"BRA","Partner.Code":894,"Partner":"Zambia","Partner.ISO":"ZMB","Commodity.Code":"TOTAL","Commodity":"All Commodities","Qty.Unit.Code":1,"Qty.Unit":"No Quantity","Trade.Value..US..":5334118,"Flag":0,"name":"Zambia","alpha.2":"ZM","country.code":894,"iso_3166.2":"ISO 3166-2:ZM","region":"Africa","sub.region":"Eastern Africa","region.code":2,"sub.region.code":14}],"settings":{"type":"tree_map","id":["region","Partner"],"title":["function (main = NULL, sub = NULL, xlab = NULL, ylab = NULL, ","    line = NA, outer = FALSE, ...) ","{","    main <- as.graphicsAnnot(main)","    sub <- as.graphicsAnnot(sub)","    xlab <- as.graphicsAnnot(xlab)","    ylab <- as.graphicsAnnot(ylab)","    .External.graphics(C_title, main, sub, xlab, ylab, line, ","        outer, ...)","    invisible()","}"],"currency":"US$","number_text":["K","M","M","B","B"],"currency_var":null,"percent_var":null,"noformat_number_var":null,"d3plus_number_format":true,"locale":"en_US","clean_previous":false,"dictionary":{}},"d3plusSize":{"value":"Trade.Value..US.."},"d3plusLegend":{"value":true,"order":{"sort":"desc","value":"size"}},"d3plusColor":{"value":"region"},"d3plusDepth":{"value":0},"d3plusLabels":{"value":{},"valign":"top"}},"evals":[],"jsHooks":[]}</script>
+</div>
+<h2 id="consideracoes-finais">Considerações Finais</h2>
+<p>Neste post, elaboramos uma pequena introdução ao pacote <code>D3plusR</code>. A ideia é evoluir o pacote. Portanto, comentários e críticas são bem-vindos. Também faremos mais posts com mais exemplos, aprofundando um pouco mais a cada publicação. Por exemplo, é possível utilizar uma lista como dicionário para traduzir o nome de uma variável, incluir ícones na legenda, customizar as cores, linkar visualizações, etc.</p>
+<h2 id="referencias">Referências</h2>
+<ul>
+<li><a href="https://d3js.org/">D3</a></li>
+<li><a href="https://d3plus.org/examples/">D3plus Examples</a></li>
+<li><a href="http://www.htmlwidgets.org/">Htmlwidgets</a></li>
+<li><a href="https://github.com/paulofelipe/D3plusR">D3plusR no Github</a></li>
+</ul>
+<style>
+.d3plus_tooltip{
+  text-align: left !important;
+}
+</style>
+<!--radix_placeholder_article_footer-->
+<!--/radix_placeholder_article_footer-->
+</div>
+
+<div class="d-appendix">
+</div>
+
+
+<!--radix_placeholder_site_after_body-->
+<!--/radix_placeholder_site_after_body-->
+<!--radix_placeholder_appendices-->
+<div class="appendix-bottom"></div>
+<!--/radix_placeholder_appendices-->
+<!--radix_placeholder_navigation_after_body-->
+<!--/radix_placeholder_navigation_after_body-->
+
+</body>
+
+</html>

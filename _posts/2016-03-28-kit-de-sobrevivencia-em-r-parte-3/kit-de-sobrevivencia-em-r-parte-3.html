@@ -1,0 +1,1055 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"/>
+  <meta name="generator" content="distill" />
+
+  <style type="text/css">
+  /* Hide doc at startup (prevent jankiness while JS renders/transforms) */
+  body {
+    visibility: hidden;
+  }
+  </style>
+
+ <!--radix_placeholder_import_source-->
+ <!--/radix_placeholder_import_source-->
+
+  <!--radix_placeholder_meta_tags-->
+  <title>Kit de Sobrevivência em R - Parte 3: Pacotes</title>
+  
+  <meta property="description" itemprop="description" content="Neste post, você aprenderá um pouco sobre os pacotes, trabalhará com o console para fazer algumas operações e ir se familiarizando mais com o R. Aprenderá como usar as funções disponíveis no R e as funções adicionais em pacotes."/>
+  
+  
+  <!--  https://schema.org/Article -->
+  <meta property="article:published" itemprop="datePublished" content="2016-04-03"/>
+  <meta property="article:created" itemprop="dateCreated" content="2016-04-03"/>
+  
+  <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
+  <meta property="og:title" content="Kit de Sobrevivência em R - Parte 3: Pacotes"/>
+  <meta property="og:type" content="article"/>
+  <meta property="og:description" content="Neste post, você aprenderá um pouco sobre os pacotes, trabalhará com o console para fazer algumas operações e ir se familiarizando mais com o R. Aprenderá como usar as funções disponíveis no R e as funções adicionais em pacotes."/>
+  <meta property="og:locale" content="en_US"/>
+  
+  <!--  https://dev.twitter.com/cards/types/summary -->
+  <meta property="twitter:card" content="summary"/>
+  <meta property="twitter:title" content="Kit de Sobrevivência em R - Parte 3: Pacotes"/>
+  <meta property="twitter:description" content="Neste post, você aprenderá um pouco sobre os pacotes, trabalhará com o console para fazer algumas operações e ir se familiarizando mais com o R. Aprenderá como usar as funções disponíveis no R e as funções adicionais em pacotes."/>
+  
+  <!--/radix_placeholder_meta_tags-->
+  <!--radix_placeholder_rmarkdown_metadata-->
+  
+  <script type="text/json" id="radix-rmarkdown-metadata">
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["output","description","title","date"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]}]},{"type":"character","attributes":{},"value":["Neste post, você aprenderá um pouco sobre os pacotes, trabalhará com o console para fazer algumas operações e ir se familiarizando mais com o R. Aprenderá como usar as funções disponíveis no R e as funções adicionais em pacotes.\n"]},{"type":"character","attributes":{},"value":["Kit de Sobrevivência em R - Parte 3: Pacotes"]},{"type":"character","attributes":{},"value":["2016-04-03"]}]}
+  </script>
+  <!--/radix_placeholder_rmarkdown_metadata-->
+  
+  <script type="text/json" id="radix-resource-manifest">
+  {"type":"character","attributes":{},"value":["kit-de-sobrevivencia-em-r-parte-3_files/bowser-1.9.3/bowser.min.js","kit-de-sobrevivencia-em-r-parte-3_files/distill-2.2.21/template.v2.js","kit-de-sobrevivencia-em-r-parte-3_files/jquery-1.11.3/jquery.min.js","kit-de-sobrevivencia-em-r-parte-3_files/webcomponents-2.0.0/webcomponents.js"]}
+  </script>
+  <!--radix_placeholder_navigation_in_header-->
+  <!--/radix_placeholder_navigation_in_header-->
+  <!--radix_placeholder_distill-->
+  
+  <style type="text/css">
+  
+  body {
+    background-color: white;
+  }
+  
+  .pandoc-table {
+    width: 100%;
+  }
+  
+  .pandoc-table>caption {
+    margin-bottom: 10px;
+  }
+  
+  .pandoc-table th:not([align]) {
+    text-align: left;
+  }
+  
+  .pagedtable-footer {
+    font-size: 15px;
+  }
+  
+  .html-widget {
+    margin-bottom: 2.0em;
+  }
+  
+  .l-screen-inset {
+    padding-right: 16px;
+  }
+  
+  .l-screen .caption {
+    margin-left: 10px;
+  }
+  
+  .shaded {
+    background: rgb(247, 247, 247);
+    padding-top: 20px;
+    padding-bottom: 20px;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  }
+  
+  .shaded .html-widget {
+    margin-bottom: 0;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+  }
+  
+  .shaded .shaded-content {
+    background: white;
+  }
+  
+  .text-output {
+    margin-top: 0;
+    line-height: 1.5em;
+  }
+  
+  .hidden {
+    display: none !important;
+  }
+  
+  d-article {
+    padding-bottom: 30px;
+  }
+  
+  d-appendix {
+    padding-top: 30px;
+  }
+  
+  d-article>p>img {
+    width: 100%;
+  }
+  
+  d-article iframe {
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    margin-bottom: 2.0em;
+    width: 100%;
+  }
+  
+  figure img.external {
+    background: white;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+    padding: 18px;
+    box-sizing: border-box;
+  }
+  
+  /* CSS for table of contents */
+  
+  .d-toc {
+    color: rgba(0,0,0,0.8);
+    font-size: 0.8em;
+    line-height: 1em;
+  }
+  
+  .d-toc-header {
+    font-size: 0.6rem;
+    font-weight: 400;
+    color: rgba(0, 0, 0, 0.5);
+    text-transform: uppercase;
+    margin-top: 0;
+    margin-bottom: 1.3em;
+  }
+  
+  .d-toc a {
+    border-bottom: none;
+  }
+  
+  .d-toc ul {
+    padding-left: 0;
+  }
+  
+  .d-toc li>ul {
+    padding-top: 0.8em;
+    padding-left: 16px;
+    margin-bottom: 0.6em;
+  }
+  
+  .d-toc ul,
+  .d-toc li {
+    list-style-type: none;
+  }
+  
+  .d-toc li {
+    margin-bottom: 0.9em;
+  }
+  
+  .d-toc-separator {
+    margin-top: 20px;
+    margin-bottom: 2em;
+  }
+  
+  .d-article-with-toc {
+    border-top: none;
+    padding-top: 0;
+  }
+  
+  
+  
+  /* Tweak code blocks (note that this CSS is repeated above in an injection
+     into the d-code shadow dom) */
+  
+  d-code {
+    overflow-x: auto !important;
+  }
+  
+  pre.d-code code.d-code {
+    padding-left: 10px;
+    font-size: 12px;
+    border-left: 2px solid rgba(0,0,0,0.1);
+  }
+  
+  pre.text-output {
+  
+    font-size: 12px;
+    color: black;
+    background: none;
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+    text-align: left;
+    white-space: pre;
+    word-spacing: normal;
+    word-break: normal;
+    word-wrap: normal;
+    line-height: 1.5;
+  
+    -moz-tab-size: 4;
+    -o-tab-size: 4;
+    tab-size: 4;
+  
+    -webkit-hyphens: none;
+    -moz-hyphens: none;
+    -ms-hyphens: none;
+    hyphens: none;
+  }
+  
+  @media(min-width: 768px) {
+  
+  d-code {
+    overflow-x: visible !important;
+  }
+  
+  pre.d-code code.d-code  {
+      padding-left: 18px;
+      font-size: 14px;
+  }
+  pre.text-output {
+    font-size: 14px;
+  }
+  }
+  
+  /* Figure */
+  
+  .figure {
+    position: relative;
+    margin-bottom: 2.5em;
+    margin-top: 1.5em;
+  }
+  
+  .figure img {
+    width: 100%;
+  }
+  
+  .figure .caption {
+    color: rgba(0, 0, 0, 0.6);
+    font-size: 12px;
+    line-height: 1.5em;
+  }
+  
+  .figure img.external {
+    background: white;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+    padding: 18px;
+    box-sizing: border-box;
+  }
+  
+  .figure .caption a {
+    color: rgba(0, 0, 0, 0.6);
+  }
+  
+  .figure .caption b,
+  .figure .caption strong, {
+    font-weight: 600;
+    color: rgba(0, 0, 0, 1.0);
+  }
+  
+  
+  
+  /* Tweak 1000px media break to show more text */
+  
+  @media(min-width: 1000px) {
+    .base-grid,
+    distill-header,
+    d-title,
+    d-abstract,
+    d-article,
+    d-appendix,
+    distill-appendix,
+    d-byline,
+    d-footnote-list,
+    d-citation-list,
+    distill-footer {
+      grid-template-columns: [screen-start] 1fr [page-start kicker-start] 80px [middle-start] 50px [text-start kicker-end] 65px 65px 65px 65px 65px 65px 65px 65px [text-end gutter-start] 65px [middle-end] 65px [page-end gutter-end] 1fr [screen-end];
+      grid-column-gap: 16px;
+    }
+  
+    .grid {
+      grid-column-gap: 16px;
+    }
+  
+    d-article {
+      font-size: 1.06rem;
+      line-height: 1.7em;
+    }
+    figure .caption, .figure .caption, figure figcaption {
+      font-size: 13px;
+    }
+  }
+  
+  @media(min-width: 1180px) {
+    .base-grid,
+    distill-header,
+    d-title,
+    d-abstract,
+    d-article,
+    d-appendix,
+    distill-appendix,
+    d-byline,
+    d-footnote-list,
+    d-citation-list,
+    distill-footer {
+      grid-template-columns: [screen-start] 1fr [page-start kicker-start] 60px [middle-start] 60px [text-start kicker-end] 60px 60px 60px 60px 60px 60px 60px 60px [text-end gutter-start] 60px [middle-end] 60px [page-end gutter-end] 1fr [screen-end];
+      grid-column-gap: 32px;
+    }
+  
+    .grid {
+      grid-column-gap: 32px;
+    }
+  }
+  
+  
+  /* Get the citation styles for the appendix (not auto-injected on render since
+     we do our own rendering of the citation appendix) */
+  
+  d-appendix .citation-appendix,
+  .d-appendix .citation-appendix {
+    font-size: 11px;
+    line-height: 15px;
+    border-left: 1px solid rgba(0, 0, 0, 0.1);
+    padding-left: 18px;
+    border: 1px solid rgba(0,0,0,0.1);
+    background: rgba(0, 0, 0, 0.02);
+    padding: 10px 18px;
+    border-radius: 3px;
+    color: rgba(150, 150, 150, 1);
+    overflow: hidden;
+    margin-top: -12px;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+  }
+  
+  
+  /* Social footer */
+  
+  .social_footer {
+    margin-top: 30px;
+    margin-bottom: 0;
+    color: rgba(0,0,0,0.67);
+  }
+  
+  .disqus-comments {
+    margin-right: 30px;
+  }
+  
+  .disqus-comment-count {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+    cursor: pointer;
+  }
+  
+  #disqus_thread {
+    margin-top: 30px;
+  }
+  
+  .article-sharing a {
+    border-bottom: none;
+    margin-right: 8px;
+  }
+  
+  .article-sharing a:hover {
+    border-bottom: none;
+  }
+  
+  .sidebar-section.subscribe {
+    font-size: 12px;
+    line-height: 1.6em;
+  }
+  
+  .subscribe p {
+    margin-bottom: 0.5em;
+  }
+  
+  
+  .article-footer .subscribe {
+    font-size: 15px;
+    margin-top: 45px;
+  }
+  
+  
+  /* Improve display for browsers without grid (IE/Edge <= 15) */
+  
+  .downlevel {
+    line-height: 1.6em;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
+    margin: 0;
+  }
+  
+  .downlevel .d-title {
+    padding-top: 6rem;
+    padding-bottom: 1.5rem;
+  }
+  
+  .downlevel .d-title h1 {
+    font-size: 50px;
+    font-weight: 700;
+    line-height: 1.1em;
+    margin: 0 0 0.5rem;
+  }
+  
+  .downlevel .d-title p {
+    font-weight: 300;
+    font-size: 1.2rem;
+    line-height: 1.55em;
+    margin-top: 0;
+  }
+  
+  .downlevel .d-byline {
+    padding-top: 0.8em;
+    padding-bottom: 0.8em;
+    font-size: 0.8rem;
+    line-height: 1.8em;
+  }
+  
+  .downlevel .section-separator {
+    border: none;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+  }
+  
+  .downlevel .d-article {
+    font-size: 1.06rem;
+    line-height: 1.7em;
+    padding-top: 1rem;
+    padding-bottom: 2rem;
+  }
+  
+  
+  .downlevel .d-appendix {
+    padding-left: 0;
+    padding-right: 0;
+    max-width: none;
+    font-size: 0.8em;
+    line-height: 1.7em;
+    margin-bottom: 0;
+    color: rgba(0,0,0,0.5);
+    padding-top: 40px;
+    padding-bottom: 48px;
+  }
+  
+  .downlevel .footnotes ol {
+    padding-left: 13px;
+  }
+  
+  .downlevel .base-grid,
+  .downlevel .distill-header,
+  .downlevel .d-title,
+  .downlevel .d-abstract,
+  .downlevel .d-article,
+  .downlevel .d-appendix,
+  .downlevel .distill-appendix,
+  .downlevel .d-byline,
+  .downlevel .d-footnote-list,
+  .downlevel .d-citation-list,
+  .downlevel .distill-footer,
+  .downlevel .appendix-bottom,
+  .downlevel .posts-container {
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+  
+  @media(min-width: 768px) {
+    .downlevel .base-grid,
+    .downlevel .distill-header,
+    .downlevel .d-title,
+    .downlevel .d-abstract,
+    .downlevel .d-article,
+    .downlevel .d-appendix,
+    .downlevel .distill-appendix,
+    .downlevel .d-byline,
+    .downlevel .d-footnote-list,
+    .downlevel .d-citation-list,
+    .downlevel .distill-footer,
+    .downlevel .appendix-bottom,
+    .downlevel .posts-container {
+    padding-left: 150px;
+    padding-right: 150px;
+    max-width: 900px;
+  }
+  }
+  
+  .downlevel pre code {
+    display: block;
+    border-left: 2px solid rgba(0, 0, 0, .1);
+    padding: 0 0 0 20px;
+    font-size: 14px;
+  }
+  
+  .downlevel code, .downlevel pre {
+    color: black;
+    background: none;
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+    text-align: left;
+    white-space: pre;
+    word-spacing: normal;
+    word-break: normal;
+    word-wrap: normal;
+    line-height: 1.5;
+  
+    -moz-tab-size: 4;
+    -o-tab-size: 4;
+    tab-size: 4;
+  
+    -webkit-hyphens: none;
+    -moz-hyphens: none;
+    -ms-hyphens: none;
+    hyphens: none;
+  }
+  
+  </style>
+  
+  <script type="application/javascript">
+  
+  function is_downlevel_browser() {
+    if (bowser.isUnsupportedBrowser({ msie: "12", msedge: "16"},
+                                   window.navigator.userAgent)) {
+      return true;
+    } else {
+      return window.load_distill_framework === undefined;
+    }
+  }
+  
+  // show body when load is complete
+  function on_load_complete() {
+  
+    // set body to visible
+    document.body.style.visibility = 'visible';
+  
+    // force redraw for leaflet widgets
+    if (window.HTMLWidgets) {
+      var maps = window.HTMLWidgets.findAll(".leaflet");
+      $.each(maps, function(i, el) {
+        var map = this.getMap();
+        map.invalidateSize();
+        map.eachLayer(function(layer) {
+          if (layer instanceof L.TileLayer)
+            layer.redraw();
+        });
+      });
+    }
+  
+    // trigger 'shown' so htmlwidgets resize
+    $('d-article').trigger('shown');
+  }
+  
+  function init_distill() {
+  
+    init_common();
+  
+    // create front matter
+    var front_matter = $('<d-front-matter></d-front-matter>');
+    $('#distill-front-matter').wrap(front_matter);
+  
+    // create d-title
+    $('.d-title').changeElementType('d-title');
+  
+    // create d-byline
+    var byline = $('<d-byline></d-byline>');
+    $('.d-byline').replaceWith(byline);
+  
+    // create d-article
+    var article = $('<d-article></d-article>');
+    $('.d-article').wrap(article).children().unwrap();
+  
+    // move posts container into article
+    $('.posts-container').appendTo($('d-article'));
+  
+    // create d-appendix
+    $('.d-appendix').changeElementType('d-appendix');
+  
+    // create d-bibliography
+    var bibliography = $('<d-bibliography></d-bibliography>');
+    $('#distill-bibliography').wrap(bibliography);
+  
+    // flag indicating that we have appendix items
+    var appendix = $('.appendix-bottom').children('h3').length > 0;
+  
+    // replace citations with <d-cite>
+    $('.citation').each(function(i, val) {
+      appendix = true;
+      var cites = $(this).attr('data-cites').split(" ");
+      var dt_cite = $('<d-cite></d-cite>');
+      dt_cite.attr('key', cites.join());
+      $(this).replaceWith(dt_cite);
+    });
+    // remove refs
+    $('#refs').remove();
+  
+    // replace footnotes with <d-footnote>
+    $('.footnote-ref').each(function(i, val) {
+      appendix = true;
+      var href = $(this).attr('href');
+      var id = href.replace('#', '');
+      var fn = $('#' + id);
+      var fn_p = $('#' + id + '>p');
+      fn_p.find('.footnote-back').remove();
+      var text = fn_p.html();
+      var dtfn = $('<d-footnote></d-footnote>');
+      dtfn.html(text);
+      $(this).replaceWith(dtfn);
+    });
+    // remove footnotes
+    $('.footnotes').remove();
+  
+    $('h1.appendix, h2.appendix').each(function(i, val) {
+      $(this).changeElementType('h3');
+    });
+    $('h3.appendix').each(function(i, val) {
+      var id = $(this).attr('id');
+      $('.d-toc a[href="#' + id + '"]').parent().remove();
+      appendix = true;
+      $(this).nextUntil($('h1, h2, h3')).addBack().appendTo($('d-appendix'));
+    });
+  
+    // show d-appendix if we have appendix content
+    $("d-appendix").css('display', appendix ? 'grid' : 'none');
+  
+    // replace code blocks with d-code
+    $('pre>code').each(function(i, val) {
+      var code = $(this);
+      var pre = code.parent();
+      var clz = "";
+      var language = pre.attr('class');
+      if (language) {
+        // map unknown languages to "clike" (without this they just dissapear)
+        if ($.inArray(language, ["bash", "clike", "css", "go", "html",
+                                 "javascript", "js", "julia", "lua", "markdown",
+                                 "markup", "mathml", "python", "svg", "xml"]) == -1)
+          language = "clike";
+        language = ' language="' + language + '"';
+        var dt_code = $('<d-code block' + language + clz + '></d-code>');
+        dt_code.text(code.text());
+        pre.replaceWith(dt_code);
+      } else {
+        code.addClass('text-output').unwrap().changeElementType('pre');
+      }
+    });
+  
+    // localize layout chunks to just output
+    $('.layout-chunk').each(function(i, val) {
+  
+      // capture layout
+      var layout = $(this).attr('data-layout');
+  
+      // apply layout to markdown level block elements
+      var elements = $(this).children().not('d-code, pre.text-output, script');
+      elements.each(function(i, el) {
+        var layout_div = $('<div class="' + layout + '"></div>');
+        if (layout_div.hasClass('shaded')) {
+          var shaded_content = $('<div class="shaded-content"></div>');
+          $(this).wrap(shaded_content);
+          $(this).parent().wrap(layout_div);
+        } else {
+          $(this).wrap(layout_div);
+        }
+      });
+  
+  
+      // unwrap the layout-chunk div
+      $(this).children().unwrap();
+    });
+  
+    // load distill framework
+    load_distill_framework();
+  
+    // wait for window.distillRunlevel == 4 to do post processing
+    function distill_post_process() {
+  
+      if (!window.distillRunlevel || window.distillRunlevel < 4)
+        return;
+  
+      // hide author/affiliations entirely if we have no authors
+      var front_matter = JSON.parse($("#distill-front-matter").html());
+      var have_authors = front_matter.authors && front_matter.authors.length > 0;
+      if (!have_authors)
+        $('d-byline').addClass('hidden');
+  
+      // table of contents
+      if (have_authors) // adjust border if we are in authors
+        $('.d-toc').parent().addClass('d-article-with-toc');
+  
+      // strip links that point to #
+      $('.authors-affiliations').find('a[href="#"]').removeAttr('href');
+  
+      // hide elements of author/affiliations grid that have no value
+      function hide_byline_column(caption) {
+        $('d-byline').find('h3:contains("' + caption + '")').parent().css('visibility', 'hidden');
+      }
+  
+      // affiliations
+      var have_affiliations = false;
+      for (var i = 0; i<front_matter.authors.length; ++i) {
+        var author = front_matter.authors[i];
+        if (author.affiliation !== "&nbsp;") {
+          have_affiliations = true;
+          break;
+        }
+      }
+      if (!have_affiliations)
+        $('d-byline').find('h3:contains("Affiliations")').css('visibility', 'hidden');
+  
+      // published date
+      if (!front_matter.publishedDate)
+        hide_byline_column("Published");
+  
+      // document object identifier
+      var doi = $('d-byline').find('h3:contains("DOI")');
+      var doi_p = doi.next().empty();
+      if (!front_matter.doi) {
+        // if we have a citation and valid citationText then link to that
+        if ($('#citation').length > 0 && front_matter.citationText) {
+          doi.html('Citation');
+          $('<a href="#citation"></a>')
+            .text(front_matter.citationText)
+            .appendTo(doi_p);
+        } else {
+          hide_byline_column("DOI");
+        }
+      } else {
+        $('<a></a>')
+           .attr('href', "https://doi.org/" + front_matter.doi)
+           .html(front_matter.doi)
+           .appendTo(doi_p);
+      }
+  
+       // change plural form of authors/affiliations
+      if (front_matter.authors.length === 1) {
+        var grid = $('.authors-affiliations');
+        grid.children('h3:contains("Authors")').text('Author');
+        grid.children('h3:contains("Affiliations")').text('Affiliation');
+      }
+  
+      // inject pre code styles (can't do this with a global stylesheet b/c a shadow root is used)
+      $('d-code').each(function(i, val) {
+        var style = document.createElement('style');
+        style.innerHTML = 'pre code { padding-left: 10px; font-size: 12px; border-left: 2px solid rgba(0,0,0,0.1); } ' +
+                          '@media(min-width: 768px) { pre code { padding-left: 18px; font-size: 14px; } }';
+        if (this.shadowRoot)
+          this.shadowRoot.appendChild(style);
+      });
+  
+      // move appendix-bottom entries to the bottom
+      $('.appendix-bottom').appendTo('d-appendix').children().unwrap();
+      $('.appendix-bottom').remove();
+  
+      // clear polling timer
+      clearInterval(tid);
+  
+      // show body now that everything is ready
+      on_load_complete();
+    }
+  
+    var tid = setInterval(distill_post_process, 50);
+    distill_post_process();
+  
+  }
+  
+  function init_downlevel() {
+  
+    init_common();
+  
+     // insert hr after d-title
+    $('.d-title').after($('<hr class="section-separator"/>'));
+  
+    // check if we have authors
+    var front_matter = JSON.parse($("#distill-front-matter").html());
+    var have_authors = front_matter.authors && front_matter.authors.length > 0;
+  
+    // manage byline/border
+    if (!have_authors)
+      $('.d-byline').remove();
+    $('.d-byline').after($('<hr class="section-separator"/>'));
+    $('.d-byline a').remove();
+  
+    // remove toc
+    $('.d-toc-header').remove();
+    $('.d-toc').remove();
+    $('.d-toc-separator').remove();
+  
+    // move appendix elements
+    $('h1.appendix, h2.appendix').each(function(i, val) {
+      $(this).changeElementType('h3');
+    });
+    $('h3.appendix').each(function(i, val) {
+      $(this).nextUntil($('h1, h2, h3')).addBack().appendTo($('.d-appendix'));
+    });
+  
+  
+    // inject headers into references and footnotes
+    var refs_header = $('<h3></h3>');
+    refs_header.text('References');
+    $('#refs').prepend(refs_header);
+  
+    var footnotes_header = $('<h3></h3');
+    footnotes_header.text('Footnotes');
+    $('.footnotes').children('hr').first().replaceWith(footnotes_header);
+  
+    // move appendix-bottom entries to the bottom
+    $('.appendix-bottom').appendTo('.d-appendix').children().unwrap();
+    $('.appendix-bottom').remove();
+  
+    // remove appendix if it's empty
+    if ($('.d-appendix').children().length === 0)
+      $('.d-appendix').remove();
+  
+    // prepend separator above appendix
+    $('.d-appendix').before($('<hr class="section-separator" style="clear: both"/>'));
+  
+    // trim code
+    $('pre>code').each(function(i, val) {
+      $(this).html($.trim($(this).html()));
+    });
+  
+    // move posts-container right before article
+    $('.posts-container').insertBefore($('.d-article'));
+  
+    $('body').addClass('downlevel');
+  
+    on_load_complete();
+  }
+  
+  
+  function init_common() {
+  
+    // jquery plugin to change element types
+    (function($) {
+      $.fn.changeElementType = function(newType) {
+        var attrs = {};
+  
+        $.each(this[0].attributes, function(idx, attr) {
+          attrs[attr.nodeName] = attr.nodeValue;
+        });
+  
+        this.replaceWith(function() {
+          return $("<" + newType + "/>", attrs).append($(this).contents());
+        });
+      };
+    })(jQuery);
+  
+    // prevent underline for linked images
+    $('a > img').parent().css({'border-bottom' : 'none'});
+  
+    // mark non-body figures created by knitr chunks as 100% width
+    $('.layout-chunk').each(function(i, val) {
+      var figures = $(this).find('img, .html-widget');
+      if ($(this).attr('data-layout') !== "l-body") {
+        figures.css('width', '100%');
+      } else {
+        figures.css('max-width', '100%');
+        figures.filter("[width]").each(function(i, val) {
+          var fig = $(this);
+          fig.css('width', fig.attr('width') + 'px');
+        });
+  
+      }
+    });
+  
+    // auto-append index.html to post-preview links in file: protocol
+    // and in rstudio ide preview
+    $('.post-preview').each(function(i, val) {
+      if (window.location.protocol === "file:")
+        $(this).attr('href', $(this).attr('href') + "index.html");
+    });
+  
+    // get rid of index.html references in header
+    if (window.location.protocol !== "file:") {
+      $('.distill-site-header a[href]').each(function(i,val) {
+        $(this).attr('href', $(this).attr('href').replace("index.html", "./"));
+      });
+    }
+  
+    // add class to pandoc style tables
+    $('tr.header').parent('thead').parent('table').addClass('pandoc-table');
+    $('.kable-table').children('table').addClass('pandoc-table');
+  
+    // add figcaption style to table captions
+    $('caption').parent('table').addClass("figcaption");
+  
+    // initialize posts list
+    if (window.init_posts_list)
+      window.init_posts_list();
+  
+    // implmement disqus comment link
+    $('.disqus-comment-count').click(function() {
+      window.headroom_prevent_pin = true;
+      $('#disqus_thread').toggleClass('hidden');
+      if (!$('#disqus_thread').hasClass('hidden')) {
+        var offset = $(this).offset();
+        $(window).resize();
+        $('html, body').animate({
+          scrollTop: offset.top - 35
+        });
+      }
+    });
+  }
+  
+  document.addEventListener('DOMContentLoaded', function() {
+    if (is_downlevel_browser())
+      init_downlevel();
+    else
+      window.addEventListener('WebComponentsReady', init_distill);
+  });
+  
+  </script>
+  
+  <!--/radix_placeholder_distill-->
+  <script src="kit-de-sobrevivencia-em-r-parte-3_files/jquery-1.11.3/jquery.min.js"></script>
+  <script src="kit-de-sobrevivencia-em-r-parte-3_files/bowser-1.9.3/bowser.min.js"></script>
+  <script src="kit-de-sobrevivencia-em-r-parte-3_files/webcomponents-2.0.0/webcomponents.js"></script>
+  <script src="kit-de-sobrevivencia-em-r-parte-3_files/distill-2.2.21/template.v2.js"></script>
+  <!--radix_placeholder_site_in_header-->
+  <!--/radix_placeholder_site_in_header-->
+
+
+</head>
+
+<body>
+
+<!--radix_placeholder_front_matter-->
+
+<script id="distill-front-matter" type="text/json">
+{"title":"Kit de Sobrevivência em R - Parte 3: Pacotes","description":"Neste post, você aprenderá um pouco sobre os pacotes, trabalhará com o console para fazer algumas operações e ir se familiarizando mais com o R. Aprenderá como usar as funções disponíveis no R e as funções adicionais em pacotes.","authors":[],"publishedDate":"2016-04-03T00:00:00.000-03:00"}
+</script>
+
+<!--/radix_placeholder_front_matter-->
+<!--radix_placeholder_navigation_before_body-->
+<!--/radix_placeholder_navigation_before_body-->
+<!--radix_placeholder_site_before_body-->
+<!--/radix_placeholder_site_before_body-->
+
+<div class="d-title">
+<h1>Kit de Sobrevivência em R - Parte 3: Pacotes</h1>
+<p>Neste post, você aprenderá um pouco sobre os pacotes, trabalhará com o console para fazer algumas operações e ir se familiarizando mais com o R. Aprenderá como usar as funções disponíveis no R e as funções adicionais em pacotes.</p>
+</div>
+
+
+<div class="d-article">
+<!-- More -->
+<h2 id="pacotes">Pacotes</h2>
+<p>Um pacote do R é um conjunto de funções que têm uma temática em comum. As funções de um mesmo pacote são carregadas juntas em memória, ou seja, ficam disponíveis para uso no R. Por ter uma temática específica, cada pacote possui uma documentação explicando suas funcionalidades disponíveis e como usá-las. Além das funções, alguns pacotes também fornecem um conjunto de dados que são usados para replicar os exemplos fornecidos nas documentações.</p>
+<p>Por exemplo, o <code>dplyr</code> é um pacote que possui um série de funções que facilitam consideravelmente a manipulação de dados. Já o <code>readxl</code> é um pacote com funções para leitura de arquivos excel. E o <code>ggplot2</code>, um pacote para criação de gráficos.</p>
+<p>No geral, você fará muito uso de pacotes para facilitar tarefas que as funções básicas do R deixam a desejar.</p>
+<h3 id="instalacao">Instalação</h3>
+<p>Existem duas opções para instalar um pacote: via comando ou usando a funcionalidade nos menus do RStudio.</p>
+<p>Para instalar via comando, você pode digitar o seguinte código no console:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+install.packages(&#39;readxl&#39;)</code></pre>
+</div>
+<p>Este comando irá instalar o pacote <code>readxl</code> que fornece funções para facilitar a importação de dados em arquivos <code>xls</code> e <code>xlsx</code>. Nesse caso específico, o pacote fornece duas funções: uma para listar todas as planilhas que estão em um arquivo do excel e outra para ler os dados de uma planilha pro excel. Em um post futuro sobre a importação de dados, trataremos mais sobre esse pacote. Por enquanto, estamos usando somente como exemplo.</p>
+<p>Para realizar a instalação com ajuda do RStudio, primeiro clique na aba <em>Packages</em> e depois no botão <em>Install</em>. Será aberta uma janela auxiliar em que você poderá escolher a fonte que será utilizada para instalar o pacote. Normalmente, você optará pelo CRAN (este termo será explicado mais adiante, porém trata-se do repositório oficial). Em <em>Packages</em>, digite o nome do pacote e depois no botão <em>Install</em>. Abaixo está uma imagem de como é o processo de instalação via RStudio.</p>
+<figure>
+<img src="../../images/install_package.gif" title="Instalação de Pacote" alt="alt Instalação de Pacote" /><figcaption>alt Instalação de Pacote</figcaption>
+</figure>
+<h3 id="buscando-pacotes">Buscando pacotes</h3>
+<p>Mas como saber quais pacotes estão disponíveis para uma determinada tarefa? Na maioria das vezes será inevitável realizar uma busca por uma função específica e no meio do caminho se deparar com o pacote.</p>
+<p>Todavia, existem algumas páginas que apresentam uma lista de pacotes relacionadas a uma determinada tarefa, que são denominadas de <em>Task View</em>. Para exemplificar, veja <a href="https://cran.r-project.org/web/views/Graphics.html">aqui</a> uma lista de pacotes para realização de gráficos e visualizações.</p>
+<h3 id="carregando-um-pacote">Carregando um pacote</h3>
+Para utilizar as funções de um pacote, você deve carregá-lo antes. Para isso, você deve usar o seguinte comando:
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+library(readxl)</code></pre>
+</div>
+<p>Esse comando irá carregar o pacote em memória e tornará possível a utilização de todas funções disponíveis nele. Também existe a possibilidade de carregamento de pacotes usando a função <code>require()</code>, que é mais indicado no caso de carregamento de um pacote dentro de uma rotina. Por enquanto, não nos preocupemos com ele.</p>
+<blockquote>
+<p>Dica: repare que para instalar o pacote você usou o nome dele entre aspas `install.packages(“readxl”) e não vai funcionar sem aspas. Mas, para carregar o pacote em memória, você pode usar com ou sem aspas library(readxl) ou library(“readxl”)</p>
+</blockquote>
+<p>Ao trabalhar com pacotes, muitas vezes irá aparecer o termo <strong>CRAN</strong>. Ele significa <em>Comprehensive R Archive Network</em>. Este é o principal repositório de pacotes do R. Trata-se de um portal que guarda uma série de pacotes que necessariamente passaram por uma série de requisitos antes de serem publicado. Atualmente, estão disponíveis mais de 8.000 pacotes no CRAN.</p>
+<p>Este é o único local onde os pacotes estão disponíveis? Não!</p>
+<p>Vários pacotes já são disponibilizados pelos próprios autores antes mesmo das verificações necessárias para entrar no CRAN. Não são apenas novos pacotes. Novas versões de um pacote podem se encaixar aqui também. Geralmente, eles estão disponíveis no <a href="https://pt.wikipedia.org/wiki/GitHub">github</a>.</p>
+Para realizar a instalação desses pacotes “fora do CRAN”, será necessária a instalação do <code>devtools</code> (que é um pacote!). Por exemplo, o <code>ggplot2</code>, ótimo pacote para gráficos, já possui uma versão estável no CRAN. No entanto, se você desejar instalar a versão que está em desenvolvimento, que pode possuir uma nova funcionalidade, faça o seguinte:
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+install.packages(&#39;devtools&#39;) # Caso não esteja instalado ainda
+devtools::install_github(&quot;hadley/ggplot2&quot;)</code></pre>
+</div>
+<p>Aqui temos um ponto interessante. Para usar funções de um pacote, usualmente carrega-se usando o <code>library()</code>. Contudo, se você quiser pontualmente uma função de um pacote, pode-se optar pela forma acima: <code>nome_do_pacote::nome_da_função</code>. Dessa forma você evitaria carregar todas as funções do pacote em memória. Isso pode ser muito útil!</p>
+<h2 id="ajuda-no-r">Ajuda no R</h2>
+<p>Você baixou um pacote e não sabe muito bem como usar as funções que estão disponíveis. O que fazer? Você precisará de ajuda. O primeiro passo é verificar a ajuda do pacote. Serão listadas as funções disponíveis e links para a página de <em>help</em> de cada função. Isto pode ser feito a partir do seguinte comando:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+help(package = &#39;readxl&#39;)</code></pre>
+</div>
+<p>Para buscar ajuda sobre uma função específica, existem algumas possibilidades a depender se o pacote já está carregado ou não. Por exemplo:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+?read_excel # se o pacote já estiver sido carregado com library(readxl)
+?readxl::read_excel # Se o pacote não estiver carregado
+??read_excel  # Pacote não carregado. Demora mais para apresentar um resultado</code></pre>
+</div>
+<p>É importante destacar o <code>??</code>, que faz uma busca mais ampla por funções, demonstrações e arquivos que trazem uma visão geral (vignette) de algum pacote/função.</p>
+<p>Sendo mais específico, ao buscar a ajuda por uma função específica, será apresentado um texto com uma estrutura padrão: <em>Description</em>, <em>Usage</em>, <em>Arguments</em> e <em>Examples</em>. Além dessas, podem constar outras seções como <em>Details</em> e <em>Value</em>, por exemplo.</p>
+<p>É importante destacar o uso (<em>Usage</em>) que trará uma forma genérica de utilização dos parâmetros. Em regra, uma função tem uma série de parâmetros que serão passados para “dentro” dela. Os parâmetros são separados por vírgula e os que apresentam <code>=</code> possuem um valor padrão e geralmente são opcionais (nem todos os parâmetros são obrigatórios).</p>
+<p>Após executar uma função, ela retornará o que está descrito na seção <em>Value</em>. Pode ser um único número ou uma lista (nos próximos posts ficará mais claro o que é uma lista) de elementos que pode variar de uma vetor a um texto.</p>
+<p>Não se preocupe muito se o conceito de função ainda não está totalmente claro. O próprio uso e os próximos posts deixarão todos esses conceitos claros de forma natural por meio de exemplos e práticas.</p>
+<h1 id="desafio">Desafio</h1>
+<p>Instale e carregue os pacotes <code>tidyr</code> e <code>stringr</code>. Consegue descobrir para que servem esses pacotes? Consegue visualizar as funções existentes em cada pacote? Para que serve a função <code>gather()</code> do pacote <code>tidyr</code>? Para que serve a função <code>str_count()</code> do pacote <code>stringr</code>? Compartilhe conosco nos comentários o que descobriu!</p>
+<h1 id="referencias">Referências:</h1>
+<ul>
+<li><a href="https://www.datacamp.com/community/tutorials/functions-in-r-a-tutorial">DataCamp - Functions</a></li>
+<li><a href="https://www.rstudio.com/products/rpackages/">Principais pacotes para R</a></li>
+<li><a href="http://r-pkgs.had.co.nz/">R Packages</a></li>
+<li><a href="http://www.analyticsvidhya.com/blog/2015/08/list-r-packages-data-analysis/">Lista de pactes mais úteis para Análise de Dados</a></li>
+</ul>
+<h2 id="demais-posts-da-sequencia">Demais posts da sequência:</h2>
+<ul>
+<li><a href="%7B%7Broot_url%7D%7D/blog/2016/03/23/kit-de-sobrevivencia-em-r-parte-1">Kit de sobrevivência em R - Parte 1: Visão Geral e Instalação</a></li>
+<li><a href="%7B%7Broot_url%7D%7D/blog/2016/04/03/kit-de-sobrevivencia-em-r-parte-2">Kit de sobrevivência em R - Parte 2: Operações, Variáveis e Funções</a></li>
+<li><a href="%7B%7Broot_url%7D%7D/blog/2016/04/03/kit-de-sobrevivencia-em-r-parte-3">Kit de sobrevivência em R - Parte 3: Pacotes</a></li>
+<li><a href="%7B%7Broot_url%7D%7D/blog/2016/04/12/kit-de-sobrevivencia-em-r-parte-4">Kit de sobrevivência em R - Parte 4: Carregando Dados</a></li>
+<li><a href="%7B%7Broot_url%7D%7D/blog/2016/04/21/kit-de-sobrevivencia-em-r-parte-5">Kit de sobrevivência em R - Parte 5: Tipos de Dados e Transformações</a></li>
+<li><a href="%7B%7Broot_url%7D%7D/blog/2016/05/01/kit-de-sobrevivencia-em-r-parte-6">Kit de sobrevivência em R - Parte 6: Estruturas de Controle</a></li>
+<li><a href="%7B%7Broot_url%7D%7D/blog/2016/05/09/kit-de-sobrevivencia-em-r-parte-7">Kit de sobrevivência em R - Parte 7: Avançando e Aprofundando</a></li>
+</ul>
+<!--radix_placeholder_article_footer-->
+<!--/radix_placeholder_article_footer-->
+</div>
+
+<div class="d-appendix">
+</div>
+
+
+<!--radix_placeholder_site_after_body-->
+<!--/radix_placeholder_site_after_body-->
+<!--radix_placeholder_appendices-->
+<div class="appendix-bottom"></div>
+<!--/radix_placeholder_appendices-->
+<!--radix_placeholder_navigation_after_body-->
+<!--/radix_placeholder_navigation_after_body-->
+
+</body>
+
+</html>
