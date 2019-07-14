@@ -19,6 +19,6 @@ include: ["_site.yml"]
 collections:
   posts:
     feed_items_max: 10
-    disqus: disqus_t1cVeBdakh
+    disqus: fulljoin.com.br
     share: [twitter, linkedin, facebook]
     citations: true
