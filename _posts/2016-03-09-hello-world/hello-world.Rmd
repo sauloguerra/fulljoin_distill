@@ -1,6 +1,4 @@
 ---
-# categories:
-# - conceito
 title: "Hello World"
 description: |
   E nasce hoje o Full Join! 

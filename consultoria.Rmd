@@ -1,0 +1,21 @@
+---
+title: "Projetos, Cursos e Consultoria"
+description: |
+  Gostaria de um curso personalizado? Consultoria para projetos que envolva dados? Fala com a gente, podemos te ajudar!
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+(draft)
+
+## O que podemos fazer por você? 
+
+- Treinamentos personalizados
+- Cenários e previsões
+- Automação de relatórios analíticos
+- Integração de dados, scraping e ETL em geral
+- Visualizações e storytelling
+- Sanitização de dados
+

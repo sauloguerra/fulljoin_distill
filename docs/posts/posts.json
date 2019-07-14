@@ -27,7 +27,9 @@
     "date": "2016-09-07",
     "categories": [],
     "preview": "posts/2016-08-26-visualizacao-de-dados-parte-1/visualizacao-de-dados-parte-1_files/figure-html5/unnamed-chunk-4-1.png",
-    "last_modified": "2019-07-13T17:10:48-03:00"
+    "last_modified": "2019-07-13T17:10:48-03:00",
+    "preview_width": 1536,
+    "preview_height": 768
   },
   {
     "path": "posts/2016-08-01-manipulacao-de-dados-parte-1/",
@@ -57,7 +59,9 @@
     "date": "2016-07-10",
     "categories": [],
     "preview": "posts/2016-06-06-intro-modelos-r/intro-modelos-r_files/figure-html5/unnamed-chunk-22-1.png",
-    "last_modified": "2019-07-13T17:12:26-03:00"
+    "last_modified": "2019-07-13T17:12:26-03:00",
+    "preview_width": 1248,
+    "preview_height": 768
   },
   {
     "path": "posts/2016-05-12-tudo-sobre-joins/",
@@ -87,7 +91,9 @@
     "date": "2016-05-01",
     "categories": [],
     "preview": "posts/2016-05-01-kit-de-sobrevivencia-em-r-parte-6/kit-de-sobrevivencia-em-r-parte-6_files/figure-html5/unnamed-chunk-11-1.png",
-    "last_modified": "2019-07-13T17:39:22-03:00"
+    "last_modified": "2019-07-13T17:39:22-03:00",
+    "preview_width": 2304,
+    "preview_height": 1920
   },
   {
     "path": "posts/2016-04-11-kit-de-sobrevivencia-em-r-parte-5/",
@@ -132,12 +138,12 @@
   {
     "path": "posts/2016-03-20-kit-de-sobrevivencia-em-r-parte-1/",
     "title": "Kit de sobrevivência em R - Parte 1: Visão Geral e Instalação",
-    "description": "Nesta sequência de posts, iremos tratar o básico necessário para quem deseja iniciar o aprendizado em [R](https://www.r-project.org/about.html). Trata-se de uma linguagem de programação muito usada para cálculos estatísticos. Neste e nos próximos posts, discutiremos tópicos como instalação, importação de dados, tipos de dados, etc. \nA nossa expectativa é que, com essa sequência, seja quebrada a barreira inicial para aqueles que pretendem entrar nesse mundo (cuidado, esse é um caminho sem volta!).",
+    "description": "Nesta sequência de posts, iremos tratar o básico necessário para quem deseja iniciar o aprendizado em [R](https://www.r-project.org/about.html). Trata-se de uma linguagem de programação muito usada para cálculos estatísticos. Neste e nos próximos posts, discutiremos tópicos como instalação, importação de dados, tipos de dados, etc. \nA nossa expectativa é que, com essa sequência, seja quebrada a barreira inicial para aqueles que pretendem entrar nesse mundo.",
     "author": [],
     "date": "2016-03-20",
     "categories": [],
     "preview": {},
-    "last_modified": "2019-07-13T17:34:40-03:00"
+    "last_modified": "2019-07-14T14:42:55-03:00"
   },
   {
     "path": "posts/2016-03-20-aplicando-ciencia-de-dados-parte-2-equipe/",
@@ -172,6 +178,6 @@
     "date": "2016-03-09",
     "categories": [],
     "preview": {},
-    "last_modified": "2019-07-13T11:41:24-03:00"
+    "last_modified": "2019-07-14T14:32:08-03:00"
   }
 ]

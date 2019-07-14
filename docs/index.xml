@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:media="http://search.yahoo.com/mrss/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:dc="http://purl.org/dc/elements/1.1/" version="2.0">
+  <channel>
+    <title>Fulljoin</title>
+    <link>https://sauloguerra.github.io/fulljoindistill/</link>
+    <atom:link href="https://sauloguerra.github.io/fulljoindistill/index.xml" rel="self" type="application/rss+xml"/>
+    <description>Fulljoin
+</description>
+    <generator>Distill</generator>
+    <lastBuildDate>Dom, 12 Mar 2017 00:00:00 +0000</lastBuildDate>
+    <item>
+      <title>Introdução ao D3plusR</title>
+      <link>https://sauloguerra.github.io/fulljoindistill/posts/2017-03-12-introducao-d3plusr</link>
+      <description>Visualização de dados é uma das principais tarefas de um analista de dados. A partir de visualizações, é possível explorar os dados e comunicar resultados de maneira mais efetiva. No R, além de visualizações estáticas, principalmente desenvolvidas com ggplot2 R, existem um conjunto de pacotes que são desenvolvidos utilizando o _framework_ fornecido pelo pacote `htmlwidgets`. A ideia é trazer o mundo de bibliotecas de visualizações de dados em javascript para o R.</description>
+      <guid>https://sauloguerra.github.io/fulljoindistill/posts/2017-03-12-introducao-d3plusr</guid>
+      <pubDate>Dom, 12 Mar 2017 00:00:00 +0000</pubDate>
+    </item>
+    <item>
+      <title>Bases de Dados Públicas - Kaggle</title>
+      <link>https://sauloguerra.github.io/fulljoindistill/posts/2017-01-28-bases-de-dados-kaggle</link>
+      <description>Durante o processo de aprendizagem de análise de dados é fundamental aplicar os conhecimentos adquiridos aos dados. Todavia, muitas vezes nos vemos obrigados a trabalhar com dados de exemplos que não apresentam as dificuldades do mundo real ou não guardam nenhuma relação com os dados que serão enfrentados no dia a dia. Nesse sentido, a possibilidade de acesso a outras base de dados pode ser bastante útil.</description>
+      <guid>https://sauloguerra.github.io/fulljoindistill/posts/2017-01-28-bases-de-dados-kaggle</guid>
+      <pubDate>Sáb, 28 Jan 2017 00:00:00 +0000</pubDate>
+    </item>
+    <item>
+      <title>Visualização de dados - Parte 1: Introdução ao ggplot2</title>
+      <link>https://sauloguerra.github.io/fulljoindistill/posts/2016-08-26-visualizacao-de-dados-parte-1</link>
+      <description>A visualização de dados é parte fundamental do [_workflow_]({{root_url}}/blog/2016/03/14/como-aplicar-ciencia-de-dados/) de um analista de dados. Essa tarefa é muito importante tanto para explorar os dados, como para comunicar resultados. Ou seja, dominar ferramentas de visualização é imprescindível. E é aí que entra o ggplot2.</description>
+      <guid>https://sauloguerra.github.io/fulljoindistill/posts/2016-08-26-visualizacao-de-dados-parte-1</guid>
+      <pubDate>Qua, 07 Set 2016 00:00:00 +0000</pubDate>
+      <media:content url="https://sauloguerra.github.io/fulljoindistill/posts/2016-08-26-visualizacao-de-dados-parte-1/visualizacao-de-dados-parte-1_files/figure-html5/unnamed-chunk-4-1.png" medium="image" type="image/png" width="1536" height="768"/>
+    </item>
+    <item>
+      <title>Manipulação de dados - Parte 1: dplyr básico</title>
+      <link>https://sauloguerra.github.io/fulljoindistill/posts/2016-08-01-manipulacao-de-dados-parte-1</link>
+      <description>Dominar a manipulação de dados é uma das habilidades mais básicas que um analista de dados deve ter. Nesse post ensinaremos as principais atividades relacionadas a manipulação de dados utilizando o pacote dplyr, um dos melhores pacotes disponíveis no R para essa finalidade.</description>
+      <guid>https://sauloguerra.github.io/fulljoindistill/posts/2016-08-01-manipulacao-de-dados-parte-1</guid>
+      <pubDate>Ter, 16 Ago 2016 00:00:00 +0000</pubDate>
+    </item>
+    <item>
+      <title>Comex Vis e a visualização de dados no Brasil</title>
+      <link>https://sauloguerra.github.io/fulljoindistill/posts/2016-07-30-comex-vis</link>
+      <description>No dia 28/07/2016 a Secretaria de Comércio Exterior lançou o [Comex Vis](http://www.mdic.gov.br/comercio-exterior/estatisticas-de-comercio-exterior/comex-vis), uma ferramenta de visualização interativa de dados do comércio exterior brasileiro. Nesse post faremos alguns comentários sobre o Comex Vis e sobre a visualização de dados em geral.</description>
+      <guid>https://sauloguerra.github.io/fulljoindistill/posts/2016-07-30-comex-vis</guid>
+      <pubDate>Sáb, 30 Jul 2016 00:00:00 +0000</pubDate>
+    </item>
+    <item>
+      <title>Introdução a Modelos no R</title>
+      <link>https://sauloguerra.github.io/fulljoindistill/posts/2016-06-06-intro-modelos-r</link>
+      <description>Neste post, vamos introduzir alguns conceitos para começar a trabalhar com modelos no R. Abordaremos o modelo linear de regressão utilizando a função `lm()`. Aprender a estrutura básica de modelos a partir do modelo linear será bastante útil para entender e utilizar outros modelos mais complexos.</description>
+      <guid>https://sauloguerra.github.io/fulljoindistill/posts/2016-06-06-intro-modelos-r</guid>
+      <pubDate>Dom, 10 Jul 2016 00:00:00 +0000</pubDate>
+      <media:content url="https://sauloguerra.github.io/fulljoindistill/posts/2016-06-06-intro-modelos-r/intro-modelos-r_files/figure-html5/unnamed-chunk-22-1.png" medium="image" type="image/png" width="1248" height="768"/>
+    </item>
+    <item>
+      <title>Tudo sobre Joins (merge) em R</title>
+      <link>https://sauloguerra.github.io/fulljoindistill/posts/2016-05-12-tudo-sobre-joins</link>
+      <description>Nessa sequência de posts aprenderemos tudo sobre Joins (merges) em R, abordando questões teóricas e práticas, com exemplos usando R base e o pacote dplyr. Após ler esse post, você vai saber o que é, para que serve, quando e como usar diversos tipo de joins.</description>
+      <guid>https://sauloguerra.github.io/fulljoindistill/posts/2016-05-12-tudo-sobre-joins</guid>
+      <pubDate>Qua, 25 Mai 2016 00:00:00 +0000</pubDate>
+    </item>
+    <item>
+      <title>Kit de sobrevivência em R - Parte 7: Avançando e Aprofundando</title>
+      <link>https://sauloguerra.github.io/fulljoindistill/posts/2016-05-09-kit-de-sobrevivencia-em-r-parte-7</link>
+      <description>Chegamos ao fim do [kit de sobrevivência em R]({{root_url}}/blog/categories/introducao-ao-r). Nesse último post da série vamos retomar alguns pontos que merecem ser complementados e revisados, além de apresentar um pouco mais de transformações e operações usando apenas funções básicas do R.</description>
+      <guid>https://sauloguerra.github.io/fulljoindistill/posts/2016-05-09-kit-de-sobrevivencia-em-r-parte-7</guid>
+      <pubDate>Seg, 09 Mai 2016 00:00:00 +0000</pubDate>
+    </item>
+    <item>
+      <title>Kit de sobrevivência em R - Parte 6: Estruturas de Controle</title>
+      <link>https://sauloguerra.github.io/fulljoindistill/posts/2016-05-01-kit-de-sobrevivencia-em-r-parte-6</link>
+      <description>No último post, você aprendeu um pouco sobre os tipos de dados e como realizar algumas transformações. Neste post, trataremos um pouco sobre estruturas de controles (for, if, else, while etc.). Estruturas de controles serão bastante usadas durante o processo de análise de dados, sendo importante que você domine esse tópico.</description>
+      <guid>https://sauloguerra.github.io/fulljoindistill/posts/2016-05-01-kit-de-sobrevivencia-em-r-parte-6</guid>
+      <pubDate>Dom, 01 Mai 2016 00:00:00 +0000</pubDate>
+      <media:content url="https://sauloguerra.github.io/fulljoindistill/posts/2016-05-01-kit-de-sobrevivencia-em-r-parte-6/kit-de-sobrevivencia-em-r-parte-6_files/figure-html5/unnamed-chunk-11-1.png" medium="image" type="image/png" width="2304" height="1920"/>
+    </item>
+    <item>
+      <title>Kit de sobrevivência em R - Parte 5: Tipos de dados e transformações</title>
+      <link>https://sauloguerra.github.io/fulljoindistill/posts/2016-04-11-kit-de-sobrevivencia-em-r-parte-5</link>
+      <description>Você já aprendeu como carregar um arquivo de dados no R para começar a trabalhar com ele. Agora vamos conhecer o básico necessário para manipular os dados e prepará-los para a análise propriamente dita. Para isso será necessário saber sobre alguns tipos básicos de dados e algumas formas de transformação de dados.</description>
+      <guid>https://sauloguerra.github.io/fulljoindistill/posts/2016-04-11-kit-de-sobrevivencia-em-r-parte-5</guid>
+      <pubDate>Qui, 21 Abr 2016 00:00:00 +0000</pubDate>
+    </item>
+  </channel>
+</rss>

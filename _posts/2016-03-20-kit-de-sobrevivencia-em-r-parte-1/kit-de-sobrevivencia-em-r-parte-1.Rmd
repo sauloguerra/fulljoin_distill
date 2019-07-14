@@ -4,7 +4,7 @@ output:
     self_contained: false
 description: |
   Nesta sequência de posts, iremos tratar o básico necessário para quem deseja iniciar o aprendizado em [R](https://www.r-project.org/about.html). Trata-se de uma linguagem de programação muito usada para cálculos estatísticos. Neste e nos próximos posts, discutiremos tópicos como instalação, importação de dados, tipos de dados, etc. 
-  A nossa expectativa é que, com essa sequência, seja quebrada a barreira inicial para aqueles que pretendem entrar nesse mundo (cuidado, esse é um caminho sem volta!).
+  A nossa expectativa é que, com essa sequência, seja quebrada a barreira inicial para aqueles que pretendem entrar nesse mundo.
 # categories:
 # - r
 # - básico
@@ -53,7 +53,7 @@ O [RStudio](https://www.rstudio.com/) é uma interface muito útil pra quem dese
 Na figura abaixo, está a "cara" do RStudio. Note que há 4 janelas (ambientes) separadas. As 	posições delas podem ser alteradas nas opções (`tools` -> `global options`). Além disso, você pode alterar o tema e outras tantas opções. 
 
 
-{% img ../../images/RStudio_001.png Uma visão geral do RStudio %}
+![Uma visão geral do RStudio](../../images/RStudio_001.png)
 
 Vamos tratar, ainda que superficialmente, de algumas funcionalidades do RStudio. 
 
@@ -95,10 +95,10 @@ No ubuntu, você pode instalar o R via terminal ou pela central de programas.
 
 Para instalar via terminal, tecle `ctrl + alt + T` para abrir a janela do terminal e digite os seguintes comandos:
 
-{{< highlight ruby >}}
+```
 sudo apt-get update
 sudo apt-get install r-base
-{{< / highlight >}}
+```
 
 Na central de aplicativos, basta buscar por `r-base`.
 
