@@ -6,7 +6,7 @@ output_dir: "docs"
 base_url: https://sauloguerra.github.io/fulljoindistill/
 navbar:
   right:
-    - text: "Início"
+    - text: "Posts"
       href: index.html
     - text: "Autores"
       href: about.html
@@ -19,6 +19,6 @@ include: ["_site.yml", "CNAME"]
 collections:
   posts:
     feed_items_max: 10
-    disqus: fulljoin.com.br
+    disqus: fulljoin
     share: [twitter, linkedin, facebook]
     citations: true
