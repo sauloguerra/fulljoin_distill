@@ -7,7 +7,7 @@
     "date": "2017-03-12",
     "categories": [],
     "preview": {},
-    "last_modified": "2019-07-14T20:46:14-03:00"
+    "last_modified": "2019-07-15T22:40:16-03:00"
   },
   {
     "path": "posts/2017-01-28-bases-de-dados-kaggle/",
@@ -17,7 +17,7 @@
     "date": "2017-01-28",
     "categories": [],
     "preview": {},
-    "last_modified": "2019-07-14T20:46:14-03:00"
+    "last_modified": "2019-07-15T22:40:16-03:00"
   },
   {
     "path": "posts/2016-08-26-visualizacao-de-dados-parte-1/",
@@ -27,7 +27,7 @@
     "date": "2016-09-07",
     "categories": [],
     "preview": "posts/2016-08-26-visualizacao-de-dados-parte-1/visualizacao-de-dados-parte-1_files/figure-html5/unnamed-chunk-4-1.png",
-    "last_modified": "2019-07-14T20:46:14-03:00",
+    "last_modified": "2019-07-15T22:40:16-03:00",
     "preview_width": 1536,
     "preview_height": 768
   },
@@ -39,7 +39,7 @@
     "date": "2016-08-16",
     "categories": [],
     "preview": {},
-    "last_modified": "2019-07-14T20:46:14-03:00"
+    "last_modified": "2019-07-15T22:40:16-03:00"
   },
   {
     "path": "posts/2016-07-30-comex-vis/",
@@ -49,7 +49,7 @@
     "date": "2016-07-30",
     "categories": [],
     "preview": {},
-    "last_modified": "2019-07-14T20:46:14-03:00"
+    "last_modified": "2019-07-15T22:40:16-03:00"
   },
   {
     "path": "posts/2016-06-06-intro-modelos-r/",
@@ -59,7 +59,7 @@
     "date": "2016-07-10",
     "categories": [],
     "preview": "posts/2016-06-06-intro-modelos-r/intro-modelos-r_files/figure-html5/unnamed-chunk-22-1.png",
-    "last_modified": "2019-07-14T20:46:14-03:00",
+    "last_modified": "2019-07-15T22:40:16-03:00",
     "preview_width": 1248,
     "preview_height": 768
   },
@@ -71,7 +71,7 @@
     "date": "2016-05-25",
     "categories": [],
     "preview": {},
-    "last_modified": "2019-07-14T20:46:14-03:00"
+    "last_modified": "2019-07-15T22:40:16-03:00"
   },
   {
     "path": "posts/2016-05-09-kit-de-sobrevivencia-em-r-parte-7/",
@@ -81,7 +81,7 @@
     "date": "2016-05-09",
     "categories": [],
     "preview": {},
-    "last_modified": "2019-07-14T20:46:14-03:00"
+    "last_modified": "2019-07-15T22:40:16-03:00"
   },
   {
     "path": "posts/2016-05-01-kit-de-sobrevivencia-em-r-parte-6/",
@@ -91,19 +91,19 @@
     "date": "2016-05-01",
     "categories": [],
     "preview": "posts/2016-05-01-kit-de-sobrevivencia-em-r-parte-6/kit-de-sobrevivencia-em-r-parte-6_files/figure-html5/unnamed-chunk-11-1.png",
-    "last_modified": "2019-07-14T20:46:14-03:00",
+    "last_modified": "2019-07-15T22:40:16-03:00",
     "preview_width": 2304,
     "preview_height": 1920
   },
   {
-    "path": "posts/2016-04-21-kit-de-sobrevivencia-em-r-parte-5/",
+    "path": "posts/2016-04-11-kit-de-sobrevivencia-em-r-parte-5/",
     "title": "Kit de sobrevivência em R - Parte 5: Tipos de dados e transformações",
     "description": "Você já aprendeu como carregar um arquivo de dados no R para começar a trabalhar com ele. Agora vamos conhecer o básico necessário para manipular os dados e prepará-los para a análise propriamente dita. Para isso será necessário saber sobre alguns tipos básicos de dados e algumas formas de transformação de dados.",
     "author": [],
     "date": "2016-04-21",
     "categories": [],
     "preview": {},
-    "last_modified": "2019-07-14T20:46:14-03:00"
+    "last_modified": "2019-07-15T22:40:16-03:00"
   },
   {
     "path": "posts/2016-04-07-kit-de-sobrevivencia-em-r-parte-4/",
@@ -113,7 +113,7 @@
     "date": "2016-04-12",
     "categories": [],
     "preview": {},
-    "last_modified": "2019-07-14T20:46:14-03:00"
+    "last_modified": "2019-07-15T22:40:16-03:00"
   },
   {
     "path": "posts/2016-03-28-kit-de-sobrevivencia-em-r-parte-3/",
@@ -123,7 +123,7 @@
     "date": "2016-04-03",
     "categories": [],
     "preview": {},
-    "last_modified": "2019-07-14T20:46:14-03:00"
+    "last_modified": "2019-07-15T22:40:16-03:00"
   },
   {
     "path": "posts/2016-03-25-kit-de-sobrevivencia-em-r-parte-2/",
@@ -133,7 +133,7 @@
     "date": "2016-04-02",
     "categories": [],
     "preview": {},
-    "last_modified": "2019-07-14T20:46:14-03:00"
+    "last_modified": "2019-07-15T22:40:16-03:00"
   },
   {
     "path": "posts/2016-03-20-kit-de-sobrevivencia-em-r-parte-1/",
@@ -143,7 +143,7 @@
     "date": "2016-03-20",
     "categories": [],
     "preview": {},
-    "last_modified": "2019-07-14T20:46:14-03:00"
+    "last_modified": "2019-07-15T22:40:16-03:00"
   },
   {
     "path": "posts/2016-03-20-aplicando-ciencia-de-dados-parte-2-equipe/",
@@ -153,7 +153,7 @@
     "date": "2016-03-19",
     "categories": [],
     "preview": {},
-    "last_modified": "2019-07-14T20:46:14-03:00"
+    "last_modified": "2019-07-15T22:40:16-03:00"
   },
   {
     "path": "posts/2016-03-14-como-aplicar-ciencia-de-dados/",
@@ -163,7 +163,7 @@
     "date": "2016-03-14",
     "categories": [],
     "preview": {},
-    "last_modified": "2019-07-14T20:46:14-03:00"
+    "last_modified": "2019-07-15T22:40:16-03:00"
   },
   {
     "path": "posts/2016-03-09-hello-world/",
@@ -178,6 +178,6 @@
     "date": "2016-03-09",
     "categories": [],
     "preview": {},
-    "last_modified": "2019-07-14T20:46:14-03:00"
+    "last_modified": "2019-07-15T22:40:16-03:00"
   }
 ]
