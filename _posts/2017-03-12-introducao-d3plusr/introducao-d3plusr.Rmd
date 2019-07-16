@@ -10,6 +10,7 @@ date: 2017-03-12
 # comments: true
 # categories: [pacotes, htmlwidgets, visualização, D3, R]
 # published: true
+preview: ../../images/D3plusR.png
 ---
 
 ```{r setup, include=FALSE}

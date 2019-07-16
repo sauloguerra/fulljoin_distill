@@ -10,6 +10,7 @@ date: 2016-08-16
 # comments: true
 # categories: [dplyr, manipulação de dados]
 # published: true
+preview: ../../images/dplyr.png
 ---
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)

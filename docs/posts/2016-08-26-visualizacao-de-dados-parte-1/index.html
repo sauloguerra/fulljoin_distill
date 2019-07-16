@@ -58,7 +58,7 @@
 <!--/radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-resource-manifest">
-  {"type":"character","attributes":{},"value":["visualizacao-de-dados-parte-1_files/figure-html5/unnamed-chunk-14-1.png","visualizacao-de-dados-parte-1_files/figure-html5/unnamed-chunk-15-1.png","visualizacao-de-dados-parte-1_files/figure-html5/unnamed-chunk-4-1.png","visualizacao-de-dados-parte-1_files/figure-html5/unnamed-chunk-5-1.png","visualizacao-de-dados-parte-1_files/figure-html5/unnamed-chunk-6-1.png","visualizacao-de-dados-parte-1_files/figure-html5/unnamed-chunk-7-1.png","visualizacao-de-dados-parte-1_files/figure-html5/unnamed-chunk-8-1.png","visualizacao-de-dados-parte-1_files/figure-html5/unnamed-chunk-9-1.png"]}
+  {"type":"character","attributes":{},"value":["visualizacao-de-dados-parte-1_files/bowser-1.9.3/bowser.min.js","visualizacao-de-dados-parte-1_files/distill-2.2.21/template.v2.js","visualizacao-de-dados-parte-1_files/figure-html5/unnamed-chunk-14-1.png","visualizacao-de-dados-parte-1_files/figure-html5/unnamed-chunk-15-1.png","visualizacao-de-dados-parte-1_files/figure-html5/unnamed-chunk-4-1.png","visualizacao-de-dados-parte-1_files/figure-html5/unnamed-chunk-5-1.png","visualizacao-de-dados-parte-1_files/figure-html5/unnamed-chunk-6-1.png","visualizacao-de-dados-parte-1_files/figure-html5/unnamed-chunk-7-1.png","visualizacao-de-dados-parte-1_files/figure-html5/unnamed-chunk-8-1.png","visualizacao-de-dados-parte-1_files/figure-html5/unnamed-chunk-9-1.png","visualizacao-de-dados-parte-1_files/jquery-1.11.3/jquery.min.js","visualizacao-de-dados-parte-1_files/webcomponents-2.0.0/webcomponents.js"]}
   </script>
   <!--radix_placeholder_navigation_in_header-->
 
@@ -1352,7 +1352,7 @@ d-article {
 <h2 id="dados-do-banco-mundial---world-development-indicators">Dados do Banco Mundial - <em>World Development Indicators</em></h2>
 <p>Antes de partir para criação dos gráficos, precisamos dos dados. Neste post, utilizaremos dados do Banco Mundial, mais especificamente, o <em>World Development Indicators</em>. O interessante é que existe um pacote em R, o <code>WDI</code>, que torna a importação desses dados direta, sem que seja necessário ir no site do Banco Mundial e baixar os dados.</p>
 <p>Essa base de dados possui uma infinidade de indicadores. Aqui serão utilizadas dois indicadores: grau de abertura (exportações + importações sobre o PIB) e PIB per capita calculado pela Paridade de Poder Compra (PPP) em US$. A escolha desses indicadores deve-se ao fato de querermos elaborar um gráfico similar ao elaborado na página 16 do <a href="https://www.wto.org/english/res_e/publications_e/wto_unctad12_e.pdf">A Practical Guide do Trade Policy Analysis</a>.</p>
-Utilizaremos a função <code>WDIsearch()</code> para encontrar os nomes dos indicadores desejados.
+<p>Utilizaremos a função <code>WDIsearch()</code> para encontrar os nomes dos indicadores desejados.</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 library(WDI)

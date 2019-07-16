@@ -10,6 +10,7 @@ date: 2016-07-30
 # comments: true
 # categories: [geral]
 # published: true
+preview: ../../images/comexvis.png
 ---
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)

@@ -10,6 +10,7 @@ date: 2017-01-28
 # comments: true
 # categories: [pacotes, séries temporais]
 # published: true
+preview: ../../images/kaggle.png
 ---
 
 

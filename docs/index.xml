@@ -14,6 +14,7 @@
       <description>Depois de muito tempo sem nenhuma atualização, estamos revivendo o Fulljoin!</description>
       <guid>https://sauloguerra.github.io/fulljoindistill/posts/2019-07-15-estamos-de-volta</guid>
       <pubDate>Seg, 15 Jul 2019 00:00:00 +0000</pubDate>
+      <media:content url="https://sauloguerra.github.io/fulljoindistill/posts/2019-07-15-estamos-de-volta/../../images/voltamos.png" medium="image" type="image/png" width="472" height="271"/>
     </item>
     <item>
       <title>Introdução ao D3plusR</title>
@@ -21,6 +22,7 @@
       <description>Visualização de dados é uma das principais tarefas de um analista de dados. A partir de visualizações, é possível explorar os dados e comunicar resultados de maneira mais efetiva. No R, além de visualizações estáticas, principalmente desenvolvidas com ggplot2 R, existem um conjunto de pacotes que são desenvolvidos utilizando o _framework_ fornecido pelo pacote `htmlwidgets`. A ideia é trazer o mundo de bibliotecas de visualizações de dados em javascript para o R.</description>
       <guid>https://sauloguerra.github.io/fulljoindistill/posts/2017-03-12-introducao-d3plusr</guid>
       <pubDate>Dom, 12 Mar 2017 00:00:00 +0000</pubDate>
+      <media:content url="https://sauloguerra.github.io/fulljoindistill/posts/2017-03-12-introducao-d3plusr/../../images/D3plusR.png" medium="image" type="image/png" width="247" height="237"/>
     </item>
     <item>
       <title>Bases de Dados Públicas - Kaggle</title>
@@ -28,6 +30,7 @@
       <description>Durante o processo de aprendizagem de análise de dados é fundamental aplicar os conhecimentos adquiridos aos dados. Todavia, muitas vezes nos vemos obrigados a trabalhar com dados de exemplos que não apresentam as dificuldades do mundo real ou não guardam nenhuma relação com os dados que serão enfrentados no dia a dia. Nesse sentido, a possibilidade de acesso a outras base de dados pode ser bastante útil.</description>
       <guid>https://sauloguerra.github.io/fulljoindistill/posts/2017-01-28-bases-de-dados-kaggle</guid>
       <pubDate>Sáb, 28 Jan 2017 00:00:00 +0000</pubDate>
+      <media:content url="https://sauloguerra.github.io/fulljoindistill/posts/2017-01-28-bases-de-dados-kaggle/../../images/kaggle.png" medium="image" type="image/png" width="362" height="139"/>
     </item>
     <item>
       <title>Visualização de dados - Parte 1: Introdução ao ggplot2</title>
@@ -43,6 +46,7 @@
       <description>Dominar a manipulação de dados é uma das habilidades mais básicas que um analista de dados deve ter. Nesse post ensinaremos as principais atividades relacionadas a manipulação de dados utilizando o pacote dplyr, um dos melhores pacotes disponíveis no R para essa finalidade.</description>
       <guid>https://sauloguerra.github.io/fulljoindistill/posts/2016-08-01-manipulacao-de-dados-parte-1</guid>
       <pubDate>Ter, 16 Ago 2016 00:00:00 +0000</pubDate>
+      <media:content url="https://sauloguerra.github.io/fulljoindistill/posts/2016-08-01-manipulacao-de-dados-parte-1/../../images/dplyr.png" medium="image" type="image/png" width="209" height="242"/>
     </item>
     <item>
       <title>Comex Vis e a visualização de dados no Brasil</title>
@@ -50,6 +54,7 @@
       <description>No dia 28/07/2016 a Secretaria de Comércio Exterior lançou o [Comex Vis](http://www.mdic.gov.br/comercio-exterior/estatisticas-de-comercio-exterior/comex-vis), uma ferramenta de visualização interativa de dados do comércio exterior brasileiro. Nesse post faremos alguns comentários sobre o Comex Vis e sobre a visualização de dados em geral.</description>
       <guid>https://sauloguerra.github.io/fulljoindistill/posts/2016-07-30-comex-vis</guid>
       <pubDate>Sáb, 30 Jul 2016 00:00:00 +0000</pubDate>
+      <media:content url="https://sauloguerra.github.io/fulljoindistill/posts/2016-07-30-comex-vis/../../images/comexvis.png" medium="image" type="image/png" width="750" height="505"/>
     </item>
     <item>
       <title>Introdução a Modelos no R</title>

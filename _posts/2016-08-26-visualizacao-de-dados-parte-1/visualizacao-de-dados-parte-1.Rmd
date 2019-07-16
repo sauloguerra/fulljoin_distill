@@ -45,6 +45,7 @@ Antes de partir para criação dos gráficos, precisamos dos dados. Neste post, 
 Essa base de dados possui uma infinidade de indicadores. Aqui serão utilizadas dois indicadores: grau de abertura (exportações + importações sobre o PIB) e PIB per capita calculado pela Paridade de Poder Compra (PPP) em US$. A escolha desses indicadores deve-se ao fato de querermos elaborar um gráfico similar ao elaborado na página 16 do [A Practical Guide do Trade Policy Analysis](https://www.wto.org/english/res_e/publications_e/wto_unctad12_e.pdf).
 
 Utilizaremos a função `WDIsearch()` para encontrar os nomes dos indicadores desejados. 
+
 ```{r, message=FALSE}
 library(WDI)
 library(dplyr)

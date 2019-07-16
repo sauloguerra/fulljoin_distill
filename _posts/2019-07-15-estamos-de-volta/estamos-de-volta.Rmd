@@ -6,6 +6,8 @@ date: 07-15-2019
 output:
   distill::distill_article:
     self_contained: false
+    
+preview: ../../images/voltamos.png
 ---
 
 ```{r setup, include=FALSE}
