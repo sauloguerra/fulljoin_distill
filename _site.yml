@@ -4,6 +4,7 @@ description: |
   Fulljoin
 output_dir: "docs"
 base_url: https://sauloguerra.github.io/fulljoindistill/
+google_analytics: "UA-75406624-1"
 navbar:
   right:
     - text: "Posts"
