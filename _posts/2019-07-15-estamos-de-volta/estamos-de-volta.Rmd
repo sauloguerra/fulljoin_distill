@@ -1,0 +1,29 @@
+---
+title: "Estamos de volta!"
+description: |
+  Depois de muito tempo sem nenhuma atualização, estamos revivendo o Fulljoin!
+date: 07-15-2019
+output:
+  distill::distill_article:
+    self_contained: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+
+Fulljoin está de volta a atividade!
+
+Estamos voltando com a mesma "pegada" de antes. Tentaremos escrever posts bastante elucidativos sobre diversos temas relacionados a R e ciência de dados: manipulação de dados, visualizações, modelagem, etc. Na medida do possível vamos abordar também um pouco de Python e SQL!
+
+Uma boa novidade na volta do blog é a colaboração de um grande amigo nosso, o mestre Miguel Cleaver, que passará a nos ajudar com o conteúdo. 
+
+Mudamos a infraestrutura do blog. Antes usávamos o Octopress e agora estamos adotando o Distill, também em R, um pouco mais simples e fácil de manter. Estamos quase terminando de ajustar alguns detalhes da migração da antiga plataforma. Certamente faremos um post explicando como usar o Distill para criar blogs e sites simples em R!
+
+Muito em breve lançaremos novas sequências de posts para a retomada do Fulljoin. Esperamos continuar sendo úteis na sua jornada como cientista de dados!
+
+Aguardem ☺
+
+
+

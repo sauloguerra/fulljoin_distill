@@ -2,15 +2,19 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" version="1.0">
   <url>
     <loc>https://sauloguerra.github.io/fulljoindistill/about.html</loc>
-    <lastmod>2019-07-15T23:04:33-03:00</lastmod>
+    <lastmod>2019-07-15T23:52:23-03:00</lastmod>
   </url>
   <url>
     <loc>https://sauloguerra.github.io/fulljoindistill/consultoria.html</loc>
-    <lastmod>2019-07-15T22:40:17-03:00</lastmod>
+    <lastmod>2019-07-14T13:43:51-03:00</lastmod>
   </url>
   <url>
     <loc>https://sauloguerra.github.io/fulljoindistill/</loc>
-    <lastmod>2019-07-15T22:40:17-03:00</lastmod>
+    <lastmod>2019-07-14T14:02:38-03:00</lastmod>
+  </url>
+  <url>
+    <loc>https://sauloguerra.github.io/fulljoindistill/posts/2019-07-15-estamos-de-volta/</loc>
+    <lastmod>2019-07-15T23:51:13-03:00</lastmod>
   </url>
   <url>
     <loc>https://sauloguerra.github.io/fulljoindistill/posts/2017-03-12-introducao-d3plusr/</loc>
