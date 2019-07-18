@@ -21,7 +21,7 @@
   <!--radix_placeholder_meta_tags-->
 <title>Fulljoin: Classificando Comentários Tóxicos com o R</title>
 
-<meta property="description" itemprop="description" content="Nesse post, vamos criar um classificador de comentÃ¡rios tÃ³xicos a partir de uma&#10;base de dados disponibilizada em uma competiÃ§Ã£o do Kaggle. SerÃ£o utilizadas &#10;tÃ©cnicas chamadas de bag-of-words e tf-idf."/>
+<meta property="description" itemprop="description" content="Nesse post, vamos criar um classificador de comentários tóxicos a partir de uma&#10;base de dados disponibilizada em uma competição do Kaggle. Serão utilizadas &#10;técnicas chamadas de bag-of-words e tf-idf."/>
 
 <link rel="canonical" href="https://sauloguerra.github.io/fulljoindistill/posts/2018-10-24-classificando-comentrios-txicos/"/>
 
@@ -33,7 +33,7 @@
 <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
 <meta property="og:title" content="Fulljoin: Classificando Comentários Tóxicos com o R"/>
 <meta property="og:type" content="article"/>
-<meta property="og:description" content="Nesse post, vamos criar um classificador de comentÃ¡rios tÃ³xicos a partir de uma&#10;base de dados disponibilizada em uma competiÃ§Ã£o do Kaggle. SerÃ£o utilizadas &#10;tÃ©cnicas chamadas de bag-of-words e tf-idf."/>
+<meta property="og:description" content="Nesse post, vamos criar um classificador de comentários tóxicos a partir de uma&#10;base de dados disponibilizada em uma competição do Kaggle. Serão utilizadas &#10;técnicas chamadas de bag-of-words e tf-idf."/>
 <meta property="og:url" content="https://sauloguerra.github.io/fulljoindistill/posts/2018-10-24-classificando-comentrios-txicos/"/>
 <meta property="og:image" content="https://sauloguerra.github.io/fulljoindistill/posts/2018-10-24-classificando-comentrios-txicos/classificando-comentrios-txicos_files/figure-html5/unnamed-chunk-5-1.png"/>
 <meta property="og:image:width" content="1248"/>
@@ -44,7 +44,7 @@
 <!--  https://dev.twitter.com/cards/types/summary -->
 <meta property="twitter:card" content="summary_large_image"/>
 <meta property="twitter:title" content="Fulljoin: Classificando Comentários Tóxicos com o R"/>
-<meta property="twitter:description" content="Nesse post, vamos criar um classificador de comentÃ¡rios tÃ³xicos a partir de uma&#10;base de dados disponibilizada em uma competiÃ§Ã£o do Kaggle. SerÃ£o utilizadas &#10;tÃ©cnicas chamadas de bag-of-words e tf-idf."/>
+<meta property="twitter:description" content="Nesse post, vamos criar um classificador de comentários tóxicos a partir de uma&#10;base de dados disponibilizada em uma competição do Kaggle. Serão utilizadas &#10;técnicas chamadas de bag-of-words e tf-idf."/>
 <meta property="twitter:url" content="https://sauloguerra.github.io/fulljoindistill/posts/2018-10-24-classificando-comentrios-txicos/"/>
 <meta property="twitter:image" content="https://sauloguerra.github.io/fulljoindistill/posts/2018-10-24-classificando-comentrios-txicos/classificando-comentrios-txicos_files/figure-html5/unnamed-chunk-5-1.png"/>
 <meta property="twitter:image:width" content="1248"/>
@@ -1294,18 +1294,27 @@ gtag('config', 'UA-75406624-1');
 </script>
 <style type="text/css">
 d-article {
-  font-weight: 300;
+    font-weight: 300;
+}
+
+d-code {
+    background: #f7f7f7;
+}
+
+pre.text-output {
+    color: #d2a963;
+    background: #2f2f2f;
+    padding: 10px;
 }
 
 .distill-site-nav {
-  background-color: #268bd2;
+    background-color: #268bd2;
 }
 
 .distill-site-header .title {
     font-size: 20px;
     font-weight: bolder;
 }
-
 </style>
 <!--/radix_placeholder_site_in_header-->
 
@@ -1796,7 +1805,7 @@ identity_hate
 </div>
 <p>O AUC médio na base de teste é igual a 0.9767. Este é o nosso resultado! Na plataforma do Kaggle, obtemos os seguintes resultados (ligeiramente diferentes):</p>
 <p><img src="imagens/score_kaggle.png" /></p>
-<p>Obviamente, esse resultado não faz cócegas nos resultados obtidos pelos primeiros lugares. No entanto, considerando a classe de modelos lineares, nossos resultados são razoáveis. Inclusive, comparáveis aos resultados dos principais kernel para algoritmos que não estão na categoria <em>deep learning</em>.</p>
+<p>Obviamente, esse resultado não faz cócegas nos resultados obtidos pelos primeiros lugares. No entanto, considerando a classe de modelos lineares, nossos resultados são razoáveis. Inclusive, comparáveis aos resultados dos principais kernel para algoritmos que não está na categoria <em>deep learning</em>.</p>
 <h2 id="proximos-passos">Próximos Passos</h2>
 <p>A ideia é apresentar no futuro, para esse mesmo conjunto de dados, resultados utilizando técnicas de deep learning, mas por hoje é só! Espero que o post tenha trazido algo de útil.</p>
 <!--radix_placeholder_article_footer-->

@@ -19,46 +19,42 @@
  <!--/radix_placeholder_import_source-->
 
   <!--radix_placeholder_meta_tags-->
-<title>Fulljoin: Estamos de volta!</title>
+<title>Fulljoin: Scraping de dados da CBF com R</title>
 
-<meta property="description" itemprop="description" content="Depois de muito tempo sem nenhuma atualização, estamos revivendo o Fulljoin!"/>
+<meta property="description" itemprop="description" content="Nesse post apresentaremos um tutorial básico de web scraping utilizando o pacote rvest e o as informações de jogos divulgadas no site da CBF"/>
 
-<link rel="canonical" href="https://sauloguerra.github.io/fulljoindistill/posts/2019-07-15-estamos-de-volta/"/>
+<link rel="canonical" href="https://sauloguerra.github.io/fulljoindistill/posts/2019-07-16-web-scraping-com-r/"/>
 
 <!--  https://schema.org/Article -->
-<meta property="article:published" itemprop="datePublished" content="2019-07-15"/>
-<meta property="article:created" itemprop="dateCreated" content="2019-07-15"/>
+<meta property="article:published" itemprop="datePublished" content="2019-07-16"/>
+<meta property="article:created" itemprop="dateCreated" content="2019-07-16"/>
 
 <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
-<meta property="og:title" content="Fulljoin: Estamos de volta!"/>
+<meta property="og:title" content="Fulljoin: Scraping de dados da CBF com R"/>
 <meta property="og:type" content="article"/>
-<meta property="og:description" content="Depois de muito tempo sem nenhuma atualização, estamos revivendo o Fulljoin!"/>
-<meta property="og:url" content="https://sauloguerra.github.io/fulljoindistill/posts/2019-07-15-estamos-de-volta/"/>
-<meta property="og:image" content="https://sauloguerra.github.io/fulljoindistill/posts/2019-07-15-estamos-de-volta/../../images/voltamos.png"/>
-<meta property="og:image:width" content="472"/>
-<meta property="og:image:height" content="271"/>
+<meta property="og:description" content="Nesse post apresentaremos um tutorial básico de web scraping utilizando o pacote rvest e o as informações de jogos divulgadas no site da CBF"/>
+<meta property="og:url" content="https://sauloguerra.github.io/fulljoindistill/posts/2019-07-16-web-scraping-com-r/"/>
+<meta property="og:image" content="https://sauloguerra.github.io/fulljoindistill/posts/2019-07-16-web-scraping-com-r/../../images/cbf.gif"/>
 <meta property="og:locale" content="en_US"/>
 <meta property="og:site_name" content="Fulljoin"/>
 
 <!--  https://dev.twitter.com/cards/types/summary -->
 <meta property="twitter:card" content="summary_large_image"/>
-<meta property="twitter:title" content="Fulljoin: Estamos de volta!"/>
-<meta property="twitter:description" content="Depois de muito tempo sem nenhuma atualização, estamos revivendo o Fulljoin!"/>
-<meta property="twitter:url" content="https://sauloguerra.github.io/fulljoindistill/posts/2019-07-15-estamos-de-volta/"/>
-<meta property="twitter:image" content="https://sauloguerra.github.io/fulljoindistill/posts/2019-07-15-estamos-de-volta/../../images/voltamos.png"/>
-<meta property="twitter:image:width" content="472"/>
-<meta property="twitter:image:height" content="271"/>
+<meta property="twitter:title" content="Fulljoin: Scraping de dados da CBF com R"/>
+<meta property="twitter:description" content="Nesse post apresentaremos um tutorial básico de web scraping utilizando o pacote rvest e o as informações de jogos divulgadas no site da CBF"/>
+<meta property="twitter:url" content="https://sauloguerra.github.io/fulljoindistill/posts/2019-07-16-web-scraping-com-r/"/>
+<meta property="twitter:image" content="https://sauloguerra.github.io/fulljoindistill/posts/2019-07-16-web-scraping-com-r/../../images/cbf.gif"/>
 
 <!--/radix_placeholder_meta_tags-->
   <!--radix_placeholder_rmarkdown_metadata-->
 
 <script type="text/json" id="radix-rmarkdown-metadata">
-{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","date","output","preview","citation_url","canonical_url"]}},"value":[{"type":"character","attributes":{},"value":["Estamos de volta!"]},{"type":"character","attributes":{},"value":["Depois de muito tempo sem nenhuma atualização, estamos revivendo o Fulljoin!"]},{"type":"character","attributes":{},"value":["07-15-2019"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]}]},{"type":"character","attributes":{},"value":["../../images/voltamos.png"]},{"type":"character","attributes":{},"value":["https://sauloguerra.github.io/fulljoindistill/posts/2019-07-15-estamos-de-volta/"]},{"type":"character","attributes":{},"value":["https://sauloguerra.github.io/fulljoindistill/posts/2019-07-15-estamos-de-volta/"]}]}
+{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","date","output","categories","preview","citation_url","canonical_url"]}},"value":[{"type":"character","attributes":{},"value":["Scraping de dados da CBF com R"]},{"type":"character","attributes":{},"value":["Nesse post apresentaremos um tutorial básico de web scraping utilizando o pacote rvest e o as informações de jogos divulgadas no site da CBF"]},{"type":"character","attributes":{},"value":["07-16-2019"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]}]},{"type":"character","attributes":{},"value":["rvest","scraping"]},{"type":"character","attributes":{},"value":["../../images/cbf.gif"]},{"type":"character","attributes":{},"value":["https://sauloguerra.github.io/fulljoindistill/posts/2019-07-16-web-scraping-com-r/"]},{"type":"character","attributes":{},"value":["https://sauloguerra.github.io/fulljoindistill/posts/2019-07-16-web-scraping-com-r/"]}]}
 </script>
 <!--/radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-resource-manifest">
-  {"type":"character","attributes":{},"value":["estamos-de-volta_files/bowser-1.9.3/bowser.min.js","estamos-de-volta_files/distill-2.2.21/template.v2.js","estamos-de-volta_files/jquery-1.11.3/jquery.min.js","estamos-de-volta_files/webcomponents-2.0.0/webcomponents.js"]}
+  {"type":"character","attributes":{},"value":["web-scraping-com-r_files/bowser-1.9.3/bowser.min.js","web-scraping-com-r_files/distill-2.2.21/template.v2.js","web-scraping-com-r_files/jquery-1.11.3/jquery.min.js","web-scraping-com-r_files/pagedtable-1.1/css/pagedtable.css","web-scraping-com-r_files/pagedtable-1.1/js/pagedtable.js","web-scraping-com-r_files/webcomponents-2.0.0/webcomponents.js"]}
   </script>
   <!--radix_placeholder_navigation_in_header-->
 
@@ -1273,6 +1269,8 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 
 <!--/radix_placeholder_distill-->
+  <link href="../../site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
+  <script src="../../site_libs/pagedtable-1.1/js/pagedtable.js"></script>
   <script src="../../site_libs/jquery-1.11.3/jquery.min.js"></script>
   <script src="../../site_libs/bowser-1.9.3/bowser.min.js"></script>
   <script src="../../site_libs/webcomponents-2.0.0/webcomponents.js"></script>
@@ -1319,7 +1317,7 @@ pre.text-output {
 <!--radix_placeholder_front_matter-->
 
 <script id="distill-front-matter" type="text/json">
-{"title":"Estamos de volta!","description":"Depois de muito tempo sem nenhuma atualização, estamos revivendo o Fulljoin!","authors":[],"publishedDate":"2019-07-15T00:00:00.000-03:00"}
+{"title":"Scraping de dados da CBF com R","description":"Nesse post apresentaremos um tutorial básico de web scraping utilizando o pacote rvest e o as informações de jogos divulgadas no site da CBF","authors":[],"publishedDate":"2019-07-16T00:00:00.000-03:00"}
 </script>
 
 <!--/radix_placeholder_front_matter-->
@@ -1342,35 +1340,156 @@ pre.text-output {
 <!--/radix_placeholder_site_before_body-->
 
 <div class="d-title">
-<h1>Estamos de volta!</h1>
-<p>Depois de muito tempo sem nenhuma atualização, estamos revivendo o Fulljoin!</p>
+<h1>Scraping de dados da CBF com R</h1>
+<p>Nesse post apresentaremos um tutorial básico de web scraping utilizando o pacote rvest e o as informações de jogos divulgadas no site da CBF</p>
 </div>
 
 
 <div class="d-article">
-<p>Fulljoin está de volta a atividade!</p>
-<p>Estamos voltando com a mesma “pegada” de antes. Tentaremos escrever posts bastante elucidativos sobre diversos temas relacionados a R e ciência de dados: manipulação de dados, visualizações, modelagem, etc. Na medida do possível vamos abordar também um pouco de Python e SQL!</p>
-<p>Uma boa novidade na volta do blog é a colaboração de um grande amigo nosso, o mestre Miguel Cleaver, que passará a nos ajudar com o conteúdo.</p>
-<p>Mudamos a infraestrutura do blog. Antes usávamos o Octopress e agora estamos adotando o Distill, também em R, um pouco mais simples e fácil de manter. Estamos quase terminando de ajustar alguns detalhes da migração da antiga plataforma. Certamente faremos um post explicando como usar o Distill para criar blogs e sites simples em R!</p>
-<p>Muito em breve lançaremos novas sequências de posts para a retomada do Fulljoin. Esperamos continuar sendo úteis na sua jornada como cientista de dados!</p>
-<p>Aguardem ☺</p>
+<!-- More -->
+<h2 id="o-que-e-web-scraping">O que é web scraping?</h2>
+<p>É uma técnica de extração de dados de websites de forma automatizada. A web hoje traz inúmeras informações e dados que não estão disponíveis para serem baixados em arquivos estruturados como os arquivos xlsx (excel) ou csv. Como exemplo, podemos ver a página em do <a href="https://pt.wikipedia.org/wiki/Brasil">Wikipédia sobre o Brasil</a>. Há uma série de informações e dados no site que não estão organizados nem disponíveis para download.</p>
+<p>Abaixo podemos ver que o site apresenta dados de PIB (PPC), PIB (nominal), IDH, Índice de Gini, moeda, fuso horário, entre outros dados brasileiros:</p>
+<div class="layout-chunk" data-layout="l-body">
+<p><img src="../../images/web_scraping.png" width="741" style="display: block; margin: auto;" /></p>
+</div>
+<p>À primeira vista a extração de dados da web pode parecer mais fácil se feita manualmente, bastando um simples copia e cola. Isso funciona bem quando há poucos dados a serem extraídos. No entanto, à medida que a quantidade de dados para extração aumenta, a tarefa se torna tediosa, sujeita a erros e demorada.</p>
+<p>Imagine ter que extrair do Wikipédia a informação dos presidentes atuais de uma lista de 100 países. Você teria que entrar na respectiva seção do Wikipédia de cada país e extrair essa informação. É algo que não faz sentido se você tem noções de web scraping. Como algumas linhas de código você conseguiria extrair as informações desejadas.</p>
+<h2 id="como-fazemos-web-scraping-com-r">Como fazemos web scraping com R?</h2>
+<p>Fazer web scraping com R é bastante intuitivo graças ao pacote <a href="https://www.rdocumentation.org/packages/rvest/versions/0.3.4">rvest</a>. O ideal é conhecer um pouco de HTML para se familiarizar com a estrutura do dado, mas não é requisito necessário ter conhecimentos avançados sobre o assunto como veremos no exemplo a seguir.</p>
+<h2 id="exemplo-raspando-dados-disponiveis-no-portal-da-cbf">Exemplo: raspando dados disponíveis no portal da CBF</h2>
+<p>Para mostrar como fazer web scraping, escolhemos um caso relativamente simples: vamos extrair dados do portal da <a href="https://www.cbf.com.br/">CBF</a>, o qual traz informações sobre as colocações dos times e resultados dos jogos do Brasileirão.</p>
+<p>O objetivo é extrair as informações da coluna interativa lateral direita que apresenta os resultados de cada rodada, conforme pode ser visto abaixo:</p>
+<div class="layout-chunk" data-layout="l-body">
+<p><img src="../../images/cbf.gif" style="display: block; margin: auto;" /></p>
+</div>
+<p>Até o momento da publicação deste post, apenas 10 rodadas do Brasileirão haviam sido realizadas. Contudo, veremos que com o código que será construído não precisaremos fazer esforço adicional para obter as atualizações dos resultados, uma vez que o mapeamento da estrutura de dados atual também permite mapear a atualização das rodadas futuras (estamos partindo do pressuposto que estrutura de HTML do portal da CBF não vai se alterar, pelo menos no curto prazo).</p>
+<p>O primeiro passo consiste em carregar os pacotes necessários e puxar as informações HTML do portal da CBF. A função <code>read_html</code> se encarrega de trazer os dados HTML. O único que precisamos fazer é passar o link do site na função.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+library(rvest) # pacote para web scraping
+library(tidyverse)
+
+dado_cbf &lt;- read_html(&quot;https://www.cbf.com.br&quot;)
+
+dado_cbf</code></pre>
+<pre><code>
+{xml_document}
+&lt;html lang=&quot;pt-BR&quot;&gt;
+[1] &lt;head&gt;\n&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; cha ...
+[2] &lt;body&gt;\r\n  &lt;h1 style=&quot;display:none&quot;&gt;Portal CBF&lt;/h1&gt;\r\n\r\n  &lt; ...</code></pre>
+</div>
+<p>Para quem não está familiarizado com o formato HTML as informações do objeto <code>dado_cbf</code> podem ser um obstáculo, mas não o são. Na verdade, o que você precisa entender é que qualquer página web é basicamente um texto com formato HTML. As informações estão contidas em tags, que por sua vez podem ter classes. Exemplos de tags são &lt;head&gt;, &lt;body&gt;, &lt;div&gt;, etc. Por sua vez, as classes estão ligadas a uma ou mais tags. Por exemplo, em &lt;div class=“swipe bordas”&gt;, temos a tag <code>div</code>, mas também temos duas classes: <code>swipe</code> e <code>bordas</code>. Cuidado para não achar que se trata de uma classe única chamada <code>swipe bordas</code>. Em HTML, o espaço separa as classes, portanto, há duas classes e não uma. Com isso em mente, podemos avançar.</p>
+<p>Para iniciarmos a extração de dados, precisamos abrir o portal da CBF e localizar os dados que desejamos “raspar”. Neste caso, estamos usando o google chrome, mas qualquer navegador moderno poderá servir. Depois de localizarmos os dados, clicamos em cima do dado desejado com o botão direito do mouse e selecionamos inspecionar. Na figura abaixo, clicamos em cima do placar para inspecionar as tags e classes HTML. Observa-se que o placar tem a tag <code>span</code> e possui as classes <code>bg-blue</code>, <code>color-white</code> e <code>label-2</code>.</p>
+<div class="layout-chunk" data-layout="l-body">
+<p><img src="../../images/html_scraping.gif" /><!-- --></p>
+</div>
+<p>Além disso vamos perceber que entre a abertura e o fechamento da tag span temos um texto, que é justamente o placar que foi clicado com o botão direito do mouse. Se você clicar em diferentes placares , vai notar que as tags junto com as classes se repetem. Estamos observando que há um padrão nos dados HTML. É esse padrão que nos permite extrair dados de maneira automatizada.</p>
+<p>Inspecionar dados HTML pode demorar um pouco até você pegar o jeito, mas uma vez que você entende a estrutura fica fácil buscar o dado pela tag e pela classe que você deseja. Eu já localizei para vocês que a principal classe que estamos interessados é a swiper-slide. Essa classe engloba a coluna inteira de rodadas.</p>
+<p>Agora utilizamos a função <code>html_nodes</code>. No argumento da função pode-se passar uma classe ou uma tag, por exemplo. Para classes, devemos usar um “.” antes da classe desejada. Mas, para tags, basta inserir o nome da tag direto na função.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+dado_cbf &lt;- dado_cbf %&gt;% 
+  html_nodes(&quot;.swiper-slide&quot;)
+
+print(dado_cbf)</code></pre>
+<pre><code>
+{xml_nodeset (38)}
+ [1] &lt;div class=&quot;swiper-slide &quot; data-slide-index=&quot;0&quot;&gt;\r\n  &lt;header  ...
+ [2] &lt;div class=&quot;swiper-slide &quot; data-slide-index=&quot;1&quot;&gt;\r\n  &lt;header  ...
+ [3] &lt;div class=&quot;swiper-slide &quot; data-slide-index=&quot;2&quot;&gt;\r\n  &lt;header  ...
+ [4] &lt;div class=&quot;swiper-slide &quot; data-slide-index=&quot;3&quot;&gt;\r\n  &lt;header  ...
+ [5] &lt;div class=&quot;swiper-slide &quot; data-slide-index=&quot;4&quot;&gt;\r\n  &lt;header  ...
+ [6] &lt;div class=&quot;swiper-slide &quot; data-slide-index=&quot;5&quot;&gt;\r\n  &lt;header  ...
+ [7] &lt;div class=&quot;swiper-slide &quot; data-slide-index=&quot;6&quot;&gt;\r\n  &lt;header  ...
+ [8] &lt;div class=&quot;swiper-slide &quot; data-slide-index=&quot;7&quot;&gt;\r\n  &lt;header  ...
+ [9] &lt;div class=&quot;swiper-slide &quot; data-slide-index=&quot;8&quot;&gt;\r\n  &lt;header  ...
+[10] &lt;div class=&quot;swiper-slide &quot; data-slide-index=&quot;9&quot;&gt;\r\n  &lt;header  ...
+[11] &lt;div class=&quot;swiper-slide active&quot; data-slide-index=&quot;10&quot;&gt;\r\n  &lt; ...
+[12] &lt;div class=&quot;swiper-slide &quot; data-slide-index=&quot;11&quot;&gt;\r\n  &lt;header ...
+[13] &lt;div class=&quot;swiper-slide &quot; data-slide-index=&quot;12&quot;&gt;\r\n  &lt;header ...
+[14] &lt;div class=&quot;swiper-slide &quot; data-slide-index=&quot;13&quot;&gt;\r\n  &lt;header ...
+[15] &lt;div class=&quot;swiper-slide &quot; data-slide-index=&quot;14&quot;&gt;\r\n  &lt;header ...
+[16] &lt;div class=&quot;swiper-slide &quot; data-slide-index=&quot;15&quot;&gt;\r\n  &lt;header ...
+[17] &lt;div class=&quot;swiper-slide &quot; data-slide-index=&quot;16&quot;&gt;\r\n  &lt;header ...
+[18] &lt;div class=&quot;swiper-slide &quot; data-slide-index=&quot;17&quot;&gt;\r\n  &lt;header ...
+[19] &lt;div class=&quot;swiper-slide &quot; data-slide-index=&quot;18&quot;&gt;\r\n  &lt;header ...
+[20] &lt;div class=&quot;swiper-slide &quot; data-slide-index=&quot;19&quot;&gt;\r\n  &lt;header ...
+...</code></pre>
+</div>
+<p>Agora estamos vendo que <code>dado_cbf</code> possui uma sequência de linhas com várias tags do tipo <code>div</code> com classe <code>swiper-slide</code>. Cada uma dessas tags possui uma coluna com resultados. Assim, explorando cada <code>div</code>, podemos extrair as informações desejadas. Por exemplo, ao explorar o HTML, já descobri que a tag com classe <code>swiper-slide</code> engloba a tag com classe <code>aside-header</code> que engloba a tag com classe <code>text-center</code> que nos leva a uma informação do número da rodada. Vejamos:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+rodada &lt;- dado_cbf %&gt;% 
+  html_nodes(&quot;.aside-header .text-center&quot;) %&gt;% 
+  html_text()
+
+print(rodada)</code></pre>
+<pre><code>
+ [1] &quot;Rodada 1&quot;  &quot;Rodada 2&quot;  &quot;Rodada 3&quot;  &quot;Rodada 4&quot;  &quot;Rodada 5&quot; 
+ [6] &quot;Rodada 6&quot;  &quot;Rodada 7&quot;  &quot;Rodada 8&quot;  &quot;Rodada 9&quot;  &quot;Rodada 10&quot;
+[11] &quot;Rodada 11&quot; &quot;Rodada 12&quot; &quot;Rodada 13&quot; &quot;Rodada 14&quot; &quot;Rodada 15&quot;
+[16] &quot;Rodada 16&quot; &quot;Rodada 17&quot; &quot;Rodada 18&quot; &quot;Rodada 19&quot; &quot;Rodada 20&quot;
+[21] &quot;Rodada 21&quot; &quot;Rodada 22&quot; &quot;Rodada 23&quot; &quot;Rodada 24&quot; &quot;Rodada 25&quot;
+[26] &quot;Rodada 26&quot; &quot;Rodada 27&quot; &quot;Rodada 28&quot; &quot;Rodada 29&quot; &quot;Rodada 30&quot;
+[31] &quot;Rodada 31&quot; &quot;Rodada 32&quot; &quot;Rodada 33&quot; &quot;Rodada 34&quot; &quot;Rodada 35&quot;
+[36] &quot;Rodada 36&quot; &quot;Rodada 37&quot; &quot;Rodada 38&quot;</code></pre>
+</div>
+<p>Também identifiquei que a tag da classe <code>aside-content</code> engloba a tag da classe <code>clearfix</code>, as quais capturam informações de cada um dos jogos por rodada. Por sua vez, a partir das informações capturadas para cada jogo, observa-se que a tag da classe <code>pull-left</code> engloba a tag da classe <code>time-sigla</code>, a qual traz informações textuais da sigla do time da casa. Para extrair a sigla do time que joga fora de casa, uma lógica semelhante pode ser usada. Por fim, também extraímos os placares identificando a classe correspondente <code>partida-horario</code>. Ao encontrar as tags que possuem as informações desejadas, basta usar a função <code>html_text</code> para fazer a extração.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+resultados &lt;- dado_cbf %&gt;% 
+  html_nodes(&quot;.aside-content .clearfix&quot;)
+
+casa &lt;- resultados %&gt;% 
+  html_nodes(&quot;.pull-left .time-sigla&quot;) %&gt;% 
+  html_text()
+
+fora_casa &lt;- resultados %&gt;% 
+  html_nodes(&quot;.pull-right .time-sigla&quot;) %&gt;% 
+  html_text()
+
+placar &lt;- resultados %&gt;% 
+  html_nodes(&quot;.partida-horario&quot;) %&gt;% 
+  html_text() %&gt;% 
+  str_extract(&quot;[0-9]{1}\ x\ [0-9]{1}&quot;)</code></pre>
+</div>
+<p>Com algumas linhas de código extraímos informações do site da CBF de forma simples e rápida. O scrapping é basicamente isso. Depois de “raspar” os dados, podemos, finalmente, estrutura os dados. Vejamos:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+rodada &lt;- 0:(length(placar)-1) %/% 10 + 1
+
+df &lt;- data.frame(rodada = rodada,
+           casa = casa, 
+           fora_casa = fora_casa,
+           placar = placar,
+           stringsAsFactors = FALSE) %&gt;% 
+  filter(rodada &lt;= 10)
+
+rmarkdown::paged_table(df)</code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["rodada"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["casa"],"name":[2],"type":["chr"],"align":["left"]},{"label":["fora_casa"],"name":[3],"type":["chr"],"align":["left"]},{"label":["placar"],"name":[4],"type":["chr"],"align":["left"]}],"data":[{"1":"1","2":"SAO","3":"BOT","4":"2 x 0"},{"1":"1","2":"CHA","3":"INT","4":"2 x 0"},{"1":"1","2":"ATL","3":"AVA","4":"2 x 1"},{"1":"1","2":"FLA","3":"CRU","4":"3 x 1"},{"1":"1","2":"GRE","3":"SAN","4":"1 x 2"},{"1":"1","2":"CEA","3":"CSA","4":"4 x 0"},{"1":"1","2":"BAH","3":"COR","4":"3 x 2"},{"1":"1","2":"ATH","3":"VAS","4":"4 x 1"},{"1":"1","2":"PAL","3":"FOR","4":"4 x 0"},{"1":"1","2":"FLU","3":"GOI","4":"0 x 1"},{"1":"2","2":"CSA","3":"PAL","4":"1 x 1"},{"1":"2","2":"COR","3":"CHA","4":"1 x 0"},{"1":"2","2":"INT","3":"FLA","4":"2 x 1"},{"1":"2","2":"AVA","3":"GRE","4":"1 x 1"},{"1":"2","2":"CRU","3":"CEA","4":"1 x 0"},{"1":"2","2":"FOR","3":"ATH","4":"2 x 1"},{"1":"2","2":"VAS","3":"ATL","4":"1 x 2"},{"1":"2","2":"GOI","3":"SAO","4":"1 x 2"},{"1":"2","2":"SAN","3":"FLU","4":"2 x 1"},{"1":"2","2":"BOT","3":"BAH","4":"3 x 2"},{"1":"3","2":"PAL","3":"INT","4":"1 x 0"},{"1":"3","2":"VAS","3":"COR","4":"1 x 1"},{"1":"3","2":"CEA","3":"ATL","4":"1 x 2"},{"1":"3","2":"CHA","3":"ATH","4":"1 x 1"},{"1":"3","2":"CRU","3":"GOI","4":"2 x 1"},{"1":"3","2":"SAO","3":"FLA","4":"1 x 1"},{"1":"3","2":"BOT","3":"FOR","4":"1 x 0"},{"1":"3","2":"CSA","3":"SAN","4":"0 x 0"},{"1":"3","2":"GRE","3":"FLU","4":"4 x 5"},{"1":"3","2":"BAH","3":"AVA","4":"1 x 0"},{"1":"4","2":"FLU","3":"BOT","4":"0 x 1"},{"1":"4","2":"COR","3":"GRE","4":"0 x 0"},{"1":"4","2":"GOI","3":"CEA","4":"2 x 1"},{"1":"4","2":"FLA","3":"CHA","4":"2 x 1"},{"1":"4","2":"SAN","3":"VAS","4":"3 x 0"},{"1":"4","2":"ATL","3":"PAL","4":"0 x 2"},{"1":"4","2":"INT","3":"CRU","4":"3 x 1"},{"1":"4","2":"FOR","3":"SAO","4":"0 x 1"},{"1":"4","2":"AVA","3":"CSA","4":"0 x 0"},{"1":"4","2":"ATH","3":"BAH","4":"1 x 0"},{"1":"5","2":"FLU","3":"CRU","4":"4 x 1"},{"1":"5","2":"PAL","3":"SAN","4":"4 x 0"},{"1":"5","2":"ATL","3":"FLA","4":"2 x 1"},{"1":"5","2":"SAO","3":"BAH","4":"0 x 0"},{"1":"5","2":"CHA","3":"FOR","4":"1 x 3"},{"1":"5","2":"INT","3":"CSA","4":"2 x 0"},{"1":"5","2":"GOI","3":"BOT","4":"1 x 0"},{"1":"5","2":"ATH","3":"COR","4":"0 x 2"},{"1":"5","2":"CEA","3":"GRE","4":"2 x 1"},{"1":"5","2":"VAS","3":"AVA","4":"1 x 1"},{"1":"6","2":"BOT","3":"PAL","4":"0 x 1"},{"1":"6","2":"GRE","3":"ATL","4":"1 x 0"},{"1":"6","2":"FLA","3":"ATH","4":"3 x 2"},{"1":"6","2":"SAN","3":"INT","4":"0 x 0"},{"1":"6","2":"COR","3":"SAO","4":"1 x 0"},{"1":"6","2":"CRU","3":"CHA","4":"1 x 2"},{"1":"6","2":"BAH","3":"FLU","4":"3 x 2"},{"1":"6","2":"FOR","3":"VAS","4":"1 x 1"},{"1":"6","2":"AVA","3":"CEA","4":"1 x 2"},{"1":"6","2":"CSA","3":"GOI","4":"1 x 0"},{"1":"7","2":"COR","3":"GOI","4":"NA"},{"1":"7","2":"FLA","3":"FOR","4":"2 x 0"},{"1":"7","2":"BAH","3":"GRE","4":"1 x 0"},{"1":"7","2":"BOT","3":"VAS","4":"1 x 0"},{"1":"7","2":"ATH","3":"FLU","4":"3 x 0"},{"1":"7","2":"SAO","3":"CRU","4":"1 x 1"},{"1":"7","2":"CEA","3":"SAN","4":"0 x 1"},{"1":"7","2":"CHA","3":"PAL","4":"1 x 2"},{"1":"7","2":"ATL","3":"CSA","4":"4 x 0"},{"1":"7","2":"INT","3":"AVA","4":"2 x 0"},{"1":"8","2":"VAS","3":"INT","4":"2 x 1"},{"1":"8","2":"PAL","3":"ATH","4":"1 x 0"},{"1":"8","2":"GRE","3":"FOR","4":"1 x 0"},{"1":"8","2":"CRU","3":"COR","4":"0 x 0"},{"1":"8","2":"CEA","3":"BAH","4":"0 x 0"},{"1":"8","2":"AVA","3":"SAO","4":"0 x 0"},{"1":"8","2":"FLU","3":"FLA","4":"0 x 0"},{"1":"8","2":"SAN","3":"ATL","4":"3 x 1"},{"1":"8","2":"CSA","3":"BOT","4":"1 x 2"},{"1":"8","2":"GOI","3":"CHA","4":"3 x 1"},{"1":"9","2":"BOT","3":"GRE","4":"0 x 1"},{"1":"9","2":"FOR","3":"CRU","4":"2 x 1"},{"1":"9","2":"INT","3":"BAH","4":"3 x 1"},{"1":"9","2":"CSA","3":"FLA","4":"0 x 2"},{"1":"9","2":"SAN","3":"COR","4":"1 x 0"},{"1":"9","2":"VAS","3":"CEA","4":"1 x 0"},{"1":"9","2":"PAL","3":"AVA","4":"2 x 0"},{"1":"9","2":"CHA","3":"FLU","4":"1 x 1"},{"1":"9","2":"GOI","3":"ATH","4":"2 x 1"},{"1":"9","2":"ATL","3":"SAO","4":"1 x 1"},{"1":"10","2":"GRE","3":"VAS","4":"2 x 1"},{"1":"10","2":"FOR","3":"AVA","4":"2 x 0"},{"1":"10","2":"SAO","3":"PAL","4":"1 x 1"},{"1":"10","2":"BAH","3":"SAN","4":"0 x 1"},{"1":"10","2":"FLA","3":"GOI","4":"6 x 1"},{"1":"10","2":"CRU","3":"BOT","4":"0 x 0"},{"1":"10","2":"COR","3":"CSA","4":"1 x 0"},{"1":"10","2":"ATH","3":"INT","4":"1 x 0"},{"1":"10","2":"CHA","3":"ATL","4":"1 x 2"},{"1":"10","2":"FLU","3":"CEA","4":"1 x 1"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
 <!--radix_placeholder_article_footer-->
 <div class="article-footer">
   <p class="social_footer">
     <span class="disqus-comments">
       <i class="fas fa-comments"></i>
       &nbsp;
-      <span class="disqus-comment-count" data-disqus-identifier="posts/2019-07-15-estamos-de-volta/">Comment on this article</span>
+      <span class="disqus-comment-count" data-disqus-identifier="posts/2019-07-16-web-scraping-com-r/">Comment on this article</span>
     </span>
     <span class="article-sharing">
       Share: &nbsp;
-      <a href="https://twitter.com/share?text=Estamos%20de%20volta%21&amp;url=https%3A%2F%2Fsauloguerra.github.io%2Ffulljoindistill%2Fposts%2F2019-07-15-estamos-de-volta%2F">
+      <a href="https://twitter.com/share?text=Scraping%20de%20dados%20da%20CBF%20com%20R&amp;url=https%3A%2F%2Fsauloguerra.github.io%2Ffulljoindistill%2Fposts%2F2019-07-16-web-scraping-com-r%2F">
         <i class="fab fa-twitter"></i>
       </a>
-      <a href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https%3A%2F%2Fsauloguerra.github.io%2Ffulljoindistill%2Fposts%2F2019-07-15-estamos-de-volta%2F&amp;title=Estamos%20de%20volta%21">
+      <a href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https%3A%2F%2Fsauloguerra.github.io%2Ffulljoindistill%2Fposts%2F2019-07-16-web-scraping-com-r%2F&amp;title=Scraping%20de%20dados%20da%20CBF%20com%20R">
         <i class="fab fa-linkedin"></i>
       </a>
-      <a href="https://www.facebook.com/sharer/sharer.php?s=100&amp;p[url]=https%3A%2F%2Fsauloguerra.github.io%2Ffulljoindistill%2Fposts%2F2019-07-15-estamos-de-volta%2F">
+      <a href="https://www.facebook.com/sharer/sharer.php?s=100&amp;p[url]=https%3A%2F%2Fsauloguerra.github.io%2Ffulljoindistill%2Fposts%2F2019-07-16-web-scraping-com-r%2F">
         <i class="fab fa-facebook"></i>
       </a>
     </span>
@@ -1379,8 +1498,8 @@ pre.text-output {
   <div id="disqus_thread" class="hidden"></div>
   <script>
 var disqus_config = function () {
-  this.page.url = 'https://sauloguerra.github.io/fulljoindistill/posts/2019-07-15-estamos-de-volta/';
-  this.page.identifier = 'posts/2019-07-15-estamos-de-volta/';
+  this.page.url = 'https://sauloguerra.github.io/fulljoindistill/posts/2019-07-16-web-scraping-com-r/';
+  this.page.identifier = 'posts/2019-07-16-web-scraping-com-r/';
 };
 (function() {
   var d = document, s = d.createElement('script');

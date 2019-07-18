@@ -1,12 +1,15 @@
 ---
-title: "Web scraping com R"
+title: "Scraping de dados da CBF com R"
 description: |
-  A short description of the post.
+  Nesse post apresentaremos um tutorial básico de web scraping utilizando o pacote rvest e o as informações de jogos divulgadas no site da CBF 
 date: 07-16-2019
 output:
   distill::distill_article:
     self_contained: false
-draft: true
+categories:
+  - rvest
+  - scraping
+preview: ../../images/cbf.gif
 ---
 
 ```{r setup, include=FALSE}
