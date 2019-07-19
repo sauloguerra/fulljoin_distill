@@ -12,7 +12,7 @@
       <title>Scraping de dados da CBF com rvest</title>
       <dc:creator>Miguel Cleaver</dc:creator>
       <link>https://sauloguerra.github.io/fulljoindistill/posts/2019-07-16-web-scraping-com-r</link>
-      <description>Nesse post apresentaremos um tutorial básico de web scraping utilizando o pacote rvest para extrair as informações de jogos divulgadas no site da CBF. Rvest é um pacote do R que simplifica muito tarefas de scraping e vai te ajudar a extrair dados HTML de qualquer site.</description>
+      <description>Nesse post apresentaremos um tutorial básico de web scraping utilizando o pacote rvest para extrair dados de jogos divulgadas no site da CBF. Rvest é um pacote do R que simplifica muito tarefas de scraping e te ajuda a extrair dados HTML das páginas web.</description>
       <guid>https://sauloguerra.github.io/fulljoindistill/posts/2019-07-16-web-scraping-com-r</guid>
       <pubDate>ter, 16 jul 2019 00:00:00 +0000</pubDate>
       <media:content url="https://sauloguerra.github.io/fulljoindistill/posts/2019-07-16-web-scraping-com-r/../../images/cbf.gif" medium="image" type="image/gif"/>

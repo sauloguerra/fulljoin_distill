@@ -2,7 +2,7 @@
   {
     "path": "posts/2019-07-16-web-scraping-com-r/",
     "title": "Scraping de dados da CBF com rvest",
-    "description": "Nesse post apresentaremos um tutorial básico de web scraping utilizando o pacote rvest para extrair as informações de jogos divulgadas no site da CBF. Rvest é um pacote do R que simplifica muito tarefas de scraping e vai te ajudar a extrair dados HTML de qualquer site.",
+    "description": "Nesse post apresentaremos um tutorial básico de web scraping utilizando o pacote rvest para extrair dados de jogos divulgadas no site da CBF. Rvest é um pacote do R que simplifica muito tarefas de scraping e te ajuda a extrair dados HTML das páginas web.",
     "author": [
       {
         "name": "Miguel Cleaver",
@@ -15,7 +15,7 @@
       "scraping"
     ],
     "preview": "posts/2019-07-16-web-scraping-com-r/../../images/cbf.gif",
-    "last_modified": "2019-07-19T01:33:31-03:00"
+    "last_modified": "2019-07-19T08:53:07-03:00"
   },
   {
     "path": "posts/2019-07-15-estamos-de-volta/",
