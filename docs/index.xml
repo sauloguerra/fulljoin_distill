@@ -7,14 +7,14 @@
     <description>Fulljoin
 </description>
     <generator>Distill</generator>
-    <lastBuildDate>Ter, 16 Jul 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>ter, 16 jul 2019 00:00:00 +0000</lastBuildDate>
     <item>
       <title>Scraping de dados da CBF com rvest</title>
       <dc:creator>Miguel Cleaver</dc:creator>
       <link>https://sauloguerra.github.io/fulljoindistill/posts/2019-07-16-web-scraping-com-r</link>
-      <description>Nesse post apresentaremos um tutorial básico de web scraping utilizando o pacote rvest e o as informações de jogos divulgadas no site da CBF. Rvest é um pacote que simplifica muito tarefas de scraping e vai te ajudar a transformar qualquer site em dados no R.</description>
+      <description>Nesse post apresentaremos um tutorial básico de web scraping utilizando o pacote rvest para extrair dados de jogos divulgadas no site da CBF. Rvest é um pacote do R que simplifica muito tarefas de scraping e te ajuda a extrair dados HTML das páginas web.</description>
       <guid>https://sauloguerra.github.io/fulljoindistill/posts/2019-07-16-web-scraping-com-r</guid>
-      <pubDate>Ter, 16 Jul 2019 00:00:00 +0000</pubDate>
+      <pubDate>ter, 16 jul 2019 00:00:00 +0000</pubDate>
       <media:content url="https://sauloguerra.github.io/fulljoindistill/posts/2019-07-16-web-scraping-com-r/../../images/cbf.gif" medium="image" type="image/gif"/>
     </item>
     <item>
@@ -22,7 +22,7 @@
       <link>https://sauloguerra.github.io/fulljoindistill/posts/2019-07-15-estamos-de-volta</link>
       <description>Depois de muito tempo sem nenhuma atualização, estamos revivendo o Fulljoin!</description>
       <guid>https://sauloguerra.github.io/fulljoindistill/posts/2019-07-15-estamos-de-volta</guid>
-      <pubDate>Seg, 15 Jul 2019 00:00:00 +0000</pubDate>
+      <pubDate>seg, 15 jul 2019 00:00:00 +0000</pubDate>
       <media:content url="https://sauloguerra.github.io/fulljoindistill/posts/2019-07-15-estamos-de-volta/../../images/voltamos.png" medium="image" type="image/png" width="472" height="271"/>
     </item>
     <item>
@@ -33,7 +33,7 @@
 base de dados disponibilizada em uma competição do Kaggle. Serão utilizadas 
 técnicas chamadas de bag-of-words e tf-idf.</description>
       <guid>https://sauloguerra.github.io/fulljoindistill/posts/2018-10-24-classificando-comentrios-txicos</guid>
-      <pubDate>Dom, 18 Nov 2018 00:00:00 +0000</pubDate>
+      <pubDate>dom, 18 nov 2018 00:00:00 +0000</pubDate>
       <media:content url="https://sauloguerra.github.io/fulljoindistill/posts/2018-10-24-classificando-comentrios-txicos/classificando-comentrios-txicos_files/figure-html5/unnamed-chunk-5-1.png" medium="image" type="image/png" width="1248" height="768"/>
     </item>
     <item>
@@ -41,7 +41,7 @@ técnicas chamadas de bag-of-words e tf-idf.</description>
       <link>https://sauloguerra.github.io/fulljoindistill/posts/2017-03-12-introducao-d3plusr</link>
       <description>Visualização de dados é uma das principais tarefas de um analista de dados. A partir de visualizações, é possível explorar os dados e comunicar resultados de maneira mais efetiva. No R, além de visualizações estáticas, principalmente desenvolvidas com ggplot2 R, existem um conjunto de pacotes que são desenvolvidos utilizando o _framework_ fornecido pelo pacote `htmlwidgets`. A ideia é trazer o mundo de bibliotecas de visualizações de dados em javascript para o R.</description>
       <guid>https://sauloguerra.github.io/fulljoindistill/posts/2017-03-12-introducao-d3plusr</guid>
-      <pubDate>Dom, 12 Mar 2017 00:00:00 +0000</pubDate>
+      <pubDate>dom, 12 mar 2017 00:00:00 +0000</pubDate>
       <media:content url="https://sauloguerra.github.io/fulljoindistill/posts/2017-03-12-introducao-d3plusr/../../images/D3plusR.png" medium="image" type="image/png" width="247" height="237"/>
     </item>
     <item>
@@ -49,7 +49,7 @@ técnicas chamadas de bag-of-words e tf-idf.</description>
       <link>https://sauloguerra.github.io/fulljoindistill/posts/2017-01-28-bases-de-dados-kaggle</link>
       <description>Durante o processo de aprendizagem de análise de dados é fundamental aplicar os conhecimentos adquiridos aos dados. Todavia, muitas vezes nos vemos obrigados a trabalhar com dados de exemplos que não apresentam as dificuldades do mundo real ou não guardam nenhuma relação com os dados que serão enfrentados no dia a dia. Nesse sentido, a possibilidade de acesso a outras base de dados pode ser bastante útil.</description>
       <guid>https://sauloguerra.github.io/fulljoindistill/posts/2017-01-28-bases-de-dados-kaggle</guid>
-      <pubDate>Sáb, 28 Jan 2017 00:00:00 +0000</pubDate>
+      <pubDate>s�b, 28 jan 2017 00:00:00 +0000</pubDate>
       <media:content url="https://sauloguerra.github.io/fulljoindistill/posts/2017-01-28-bases-de-dados-kaggle/../../images/kaggle.png" medium="image" type="image/png" width="362" height="139"/>
     </item>
     <item>
@@ -57,7 +57,7 @@ técnicas chamadas de bag-of-words e tf-idf.</description>
       <link>https://sauloguerra.github.io/fulljoindistill/posts/2016-08-26-visualizacao-de-dados-parte-1</link>
       <description>A visualização de dados é parte fundamental do [_workflow_]({{root_url}}/blog/2016/03/14/como-aplicar-ciencia-de-dados/) de um analista de dados. Essa tarefa é muito importante tanto para explorar os dados, como para comunicar resultados. Ou seja, dominar ferramentas de visualização é imprescindível. E é aí que entra o ggplot2.</description>
       <guid>https://sauloguerra.github.io/fulljoindistill/posts/2016-08-26-visualizacao-de-dados-parte-1</guid>
-      <pubDate>Qua, 07 Set 2016 00:00:00 +0000</pubDate>
+      <pubDate>qua, 07 set 2016 00:00:00 +0000</pubDate>
       <media:content url="https://sauloguerra.github.io/fulljoindistill/posts/2016-08-26-visualizacao-de-dados-parte-1/visualizacao-de-dados-parte-1_files/figure-html5/unnamed-chunk-4-1.png" medium="image" type="image/png" width="1536" height="768"/>
     </item>
     <item>
@@ -65,7 +65,7 @@ técnicas chamadas de bag-of-words e tf-idf.</description>
       <link>https://sauloguerra.github.io/fulljoindistill/posts/2016-08-01-manipulacao-de-dados-parte-1</link>
       <description>Dominar a manipulação de dados é uma das habilidades mais básicas que um analista de dados deve ter. Nesse post ensinaremos as principais atividades relacionadas a manipulação de dados utilizando o pacote dplyr, um dos melhores pacotes disponíveis no R para essa finalidade.</description>
       <guid>https://sauloguerra.github.io/fulljoindistill/posts/2016-08-01-manipulacao-de-dados-parte-1</guid>
-      <pubDate>Ter, 16 Ago 2016 00:00:00 +0000</pubDate>
+      <pubDate>ter, 16 ago 2016 00:00:00 +0000</pubDate>
       <media:content url="https://sauloguerra.github.io/fulljoindistill/posts/2016-08-01-manipulacao-de-dados-parte-1/../../images/dplyr.png" medium="image" type="image/png" width="209" height="242"/>
     </item>
     <item>
@@ -73,7 +73,7 @@ técnicas chamadas de bag-of-words e tf-idf.</description>
       <link>https://sauloguerra.github.io/fulljoindistill/posts/2016-07-30-comex-vis</link>
       <description>No dia 28/07/2016 a Secretaria de Comércio Exterior lançou o [Comex Vis](http://www.mdic.gov.br/comercio-exterior/estatisticas-de-comercio-exterior/comex-vis), uma ferramenta de visualização interativa de dados do comércio exterior brasileiro. Nesse post faremos alguns comentários sobre o Comex Vis e sobre a visualização de dados em geral.</description>
       <guid>https://sauloguerra.github.io/fulljoindistill/posts/2016-07-30-comex-vis</guid>
-      <pubDate>Sáb, 30 Jul 2016 00:00:00 +0000</pubDate>
+      <pubDate>s�b, 30 jul 2016 00:00:00 +0000</pubDate>
       <media:content url="https://sauloguerra.github.io/fulljoindistill/posts/2016-07-30-comex-vis/../../images/comexvis.png" medium="image" type="image/png" width="750" height="505"/>
     </item>
     <item>
@@ -81,7 +81,7 @@ técnicas chamadas de bag-of-words e tf-idf.</description>
       <link>https://sauloguerra.github.io/fulljoindistill/posts/2016-06-06-intro-modelos-r</link>
       <description>Neste post, vamos introduzir alguns conceitos para começar a trabalhar com modelos no R. Abordaremos o modelo linear de regressão utilizando a função `lm()`. Aprender a estrutura básica de modelos a partir do modelo linear será bastante útil para entender e utilizar outros modelos mais complexos.</description>
       <guid>https://sauloguerra.github.io/fulljoindistill/posts/2016-06-06-intro-modelos-r</guid>
-      <pubDate>Dom, 10 Jul 2016 00:00:00 +0000</pubDate>
+      <pubDate>dom, 10 jul 2016 00:00:00 +0000</pubDate>
       <media:content url="https://sauloguerra.github.io/fulljoindistill/posts/2016-06-06-intro-modelos-r/intro-modelos-r_files/figure-html5/unnamed-chunk-22-1.png" medium="image" type="image/png" width="1248" height="768"/>
     </item>
     <item>
@@ -89,7 +89,7 @@ técnicas chamadas de bag-of-words e tf-idf.</description>
       <link>https://sauloguerra.github.io/fulljoindistill/posts/2016-05-12-tudo-sobre-joins</link>
       <description>Nessa sequência de posts aprenderemos tudo sobre Joins (merges) em R, abordando questões teóricas e práticas, com exemplos usando R base e o pacote dplyr. Após ler esse post, você vai saber o que é, para que serve, quando e como usar diversos tipo de joins.</description>
       <guid>https://sauloguerra.github.io/fulljoindistill/posts/2016-05-12-tudo-sobre-joins</guid>
-      <pubDate>Qua, 25 Mai 2016 00:00:00 +0000</pubDate>
+      <pubDate>qua, 25 mai 2016 00:00:00 +0000</pubDate>
     </item>
   </channel>
 </rss>
