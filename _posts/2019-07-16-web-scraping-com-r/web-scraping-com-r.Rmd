@@ -20,7 +20,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 <!-- More -->
 
-Além de sanitizar e organizar dados brutos, parte do nosso trabalho como analista ou cientista de dados também passa pela obtenção dos mesmos. Algumas vezes os dados já estão organizados e disponíveis para download. Mas, em outras ocasiões, embora os dados existam, não há arquivo disponível para download. É o caso dos dados e informações disponíveis nas páginas web, cuja fonte está no formato HTML, um formato não tabular. O conjunto de páginas web é uma mina de dados não tabulares, que, muitas vezes, é deixada de lado pelo desconhecimento da técnica de web scraping. Neste post, discutiremos o assunto e mostraremos como implementá-lo no R por meio do pacote [**rvest**](https://www.rdocumentation.org/packages/rvest/versions/0.3.4).
+Além de limpar e organizar dados brutos, parte do nosso trabalho como analista ou cientista de dados também passa pela obtenção dos mesmos. Algumas vezes os dados já estão organizados e disponíveis para download. Mas, em outras ocasiões, embora os dados existam, não há arquivo disponível para download. É o caso dos dados e informações disponíveis nas páginas web, cuja fonte está no formato HTML, um formato não tabular. O conjunto de páginas web é uma mina de dados não tabulares, que, muitas vezes, é deixada de lado pelo desconhecimento da técnica de web scraping. Neste post, discutiremos o assunto e mostraremos como implementá-lo no R por meio do pacote [**rvest**](https://www.rdocumentation.org/packages/rvest/versions/0.3.4).
 
 ## O que é web scraping?
 
