@@ -34,7 +34,7 @@ knitr::include_graphics('../../images/web_scraping.png')
 
 À primeira vista a extração de dados da web pode parecer mais fácil se feita manualmente, bastando um simples copia e cola. Isso funciona bem quando há poucos dados a serem extraídos. No entanto, à medida que a quantidade de dados para extração aumenta, a tarefa se torna tediosa, sujeita a erros e demorada. 
 
-Imagine ter que extrair do Wikipédia a informação dos presidentes atuais de uma lista de 100 países. Você teria que entrar na respectiva seção do Wikipédia de cada país e extrair essa informação. É algo que não faz sentido se você tem noções de web scraping. Como algumas linhas de código você conseguiria extrair as informações desejadas.
+Imagine ter que extrair do Wikipédia a informação dos presidentes atuais de uma lista de 100 países. Você teria que entrar na respectiva seção do Wikipédia de cada país e extrair essa informação. É algo que não faz sentido se você tem noções de web scraping. Com algumas linhas de código você conseguiria extrair as informações desejadas.
 
 ## Como fazemos web scraping com R?
 
@@ -50,7 +50,7 @@ O objetivo é extrair as informações da coluna interativa lateral direita que 
 knitr::include_graphics('../../images/cbf.gif')
 ```
 
-Até o momento da publicação deste post, apenas 10 rodadas do Brasileirão haviam sido realizadas. Contudo, veremos que com o código que será construído não precisaremos fazer esforço adicional para obter as atualizações dos resultados, uma vez que o mapeamento da estrutura de dados atual também permite mapear a atualização das rodadas futuras (estamos partindo do pressuposto que a estrutura de HTML do portal da CBF não vai se alterar, pelo menos no curto prazo).
+Até o momento da publicação deste post, apenas 10 rodadas do Brasileirão haviam sido realizadas. Contudo, veremos que, com o código que será construído, não precisaremos fazer esforço adicional para obter as atualizações dos resultados, uma vez que o mapeamento da estrutura de dados atual também permite mapear a atualização das rodadas futuras (estamos partindo do pressuposto de que a estrutura de HTML do portal da CBF não vai se alterar, pelo menos no curto prazo).
 
 O primeiro passo consiste em carregar os pacotes necessários e puxar as informações HTML do portal da CBF. A função `read_html` se encarrega de trazer os dados HTML para o R. O único que precisamos fazer é passar o link do site na função.
 
@@ -64,23 +64,23 @@ dado_cbf <- read_html("https://www.cbf.com.br")
 dado_cbf
 ```
 
-Para quem não está familiarizado com o formato HTML, a interpretação dos dados extraídos para o objeto `dado_cbf` pode parecer um obstáculo, mas, se tivermos calma para entender o formato, veremos que o entendimento é bastante tranquilo. Na verdade, o que você precisa entender é que qualquer página web é basicamente um texto com formato HTML. As informações estão contidas em tags, que por sua vez podem ter classes. Exemplos de tags são \<head\>, \<body\>, \<div\>, etc. Por sua vez, as classes estão ligadas a uma ou mais tags. Por exemplo, em \<div class="swipe bordas"\>, temos a tag `div`, mas também temos duas classes ligadas a essa tag: `swipe` e `bordas`. Deve-se ter cuidado para interpretar as classes. Alguém poderia pensar que se trata de uma classe única chamada `"swipe bordas"`, mas, em HTML, o espaço separa as classes, portanto há duas classes e não uma. Com isso em mente, podemos avançar.
+Para quem não está familiarizado com o formato HTML, a interpretação dos dados extraídos para o objeto `dado_cbf` pode parecer um obstáculo, mas, se tivermos calma para entender o formato, veremos que o entendimento é bastante tranquilo. Na verdade, o que você precisa entender é que qualquer página web é basicamente um texto com formato HTML. As informações estão contidas em tags, que por sua vez podem ter classes. Exemplos de tags são \<head\>, \<body\>, \<div\>, etc. Por sua vez, as classes estão ligadas a uma ou mais tags. Por exemplo, em \<div class="swipe bordas"\> temos a tag `div`, mas também temos duas classes ligadas a essa tag: `swipe` e `bordas`. Deve-se ter cuidado para interpretar as classes. Alguém poderia pensar que se trata de uma classe única chamada `"swipe bordas"`, mas, em HTML, o espaço separa as classes, portanto há duas classes e não uma. Com isso em mente, podemos avançar.
 
 Para iniciarmos a extração de dados, precisamos abrir o portal da CBF e localizar os dados que desejamos "raspar". Neste caso, estamos usando o **Google Chrome**, mas qualquer navegador moderno poderá servir para esta tarefa. 
 
-Depois de localizarmos os dados, clicamos em cima da informação ou dado desejado com o botão direito do mouse e selecionamos *inspecionar*. Na figura abaixo, clicamos em cima do placar para inspecionar as tags e classes. Observa-se que o placar tem a tag `span` e possui as classes `bg-blue`, `color-white` e `label-2`. Por sua vez, essa tag é englobada diretamente pela tag `strong` com classes `partida-horario` e `center-block`.
+Depois de localizarmos os dados, clicamos em cima da informação ou do dado desejado com o botão direito do mouse e selecionamos *inspecionar*. Na figura abaixo, clicamos em cima do placar para inspecionar as tags e classes. Observa-se que o placar tem a tag `span` e possui as classes `bg-blue`, `color-white` e `label-2`. Por sua vez, essa tag é englobada diretamente pela tag `strong` com classes `partida-horario` e `center-block`.
 
 ```{r, echo=FALSE}
 knitr::include_graphics('../../images/html_scraping.gif')
 ```
 
-Além disso vamos perceber que entre a abertura e o fechamento da tag `span` temos um texto, que é justamente o placar que foi clicado com o botão direito do mouse. Se você clicar em diferentes placares , notará que as tags junto com as classes se repetem. Estamos observando que há um padrão nos dados HTML. É esse padrão que nos permite extrair dados de maneira automatizada. 
+Além disso, vamos perceber que entre a abertura e o fechamento da tag `span` temos um texto, que é justamente o placar que foi clicado com o botão direito do mouse. Se você clicar em diferentes placares, notará que as tags junto com as classes se repetem. Estamos observando que há um padrão nos dados HTML. É esse padrão que nos permite extrair dados de maneira automatizada. 
 
 Inspecionar dados HTML pode demorar um pouco até você pegar o jeito, mas, uma vez que você entende a estrutura, fica fácil buscar o dado pela tag e pela classe que você deseja. 
 
-Eu já localizei para vocês que a principal classe que estamos interessados é a `swiper-slide`. Essa classe engloba todos os dados com informações das rodadas do Brasileirão. 
+Utilizando a técnica de inspeção de dados, vocês poderão localizar a principal classe de interesse: `swiper-slide`. Essa classe engloba todos os dados com informações das rodadas do Brasileirão. 
 
-Agora utilizamos a função `html_nodes`.  No argumento da função pode-se passar uma classe ou uma tag, por exemplo. Para classes, devemos usar um "." antes da classe desejada. Mas, para tags, basta inserir o nome da tag direto na função. Como apenas estamos interessados na classe `swiper-slide` inserimos o argumento da seguinte forma na função `html_nodes`:
+Agora utilizamos a função `html_nodes`. No argumento da função pode-se passar uma classe ou uma tag, por exemplo. Para classes, devemos usar um "." antes da classe desejada. Mas, para tags, basta inserir o nome da tag direto na função. Como apenas estamos interessados na classe `swiper-slide`, inserimos o argumento da seguinte forma na função `html_nodes`:
 
 
 ```{r,}
@@ -91,7 +91,7 @@ dado_cbf <- dado_cbf %>%
 print(dado_cbf)
 ```
 
-Agora estamos vendo que o objeto `dado_cbf` possui uma sequência de linhas com várias tags do tipo `div` com classe `swiper-slide`. Cada uma dessas tags se relacionam com a coluna de resultados do portal da CBF. Assim, explorando cada `div`, podemos extrair as informações desejadas. Por exemplo, ao explorar o HTML, já descobri que a tag com classe `swiper-slide` engloba a tag com classe `aside-header` que engloba a tag com classe `text-center` que nos leva a uma informação do número da rodada analisada. Vejamos:
+Agora estamos vendo que o objeto `dado_cbf` possui uma sequência de linhas com várias tags do tipo `div` com classe `swiper-slide`. Cada uma dessas tags se relaciona com a coluna interativa de resultados do portal da CBF. Assim, explorando cada `div`, podemos extrair as informações desejadas. Por exemplo, ao explorar o HTML, vocês notarão que a tag com classe `swiper-slide` engloba a tag com classe `aside-header` que engloba a tag com classe `text-center` que nos leva a uma informação do número da rodada analisada. Vejamos:
 
 ```{r}
 rodada <- dado_cbf %>% 
@@ -101,7 +101,7 @@ rodada <- dado_cbf %>%
 print(rodada)
 ```
 
-Também identifiquei que a tag da classe `aside-content` engloba a tag da classe `clearfix`, a qual captura informações de cada jogo como os times que jogaram e o placar. Por sua vez, a partir das informações capturadas para cada jogo de uma rodada, observa-se que a tag da classe `pull-left` engloba a tag da classe `time-sigla`, a qual traz informações textuais da sigla do time da casa. Para extrair a sigla do time que joga fora de casa, uma lógica semelhante pode ser usando a classe `pull-right` e a classe `time-sigla`. Por fim, também extraímos os placares identificando a classe correspondente `partida-horario`. Note que não precisamos mapear a tag diretamente ligada ao placar, mas poderíamos fazê-lo sem nenhum problema. Ao encontrar as tags que possuem as informações desejadas, basta aplicar a função `html_text` para fazer a extração do texto desejado.
+Também é possível notar que a tag da classe `aside-content` engloba a tag da classe `clearfix`, a qual captura informações de cada jogo (como os times que jogaram e o placar do jogo). Por sua vez, a partir das informações capturadas para cada jogo de uma rodada, observa-se que a tag da classe `pull-left` engloba a tag da classe `time-sigla`, a qual traz informações textuais da sigla do time da casa. Para extrair a sigla do time que joga fora de casa, uma lógica semelhante pode ser usando a classe `pull-right` e a classe `time-sigla`. Por fim, também extraímos os placares identificando a classe correspondente `partida-horario`. Note que não precisamos mapear a tag diretamente ligada ao placar, mas poderíamos fazê-lo sem nenhum problema se quiséssemos. Ao encontrar as tags que possuem as informações desejadas, basta aplicar a função `html_text` para fazer a extração do texto desejado.
 
 ```{r}
 
