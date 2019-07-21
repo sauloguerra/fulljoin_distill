@@ -1,5 +1,23 @@
 [
   {
+    "path": "posts/2019-07-18-b3-rvest-explorando-dados-financeiros-com-r/",
+    "title": "B3 + rvest: Explorando dados financeiros com R - parte 1",
+    "description": "Com essa sequência de posts vamos utilizar o R para dados financeiros disponíveis na internet. Aprofundaremos bastante em web scraping e manipulação de dados.",
+    "author": [
+      {
+        "name": "Saulo Guerra",
+        "url": "https://github.com/sauloguerra"
+      }
+    ],
+    "date": "2019-07-22",
+    "categories": [
+      "rvest",
+      "scraping"
+    ],
+    "preview": "posts/2019-07-18-b3-rvest-explorando-dados-financeiros-com-r/../../images/b3_inicial.gif",
+    "last_modified": "2019-07-20T19:50:31-03:00"
+  },
+  {
     "path": "posts/2019-07-16-web-scraping-com-r/",
     "title": "Scraping de dados da CBF com rvest",
     "description": "Nesse post apresentaremos um tutorial básico de web scraping utilizando o pacote rvest e o as informações de jogos divulgadas no site da CBF. Rvest é um pacote que simplifica muito tarefas de scraping e vai te ajudar a transformar qualquer site em dados no R.",

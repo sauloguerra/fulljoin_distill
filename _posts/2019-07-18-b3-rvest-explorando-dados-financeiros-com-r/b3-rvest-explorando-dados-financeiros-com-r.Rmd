@@ -1,0 +1,160 @@
+---
+title: "B3 + rvest: Explorando dados financeiros com R - parte 1"
+description: |
+  Com essa sequência de posts vamos utilizar o R para dados financeiros disponíveis na internet. Aprofundaremos bastante em web scraping e manipulação de dados.
+author:
+  - name: Saulo Guerra
+    url: https://github.com/sauloguerra
+date: 07-22-2019
+output:
+  distill::distill_article:
+    self_contained: false
+draft: false
+categories:
+  - rvest
+  - scraping
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, cache = TRUE, warning = FALSE, message = FALSE)
+```
+
+## DISCLAIMER
+
+Sou totalmente novato no tema mercado financeiro, portanto **NADA** aqui pode ser interpretado como sugestão de investimento, dica de mercado ou coisa do tipo, pelo contrário! O foco é totalmente em como extrair o dado e trabalhar com ele no R, todos os comentários sobre o assunto mercado financeiro serão simplesmente para contextualizar os dados. 
+
+## Achando a fonte de dados
+
+Estou começando a engatinhar nessa história de ações e mercado. Na busca por informações e fontes de estudo me deparei com muitos sites legais e muito conteúdo. Porém, acho muito importante saber consultar dados diretamente na origem, na fonte. No Brasil só temos uma bolsa de valores (até onde eu saiba!) e é a **[B]³** (antiga Bovespa + BM&F + CETIP): http://www.b3.com.br. São eles os responsáveis por coletar dados das empresas e divulgar ao público.
+
+Encontrei o seguinte link onde são listadas todas as empresas da bolsa e é aqui que será o nosso ponto de partida: http://www.b3.com.br/pt_br/produtos-e-servicos/negociacao/renda-variavel/empresas-listadas.htm
+
+**Como pergunta a ser respondida nesse post, gostaria de ter um panorama geral das empresas listadas na bolsa de valores brasileira e entender um pouco mais sobre esse cenário para tentar tirar alguns insights.**
+
+## Web scraping ou "raspagem dos dados"
+
+Infelizmente não encontrei uma base de dados pronta, csv, excel ou algo que concentre tudo em um lugar só (caso exista, por favor nos avise!). Mas isso não é necessariamente um problema, pois se está em um site HTML, então é possível extrair uma base de dados.
+
+Temos um post que começa a explicar sobre [Web Scraping com R aqui]($base_url), antes de seguirmos é importante dar uma lida.
+
+Para praticar um bom scraping é importante entender bem sobre HTML, CSS e protocolo HTTP. Nesse post tentarei cobrir com mais detalhes o "raciocínio geral" para modelar um scraping. Como pré-requisito, deixo algumas leituras recomendadas: 
+
+* Curso-R - http://material.curso-r.com/scrape/
+* ScrapeHero - https://www.scrapehero.com/a-beginners-guide-to-web-scraping-part-1-the-basics/
+* W3 (DOM) - https://www.w3.org/TR/WD-DOM/introduction.html
+* Khan Academy - https://pt.khanacademy.org/computing/computer-programming/html-css-js/js-and-the-dom/pt/the-dom-document-object-model
+
+Voltando a lista disponível no site da B3, a partir de uma lista inicial filtrada pela primeira letra da empresa, temos acesso a uma lista de empresas e, em cada link, algumas informações agregadas de cada empresa. Vamos tentar explorar esses dados sem se aprofundar em detalhes de balanço, apenas dados gerais (por enquanto!).
+
+![Listagem das empresas da bolsa](../../images/b3_inicial.gif){ width=75 }
+
+Para uma extração generalizada, a sua rotina de scraping deve reproduzir de forma massiva o comportamento que você mesmo faria se estivesse clicando com o mouse: clicar na letra para listar as empresas, clicar na empresa específica, copiar as informações desejadas da página específica e colar em uma planilha. Faremos isso no R! Comecemos carregando alguns pacotes
+
+```{r}
+library(tidyverse)
+library(rvest)
+library(glue) # EXCELENTE pacote para colar variáveis a strings!
+```
+
+## Identificando links e urls
+
+Uma das primeiras coisas que faço antes de modelar o scraping é tentar entender as dinâmicas das chamadas, urls, clicks, etc.
+
+A má notícia é que o site da B3 é meio bagunçado. Eles fazem uso intenso de [iframes](https://pt.stackoverflow.com/.../por-que-o-uso-de-frames-e-iframes-é-considerado-um...), que é uma antiga e péssima prática de construção de sites. Além disso, fazem um uso não padronizado de urls internas com diferentes domínios, que também é uma péssima prática. É como se estivessem tentando aproveitar sites antigos em uma "casca" nova. Isso dificulta bastante o trabalho de scraping, mas não é um obstáculo intransponível.
+
+Ao clicar em uma letra ou empresa específica você vai reparar que a URL em seu browser não muda! Esse efeito acontece (dentre outras razões) pois eles estão usando um iframe, um espaço dentro da página que na verdade está carregando outra página.
+
+_Uma dica para identificar isso:_
+
+Abra a ferramenta de desenvolvedor do seu navegador (F12 ou Ctrl + Shift + I - ou Cmd + Opt + I no Mac) > escolha a opção **Network** > escolha a opção Doc 
+
+![Inspecionando o código de um site](../../images/b3_inspecionar.gif)
+
+Em seguida, clique em uma letra. Repare que aparecerá um documento listado na área de network, é o resultado da sua chamada. Reparece na "URL Real" onde a requisição foi feita: o domínio é http://bvmf.bmfbovespa.com.br/ e não http://www.b3.com.br como aparece no seu navegador.
+
+![Inspecionando o código de um site](../../images/b3_inspecionar2.gif)
+
+A página http://www.b3.com.br/pt_br/produtos-e-servicos/negociacao/renda-variavel/empresas-listadas.htm está "mascarando", por meio de um iframe, a verdadeira página que iremos fazer scraping. Com a ajuda da ferramenta de desenvolvedor (Chrome ou Firefox) você consegue identificar que a verdadeira página que está sendo exibida e respondendo a requisição é: http://bvmf.bmfbovespa.com.br/cias-listadas/empresas-listadas/BuscaEmpresaListada.aspx
+
+Agora que identificamso a página verdadeira, vamos pensar na lógica e no fluxo do scraping:
+
+Vou clicar em cada uma das letras para ver a lista de empresas que começam com aquela letra, em seguida vou clicar em cada empresa e coletar cada uma das informações necessárias. Repito isso para cada letra, para cada empresa e cada informação que desejo coletar. Seria absurdamente trabalhoso fazer isso manualmente!
+
+Vamos começar a preparar a base do nosso scraping:
+
+```{r}
+base.url <- 'http://bvmf.bmfbovespa.com.br/' #URL BASE
+base.lista.empresas <- glue('{base.url}cias-listadas/empresas-listadas/')
+letras <- c(LETTERS, 0:9) #criando vetor de LETRAS e números de 0 a 9
+
+for (i in letras) { #percorrendo meu vetor de LETRAS e números
+  listagem <- glue('{base.lista.empresas}BuscaEmpresaListada.aspx?Letra={i}&idioma=pt-br')
+  #para cada letra, colei junto da URL e gerei um link completo
+  print(listagem)
+}
+```
+
+Com a ajuda de um loop e do pacote glue, eu consigo criar um link para cada letra, que é justamente cada página que vou precisar visitar, letra a letra, para em seguida "clicar" em cada empresa. Com o _glue_ você "cola" uma variável em uma string utilizando as chaves assim {sua_variavel}. O pacote glue é bem legal, vale a pena aprender a usar, é bem simples e ajuda bastante (eu prefiro o _glue_ ao clássico _paste_). Sugiro uma rápida leitora em https://glue.tidyverse.org/
+
+## identificando as estruturas de HTML
+
+Ao clicar em uma letra recebemos uma lista de empresas. Agora precisamos pegar o link de cada empresa e preparar uma lista maior ainda, não mais de letras e sim das empresas em si.
+
+Há uma estrutura padrão para links em html. O que temos que fazer é descobrir essa estrutura em nossa página e torcer para que ela esteja padronizada! Nesse caso específico, o nome de cada empresa está estruturado em uma tabela e felizmente o link está disponível na estrutura padrão de links do HTML!
+
+Abra novamente a ferramenta de desenvolvedor do Chorme (ou Firefox), clique na seta que fica na ponta esquerda superior da ferramenta (seletor de elementos) e em seguida passe o mouse em cima do nome de uma empresa. Observe a ferramenta de desenvolvedor na aba _Elements_. Cada lugar que você passa o mouse a ferramenta te mostra a estrutura daquele ponto em HTML.
+
+![Seletor de elementos](../../images/ferramenta_dev_chrome.png)
+
+Você pode passar o mouse nas estruturas em HTML apresentadas na ferramenta e observar a lista de empresas com uma parte escura apontaodo o ponto equivalente do HTML. Tente se familiarizar com essa dinâmica, é fundamental para criar bons scrapings. Esse artifiício nos permitirá identificar as estruturas que buscamos.
+
+![Insepcionando elementos](../../images/b3_element_selector.gif)
+
+O que queremos? O link de cada empresa. A estrutura que procuramos é a seguinte:
+
+![HTML de linha da tabela](../../images/b3_linha_tabela.png)
+
+Repare nas tags HTML: `<tr>...</tr>` estrutura uma linha de uma tabela, `<td>...</td>` define uma célula em uma linha, e `<a>...<a>` define um link. Repare que nossa tabela com uma lista de emrpesas tem 3 colunas, ou seja, 3 células. Então precisamos observar 3 seqências `<td>...</td>`, estruturando o equivalente a 3 colunas: Razão Social, Nome de Pregão e Segmento. Mas no momento não quero nenhuma dessas informações, quero apenas o link de cada empresa que vai me levar a página onde contem informações gerais da empresa. Repare que essa informação está no atributo `href` da tag `<a href="..."> ... </a>` que especifica o destino de um link.
+
+No fim das contas o que queremos agora é o conteúdo do atributo href. Vamos obter da seguinte forma (exemplificando com as emrpesas listadas na letra E):
+
+```{r}
+i <- 'E'
+links <- glue('{base.lista.empresas}BuscaEmpresaListada.aspx?Letra={i}&idioma=pt-br')%>% 
+  read_html() %>% 
+  html_nodes('td a') %>% 
+  html_attr('href') %>% 
+  unique()
+
+glue('{base.lista.empresas}{links}')
+```
+
+Basicamente li o HTML de uma página com o `read_html()`, peguei os "nodes" com `html_nodes()`, ou seja, as tags na hierarquia seguidas por `<td><a>...</a></td>` e do resultado obtive o conteúdo do atributo `href` com `html_httr()`. Como eu tenho 2 links em cada tabela (duas colunas: em Razão Social e Nome de Pregão) e os links são os mesmos, ao final chamei um `unique` para garantir que teri apenas um link de cada linha da tabela. 
+
+É possível obter o mesmo resultado com diferentes formas de scraping, é quase uma escolha pessoal baseada na interpretação da estrutura da página.
+
+Juntando a nossa varredura por cada letra e nossa varredura por cada linha da página pegando o link de cada empresa, teremos o seguinte:
+
+```{r}
+links.empresas <- c()
+for (i in letras) {
+  listagem <- glue('{base.lista.empresas}BuscaEmpresaListada.aspx?Letra={i}&idioma=pt-br')
+  
+  links <- listagem %>% 
+    read_html() %>% 
+    html_nodes('td a') %>% 
+    html_attr('href') %>% 
+    unique()
+  
+  links.empresas <- c(links.empresas, glue('{base.lista.empresas}{links}'))
+}
+
+# amostra
+links.empresas[1:3] #primeiros links
+links.empresas[231:233] #links do meio
+links.empresas[(length(links.empresas)-2):length(links.empresas)] #ultimos links
+```
+
+ 
+
+
