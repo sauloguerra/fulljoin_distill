@@ -1,0 +1,78 @@
+---
+title: "R e Rstudio - Dicas"
+description: |
+  Dicas úteis - R e Rstudio
+author:
+  - name: Miguel Cleaver
+    url: https://github.com/mgcleaver
+date: 07-23-2019
+output:
+  distill::distill_article:
+    self_contained: false
+draft: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+<!-- More -->
+
+# Navegue pelo diretório do seu computador de forma interativa
+
+Encontrar a localização de uma pasta ou de um arquivo no seu diretório de trabalho pode ser feito de forma interativa usando o editor de código ou o console do Rstudio. Para navegar de forma interativa, deve-se teclar aspas 2x - "" (aspas simples também funcionam). Depois, deve-se colocar o cursor no meio das aspas e em seguida teclar `tab`. Isso abre uma lista interativa de arquivos e pastas do lugar onde seu diretório de trabalho está apontado. Pode-se escolher um arquivo ou uma pasta com as teclas "para cima" ou "para baixo". Depois de fazer a escolha desejada deve-se teclar `tab`.
+
+```{r, echo=FALSE}
+knitr::include_graphics('../../images/dicas_navegar.gif')
+```
+
+Se você precisar acessar um diretório anterior ao que você se encontra, digite `"../"` para voltar uma vez ou `"../../"` para voltar duas vezes. Para voltar mais de duas vezes, basta usar a mesma lógica.
+
+```{r, echo=FALSE}
+knitr::include_graphics('../../images/dicas_navegar2.gif')
+```
+
+# Auto-preenchimento para argumentos de funções
+
+Há diversas funções na linguagem R e é praticamente impossível decorar os argumentos de todas elas. Nesse aspecto, o Rstudio nos ajuda bastante. Basta digitar o nome da função, abrir parênteses e teclar `ctrl + espaço`. Isso abre uma lista interativa com todos os argumentos da função. Buscamos o argumento desejado e o selecionamos teclando `enter`.
+
+```{r, echo=FALSE}
+knitr::include_graphics('../../images/dicas_funcao.gif')
+```
+
+Pode-se, também, digitar `tab` em vez de `ctrl + espaço`, mas atente-se ao fato de que `tab` só funciona na mesma linha em que a função foi aberta.
+
+```{r, eval=FALSE}
+# tecla tab funciona para listar parâmetros. Teclar ctrl + espaço também funciona.
+list.files(path = getwd(), all.files = FALSE, recursive = FALSE)
+
+# tecla tab funciona apenas na primeira linha de abertura da função.
+# teclar ctrl + espaço funciona em todas as linhas.
+list.files(path = getwd(),
+           all.files = FALSE,
+           recursive = FALSE)
+ 
+
+```
+
+
+# Faça um script com os pacotes que você costuma usar
+
+O R é constantemente atualizado com novas versões, mas muitas vezes deixamos de atualizá-lo por preguiça. Instalar os pacotes que utilizamos no dia a dia, especialmente quando são muitos, podem nos manter em uma versão antiga do R por um bom tempo. Uma prática bastante útil para lidar com a instalação de pacotes é criar um script de R com os pacotes que você mais usa. Quando você quiser instalar uma nova versão do R, basta abrir o arquivo e rodá-lo. 
+
+Abaixo segue um exemplo de script para baixar pacotes do R.
+
+> colocar script
+
+# Atalhos de teclado úteis (Windows)
+
+1. O operador de atribuição (`<-`) é certamente um dos operadores mais utilizados no R.  O atalho para o operador é `alt + -` (alt e a tecla menos) .
+
+2. O dplyr é um dos principais pacotes para a manipulação de dados no R e quem o utiliza provavelmente também faz uso constante do operador *pipe* (`%>%`). Para o atalho do pipe, tecle `ctrl + shift + m`.
+
+3. Para comentar várias linhas de uma só vez, selecione as linhas que deseja comentar com o mouse e tecle `ctrl + shift + c`. Para descomentar várias linhas, selecione as linhas comentadas e, novamente, tecle `ctrl + shift + c`.
+
+4. Apague uma linha inteira ou uma seleção de linhas com `ctrl + d`.
+
+5. Reinicie uma sessão do R com `ctrl + shift + F10`.
+
+
