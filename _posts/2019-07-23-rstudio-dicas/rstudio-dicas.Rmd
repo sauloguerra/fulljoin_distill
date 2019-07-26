@@ -85,13 +85,13 @@ remotes::install_github("gadenbuie/xaringanthemer")
 
 # Atalhos de teclado convenientes (Windows)
 
-1. O operador de atribuição (`<-`) é certamente um dos operadores mais utilizados no R.  O atalho para o operador é `alt + -` (alt e a tecla menos) .
+1. O operador de atribuição (`<-`) é certamente um dos operadores mais utilizados no R.  O atalho de teclado para o operador de atribuição é `alt + -` (alt e a tecla menos) .
 
-2. O dplyr é um dos principais pacotes para a manipulação de dados no R e quem o utiliza provavelmente também faz uso constante do operador *pipe* (`%>%`). Para o atalho do pipe, tecle `ctrl+shift+m`.
+2. O *dplyr* é um dos principais pacotes para a manipulação de dados no R e quem o utiliza provavelmente também faz uso constante do operador *pipe* (`%>%`). Para o atalho de teclado do pipe, tecle `ctrl+shift+m`.
 
-3. Para comentar várias linhas de uma só vez, selecione as linhas que deseja comentar com o mouse e tecle `ctrl+shift+c`. Para descomentar várias linhas, selecione as linhas comentadas e, novamente, tecle `ctrl+shift+c`.
+3. Para comentar várias linhas de uma só vez no editor de código, selecione as linhas que deseja comentar com o mouse e tecle `ctrl+shift+c`. Para descomentar várias linhas, selecione as linhas comentadas e, novamente, tecle `ctrl+shift+c`.
 
-4. Apague uma linha inteira ou uma seleção de linhas com `ctrl+d`.
+4. Apague uma linha inteira ou uma seleção de linhas no editor de código com `ctrl+d`.
 
 5. Rode uma linha ou uma seleção de linhas no editor de código com `ctrl+enter`.
 
