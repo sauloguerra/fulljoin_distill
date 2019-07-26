@@ -1,7 +1,7 @@
 ---
 title: "R e Rstudio - Dicas"
 description: |
-  Dicas úteis - R e Rstudio
+  Dicas úteis - R e Rstudio (Windows)
 author:
   - name: Miguel Cleaver
     url: https://github.com/mgcleaver
@@ -19,6 +19,8 @@ preview: ../../images/dicas_funcao.gif
 knitr::opts_chunk$set(echo = TRUE)
 ```
 <!-- More -->
+
+Neste post discutimos dicas úteis para o R e Rstudio na plataforma Windows.
 
 # Navegue pelo diretório do seu computador de forma interativa
 
@@ -83,7 +85,7 @@ remotes::install_github("gadenbuie/xaringanthemer")
 ```
 
 
-# Atalhos de teclado convenientes (Windows)
+# Atalhos de teclado convenientes
 
 1. O operador de atribuição (`<-`) é certamente um dos operadores mais utilizados no R.  O atalho de teclado para o operador de atribuição é `alt + -` (alt e a tecla menos) .
 
