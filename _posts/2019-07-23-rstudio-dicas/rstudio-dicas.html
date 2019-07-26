@@ -25,8 +25,8 @@
   
   
   <!--  https://schema.org/Article -->
-  <meta property="article:published" itemprop="datePublished" content="2019-07-23"/>
-  <meta property="article:created" itemprop="dateCreated" content="2019-07-23"/>
+  <meta property="article:published" itemprop="datePublished" content="2019-07-25"/>
+  <meta property="article:created" itemprop="dateCreated" content="2019-07-25"/>
   <meta name="article:author" content="Miguel Cleaver"/>
   
   <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
@@ -44,7 +44,7 @@
   <!--radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-rmarkdown-metadata">
-  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","output","draft"]}},"value":[{"type":"character","attributes":{},"value":["R e Rstudio - Dicas"]},{"type":"character","attributes":{},"value":["Dicas úteis - R e Rstudio\n"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url"]}},"value":[{"type":"character","attributes":{},"value":["Miguel Cleaver"]},{"type":"character","attributes":{},"value":["https://github.com/mgcleaver"]}]}]},{"type":"character","attributes":{},"value":["07-23-2019"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]}]},{"type":"logical","attributes":{},"value":[true]}]}
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","output","categories","preview"]}},"value":[{"type":"character","attributes":{},"value":["R e Rstudio - Dicas"]},{"type":"character","attributes":{},"value":["Dicas úteis - R e Rstudio\n"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url"]}},"value":[{"type":"character","attributes":{},"value":["Miguel Cleaver"]},{"type":"character","attributes":{},"value":["https://github.com/mgcleaver"]}]}]},{"type":"character","attributes":{},"value":["07-25-2019"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]}]},{"type":"character","attributes":{},"value":["dicas","Rstudio"]},{"type":"character","attributes":{},"value":["../../images/dicas_funcao.gif"]}]}
   </script>
   <!--/radix_placeholder_rmarkdown_metadata-->
   
@@ -942,7 +942,7 @@
 <!--radix_placeholder_front_matter-->
 
 <script id="distill-front-matter" type="text/json">
-{"title":"R e Rstudio - Dicas","description":"Dicas úteis - R e Rstudio","authors":[{"author":"Miguel Cleaver","authorURL":"https://github.com/mgcleaver","affiliation":"&nbsp;","affiliationURL":"#"}],"publishedDate":"2019-07-23T00:00:00.000-03:00","citationText":"Cleaver, 2019"}
+{"title":"R e Rstudio - Dicas","description":"Dicas úteis - R e Rstudio","authors":[{"author":"Miguel Cleaver","authorURL":"https://github.com/mgcleaver","affiliation":"&nbsp;","affiliationURL":"#"}],"publishedDate":"2019-07-25T00:00:00.000-03:00","citationText":"Cleaver, 2019"}
 </script>
 
 <!--/radix_placeholder_front_matter-->
@@ -959,29 +959,29 @@
 <div class="d-byline">
   Miguel Cleaver <a href="https://github.com/mgcleaver" class="uri">https://github.com/mgcleaver</a> 
   
-<br/>07-23-2019
+<br/>07-25-2019
 </div>
 
 <div class="d-article">
 <!-- More -->
 <h1 id="navegue-pelo-diretorio-do-seu-computador-de-forma-interativa">Navegue pelo diretório do seu computador de forma interativa</h1>
-<p>Encontrar a localização de uma pasta ou de um arquivo no seu diretório de trabalho pode ser feito de forma interativa usando o editor de código ou o console do Rstudio. Para navegar de forma interativa, deve-se teclar aspas 2x - "" (aspas simples também funcionam). Depois, deve-se colocar o cursor no meio das aspas e em seguida teclar <code>tab</code>. Isso abre uma lista interativa de arquivos e pastas do lugar onde seu diretório de trabalho está apontado. Pode-se escolher um arquivo ou uma pasta com as teclas “para cima” ou “para baixo”. Depois de fazer a escolha desejada deve-se teclar <code>tab</code>.</p>
+<p>Encontrar a localização de uma pasta ou de um arquivo no seu diretório de trabalho pode ser feito de forma interativa usando o editor de código ou o console do Rstudio. Para navegar de forma interativa, deve-se teclar aspas 2x - "" (2 aspas simples também funcionam - ’’). Confirme que o cursor de texto esteja entre as aspas para, em seguida, teclar <code>tab</code>. Isso abre um pequeno retângulo de navegação, que lista arquivos e pastas do local onde seu diretório de trabalho está apontado. Pode-se navegar pela lista de arquivos e de pastas com as teclas “para cima” ou “para baixo”. Para preenchimento automático da pasta ou do arquivo desejado, pode-se teclar <code>tab</code>. Se você tiver selecionado uma pasta, o retângulo de navegação continuará aberto e apresentará a lista de documentos e diretórios dentro da pasta selecionada.</p>
 <div class="layout-chunk" data-layout="l-body">
 <p><img src="../../images/dicas_navegar.gif" /><!-- --></p>
 </div>
-<p>Se você precisar acessar um diretório anterior ao que você se encontra, digite <code>"../"</code> para voltar uma vez ou <code>"../../"</code> para voltar duas vezes. Para voltar mais de duas vezes, basta usar a mesma lógica.</p>
+<p>Se você precisar acessar uma pasta acima da qual você se encontra, digite <code>"../"</code>. Se precisar acessar duas pastas acima, digite <code>"../../"</code> e assim sucessivamente.</p>
 <div class="layout-chunk" data-layout="l-body">
 <p><img src="../../images/dicas_navegar2.gif" /><!-- --></p>
 </div>
-<h1 id="auto-preenchimento-para-argumentos-de-funcoes">Auto-preenchimento para argumentos de funções</h1>
-<p>Há diversas funções na linguagem R e é praticamente impossível decorar os argumentos de todas elas. Nesse aspecto, o Rstudio nos ajuda bastante. Basta digitar o nome da função, abrir parênteses e teclar <code>ctrl + espaço</code>. Isso abre uma lista interativa com todos os argumentos da função. Buscamos o argumento desejado e o selecionamos teclando <code>enter</code>.</p>
+<h1 id="autopreenchimento-para-os-argumentos-de-funcoes">Autopreenchimento para os argumentos de funções</h1>
+<p>Há diversas funções na linguagem R e é praticamente impossível decorar os argumentos de todas elas. Nesse aspecto, o Rstudio nos ajuda bastante. Basta digitar o nome da função, abrir parênteses e teclar <code>ctrl+espaço</code>. Isso abre um retângulo interativo, que lista todos os argumentos da função escolhida. Também pode-se teclar <code>tab</code> em vez de teclar <code>ctrl+espaço</code>. No entanto, a tecla <code>tab</code> só abre um retângulo interativo se o cursor de texto estiver na mesma linha da abertura da função.</p>
 <div class="layout-chunk" data-layout="l-body">
 <p><img src="../../images/dicas_funcao.gif" /><!-- --></p>
 </div>
-<p>Pode-se, também, digitar <code>tab</code> em vez de <code>ctrl + espaço</code>, mas atente-se ao fato de que <code>tab</code> só funciona na mesma linha em que a função foi aberta.</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
-# tecla tab funciona para listar parâmetros. Teclar ctrl + espaço também funciona.
+# tecla tab funciona para listar parâmetros. 
+# teclar ctrl + espaço também funciona.
 list.files(path = getwd(), all.files = FALSE, recursive = FALSE)
 
 # tecla tab funciona apenas na primeira linha de abertura da função.
@@ -990,19 +990,35 @@ list.files(path = getwd(),
            all.files = FALSE,
            recursive = FALSE)</code></pre>
 </div>
-<h1 id="faca-um-script-com-os-pacotes-que-voce-costuma-usar">Faça um script com os pacotes que você costuma usar</h1>
-<p>O R é constantemente atualizado com novas versões, mas muitas vezes deixamos de atualizá-lo por preguiça. Instalar os pacotes que utilizamos no dia a dia, especialmente quando são muitos, podem nos manter em uma versão antiga do R por um bom tempo. Uma prática bastante útil para lidar com a instalação de pacotes é criar um script de R com os pacotes que você mais usa. Quando você quiser instalar uma nova versão do R, basta abrir o arquivo e rodá-lo.</p>
-<p>Abaixo segue um exemplo de script para baixar pacotes do R.</p>
-<blockquote>
-<p>colocar script</p>
-</blockquote>
-<h1 id="atalhos-de-teclado-uteis-windows">Atalhos de teclado úteis (Windows)</h1>
+<h1 id="faca-um-script-com-os-pacotes-que-voce-mais-usa">Faça um script com os pacotes que você mais usa</h1>
+<p>Uma prática bastante útil para lidar com a reinstalação de pacotes é criar um script de R com os pacotes que você mais usa. Assim, quando quiser instalar uma nova versão do R ou instalar o R em outra máquina, basta rodar o script de instalação de pacotes que você criou. Vejamos abaixo um exemplo de script de instalação de pacotes:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+pacotes &lt;- c(&quot;tidyverse&quot;, &quot;openxlsx&quot;, &quot;data.table&quot;,
+             &quot;RJDBC&quot;, &quot;rjson&quot;, &quot;jsonlite&quot;,
+             &quot;nleqslv&quot;, &quot;bigmemory&quot;, &quot;fst&quot;, 
+             &quot;caret&quot;, &quot;opera&quot;, &quot;forecastHybrid&quot;,
+             &quot;DT&quot;, &quot;checkpoint&quot;, &quot;rJava&quot;,
+             &quot;BB&quot;, &quot;kableExtra&quot;, &quot;RSQLite&quot;, 
+             &quot;speedglm&quot;, &quot;readtext&quot;, &quot;lmtest&quot;,
+             &quot;bookdown&quot;, &quot;devtools&quot;, &quot;microbenchmark&quot;, 
+             &quot;xaringan&quot;, &quot;furrr&quot;, &quot;randomForest&quot;,
+             &quot;gbm&quot;, &quot;bookdown&quot;, &quot;distill&quot;)
+
+
+install.packages(pacotes)
+
+# instala pacotes disponíveis no github
+remotes::install_github(&quot;thomasp85/patchwork&quot;)
+remotes::install_github(&quot;gadenbuie/xaringanthemer&quot;)</code></pre>
+</div>
+<h1 id="atalhos-de-teclado-convenientes-windows">Atalhos de teclado convenientes (Windows)</h1>
 <ol type="1">
 <li><p>O operador de atribuição (<code>&lt;-</code>) é certamente um dos operadores mais utilizados no R. O atalho para o operador é <code>alt + -</code> (alt e a tecla menos) .</p></li>
-<li><p>O dplyr é um dos principais pacotes para a manipulação de dados no R e quem o utiliza provavelmente também faz uso constante do operador <em>pipe</em> (<code>%&gt;%</code>). Para o atalho do pipe, tecle <code>ctrl + shift + m</code>.</p></li>
-<li><p>Para comentar várias linhas de uma só vez, selecione as linhas que deseja comentar com o mouse e tecle <code>ctrl + shift + c</code>. Para descomentar várias linhas, selecione as linhas comentadas e, novamente, tecle <code>ctrl + shift + c</code>.</p></li>
-<li><p>Apague uma linha inteira ou uma seleção de linhas com <code>ctrl + d</code>.</p></li>
-<li><p>Reinicie uma sessão do R com <code>ctrl + shift + F10</code>.</p></li>
+<li><p>O dplyr é um dos principais pacotes para a manipulação de dados no R e quem o utiliza provavelmente também faz uso constante do operador <em>pipe</em> (<code>%&gt;%</code>). Para o atalho do pipe, tecle <code>ctrl+shift+m</code>.</p></li>
+<li><p>Para comentar várias linhas de uma só vez, selecione as linhas que deseja comentar com o mouse e tecle <code>ctrl+shift+c</code>. Para descomentar várias linhas, selecione as linhas comentadas e, novamente, tecle <code>ctrl+shift+c</code>.</p></li>
+<li><p>Apague uma linha inteira ou uma seleção de linhas com <code>ctrl+d</code>.</p></li>
+<li><p>Rode uma linha ou uma seleção de linhas no editor de código com <code>ctrl+enter</code>.</p></li>
 </ol>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
