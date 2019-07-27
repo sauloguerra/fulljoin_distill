@@ -1,17 +1,18 @@
 ---
 title: "Analisando dados da guerra comercial com o comtradr"
-description: "Neste post iremos fazer uma breve apresentação sobre o pacote comtradr. Este pacote importar dados de comércio exterior do Comtrade diretamente pelo R, utilizando a API fornecida pelo portal das Nações Unidas. Utilizamos os dados para uma breve análise sobre a Guerra Comercial."
+description: "Neste post iremos fazer uma breve apresentação sobre o pacote comtradr. Este pacote permite importar dados de comércio exterior do Comtrade diretamente pelo R, utilizando a API fornecida pelo portal das Nações Unidas. Utilizamos os dados para uma breve análise sobre a Guerra Comercial."
 author:
   - name: Paulo Felipe Alencar
 date: 07-24-2019
 output:
   distill::distill_article:
     self_contained: false
-draft: true
+draft: false
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+extrafont::loadfonts(device = "win", quiet = TRUE)
 ```
 ## Sobre o Comtrade
 
@@ -93,7 +94,7 @@ Segundo o presidente dos Estados Unidos, a guerra comercial seria uma vitória f
 
 Neste post, vamos fazer uma análise bem simples: checar como as exportações dos Estados Unidos para a China e as importações originárias deste país foram afetadas com a guerra comercial. A comparação será realizada separando o conjunto de produtos que foram afetados com as elevações de tarifas e aqueles que não foram afetados.
 
-Os produtos transacionados no comércio internacional seguem a classificação conhecida como Sistema Harmonizado. Os produtos recebem uma código de 6 dígitos que são comuns entre todos os países. Nosso objetivo aqui, é obter os códigos dos produtos que os Estados Unidos aumentaram suas tarifas para os bens exportados pela China e vice-versa (produtos que a China sobretaxou as exportações americanas).
+Os produtos transacionados no comércio internacional seguem a classificação conhecida como Sistema Harmonizado. Os produtos recebem códigos de 6 dígitos que são comuns entre todos os países. O nosso objetivo é obter os códigos dos produtos que os Estados Unidos aumentaram suas tarifas para os bens exportados pela China e vice-versa (produtos que a China sobretaxou as exportações americanas).
 
 A Universidade Iowa disponibiliza uma base de dados para análise da guerra comercial. Os arquivos estão disponíveis [neste link](https://www.card.iastate.edu/china/trade-war-data/). Vamos baixar os dados dos códigos (hs6 - seis dígitos) dos produtos afetados pela guerra comercial.
 
@@ -173,13 +174,13 @@ dados_usa_chn <- map_df(anos, ~{
 head(dados_usa_chn)
 ```
 
-Para finalizar, vamos verificar como foi a evolução das importações dos Estados Unidos originárias da China até 2018 e o fluxo contrário (exportações dos Estados Unidos para a China). Os gráficos separam os produtos em dois grupos, um que agrega todos os produtos que estão sujeitos às elevações tarifárias e um outro grupo com os produtos que, até o momento, estão fora da guerra comercial.
+Para finalizar, vamos verificar como foi a evolução das importações dos Estados Unidos originárias da China até 2018 e o fluxo contrário (exportações dos Estados Unidos para a China). Os gráficos separam os produtos em dois grupos: um que agrega todos os produtos que estão sujeitos às elevações tarifárias e um outro grupo com os produtos que, até o momento, estão fora da guerra comercial.
 
-```{r, layout="l-body-outset"}
+```{r, layout="l-body-outset", fig.width=7, fig.height=4.375}
 dados_usa_chn %>% 
   left_join(usa_chn_codes, by = c("commodity_code" = "hs6")) %>% 
   mutate(wave = ifelse(is.na(wave),
-                       "Produtos Não Afetados", "Produtos Afetados")) %>% 
+                       "Produtos sem sobretaxas", "Produtos com sobretaxas")) %>% 
   filter(trade_flow == "Import") %>% 
   group_by(year, wave) %>% 
   summarise(trade_value = sum(trade_value_usd/1e9)) %>% 
@@ -190,12 +191,12 @@ dados_usa_chn %>%
              ncol = 2) +
   labs(
     title = "Importações dos Estados Unidos - Origem: China",
-    subtitle = "Produtos separadas por rodada da guerra comercial",
     x = "Ano",
     y = "US$ Bilhões"
   ) +
   hrbrthemes::theme_ipsum_rc(
     plot_title_size = 14,
+    strip_text_size = 12,
     base_size = 10
   )
 ```
@@ -204,11 +205,11 @@ No caso das importações americanas, verifica-se que, mesmo para o conjunto de 
 
 Por outro lado, para as exportações dos Estados Unidos destinadas à China, observa-se que as importações dos produtos que sofreram com a retaliação chinesa apresentaram queda em 2018. Por outro lado, os produtos que não estão sujeitos às novas tarifas continuaram sua trajetória de crescimento. Parece que a guerra comercial não é tão fácil assim.
 
-```{r, layout="l-body-outset", preview=TRUE}
+```{r, layout="l-body-outset", preview=TRUE, fig.width=7, fig.height=4.375}
 dados_usa_chn %>% 
   left_join(chn_usa_codes, by = c("commodity_code" = "hs6")) %>% 
   mutate(wave = ifelse(is.na(wave), 
-                       "Produtos Não Afetados", "Produtos Afetados")) %>% 
+                       "Produtos sem sobretaxas", "Produtos com sobretaxas")) %>% 
   filter(trade_flow == "Export") %>% 
   group_by(year, wave) %>% 
   summarise(trade_value = sum(trade_value_usd/1e9)) %>% 
@@ -219,16 +220,16 @@ dados_usa_chn %>%
   scale_fill_manual(values = c("grey50", "#2980b9")) +
   labs(
     title = "Exportações dos Estados Unidos - Destino: China",
-    subtitle = "Produtos separados pela incidência ou não de elevações tarifárias",
     x = "Ano",
     y = "US$ Bilhões"
   ) +
     hrbrthemes::theme_ipsum_rc(
     plot_title_size = 14,
+    strip_text_size = 12,
     base_size = 10
   )
 ```
 
 ## Considerações Finais
 
-O pacote `comtradr` é uma mão na roda para quem precisa acompanhar e/ou analisar dados de comércio exterior. Com essa integração com o R, é possível criar relatórios automatizados com o RMarkdown ou aplicações web com o Shiny. Enfim, nosso objetivo era apresentar esse pacote para que não o conhecia ainda. Até a próxima!
+O pacote `comtradr` é uma mão na roda para quem precisa acompanhar e/ou analisar dados de comércio exterior. Com essa integração com o R, é possível criar relatórios automatizados com o RMarkdown ou aplicações web com o Shiny. Enfim, nosso objetivo era apresentar esse pacote para quem não o conhecia ainda. Até a próxima!

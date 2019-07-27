@@ -7,7 +7,16 @@
     <description>Fulljoin
 </description>
     <generator>Distill</generator>
-    <lastBuildDate>ter, 16 jul 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>qua, 24 jul 2019 00:00:00 +0000</lastBuildDate>
+    <item>
+      <title>Analisando dados da guerra comercial com o comtradr</title>
+      <dc:creator>Paulo Felipe Alencar</dc:creator>
+      <link>https://sauloguerra.github.io/fulljoindistill/posts/2019-07-24-analisando-dados-da-guerra-comercial-com-o-comtradr</link>
+      <description>Neste post iremos fazer uma breve apresentação sobre o pacote comtradr. Este pacote permite importar dados de comércio exterior do Comtrade diretamente pelo R, utilizando a API fornecida pelo portal das Nações Unidas. Utilizamos os dados para uma breve análise sobre a Guerra Comercial.</description>
+      <guid>https://sauloguerra.github.io/fulljoindistill/posts/2019-07-24-analisando-dados-da-guerra-comercial-com-o-comtradr</guid>
+      <pubDate>qua, 24 jul 2019 00:00:00 +0000</pubDate>
+      <media:content url="https://sauloguerra.github.io/fulljoindistill/posts/2019-07-24-analisando-dados-da-guerra-comercial-com-o-comtradr/analisando-dados-da-guerra-comercial-com-o-comtradr_files/figure-html5/unnamed-chunk-12-1.png" medium="image" type="image/png" width="1344" height="840"/>
+    </item>
     <item>
       <title>Scraping de dados da CBF com rvest</title>
       <dc:creator>Miguel Cleaver</dc:creator>
@@ -83,13 +92,6 @@ técnicas chamadas de bag-of-words e tf-idf.</description>
       <guid>https://sauloguerra.github.io/fulljoindistill/posts/2016-06-06-intro-modelos-r</guid>
       <pubDate>dom, 10 jul 2016 00:00:00 +0000</pubDate>
       <media:content url="https://sauloguerra.github.io/fulljoindistill/posts/2016-06-06-intro-modelos-r/intro-modelos-r_files/figure-html5/unnamed-chunk-22-1.png" medium="image" type="image/png" width="1248" height="768"/>
-    </item>
-    <item>
-      <title>Tudo sobre Joins (merge) em R</title>
-      <link>https://sauloguerra.github.io/fulljoindistill/posts/2016-05-12-tudo-sobre-joins</link>
-      <description>Nessa sequência de posts aprenderemos tudo sobre Joins (merges) em R, abordando questões teóricas e práticas, com exemplos usando R base e o pacote dplyr. Após ler esse post, você vai saber o que é, para que serve, quando e como usar diversos tipo de joins.</description>
-      <guid>https://sauloguerra.github.io/fulljoindistill/posts/2016-05-12-tudo-sobre-joins</guid>
-      <pubDate>qua, 25 mai 2016 00:00:00 +0000</pubDate>
     </item>
   </channel>
 </rss>
