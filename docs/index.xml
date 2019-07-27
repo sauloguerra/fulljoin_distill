@@ -7,15 +7,24 @@
     <description>Fulljoin
 </description>
     <generator>Distill</generator>
-    <lastBuildDate>qua, 24 jul 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>s�b, 27 jul 2019 00:00:00 +0000</lastBuildDate>
     <item>
       <title>Analisando dados da guerra comercial com o comtradr</title>
       <dc:creator>Paulo Felipe Alencar</dc:creator>
       <link>https://sauloguerra.github.io/fulljoindistill/posts/2019-07-24-analisando-dados-da-guerra-comercial-com-o-comtradr</link>
       <description>Neste post iremos fazer uma breve apresentação sobre o pacote comtradr. Este pacote permite importar dados de comércio exterior do Comtrade diretamente pelo R, utilizando a API fornecida pelo portal das Nações Unidas. Utilizamos os dados para uma breve análise sobre a Guerra Comercial.</description>
       <guid>https://sauloguerra.github.io/fulljoindistill/posts/2019-07-24-analisando-dados-da-guerra-comercial-com-o-comtradr</guid>
-      <pubDate>qua, 24 jul 2019 00:00:00 +0000</pubDate>
+      <pubDate>s�b, 27 jul 2019 00:00:00 +0000</pubDate>
       <media:content url="https://sauloguerra.github.io/fulljoindistill/posts/2019-07-24-analisando-dados-da-guerra-comercial-com-o-comtradr/analisando-dados-da-guerra-comercial-com-o-comtradr_files/figure-html5/unnamed-chunk-12-1.png" medium="image" type="image/png" width="1344" height="840"/>
+    </item>
+    <item>
+      <title>R e Rstudio - Dicas</title>
+      <dc:creator>Miguel Cleaver</dc:creator>
+      <link>https://sauloguerra.github.io/fulljoindistill/posts/2019-07-23-rstudio-dicas</link>
+      <description>Dicas úteis - R e Rstudio (Windows)</description>
+      <guid>https://sauloguerra.github.io/fulljoindistill/posts/2019-07-23-rstudio-dicas</guid>
+      <pubDate>qui, 25 jul 2019 00:00:00 +0000</pubDate>
+      <media:content url="https://sauloguerra.github.io/fulljoindistill/posts/2019-07-23-rstudio-dicas/../../images/dicas_funcao.gif" medium="image" type="image/gif"/>
     </item>
     <item>
       <title>Scraping de dados da CBF com rvest</title>
@@ -84,14 +93,6 @@ técnicas chamadas de bag-of-words e tf-idf.</description>
       <guid>https://sauloguerra.github.io/fulljoindistill/posts/2016-07-30-comex-vis</guid>
       <pubDate>s�b, 30 jul 2016 00:00:00 +0000</pubDate>
       <media:content url="https://sauloguerra.github.io/fulljoindistill/posts/2016-07-30-comex-vis/../../images/comexvis.png" medium="image" type="image/png" width="750" height="505"/>
-    </item>
-    <item>
-      <title>Introdução a Modelos no R</title>
-      <link>https://sauloguerra.github.io/fulljoindistill/posts/2016-06-06-intro-modelos-r</link>
-      <description>Neste post, vamos introduzir alguns conceitos para começar a trabalhar com modelos no R. Abordaremos o modelo linear de regressão utilizando a função `lm()`. Aprender a estrutura básica de modelos a partir do modelo linear será bastante útil para entender e utilizar outros modelos mais complexos.</description>
-      <guid>https://sauloguerra.github.io/fulljoindistill/posts/2016-06-06-intro-modelos-r</guid>
-      <pubDate>dom, 10 jul 2016 00:00:00 +0000</pubDate>
-      <media:content url="https://sauloguerra.github.io/fulljoindistill/posts/2016-06-06-intro-modelos-r/intro-modelos-r_files/figure-html5/unnamed-chunk-22-1.png" medium="image" type="image/png" width="1248" height="768"/>
     </item>
   </channel>
 </rss>

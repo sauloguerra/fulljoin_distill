@@ -3,7 +3,7 @@ title: "Analisando dados da guerra comercial com o comtradr"
 description: "Neste post iremos fazer uma breve apresentação sobre o pacote comtradr. Este pacote permite importar dados de comércio exterior do Comtrade diretamente pelo R, utilizando a API fornecida pelo portal das Nações Unidas. Utilizamos os dados para uma breve análise sobre a Guerra Comercial."
 author:
   - name: Paulo Felipe Alencar
-date: 07-24-2019
+date: 07-27-2019
 output:
   distill::distill_article:
     self_contained: false
