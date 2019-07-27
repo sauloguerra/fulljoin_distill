@@ -49,7 +49,7 @@
   <!--/radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-resource-manifest">
-  {"type":"character","attributes":{},"value":["analisando-dados-da-guerra-comercial-com-o-comtradr_files/bowser-1.9.3/bowser.min.js","analisando-dados-da-guerra-comercial-com-o-comtradr_files/distill-2.2.21/template.v2.js","analisando-dados-da-guerra-comercial-com-o-comtradr_files/figure-html5/unnamed-chunk-11-1.png","analisando-dados-da-guerra-comercial-com-o-comtradr_files/figure-html5/unnamed-chunk-12-1.png","analisando-dados-da-guerra-comercial-com-o-comtradr_files/figure-html5/unnamed-chunk-4-1.png","analisando-dados-da-guerra-comercial-com-o-comtradr_files/figure-html5/unnamed-chunk-5-1.png","analisando-dados-da-guerra-comercial-com-o-comtradr_files/jquery-1.11.3/jquery.min.js","analisando-dados-da-guerra-comercial-com-o-comtradr_files/webcomponents-2.0.0/webcomponents.js","dados_usa_chn_mensal.csv"]}
+  {"type":"character","attributes":{},"value":["analisando-dados-da-guerra-comercial-com-o-comtradr_files/bowser-1.9.3/bowser.min.js","analisando-dados-da-guerra-comercial-com-o-comtradr_files/distill-2.2.21/template.v2.js","analisando-dados-da-guerra-comercial-com-o-comtradr_files/figure-html5/unnamed-chunk-11-1.png","analisando-dados-da-guerra-comercial-com-o-comtradr_files/figure-html5/unnamed-chunk-12-1.png","analisando-dados-da-guerra-comercial-com-o-comtradr_files/figure-html5/unnamed-chunk-4-1.png","analisando-dados-da-guerra-comercial-com-o-comtradr_files/figure-html5/unnamed-chunk-5-1.png","analisando-dados-da-guerra-comercial-com-o-comtradr_files/jquery-1.11.3/jquery.min.js","analisando-dados-da-guerra-comercial-com-o-comtradr_files/webcomponents-2.0.0/webcomponents.js"]}
   </script>
   <!--radix_placeholder_navigation_in_header-->
   <!--/radix_placeholder_navigation_in_header-->
@@ -1208,11 +1208,11 @@ dados_usa_chn %&gt;%
   filter(trade_flow == &quot;Import&quot;) %&gt;% 
   group_by(year, wave) %&gt;% 
   summarise(trade_value = sum(trade_value_usd/1e9)) %&gt;% 
-  ggplot(aes(x = year, y = trade_value, fill = year == 2018)) +
-  geom_col(show.legend = FALSE) +
-  scale_fill_manual(values = c(&quot;grey50&quot;, &quot;#ED4C67&quot;)) +
+  ggplot(aes(x = year, y = trade_value)) +
+  geom_line(color = &quot;#c23616&quot;, size = 1.5) +
+  geom_area(fill = &quot;#e66649&quot;, alpha = 0.2, show.legend = FALSE) +
   facet_wrap(~ wave, scales = &quot;free&quot;,
-             ncol = 2) +
+             ncol = 1) +
   labs(
     title = &quot;Importações dos Estados Unidos - Origem: China&quot;,
     x = &quot;Ano&quot;,
@@ -1236,11 +1236,11 @@ dados_usa_chn %&gt;%
   filter(trade_flow == &quot;Export&quot;) %&gt;% 
   group_by(year, wave) %&gt;% 
   summarise(trade_value = sum(trade_value_usd/1e9)) %&gt;% 
-  ggplot(aes(x = year, y = trade_value, fill = year == 2018)) +
-  geom_col(show.legend = FALSE) +
+  ggplot(aes(x = year, y = trade_value)) +
+  geom_line(color = &quot;#487eb0&quot;, size = 1.5) +
+  geom_area(fill = &quot;#487eb0&quot;, alpha = 0.2, show.legend = FALSE) +
   facet_wrap(~ wave, scales = &quot;free&quot;,
-             ncol = 2) +
-  scale_fill_manual(values = c(&quot;grey50&quot;, &quot;#2980b9&quot;)) +
+             ncol = 1) +
   labs(
     title = &quot;Exportações dos Estados Unidos - Destino: China&quot;,
     x = &quot;Ano&quot;,

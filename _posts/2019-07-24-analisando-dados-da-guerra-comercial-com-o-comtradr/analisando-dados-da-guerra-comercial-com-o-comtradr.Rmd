@@ -176,7 +176,7 @@ head(dados_usa_chn)
 
 Para finalizar, vamos verificar como foi a evolução das importações dos Estados Unidos originárias da China até 2018 e o fluxo contrário (exportações dos Estados Unidos para a China). Os gráficos separam os produtos em dois grupos: um que agrega todos os produtos que estão sujeitos às elevações tarifárias e um outro grupo com os produtos que, até o momento, estão fora da guerra comercial.
 
-```{r, layout="l-body-outset", fig.width=7, fig.height=4.375}
+```{r, layout="l-body-outset", fig.width=7, fig.height=6}
 dados_usa_chn %>% 
   left_join(usa_chn_codes, by = c("commodity_code" = "hs6")) %>% 
   mutate(wave = ifelse(is.na(wave),
@@ -184,11 +184,11 @@ dados_usa_chn %>%
   filter(trade_flow == "Import") %>% 
   group_by(year, wave) %>% 
   summarise(trade_value = sum(trade_value_usd/1e9)) %>% 
-  ggplot(aes(x = year, y = trade_value, fill = year == 2018)) +
-  geom_col(show.legend = FALSE) +
-  scale_fill_manual(values = c("grey50", "#ED4C67")) +
+  ggplot(aes(x = year, y = trade_value)) +
+  geom_line(color = "#c23616", size = 1.5) +
+  geom_area(fill = "#e66649", alpha = 0.2, show.legend = FALSE) +
   facet_wrap(~ wave, scales = "free",
-             ncol = 2) +
+             ncol = 1) +
   labs(
     title = "Importações dos Estados Unidos - Origem: China",
     x = "Ano",
@@ -205,7 +205,7 @@ No caso das importações americanas, verifica-se que, mesmo para o conjunto de 
 
 Por outro lado, para as exportações dos Estados Unidos destinadas à China, observa-se que as importações dos produtos que sofreram com a retaliação chinesa apresentaram queda em 2018. Por outro lado, os produtos que não estão sujeitos às novas tarifas continuaram sua trajetória de crescimento. Parece que a guerra comercial não é tão fácil assim.
 
-```{r, layout="l-body-outset", preview=TRUE, fig.width=7, fig.height=4.375}
+```{r, layout="l-body-outset", preview=TRUE, fig.width=7, fig.height=6}
 dados_usa_chn %>% 
   left_join(chn_usa_codes, by = c("commodity_code" = "hs6")) %>% 
   mutate(wave = ifelse(is.na(wave), 
@@ -213,11 +213,11 @@ dados_usa_chn %>%
   filter(trade_flow == "Export") %>% 
   group_by(year, wave) %>% 
   summarise(trade_value = sum(trade_value_usd/1e9)) %>% 
-  ggplot(aes(x = year, y = trade_value, fill = year == 2018)) +
-  geom_col(show.legend = FALSE) +
+  ggplot(aes(x = year, y = trade_value)) +
+  geom_line(color = "#487eb0", size = 1.5) +
+  geom_area(fill = "#487eb0", alpha = 0.2, show.legend = FALSE) +
   facet_wrap(~ wave, scales = "free",
-             ncol = 2) +
-  scale_fill_manual(values = c("grey50", "#2980b9")) +
+             ncol = 1) +
   labs(
     title = "Exportações dos Estados Unidos - Destino: China",
     x = "Ano",
