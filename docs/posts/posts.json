@@ -9,12 +9,30 @@
         "url": {}
       }
     ],
-    "date": "2019-07-24",
+    "date": "2019-07-27",
     "categories": [],
     "preview": "posts/2019-07-24-analisando-dados-da-guerra-comercial-com-o-comtradr/analisando-dados-da-guerra-comercial-com-o-comtradr_files/figure-html5/unnamed-chunk-12-1.png",
-    "last_modified": "2019-07-27T00:29:07-03:00",
+    "last_modified": "2019-07-27T00:42:50-03:00",
     "preview_width": 1344,
     "preview_height": 840
+  },
+  {
+    "path": "posts/2019-07-23-rstudio-dicas/",
+    "title": "R e Rstudio - Dicas",
+    "description": "Dicas úteis - R e Rstudio (Windows)",
+    "author": [
+      {
+        "name": "Miguel Cleaver",
+        "url": "https://github.com/mgcleaver"
+      }
+    ],
+    "date": "2019-07-25",
+    "categories": [
+      "dicas",
+      "Rstudio"
+    ],
+    "preview": "posts/2019-07-23-rstudio-dicas/../../images/dicas_funcao.gif",
+    "last_modified": "2019-07-27T00:34:34-03:00"
   },
   {
     "path": "posts/2019-07-16-web-scraping-com-r/",
