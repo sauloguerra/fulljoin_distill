@@ -44,6 +44,15 @@
       <media:content url="https://www.fulljoin.com.br/posts/2019-07-15-estamos-de-volta/../../images/voltamos.png" medium="image" type="image/png" width="472" height="271"/>
     </item>
     <item>
+      <title>Treinando um Classificador de Raças de Cães utilizando o Keras e Modelos Pré-Treinados</title>
+      <dc:creator>Paulo Felipe Alencar</dc:creator>
+      <link>https://www.fulljoin.com.br/posts/2018-12-21-training-a-dog-breeds-image-classifier-using-keras-in-pre-trained-models</link>
+      <description>Neste post, iremos treinar uma classificador de raças de cães usando o pacote Keras e modelos pré-treinados no R. O código pode ser facilmente adaptado para problemas similares.</description>
+      <guid>https://www.fulljoin.com.br/posts/2018-12-21-training-a-dog-breeds-image-classifier-using-keras-in-pre-trained-models</guid>
+      <pubDate>qua, 02 jan 2019 00:00:00 +0000</pubDate>
+      <media:content url="https://www.fulljoin.com.br/posts/2018-12-21-training-a-dog-breeds-image-classifier-using-keras-in-pre-trained-models/training-a-dog-breeds-image-classifier-using-keras-in-pre-trained-models_files/figure-html5/unnamed-chunk-6-1.png" medium="image" type="image/png" width="1248" height="768"/>
+    </item>
+    <item>
       <title>Classificando Comentários Tóxicos com o R</title>
       <dc:creator>Paulo Felipe Alencar</dc:creator>
       <link>https://www.fulljoin.com.br/posts/2018-10-24-classificando-comentrios-txicos</link>
@@ -85,14 +94,6 @@ técnicas chamadas de bag-of-words e tf-idf.</description>
       <guid>https://www.fulljoin.com.br/posts/2016-08-01-manipulacao-de-dados-parte-1</guid>
       <pubDate>ter, 16 ago 2016 00:00:00 +0000</pubDate>
       <media:content url="https://www.fulljoin.com.br/posts/2016-08-01-manipulacao-de-dados-parte-1/../../images/dplyr.png" medium="image" type="image/png" width="209" height="242"/>
-    </item>
-    <item>
-      <title>Comex Vis e a visualização de dados no Brasil</title>
-      <link>https://www.fulljoin.com.br/posts/2016-07-30-comex-vis</link>
-      <description>No dia 28/07/2016 a Secretaria de Comércio Exterior lançou o [Comex Vis](http://www.mdic.gov.br/comercio-exterior/estatisticas-de-comercio-exterior/comex-vis), uma ferramenta de visualização interativa de dados do comércio exterior brasileiro. Nesse post faremos alguns comentários sobre o Comex Vis e sobre a visualização de dados em geral.</description>
-      <guid>https://www.fulljoin.com.br/posts/2016-07-30-comex-vis</guid>
-      <pubDate>s�b, 30 jul 2016 00:00:00 +0000</pubDate>
-      <media:content url="https://www.fulljoin.com.br/posts/2016-07-30-comex-vis/../../images/comexvis.png" medium="image" type="image/png" width="750" height="505"/>
     </item>
   </channel>
 </rss>

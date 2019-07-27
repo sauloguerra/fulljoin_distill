@@ -65,6 +65,28 @@
     "preview_height": 271
   },
   {
+    "path": "posts/2018-12-21-training-a-dog-breeds-image-classifier-using-keras-in-pre-trained-models/",
+    "title": "Treinando um Classificador de Raças de Cães utilizando o Keras e Modelos Pré-Treinados",
+    "description": "Neste post, iremos treinar uma classificador de raças de cães usando o pacote Keras e modelos pré-treinados no R. O código pode ser facilmente adaptado para problemas similares.",
+    "author": [
+      {
+        "name": "Paulo Felipe Alencar",
+        "url": "https://github.com/paulofelipe"
+      }
+    ],
+    "date": "2019-01-02",
+    "categories": [
+      "Deep Learning",
+      "Kaggle",
+      "Keras",
+      "Computer Vision"
+    ],
+    "preview": "posts/2018-12-21-training-a-dog-breeds-image-classifier-using-keras-in-pre-trained-models/training-a-dog-breeds-image-classifier-using-keras-in-pre-trained-models_files/figure-html5/unnamed-chunk-6-1.png",
+    "last_modified": "2019-01-04T00:04:59-02:00",
+    "preview_width": 1248,
+    "preview_height": 768
+  },
+  {
     "path": "posts/2018-10-24-classificando-comentrios-txicos/",
     "title": "Classificando Comentários Tóxicos com o R",
     "description": "Nesse post, vamos criar um classificador de comentários tóxicos a partir de uma\nbase de dados disponibilizada em uma competição do Kaggle. Serão utilizadas \ntécnicas chamadas de bag-of-words e tf-idf.",
