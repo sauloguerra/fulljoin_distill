@@ -3,7 +3,7 @@ title: "Fulljoin"
 description: |
   Fulljoin
 output_dir: "docs"
-base_url: https://sauloguerra.github.io/fulljoindistill/
+base_url: https://www.fulljoin.com.br/
 google_analytics: "UA-75406624-1"
 navbar:
   right:

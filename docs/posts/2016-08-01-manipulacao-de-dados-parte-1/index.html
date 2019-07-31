@@ -23,7 +23,7 @@
 
 <meta property="description" itemprop="description" content="Dominar a manipulação de dados é uma das habilidades mais básicas que um analista de dados deve ter. Nesse post ensinaremos as principais atividades relacionadas a manipulação de dados utilizando o pacote dplyr, um dos melhores pacotes disponíveis no R para essa finalidade."/>
 
-<link rel="canonical" href="https://sauloguerra.github.io/fulljoindistill/posts/2016-08-01-manipulacao-de-dados-parte-1/"/>
+<link rel="canonical" href="https://www.fulljoin.com.br/posts/2016-08-01-manipulacao-de-dados-parte-1/"/>
 
 <!--  https://schema.org/Article -->
 <meta property="article:published" itemprop="datePublished" content="2016-08-16"/>
@@ -33,8 +33,8 @@
 <meta property="og:title" content="Fulljoin: Manipulação de dados - Parte 1: dplyr básico"/>
 <meta property="og:type" content="article"/>
 <meta property="og:description" content="Dominar a manipulação de dados é uma das habilidades mais básicas que um analista de dados deve ter. Nesse post ensinaremos as principais atividades relacionadas a manipulação de dados utilizando o pacote dplyr, um dos melhores pacotes disponíveis no R para essa finalidade."/>
-<meta property="og:url" content="https://sauloguerra.github.io/fulljoindistill/posts/2016-08-01-manipulacao-de-dados-parte-1/"/>
-<meta property="og:image" content="https://sauloguerra.github.io/fulljoindistill/posts/2016-08-01-manipulacao-de-dados-parte-1/../../images/dplyr.png"/>
+<meta property="og:url" content="https://www.fulljoin.com.br/posts/2016-08-01-manipulacao-de-dados-parte-1/"/>
+<meta property="og:image" content="https://www.fulljoin.com.br/posts/2016-08-01-manipulacao-de-dados-parte-1/../../images/dplyr.png"/>
 <meta property="og:image:width" content="209"/>
 <meta property="og:image:height" content="242"/>
 <meta property="og:locale" content="en_US"/>
@@ -44,8 +44,8 @@
 <meta property="twitter:card" content="summary_large_image"/>
 <meta property="twitter:title" content="Fulljoin: Manipulação de dados - Parte 1: dplyr básico"/>
 <meta property="twitter:description" content="Dominar a manipulação de dados é uma das habilidades mais básicas que um analista de dados deve ter. Nesse post ensinaremos as principais atividades relacionadas a manipulação de dados utilizando o pacote dplyr, um dos melhores pacotes disponíveis no R para essa finalidade."/>
-<meta property="twitter:url" content="https://sauloguerra.github.io/fulljoindistill/posts/2016-08-01-manipulacao-de-dados-parte-1/"/>
-<meta property="twitter:image" content="https://sauloguerra.github.io/fulljoindistill/posts/2016-08-01-manipulacao-de-dados-parte-1/../../images/dplyr.png"/>
+<meta property="twitter:url" content="https://www.fulljoin.com.br/posts/2016-08-01-manipulacao-de-dados-parte-1/"/>
+<meta property="twitter:image" content="https://www.fulljoin.com.br/posts/2016-08-01-manipulacao-de-dados-parte-1/../../images/dplyr.png"/>
 <meta property="twitter:image:width" content="209"/>
 <meta property="twitter:image:height" content="242"/>
 
@@ -53,7 +53,7 @@
   <!--radix_placeholder_rmarkdown_metadata-->
 
 <script type="text/json" id="radix-rmarkdown-metadata">
-{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["output","description","title","date","preview","citation_url","canonical_url"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]}]},{"type":"character","attributes":{},"value":["Dominar a manipulação de dados é uma das habilidades mais básicas que um analista de dados deve ter. Nesse post ensinaremos as principais atividades relacionadas a manipulação de dados utilizando o pacote dplyr, um dos melhores pacotes disponíveis no R para essa finalidade."]},{"type":"character","attributes":{},"value":["Manipulação de dados - Parte 1: dplyr básico"]},{"type":"character","attributes":{},"value":["2016-08-16"]},{"type":"character","attributes":{},"value":["../../images/dplyr.png"]},{"type":"character","attributes":{},"value":["https://sauloguerra.github.io/fulljoindistill/posts/2016-08-01-manipulacao-de-dados-parte-1/"]},{"type":"character","attributes":{},"value":["https://sauloguerra.github.io/fulljoindistill/posts/2016-08-01-manipulacao-de-dados-parte-1/"]}]}
+{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["output","description","title","date","preview","citation_url","canonical_url"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]}]},{"type":"character","attributes":{},"value":["Dominar a manipulação de dados é uma das habilidades mais básicas que um analista de dados deve ter. Nesse post ensinaremos as principais atividades relacionadas a manipulação de dados utilizando o pacote dplyr, um dos melhores pacotes disponíveis no R para essa finalidade."]},{"type":"character","attributes":{},"value":["Manipulação de dados - Parte 1: dplyr básico"]},{"type":"character","attributes":{},"value":["2016-08-16"]},{"type":"character","attributes":{},"value":["../../images/dplyr.png"]},{"type":"character","attributes":{},"value":["https://www.fulljoin.com.br/posts/2016-08-01-manipulacao-de-dados-parte-1/"]},{"type":"character","attributes":{},"value":["https://www.fulljoin.com.br/posts/2016-08-01-manipulacao-de-dados-parte-1/"]}]}
 </script>
 <!--/radix_placeholder_rmarkdown_metadata-->
   
@@ -1860,13 +1860,13 @@ vignette(&#39;nse&#39;)</code></pre>
     </span>
     <span class="article-sharing">
       Share: &nbsp;
-      <a href="https://twitter.com/share?text=Manipula%C3%A7%C3%A3o%20de%20dados%20-%20Parte%201%3A%20dplyr%20b%C3%A1sico&amp;url=https%3A%2F%2Fsauloguerra.github.io%2Ffulljoindistill%2Fposts%2F2016-08-01-manipulacao-de-dados-parte-1%2F">
+      <a href="https://twitter.com/share?text=Manipula%C3%A7%C3%A3o%20de%20dados%20-%20Parte%201%3A%20dplyr%20b%C3%A1sico&amp;url=https%3A%2F%2Fwww.fulljoin.com.br%2Fposts%2F2016-08-01-manipulacao-de-dados-parte-1%2F">
         <i class="fab fa-twitter"></i>
       </a>
-      <a href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https%3A%2F%2Fsauloguerra.github.io%2Ffulljoindistill%2Fposts%2F2016-08-01-manipulacao-de-dados-parte-1%2F&amp;title=Manipula%C3%A7%C3%A3o%20de%20dados%20-%20Parte%201%3A%20dplyr%20b%C3%A1sico">
+      <a href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https%3A%2F%2Fwww.fulljoin.com.br%2Fposts%2F2016-08-01-manipulacao-de-dados-parte-1%2F&amp;title=Manipula%C3%A7%C3%A3o%20de%20dados%20-%20Parte%201%3A%20dplyr%20b%C3%A1sico">
         <i class="fab fa-linkedin"></i>
       </a>
-      <a href="https://www.facebook.com/sharer/sharer.php?s=100&amp;p[url]=https%3A%2F%2Fsauloguerra.github.io%2Ffulljoindistill%2Fposts%2F2016-08-01-manipulacao-de-dados-parte-1%2F">
+      <a href="https://www.facebook.com/sharer/sharer.php?s=100&amp;p[url]=https%3A%2F%2Fwww.fulljoin.com.br%2Fposts%2F2016-08-01-manipulacao-de-dados-parte-1%2F">
         <i class="fab fa-facebook"></i>
       </a>
     </span>
@@ -1875,7 +1875,7 @@ vignette(&#39;nse&#39;)</code></pre>
   <div id="disqus_thread" class="hidden"></div>
   <script>
 var disqus_config = function () {
-  this.page.url = 'https://sauloguerra.github.io/fulljoindistill/posts/2016-08-01-manipulacao-de-dados-parte-1/';
+  this.page.url = 'https://www.fulljoin.com.br/posts/2016-08-01-manipulacao-de-dados-parte-1/';
   this.page.identifier = 'posts/2016-08-01-manipulacao-de-dados-parte-1/';
 };
 (function() {
