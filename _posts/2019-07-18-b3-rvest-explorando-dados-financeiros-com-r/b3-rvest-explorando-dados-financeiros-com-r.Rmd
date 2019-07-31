@@ -5,11 +5,11 @@ description: |
 author:
   - name: Saulo Guerra
     url: https://github.com/sauloguerra
-date: 07-22-2019
+date: 08-01-2019
 output:
   distill::distill_article:
     self_contained: false
-draft: false
+draft: true
 categories:
   - rvest
   - scraping
@@ -58,6 +58,7 @@ Para uma extração generalizada, a sua rotina de scraping deve reproduzir de fo
 library(tidyverse)
 library(rvest)
 library(glue) # EXCELENTE pacote para colar variáveis a strings!
+library(ggplot2)
 ```
 
 ## Identificando links e urls
@@ -467,7 +468,7 @@ write_csv(dados, 'empresas_b3_2019-03-31.csv')
 
 Construída a base de dados, vamos nos informar para conhecer o cenário atual das ações listadas na B3. Lembrando que pegamos apenas os dados reportados pelas empresas referentes ao período de 01/01/2019 a 31/03/2019.
 
-Quantas empresas temos listadas?
+Quantas empresas temos listadas segundo o próprio site da B3?
 
 ```{r}
 nrow(dados)
@@ -484,7 +485,7 @@ dados %>%
   arrange(-patrimonio.liquido)
 ```
 
-Qual setor com mais empresas?
+Qual a quantidade de empresas listadas por cada grande setor?
 
 ```{r}
 dados %>% 
@@ -523,31 +524,63 @@ d3plus(data = dados %>% mutate(quantidade = 1),
                                           list(Empresa = 3)))))
 ```
 
-```{r}
+No treemap acima, somamos o total do patrimônio para avaliarmos as proporções, mas é curioso notar que existem empresas com patrimônio líquido negativo. Vamos verificar os grandes setores separando o total de patrimônio líquido negativo e positivo.
 
+```{r}
 library(ggplot2)
-dados.grafico <- dados %>% 
-  group_by(setor.1) %>% 
-  summarise(lucro.total = sum(lucro.liquido),
-            patrimonio.total = sum(patrimonio.liquido),
-            total.acoes = sum(total.acoes),
-            lucro.patrimonio = lucro.total/patrimonio.total,
-            lucro.acao = lucro.total/total.acoes) %>% 
-  ungroup() %>% 
-  gather(key, value, lucro.patrimonio, lucro.acao)
-
-
-View(dados.grafico)
 ```
 
 ```{r}
+dados %>% 
+  mutate(patrimonio = ifelse(patrimonio.liquido > 0, 'positivo', 'negativo')) %>% 
+  group_by(setor.1, patrimonio) %>% 
+  summarise(patrimonio.total = sum(patrimonio.liquido)) %>% 
+  ungroup() %>% 
+  ggplot(aes(x = reorder(setor.1, patrimonio.total), y = patrimonio.total, fill = patrimonio))+
+  geom_bar(stat = "identity")+
+  coord_flip() + 
+  theme(legend.position = "none") +
+  labs(title = "Patrimônio positivo e negativo por grandes setores",
+       y = "Patrimônio",
+       x = "Grandes Setores")
 
-ggplot(dados.grafico, aes(y = value, x = reorder(setor.1, value), 
-                          color = setor.1)) +
-  geom_bar(stat = "identity", aes(fill = setor.1)) + 
-  coord_flip() +
-  facet_wrap(key ~ ., scales = 'free_y', ncol = 1)
-  
+```
+
+Comportamento parecido existe no somatório do lucro líquido dos grandes setores. Faremos o mesmo exercício separando o lucro líquido positivo e o lucro líquido negativo (entendo que seja prejuízo!)
+
+```{r}
+dados %>% 
+  mutate(lucro = ifelse(lucro.liquido > 0, 'positivo', 'negativo')) %>% 
+  group_by(setor.1, lucro) %>% 
+  summarise(lucro.total = sum(lucro.liquido)) %>% 
+  ungroup() %>% 
+  ggplot(aes(x = reorder(setor.1, lucro.total), y = lucro.total, fill = lucro))+
+  geom_bar(stat = "identity") +
+  coord_flip() + 
+  theme(legend.position = "none") + 
+  labs(title = "Lucro e prejuízo por grandes setores",
+       y = "Lucro",
+       x = "Grandes Setores")
 ```
 
 
+```{r}
+dados.lucro.acao <- dados %>% 
+  group_by(setor.1, setor.2, setor.3, nome.empresa) %>% 
+  summarise(lucro.total = sum(lucro.liquido),
+            total.acoes = sum(total.acoes)) %>% 
+  filter(total.acoes > 0) %>% 
+  mutate(lucro.acao = round(lucro.total/total.acoes, 2)) %>% 
+  ungroup()
+
+# View(dados.lucro.acao)
+library(ggeconodist)
+
+
+ggplot(dados.lucro.acao, aes(x = setor.1, y = lucro.acao)) +
+  geom_econodist(median_point_size = 1.2,
+    tenth_col = "#b07aa1",
+    ninetieth_col = "#591a4f") +
+  geom_hline(yintercept = 0, linetype = "dotted", color = "red") + 
+  coord_flip()
+```
