@@ -1,0 +1,239 @@
+---
+title: "Analisando dados da guerra comercial com o comtradr"
+description: "Neste post iremos fazer uma breve apresentação sobre o pacote comtradr. Este pacote permite importar dados de comércio exterior do Comtrade diretamente pelo R, utilizando a API fornecida pelo portal das Nações Unidas. Utilizamos os dados para uma breve análise sobre a Guerra Comercial."
+author:
+  - name: Paulo Felipe Alencar
+date: 07-27-2019
+output:
+  distill::distill_article:
+    self_contained: false
+draft: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+extrafont::loadfonts(device = "win", quiet = TRUE)
+```
+## Sobre o Comtrade
+
+O [Comtrade](https://comtrade.un.org/) é o portal de estatísticas de comércio internacional das Nações Unidas. O site fornece uma ferramenta para a extração de dados, visualizações e uma API que permite que diversas aplicações acessem diretamente os dados.
+
+## O Pacote `comtradr`
+
+O `comtradr` é um pacote que fornece funções para que o usuário acesse os dados do Comtrade diretamente pelo R. Isso é uma mão na roda para quem precisa trabalhar com esses dados. 
+
+Vamos começar instalando o pacote:
+
+```{r, eval=FALSE}
+# Versão do CRAN
+install.packages("comtradr")
+# Versão em desenvolvimento
+# Sugiro instalar essa versão
+remotes::install_github('ropensci/comtradr')
+```
+
+Após a instalação, podemos carregar esse pacote:
+
+```{r}
+library(comtradr)
+```
+
+Os desenvolvedores do pacote disponibilizaram um ótimo *vignette* que apresenta as principais funções do pacote. Se você pretende trabalhar com esse pacote, sugiro fortemente que você dê uma lida nos exemplos:
+
+```{r, eval=FALSE}
+vignette("comtradr-vignette")
+```
+
+Antes de ir para o exemplo mais detalhado desse post, vamos fazer uma primeira consulta usando a função `ct_search()`. Na consulta, iremos buscar o valor importado e exportado pelo Brasil:
+
+```{r, layout="1-page"}
+# Carregando o tidyverse
+library(tidyverse)
+
+# se não especificarmos os anos, a função retorna todos os anos
+exp_imp_br <- ct_search(
+  reporters = "Brazil",
+  partners = "World",
+  trade_direction = c("exports", "imports"),
+  freq = "annual"
+)
+
+head(exp_imp_br)
+```
+
+```{r, layout="l-body-outset", fig.width=7, fig.height=4.375}
+exp_imp_br %>% 
+  ggplot(aes(x = year, y = trade_value_usd/1e9,
+             color = trade_flow)) +
+  geom_line() +
+  geom_point(size = 2) +
+  labs(
+    title = "Exportações e Importações Brasileiras - 1995 a 2018",
+    x = "Ano",
+    y = "US$ Bilhões"
+  ) +
+  hrbrthemes::theme_ipsum_rc(
+    plot_title_size = 14,
+    base_size = 10
+  ) +
+  hrbrthemes::scale_color_ipsum(
+    "Fluxo",
+    labels = c("Exportações", "Importações")
+  ) +
+  theme(
+    legend.position = "bottom"
+  )
+```
+
+
+Para tornar a apresentação do pacote mais dinâmica, vamos tentar trabalhar com um exemplo.
+
+## Guerra Comercial: Vitória fácil para os Estados Unidos?
+
+Segundo o presidente dos Estados Unidos, a guerra comercial seria uma vitória fácil para os americanos. Um dos argumentos era que o custo da tarifa seria suportado pelos exportadores chineses. No entanto, parece que essa [não é a evidência que os economistas estão encontrando](http://cep.lse.ac.uk/pubs/download/dp1603.pdf).
+
+Neste post, vamos fazer uma análise bem simples: checar como as exportações dos Estados Unidos para a China e as importações originárias deste país foram afetadas com a guerra comercial. A comparação será realizada separando o conjunto de produtos que foram afetados com as elevações de tarifas e aqueles que não foram afetados.
+
+Os produtos transacionados no comércio internacional seguem a classificação conhecida como Sistema Harmonizado. Os produtos recebem códigos de 6 dígitos que são comuns entre todos os países. O nosso objetivo é obter os códigos dos produtos que os Estados Unidos aumentaram suas tarifas para os bens exportados pela China e vice-versa (produtos que a China sobretaxou as exportações americanas).
+
+A Universidade Iowa disponibiliza uma base de dados para análise da guerra comercial. Os arquivos estão disponíveis [neste link](https://www.card.iastate.edu/china/trade-war-data/). Vamos baixar os dados dos códigos (hs6 - seis dígitos) dos produtos afetados pela guerra comercial.
+
+```{r}
+# criando um diretório temporário
+temp_dir <- tempdir()
+
+# caminho para o arquivo
+caminho_arquivo <- file.path(temp_dir, 'hs6_trade_war.xls')
+
+# download do arquivo
+download.file(
+  url = "https://www.card.iastate.edu/china/trade-war-data/files-05-24-2019/h6_tariff.xls",
+  destfile = caminho_arquivo,
+  mode = "wb"
+)
+
+# lendo o arquivo e manipulando para o formato long
+#readxl::excel_sheets(caminho_arquivo)
+hs6_trade_war <- readxl::read_excel(caminho_arquivo) %>% 
+  mutate(
+    hs6 = str_pad(hs6, width = 6, side = "left", pad = "0")
+  ) %>% 
+  gather(key = wave, value = tarifa, -hs6)
+```
+
+O nosso data.frame tem 3 colunas: o código do produto (`hs6`), um apelido para a rodada de elevação tarifária (`wave`) e a tarifa (`tarifa`).
+
+```{r}
+head(hs6_trade_war)
+unique(hs6_trade_war$wave)
+```
+
+Vamos obter os códigos de produtos que tiveram as tarifas elevadas pelos Estados Unidos na importação de produtos chineses.
+
+```{r}
+usa_chn_codes <- hs6_trade_war %>% 
+  filter(str_detect(wave, '^uscn|^us200'),
+         tarifa > 0) %>% 
+  select(hs6) %>% 
+  distinct() %>% 
+  mutate(wave = "guerra")
+```
+
+Fazemos o mesmo no sentido inverso. Isto é, a retaliação da China.
+
+```{r}
+chn_usa_codes <- hs6_trade_war %>% 
+  filter(str_detect(wave, '^chn'),
+         tarifa > 0) %>% 
+  ungroup() %>% 
+  select(hs6) %>% 
+  distinct() %>% 
+  mutate(wave = "guerra")
+```
+
+Além dos códigos dos produtos, precisamos dos dados de importações e exportações dos Estados Unidos com a China por produto. Para isso, vamos utilizar novamente o pacote `comtradr`. Dependendo da combinação de parâmetros, a API do comtrade só permite baixar dados de 5 em 5 períodos. No exemplo abaixo, iremos baixar ano a ano aproveitando a facilidade que a função  `map_df()` do purrr nos proporciona. Para cada valor do objeto `anos`, será executado o código que está entre `{}` e os resultados serão combinados automaticamente em um data.frame. O código abaixo recupera os dados para os anos de 2010 a 2018:
+
+```{r}
+anos <- 2010:2018
+dados_usa_chn <- map_df(anos, ~{
+  
+  ct_search(
+    reporters = "USA",
+    partners = "China",
+    trade_direction = c("imports", "exports"),
+    freq = "annual",
+    start_date = .x,
+    end_date = .x,
+    commod_codes = "AG6"
+  ) %>% 
+    select(year, period, reporter, partner, trade_flow,
+           commodity_code, trade_value_usd, netweight_kg)
+  
+})
+
+head(dados_usa_chn)
+```
+
+Para finalizar, vamos verificar como foi a evolução das importações dos Estados Unidos originárias da China até 2018 e o fluxo contrário (exportações dos Estados Unidos para a China). Os gráficos separam os produtos em dois grupos: um que agrega todos os produtos que estão sujeitos às elevações tarifárias e um outro grupo com os produtos que, até o momento, estão fora da guerra comercial.
+
+```{r, layout="l-body-outset", fig.width=7, fig.height=6}
+dados_usa_chn %>% 
+  left_join(usa_chn_codes, by = c("commodity_code" = "hs6")) %>% 
+  mutate(wave = ifelse(is.na(wave),
+                       "Produtos sem sobretaxas", "Produtos com sobretaxas")) %>% 
+  filter(trade_flow == "Import") %>% 
+  group_by(year, wave) %>% 
+  summarise(trade_value = sum(trade_value_usd/1e9)) %>% 
+  ggplot(aes(x = year, y = trade_value)) +
+  geom_line(color = "#c23616", size = 1.5) +
+  geom_area(fill = "#e66649", alpha = 0.2, show.legend = FALSE) +
+  facet_wrap(~ wave, scales = "free",
+             ncol = 1) +
+  labs(
+    title = "Importações dos Estados Unidos - Origem: China",
+    x = "Ano",
+    y = "US$ Bilhões"
+  ) +
+  hrbrthemes::theme_ipsum_rc(
+    plot_title_size = 14,
+    strip_text_size = 12,
+    base_size = 10
+  )
+```
+
+No caso das importações americanas, verifica-se que, mesmo para o conjunto de produtos sujeitos às novas tarifas, houve aumento de importação. Apesar de não podermos afirmar que as novas tarifas não tiveram efeitos, pois a importação poderia ter crescido ainda mais caso não houvesse a guerra comercial, pode-se constatar que elas não foram suficientes, até o momento, para reduzir as importações, o que era o objetivo inicial.
+
+Para as exportações dos Estados Unidos destinadas à China, observa-se que as importações dos produtos que sofreram com a retaliação chinesa apresentaram queda em 2018. Por outro lado, os produtos que não estão sujeitos às novas tarifas continuaram sua trajetória de crescimento. Parece que a guerra comercial não é tão fácil assim.
+
+```{r, layout="l-body-outset", preview=TRUE, fig.width=7, fig.height=6}
+dados_usa_chn %>% 
+  left_join(chn_usa_codes, by = c("commodity_code" = "hs6")) %>% 
+  mutate(wave = ifelse(is.na(wave), 
+                       "Produtos sem sobretaxas", "Produtos com sobretaxas")) %>% 
+  filter(trade_flow == "Export") %>% 
+  group_by(year, wave) %>% 
+  summarise(trade_value = sum(trade_value_usd/1e9)) %>% 
+  ggplot(aes(x = year, y = trade_value)) +
+  geom_line(color = "#487eb0", size = 1.5) +
+  geom_area(fill = "#487eb0", alpha = 0.2, show.legend = FALSE) +
+  facet_wrap(~ wave, scales = "free",
+             ncol = 1) +
+  labs(
+    title = "Exportações dos Estados Unidos - Destino: China",
+    x = "Ano",
+    y = "US$ Bilhões"
+  ) +
+    hrbrthemes::theme_ipsum_rc(
+    plot_title_size = 14,
+    strip_text_size = 12,
+    base_size = 10
+  )
+```
+
+## Considerações Finais
+
+O pacote `comtradr` é uma mão na roda para quem precisa acompanhar e/ou analisar dados de comércio exterior. Com essa integração com o R, é possível criar relatórios automatizados com o RMarkdown ou aplicações web com o Shiny. Enfim, nosso objetivo era apresentar esse pacote para quem não o conhecia ainda. Até a próxima!
+
+<script>
+  $( "d-appendix" ).hide();
+</script>

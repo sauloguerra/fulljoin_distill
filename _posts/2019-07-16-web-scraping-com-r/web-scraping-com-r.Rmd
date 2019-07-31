@@ -129,8 +129,8 @@ rodada <- 0:(length(placar)-1) %/% 10 + 1
 
 df <- data.frame(rodada = rodada,
            casa = casa, 
-           fora_casa = fora_casa,
            placar = placar,
+           fora_casa = fora_casa,
            stringsAsFactors = FALSE) %>% 
   filter(rodada <= 10)
 
