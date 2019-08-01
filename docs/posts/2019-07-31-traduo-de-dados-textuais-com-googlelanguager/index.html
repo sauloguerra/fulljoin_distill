@@ -1424,7 +1424,7 @@ library(googleLanguageR)
 
 gl_auth(Sys.getenv(&quot;GL_AUTH&quot;))</code></pre>
 </div>
-<p><br> Depois de se autenticar, utilizamos a função <code>gl_translate</code> para fazer a tradução. O argumento <code>t_string</code> indica a coluna que desejamos traduzir; <code>target</code> é a língua para a qual queremos traduzir; <code>format</code> se refere ao formato do texto para tradução; e, por fim, <code>source</code> é a língua original do texto. Poderíamos traduzir uma página HTML diretamente por meio do pacote <strong>rvest</strong> e passando o argumento <code>format = 'html'</code> na função <code>gl_translate</code>. <br></p>
+<p><br> Depois de se autenticar, utilizamos a função <code>gl_translate</code> para fazer a tradução. O argumento <code>t_string</code> indica a coluna que desejamos traduzir; <code>target</code> é a língua para a qual queremos traduzir; <code>format</code> se refere ao formato do texto para tradução; e, por fim, <code>source</code> é a língua original do texto. <br></p>
 <div class="layout-chunk" data-layout="l-body">
 
 </div>
@@ -1438,13 +1438,13 @@ pais_isoa &lt;- pais_isoa %&gt;%
                            source = &quot;en&quot;)$translatedText
 )</code></pre>
 </div>
-<p><br> Ao analisar rapidamente o resultado da tradução do Google Tradutor, encontramos alguns erros de tradução. Por exemplo, “Togo” foi traduzido para o português como “Ir” (houve uma pequena confusão com “to go” rs) e “Turkey”, como “Peru” (rs). Como mencionamos no início deste post, o Google Tradutor não é perfeito, mas, em regra, funciona bem e quebra um bom galho. <br></p>
+<p><br> Ao analisar rapidamente o resultado da tradução do Google Tradutor, encontramos alguns erros de tradução. Por exemplo, “Togo” foi traduzido para o português como “Ir” (houve uma pequena confusão com “to go” rs) e “Turkey”, como “Peru” (não podemos culpar o Google Tradutor completamente rs). Como mencionamos no início deste post, o Google Tradutor não é perfeito, mas, em regra, funciona bem e quebra um bom galho. <br></p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 indice &lt;- which(pais_isoa$pais_ing == &quot;Togo&quot;)
 indice2 &lt;- which(pais_isoa$pais_ing == &quot;Turkey&quot;)
 
-# print trecho com erros de tradução
+# print de trecho com erros de tradução
 pais_isoa[indice:(indice+9),]</code></pre>
 <pre><code>
 # A tibble: 10 x 3
@@ -1461,7 +1461,7 @@ pais_isoa[indice:(indice+9),]</code></pre>
  9 TUN   Tunisia             Tunísia          
 10 TUR   Turkey              Peru             </code></pre>
 </div>
-<p>Depois do Google Tradutor ter efetuado a maior parte da tradução, corrigimos manualmente os erros que identificamos e disponibilizamos a tabela de correlação:</p>
+<p>Depois do Google Tradutor ter efetuado a tradução de texto, basta corrigir manualmente os erros que identificamos, tarefa mais fácil do que fazer todas as traduções uma por uma.</p>
 <div class="layout-chunk" data-layout="l-body-outset">
 <pre class="r"><code>
 # corrigir traduções erradas
@@ -1475,6 +1475,7 @@ rmarkdown::paged_table(pais_isoa)</code></pre>
   </script>
 </div>
 </div>
+<p>Embora o exemplo para utilização do pacote googleLanguageR tenha sido simples, fica clara a utilidade potencial do pacote para tradução de dados textuais.</p>
 <section class="footnotes">
 <hr />
 <ol>

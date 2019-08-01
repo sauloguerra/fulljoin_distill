@@ -79,7 +79,7 @@ gl_auth(Sys.getenv("GL_AUTH"))
 ```
 
 <br>
-Depois de se autenticar, utilizamos a função `gl_translate` para fazer a tradução. O argumento `t_string` indica a coluna que desejamos traduzir; `target` é a língua para a qual queremos traduzir; `format` se refere ao formato do texto para tradução; e, por fim, `source` é a língua original do texto. Poderíamos traduzir uma página HTML diretamente por meio do pacote **rvest** e passando o argumento `format = 'html'` na função `gl_translate`.
+Depois de se autenticar, utilizamos a função `gl_translate` para fazer a tradução. O argumento `t_string` indica a coluna que desejamos traduzir; `target` é a língua para a qual queremos traduzir; `format` se refere ao formato do texto para tradução; e, por fim, `source` é a língua original do texto.
 <br>
 
 ```{r, echo=FALSE, message=FALSE}
@@ -99,18 +99,18 @@ pais_isoa <- pais_isoa %>%
 ```
 
 <br>
-Ao analisar rapidamente o resultado da tradução do Google Tradutor, encontramos alguns erros de tradução. Por exemplo, "Togo" foi traduzido para o português como "Ir" (houve uma pequena confusão com "to go" rs) e "Turkey", como "Peru" (rs). Como mencionamos no início deste post, o Google Tradutor não é perfeito, mas, em regra, funciona bem e quebra um bom galho.
+Ao analisar rapidamente o resultado da tradução do Google Tradutor, encontramos alguns erros de tradução. Por exemplo, "Togo" foi traduzido para o português como "Ir" (houve uma pequena confusão com "to go" rs) e "Turkey", como "Peru" (não podemos culpar o Google Tradutor completamente rs). Como mencionamos no início deste post, o Google Tradutor não é perfeito, mas, em regra, funciona bem e quebra um bom galho.
 <br>
 
 ```{r}
 indice <- which(pais_isoa$pais_ing == "Togo")
 indice2 <- which(pais_isoa$pais_ing == "Turkey")
 
-# print trecho com erros de tradução
+# print de trecho com erros de tradução
 pais_isoa[indice:(indice+9),]
 ```
 
-Depois do Google Tradutor ter efetuado a maior parte da tradução, corrigimos manualmente os erros que identificamos e disponibilizamos a tabela de correlação:
+Depois do Google Tradutor ter efetuado a tradução de texto, basta corrigir manualmente os erros que identificamos, tarefa mais fácil do que fazer todas as traduções uma por uma.
 
 ```{r rows.print = 15, layout = "l-body-outset"}
 # corrigir traduções erradas
@@ -120,5 +120,5 @@ pais_isoa[indice2, 3] <- "Turquia"
 rmarkdown::paged_table(pais_isoa)
 ```
 
-
+Embora o exemplo para utilização do pacote googleLanguageR tenha sido simples, fica clara a utilidade potencial do pacote para tradução de dados textuais.
 
