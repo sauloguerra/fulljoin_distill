@@ -1,0 +1,124 @@
+---
+title: "Tradução de dados textuais com googleLanguageR"
+description: |
+  O pacote googleLanguageR utiliza o serviço de API do Google Tradutor e nos permite traduzir textos automaticamente.
+author:
+  - name: Miguel Cleaver
+    url: https://github.com/mgcleaver
+date: 07-31-2019
+output:
+  distill::distill_article:
+    self_contained: false
+categories:
+  - googleLanguageR
+  - rvest
+  - scraping
+preview: ../../images/google.PNG
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+<!-- More -->
+
+## Tradução de texto com o pacote googleLanguageR
+
+Ao trabalhar com dados, pode ser que, em algum momento, seja necessário trazer informações textuais de uma língua estrangeira para a nossa língua. Se você dominar a língua na qual o dado se encontra você pode fazer a tradução por meio da análise de cada caso, mas a situação se complica à medida que o número de observações aumenta. Se você não tiver domínio da língua, provavelmente, a melhor alternativa é utilizar uma aplicação como a do [Google Tradutor](https://translate.google.com.br/?hl=pt-BR) para o caso a caso. Assim mesmo o processo de fazer várias traduções via Google Tradutor pode se tornar maçante.
+
+Uma solução mais sofisticada passaria pela utilização do pacote **googleLanguageR**, que consulta à API de Google Tradutor para traduzir textos. De experiência própria, sabemos que o Google Tradutor não é perfeito, mas funciona bem na maioria dos casos. 
+
+Além de traduzir textos, o pacote também acessa outras APIs do Google como as de *Natural Language* e de *Cloud Speech*. A única desvantagem de usar o **googleLanguageR** é que você deve ativar o serviço de API para sua conta Google e isso tem um custo financeiro.
+
+Se você estiver interessado em usar o serviço, deve completar os seguintes passos da seção *Installation* deste [link](https://cran.r-project.org/web/packages/googleLanguageR/vignettes/setup.html).
+
+**Note que como os serviços do Google são pagos, você deverá fornecer dados do seu cartão de crédito para ativar os serviço de API do Google.**
+
+## Traduzindo nomes de países com o pacote googleLanguageR
+
+O exemplo que será explorado aqui é um tanto quanto simples no quesito tradução, porém serve bem o propósito de exemplificar como o pacote **googleLanguageR** pode ser utilizado.
+
+Suponhamos que você precise de uma tabela de correlação com os nomes de países em português e os respectivos códigos ISO alfa-3 (ISOA)^[Cada país tem um código de três letras definido pelo padrão ISO 3166 da Organização Mundial para Padronização.]. Suponhamos, também, que você só tenha encontrado uma correlação com nomes de países em inglês na seção sobre o [ISO 3166-1 alfa-3 do Wikipédia](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3). Por meio das técnicas de web scraping já exploradas [em um post anterior](https://www.fulljoin.com.br/posts/2019-07-16-web-scraping-com-r/), podemos trazer os dados do Wikipédia para dentro do R.
+
+```{r, message=FALSE, layout = "l-body-outset"}
+library(rvest)
+library(dplyr)
+
+link_isoa <- "https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3"
+
+paises_ingles <- read_html(link_isoa) %>% 
+  html_nodes(".div-col li")
+
+isoa <- paises_ingles %>% 
+  html_node("span") %>% 
+  html_text()
+
+paises <- paises_ingles %>% 
+  html_node("a") %>% 
+  html_attr("title")
+
+pais_isoa <- data.frame(ISOA = isoa,
+                        pais_ing = paises,
+                        stringsAsFactors = FALSE)
+
+head(pais_isoa, 10)
+```
+
+Considerando que o serviço da API do Google Tradutor já esteja habilitado em sua conta Google, podemos traduzir o nome dos países para, por exemplo, o português. Note que, além de ativar o serviço da API da sua conta, você pode criar, caso ainda não o tenha feito, um arquivo com o nome `.Renviron` no diretório de trabalho do seu R. Nesse arquivo é preciso criar a variável GL_AUTH = "caminho do arquivo da chave API.json" e, depois, salvá-lo. Por fim, a sessão do R deve ser reiniciada para que a mudança no arquivo `.Renviron ` seja incorporada na sessão atual do R. Alternativamente, pode-se especificar diretamente na função `gl_auth` o caminho da sua chave API do Google.
+
+
+```{r, eval=FALSE, message=FALSE}
+# Carregamos pacote de tradução
+library(googleLanguageR)
+
+# Autenticação para utilizar a API do Google Tradutor
+# Note que GL_AUTH define o local da sua chave API e deve constar
+# no arquivo .Renviron
+
+gl_auth(Sys.getenv("GL_AUTH"))
+
+```
+
+<br>
+Depois de se autenticar, utilizamos a função `gl_translate` para fazer a tradução. O argumento `t_string` indica a coluna que desejamos traduzir; `target` é a língua para a qual queremos traduzir; `format` se refere ao formato do texto para tradução; e, por fim, `source` é a língua original do texto. Poderíamos traduzir uma página HTML diretamente por meio do pacote **rvest** e passando o argumento `format = 'html'` na função `gl_translate`.
+<br>
+
+```{r, echo=FALSE, message=FALSE}
+library(tidyverse)
+pais_isoa <- read_delim("pais_isoa.txt", delim = ";")
+```
+
+
+```{r, eval=FALSE}
+pais_isoa <- pais_isoa %>%
+  mutate(
+  pais_port = gl_translate(t_string = pais_ing,
+                           target = 'pt',
+                           format = 'text',
+                           source = "en")$translatedText
+)
+```
+
+<br>
+Ao analisar rapidamente o resultado da tradução do Google Tradutor, encontramos alguns erros de tradução. Por exemplo, "Togo" foi traduzido para o português como "Ir" (houve uma pequena confusão com "to go" rs) e "Turkey", como "Peru" (rs). Como mencionamos no início deste post, o Google Tradutor não é perfeito, mas, em regra, funciona bem e quebra um bom galho.
+<br>
+
+```{r}
+indice <- which(pais_isoa$pais_ing == "Togo")
+indice2 <- which(pais_isoa$pais_ing == "Turkey")
+
+# print trecho com erros de tradução
+pais_isoa[indice:(indice+9),]
+```
+
+Depois do Google Tradutor ter efetuado a maior parte da tradução, corrigimos manualmente os erros que identificamos e disponibilizamos a tabela de correlação:
+
+```{r rows.print = 15, layout = "l-body-outset"}
+# corrigir traduções erradas
+pais_isoa[indice, 3] <- "Togo"
+pais_isoa[indice2, 3] <- "Turquia"
+
+rmarkdown::paged_table(pais_isoa)
+```
+
+
+

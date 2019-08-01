@@ -1,0 +1,1101 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"/>
+  <meta name="generator" content="distill" />
+
+  <style type="text/css">
+  /* Hide doc at startup (prevent jankiness while JS renders/transforms) */
+  body {
+    visibility: hidden;
+  }
+  </style>
+
+ <!--radix_placeholder_import_source-->
+ <!--/radix_placeholder_import_source-->
+
+  <!--radix_placeholder_meta_tags-->
+  <title>Tradução de dados textuais com googleLanguageR</title>
+  
+  <meta property="description" itemprop="description" content="O pacote googleLanguageR utiliza o serviço de API do Google Tradutor e nos permite traduzir textos automaticamente."/>
+  
+  
+  <!--  https://schema.org/Article -->
+  <meta property="article:published" itemprop="datePublished" content="2019-07-31"/>
+  <meta property="article:created" itemprop="dateCreated" content="2019-07-31"/>
+  <meta name="article:author" content="Miguel Cleaver"/>
+  
+  <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
+  <meta property="og:title" content="Tradução de dados textuais com googleLanguageR"/>
+  <meta property="og:type" content="article"/>
+  <meta property="og:description" content="O pacote googleLanguageR utiliza o serviço de API do Google Tradutor e nos permite traduzir textos automaticamente."/>
+  <meta property="og:locale" content="en_US"/>
+  
+  <!--  https://dev.twitter.com/cards/types/summary -->
+  <meta property="twitter:card" content="summary"/>
+  <meta property="twitter:title" content="Tradução de dados textuais com googleLanguageR"/>
+  <meta property="twitter:description" content="O pacote googleLanguageR utiliza o serviço de API do Google Tradutor e nos permite traduzir textos automaticamente."/>
+  
+  <!--/radix_placeholder_meta_tags-->
+  <!--radix_placeholder_rmarkdown_metadata-->
+  
+  <script type="text/json" id="radix-rmarkdown-metadata">
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","output","categories","preview"]}},"value":[{"type":"character","attributes":{},"value":["Tradução de dados textuais com googleLanguageR"]},{"type":"character","attributes":{},"value":["O pacote googleLanguageR utiliza o serviço de API do Google Tradutor e nos permite traduzir textos automaticamente.\n"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url"]}},"value":[{"type":"character","attributes":{},"value":["Miguel Cleaver"]},{"type":"character","attributes":{},"value":["https://github.com/mgcleaver"]}]}]},{"type":"character","attributes":{},"value":["07-31-2019"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]}]},{"type":"character","attributes":{},"value":["googleLanguageR","rvest","scraping"]},{"type":"character","attributes":{},"value":["../../images/google.PNG"]}]}
+  </script>
+  <!--/radix_placeholder_rmarkdown_metadata-->
+  
+  <script type="text/json" id="radix-resource-manifest">
+  {"type":"character","attributes":{},"value":["pais_isoa.txt","traduo-de-dados-textuais-com-googlelanguager_files/bowser-1.9.3/bowser.min.js","traduo-de-dados-textuais-com-googlelanguager_files/distill-2.2.21/template.v2.js","traduo-de-dados-textuais-com-googlelanguager_files/jquery-1.11.3/jquery.min.js","traduo-de-dados-textuais-com-googlelanguager_files/pagedtable-1.1/css/pagedtable.css","traduo-de-dados-textuais-com-googlelanguager_files/pagedtable-1.1/js/pagedtable.js","traduo-de-dados-textuais-com-googlelanguager_files/webcomponents-2.0.0/webcomponents.js"]}
+  </script>
+  <!--radix_placeholder_navigation_in_header-->
+  <!--/radix_placeholder_navigation_in_header-->
+  <!--radix_placeholder_distill-->
+  
+  <style type="text/css">
+  
+  body {
+    background-color: white;
+  }
+  
+  .pandoc-table {
+    width: 100%;
+  }
+  
+  .pandoc-table>caption {
+    margin-bottom: 10px;
+  }
+  
+  .pandoc-table th:not([align]) {
+    text-align: left;
+  }
+  
+  .pagedtable-footer {
+    font-size: 15px;
+  }
+  
+  .html-widget {
+    margin-bottom: 2.0em;
+  }
+  
+  .l-screen-inset {
+    padding-right: 16px;
+  }
+  
+  .l-screen .caption {
+    margin-left: 10px;
+  }
+  
+  .shaded {
+    background: rgb(247, 247, 247);
+    padding-top: 20px;
+    padding-bottom: 20px;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  }
+  
+  .shaded .html-widget {
+    margin-bottom: 0;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+  }
+  
+  .shaded .shaded-content {
+    background: white;
+  }
+  
+  .text-output {
+    margin-top: 0;
+    line-height: 1.5em;
+  }
+  
+  .hidden {
+    display: none !important;
+  }
+  
+  d-article {
+    padding-bottom: 30px;
+  }
+  
+  d-appendix {
+    padding-top: 30px;
+  }
+  
+  d-article>p>img {
+    width: 100%;
+  }
+  
+  d-article iframe {
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    margin-bottom: 2.0em;
+    width: 100%;
+  }
+  
+  figure img.external {
+    background: white;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+    padding: 18px;
+    box-sizing: border-box;
+  }
+  
+  /* CSS for table of contents */
+  
+  .d-toc {
+    color: rgba(0,0,0,0.8);
+    font-size: 0.8em;
+    line-height: 1em;
+  }
+  
+  .d-toc-header {
+    font-size: 0.6rem;
+    font-weight: 400;
+    color: rgba(0, 0, 0, 0.5);
+    text-transform: uppercase;
+    margin-top: 0;
+    margin-bottom: 1.3em;
+  }
+  
+  .d-toc a {
+    border-bottom: none;
+  }
+  
+  .d-toc ul {
+    padding-left: 0;
+  }
+  
+  .d-toc li>ul {
+    padding-top: 0.8em;
+    padding-left: 16px;
+    margin-bottom: 0.6em;
+  }
+  
+  .d-toc ul,
+  .d-toc li {
+    list-style-type: none;
+  }
+  
+  .d-toc li {
+    margin-bottom: 0.9em;
+  }
+  
+  .d-toc-separator {
+    margin-top: 20px;
+    margin-bottom: 2em;
+  }
+  
+  .d-article-with-toc {
+    border-top: none;
+    padding-top: 0;
+  }
+  
+  
+  
+  /* Tweak code blocks (note that this CSS is repeated above in an injection
+     into the d-code shadow dom) */
+  
+  d-code {
+    overflow-x: auto !important;
+  }
+  
+  pre.d-code code.d-code {
+    padding-left: 10px;
+    font-size: 12px;
+    border-left: 2px solid rgba(0,0,0,0.1);
+  }
+  
+  pre.text-output {
+  
+    font-size: 12px;
+    color: black;
+    background: none;
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+    text-align: left;
+    white-space: pre;
+    word-spacing: normal;
+    word-break: normal;
+    word-wrap: normal;
+    line-height: 1.5;
+  
+    -moz-tab-size: 4;
+    -o-tab-size: 4;
+    tab-size: 4;
+  
+    -webkit-hyphens: none;
+    -moz-hyphens: none;
+    -ms-hyphens: none;
+    hyphens: none;
+  }
+  
+  @media(min-width: 768px) {
+  
+  d-code {
+    overflow-x: visible !important;
+  }
+  
+  pre.d-code code.d-code  {
+      padding-left: 18px;
+      font-size: 14px;
+  }
+  pre.text-output {
+    font-size: 14px;
+  }
+  }
+  
+  /* Figure */
+  
+  .figure {
+    position: relative;
+    margin-bottom: 2.5em;
+    margin-top: 1.5em;
+  }
+  
+  .figure img {
+    width: 100%;
+  }
+  
+  .figure .caption {
+    color: rgba(0, 0, 0, 0.6);
+    font-size: 12px;
+    line-height: 1.5em;
+  }
+  
+  .figure img.external {
+    background: white;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+    padding: 18px;
+    box-sizing: border-box;
+  }
+  
+  .figure .caption a {
+    color: rgba(0, 0, 0, 0.6);
+  }
+  
+  .figure .caption b,
+  .figure .caption strong, {
+    font-weight: 600;
+    color: rgba(0, 0, 0, 1.0);
+  }
+  
+  
+  
+  /* Tweak 1000px media break to show more text */
+  
+  @media(min-width: 1000px) {
+    .base-grid,
+    distill-header,
+    d-title,
+    d-abstract,
+    d-article,
+    d-appendix,
+    distill-appendix,
+    d-byline,
+    d-footnote-list,
+    d-citation-list,
+    distill-footer {
+      grid-template-columns: [screen-start] 1fr [page-start kicker-start] 80px [middle-start] 50px [text-start kicker-end] 65px 65px 65px 65px 65px 65px 65px 65px [text-end gutter-start] 65px [middle-end] 65px [page-end gutter-end] 1fr [screen-end];
+      grid-column-gap: 16px;
+    }
+  
+    .grid {
+      grid-column-gap: 16px;
+    }
+  
+    d-article {
+      font-size: 1.06rem;
+      line-height: 1.7em;
+    }
+    figure .caption, .figure .caption, figure figcaption {
+      font-size: 13px;
+    }
+  }
+  
+  @media(min-width: 1180px) {
+    .base-grid,
+    distill-header,
+    d-title,
+    d-abstract,
+    d-article,
+    d-appendix,
+    distill-appendix,
+    d-byline,
+    d-footnote-list,
+    d-citation-list,
+    distill-footer {
+      grid-template-columns: [screen-start] 1fr [page-start kicker-start] 60px [middle-start] 60px [text-start kicker-end] 60px 60px 60px 60px 60px 60px 60px 60px [text-end gutter-start] 60px [middle-end] 60px [page-end gutter-end] 1fr [screen-end];
+      grid-column-gap: 32px;
+    }
+  
+    .grid {
+      grid-column-gap: 32px;
+    }
+  }
+  
+  
+  /* Get the citation styles for the appendix (not auto-injected on render since
+     we do our own rendering of the citation appendix) */
+  
+  d-appendix .citation-appendix,
+  .d-appendix .citation-appendix {
+    font-size: 11px;
+    line-height: 15px;
+    border-left: 1px solid rgba(0, 0, 0, 0.1);
+    padding-left: 18px;
+    border: 1px solid rgba(0,0,0,0.1);
+    background: rgba(0, 0, 0, 0.02);
+    padding: 10px 18px;
+    border-radius: 3px;
+    color: rgba(150, 150, 150, 1);
+    overflow: hidden;
+    margin-top: -12px;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+  }
+  
+  
+  /* Social footer */
+  
+  .social_footer {
+    margin-top: 30px;
+    margin-bottom: 0;
+    color: rgba(0,0,0,0.67);
+  }
+  
+  .disqus-comments {
+    margin-right: 30px;
+  }
+  
+  .disqus-comment-count {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+    cursor: pointer;
+  }
+  
+  #disqus_thread {
+    margin-top: 30px;
+  }
+  
+  .article-sharing a {
+    border-bottom: none;
+    margin-right: 8px;
+  }
+  
+  .article-sharing a:hover {
+    border-bottom: none;
+  }
+  
+  .sidebar-section.subscribe {
+    font-size: 12px;
+    line-height: 1.6em;
+  }
+  
+  .subscribe p {
+    margin-bottom: 0.5em;
+  }
+  
+  
+  .article-footer .subscribe {
+    font-size: 15px;
+    margin-top: 45px;
+  }
+  
+  
+  /* Improve display for browsers without grid (IE/Edge <= 15) */
+  
+  .downlevel {
+    line-height: 1.6em;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
+    margin: 0;
+  }
+  
+  .downlevel .d-title {
+    padding-top: 6rem;
+    padding-bottom: 1.5rem;
+  }
+  
+  .downlevel .d-title h1 {
+    font-size: 50px;
+    font-weight: 700;
+    line-height: 1.1em;
+    margin: 0 0 0.5rem;
+  }
+  
+  .downlevel .d-title p {
+    font-weight: 300;
+    font-size: 1.2rem;
+    line-height: 1.55em;
+    margin-top: 0;
+  }
+  
+  .downlevel .d-byline {
+    padding-top: 0.8em;
+    padding-bottom: 0.8em;
+    font-size: 0.8rem;
+    line-height: 1.8em;
+  }
+  
+  .downlevel .section-separator {
+    border: none;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+  }
+  
+  .downlevel .d-article {
+    font-size: 1.06rem;
+    line-height: 1.7em;
+    padding-top: 1rem;
+    padding-bottom: 2rem;
+  }
+  
+  
+  .downlevel .d-appendix {
+    padding-left: 0;
+    padding-right: 0;
+    max-width: none;
+    font-size: 0.8em;
+    line-height: 1.7em;
+    margin-bottom: 0;
+    color: rgba(0,0,0,0.5);
+    padding-top: 40px;
+    padding-bottom: 48px;
+  }
+  
+  .downlevel .footnotes ol {
+    padding-left: 13px;
+  }
+  
+  .downlevel .base-grid,
+  .downlevel .distill-header,
+  .downlevel .d-title,
+  .downlevel .d-abstract,
+  .downlevel .d-article,
+  .downlevel .d-appendix,
+  .downlevel .distill-appendix,
+  .downlevel .d-byline,
+  .downlevel .d-footnote-list,
+  .downlevel .d-citation-list,
+  .downlevel .distill-footer,
+  .downlevel .appendix-bottom,
+  .downlevel .posts-container {
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+  
+  @media(min-width: 768px) {
+    .downlevel .base-grid,
+    .downlevel .distill-header,
+    .downlevel .d-title,
+    .downlevel .d-abstract,
+    .downlevel .d-article,
+    .downlevel .d-appendix,
+    .downlevel .distill-appendix,
+    .downlevel .d-byline,
+    .downlevel .d-footnote-list,
+    .downlevel .d-citation-list,
+    .downlevel .distill-footer,
+    .downlevel .appendix-bottom,
+    .downlevel .posts-container {
+    padding-left: 150px;
+    padding-right: 150px;
+    max-width: 900px;
+  }
+  }
+  
+  .downlevel pre code {
+    display: block;
+    border-left: 2px solid rgba(0, 0, 0, .1);
+    padding: 0 0 0 20px;
+    font-size: 14px;
+  }
+  
+  .downlevel code, .downlevel pre {
+    color: black;
+    background: none;
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+    text-align: left;
+    white-space: pre;
+    word-spacing: normal;
+    word-break: normal;
+    word-wrap: normal;
+    line-height: 1.5;
+  
+    -moz-tab-size: 4;
+    -o-tab-size: 4;
+    tab-size: 4;
+  
+    -webkit-hyphens: none;
+    -moz-hyphens: none;
+    -ms-hyphens: none;
+    hyphens: none;
+  }
+  
+  </style>
+  
+  <script type="application/javascript">
+  
+  function is_downlevel_browser() {
+    if (bowser.isUnsupportedBrowser({ msie: "12", msedge: "16"},
+                                   window.navigator.userAgent)) {
+      return true;
+    } else {
+      return window.load_distill_framework === undefined;
+    }
+  }
+  
+  // show body when load is complete
+  function on_load_complete() {
+  
+    // set body to visible
+    document.body.style.visibility = 'visible';
+  
+    // force redraw for leaflet widgets
+    if (window.HTMLWidgets) {
+      var maps = window.HTMLWidgets.findAll(".leaflet");
+      $.each(maps, function(i, el) {
+        var map = this.getMap();
+        map.invalidateSize();
+        map.eachLayer(function(layer) {
+          if (layer instanceof L.TileLayer)
+            layer.redraw();
+        });
+      });
+    }
+  
+    // trigger 'shown' so htmlwidgets resize
+    $('d-article').trigger('shown');
+  }
+  
+  function init_distill() {
+  
+    init_common();
+  
+    // create front matter
+    var front_matter = $('<d-front-matter></d-front-matter>');
+    $('#distill-front-matter').wrap(front_matter);
+  
+    // create d-title
+    $('.d-title').changeElementType('d-title');
+  
+    // create d-byline
+    var byline = $('<d-byline></d-byline>');
+    $('.d-byline').replaceWith(byline);
+  
+    // create d-article
+    var article = $('<d-article></d-article>');
+    $('.d-article').wrap(article).children().unwrap();
+  
+    // move posts container into article
+    $('.posts-container').appendTo($('d-article'));
+  
+    // create d-appendix
+    $('.d-appendix').changeElementType('d-appendix');
+  
+    // create d-bibliography
+    var bibliography = $('<d-bibliography></d-bibliography>');
+    $('#distill-bibliography').wrap(bibliography);
+  
+    // flag indicating that we have appendix items
+    var appendix = $('.appendix-bottom').children('h3').length > 0;
+  
+    // replace citations with <d-cite>
+    $('.citation').each(function(i, val) {
+      appendix = true;
+      var cites = $(this).attr('data-cites').split(" ");
+      var dt_cite = $('<d-cite></d-cite>');
+      dt_cite.attr('key', cites.join());
+      $(this).replaceWith(dt_cite);
+    });
+    // remove refs
+    $('#refs').remove();
+  
+    // replace footnotes with <d-footnote>
+    $('.footnote-ref').each(function(i, val) {
+      appendix = true;
+      var href = $(this).attr('href');
+      var id = href.replace('#', '');
+      var fn = $('#' + id);
+      var fn_p = $('#' + id + '>p');
+      fn_p.find('.footnote-back').remove();
+      var text = fn_p.html();
+      var dtfn = $('<d-footnote></d-footnote>');
+      dtfn.html(text);
+      $(this).replaceWith(dtfn);
+    });
+    // remove footnotes
+    $('.footnotes').remove();
+  
+    $('h1.appendix, h2.appendix').each(function(i, val) {
+      $(this).changeElementType('h3');
+    });
+    $('h3.appendix').each(function(i, val) {
+      var id = $(this).attr('id');
+      $('.d-toc a[href="#' + id + '"]').parent().remove();
+      appendix = true;
+      $(this).nextUntil($('h1, h2, h3')).addBack().appendTo($('d-appendix'));
+    });
+  
+    // show d-appendix if we have appendix content
+    $("d-appendix").css('display', appendix ? 'grid' : 'none');
+  
+    // replace code blocks with d-code
+    $('pre>code').each(function(i, val) {
+      var code = $(this);
+      var pre = code.parent();
+      var clz = "";
+      var language = pre.attr('class');
+      if (language) {
+        // map unknown languages to "clike" (without this they just dissapear)
+        if ($.inArray(language, ["bash", "clike", "css", "go", "html",
+                                 "javascript", "js", "julia", "lua", "markdown",
+                                 "markup", "mathml", "python", "svg", "xml"]) == -1)
+          language = "clike";
+        language = ' language="' + language + '"';
+        var dt_code = $('<d-code block' + language + clz + '></d-code>');
+        dt_code.text(code.text());
+        pre.replaceWith(dt_code);
+      } else {
+        code.addClass('text-output').unwrap().changeElementType('pre');
+      }
+    });
+  
+    // localize layout chunks to just output
+    $('.layout-chunk').each(function(i, val) {
+  
+      // capture layout
+      var layout = $(this).attr('data-layout');
+  
+      // apply layout to markdown level block elements
+      var elements = $(this).children().not('d-code, pre.text-output, script');
+      elements.each(function(i, el) {
+        var layout_div = $('<div class="' + layout + '"></div>');
+        if (layout_div.hasClass('shaded')) {
+          var shaded_content = $('<div class="shaded-content"></div>');
+          $(this).wrap(shaded_content);
+          $(this).parent().wrap(layout_div);
+        } else {
+          $(this).wrap(layout_div);
+        }
+      });
+  
+  
+      // unwrap the layout-chunk div
+      $(this).children().unwrap();
+    });
+  
+    // load distill framework
+    load_distill_framework();
+  
+    // wait for window.distillRunlevel == 4 to do post processing
+    function distill_post_process() {
+  
+      if (!window.distillRunlevel || window.distillRunlevel < 4)
+        return;
+  
+      // hide author/affiliations entirely if we have no authors
+      var front_matter = JSON.parse($("#distill-front-matter").html());
+      var have_authors = front_matter.authors && front_matter.authors.length > 0;
+      if (!have_authors)
+        $('d-byline').addClass('hidden');
+  
+      // table of contents
+      if (have_authors) // adjust border if we are in authors
+        $('.d-toc').parent().addClass('d-article-with-toc');
+  
+      // strip links that point to #
+      $('.authors-affiliations').find('a[href="#"]').removeAttr('href');
+  
+      // hide elements of author/affiliations grid that have no value
+      function hide_byline_column(caption) {
+        $('d-byline').find('h3:contains("' + caption + '")').parent().css('visibility', 'hidden');
+      }
+  
+      // affiliations
+      var have_affiliations = false;
+      for (var i = 0; i<front_matter.authors.length; ++i) {
+        var author = front_matter.authors[i];
+        if (author.affiliation !== "&nbsp;") {
+          have_affiliations = true;
+          break;
+        }
+      }
+      if (!have_affiliations)
+        $('d-byline').find('h3:contains("Affiliations")').css('visibility', 'hidden');
+  
+      // published date
+      if (!front_matter.publishedDate)
+        hide_byline_column("Published");
+  
+      // document object identifier
+      var doi = $('d-byline').find('h3:contains("DOI")');
+      var doi_p = doi.next().empty();
+      if (!front_matter.doi) {
+        // if we have a citation and valid citationText then link to that
+        if ($('#citation').length > 0 && front_matter.citationText) {
+          doi.html('Citation');
+          $('<a href="#citation"></a>')
+            .text(front_matter.citationText)
+            .appendTo(doi_p);
+        } else {
+          hide_byline_column("DOI");
+        }
+      } else {
+        $('<a></a>')
+           .attr('href', "https://doi.org/" + front_matter.doi)
+           .html(front_matter.doi)
+           .appendTo(doi_p);
+      }
+  
+       // change plural form of authors/affiliations
+      if (front_matter.authors.length === 1) {
+        var grid = $('.authors-affiliations');
+        grid.children('h3:contains("Authors")').text('Author');
+        grid.children('h3:contains("Affiliations")').text('Affiliation');
+      }
+  
+      // inject pre code styles (can't do this with a global stylesheet b/c a shadow root is used)
+      $('d-code').each(function(i, val) {
+        var style = document.createElement('style');
+        style.innerHTML = 'pre code { padding-left: 10px; font-size: 12px; border-left: 2px solid rgba(0,0,0,0.1); } ' +
+                          '@media(min-width: 768px) { pre code { padding-left: 18px; font-size: 14px; } }';
+        if (this.shadowRoot)
+          this.shadowRoot.appendChild(style);
+      });
+  
+      // move appendix-bottom entries to the bottom
+      $('.appendix-bottom').appendTo('d-appendix').children().unwrap();
+      $('.appendix-bottom').remove();
+  
+      // clear polling timer
+      clearInterval(tid);
+  
+      // show body now that everything is ready
+      on_load_complete();
+    }
+  
+    var tid = setInterval(distill_post_process, 50);
+    distill_post_process();
+  
+  }
+  
+  function init_downlevel() {
+  
+    init_common();
+  
+     // insert hr after d-title
+    $('.d-title').after($('<hr class="section-separator"/>'));
+  
+    // check if we have authors
+    var front_matter = JSON.parse($("#distill-front-matter").html());
+    var have_authors = front_matter.authors && front_matter.authors.length > 0;
+  
+    // manage byline/border
+    if (!have_authors)
+      $('.d-byline').remove();
+    $('.d-byline').after($('<hr class="section-separator"/>'));
+    $('.d-byline a').remove();
+  
+    // remove toc
+    $('.d-toc-header').remove();
+    $('.d-toc').remove();
+    $('.d-toc-separator').remove();
+  
+    // move appendix elements
+    $('h1.appendix, h2.appendix').each(function(i, val) {
+      $(this).changeElementType('h3');
+    });
+    $('h3.appendix').each(function(i, val) {
+      $(this).nextUntil($('h1, h2, h3')).addBack().appendTo($('.d-appendix'));
+    });
+  
+  
+    // inject headers into references and footnotes
+    var refs_header = $('<h3></h3>');
+    refs_header.text('References');
+    $('#refs').prepend(refs_header);
+  
+    var footnotes_header = $('<h3></h3');
+    footnotes_header.text('Footnotes');
+    $('.footnotes').children('hr').first().replaceWith(footnotes_header);
+  
+    // move appendix-bottom entries to the bottom
+    $('.appendix-bottom').appendTo('.d-appendix').children().unwrap();
+    $('.appendix-bottom').remove();
+  
+    // remove appendix if it's empty
+    if ($('.d-appendix').children().length === 0)
+      $('.d-appendix').remove();
+  
+    // prepend separator above appendix
+    $('.d-appendix').before($('<hr class="section-separator" style="clear: both"/>'));
+  
+    // trim code
+    $('pre>code').each(function(i, val) {
+      $(this).html($.trim($(this).html()));
+    });
+  
+    // move posts-container right before article
+    $('.posts-container').insertBefore($('.d-article'));
+  
+    $('body').addClass('downlevel');
+  
+    on_load_complete();
+  }
+  
+  
+  function init_common() {
+  
+    // jquery plugin to change element types
+    (function($) {
+      $.fn.changeElementType = function(newType) {
+        var attrs = {};
+  
+        $.each(this[0].attributes, function(idx, attr) {
+          attrs[attr.nodeName] = attr.nodeValue;
+        });
+  
+        this.replaceWith(function() {
+          return $("<" + newType + "/>", attrs).append($(this).contents());
+        });
+      };
+    })(jQuery);
+  
+    // prevent underline for linked images
+    $('a > img').parent().css({'border-bottom' : 'none'});
+  
+    // mark non-body figures created by knitr chunks as 100% width
+    $('.layout-chunk').each(function(i, val) {
+      var figures = $(this).find('img, .html-widget');
+      if ($(this).attr('data-layout') !== "l-body") {
+        figures.css('width', '100%');
+      } else {
+        figures.css('max-width', '100%');
+        figures.filter("[width]").each(function(i, val) {
+          var fig = $(this);
+          fig.css('width', fig.attr('width') + 'px');
+        });
+  
+      }
+    });
+  
+    // auto-append index.html to post-preview links in file: protocol
+    // and in rstudio ide preview
+    $('.post-preview').each(function(i, val) {
+      if (window.location.protocol === "file:")
+        $(this).attr('href', $(this).attr('href') + "index.html");
+    });
+  
+    // get rid of index.html references in header
+    if (window.location.protocol !== "file:") {
+      $('.distill-site-header a[href]').each(function(i,val) {
+        $(this).attr('href', $(this).attr('href').replace("index.html", "./"));
+      });
+    }
+  
+    // add class to pandoc style tables
+    $('tr.header').parent('thead').parent('table').addClass('pandoc-table');
+    $('.kable-table').children('table').addClass('pandoc-table');
+  
+    // add figcaption style to table captions
+    $('caption').parent('table').addClass("figcaption");
+  
+    // initialize posts list
+    if (window.init_posts_list)
+      window.init_posts_list();
+  
+    // implmement disqus comment link
+    $('.disqus-comment-count').click(function() {
+      window.headroom_prevent_pin = true;
+      $('#disqus_thread').toggleClass('hidden');
+      if (!$('#disqus_thread').hasClass('hidden')) {
+        var offset = $(this).offset();
+        $(window).resize();
+        $('html, body').animate({
+          scrollTop: offset.top - 35
+        });
+      }
+    });
+  }
+  
+  document.addEventListener('DOMContentLoaded', function() {
+    if (is_downlevel_browser())
+      init_downlevel();
+    else
+      window.addEventListener('WebComponentsReady', init_distill);
+  });
+  
+  </script>
+  
+  <!--/radix_placeholder_distill-->
+  <link href="traduo-de-dados-textuais-com-googlelanguager_files/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
+  <script src="traduo-de-dados-textuais-com-googlelanguager_files/pagedtable-1.1/js/pagedtable.js"></script>
+  <script src="traduo-de-dados-textuais-com-googlelanguager_files/jquery-1.11.3/jquery.min.js"></script>
+  <script src="traduo-de-dados-textuais-com-googlelanguager_files/bowser-1.9.3/bowser.min.js"></script>
+  <script src="traduo-de-dados-textuais-com-googlelanguager_files/webcomponents-2.0.0/webcomponents.js"></script>
+  <script src="traduo-de-dados-textuais-com-googlelanguager_files/distill-2.2.21/template.v2.js"></script>
+  <!--radix_placeholder_site_in_header-->
+  <!--/radix_placeholder_site_in_header-->
+
+
+</head>
+
+<body>
+
+<!--radix_placeholder_front_matter-->
+
+<script id="distill-front-matter" type="text/json">
+{"title":"Tradução de dados textuais com googleLanguageR","description":"O pacote googleLanguageR utiliza o serviço de API do Google Tradutor e nos permite traduzir textos automaticamente.","authors":[{"author":"Miguel Cleaver","authorURL":"https://github.com/mgcleaver","affiliation":"&nbsp;","affiliationURL":"#"}],"publishedDate":"2019-07-31T00:00:00.000-03:00","citationText":"Cleaver, 2019"}
+</script>
+
+<!--/radix_placeholder_front_matter-->
+<!--radix_placeholder_navigation_before_body-->
+<!--/radix_placeholder_navigation_before_body-->
+<!--radix_placeholder_site_before_body-->
+<!--/radix_placeholder_site_before_body-->
+
+<div class="d-title">
+<h1>Tradução de dados textuais com googleLanguageR</h1>
+<p>O pacote googleLanguageR utiliza o serviço de API do Google Tradutor e nos permite traduzir textos automaticamente.</p>
+</div>
+
+<div class="d-byline">
+  Miguel Cleaver <a href="https://github.com/mgcleaver" class="uri">https://github.com/mgcleaver</a> 
+  
+<br/>07-31-2019
+</div>
+
+<div class="d-article">
+<!-- More -->
+<h2 id="traducao-de-texto-com-o-pacote-googlelanguager">Tradução de texto com o pacote googleLanguageR</h2>
+<p>Ao trabalhar com dados, pode ser que, em algum momento, seja necessário trazer informações textuais de uma língua estrangeira para a nossa língua. Se você dominar a língua na qual o dado se encontra você pode fazer a tradução por meio da análise de cada caso, mas a situação se complica à medida que o número de observações aumenta. Se você não tiver domínio da língua, provavelmente, a melhor alternativa é utilizar uma aplicação como a do <a href="https://translate.google.com.br/?hl=pt-BR">Google Tradutor</a> para o caso a caso. Assim mesmo o processo de fazer várias traduções via Google Tradutor pode se tornar maçante.</p>
+<p>Uma solução mais sofisticada passaria pela utilização do pacote <strong>googleLanguageR</strong>, que consulta à API de Google Tradutor para traduzir textos. De experiência própria, sabemos que o Google Tradutor não é perfeito, mas funciona bem na maioria dos casos.</p>
+<p>Além de traduzir textos, o pacote também acessa outras APIs do Google como as de <em>Natural Language</em> e de <em>Cloud Speech</em>. A única desvantagem de usar o <strong>googleLanguageR</strong> é que você deve ativar o serviço de API para sua conta Google e isso tem um custo financeiro.</p>
+<p>Se você estiver interessado em usar o serviço, deve completar os seguintes passos da seção <em>Installation</em> deste <a href="https://cran.r-project.org/web/packages/googleLanguageR/vignettes/setup.html">link</a>.</p>
+<p><strong>Note que como os serviços do Google são pagos, você deverá fornecer dados do seu cartão de crédito para ativar os serviço de API do Google.</strong></p>
+<h2 id="traduzindo-nomes-de-paises-com-o-pacote-googlelanguager">Traduzindo nomes de países com o pacote googleLanguageR</h2>
+<p>O exemplo que será explorado aqui é um tanto quanto simples no quesito tradução, porém serve bem o propósito de exemplificar como o pacote <strong>googleLanguageR</strong> pode ser utilizado.</p>
+<p>Suponhamos que você precise de uma tabela de correlação com os nomes de países em português e os respectivos códigos ISO alfa-3 (ISOA)<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a>. Suponhamos, também, que você só tenha encontrado uma correlação com nomes de países em inglês na seção sobre o <a href="https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3">ISO 3166-1 alfa-3 do Wikipédia</a>. Por meio das técnicas de web scraping já exploradas <a href="https://www.fulljoin.com.br/posts/2019-07-16-web-scraping-com-r/">em um post anterior</a>, podemos trazer os dados do Wikipédia para dentro do R.</p>
+<div class="layout-chunk" data-layout="l-body-outset">
+<pre class="r"><code>
+library(rvest)
+library(dplyr)
+
+link_isoa &lt;- &quot;https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3&quot;
+
+paises_ingles &lt;- read_html(link_isoa) %&gt;% 
+  html_nodes(&quot;.div-col li&quot;)
+
+isoa &lt;- paises_ingles %&gt;% 
+  html_node(&quot;span&quot;) %&gt;% 
+  html_text()
+
+paises &lt;- paises_ingles %&gt;% 
+  html_node(&quot;a&quot;) %&gt;% 
+  html_attr(&quot;title&quot;)
+
+pais_isoa &lt;- data.frame(ISOA = isoa,
+                        pais_ing = paises,
+                        stringsAsFactors = FALSE)
+
+head(pais_isoa, 10)</code></pre>
+<pre><code>
+   ISOA             pais_ing
+1   ABW                Aruba
+2   AFG          Afghanistan
+3   AGO               Angola
+4   AIA             Anguilla
+5   ALA        Åland Islands
+6   ALB              Albania
+7   AND              Andorra
+8   ARE United Arab Emirates
+9   ARG            Argentina
+10  ARM              Armenia</code></pre>
+</div>
+<p>Considerando que o serviço da API do Google Tradutor já esteja habilitado em sua conta Google, podemos traduzir o nome dos países para, por exemplo, o português. Note que, além de ativar o serviço da API da sua conta, você pode criar, caso ainda não o tenha feito, um arquivo com o nome <code>.Renviron</code> no diretório de trabalho do seu R. Nesse arquivo é preciso criar a variável GL_AUTH = “caminho do arquivo da chave API.json” e, depois, salvá-lo. Por fim, a sessão do R deve ser reiniciada para que a mudança no arquivo <code>.Renviron</code> seja incorporada na sessão atual do R. Alternativamente, pode-se especificar diretamente na função <code>gl_auth</code> o caminho da sua chave API do Google.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+# Carregamos pacote de tradução
+library(googleLanguageR)
+
+# Autenticação para utilizar a API do Google Tradutor
+# Note que GL_AUTH define o local da sua chave API e deve constar
+# no arquivo .Renviron
+
+gl_auth(Sys.getenv(&quot;GL_AUTH&quot;))</code></pre>
+</div>
+<p><br> Depois de se autenticar, utilizamos a função <code>gl_translate</code> para fazer a tradução. O argumento <code>t_string</code> indica a coluna que desejamos traduzir; <code>target</code> é a língua para a qual queremos traduzir; <code>format</code> se refere ao formato do texto para tradução; e, por fim, <code>source</code> é a língua original do texto. Poderíamos traduzir uma página HTML diretamente por meio do pacote <strong>rvest</strong> e passando o argumento <code>format = 'html'</code> na função <code>gl_translate</code>. <br></p>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+pais_isoa &lt;- pais_isoa %&gt;%
+  mutate(
+  pais_port = gl_translate(t_string = pais_ing,
+                           target = &#39;pt&#39;,
+                           format = &#39;text&#39;,
+                           source = &quot;en&quot;)$translatedText
+)</code></pre>
+</div>
+<p><br> Ao analisar rapidamente o resultado da tradução do Google Tradutor, encontramos alguns erros de tradução. Por exemplo, “Togo” foi traduzido para o português como “Ir” (houve uma pequena confusão com “to go” rs) e “Turkey”, como “Peru” (rs). Como mencionamos no início deste post, o Google Tradutor não é perfeito, mas, em regra, funciona bem e quebra um bom galho. <br></p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+indice &lt;- which(pais_isoa$pais_ing == &quot;Togo&quot;)
+indice2 &lt;- which(pais_isoa$pais_ing == &quot;Turkey&quot;)
+
+# print trecho com erros de tradução
+pais_isoa[indice:(indice+9),]</code></pre>
+<pre><code>
+# A tibble: 10 x 3
+   ISOA  pais_ing            pais_port        
+   &lt;chr&gt; &lt;chr&gt;               &lt;chr&gt;            
+ 1 TGO   Togo                Ir               
+ 2 THA   Thailand            Tailândia        
+ 3 TJK   Tajikistan          Tajiquistão      
+ 4 TKL   Tokelau             Tokelau          
+ 5 TKM   Turkmenistan        Turcomenistão    
+ 6 TLS   East Timor          Timor Leste      
+ 7 TON   Tonga               Tonga            
+ 8 TTO   Trinidad and Tobago Trinidad e Tobago
+ 9 TUN   Tunisia             Tunísia          
+10 TUR   Turkey              Peru             </code></pre>
+</div>
+<p>Depois do Google Tradutor ter efetuado a maior parte da tradução, corrigimos manualmente os erros que identificamos e disponibilizamos a tabela de correlação:</p>
+<div class="layout-chunk" data-layout="l-body-outset">
+<pre class="r"><code>
+# corrigir traduções erradas
+pais_isoa[indice, 3] &lt;- &quot;Togo&quot;
+pais_isoa[indice2, 3] &lt;- &quot;Turquia&quot;
+
+rmarkdown::paged_table(pais_isoa)</code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["ISOA"],"name":[1],"type":["chr"],"align":["left"]},{"label":["pais_ing"],"name":[2],"type":["chr"],"align":["left"]},{"label":["pais_port"],"name":[3],"type":["chr"],"align":["left"]}],"data":[{"1":"ABW","2":"Aruba","3":"Aruba"},{"1":"AFG","2":"Afghanistan","3":"Afeganistão"},{"1":"AGO","2":"Angola","3":"Angola"},{"1":"AIA","2":"Anguilla","3":"Anguila"},{"1":"ALA","2":"Åland Islands","3":"Ilhas Aland"},{"1":"ALB","2":"Albania","3":"Albânia"},{"1":"AND","2":"Andorra","3":"Andorra"},{"1":"ARE","2":"United Arab Emirates","3":"Emirados Árabes Unidos"},{"1":"ARG","2":"Argentina","3":"Argentina"},{"1":"ARM","2":"Armenia","3":"Armênia"},{"1":"ASM","2":"American Samoa","3":"Samoa Americana"},{"1":"ATA","2":"Antarctica","3":"Antártica"},{"1":"ATF","2":"French Southern and Antarctic Lands","3":"Terras Austrais e Antárticas Francesas"},{"1":"ATG","2":"Antigua and Barbuda","3":"Antígua e Barbuda"},{"1":"AUS","2":"Australia","3":"Austrália"},{"1":"AUT","2":"Austria","3":"Áustria"},{"1":"AZE","2":"Azerbaijan","3":"Azerbaijão"},{"1":"BDI","2":"Burundi","3":"Burundi"},{"1":"BEL","2":"Belgium","3":"Bélgica"},{"1":"BEN","2":"Benin","3":"Benin"},{"1":"BES","2":"Caribbean Netherlands","3":"Países Baixos Caribenhos"},{"1":"BFA","2":"Burkina Faso","3":"Burkina Faso"},{"1":"BGD","2":"Bangladesh","3":"Bangladesh"},{"1":"BGR","2":"Bulgaria","3":"Bulgária"},{"1":"BHR","2":"Bahrain","3":"Barém"},{"1":"BHS","2":"The Bahamas","3":"As Bahamas"},{"1":"BIH","2":"Bosnia and Herzegovina","3":"Bósnia e Herzegovina"},{"1":"BLM","2":"Saint Barthélemy","3":"São Bartolomeu"},{"1":"BLR","2":"Belarus","3":"Belarus"},{"1":"BLZ","2":"Belize","3":"Belize"},{"1":"BMU","2":"Bermuda","3":"Bermudas"},{"1":"BOL","2":"Bolivia","3":"Bolívia"},{"1":"BRA","2":"Brazil","3":"Brasil"},{"1":"BRB","2":"Barbados","3":"Barbados"},{"1":"BRN","2":"Brunei","3":"Brunei"},{"1":"BTN","2":"Bhutan","3":"Butão"},{"1":"BVT","2":"Bouvet Island","3":"Ilha Bouvet"},{"1":"BWA","2":"Botswana","3":"Botsuana"},{"1":"CAF","2":"Central African Republic","3":"República Centro-Africana"},{"1":"CAN","2":"Canada","3":"Canadá"},{"1":"CCK","2":"Cocos (Keeling) Islands","3":"Ilhas Cocos (Keeling)"},{"1":"CHE","2":"Switzerland","3":"Suíça"},{"1":"CHL","2":"Chile","3":"Chile"},{"1":"CHN","2":"China","3":"China"},{"1":"CIV","2":"Ivory Coast","3":"Costa do Marfim"},{"1":"CMR","2":"Cameroon","3":"Camarões"},{"1":"COD","2":"Democratic Republic of the Congo","3":"República Democrática do Congo"},{"1":"COG","2":"Republic of the Congo","3":"República do Congo"},{"1":"COK","2":"Cook Islands","3":"Ilhas Cook"},{"1":"COL","2":"Colombia","3":"Colômbia"},{"1":"COM","2":"Comoros","3":"Comores"},{"1":"CPV","2":"Cabo Verde","3":"Cabo Verde"},{"1":"CRI","2":"Costa Rica","3":"Costa Rica"},{"1":"CUB","2":"Cuba","3":"Cuba"},{"1":"CUW","2":"Curaçao","3":"Curaçao"},{"1":"CXR","2":"Christmas Island","3":"Ilha do Natal"},{"1":"CYM","2":"Cayman Islands","3":"Ilhas Cayman"},{"1":"CYP","2":"Cyprus","3":"Chipre"},{"1":"CZE","2":"Czech Republic","3":"República Checa"},{"1":"DEU","2":"Germany","3":"Alemanha"},{"1":"DJI","2":"Djibouti","3":"Djibuti"},{"1":"DMA","2":"Dominica","3":"Dominica"},{"1":"DNK","2":"Denmark","3":"Dinamarca"},{"1":"DOM","2":"Dominican Republic","3":"República Dominicana"},{"1":"DZA","2":"Algeria","3":"Argélia"},{"1":"ECU","2":"Ecuador","3":"Equador"},{"1":"EGY","2":"Egypt","3":"Egito"},{"1":"ERI","2":"Eritrea","3":"Eritréia"},{"1":"ESH","2":"Western Sahara","3":"Saara Ocidental"},{"1":"ESP","2":"Spain","3":"Espanha"},{"1":"EST","2":"Estonia","3":"Estônia"},{"1":"ETH","2":"Ethiopia","3":"Etiópia"},{"1":"FIN","2":"Finland","3":"Finlândia"},{"1":"FJI","2":"Fiji","3":"Fiji"},{"1":"FLK","2":"Falkland Islands","3":"Ilhas Falkland"},{"1":"FRA","2":"France","3":"França"},{"1":"FRO","2":"Faroe Islands","3":"ilhas Faroe"},{"1":"FSM","2":"Federated States of Micronesia","3":"Estados Federados da Micronésia"},{"1":"GAB","2":"Gabon","3":"Gabão"},{"1":"GBR","2":"United Kingdom","3":"Reino Unido"},{"1":"GEO","2":"Georgia (country)","3":"Geórgia (país)"},{"1":"GGY","2":"Guernsey","3":"Guernsey"},{"1":"GHA","2":"Ghana","3":"Gana"},{"1":"GIB","2":"Gibraltar","3":"Gibraltar"},{"1":"GIN","2":"Guinea","3":"Guiné"},{"1":"GLP","2":"Guadeloupe","3":"Guadalupe"},{"1":"GMB","2":"The Gambia","3":"Gâmbia"},{"1":"GNB","2":"Guinea-Bissau","3":"Guiné-Bissau"},{"1":"GNQ","2":"Equatorial Guinea","3":"Guiné Equatorial"},{"1":"GRC","2":"Greece","3":"Grécia"},{"1":"GRD","2":"Grenada","3":"Granada"},{"1":"GRL","2":"Greenland","3":"Gronelândia"},{"1":"GTM","2":"Guatemala","3":"Guatemala"},{"1":"GUF","2":"French Guiana","3":"Guiana Francesa"},{"1":"GUM","2":"Guam","3":"Guam"},{"1":"GUY","2":"Guyana","3":"Guiana"},{"1":"HKG","2":"Hong Kong","3":"Hong Kong"},{"1":"HMD","2":"Heard Island and McDonald Islands","3":"Ilha Heard e Ilhas McDonald"},{"1":"HND","2":"Honduras","3":"Honduras"},{"1":"HRV","2":"Croatia","3":"Croácia"},{"1":"HTI","2":"Haiti","3":"Haiti"},{"1":"HUN","2":"Hungary","3":"Hungria"},{"1":"IDN","2":"Indonesia","3":"Indonésia"},{"1":"IMN","2":"Isle of Man","3":"Ilha de Man"},{"1":"IND","2":"India","3":"Índia"},{"1":"IOT","2":"British Indian Ocean Territory","3":"Território Britânico do Oceano Índico"},{"1":"IRL","2":"Republic of Ireland","3":"República da Irlanda"},{"1":"IRN","2":"Iran","3":"Irã"},{"1":"IRQ","2":"Iraq","3":"Iraque"},{"1":"ISL","2":"Iceland","3":"Islândia"},{"1":"ISR","2":"Israel","3":"Israel"},{"1":"ITA","2":"Italy","3":"Itália"},{"1":"JAM","2":"Jamaica","3":"Jamaica"},{"1":"JEY","2":"Jersey","3":"Jersey"},{"1":"JOR","2":"Jordan","3":"Jordânia"},{"1":"JPN","2":"Japan","3":"Japão"},{"1":"KAZ","2":"Kazakhstan","3":"Cazaquistão"},{"1":"KEN","2":"Kenya","3":"Quênia"},{"1":"KGZ","2":"Kyrgyzstan","3":"Quirguistão"},{"1":"KHM","2":"Cambodia","3":"Camboja"},{"1":"KIR","2":"Kiribati","3":"Kiribati"},{"1":"KNA","2":"Saint Kitts and Nevis","3":"São Cristóvão e Névis"},{"1":"KOR","2":"South Korea","3":"Coreia do Sul"},{"1":"KWT","2":"Kuwait","3":"Kuwait"},{"1":"LAO","2":"Laos","3":"Laos"},{"1":"LBN","2":"Lebanon","3":"Líbano"},{"1":"LBR","2":"Liberia","3":"Libéria"},{"1":"LBY","2":"Libya","3":"Líbia"},{"1":"LCA","2":"Saint Lucia","3":"Santa Lúcia"},{"1":"LIE","2":"Liechtenstein","3":"Liechtenstein"},{"1":"LKA","2":"Sri Lanka","3":"Sri Lanka"},{"1":"LSO","2":"Lesotho","3":"Lesoto"},{"1":"LTU","2":"Lithuania","3":"Lituânia"},{"1":"LUX","2":"Luxembourg","3":"Luxemburgo"},{"1":"LVA","2":"Latvia","3":"Letônia"},{"1":"MAC","2":"Macau","3":"Macau"},{"1":"MAF","2":"Collectivity of Saint Martin","3":"Coletividade de São Martinho"},{"1":"MAR","2":"Morocco","3":"Marrocos"},{"1":"MCO","2":"Monaco","3":"Mônaco"},{"1":"MDA","2":"Moldova","3":"Moldávia"},{"1":"MDG","2":"Madagascar","3":"Madagáscar"},{"1":"MDV","2":"Maldives","3":"Maldivas"},{"1":"MEX","2":"Mexico","3":"México"},{"1":"MHL","2":"Marshall Islands","3":"Ilhas Marshall"},{"1":"MKD","2":"North Macedonia","3":"Macedônia do Norte"},{"1":"MLI","2":"Mali","3":"Mali"},{"1":"MLT","2":"Malta","3":"Malta"},{"1":"MMR","2":"Myanmar","3":"Myanmar"},{"1":"MNE","2":"Montenegro","3":"Montenegro"},{"1":"MNG","2":"Mongolia","3":"Mongólia"},{"1":"MNP","2":"Northern Mariana Islands","3":"Ilhas Marianas do Norte"},{"1":"MOZ","2":"Mozambique","3":"Moçambique"},{"1":"MRT","2":"Mauritania","3":"Mauritânia"},{"1":"MSR","2":"Montserrat","3":"Montserrat"},{"1":"MTQ","2":"Martinique","3":"Martinica"},{"1":"MUS","2":"Mauritius","3":"Maurício"},{"1":"MWI","2":"Malawi","3":"Malawi"},{"1":"MYS","2":"Malaysia","3":"Malásia"},{"1":"MYT","2":"Mayotte","3":"Mayotte"},{"1":"NAM","2":"Namibia","3":"Namíbia"},{"1":"NCL","2":"New Caledonia","3":"Nova Caledônia"},{"1":"NER","2":"Niger","3":"Níger"},{"1":"NFK","2":"Norfolk Island","3":"Ilha Norfolk"},{"1":"NGA","2":"Nigeria","3":"Nigéria"},{"1":"NIC","2":"Nicaragua","3":"Nicarágua"},{"1":"NIU","2":"Niue","3":"Niue"},{"1":"NLD","2":"Netherlands","3":"Países Baixos"},{"1":"NOR","2":"Norway","3":"Noruega"},{"1":"NPL","2":"Nepal","3":"Nepal"},{"1":"NRU","2":"Nauru","3":"Nauru"},{"1":"NZL","2":"New Zealand","3":"Nova Zelândia"},{"1":"OMN","2":"Oman","3":"Omã"},{"1":"PAK","2":"Pakistan","3":"Paquistão"},{"1":"PAN","2":"Panama","3":"Panamá"},{"1":"PCN","2":"Pitcairn Islands","3":"Ilhas Pitcairn"},{"1":"PER","2":"Peru","3":"Peru"},{"1":"PHL","2":"Philippines","3":"Filipinas"},{"1":"PLW","2":"Palau","3":"Palau"},{"1":"PNG","2":"Papua New Guinea","3":"Papua Nova Guiné"},{"1":"POL","2":"Poland","3":"Polônia"},{"1":"PRI","2":"Puerto Rico","3":"Porto Rico"},{"1":"PRK","2":"North Korea","3":"Coreia do Norte"},{"1":"PRT","2":"Portugal","3":"Portugal"},{"1":"PRY","2":"Paraguay","3":"Paraguai"},{"1":"PSE","2":"State of Palestine","3":"Estado da Palestina"},{"1":"PYF","2":"French Polynesia","3":"Polinésia Francesa"},{"1":"QAT","2":"Qatar","3":"Catar"},{"1":"REU","2":"Réunion","3":"Reunião"},{"1":"ROU","2":"Romania","3":"Roménia"},{"1":"RUS","2":"Russia","3":"Rússia"},{"1":"RWA","2":"Rwanda","3":"Ruanda"},{"1":"SAU","2":"Saudi Arabia","3":"Arábia Saudita"},{"1":"SDN","2":"Sudan","3":"Sudão"},{"1":"SEN","2":"Senegal","3":"Senegal"},{"1":"SGP","2":"Singapore","3":"Cingapura"},{"1":"SGS","2":"South Georgia and the South Sandwich Islands","3":"Geórgia do Sul e Ilhas Sandwich do Sul"},{"1":"SHN","2":"Saint Helena, Ascension and Tristan da Cunha","3":"Santa Helena, Ascensão e Tristão da Cunha"},{"1":"SJM","2":"Svalbard and Jan Mayen","3":"Svalbard e Jan Mayen"},{"1":"SLB","2":"Solomon Islands","3":"Ilhas Salomão"},{"1":"SLE","2":"Sierra Leone","3":"Serra Leoa"},{"1":"SLV","2":"El Salvador","3":"El Salvador"},{"1":"SMR","2":"San Marino","3":"San Marino"},{"1":"SOM","2":"Somalia","3":"Somália"},{"1":"SPM","2":"Saint Pierre and Miquelon","3":"São Pedro e Miquelon"},{"1":"SRB","2":"Serbia","3":"Sérvia"},{"1":"SSD","2":"South Sudan","3":"Sudão do Sul"},{"1":"STP","2":"São Tomé and Príncipe","3":"São Tomé e Príncipe"},{"1":"SUR","2":"Suriname","3":"Suriname"},{"1":"SVK","2":"Slovakia","3":"Eslováquia"},{"1":"SVN","2":"Slovenia","3":"Eslovênia"},{"1":"SWE","2":"Sweden","3":"Suécia"},{"1":"SWZ","2":"Eswatini","3":"Eswatini"},{"1":"SXM","2":"Sint Maarten","3":"São Martinho"},{"1":"SYC","2":"Seychelles","3":"Seychelles"},{"1":"SYR","2":"Syria","3":"Síria"},{"1":"TCA","2":"Turks and Caicos Islands","3":"Ilhas Turks e Caicos"},{"1":"TCD","2":"Chad","3":"Chade"},{"1":"TGO","2":"Togo","3":"Togo"},{"1":"THA","2":"Thailand","3":"Tailândia"},{"1":"TJK","2":"Tajikistan","3":"Tajiquistão"},{"1":"TKL","2":"Tokelau","3":"Tokelau"},{"1":"TKM","2":"Turkmenistan","3":"Turcomenistão"},{"1":"TLS","2":"East Timor","3":"Timor Leste"},{"1":"TON","2":"Tonga","3":"Tonga"},{"1":"TTO","2":"Trinidad and Tobago","3":"Trinidad e Tobago"},{"1":"TUN","2":"Tunisia","3":"Tunísia"},{"1":"TUR","2":"Turkey","3":"Turquia"},{"1":"TUV","2":"Tuvalu","3":"Tuvalu"},{"1":"TWN","2":"Taiwan","3":"Taiwan"},{"1":"TZA","2":"Tanzania","3":"Tanzânia"},{"1":"UGA","2":"Uganda","3":"Uganda"},{"1":"UKR","2":"Ukraine","3":"Ucrânia"},{"1":"UMI","2":"United States Minor Outlying Islands","3":"Ilhas Menores Distantes dos Estados Unidos"},{"1":"URY","2":"Uruguay","3":"Uruguai"},{"1":"USA","2":"United States","3":"Estados Unidos"},{"1":"UZB","2":"Uzbekistan","3":"Uzbequistão"},{"1":"VAT","2":"Vatican City","3":"Cidade do Vaticano"},{"1":"VCT","2":"Saint Vincent and the Grenadines","3":"São Vicente e Granadinas"},{"1":"VEN","2":"Venezuela","3":"Venezuela"},{"1":"VGB","2":"British Virgin Islands","3":"Ilhas Virgens Britânicas"},{"1":"VIR","2":"United States Virgin Islands","3":"Ilhas Virgens dos Estados Unidos"},{"1":"VNM","2":"Vietnam","3":"Vietnã"},{"1":"VUT","2":"Vanuatu","3":"Vanuatu"},{"1":"WLF","2":"Wallis and Futuna","3":"Wallis e Futuna"},{"1":"WSM","2":"Samoa","3":"Samoa"},{"1":"YEM","2":"Yemen","3":"Iémen"},{"1":"ZAF","2":"South Africa","3":"África do Sul"},{"1":"ZMB","2":"Zambia","3":"Zâmbia"},{"1":"ZWE","2":"Zimbabwe","3":"Zimbábue"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[15],"max":[15]},"pages":{}}}
+  </script>
+</div>
+</div>
+<section class="footnotes">
+<hr />
+<ol>
+<li id="fn1"><p>Cada país tem um código de três letras definido pelo padrão ISO 3166 da Organização Mundial para Padronização.<a href="#fnref1" class="footnote-back">↩</a></p></li>
+</ol>
+</section>
+<!--radix_placeholder_article_footer-->
+<!--/radix_placeholder_article_footer-->
+</div>
+
+<div class="d-appendix">
+</div>
+
+
+<!--radix_placeholder_site_after_body-->
+<!--/radix_placeholder_site_after_body-->
+<!--radix_placeholder_appendices-->
+<div class="appendix-bottom"></div>
+<!--/radix_placeholder_appendices-->
+<!--radix_placeholder_navigation_after_body-->
+<!--/radix_placeholder_navigation_after_body-->
+
+</body>
+
+</html>
