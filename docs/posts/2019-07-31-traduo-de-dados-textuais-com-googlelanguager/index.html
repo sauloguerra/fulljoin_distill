@@ -1476,6 +1476,13 @@ rmarkdown::paged_table(pais_isoa)</code></pre>
 </div>
 </div>
 <p>Embora o exemplo para utilização do pacote googleLanguageR tenha sido simples, fica clara a utilidade potencial do pacote para tradução de dados textuais.</p>
+<p>Se você quiser trazer a correlação aqui construída para o R, pode fazê-lo da seguinte forma:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+library(data.table)
+git &lt;- &quot;https://raw.githubusercontent.com/mgcleaver/correlacoes/master/paises_isoa.txt&quot;
+df &lt;- fread(git, encoding = &quot;UTF-8&quot;)</code></pre>
+</div>
 <section class="footnotes">
 <hr />
 <ol>
