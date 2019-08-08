@@ -1,0 +1,1537 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"/>
+  <meta name="generator" content="distill" />
+
+  <style type="text/css">
+  /* Hide doc at startup (prevent jankiness while JS renders/transforms) */
+  body {
+    visibility: hidden;
+  }
+  </style>
+
+ <!--radix_placeholder_import_source-->
+ <!--/radix_placeholder_import_source-->
+
+  <!--radix_placeholder_meta_tags-->
+  <title>Analisando dados da guerra comercial - Parte 2</title>
+  
+  <meta property="description" itemprop="description" content="Nesta segunda parte, vamos aprofundar um pouco a nossa análise inicial. Realmente as sobretaxas impostas pelos Estados Unidos a produtos chineses não tiverem efeitos prático? Utilizando dados mensais que compreendem o período até maio de 2019, encontramos evidências dos seus feitos. As estimativas indicam um nível de importação, em média, 20% menor para os produtos chineses sujeitos a sobretaxas."/>
+  
+  
+  <!--  https://schema.org/Article -->
+  <meta property="article:published" itemprop="datePublished" content="2019-07-30"/>
+  <meta property="article:created" itemprop="dateCreated" content="2019-07-30"/>
+  <meta name="article:author" content="Paulo Felipe Alencar"/>
+  
+  <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
+  <meta property="og:title" content="Analisando dados da guerra comercial - Parte 2"/>
+  <meta property="og:type" content="article"/>
+  <meta property="og:description" content="Nesta segunda parte, vamos aprofundar um pouco a nossa análise inicial. Realmente as sobretaxas impostas pelos Estados Unidos a produtos chineses não tiverem efeitos prático? Utilizando dados mensais que compreendem o período até maio de 2019, encontramos evidências dos seus feitos. As estimativas indicam um nível de importação, em média, 20% menor para os produtos chineses sujeitos a sobretaxas."/>
+  <meta property="og:locale" content="en_US"/>
+  
+  <!--  https://dev.twitter.com/cards/types/summary -->
+  <meta property="twitter:card" content="summary"/>
+  <meta property="twitter:title" content="Analisando dados da guerra comercial - Parte 2"/>
+  <meta property="twitter:description" content="Nesta segunda parte, vamos aprofundar um pouco a nossa análise inicial. Realmente as sobretaxas impostas pelos Estados Unidos a produtos chineses não tiverem efeitos prático? Utilizando dados mensais que compreendem o período até maio de 2019, encontramos evidências dos seus feitos. As estimativas indicam um nível de importação, em média, 20% menor para os produtos chineses sujeitos a sobretaxas."/>
+  
+  <!--/radix_placeholder_meta_tags-->
+  <!--radix_placeholder_rmarkdown_metadata-->
+  
+  <script type="text/json" id="radix-rmarkdown-metadata">
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","output","draft"]}},"value":[{"type":"character","attributes":{},"value":["Analisando dados da guerra comercial - Parte 2"]},{"type":"character","attributes":{},"value":["Nesta segunda parte, vamos aprofundar um pouco a nossa análise inicial. Realmente as sobretaxas impostas pelos Estados Unidos a produtos chineses não tiverem efeitos prático? Utilizando dados mensais que compreendem o período até maio de 2019, encontramos evidências dos seus feitos. As estimativas indicam um nível de importação, em média, 20% menor para os produtos chineses sujeitos a sobretaxas.\n"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name"]}},"value":[{"type":"character","attributes":{},"value":["Paulo Felipe Alencar"]}]}]},{"type":"character","attributes":{},"value":["07-30-2019"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]}]},{"type":"logical","attributes":{},"value":[true]}]}
+  </script>
+  <!--/radix_placeholder_rmarkdown_metadata-->
+  
+  <script type="text/json" id="radix-resource-manifest">
+  {"type":"character","attributes":{},"value":["analisando-dados-da-guerra-comercial-parte-2_files/bowser-1.9.3/bowser.min.js","analisando-dados-da-guerra-comercial-parte-2_files/distill-2.2.21/template.v2.js","analisando-dados-da-guerra-comercial-parte-2_files/figure-html5/unnamed-chunk-10-1.png","analisando-dados-da-guerra-comercial-parte-2_files/figure-html5/unnamed-chunk-11-1.png","analisando-dados-da-guerra-comercial-parte-2_files/figure-html5/unnamed-chunk-12-1.png","analisando-dados-da-guerra-comercial-parte-2_files/figure-html5/unnamed-chunk-4-1.png","analisando-dados-da-guerra-comercial-parte-2_files/figure-html5/unnamed-chunk-6-1.png","analisando-dados-da-guerra-comercial-parte-2_files/figure-html5/unnamed-chunk-7-1.png","analisando-dados-da-guerra-comercial-parte-2_files/figure-html5/unnamed-chunk-8-1.png","analisando-dados-da-guerra-comercial-parte-2_files/jquery-1.11.3/jquery.min.js","analisando-dados-da-guerra-comercial-parte-2_files/pagedtable-1.1/css/pagedtable.css","analisando-dados-da-guerra-comercial-parte-2_files/pagedtable-1.1/js/pagedtable.js","analisando-dados-da-guerra-comercial-parte-2_files/webcomponents-2.0.0/webcomponents.js","dataweb_us_imp_chn_.xlsx","Sec232-SteelAlum.xlsx","tariff_list.xlsx"]}
+  </script>
+  <!--radix_placeholder_navigation_in_header-->
+  <!--/radix_placeholder_navigation_in_header-->
+  <!--radix_placeholder_distill-->
+  
+  <style type="text/css">
+  
+  body {
+    background-color: white;
+  }
+  
+  .pandoc-table {
+    width: 100%;
+  }
+  
+  .pandoc-table>caption {
+    margin-bottom: 10px;
+  }
+  
+  .pandoc-table th:not([align]) {
+    text-align: left;
+  }
+  
+  .pagedtable-footer {
+    font-size: 15px;
+  }
+  
+  .html-widget {
+    margin-bottom: 2.0em;
+  }
+  
+  .l-screen-inset {
+    padding-right: 16px;
+  }
+  
+  .l-screen .caption {
+    margin-left: 10px;
+  }
+  
+  .shaded {
+    background: rgb(247, 247, 247);
+    padding-top: 20px;
+    padding-bottom: 20px;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  }
+  
+  .shaded .html-widget {
+    margin-bottom: 0;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+  }
+  
+  .shaded .shaded-content {
+    background: white;
+  }
+  
+  .text-output {
+    margin-top: 0;
+    line-height: 1.5em;
+  }
+  
+  .hidden {
+    display: none !important;
+  }
+  
+  d-article {
+    padding-bottom: 30px;
+  }
+  
+  d-appendix {
+    padding-top: 30px;
+  }
+  
+  d-article>p>img {
+    width: 100%;
+  }
+  
+  d-article iframe {
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    margin-bottom: 2.0em;
+    width: 100%;
+  }
+  
+  figure img.external {
+    background: white;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+    padding: 18px;
+    box-sizing: border-box;
+  }
+  
+  /* CSS for table of contents */
+  
+  .d-toc {
+    color: rgba(0,0,0,0.8);
+    font-size: 0.8em;
+    line-height: 1em;
+  }
+  
+  .d-toc-header {
+    font-size: 0.6rem;
+    font-weight: 400;
+    color: rgba(0, 0, 0, 0.5);
+    text-transform: uppercase;
+    margin-top: 0;
+    margin-bottom: 1.3em;
+  }
+  
+  .d-toc a {
+    border-bottom: none;
+  }
+  
+  .d-toc ul {
+    padding-left: 0;
+  }
+  
+  .d-toc li>ul {
+    padding-top: 0.8em;
+    padding-left: 16px;
+    margin-bottom: 0.6em;
+  }
+  
+  .d-toc ul,
+  .d-toc li {
+    list-style-type: none;
+  }
+  
+  .d-toc li {
+    margin-bottom: 0.9em;
+  }
+  
+  .d-toc-separator {
+    margin-top: 20px;
+    margin-bottom: 2em;
+  }
+  
+  .d-article-with-toc {
+    border-top: none;
+    padding-top: 0;
+  }
+  
+  
+  
+  /* Tweak code blocks (note that this CSS is repeated above in an injection
+     into the d-code shadow dom) */
+  
+  d-code {
+    overflow-x: auto !important;
+  }
+  
+  pre.d-code code.d-code {
+    padding-left: 10px;
+    font-size: 12px;
+    border-left: 2px solid rgba(0,0,0,0.1);
+  }
+  
+  pre.text-output {
+  
+    font-size: 12px;
+    color: black;
+    background: none;
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+    text-align: left;
+    white-space: pre;
+    word-spacing: normal;
+    word-break: normal;
+    word-wrap: normal;
+    line-height: 1.5;
+  
+    -moz-tab-size: 4;
+    -o-tab-size: 4;
+    tab-size: 4;
+  
+    -webkit-hyphens: none;
+    -moz-hyphens: none;
+    -ms-hyphens: none;
+    hyphens: none;
+  }
+  
+  @media(min-width: 768px) {
+  
+  d-code {
+    overflow-x: visible !important;
+  }
+  
+  pre.d-code code.d-code  {
+      padding-left: 18px;
+      font-size: 14px;
+  }
+  pre.text-output {
+    font-size: 14px;
+  }
+  }
+  
+  /* Figure */
+  
+  .figure {
+    position: relative;
+    margin-bottom: 2.5em;
+    margin-top: 1.5em;
+  }
+  
+  .figure img {
+    width: 100%;
+  }
+  
+  .figure .caption {
+    color: rgba(0, 0, 0, 0.6);
+    font-size: 12px;
+    line-height: 1.5em;
+  }
+  
+  .figure img.external {
+    background: white;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+    padding: 18px;
+    box-sizing: border-box;
+  }
+  
+  .figure .caption a {
+    color: rgba(0, 0, 0, 0.6);
+  }
+  
+  .figure .caption b,
+  .figure .caption strong, {
+    font-weight: 600;
+    color: rgba(0, 0, 0, 1.0);
+  }
+  
+  
+  
+  /* Tweak 1000px media break to show more text */
+  
+  @media(min-width: 1000px) {
+    .base-grid,
+    distill-header,
+    d-title,
+    d-abstract,
+    d-article,
+    d-appendix,
+    distill-appendix,
+    d-byline,
+    d-footnote-list,
+    d-citation-list,
+    distill-footer {
+      grid-template-columns: [screen-start] 1fr [page-start kicker-start] 80px [middle-start] 50px [text-start kicker-end] 65px 65px 65px 65px 65px 65px 65px 65px [text-end gutter-start] 65px [middle-end] 65px [page-end gutter-end] 1fr [screen-end];
+      grid-column-gap: 16px;
+    }
+  
+    .grid {
+      grid-column-gap: 16px;
+    }
+  
+    d-article {
+      font-size: 1.06rem;
+      line-height: 1.7em;
+    }
+    figure .caption, .figure .caption, figure figcaption {
+      font-size: 13px;
+    }
+  }
+  
+  @media(min-width: 1180px) {
+    .base-grid,
+    distill-header,
+    d-title,
+    d-abstract,
+    d-article,
+    d-appendix,
+    distill-appendix,
+    d-byline,
+    d-footnote-list,
+    d-citation-list,
+    distill-footer {
+      grid-template-columns: [screen-start] 1fr [page-start kicker-start] 60px [middle-start] 60px [text-start kicker-end] 60px 60px 60px 60px 60px 60px 60px 60px [text-end gutter-start] 60px [middle-end] 60px [page-end gutter-end] 1fr [screen-end];
+      grid-column-gap: 32px;
+    }
+  
+    .grid {
+      grid-column-gap: 32px;
+    }
+  }
+  
+  
+  /* Get the citation styles for the appendix (not auto-injected on render since
+     we do our own rendering of the citation appendix) */
+  
+  d-appendix .citation-appendix,
+  .d-appendix .citation-appendix {
+    font-size: 11px;
+    line-height: 15px;
+    border-left: 1px solid rgba(0, 0, 0, 0.1);
+    padding-left: 18px;
+    border: 1px solid rgba(0,0,0,0.1);
+    background: rgba(0, 0, 0, 0.02);
+    padding: 10px 18px;
+    border-radius: 3px;
+    color: rgba(150, 150, 150, 1);
+    overflow: hidden;
+    margin-top: -12px;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+  }
+  
+  
+  /* Social footer */
+  
+  .social_footer {
+    margin-top: 30px;
+    margin-bottom: 0;
+    color: rgba(0,0,0,0.67);
+  }
+  
+  .disqus-comments {
+    margin-right: 30px;
+  }
+  
+  .disqus-comment-count {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+    cursor: pointer;
+  }
+  
+  #disqus_thread {
+    margin-top: 30px;
+  }
+  
+  .article-sharing a {
+    border-bottom: none;
+    margin-right: 8px;
+  }
+  
+  .article-sharing a:hover {
+    border-bottom: none;
+  }
+  
+  .sidebar-section.subscribe {
+    font-size: 12px;
+    line-height: 1.6em;
+  }
+  
+  .subscribe p {
+    margin-bottom: 0.5em;
+  }
+  
+  
+  .article-footer .subscribe {
+    font-size: 15px;
+    margin-top: 45px;
+  }
+  
+  
+  /* Improve display for browsers without grid (IE/Edge <= 15) */
+  
+  .downlevel {
+    line-height: 1.6em;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
+    margin: 0;
+  }
+  
+  .downlevel .d-title {
+    padding-top: 6rem;
+    padding-bottom: 1.5rem;
+  }
+  
+  .downlevel .d-title h1 {
+    font-size: 50px;
+    font-weight: 700;
+    line-height: 1.1em;
+    margin: 0 0 0.5rem;
+  }
+  
+  .downlevel .d-title p {
+    font-weight: 300;
+    font-size: 1.2rem;
+    line-height: 1.55em;
+    margin-top: 0;
+  }
+  
+  .downlevel .d-byline {
+    padding-top: 0.8em;
+    padding-bottom: 0.8em;
+    font-size: 0.8rem;
+    line-height: 1.8em;
+  }
+  
+  .downlevel .section-separator {
+    border: none;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+  }
+  
+  .downlevel .d-article {
+    font-size: 1.06rem;
+    line-height: 1.7em;
+    padding-top: 1rem;
+    padding-bottom: 2rem;
+  }
+  
+  
+  .downlevel .d-appendix {
+    padding-left: 0;
+    padding-right: 0;
+    max-width: none;
+    font-size: 0.8em;
+    line-height: 1.7em;
+    margin-bottom: 0;
+    color: rgba(0,0,0,0.5);
+    padding-top: 40px;
+    padding-bottom: 48px;
+  }
+  
+  .downlevel .footnotes ol {
+    padding-left: 13px;
+  }
+  
+  .downlevel .base-grid,
+  .downlevel .distill-header,
+  .downlevel .d-title,
+  .downlevel .d-abstract,
+  .downlevel .d-article,
+  .downlevel .d-appendix,
+  .downlevel .distill-appendix,
+  .downlevel .d-byline,
+  .downlevel .d-footnote-list,
+  .downlevel .d-citation-list,
+  .downlevel .distill-footer,
+  .downlevel .appendix-bottom,
+  .downlevel .posts-container {
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+  
+  @media(min-width: 768px) {
+    .downlevel .base-grid,
+    .downlevel .distill-header,
+    .downlevel .d-title,
+    .downlevel .d-abstract,
+    .downlevel .d-article,
+    .downlevel .d-appendix,
+    .downlevel .distill-appendix,
+    .downlevel .d-byline,
+    .downlevel .d-footnote-list,
+    .downlevel .d-citation-list,
+    .downlevel .distill-footer,
+    .downlevel .appendix-bottom,
+    .downlevel .posts-container {
+    padding-left: 150px;
+    padding-right: 150px;
+    max-width: 900px;
+  }
+  }
+  
+  .downlevel pre code {
+    display: block;
+    border-left: 2px solid rgba(0, 0, 0, .1);
+    padding: 0 0 0 20px;
+    font-size: 14px;
+  }
+  
+  .downlevel code, .downlevel pre {
+    color: black;
+    background: none;
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+    text-align: left;
+    white-space: pre;
+    word-spacing: normal;
+    word-break: normal;
+    word-wrap: normal;
+    line-height: 1.5;
+  
+    -moz-tab-size: 4;
+    -o-tab-size: 4;
+    tab-size: 4;
+  
+    -webkit-hyphens: none;
+    -moz-hyphens: none;
+    -ms-hyphens: none;
+    hyphens: none;
+  }
+  
+  </style>
+  
+  <script type="application/javascript">
+  
+  function is_downlevel_browser() {
+    if (bowser.isUnsupportedBrowser({ msie: "12", msedge: "16"},
+                                   window.navigator.userAgent)) {
+      return true;
+    } else {
+      return window.load_distill_framework === undefined;
+    }
+  }
+  
+  // show body when load is complete
+  function on_load_complete() {
+  
+    // set body to visible
+    document.body.style.visibility = 'visible';
+  
+    // force redraw for leaflet widgets
+    if (window.HTMLWidgets) {
+      var maps = window.HTMLWidgets.findAll(".leaflet");
+      $.each(maps, function(i, el) {
+        var map = this.getMap();
+        map.invalidateSize();
+        map.eachLayer(function(layer) {
+          if (layer instanceof L.TileLayer)
+            layer.redraw();
+        });
+      });
+    }
+  
+    // trigger 'shown' so htmlwidgets resize
+    $('d-article').trigger('shown');
+  }
+  
+  function init_distill() {
+  
+    init_common();
+  
+    // create front matter
+    var front_matter = $('<d-front-matter></d-front-matter>');
+    $('#distill-front-matter').wrap(front_matter);
+  
+    // create d-title
+    $('.d-title').changeElementType('d-title');
+  
+    // create d-byline
+    var byline = $('<d-byline></d-byline>');
+    $('.d-byline').replaceWith(byline);
+  
+    // create d-article
+    var article = $('<d-article></d-article>');
+    $('.d-article').wrap(article).children().unwrap();
+  
+    // move posts container into article
+    $('.posts-container').appendTo($('d-article'));
+  
+    // create d-appendix
+    $('.d-appendix').changeElementType('d-appendix');
+  
+    // create d-bibliography
+    var bibliography = $('<d-bibliography></d-bibliography>');
+    $('#distill-bibliography').wrap(bibliography);
+  
+    // flag indicating that we have appendix items
+    var appendix = $('.appendix-bottom').children('h3').length > 0;
+  
+    // replace citations with <d-cite>
+    $('.citation').each(function(i, val) {
+      appendix = true;
+      var cites = $(this).attr('data-cites').split(" ");
+      var dt_cite = $('<d-cite></d-cite>');
+      dt_cite.attr('key', cites.join());
+      $(this).replaceWith(dt_cite);
+    });
+    // remove refs
+    $('#refs').remove();
+  
+    // replace footnotes with <d-footnote>
+    $('.footnote-ref').each(function(i, val) {
+      appendix = true;
+      var href = $(this).attr('href');
+      var id = href.replace('#', '');
+      var fn = $('#' + id);
+      var fn_p = $('#' + id + '>p');
+      fn_p.find('.footnote-back').remove();
+      var text = fn_p.html();
+      var dtfn = $('<d-footnote></d-footnote>');
+      dtfn.html(text);
+      $(this).replaceWith(dtfn);
+    });
+    // remove footnotes
+    $('.footnotes').remove();
+  
+    $('h1.appendix, h2.appendix').each(function(i, val) {
+      $(this).changeElementType('h3');
+    });
+    $('h3.appendix').each(function(i, val) {
+      var id = $(this).attr('id');
+      $('.d-toc a[href="#' + id + '"]').parent().remove();
+      appendix = true;
+      $(this).nextUntil($('h1, h2, h3')).addBack().appendTo($('d-appendix'));
+    });
+  
+    // show d-appendix if we have appendix content
+    $("d-appendix").css('display', appendix ? 'grid' : 'none');
+  
+    // replace code blocks with d-code
+    $('pre>code').each(function(i, val) {
+      var code = $(this);
+      var pre = code.parent();
+      var clz = "";
+      var language = pre.attr('class');
+      if (language) {
+        // map unknown languages to "clike" (without this they just dissapear)
+        if ($.inArray(language, ["bash", "clike", "css", "go", "html",
+                                 "javascript", "js", "julia", "lua", "markdown",
+                                 "markup", "mathml", "python", "svg", "xml"]) == -1)
+          language = "clike";
+        language = ' language="' + language + '"';
+        var dt_code = $('<d-code block' + language + clz + '></d-code>');
+        dt_code.text(code.text());
+        pre.replaceWith(dt_code);
+      } else {
+        code.addClass('text-output').unwrap().changeElementType('pre');
+      }
+    });
+  
+    // localize layout chunks to just output
+    $('.layout-chunk').each(function(i, val) {
+  
+      // capture layout
+      var layout = $(this).attr('data-layout');
+  
+      // apply layout to markdown level block elements
+      var elements = $(this).children().not('d-code, pre.text-output, script');
+      elements.each(function(i, el) {
+        var layout_div = $('<div class="' + layout + '"></div>');
+        if (layout_div.hasClass('shaded')) {
+          var shaded_content = $('<div class="shaded-content"></div>');
+          $(this).wrap(shaded_content);
+          $(this).parent().wrap(layout_div);
+        } else {
+          $(this).wrap(layout_div);
+        }
+      });
+  
+  
+      // unwrap the layout-chunk div
+      $(this).children().unwrap();
+    });
+  
+    // load distill framework
+    load_distill_framework();
+  
+    // wait for window.distillRunlevel == 4 to do post processing
+    function distill_post_process() {
+  
+      if (!window.distillRunlevel || window.distillRunlevel < 4)
+        return;
+  
+      // hide author/affiliations entirely if we have no authors
+      var front_matter = JSON.parse($("#distill-front-matter").html());
+      var have_authors = front_matter.authors && front_matter.authors.length > 0;
+      if (!have_authors)
+        $('d-byline').addClass('hidden');
+  
+      // table of contents
+      if (have_authors) // adjust border if we are in authors
+        $('.d-toc').parent().addClass('d-article-with-toc');
+  
+      // strip links that point to #
+      $('.authors-affiliations').find('a[href="#"]').removeAttr('href');
+  
+      // hide elements of author/affiliations grid that have no value
+      function hide_byline_column(caption) {
+        $('d-byline').find('h3:contains("' + caption + '")').parent().css('visibility', 'hidden');
+      }
+  
+      // affiliations
+      var have_affiliations = false;
+      for (var i = 0; i<front_matter.authors.length; ++i) {
+        var author = front_matter.authors[i];
+        if (author.affiliation !== "&nbsp;") {
+          have_affiliations = true;
+          break;
+        }
+      }
+      if (!have_affiliations)
+        $('d-byline').find('h3:contains("Affiliations")').css('visibility', 'hidden');
+  
+      // published date
+      if (!front_matter.publishedDate)
+        hide_byline_column("Published");
+  
+      // document object identifier
+      var doi = $('d-byline').find('h3:contains("DOI")');
+      var doi_p = doi.next().empty();
+      if (!front_matter.doi) {
+        // if we have a citation and valid citationText then link to that
+        if ($('#citation').length > 0 && front_matter.citationText) {
+          doi.html('Citation');
+          $('<a href="#citation"></a>')
+            .text(front_matter.citationText)
+            .appendTo(doi_p);
+        } else {
+          hide_byline_column("DOI");
+        }
+      } else {
+        $('<a></a>')
+           .attr('href', "https://doi.org/" + front_matter.doi)
+           .html(front_matter.doi)
+           .appendTo(doi_p);
+      }
+  
+       // change plural form of authors/affiliations
+      if (front_matter.authors.length === 1) {
+        var grid = $('.authors-affiliations');
+        grid.children('h3:contains("Authors")').text('Author');
+        grid.children('h3:contains("Affiliations")').text('Affiliation');
+      }
+  
+      // inject pre code styles (can't do this with a global stylesheet b/c a shadow root is used)
+      $('d-code').each(function(i, val) {
+        var style = document.createElement('style');
+        style.innerHTML = 'pre code { padding-left: 10px; font-size: 12px; border-left: 2px solid rgba(0,0,0,0.1); } ' +
+                          '@media(min-width: 768px) { pre code { padding-left: 18px; font-size: 14px; } }';
+        if (this.shadowRoot)
+          this.shadowRoot.appendChild(style);
+      });
+  
+      // move appendix-bottom entries to the bottom
+      $('.appendix-bottom').appendTo('d-appendix').children().unwrap();
+      $('.appendix-bottom').remove();
+  
+      // clear polling timer
+      clearInterval(tid);
+  
+      // show body now that everything is ready
+      on_load_complete();
+    }
+  
+    var tid = setInterval(distill_post_process, 50);
+    distill_post_process();
+  
+  }
+  
+  function init_downlevel() {
+  
+    init_common();
+  
+     // insert hr after d-title
+    $('.d-title').after($('<hr class="section-separator"/>'));
+  
+    // check if we have authors
+    var front_matter = JSON.parse($("#distill-front-matter").html());
+    var have_authors = front_matter.authors && front_matter.authors.length > 0;
+  
+    // manage byline/border
+    if (!have_authors)
+      $('.d-byline').remove();
+    $('.d-byline').after($('<hr class="section-separator"/>'));
+    $('.d-byline a').remove();
+  
+    // remove toc
+    $('.d-toc-header').remove();
+    $('.d-toc').remove();
+    $('.d-toc-separator').remove();
+  
+    // move appendix elements
+    $('h1.appendix, h2.appendix').each(function(i, val) {
+      $(this).changeElementType('h3');
+    });
+    $('h3.appendix').each(function(i, val) {
+      $(this).nextUntil($('h1, h2, h3')).addBack().appendTo($('.d-appendix'));
+    });
+  
+  
+    // inject headers into references and footnotes
+    var refs_header = $('<h3></h3>');
+    refs_header.text('References');
+    $('#refs').prepend(refs_header);
+  
+    var footnotes_header = $('<h3></h3');
+    footnotes_header.text('Footnotes');
+    $('.footnotes').children('hr').first().replaceWith(footnotes_header);
+  
+    // move appendix-bottom entries to the bottom
+    $('.appendix-bottom').appendTo('.d-appendix').children().unwrap();
+    $('.appendix-bottom').remove();
+  
+    // remove appendix if it's empty
+    if ($('.d-appendix').children().length === 0)
+      $('.d-appendix').remove();
+  
+    // prepend separator above appendix
+    $('.d-appendix').before($('<hr class="section-separator" style="clear: both"/>'));
+  
+    // trim code
+    $('pre>code').each(function(i, val) {
+      $(this).html($.trim($(this).html()));
+    });
+  
+    // move posts-container right before article
+    $('.posts-container').insertBefore($('.d-article'));
+  
+    $('body').addClass('downlevel');
+  
+    on_load_complete();
+  }
+  
+  
+  function init_common() {
+  
+    // jquery plugin to change element types
+    (function($) {
+      $.fn.changeElementType = function(newType) {
+        var attrs = {};
+  
+        $.each(this[0].attributes, function(idx, attr) {
+          attrs[attr.nodeName] = attr.nodeValue;
+        });
+  
+        this.replaceWith(function() {
+          return $("<" + newType + "/>", attrs).append($(this).contents());
+        });
+      };
+    })(jQuery);
+  
+    // prevent underline for linked images
+    $('a > img').parent().css({'border-bottom' : 'none'});
+  
+    // mark non-body figures created by knitr chunks as 100% width
+    $('.layout-chunk').each(function(i, val) {
+      var figures = $(this).find('img, .html-widget');
+      if ($(this).attr('data-layout') !== "l-body") {
+        figures.css('width', '100%');
+      } else {
+        figures.css('max-width', '100%');
+        figures.filter("[width]").each(function(i, val) {
+          var fig = $(this);
+          fig.css('width', fig.attr('width') + 'px');
+        });
+  
+      }
+    });
+  
+    // auto-append index.html to post-preview links in file: protocol
+    // and in rstudio ide preview
+    $('.post-preview').each(function(i, val) {
+      if (window.location.protocol === "file:")
+        $(this).attr('href', $(this).attr('href') + "index.html");
+    });
+  
+    // get rid of index.html references in header
+    if (window.location.protocol !== "file:") {
+      $('.distill-site-header a[href]').each(function(i,val) {
+        $(this).attr('href', $(this).attr('href').replace("index.html", "./"));
+      });
+    }
+  
+    // add class to pandoc style tables
+    $('tr.header').parent('thead').parent('table').addClass('pandoc-table');
+    $('.kable-table').children('table').addClass('pandoc-table');
+  
+    // add figcaption style to table captions
+    $('caption').parent('table').addClass("figcaption");
+  
+    // initialize posts list
+    if (window.init_posts_list)
+      window.init_posts_list();
+  
+    // implmement disqus comment link
+    $('.disqus-comment-count').click(function() {
+      window.headroom_prevent_pin = true;
+      $('#disqus_thread').toggleClass('hidden');
+      if (!$('#disqus_thread').hasClass('hidden')) {
+        var offset = $(this).offset();
+        $(window).resize();
+        $('html, body').animate({
+          scrollTop: offset.top - 35
+        });
+      }
+    });
+  }
+  
+  document.addEventListener('DOMContentLoaded', function() {
+    if (is_downlevel_browser())
+      init_downlevel();
+    else
+      window.addEventListener('WebComponentsReady', init_distill);
+  });
+  
+  </script>
+  
+  <!--/radix_placeholder_distill-->
+  <script src="analisando-dados-da-guerra-comercial-parte-2_files/jquery-1.11.3/jquery.min.js"></script>
+  <script src="analisando-dados-da-guerra-comercial-parte-2_files/bowser-1.9.3/bowser.min.js"></script>
+  <script src="analisando-dados-da-guerra-comercial-parte-2_files/webcomponents-2.0.0/webcomponents.js"></script>
+  <script src="analisando-dados-da-guerra-comercial-parte-2_files/distill-2.2.21/template.v2.js"></script>
+  <!--radix_placeholder_site_in_header-->
+  <!--/radix_placeholder_site_in_header-->
+
+
+</head>
+
+<body>
+
+<!--radix_placeholder_front_matter-->
+
+<script id="distill-front-matter" type="text/json">
+{"title":"Analisando dados da guerra comercial - Parte 2","description":"Nesta segunda parte, vamos aprofundar um pouco a nossa análise inicial. Realmente as sobretaxas impostas pelos Estados Unidos a produtos chineses não tiverem efeitos prático? Utilizando dados mensais que compreendem o período até maio de 2019, encontramos evidências dos seus feitos. As estimativas indicam um nível de importação, em média, 20% menor para os produtos chineses sujeitos a sobretaxas.","authors":[{"author":"Paulo Felipe Alencar","authorURL":"#","affiliation":"&nbsp;","affiliationURL":"#"}],"publishedDate":"2019-07-30T00:00:00.000-03:00","citationText":"Alencar, 2019"}
+</script>
+
+<!--/radix_placeholder_front_matter-->
+<!--radix_placeholder_navigation_before_body-->
+<!--/radix_placeholder_navigation_before_body-->
+<!--radix_placeholder_site_before_body-->
+<!--/radix_placeholder_site_before_body-->
+
+<div class="d-title">
+<h1>Analisando dados da guerra comercial - Parte 2</h1>
+<p>Nesta segunda parte, vamos aprofundar um pouco a nossa análise inicial. Realmente as sobretaxas impostas pelos Estados Unidos a produtos chineses não tiverem efeitos prático? Utilizando dados mensais que compreendem o período até maio de 2019, encontramos evidências dos seus feitos. As estimativas indicam um nível de importação, em média, 20% menor para os produtos chineses sujeitos a sobretaxas.</p>
+</div>
+
+<div class="d-byline">
+  
+  Paulo Felipe Alencar
+  
+<br/>07-30-2019
+</div>
+
+<div class="d-article">
+<h2 id="introducao">Introdução</h2>
+<p><a href="https://www.fulljoin.com.br/posts/2019-07-24-analisando-dados-da-guerra-comercial-com-o-comtradr/">Na apresentação do pacote <code>comtradr</code></a>, fizemos uma breve análise sobre o comércio entre os Estados Unidos e China, separando os produtos que estavam sobretaxados daqueles que ainda não haviam sido afetados pela guerra.</p>
+<p>Um resultado que chamou a atenção foi que as importações dos Estados Unidos de produtos chineses que estavam sujeitos a elevações tarifárias continuaram crescendo em 2018. Na prática, não significa dizer que as tarifas adicionais não tiveram efeitos, pois poderia ter sido observado um crescimento ainda maior na ausência dessas elevações. Outra possibilidade é que, considerando a dinâmica do comércio internacional e o fato das elevações relevantes terem acontecido mais perto do final do ano, os efeitos não apareceriam imediatamente.</p>
+<p>Infelizmente, os dados mensais do comtrade não são atualizados numa frequência razoável. Assim, baixei os dados de importações dos Estados Unidos no sistema <a href="https://dataweb.usitc.gov/">USITC Dataweb</a>. Os dados baixados trazem as informações mensais das importações dos Estados Unidos originárias da China entre janeiro de 2012 e maio de 2019.</p>
+<p>Feita essa introdução, vamos ao código da análise.</p>
+<h2 id="pacotes">Pacotes</h2>
+<p>O trecho abaixo lista os códigos que são utilizados neste post.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+library(tidyverse)
+library(readxl)
+library(janitor)
+library(lubridate)
+library(glue)
+library(hrbrthemes)
+library(alpaca)</code></pre>
+</div>
+<h2 id="tema-para-os-graficos">Tema para os gráficos</h2>
+<p>Para os gráficos, utilizei a função <code>theme_set()</code> para definir um tema que será aplicado a todos os gráficos.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+theme_set(
+  theme_minimal() +
+    theme(
+      axis.title = element_text(
+        hjust = 1,
+        colour = &quot;grey10&quot;
+      ),
+      plot.title = element_text(
+        face = &quot;bold&quot;,
+        family = &quot;Arial Narrow&quot;,
+        size = 16,
+        colour = &quot;grey10&quot;
+      ),
+      plot.subtitle = element_text(
+        family = &quot;Arial Narrow&quot;,
+        color = &quot;grey40&quot;
+      ),
+      axis.text = element_text(
+        colour = &quot;grey10&quot;
+      ),
+      strip.text = element_text(
+        face = &quot;bold&quot;,
+        family = &quot;Arial Narrow&quot;,
+        hjust = 0,
+        colour = &quot;black&quot;
+      ),
+      panel.grid.minor = element_blank(),
+      panel.grid.major = element_line(
+        color = &quot;grey90&quot;
+      ),
+      legend.position = &quot;bottom&quot;
+    )
+)</code></pre>
+</div>
+<h2 id="dados">Dados</h2>
+<p>Como já foi mencionado, os dados de comércio são do sistema USITC Dataweb. Após realizar a consulta nesse sistema, foi gerado um excel com os dados. Por definição da ferramenta, os dados de cada ano ficam armazenados em diferentes abas. Para sabermos quantas e quais abas estão presentes neste arquivo, utilizamos a função <code>excel_sheets()</code>:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+sheets_us &lt;- excel_sheets(&#39;dataweb_us_imp_chn_.xlsx&#39;)
+sheets_us</code></pre>
+<pre><code>
+[1] &quot;Query Parameters&quot;              &quot;2012, General CIF Imports Val&quot;
+[3] &quot;2013, General CIF Imports Val&quot; &quot;2014, General CIF Imports Val&quot;
+[5] &quot;2015, General CIF Imports Val&quot; &quot;2016, General CIF Imports Val&quot;
+[7] &quot;2017, General CIF Imports Val&quot; &quot;2018, General CIF Imports Val&quot;
+[9] &quot;2019, General CIF Imports Val&quot;</code></pre>
+</div>
+<p>Note que a primeira aba contém as informações referentes aos parâmetros da consulta realizada. As abas que estamos interessados são todas menos a primeira:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+sheets_us &lt;- sheets_us[-1]</code></pre>
+</div>
+<p>Vamos ver como estão armazenados os dados. Para isso, vamor ler a primeira aba:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+read_excel(&#39;dataweb_us_imp_chn_.xlsx&#39;, sheet = sheets_us[2], skip = 2) %&gt;% 
+  head()</code></pre>
+<pre><code>
+# A tibble: 6 x 14
+  `Data Type` `Hts Num`    Jan    Feb    Mar    Apr    May    Jun
+  &lt;chr&gt;       &lt;chr&gt;      &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;
+1 General CI~ 5407.20.~ 2.45e6 2.37e6 1.76e6 1.31e6 2.80e6 2.54e6
+2 General CI~ 6404.19.~ 4.36e6 4.42e6 1.43e6 3.38e6 4.31e6 5.51e6
+3 General CI~ 6401.92.~ 5.75e6 5.53e6 2.59e6 2.45e6 3.83e6 6.18e6
+4 General CI~ 8480.30.~ 6.10e4 4.94e4 6.77e4 2.28e4 4.62e4 8.32e4
+5 General CI~ 9405.20.~ 2.77e7 2.97e7 1.21e7 2.00e7 2.73e7 3.16e7
+6 General CI~ 6104.39.~ 7.07e5 6.59e5 1.28e5 4.47e5 5.60e5 8.78e5
+# ... with 6 more variables: Jul &lt;dbl&gt;, Aug &lt;dbl&gt;, Sep &lt;dbl&gt;,
+#   Oct &lt;dbl&gt;, Nov &lt;dbl&gt;, Dec &lt;dbl&gt;</code></pre>
+</div>
+<p>Os dados estão no formato <em>wide</em>, no qual cada mês está informado em uma coluna diferente. O ideal é trazer o dado para o formato <em>long</em>. Para fazer essa transformação, utilizamos a função <code>gather()</code>. O segundo detalhe é que temos várias abas. Não precisamos repetir o código para ler e manipular os dados de cada aba. Vamos utilizar o <code>purrr</code> com a função <code>map_df()</code> para aplicar o mesmo conjunto de código, mas variando o valor para o argumento <code>sheet</code> da função <code>read_excel()</code>. Vamos passar o vetor com os nomes das abas (<code>sheets_us</code>) e a função utilizará cada valor desse vetor, representado por <code>.x</code> e executurá um conjunto de código que está dentro do bloco <code>~{}</code>. O “df” da função <code>map_df()</code> indica que os resultados serão combinados em único data.frame. Veja abaixo o resultado:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+dados_imp_us_chn &lt;- map_df(sheets_us, ~{
+  read_excel(&#39;dataweb_us_imp_chn_.xlsx&#39;, sheet = .x, skip = 2) %&gt;% 
+  clean_names() %&gt;% 
+  select(-data_type) %&gt;% 
+  gather(key = month, value = value, -hts_num) %&gt;% 
+  mutate(year = str_sub(.x, 1, 4),
+         data = glue(&quot;{year}-{month}-01&quot;),
+         data = ymd(data)) %&gt;% 
+  select(data, hts_num, value)
+})
+
+head(dados_imp_us_chn)</code></pre>
+<pre><code>
+# A tibble: 6 x 3
+  data       hts_num       value
+  &lt;date&gt;     &lt;chr&gt;         &lt;dbl&gt;
+1 2012-01-01 5407.20.00  2729800
+2 2012-01-01 6404.19.77  1639215
+3 2012-01-01 6401.92.90 11954021
+4 2012-01-01 8480.30.00   190447
+5 2012-01-01 9405.20.80 26072328
+6 2012-01-01 6104.39.10   400629</code></pre>
+</div>
+<p>O nosso data.frame tem três colunas:</p>
+<ul>
+<li><code>data</code>: data da importação (apenas os anos e os meses são relevantes);</li>
+<li><code>hts_num</code>: código de 8 dígitos que indica o produto que está sendo importado;</li>
+<li><code>value</code>: valor importado (CIF) em US$.</li>
+</ul>
+<p>Com os dados preparados, vamos plotar a evolução das importações totais dos Estados Unidos de produtos chines:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+dados_imp_us_chn %&gt;% 
+  group_by(data) %&gt;% 
+  summarise(value = sum(value/1e9)) %&gt;% 
+  ggplot(aes(x = data, y = value)) +
+  geom_line(size = 1.05, color = &#39;#268bd2&#39;) +
+  geom_point(size = 2, color = &#39;#268bd2&#39;) +
+  scale_x_date(date_breaks = &quot;1 year&quot;, date_labels = &quot;%Y&quot;) +
+  labs(
+    title = &quot;Evolução das importações dos Estados Unidos\nOriginárias da China&quot;,
+    y = &quot;US$ bilhões&quot;,
+    x = &quot;&quot;
+  )</code></pre>
+<p><img src="analisando-dados-da-guerra-comercial-parte-2_files/figure-html5/unnamed-chunk-7-1.png" width="576" /></p>
+</div>
+<p>Aqui já temos algum indicativo que há “algo de estranho” na série. A série apresenta um valor relativamente baixo para março de 2019. No entanto, esse pode ser resultado de fatores que também afetaram a totalidade das importações, e não somente aquelas que foram alvo de elevações de tarifas.</p>
+<p>Com os dados de comércio preparados, vamos trazer também os dados que listam os conjuntos de códigos foram considerados em cada rodada de elevação tarifária. Da mesma forma do <a href="https://www.fulljoin.com.br/posts/2019-07-24-analisando-dados-da-guerra-comercial-com-o-comtradr/">post anterior</a>, as listas de produtos afetados serão aquelas disponibilizadas na <a href="https://www.card.iastate.edu/china/trade-war-data/">base de daddos da Guerra Comercial</a> disponilizada pela Universidade de Iowa. Baixamos o arquivo <code>tariff_list.xlsx</code>. Este arquivo tem várias abas e cada aba representa uma rodada da guerra comercial.</p>
+<p>O código abaixo apresenta as listas disponíveis.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+read_excel(&#39;tariff_list.xlsx&#39;,
+           n_max = 21) %&gt;% 
+  clean_names() %&gt;% 
+  # tariff está escrito errado na planilha original
+  select(sheet_number, tarriff_and_quota_measures, date_started_yyyymmdd) %&gt;% 
+  knitr::kable()</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: right;">sheet_number</th>
+<th style="text-align: left;">tarriff_and_quota_measures</th>
+<th style="text-align: left;">date_started_yyyymmdd</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">China 3b</td>
+<td style="text-align: left;">20180402</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2</td>
+<td style="text-align: left;">China 50b wave 1</td>
+<td style="text-align: left;">20180706</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">3</td>
+<td style="text-align: left;">China 50b wave 2</td>
+<td style="text-align: left;">20180808</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">4</td>
+<td style="text-align: left;">EU tariff 1</td>
+<td style="text-align: left;">20180622</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">5</td>
+<td style="text-align: left;">EU tariff 2</td>
+<td style="text-align: left;">20180622</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">6</td>
+<td style="text-align: left;">Mexico tariff</td>
+<td style="text-align: left;">20180705</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">7</td>
+<td style="text-align: left;">US_CN 50b wave 1</td>
+<td style="text-align: left;">20180706</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">8</td>
+<td style="text-align: left;">US_CN 50b wave 2</td>
+<td style="text-align: left;">20180808</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">9</td>
+<td style="text-align: left;">Canada tariff</td>
+<td style="text-align: left;">20180701</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">10</td>
+<td style="text-align: left;">chn60b_tariff_increase1</td>
+<td style="text-align: left;">20180918</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">10</td>
+<td style="text-align: left;">chn60b_tariff_increase2</td>
+<td style="text-align: left;">20190513</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">11</td>
+<td style="text-align: left;">US200b_tariff_increase1</td>
+<td style="text-align: left;">20180918</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">11</td>
+<td style="text-align: left;">US200b_tariff_increase2</td>
+<td style="text-align: left;">20190509</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">12</td>
+<td style="text-align: left;">US steel aluminum</td>
+<td style="text-align: left;">20180323 (non_exempted countries), 20180601 (EU, Mexico, Canada)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">13</td>
+<td style="text-align: left;">US300b</td>
+<td style="text-align: left;">pending</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">14</td>
+<td style="text-align: left;">India tariff</td>
+<td style="text-align: left;">20180621</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">15</td>
+<td style="text-align: left;">Turkey tariff</td>
+<td style="text-align: left;">20180621</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">16</td>
+<td style="text-align: left;">US_argentina_quota</td>
+<td style="text-align: left;">20180701</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">17</td>
+<td style="text-align: left;">US_brazil_quota</td>
+<td style="text-align: left;">20180701</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">18</td>
+<td style="text-align: left;">US_korea_quota</td>
+<td style="text-align: left;">20180701</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">19</td>
+<td style="text-align: left;">US300b</td>
+<td style="text-align: left;">pending</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Estamos interessados nas listas impostas pelos Estados Unidos contra a China, além da lista referente aos produtos de aço e alumínio. Em relação a essa última lista, a planilha não disponibiliza os dados de forma correta. Dessa forma, para a lista de aço e alumínio baixamos a lista <a href="https://www.customsinfo.com/industry-blog/us-section-301-and-232-tariffs">neste link</a>.</p>
+<p>O código abaixo cria um data.frame para cada rodada de elevação de tarifas para as importações dos Estados Unidos.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+sheets_guerra &lt;- c(7, 8, 11)
+
+uscn_34b &lt;- read_excel(&#39;tariff_list.xlsx&#39;, sheet = &quot;7&quot;) %&gt;% 
+  select(hts_num = hscode) %&gt;% 
+  mutate(
+    hts_num = str_pad(
+      string = hts_num,
+      width = 8,
+      side = &quot;left&quot;,
+      pad = &quot;0&quot;
+    ),
+    wave = &quot;Rodada: 34B&quot;,
+    start_date = as.Date(&#39;2018-07-06&#39;)
+  )
+
+head(uscn_34b)</code></pre>
+<pre><code>
+# A tibble: 6 x 3
+  hts_num  wave        start_date
+  &lt;chr&gt;    &lt;chr&gt;       &lt;date&gt;    
+1 28459000 Rodada: 34B 2018-07-06
+2 40113000 Rodada: 34B 2018-07-06
+3 40121300 Rodada: 34B 2018-07-06
+4 84011000 Rodada: 34B 2018-07-06
+5 84012000 Rodada: 34B 2018-07-06
+6 84013000 Rodada: 34B 2018-07-06</code></pre>
+<pre class="r"><code>
+uscn_16b &lt;- read_excel(&#39;tariff_list.xlsx&#39;, sheet = &quot;8&quot;) %&gt;% 
+  select(hts_num = hscode) %&gt;% 
+  mutate(
+    hts_num = str_pad(
+      string = hts_num,
+      width = 8,
+      side = &quot;left&quot;,
+      pad = &quot;0&quot;
+    ),
+    wave = &quot;Rodada: 16B&quot;,
+    start_date = as.Date(&#39;2018-08-08&#39;)
+  )
+
+head(uscn_16b)</code></pre>
+<pre><code>
+# A tibble: 6 x 3
+  hts_num  wave        start_date
+  &lt;chr&gt;    &lt;chr&gt;       &lt;date&gt;    
+1 27101930 Rodada: 16B 2018-08-08
+2 27101935 Rodada: 16B 2018-08-08
+3 27101940 Rodada: 16B 2018-08-08
+4 34031910 Rodada: 16B 2018-08-08
+5 34031950 Rodada: 16B 2018-08-08
+6 34039900 Rodada: 16B 2018-08-08</code></pre>
+<pre class="r"><code>
+uscn_200b &lt;- read_excel(&#39;tariff_list.xlsx&#39;, sheet = &quot;11&quot;) %&gt;% 
+  select(hts_num = hscode) %&gt;% 
+  mutate(
+    hts_num = str_pad(
+      string = hts_num,
+      width = 8,
+      side = &quot;left&quot;,
+      pad = &quot;0&quot;
+    ),
+    wave = &quot;Rodada: 200B&quot;,
+    start_date = as.Date(&#39;2018-09-18&#39;)
+  )
+
+head(uscn_200b)</code></pre>
+<pre><code>
+# A tibble: 6 x 3
+  hts_num  wave         start_date
+  &lt;chr&gt;    &lt;chr&gt;        &lt;date&gt;    
+1 02032920 Rodada: 200B 2018-09-18
+2 02032940 Rodada: 200B 2018-09-18
+3 02061000 Rodada: 200B 2018-09-18
+4 02081000 Rodada: 200B 2018-09-18
+5 02089020 Rodada: 200B 2018-09-18
+6 02089025 Rodada: 200B 2018-09-18</code></pre>
+<pre class="r"><code>
+us_steel &lt;- read_excel(&#39;Sec232-SteelAlum.xlsx&#39;) %&gt;% 
+  select(hts_num = hscode) %&gt;% 
+  mutate(
+    wave = &quot;Rodada: Aço/Alum.&quot;,
+    start_date = as.Date(&#39;2018-03-23&#39;)
+  )
+
+head(us_steel)</code></pre>
+<pre><code>
+# A tibble: 6 x 3
+  hts_num  wave              start_date
+  &lt;chr&gt;    &lt;chr&gt;             &lt;date&gt;    
+1 72061000 Rodada: Aço/Alum. 2018-03-23
+2 72069000 Rodada: Aço/Alum. 2018-03-23
+3 72071100 Rodada: Aço/Alum. 2018-03-23
+4 72071200 Rodada: Aço/Alum. 2018-03-23
+5 72071900 Rodada: Aço/Alum. 2018-03-23
+6 72072000 Rodada: Aço/Alum. 2018-03-23</code></pre>
+</div>
+<p>Então, os dados são combinados em um único data.frame utilizando a função <code>bind_rows()</code>. Se por acaso algum produto aparece em mais de uma lista, optou-se por deixá-lo apenas na lista mais antiga.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+uscn_waves &lt;- bind_rows(uscn_16b, uscn_34b) %&gt;% 
+  bind_rows(uscn_200b) %&gt;% 
+  bind_rows(us_steel) %&gt;% 
+  group_by(hts_num) %&gt;% 
+  filter(start_date == min(start_date)) %&gt;% 
+  ungroup()</code></pre>
+</div>
+<p>O código abaixo cria uma visualização da evolução dos produtos que foram atingidos por cada rodada da guerra, além dos produtos que estavam de fora (<a href="https://oglobo.globo.com/economia/eua-vao-impor-tarifa-extra-de-10-us-300-bilhoes-em-produtos-da-china-1-23848063">até a semana passada</a>).</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+start_dates &lt;- uscn_waves %&gt;% 
+  select(wave, start_date) %&gt;% 
+  distinct()
+
+dados_imp_us_chn %&gt;% 
+  mutate(hts_num = str_remove_all(hts_num, &quot;\\.&quot;)) %&gt;% 
+  left_join(uscn_waves) %&gt;% 
+  replace_na(list(wave = &quot;Fora da Guerra&quot;)) %&gt;% 
+  group_by(data, wave) %&gt;% 
+  summarise(value = sum(value/1e9)) %&gt;% 
+  ggplot(aes(x = data, y = value)) +
+  geom_line(show.legend = FALSE) +
+  geom_vline(data = start_dates, aes(xintercept = start_date),
+             linetype = &quot;dashed&quot;, color = &quot;red&quot;) +
+  facet_wrap(~wave, scales = &quot;free&quot;) +
+  labs(
+    title = &quot;Evolução das importações dos Estados Unidos\noriginárias da China por rodada da guerra comercial&quot;,
+    subtitle = &quot;Cada produto é alocado na rodada na qual ele foi alvo de sobretaxa ou não&quot;,
+    x = &quot;&quot;,
+    y = &quot;US$ Bilhões&quot;
+  )</code></pre>
+<p><img src="analisando-dados-da-guerra-comercial-parte-2_files/figure-html5/unnamed-chunk-11-1.png" width="576" /></p>
+</div>
+<h2 id="efeitos-das-sobretaxas-nas-importacoes">Efeitos das sobretaxas nas importações</h2>
+<p>Como os dados vão até maio de 2019, vamos inicialmente comparar os totais entre janeiro e maio de cada ano, separando os produtos entre aqueles que estão sujeitos às elevações tarifárias (<em>Com Sobretaxa</em>) e aqueles que ainda não tinham sido alvo (<em>Sem Sobretaxa</em>).</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+dados_imp_us_chn %&gt;% 
+  mutate(hts_num = str_remove_all(hts_num, &quot;\\.&quot;)) %&gt;% 
+  left_join(uscn_waves) %&gt;% 
+  mutate(
+    wave = ifelse(is.na(wave), &quot;Sem Sobretaxa&quot;, &quot;Com Sobretaxa&quot;)
+  ) %&gt;% 
+  filter(month(data) &lt;= 5) %&gt;% 
+  mutate(
+    year = year(data)
+  ) %&gt;% 
+  filter(year &lt;= 2019) %&gt;% 
+  group_by(year, wave) %&gt;% 
+  summarise(
+    value = sum(value/1e9)
+  ) %&gt;% 
+  ggplot(aes(x = year, y = value, color = wave)) +
+  geom_line() +
+  geom_point(size = 2) +
+  labs(
+    title = &quot;Comparação entre produtos dentro e fora da\nguerra comercial&quot;,
+    subtitle = &quot;Acumulado Janeiro-Maio&quot;,
+    x = &quot;Ano&quot;,
+    y = &quot;US$ Bilhões&quot;,
+    color = &quot;Produtos&quot;
+  ) +
+  scale_color_manual(values = c(&quot;#ff9f43&quot;, &quot;#2e86de&quot;))</code></pre>
+<p><img src="analisando-dados-da-guerra-comercial-parte-2_files/figure-html5/unnamed-chunk-12-1.png" width="576" /></p>
+</div>
+<p>Observa-se que até 2016 o comportamento das duas séries era similar, mas a série composta por produtos sobretaxados ultrapassou, em valor, os produtos que estavam foram da guerra. Contudo, em 2019, o acumulado das importações para os meses entre janeiro e maio apresentou uma queda significativa, enquanto os produtos sem sobretaxa apresentam crescimento. Isto é um indicativo que, provavelmente, as tarifas adicionais tiveram efeitos em 2019, o que é esperado dado que elas têm o efeito de elevar os preços dos produtos chineses aos consumidores americanos, reduzindo a sua demanda.</p>
+<p>Para continuar a análise, vamos criar um data.frame que possui informações por produto (código HTS de 8 dígitos) do total importado para os período 01/2017<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a> a 05/2017 (pré-guerra) e 01/2019 a 05/2019 (pós-guerra), uma variável indicadora (<code>sobretaxado</code>) que é igual a 1 se o produto foi sobretaxado e 0 caso contrário, e mais uma variável indicadora (<code>sobretaxado_pos</code>) que é igual a 1 se o produto foi sobretaxado e o período da informação é posterior ao início da guerra comercial.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+dados_modelo &lt;- dados_imp_us_chn %&gt;% 
+  mutate(hts_num = str_remove_all(hts_num, &quot;\\.&quot;)) %&gt;% 
+  left_join(uscn_waves) %&gt;% 
+  replace_na(list(wave = &quot;Fora da Guerra&quot;)) %&gt;% 
+  mutate(
+    periodo = case_when(
+      between(data, as.Date(&quot;2017-01-01&quot;), as.Date(&quot;2017-05-01&quot;)) ~ &quot;pre&quot;,
+      between(data, as.Date(&quot;2019-01-01&quot;), as.Date(&quot;2019-05-01&quot;)) ~ &quot;pos&quot;,
+      TRUE ~ &quot;eliminar&quot;
+    ),
+    sobretaxado = +(wave != &quot;Fora da Guerra&quot;),
+    sobretaxado_pos = +(sobretaxado == 1 &amp; periodo == &quot;pos&quot;)
+  ) %&gt;% 
+  filter(periodo != &quot;eliminar&quot;) %&gt;% 
+  mutate(periodo = factor(periodo, levels = c(&quot;pre&quot;, &quot;pos&quot;))) %&gt;% 
+  group_by(periodo, sobretaxado, sobretaxado_pos, hts_num) %&gt;% 
+  summarise(value = sum(value/1e6)) </code></pre>
+</div>
+<p>Apesar de ser comum trabalhar com a variável dependente (valor importado) em log, a presença de zeros inviabiliza tal procedimento. Para não eliminar os dados de valor igual a zero, vamos estimar um modelo na forma multiplicativa, utilizando o PPML<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a> (<em>Poisson Pseudo Maximum Likelihood</em>). O nosso modelo será:</p>
+<p><span class="math display">\[M_{it} = \exp[\beta_0 + \beta_1 \text{POS}_{t} + \beta_2 \text{SOBRETAXADO}_{i} + \beta_3 \text{SOBRETAXADO}_{i} \times \text{POS}_{t}]\times \epsilon_{it}\]</span></p>
+<p>O modelo acima pode ser estimado utilizando a função <code>glm()</code> do R, com a família (<code>family</code>) <code>quasipoisson()</code>. Adicionalmente, computamos o desvio-padrão dos coeficientes clusterizando a matriz de variância-covariância pelo código do produto.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+fit &lt;- glm(value ~ periodo + sobretaxado + sobretaxado_pos, 
+   data = dados_modelo, family = quasipoisson()) 
+
+vcov_cluster &lt;- multiwayvcov::cluster.vcov(fit,
+                              cluster = dados_modelo$hts_num,
+                              df_correction = FALSE)
+
+lmtest::coeftest(fit, vcov_cluster)</code></pre>
+<pre><code>
+z test of coefficients:
+
+                 Estimate Std. Error z value  Pr(&gt;|z|)    
+(Intercept)      3.631609   0.214898 16.8992 &lt; 2.2e-16 ***
+periodopos       0.119564   0.030909  3.8682 0.0001096 ***
+sobretaxado     -0.859813   0.240436 -3.5761 0.0003488 ***
+sobretaxado_pos -0.189422   0.045118 -4.1984 2.688e-05 ***
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+</div>
+<p>Os resultados indicam uma redução média de, aproximadamente, 17% (<span class="math inline">\((e^{-0.1894} - 1) \times 100\)</span>).</p>
+<p>O mesmo modelo, com desvios-padrão clusterizados, pode ser estimado de forma mais simples utilizando a função <code>feglm()</code> do pacote <code>alpaca</code>. A única diferença é que essa função espera a especificação de pelo menos um efeito fixo. No caso da nosso modelo, inicialmente é a variável que controla se o produto foi sobretaxado ou não. Também informamos por qual variável os erros serão clusterizados, no caso <code>hts_num</code>. Veja que o resultado para o coeficiente da nossa variável de interesse (<code>sobretaxado_pos</code>) é igual ao anterior.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+feglm(value ~ periodo + sobretaxado_pos | sobretaxado | hts_num , 
+   data = dados_modelo, family = poisson()) %&gt;% 
+  summary(type = &quot;clustered&quot;, cluster = ~hts_num)</code></pre>
+<pre><code>
+poisson - log link
+
+value ~ periodo + sobretaxado_pos | sobretaxado | hts_num
+
+Estimates:
+                Estimate Std. error z value Pr(&gt; |z|)    
+periodopos       0.11956    0.03091   3.868   0.00011 ***
+sobretaxado_pos -0.18942    0.04512  -4.198  2.69e-05 ***
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+
+residual deviance= 2067243,
+null deviance= 2152787,
+n= 16969, l= [2]
+
+Number of Fisher Scoring Iterations: 3 </code></pre>
+</div>
+<p>Da mesma forma, podemos reestimar o modelo, mas ao invés de controlar por produtos que foram sobretaxados ou não, vamos incluir um efeito fixo por produto (<code>hts_num</code>):</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+feglm(value ~ periodo + sobretaxado_pos | hts_num | hts_num, 
+   data = dados_modelo, family = poisson()) %&gt;% 
+  summary(type = &quot;clustered&quot;, cluster = ~hts_num)</code></pre>
+<pre><code>
+poisson - log link
+
+value ~ periodo + sobretaxado_pos | hts_num | hts_num
+
+Estimates:
+                Estimate Std. error z value Pr(&gt; |z|)    
+periodopos       0.08314    0.03098   2.683   0.00729 ** 
+sobretaxado_pos -0.24179    0.04492  -5.382  7.36e-08 ***
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+
+residual deviance= 14730.51,
+null deviance= 2138549,
+n= 16657, l= [8733]
+
+( 312 observation(s) deleted due to perfect classification )
+
+Number of Fisher Scoring Iterations: 8 </code></pre>
+</div>
+<p>Nesse caso, chegamos a um efeito médio de, aproximadamente, -21,4%.</p>
+<h2 id="consideracoes-finais">Considerações Finais</h2>
+<p>O objetivo desse post foi complementar o post de introdução do <a href="https://www.fulljoin.com.br/posts/2019-07-24-analisando-dados-da-guerra-comercial-com-o-comtradr/"><code>comtradr</code></a>. Diferentemente do primeiro post, a análise realizada e as estimativas obtidas indicam que as medidas de elevações tarifárias têm o potencial de reduzir em um quinto as exportações da China para os Estados Unidos. Considerando que os Estados Unidos pretendem ampliar as sobretaxas às demais exportações da China, o efeito econômico da medida pode ser considerável, chegando a uma redução de exportações chinesas de mais de US$ 100 bilhões.</p>
+<section class="footnotes">
+<hr />
+<ol>
+<li id="fn1"><p>Escolher 2016 como ano pré-guerra não altera de maneira significativa os resultados.<a href="#fnref1" class="footnote-back">↩</a></p></li>
+<li id="fn2"><p>Para ver uma discussão sobre a utilização do PPML para estimação de modelos Dif-in-Dif: <a href="https://www.degruyter.com/downloadpdf/j/jem.2019.8.issue-1/jem-2016-0011/jem-2016-0011.pdf" class="uri">https://www.degruyter.com/downloadpdf/j/jem.2019.8.issue-1/jem-2016-0011/jem-2016-0011.pdf</a>. Aqui assumimos que a tendência entra de forma multiplicativa no modelo.<a href="#fnref2" class="footnote-back">↩</a></p></li>
+</ol>
+</section>
+<!--radix_placeholder_article_footer-->
+<!--/radix_placeholder_article_footer-->
+</div>
+
+<div class="d-appendix">
+</div>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+<!--radix_placeholder_site_after_body-->
+<!--/radix_placeholder_site_after_body-->
+<!--radix_placeholder_appendices-->
+<div class="appendix-bottom"></div>
+<!--/radix_placeholder_appendices-->
+<!--radix_placeholder_navigation_after_body-->
+<!--/radix_placeholder_navigation_after_body-->
+
+</body>
+
+</html>
