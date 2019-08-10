@@ -1,13 +1,13 @@
 ---
 title: "Analisando dados da guerra comercial - Parte 2"
 description: |
-  Nesta segunda parte, vamos aprofundar um pouco a nossa análise inicial. Realmente as sobretaxas impostas pelos Estados Unidos a produtos chineses não tiverem efeitos prático? Utilizando dados mensais que compreendem o período até maio de 2019, encontramos evidências dos seus feitos. As estimativas indicam um nível de importação, em média, 20% menor para os produtos chineses sujeitos a sobretaxas.
+  Nesta segunda parte, vamos aprofundar um pouco a nossa análise inicial. Realmente as sobretaxas impostas pelos Estados Unidos a produtos chineses não tiverem efeitos prático? Utilizando dados mensais que compreendem o período de janeiro de 2012 até maio de 2019, encontramos evidências dos seus efeitos. As estimativas indicam um nível de importação, em média, 20% menor para os produtos chineses sujeitos a sobretaxas.
 author: Paulo Felipe Alencar
-date: 07-30-2019
+date: 08-10-2019
 output:
   distill::distill_article:
     self_contained: false
-draft: true
+draft: false
 ---
 
 ```{r setup, include=FALSE}
@@ -40,7 +40,7 @@ library(alpaca)
 
 ## Tema para os gráficos
 
-Para os gráficos, utilizei a função `theme_set()` para definir um tema que será aplicado a todos os gráficos.
+Utilizei a função `theme_set()` para definir um tema que será aplicado a todos os gráficos.
 
 ```{r}
 theme_set(
@@ -93,14 +93,14 @@ Note que a primeira aba contém as informações referentes aos parâmetros da c
 sheets_us <- sheets_us[-1]
 ```
 
-Vamos ver como estão armazenados os dados. Para isso, vamor ler a primeira aba:
+Vamos ver como estão armazenados os dados. Para isso, vamos ler a primeira aba:
 
 ```{r}
 read_excel('dataweb_us_imp_chn_.xlsx', sheet = sheets_us[2], skip = 2) %>% 
   head()
 ```
 
-Os dados estão no formato *wide*, no qual cada mês está informado em uma coluna diferente. O ideal é trazer o dado para o formato *long*. Para fazer essa transformação, utilizamos a função `gather()`. O segundo detalhe é que temos várias abas. Não precisamos repetir o código para ler e manipular os dados de cada aba. Vamos utilizar o `purrr` com a função `map_df()` para aplicar o mesmo conjunto de código, mas variando o valor para o argumento `sheet` da função `read_excel()`. Vamos passar o vetor com os nomes das abas (`sheets_us`) e a função utilizará cada valor desse vetor, representado por `.x` e executurá um conjunto de código que está dentro do bloco `~{}`. O "df" da função `map_df()` indica que os resultados serão combinados em único data.frame. Veja abaixo o resultado:
+Os dados estão no formato *wide*, no qual cada mês está informado em uma coluna diferente. O ideal é trazer o dado para o formato *long*. Para fazer essa transformação, utilizamos a função `gather()`. O segundo detalhe é que temos várias abas. Não precisamos repetir o código para ler e manipular os dados de cada aba. Vamos utilizar o `purrr` com a função `map_df()` para aplicar o mesmo conjunto de código, mas variando o valor para o argumento `sheet` da função `read_excel()`. Vamos passar o vetor com os nomes das abas (`sheets_us`) e a função utilizará cada valor desse vetor, representado por `.x` e executará um conjunto de código que está dentro do bloco `~{}`. O "df" da função `map_df()` indica que os resultados serão combinados em único data.frame. Veja abaixo o resultado:
 
 ```{r}
 dados_imp_us_chn <- map_df(sheets_us, ~{
@@ -143,7 +143,7 @@ dados_imp_us_chn %>%
 
 Aqui já temos algum indicativo que há "algo de estranho" na série. A série apresenta um valor relativamente baixo para março de 2019. No entanto, esse pode ser resultado de fatores que também afetaram a totalidade das importações, e não somente aquelas que foram alvo de elevações de tarifas.
 
-Com os dados de comércio preparados, vamos trazer também os dados que listam os conjuntos de códigos foram considerados em cada rodada de elevação tarifária. Da mesma forma do [post anterior](https://www.fulljoin.com.br/posts/2019-07-24-analisando-dados-da-guerra-comercial-com-o-comtradr/), as listas de produtos afetados serão aquelas disponibilizadas na [base de daddos da Guerra Comercial](https://www.card.iastate.edu/china/trade-war-data/) disponilizada pela Universidade de Iowa. Baixamos o arquivo `tariff_list.xlsx`. Este arquivo tem várias abas e cada aba representa uma rodada da guerra comercial.
+Com os dados de comércio preparados, vamos trazer também os dados que listam os conjuntos de códigos foram considerados em cada rodada de elevação tarifária. Da mesma forma do [post anterior](https://www.fulljoin.com.br/posts/2019-07-24-analisando-dados-da-guerra-comercial-com-o-comtradr/), as listas de produtos afetados serão aquelas disponibilizadas na [base de daddos da Guerra Comercial](https://www.card.iastate.edu/china/trade-war-data/) disponibilizada pela Universidade de Iowa. Baixamos o arquivo `tariff_list.xlsx`. Este arquivo tem várias abas e cada aba representa uma rodada da guerra comercial.
 
 O código abaixo apresenta as listas disponíveis.
 
@@ -330,7 +330,7 @@ vcov_cluster <- multiwayvcov::cluster.vcov(fit,
 lmtest::coeftest(fit, vcov_cluster)
 ```
 
-Os resultados indicam uma redução média de, aproximadamente, 17% ($(e^{-0.1894} - 1) \times 100$).
+Os resultados indicam uma redução média de, aproximadamente, 17% ( $(e^{-0.1894} - 1) \times 100$ ).
 
 O mesmo modelo, com desvios-padrão clusterizados, pode ser estimado de forma mais simples utilizando a função `feglm()` do pacote `alpaca`. A única diferença é que essa função espera a especificação de pelo menos um efeito fixo. No caso da nosso modelo, inicialmente é a variável que controla se o produto foi sobretaxado ou não. Também informamos por qual variável os erros serão clusterizados, no caso `hts_num`. Veja que o resultado para o coeficiente da nossa variável de interesse (`sobretaxado_pos`) é igual ao anterior.
 
@@ -353,7 +353,7 @@ Nesse caso, chegamos a um efeito médio de, aproximadamente, -21,4%.
 
 ## Considerações Finais
 
-O objetivo desse post foi complementar o post de introdução do [`comtradr`](https://www.fulljoin.com.br/posts/2019-07-24-analisando-dados-da-guerra-comercial-com-o-comtradr/). Diferentemente do primeiro post, a análise realizada e as estimativas obtidas indicam que as medidas de elevações tarifárias têm o potencial de reduzir em um quinto as exportações da China para os Estados Unidos. Considerando que os Estados Unidos pretendem ampliar as sobretaxas às demais exportações da China, o efeito econômico da medida pode ser considerável, chegando a uma redução de exportações chinesas de mais de US$ 100 bilhões.
+O objetivo desse post foi complementar o post de introdução do [`comtradr`](https://www.fulljoin.com.br/posts/2019-07-24-analisando-dados-da-guerra-comercial-com-o-comtradr/). Diferentemente do primeiro post, a análise realizada e as estimativas obtidas indicam que as medidas de elevações tarifárias têm o potencial de reduzir em um quinto as exportações da China para os Estados Unidos. Considerando que os Estados Unidos pretendem ampliar as sobretaxas às demais exportações da China, o efeito econômico da medida pode ser considerável, chegando a uma redução de exportações chinesas de mais de US$ 100 bilhões. Vale destacar que é possível que as importações totais dos Estados Unidos não tenham diminuído, uma vez que outros países podem estar fornecendo os produtos que eram importados da China.
 
 
 

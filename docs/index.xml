@@ -7,7 +7,16 @@
     <description>Fulljoin
 </description>
     <generator>Distill</generator>
-    <lastBuildDate>qua, 31 jul 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>s�b, 10 ago 2019 00:00:00 +0000</lastBuildDate>
+    <item>
+      <title>Analisando dados da guerra comercial - Parte 2</title>
+      <dc:creator>Paulo Felipe Alencar</dc:creator>
+      <link>https://www.fulljoin.com.br/posts/2019-07-30-analisando-dados-da-guerra-comercial-parte-2</link>
+      <description>Nesta segunda parte, vamos aprofundar um pouco a nossa análise inicial. Realmente as sobretaxas impostas pelos Estados Unidos a produtos chineses não tiverem efeitos prático? Utilizando dados mensais que compreendem o período de janeiro de 2012 até maio de 2019, encontramos evidências dos seus efeitos. As estimativas indicam um nível de importação, em média, 20% menor para os produtos chineses sujeitos a sobretaxas.</description>
+      <guid>https://www.fulljoin.com.br/posts/2019-07-30-analisando-dados-da-guerra-comercial-parte-2</guid>
+      <pubDate>s�b, 10 ago 2019 00:00:00 +0000</pubDate>
+      <media:content url="https://www.fulljoin.com.br/posts/2019-07-30-analisando-dados-da-guerra-comercial-parte-2/analisando-dados-da-guerra-comercial-parte-2_files/figure-html5/unnamed-chunk-7-1.png" medium="image" type="image/png" width="1152" height="768"/>
+    </item>
     <item>
       <title>Tradução de dados textuais com googleLanguageR</title>
       <dc:creator>Miguel Cleaver</dc:creator>
@@ -87,14 +96,6 @@ técnicas chamadas de bag-of-words e tf-idf.</description>
       <guid>https://www.fulljoin.com.br/posts/2017-01-28-bases-de-dados-kaggle</guid>
       <pubDate>s�b, 28 jan 2017 00:00:00 +0000</pubDate>
       <media:content url="https://www.fulljoin.com.br/posts/2017-01-28-bases-de-dados-kaggle/../../images/kaggle.png" medium="image" type="image/png" width="362" height="139"/>
-    </item>
-    <item>
-      <title>Visualização de dados - Parte 1: Introdução ao ggplot2</title>
-      <link>https://www.fulljoin.com.br/posts/2016-08-26-visualizacao-de-dados-parte-1</link>
-      <description>A visualização de dados é parte fundamental do [_workflow_]({{root_url}}/blog/2016/03/14/como-aplicar-ciencia-de-dados/) de um analista de dados. Essa tarefa é muito importante tanto para explorar os dados, como para comunicar resultados. Ou seja, dominar ferramentas de visualização é imprescindível. E é aí que entra o ggplot2.</description>
-      <guid>https://www.fulljoin.com.br/posts/2016-08-26-visualizacao-de-dados-parte-1</guid>
-      <pubDate>qua, 07 set 2016 00:00:00 +0000</pubDate>
-      <media:content url="https://www.fulljoin.com.br/posts/2016-08-26-visualizacao-de-dados-parte-1/visualizacao-de-dados-parte-1_files/figure-html5/unnamed-chunk-4-1.png" medium="image" type="image/png" width="1536" height="768"/>
     </item>
   </channel>
 </rss>

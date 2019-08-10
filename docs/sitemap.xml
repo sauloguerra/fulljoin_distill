@@ -2,110 +2,114 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" version="1.0">
   <url>
     <loc>https://www.fulljoin.com.br/about.html</loc>
-    <lastmod>2019-07-16T21:18:23-03:00</lastmod>
+    <lastmod>2019-07-17T19:30:09-03:00</lastmod>
   </url>
   <url>
     <loc>https://www.fulljoin.com.br/consultoria.html</loc>
-    <lastmod>2019-07-15T22:40:17-03:00</lastmod>
+    <lastmod>2019-07-14T20:46:14-03:00</lastmod>
   </url>
   <url>
     <loc>https://www.fulljoin.com.br/</loc>
-    <lastmod>2019-07-16T21:18:23-03:00</lastmod>
+    <lastmod>2019-07-17T19:30:09-03:00</lastmod>
+  </url>
+  <url>
+    <loc>https://www.fulljoin.com.br/posts/2019-07-30-analisando-dados-da-guerra-comercial-parte-2/</loc>
+    <lastmod>2019-08-10T11:48:37-03:00</lastmod>
   </url>
   <url>
     <loc>https://www.fulljoin.com.br/posts/2019-07-31-traduo-de-dados-textuais-com-googlelanguager/</loc>
-    <lastmod>2019-08-05T19:10:22-03:00</lastmod>
+    <lastmod>2019-08-08T20:52:02-03:00</lastmod>
   </url>
   <url>
     <loc>https://www.fulljoin.com.br/posts/2019-07-24-analisando-dados-da-guerra-comercial-com-o-comtradr/</loc>
-    <lastmod>2019-07-29T23:31:43-03:00</lastmod>
+    <lastmod>2019-07-27T19:02:16-03:00</lastmod>
   </url>
   <url>
     <loc>https://www.fulljoin.com.br/posts/2019-07-23-rstudio-dicas/</loc>
-    <lastmod>2019-07-31T22:59:17-03:00</lastmod>
+    <lastmod>2019-07-27T00:34:34-03:00</lastmod>
   </url>
   <url>
     <loc>https://www.fulljoin.com.br/posts/2019-07-16-web-scraping-com-r/</loc>
-    <lastmod>2019-07-21T12:27:11-03:00</lastmod>
+    <lastmod>2019-07-24T22:15:18-03:00</lastmod>
   </url>
   <url>
     <loc>https://www.fulljoin.com.br/posts/2019-07-15-estamos-de-volta/</loc>
-    <lastmod>2019-07-16T21:18:23-03:00</lastmod>
+    <lastmod>2019-07-17T19:30:09-03:00</lastmod>
   </url>
   <url>
     <loc>https://www.fulljoin.com.br/posts/2018-12-21-training-a-dog-breeds-image-classifier-using-keras-in-pre-trained-models/</loc>
-    <lastmod>2019-07-29T23:31:43-03:00</lastmod>
+    <lastmod>2019-01-04T00:04:59-02:00</lastmod>
   </url>
   <url>
     <loc>https://www.fulljoin.com.br/posts/2018-10-24-classificando-comentrios-txicos/</loc>
-    <lastmod>2019-07-17T23:28:23-03:00</lastmod>
+    <lastmod>2018-11-18T16:56:22-02:00</lastmod>
   </url>
   <url>
     <loc>https://www.fulljoin.com.br/posts/2017-03-12-introducao-d3plusr/</loc>
-    <lastmod>2019-07-16T21:18:23-03:00</lastmod>
+    <lastmod>2019-07-17T19:30:09-03:00</lastmod>
   </url>
   <url>
     <loc>https://www.fulljoin.com.br/posts/2017-01-28-bases-de-dados-kaggle/</loc>
-    <lastmod>2019-07-16T21:18:23-03:00</lastmod>
+    <lastmod>2019-07-17T19:30:09-03:00</lastmod>
   </url>
   <url>
     <loc>https://www.fulljoin.com.br/posts/2016-08-26-visualizacao-de-dados-parte-1/</loc>
-    <lastmod>2019-07-16T21:18:23-03:00</lastmod>
+    <lastmod>2019-07-17T19:30:09-03:00</lastmod>
   </url>
   <url>
     <loc>https://www.fulljoin.com.br/posts/2016-08-01-manipulacao-de-dados-parte-1/</loc>
-    <lastmod>2019-07-16T21:18:23-03:00</lastmod>
+    <lastmod>2019-07-17T19:30:09-03:00</lastmod>
   </url>
   <url>
     <loc>https://www.fulljoin.com.br/posts/2016-07-30-comex-vis/</loc>
-    <lastmod>2019-07-16T21:18:23-03:00</lastmod>
+    <lastmod>2019-07-17T19:30:09-03:00</lastmod>
   </url>
   <url>
     <loc>https://www.fulljoin.com.br/posts/2016-06-06-intro-modelos-r/</loc>
-    <lastmod>2019-07-15T22:40:16-03:00</lastmod>
+    <lastmod>2019-07-14T20:46:14-03:00</lastmod>
   </url>
   <url>
     <loc>https://www.fulljoin.com.br/posts/2016-05-12-tudo-sobre-joins/</loc>
-    <lastmod>2019-07-15T22:40:16-03:00</lastmod>
+    <lastmod>2019-07-14T20:46:14-03:00</lastmod>
   </url>
   <url>
     <loc>https://www.fulljoin.com.br/posts/2016-05-09-kit-de-sobrevivencia-em-r-parte-7/</loc>
-    <lastmod>2019-07-20T15:55:17-03:00</lastmod>
+    <lastmod>2019-07-14T20:46:14-03:00</lastmod>
   </url>
   <url>
     <loc>https://www.fulljoin.com.br/posts/2016-05-01-kit-de-sobrevivencia-em-r-parte-6/</loc>
-    <lastmod>2019-07-15T22:40:16-03:00</lastmod>
+    <lastmod>2019-07-14T20:46:14-03:00</lastmod>
   </url>
   <url>
     <loc>https://www.fulljoin.com.br/posts/2016-04-21-kit-de-sobrevivencia-em-r-parte-5/</loc>
-    <lastmod>2019-07-17T23:28:23-03:00</lastmod>
+    <lastmod>2019-07-14T20:46:14-03:00</lastmod>
   </url>
   <url>
     <loc>https://www.fulljoin.com.br/posts/2016-04-07-kit-de-sobrevivencia-em-r-parte-4/</loc>
-    <lastmod>2019-07-15T22:40:16-03:00</lastmod>
+    <lastmod>2019-07-14T20:46:14-03:00</lastmod>
   </url>
   <url>
     <loc>https://www.fulljoin.com.br/posts/2016-03-28-kit-de-sobrevivencia-em-r-parte-3/</loc>
-    <lastmod>2019-07-20T15:55:17-03:00</lastmod>
+    <lastmod>2019-07-14T20:46:14-03:00</lastmod>
   </url>
   <url>
     <loc>https://www.fulljoin.com.br/posts/2016-03-25-kit-de-sobrevivencia-em-r-parte-2/</loc>
-    <lastmod>2019-07-20T15:55:17-03:00</lastmod>
+    <lastmod>2019-07-14T20:46:14-03:00</lastmod>
   </url>
   <url>
     <loc>https://www.fulljoin.com.br/posts/2016-03-20-kit-de-sobrevivencia-em-r-parte-1/</loc>
-    <lastmod>2019-07-20T15:55:17-03:00</lastmod>
+    <lastmod>2019-07-14T20:46:14-03:00</lastmod>
   </url>
   <url>
     <loc>https://www.fulljoin.com.br/posts/2016-03-20-aplicando-ciencia-de-dados-parte-2-equipe/</loc>
-    <lastmod>2019-07-15T22:40:16-03:00</lastmod>
+    <lastmod>2019-07-14T20:46:14-03:00</lastmod>
   </url>
   <url>
     <loc>https://www.fulljoin.com.br/posts/2016-03-14-como-aplicar-ciencia-de-dados/</loc>
-    <lastmod>2019-07-15T22:40:16-03:00</lastmod>
+    <lastmod>2019-07-14T20:46:14-03:00</lastmod>
   </url>
   <url>
     <loc>https://www.fulljoin.com.br/posts/2016-03-09-hello-world/</loc>
-    <lastmod>2019-07-15T22:40:16-03:00</lastmod>
+    <lastmod>2019-07-14T20:46:14-03:00</lastmod>
   </url>
 </urlset>
