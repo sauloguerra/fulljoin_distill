@@ -17,5 +17,4 @@ knitr::opts_chunk$set(echo = FALSE)
 - Automação de relatórios analíticos
 - Integração de dados, scraping e ETL em geral
 - Visualizações e storytelling
-- Sanitização de dados
 

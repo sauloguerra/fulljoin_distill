@@ -11,8 +11,6 @@ navbar:
       href: index.html
     - text: "Autores"
       href: about.html
-    - text: "Consultoria"
-      href: consultoria.html
 output: 
   distill::distill_article:
     css: styles.css

@@ -1,15 +1,15 @@
 ---
 title: "B3 + rvest: Explorando dados financeiros com R - parte 1"
 description: |
-  Com essa sequência de posts vamos utilizar o R para dados financeiros disponíveis na internet. Aprofundaremos bastante em web scraping e manipulação de dados.
+  Primeiro de uma sequência de posts onde vamos utilizar o R para explorar dados financeiros disponíveis na internet. Aprofundaremos bastante em web scraping e manipulação de dados.
 author:
   - name: Saulo Guerra
     url: https://github.com/sauloguerra
-date: 08-01-2019
+date: 08-27-2019
 output:
   distill::distill_article:
     self_contained: false
-draft: true
+draft: false
 categories:
   - rvest
   - scraping
@@ -22,12 +22,11 @@ knitr::opts_chunk$set(echo = TRUE, cache = FALSE, warning = FALSE, message = FAL
 
 ## DISCLAIMER
 
-Sou totalmente novato no tema mercado financeiro, portanto **NADA** aqui pode ser interpretado como sugestão de investimento, dica de mercado ou coisa do tipo, pelo contrário! O foco é totalmente em como extrair o dado e trabalhar com ele no R, todos os comentários sobre o assunto mercado financeiro serão simplesmente para contextualizar os dados. 
-
+**NADA** aqui pode ser interpretado como sugestão de investimento, dica de mercado ou coisa do tipo, pelo contrário! O foco é totalmente em como extrair o dado e trabalhar com ele no R, todos os comentários sobre o assunto mercado financeiro serão simplesmente para contextualizar os dados. 
 
 ## Definindo objetivo 
 
-**Como objetivo a ser alcançado nesse post, gostaríamos de ter um panorama geral das empresas listadas na bolsa de valores brasileira e entender um pouco mais sobre esse cenário para tentar tirar alguns insights.**
+Como objetivo a ser alcançado nesse post, gostaríamos de ter um panorama geral das empresas listadas na bolsa de valores brasileira, bem como seus setores, e entender um pouco mais sobre valores agregados desse cenário para tentar tirar alguns insights.
 
 ## Achando a fonte de dados
 
@@ -37,7 +36,7 @@ Encontrei o seguinte link onde são listadas todas as empresas da bolsa e alguma
 
 ## Web scraping ou "raspagem dos dados"
 
-Infelizmente não encontrei uma base de dados pronta, csv, excel ou algo que concentre tudo em um lugar só (caso exista, por favor nos avise!). Mas isso não é necessariamente um problema, pois se está em um site HTML, então é possível extrair uma base de dados.
+Infelizmente não encontrei uma base de dados pronta, csv, excel ou algo que concentre tudo em um lugar só. Mas isso não é necessariamente um problema, pois se está em um site HTML, então é possível extrair uma base de dados.
 
 Temos um post que começa a explicar sobre [Web Scraping com R aqui]($base_url), antes de seguirmos é importante dar uma lida.
 
@@ -425,16 +424,16 @@ tail(dados)
 glimpse(dados)
 ```
 
-Vamos manipular um pouco para deixar o dataframe perfeito e em seguida trabalhar alguns gráficos. Primeiro vamos separar os setores. Aparentemente cada empresa tem 3 setores em diferentes níveis de detalhes.
+Vamos manipular um pouco para deixar o dataframe perfeito e em seguida trabalhar alguns gráficos. Primeiro vamos separar os setores. Cada empresa tem 3 classificações: Setores, Subsetores e Segmento, sendo o último o nível mais detalhado da classificação.
 
 ```{r}
 dados <- dados %>% 
-  separate(setores, c("setor.1", "setor.2", "setor.3"), sep = '/') %>%
+  separate(setores, c("setor", "subsetor", "segmento"), sep = '/') %>%
   mutate_at(.vars = vars(starts_with('setor')), .funs = ~trimws(.))
 
-unique(dados$setor.1)
-unique(dados$setor.2)
-unique(dados$setor.3)
+unique(dados$setor)
+unique(dados$subsetor)
+unique(dados$segmento)
 ```
 
 Vamos transformar os valores em numéricos. Além disso, vamos transformar o número entre parêntesis em número negativo.
@@ -461,12 +460,12 @@ dados <- dados %>%
 Acho que chegamos em uma base de dados satisfatória para uma abordagem inicial! Vamos salvar.
 
 ```{r, eval=FALSE}
-write_csv(dados, 'empresas_b3_2019-03-31.csv')
+write_csv(dados, 'empresas_b3_2019-06-30.csv')
 ```
 
 ## Alcançando o objetivo
 
-Construída a base de dados, vamos nos informar para conhecer o cenário atual das ações listadas na B3. Lembrando que pegamos apenas os dados reportados pelas empresas referentes ao período de 01/01/2019 a 31/03/2019.
+Construída a base de dados, vamos nos informar para conhecer o cenário atual das ações listadas na B3. Lembrando que pegamos apenas os dados reportados pelas empresas referentes ao período de 01/01/2019 a 30/06/2019.
 
 Quantas empresas temos listadas segundo o próprio site da B3?
 
@@ -478,10 +477,10 @@ Qual empresa com maior patrimônio de cada grande setor?
 
 ```{r}
 dados %>% 
-  group_by(setor.1) %>% 
+  group_by(setor) %>% 
   filter(patrimonio.liquido == max(patrimonio.liquido)) %>% 
   ungroup() %>% 
-  select(setor.1, nome.empresa, patrimonio.liquido) %>% 
+  select(setor, nome.empresa, patrimonio.liquido) %>% 
   arrange(-patrimonio.liquido)
 ```
 
@@ -489,7 +488,7 @@ Qual a quantidade de empresas listadas por cada grande setor?
 
 ```{r}
 dados %>% 
-  group_by(setor.1) %>% 
+  group_by(setor) %>% 
   summarise(quantidade.empresas = n()) %>% 
   arrange(-quantidade.empresas)
 ```
@@ -505,13 +504,13 @@ library(D3plusR)
 ```{r}
 d3plus(data = dados %>% mutate(quantidade = 1),
        type = "tree_map",
-       id = c("setor.1", "setor.2", "setor.3", "nome.empresa"),
+       id = c("setor", "subsetor", "segmento", "nome.empresa"),
        width = "100%",
        height = 500) %>% 
   d3plusSize(value = "patrimonio.liquido") %>% 
   d3plusLegend(value = TRUE, order = list(sort = "desc", value = "size")) %>% 
-  d3plusColor("setor.1") %>% 
-  d3plusDepth(0) %>% 
+  d3plusColor("setor") %>% 
+  d3plusDepth(1) %>% 
   d3plusLabels(value = TRUE, valign = "top") %>% 
   d3plusUi(value = list(list(method = "size",
                              value = list(list(Patrimonio = "patrimonio.liquido"), 
@@ -520,11 +519,11 @@ d3plus(data = dados %>% mutate(quantidade = 1),
                         list(method = "depth", type = "drop",
                              value = list(list(Setor = 0), 
                                           list(Subsetor = 1),
-                                          list(Sub.Subsetor = 2),
+                                          list(Segmento = 2),
                                           list(Empresa = 3)))))
 ```
 
-No treemap acima, somamos o total do patrimônio para avaliarmos as proporções, mas é curioso notar que existem empresas com patrimônio líquido negativo. Vamos verificar os grandes setores separando o total de patrimônio líquido negativo e positivo.
+No treemap acima, somamos o total do patrimônio para avaliarmos as proporções, mas é curioso notar que existem empresas com patrimônio líquido negativo. Vamos verificar os  setores separando o total de patrimônio líquido negativo e positivo.
 
 ```{r}
 library(ggplot2)
@@ -533,54 +532,36 @@ library(ggplot2)
 ```{r}
 dados %>% 
   mutate(patrimonio = ifelse(patrimonio.liquido > 0, 'positivo', 'negativo')) %>% 
-  group_by(setor.1, patrimonio) %>% 
+  group_by(setor, patrimonio) %>% 
   summarise(patrimonio.total = sum(patrimonio.liquido)) %>% 
   ungroup() %>% 
-  ggplot(aes(x = reorder(setor.1, patrimonio.total), y = patrimonio.total, fill = patrimonio))+
+  ggplot(aes(x = reorder(setor, patrimonio.total), y = patrimonio.total, fill = patrimonio))+
   geom_bar(stat = "identity")+
   coord_flip() + 
   theme(legend.position = "none") +
-  labs(title = "Patrimônio positivo e negativo por grandes setores",
+  labs(title = "Patrimônio positivo e negativo por setores",
        y = "Patrimônio",
-       x = "Grandes Setores")
+       x = "Setores")
 
 ```
 
-Comportamento parecido existe no somatório do lucro líquido dos grandes setores. Faremos o mesmo exercício separando o lucro líquido positivo e o lucro líquido negativo (entendo que seja prejuízo!)
+Comportamento parecido existe no somatório do lucro líquido dos grandes setores. Faremos o mesmo exercício separando o lucro líquido positivo e o lucro líquido negativo.
 
 ```{r}
 dados %>% 
   mutate(lucro = ifelse(lucro.liquido > 0, 'positivo', 'negativo')) %>% 
-  group_by(setor.1, lucro) %>% 
+  group_by(setor, lucro) %>% 
   summarise(lucro.total = sum(lucro.liquido)) %>% 
   ungroup() %>% 
-  ggplot(aes(x = reorder(setor.1, lucro.total), y = lucro.total, fill = lucro))+
+  ggplot(aes(x = reorder(setor, lucro.total), y = lucro.total, fill = lucro))+
   geom_bar(stat = "identity") +
   coord_flip() + 
   theme(legend.position = "none") + 
-  labs(title = "Lucro e prejuízo por grandes setores",
+  labs(title = "Lucro e prejuízo por setores",
        y = "Lucro",
-       x = "Grandes Setores")
+       x = "Setores")
 ```
 
+## Conclusão
 
-```{r}
-dados.lucro.acao <- dados %>% 
-  group_by(setor.1, setor.2, setor.3, nome.empresa) %>% 
-  summarise(lucro.total = sum(lucro.liquido),
-            total.acoes = sum(total.acoes)) %>% 
-  filter(total.acoes > 0) %>% 
-  mutate(lucro.acao = round(lucro.total/total.acoes, 2)) %>% 
-  ungroup()
-
-# View(dados.lucro.acao)
-library(ggeconodist)
-
-
-ggplot(dados.lucro.acao, aes(x = setor.1, y = lucro.acao)) +
-  geom_econodist(median_point_size = 1.2,
-    tenth_col = "#b07aa1",
-    ninetieth_col = "#591a4f") +
-  geom_hline(yintercept = 0, linetype = "dotted", color = "red") + 
-  coord_flip()
-```
+Com o R + rvest foi possível raspar alguns dados da B3 e montar um dataframe básico, com isso exploramos minimamente os setores das empresas oferecidas na bolsa de valores brasileira e esboçamos algumas visualizações para começar a interpretar. Muitas outras visualizações e explorações passam a ser possíveis com essa estrutura de scraping. Nos próximos posts desse tema vamos tentar outras abordagens e 
