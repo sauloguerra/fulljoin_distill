@@ -1,0 +1,116 @@
+---
+title: "CEI + rvest: Explorando dados financeiros com R - parte 2"
+description: |
+  Com o pacote rvest você pode baixar todo seu histórico de compra e venda de ações diretamente do CEI e passar a gerenciar sua carteira pelo R
+author:
+  - name: Saulo Guerra
+    url: https://github.com/sauloguerra
+date: 09-03-2019
+output:
+  distill::distill_article:
+    self_contained: false
+draft: false
+categories:
+  - rvest
+  - scraping
+preview: ../../images/cei_rvest.png
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, cache = FALSE, warning = FALSE, message = FALSE)
+```
+
+No post anterior em [B3 + rvest: Explorando dados financeiros com R - parte 1](https://www.fulljoin.com.br/posts/2019-07-18-b3-rvest-explorando-dados-financeiros-com-r/) começamos a explorar, com a ajuda do rvest, alguns dados superficiais sobre a bolsa de valores brasileira. Nesse post vamos explorar o CEI - Canal Eletrônico do Investidor, também da B3, e baixar todo o histórico de compra e venda de ações. 
+
+## Definindo objetivo
+
+Como objetivo a ser alcançado, vamos tentar baixar todo o histórico de compra e venda e montar uma tabela como ponto de partida para uma gestão da própria carteira no R
+
+## Achando a fonte de dados
+
+Se você investe em renda variável você certamente o faz por meio de uma corretora. Porém, a _[B]³_ é a instituição que centraliza toda a gestão das informações e dos contratos, e o CEI é onde o investidor pode ter acesso aos dados direto na fonte.
+
+O ponto de partida da nossa fonte de dados está protegido por usuário e senha no site do CEI em https://cei.b3.com.br/CEI_Responsivo/. Como havia dito, todo investidor pode ter conta no CEI, [aqui eles explicam como fazer isso](https://cei.b3.com.br/CEI_Responsivo/como-acessar.aspx). 
+
+Infelizmente não localizei nenhuma forma rápida de baixar seus próprios dados em formato aberto, csv, json, xml ou algo do tipo. Sendo assim, mais uma vez vamos raspar os dados para o R. O desafio da vez é raspar dados de um site com controle de acesso (usuário e senha). Felizmente o rvest torna essa tarefa um pouco mais fácil.
+
+Vamos usar os seguintes pacotes:
+
+```{r}
+library(rvest) # para nossa raspagem
+library(tidyverse) # para tudo
+library(glue) # para grudar nossas strings
+library(keyring)
+```
+
+Além dos pacotes clássicos, destaco o pacote [keyring](https://github.com/r-lib/keyring) excelente pacote que ajuda a não ficar escrevendo seu usuário e senha em texto aberto no R. 
+
+Mesmo fazendo scraping via R vamos precisar informar nosso usuário (CPF) e senha para acessar o CEI. Considerando que vamos acessar os próprios dados para gerir a própria carteira o pacote keyring atende muito bem. Ao acessar o site https://cei.b3.com.br nos deparamos com a seguinte tela:
+
+![Tela inicial](../../images/cei_tela_inicial.png){ width=75 }
+
+Comecemos a preparar nosso scraping a partir desta tela.
+
+```{r}
+url <- 'https://cei.b3.com.br'
+```
+
+Diferente do post anterior, não vamos começar baixando os dados da tela e sim abrindo uma sessão para simular navegação na parte restrita do site e só depois baixar os dados da tela.
+
+Vamos usar o rvest para simular uma sessão (controle de acesso com autenticação) do browser. Para isso vamos precisar peencher, via R, o usuário e senha do formulário e enviar uma requisição para que os servidores da B3 nos autentiquem e nos mande de volta um cookie. Leia mais sobre sessão, autenticação e cookies em: https://pt.wikipedia.org/wiki/Cookie_(inform%C3%A1tica), https://developer.mozilla.org/pt-BR/docs/Web/HTTP/Cookies ou http://material.curso-r.com/scrape/#sess%C3%B5es-e-cookies
+
+O rvest torna tudo isos muito simples. Primeiro criamos uma sessão.
+
+```{r}
+sessao <- html_session(url)
+```
+
+Por ser uma página de usuário e senha, certamente haverá um formulário para preenchermos. Com o `html_form()` podemos pegar os formulários disponíveis na página da sessão que abrimos.
+
+```{r}
+(form_login <- html_form(sessao))
+```
+
+O retorno é uma lista com apenas um formulário de login. Reparem nos nomes dos campos disponíveis para preenchimento.
+
+```{r}
+form_preenchido <- set_values(form_login[[1]], 
+           'ctl00$ContentPlaceHolder1$txtLogin' = 'SEU_CPF',
+           'ctl00$ContentPlaceHolder1$txtSenha' = 'SUA_SENHA')
+```
+
+É nesse ponto que recomendo fortemente o uso do keyring, a não ser que você queira deixar explícito no seu código sua senha de acesso ao CEI. Vamos configurar a senha no keyring e passar de forma mais segura.
+
+Primeiro crie um novo "perfil" no keyring para ele armazenar sua senha de forma criptografada. Vamos chamar de _cei-b3_, mas pode chamar do que quiser. Como o keyring vai criptografar suas senhas, você precisa definir uma senha para descriptografar quando quiser. Ele vai pedir uma nova senha mestra para o keyring _cei-b3_. Não é a senha do CEI ainda!!! A partir de agora, todas as senhas que você armazenar no keyring _cei-b3_ você vai precisar da senha mestra que escolher nesse ponto.
+
+```{r echo=TRUE, eval=FALSE}
+keyring_create('cei-b3') # definindo uma senha mestra para armazenamento criptografado
+```
+
+Em seguida defina uma entrada para a senha do seu usuário. Nosso username será o próprio CPF. No lugar de _12345678900_ coloque seu CPF de verdade. Agora sim o keyring vai solicitar a senha que você vai usar no CEI.
+
+```{r echo=TRUE, eval=FALSE}
+key_set('senha', username = '12345678900', keyring = 'cei-b3')
+```
+
+Pronto, você definiu uma senha mestra e definiu a senha do CEI para o seu CPF. Para usar sua senha de forma mais segura basta chamar da seguinte forma:
+
+#### RESOLVER ISSO
+```{r}
+form_preenchido <- set_values(form_login[[1]], 
+           'ctl00$ContentPlaceHolder1$txtLogin' = '12345678900',
+           'ctl00$ContentPlaceHolder1$txtSenha' = key_get('senha', '12345678900', 'cei-b3'))
+```
+
+Com o formulário preenchido vamos simular a submissão dos dados na mesma sessão, seria o mesmo que o "click de entrar". A B3 vai nos autenticar e devolver a página do usuário logado.
+
+```{r}
+submit_form(sessao, form_login_preenchido)
+```
+
+#### PEGAR TELA
+Após uma rápida explorada via browser no site CEI, constamos que o dado que queremos está em 
+
+
+
+

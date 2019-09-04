@@ -7,7 +7,16 @@
     <description>Fulljoin
 </description>
     <generator>Distill</generator>
-    <lastBuildDate>Ter, 27 Ago 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Ter, 03 Set 2019 00:00:00 +0000</lastBuildDate>
+    <item>
+      <title>CEI + rvest: Explorando dados financeiros com R - parte 2</title>
+      <dc:creator>Saulo Guerra</dc:creator>
+      <link>https://www.fulljoin.com.br/posts/2019-09-03-b3-rvest-cei</link>
+      <description>Com o pacote rvest você pode baixar todo seu histórico de compra e venda de ações diretamente do CEI e passar a gerenciar sua carteira pelo R</description>
+      <guid>https://www.fulljoin.com.br/posts/2019-09-03-b3-rvest-cei</guid>
+      <pubDate>Ter, 03 Set 2019 00:00:00 +0000</pubDate>
+      <media:content url="https://www.fulljoin.com.br/posts/2019-09-03-b3-rvest-cei/../../images/cei_rvest.png" medium="image" type="image/png" width="322" height="88"/>
+    </item>
     <item>
       <title>B3 + rvest: Explorando dados financeiros com R - parte 1</title>
       <dc:creator>Saulo Guerra</dc:creator>
@@ -89,14 +98,6 @@ técnicas chamadas de bag-of-words e tf-idf.</description>
       <guid>https://www.fulljoin.com.br/posts/2018-10-24-classificando-comentrios-txicos</guid>
       <pubDate>Dom, 18 Nov 2018 00:00:00 +0000</pubDate>
       <media:content url="https://www.fulljoin.com.br/posts/2018-10-24-classificando-comentrios-txicos/classificando-comentrios-txicos_files/figure-html5/unnamed-chunk-5-1.png" medium="image" type="image/png" width="1248" height="768"/>
-    </item>
-    <item>
-      <title>Introdução ao D3plusR</title>
-      <link>https://www.fulljoin.com.br/posts/2017-03-12-introducao-d3plusr</link>
-      <description>Visualização de dados é uma das principais tarefas de um analista de dados. A partir de visualizações, é possível explorar os dados e comunicar resultados de maneira mais efetiva. No R, além de visualizações estáticas, principalmente desenvolvidas com ggplot2 R, existem um conjunto de pacotes que são desenvolvidos utilizando o _framework_ fornecido pelo pacote `htmlwidgets`. A ideia é trazer o mundo de bibliotecas de visualizações de dados em javascript para o R.</description>
-      <guid>https://www.fulljoin.com.br/posts/2017-03-12-introducao-d3plusr</guid>
-      <pubDate>Dom, 12 Mar 2017 00:00:00 +0000</pubDate>
-      <media:content url="https://www.fulljoin.com.br/posts/2017-03-12-introducao-d3plusr/../../images/D3plusR.png" medium="image" type="image/png" width="247" height="237"/>
     </item>
   </channel>
 </rss>
