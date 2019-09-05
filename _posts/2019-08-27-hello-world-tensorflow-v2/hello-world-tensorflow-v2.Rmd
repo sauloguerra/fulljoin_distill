@@ -28,9 +28,11 @@ Para quem não conhece, o TensorFlow é a biblioteca de *machine learning* do Go
 
 # Instalação
 
-Para instalação do TensorFlow, é preciso que o usuário também tenha instalado o Python. Em regra, recomenda-se a instalação da distribuição [Anaconda]().
+Para instalação do TensorFlow, é preciso que o usuário também tenha instalado o Python. Em regra, recomenda-se a instalação da distribuição [Anaconda](https://www.anaconda.com/).
 
 No vídeo abaixo, é apresentado um tutorial do passo a passo para instalar os programas e os pacotes necessário para utilizar o TensorFlow no R.
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/Maf6xmQI-wM" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 O código abaixo instala o pacote `tensorflow`. Na minha máquina, está instalada a versão de desenvolvimento:
 
@@ -358,7 +360,8 @@ for(i in 1:epochs){
   train_accuracy_r <- as.numeric(train_accuracy$result()) %>% round(4)
   test_accuracy_r <- as.numeric(test_accuracy$result()) %>% round(4)
   
-  print(glue::glue('Epoch {i}, Loss: {train_loss_r}, Accuracy: {train_accuracy_r}, Test Loss: {test_loss_r}, Test Accuracy: {test_accuracy_r}\n'))
+  print(glue::glue('Epoch {i}, Loss: {train_loss_r}, Accuracy: {train_accuracy_r},
+                   Test Loss: {test_loss_r}, Test Accuracy: {test_accuracy_r}\n'))
   
   # resetando as métricas para a próx. época
   train_loss$reset_states()

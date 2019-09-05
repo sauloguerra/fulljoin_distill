@@ -1356,8 +1356,10 @@ d-appendix {
 <p>Para quem não conhece, o TensorFlow é a biblioteca de <em>machine learning</em> do Google. Você pode encontrar a documentação sobre essa biblioteca <a href="https://www.tensorflow.org/">neste link</a>. Para informações sobre a utilização do TensorFlow no R, indico fortemente o blog <a href="https://blogs.rstudio.com/tensorflow/">TensorFlow for R</a>.</p>
 <p>É possível utilizar o TensorFlow no R graças ao pacote <code>reticulate</code>. Este pacote permite o uso do Python de maneira integrada com o R. Para maiores detalhe sobre essa integração, faço referência a <a href="https://blogs.rstudio.com/tensorflow/posts/2019-08-29-using-tf-from-r/">esse post</a>.</p>
 <h1 id="instalacao">Instalação</h1>
-<p>Para instalação do TensorFlow, é preciso que o usuário também tenha instalado o Python. Em regra, recomenda-se a instalação da distribuição <a href="">Anaconda</a>.</p>
+<p>Para instalação do TensorFlow, é preciso que o usuário também tenha instalado o Python. Em regra, recomenda-se a instalação da distribuição <a href="https://www.anaconda.com/">Anaconda</a>.</p>
 <p>No vídeo abaixo, é apresentado um tutorial do passo a passo para instalar os programas e os pacotes necessário para utilizar o TensorFlow no R.</p>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/Maf6xmQI-wM" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
+</iframe>
 <p>O código abaixo instala o pacote <code>tensorflow</code>. Na minha máquina, está instalada a versão de desenvolvimento:</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
@@ -1513,7 +1515,7 @@ metricas &lt;- model$evaluate(x_test, y_test, verbose = 2L)
 
 cat(&#39;Acurácia:&#39;, scales::percent(metricas[[2]]))</code></pre>
 <pre><code>
-Acurácia: 97.8%</code></pre>
+Acurácia: 98.1%</code></pre>
 </div>
 <ul>
 <li>R + Keras</li>
@@ -1532,10 +1534,10 @@ test_evaluate &lt;- model_keras %&gt;% evaluate(x_test, y_test, verbose = 2)
 test_evaluate</code></pre>
 <pre><code>
 $loss
-[1] 0.06711416
+[1] 0.06365786
 
 $accuracy
-[1] 0.9796</code></pre>
+[1] 0.9807</code></pre>
 </div>
 <p>Finalizado essa primeira abordagem, vamos para abordagem avançada.</p>
 <h2 id="abordagem-avancada">Abordagem Avançada</h2>
@@ -1595,12 +1597,12 @@ model &lt;- MyModel()</code></pre>
 model(x_train[1:2,,,1, drop = FALSE]) %&gt;% 
   as.matrix()</code></pre>
 <pre><code>
-           [,1]      [,2]       [,3]       [,4]       [,5]       [,6]
-[1,] 0.07981889 0.1180321 0.09326486 0.09343684 0.10382626 0.09572043
-[2,] 0.08051798 0.1190785 0.10751773 0.10563858 0.08739941 0.11009298
-           [,7]      [,8]       [,9]      [,10]
-[1,] 0.09849060 0.1108714 0.10267337 0.10386519
-[2,] 0.08803203 0.1172473 0.09714492 0.08733056</code></pre>
+           [,1]       [,2]       [,3]      [,4]       [,5]      [,6]
+[1,] 0.09251988 0.09516452 0.10377929 0.1010672 0.09103622 0.1029180
+[2,] 0.09044854 0.09048019 0.09655939 0.1027379 0.09262010 0.1057449
+           [,7]      [,8]      [,9]      [,10]
+[1,] 0.09560755 0.1096519 0.1150445 0.09321094
+[2,] 0.09526931 0.1089784 0.1193546 0.09780669</code></pre>
 </div>
 <p>Na sequência, define-se a função que computa a “perda” do modelo e a métrica de otimização. A função de perda receberá um conjunto de imagens e seus rótulos e irá computar uma medida de erro do modelo.</p>
 <div class="layout-chunk" data-layout="l-body">
@@ -1691,7 +1693,8 @@ for(i in 1:epochs){
   train_accuracy_r &lt;- as.numeric(train_accuracy$result()) %&gt;% round(4)
   test_accuracy_r &lt;- as.numeric(test_accuracy$result()) %&gt;% round(4)
   
-  print(glue::glue(&#39;Epoch {i}, Loss: {train_loss_r}, Accuracy: {train_accuracy_r}, Test Loss: {test_loss_r}, Test Accuracy: {test_accuracy_r}\n&#39;))
+  print(glue::glue(&#39;Epoch {i}, Loss: {train_loss_r}, Accuracy: {train_accuracy_r},
+                   Test Loss: {test_loss_r}, Test Accuracy: {test_accuracy_r}\n&#39;))
   
   # resetando as métricas para a próx. época
   train_loss$reset_states()
@@ -1701,13 +1704,18 @@ for(i in 1:epochs){
   
 }</code></pre>
 <pre><code>
-Epoch 1, Loss: 0.1723, Accuracy: 0.9497, Test Loss: 0.069, Test Accuracy: 0.9773
-Epoch 2, Loss: 0.0519, Accuracy: 0.9844, Test Loss: 0.0499, Test Accuracy: 0.9837
-Epoch 3, Loss: 0.0294, Accuracy: 0.9909, Test Loss: 0.0445, Test Accuracy: 0.9844
-Epoch 4, Loss: 0.0174, Accuracy: 0.9949, Test Loss: 0.0474, Test Accuracy: 0.9845
-Epoch 5, Loss: 0.0106, Accuracy: 0.9968, Test Loss: 0.0484, Test Accuracy: 0.9849</code></pre>
+Epoch 1, Loss: 0.1772, Accuracy: 0.9492,
+                   Test Loss: 0.0703, Test Accuracy: 0.9773
+Epoch 2, Loss: 0.0518, Accuracy: 0.9843,
+                   Test Loss: 0.0564, Test Accuracy: 0.9811
+Epoch 3, Loss: 0.0291, Accuracy: 0.9912,
+                   Test Loss: 0.0477, Test Accuracy: 0.983
+Epoch 4, Loss: 0.0173, Accuracy: 0.9953,
+                   Test Loss: 0.0501, Test Accuracy: 0.9832
+Epoch 5, Loss: 0.011, Accuracy: 0.9968,
+                   Test Loss: 0.0533, Test Accuracy: 0.9825</code></pre>
 </div>
-<p>Assim, finalizamos o treinamento e a avaliação do modelo. Este modelo conseguiu uma acurácia de 98.5%.</p>
+<p>Assim, finalizamos o treinamento e a avaliação do modelo. Este modelo conseguiu uma acurácia de 98.2%.</p>
 <h1 id="consideracoes-finais">Considerações Finais</h1>
 <p>Este é o primeiro post de uma série que pretendemos escrever com alguns exemplos do TensorFlow. O objetivo é arquivar o aprendizado e compartilhar com quem tiver interesse. Hoje trouxemos um exemplo clássico de visão computacional de classificação de números. Espero trazer exemplos mais interessantes nos próximos posts. Críticas e sugestões são bem-vindas.</p>
 <!--radix_placeholder_article_footer-->
