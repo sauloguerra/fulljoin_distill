@@ -1,0 +1,376 @@
+---
+title: "Hello World - TensorFlow V2"
+description: |
+  Com a ajuda do pacote `tensorflow`, vamos replicar os códigos de exemplos iniciais do TensorFlow V2, que é a segunda versão da biblioteca de *machine learning* do Google. Apesar dos códigos originais estarem em Python, é fácil convertê-los para R. Nesse post, veremos como.
+Author: Paulo Felipe Alencar
+date: 09-05-2019
+output:
+  distill::distill_article:
+    self_contained: false
+categories:
+  - TensorFlow
+  - Deep Learning
+  - Aprendizado de Máquina
+draft: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Introdução
+
+Este post é o primeiro de alguns que pretendemos escrever sobre o TensorFlow no R. Vale ressaltar, desde já, que se trata de uma série de posts que servem como anotações de um processo de aprendizagem sobre esse pacote. 
+
+Para quem não conhece, o TensorFlow é a biblioteca de *machine learning* do Google. Você pode encontrar a documentação sobre essa biblioteca [neste link](https://www.tensorflow.org/). Para informações sobre a utilização do TensorFlow no R, indico fortemente o blog [TensorFlow for R](https://blogs.rstudio.com/tensorflow/).
+
+É possível utilizar o TensorFlow no R graças ao pacote `reticulate`. Este pacote permite o uso do Python de maneira integrada com o R. Para maiores detalhe sobre essa integração, faço referência a [esse post](https://blogs.rstudio.com/tensorflow/posts/2019-08-29-using-tf-from-r/).
+
+# Instalação
+
+Para instalação do TensorFlow, é preciso que o usuário também tenha instalado o Python. Em regra, recomenda-se a instalação da distribuição [Anaconda]().
+
+No vídeo abaixo, é apresentado um tutorial do passo a passo para instalar os programas e os pacotes necessário para utilizar o TensorFlow no R.
+
+O código abaixo instala o pacote `tensorflow`. Na minha máquina, está instalada a versão de desenvolvimento:
+
+```{r, eval=FALSE}
+# Versão oficial
+install.packages('tensorflow')
+# Versão de desenvolvimento
+remotes::install_github("rstudio/tensorflow")
+```
+
+Uma vez que o pacote esteja instalado, podemos instalar a versão do TensorFlow para o Python:
+
+```{r, eval=FALSE}
+# versão gpu
+reticulate::conda_install(
+  envname = 'r-reticulate',
+  packages = 'tensorflow-gpu==2.0.0rc0',
+  pip = TRUE
+)
+
+# versão cpu
+reticulate::conda_install(
+  envname = 'r-reticulate',
+  packages = 'tensorflow==2.0.0rc0',
+  pip = TRUE
+)
+```
+
+
+Com tudo instalado, podemos carregar os pacotes que iremos utilizar neste post.
+
+```{r}
+library(tidyverse)
+library(keras)
+library(tensorflow)
+library(tfdatasets)
+```
+
+Ao carregar o pacote `tensorflow`, fica disponibilizado o módulo do python `tf`:
+
+```{r}
+tf
+
+tf_version()
+```
+
+Este módulo tem uma série de métodos (funções) que serão utilizadas neste post.
+
+# Exemplo: Classificando Dígitos - MNIST 
+
+O nosso primeiro exemplo segue o "Get Started" do TensorFlow. Vamos implementar no R as duas abordagens: para iniciantes e para experts. O nosso objetivo será classificar dígitos numéricos a partir de imagens. Para quem já viu o mínimo de *deep learning*, saberá que estamos falando da base MNIST.
+
+A base MNIST está disponível no próprio tensorflow. Podemos carregá-la com o seguinte código:
+
+```{r}
+mnist <- tf$keras$datasets$mnist$load_data()
+str(mnist)
+```
+
+Este objeto tem duas listas. A primeira delas é formada pelos dados de treinamento. Temos um array de tamanho $6000\times28\times28$, representando 6.000 imagens de tamanho $28\times28$ pixels (cada pixel recebe um valor entre 0 e 255). Além disso, temos um vetor de rótulos que indicam qual é o valor entre 0 a 9 que cada imagem representa. Da mesma forma, a segunda lista traz os dados da base de teste com informações de 10.000 imagens.
+
+Abaixo o `%<-%` descompacta uma lista em diferentes objetos. Adicionalmente, também dividimos os valores por 255 para tornar o valor de cada pixel um número entre 0 e 1.
+
+```{r}
+c(c(x_train, y_train), c(x_test, y_test)) %<-% mnist
+x_train <- x_train/255
+x_test <- x_test/255
+```
+
+Abaixo, visualizamos algumas imagens:
+
+```{r, fig.height=4}
+par(mfcol=c(4,5))
+par(mar=c(0, 0, 3, 0), xaxs='i', yaxs='i')
+for (idx in 1:20) { 
+    im <- x_train[idx,,
+                  ]
+    im <- t(apply(im, 2, rev)) 
+    image(1:28, 1:28, im, col=gray((0:255)/255), 
+          xaxt='n', main=paste(y_train[idx]))
+}
+```
+
+## Abordagem Básica
+
+Agora, vamos definir o nosso primeiro modelo seguindo a abordagem básica. Inicialmente, vamos observar como ele seria definido em Python:
+
+```{python, eval=FALSE}
+model = tf.keras.models.Sequential([
+  tf.keras.layers.Flatten(input_shape=(28, 28)),
+  tf.keras.layers.Dense(128, activation='relu'),
+  tf.keras.layers.Dropout(0.2),
+  tf.keras.layers.Dense(10, activation='softmax')
+])
+
+model.compile(optimizer='adam',
+              loss='sparse_categorical_crossentropy',
+              metrics=['accuracy'])
+```
+
+Convertendo para R:
+
+```{r}
+model <- tf$keras$Sequential(
+  c(
+    tf$keras$layers$Flatten(input_shape = c(28L, 28L)),
+    tf$keras$layers$Dense(512L, activation = "relu"),
+    tf$keras$layers$Dropout(0.2),
+    tf$keras$layers$Dense(10, activation = "softmax")
+  )
+)
+
+model$compile(
+  optimizer = "adam",
+  loss = "sparse_categorical_crossentropy",
+  metrics = list("accuracy")
+)
+```
+
+Adicionalmente, podemos definir o modelo utilizando funções do pacote `keras`:
+
+```{r, eval=TRUE}
+model_keras <- keras_model_sequential() %>% 
+  layer_flatten(input_shape = c(28, 28)) %>% 
+  layer_dense(512, activation = "relu") %>% 
+  layer_dropout(0.2) %>% 
+  layer_dense(10, activation = "softmax")
+
+model_keras %>% 
+  compile(
+    optimizer = "adam",
+    loss = "sparse_categorical_crossentropy",
+    metrics = list('accuracy')
+)
+```
+
+Agora, vamos ao treinamento (fit) do modelo. Novamente, veremos primeiro o código em Python, depois o código em R e, por último, utilizando o pacote `keras`. O parâmetro `epochs` indica o número de vezes que o algoritmo passará por toda a base de treinamento. No exemplo, opta-se por 5. Após o treinamento, o método `evaluate()` é utilizado para avaliar o modelo na base de teste.
+
+* Python 
+
+```{python, eval=FALSE}
+model.fit(x_train, y_train, epochs=5)
+
+model.evaluate(x_test, y_test)
+```
+
+* R
+
+```{r}
+model$fit(x_train, y_train, epochs = 5L, verbose = 2L)
+
+metricas <- model$evaluate(x_test, y_test, verbose = 2L)
+
+cat('Acurácia:', scales::percent(metricas[[2]]))
+```
+
+* R + Keras
+
+```{r}
+model_keras %>% fit(
+  x_train, 
+  y_train,
+  epochs = 5,
+  verbose = 2
+)
+
+test_evaluate <- model_keras %>% evaluate(x_test, y_test, verbose = 2)
+
+test_evaluate
+```
+
+Finalizado essa primeira abordagem, vamos para abordagem avançada.
+
+## Abordagem Avançada
+
+Em primeiro lugar, vale destacar que o termo "avançado" aqui é utilizado apenas para continuar em linha com a página do TensorFlow. Aqui, o código fica um pouco mais complexo, uma vez que iremos abrir o passo a passo do treinamento do modelo. Calcularemos as predições do nosso modelo, computaremos o valor da função de perda, calculamos os gradientes e atualizaremos os parâmetros.
+
+Para começar, vamos preparar os dados. Uma das camadas que utilizaremos será a camada convolucional 2D. Essa camada, espera como input uma array de dimensão $batch size\times n\times k\times c$, em que batch size é o número de amostras passadas por iteração para o nosso modelo, $n$ é o número de linhas e $k$ o número de colunas da nossa matriz que representa uma imagem e $c$ é o número de canais. No nosso exemplo, só teremos um canal. Se estivéssemos trabalhando com imagens coloridas, teríamos 3 canais (RGB).
+
+Abaixo, alteramos nosso array de imagens para ter uma dimensão a mais:
+
+```{r}
+x_train <- array(x_train, dim = c(dim(x_train), 1))
+x_test <- array(x_test, dim = c(dim(x_test), 1))
+
+dim(x_train)
+dim(x_test)
+```
+
+Nosso próximo passo é construir um objeto que irá fornecer exemplos (observações) para o modelo. Para ser mais sucinto, irei apresentar apenas o código em R. O código em python pode ser visualizado [neste link](https://www.tensorflow.org/beta/tutorials/quickstart/advanced). Iremos utilizar o pacote `tfdatasets` para criar os objetos que irão fornecer dados ao modelo. 
+
+```{r}
+train_ds <- tensor_slices_dataset(tensors = list(x_train, y_train)) %>% 
+  dataset_shuffle(10000) %>% 
+  dataset_batch(128)
+  
+test_ds <- tensor_slices_dataset(tensors = list(x_test, y_test)) %>% 
+  dataset_batch(128)
+```
+
+
+Para definição do modelo customizado, poderíamos criar um objeto da classe `R6` usando o pacote de mesmo nome. Contudo, o pacote `keras` nos fornece uma função que facilita a criação de modelos customizados. Também utilizaremos as funções de camadas (`layer_conv_2d()`, `layer_flatten()` e `layer_dense()`) disponibilizadas pelo `keras`.
+
+```{r}
+MyModel <- function(name = NULL) {
+  keras_model_custom(name = "MyModel", function(self) {
+    
+    self$conv1 <- layer_conv_2d(filters = 32, kernel_size =  3, activation = "relu")
+    self$flatten <- layer_flatten()
+    self$d1 <- layer_dense(units = 128, activation = "relu")
+    self$d2 <- layer_dense(units = 10, activation = "softmax")
+    
+    
+    function(inputs, mask = NULL) {
+      self$conv1(inputs) %>%
+        self$flatten() %>% 
+        self$d1() %>% 
+        self$d2()
+    }
+    
+  })
+}
+
+model <- MyModel()
+```
+
+O objeto `model` nada mais é uma função que recebe um input (várias imagens) e retorna a probabilidade de cada imagem ser um número entre 0 e 9. Veja o exemplo abaixo para duas imagens. Como nosso modelo ainda não foi treinado, ele atribui praticamente a mesma probabilidade para cada classe.
+
+```{r}
+model(x_train[1:2,,,1, drop = FALSE]) %>% 
+  as.matrix()
+```
+
+
+Na sequência, define-se a função que computa a "perda" do modelo e a métrica de otimização. A função de perda receberá um conjunto de imagens e seus rótulos e irá computar uma medida de erro do modelo.
+
+```{r}
+loss_object <- tf$keras$losses$SparseCategoricalCrossentropy()
+optimizer <- tf$keras$optimizers$Adam()
+```
+
+Agora, vamos definir as funções que computam a perda média e a métrica de avaliação do modelo para o treinamento e para o teste. 
+
+```{r}
+train_loss <- tf$keras$metrics$Mean(name='train_loss')
+train_accuracy <- tf$keras$metrics$SparseCategoricalAccuracy(name='train_accuracy')
+
+test_loss <- tf$keras$metrics$Mean(name='test_loss')
+test_accuracy <- tf$keras$metrics$SparseCategoricalAccuracy(name='test_accuracy')
+```
+
+O código abaixo define o passo de treinamento. Ele pode ser resumido da seguinte forma:
+
+* A função recebe os dados e os rótulos de um determinado número de observações (imagens);
+* Os dados das imagens são aplicados na função `model()` que retorna um conjunto de predições;
+* Computa-se a métrica de perda a partir dos rótulos e das predições;
+* Computa-se o gradiente da função de perda com respeito às variáveis (pesos) do modelo;
+* Os gradientes são aplicados para atualização dos pesos;
+* Por fim, são computados a perda e a acurácia para a base de treinamento.
+
+```{r}
+train_step <- function(images, labels){
+  
+  with(tf$GradientTape() %as% tape, {
+    
+    predictions <- model(images)
+    loss <- loss_object(labels, predictions)
+    
+  })
+  
+  gradients <- tape$gradient(loss, model$variables)
+  optimizer$apply_gradients(
+    purrr::transpose(list(gradients, model$variables))
+  )
+  
+  train_loss(loss)
+  train_accuracy(labels, predictions)
+  
+}
+```
+
+Uma função mais simples é definida para computar o passo para a base de teste:
+
+```{r}
+test_step <- function(images, labels){
+  predictions <- model(images)
+  t_loss <- loss_object(labels, predictions)
+  test_loss(t_loss)
+  test_accuracy(labels, predictions)
+}
+```
+
+Agora, vamos ao treinamento propriamente dito. Iremos definir o número de épocas igual a 5:
+
+```{r}
+epochs <- 5
+```
+
+Na sequência, vamos transformar nossos objetos de dados em objetos do tipo `iterator` e realizar o treinamento e as predições de teste:
+
+```{r}
+for(i in 1:epochs){
+  iter_train <- make_iterator_one_shot(train_ds)
+  iter_test <- make_iterator_one_shot(test_ds)
+  # fase de treinamento
+  until_out_of_range({
+    batch <- iterator_get_next(iter_train)
+    images <- batch[[1]]
+    labels <- batch[[2]]  
+    train_step(images, labels)
+  })
+  
+  # fase de teste
+  until_out_of_range({
+    batch <- iterator_get_next(iter_test)
+    images <- batch[[1]]
+    labels <- batch[[2]]  
+    test_step(images, labels)
+  })
+  
+  # resultados
+  train_loss_r <- as.numeric(train_loss$result()) %>% round(4)
+  test_loss_r <- as.numeric(test_loss$result()) %>% round(4)
+  
+  train_accuracy_r <- as.numeric(train_accuracy$result()) %>% round(4)
+  test_accuracy_r <- as.numeric(test_accuracy$result()) %>% round(4)
+  
+  print(glue::glue('Epoch {i}, Loss: {train_loss_r}, Accuracy: {train_accuracy_r}, Test Loss: {test_loss_r}, Test Accuracy: {test_accuracy_r}\n'))
+  
+  # resetando as métricas para a próx. época
+  train_loss$reset_states()
+  train_accuracy$reset_states()
+  test_loss$reset_states()
+  test_accuracy$reset_states()
+  
+}
+```
+
+Assim, finalizamos o treinamento e a avaliação do modelo. Este modelo conseguiu uma acurácia de `r scales::percent(test_accuracy_r)`.
+
+# Considerações Finais
+
+Este é o primeiro post de uma série que pretendemos escrever com alguns exemplos do TensorFlow. O objetivo é arquivar o aprendizado e compartilhar com quem tiver interesse. Hoje trouxemos um exemplo clássico de visão computacional de classificação de números. Espero trazer exemplos mais interessantes nos próximos posts. Críticas e sugestões são bem-vindas.
