@@ -999,6 +999,7 @@ sessao &lt;- html_session(url)</code></pre>
 [[1]]
 &lt;form&gt; &#39;aspnetForm&#39; (POST login.aspx)
   &lt;input hidden&gt; &#39;__VIEWSTATE&#39;: /wEPDwUKMjEwNTg1MDYwNmRkwOWN09etib3cEcYwkEwmQuk4eGE=
+  &lt;input hidden&gt; &#39;__VIEWSTATEGENERATOR&#39;: 803C878C
   &lt;input hidden&gt; &#39;__EVENTVALIDATION&#39;: /wEWBAKE+eKZBgKezL2tCQKt6MueDQKW9Z+RAXuXwk35k3s3/1HrG9WTDCFP3/l4
   &lt;input text&gt; &#39;ctl00$ContentPlaceHolder1$txtLogin&#39;: 
   &lt;input password&gt; &#39;ctl00$ContentPlaceHolder1$txtSenha&#39;: 
@@ -1035,7 +1036,7 @@ submit_form(sessao, form_preenchido)</code></pre>
 &lt;session&gt; https://cei.b3.com.br/CEI_Responsivo/home.aspx
   Status: 200
   Type:   text/html; charset=utf-8
-  Size:   48395</code></pre>
+  Size:   48490</code></pre>
 </div>
 <p>Agora estamos na página inicial da área restrita, pós login, já com a sessão autenticada.</p>
 <figure>
@@ -1056,6 +1057,7 @@ pagina_dados &lt;- jump_to(sessao, url_dados)</code></pre>
 &lt;form&gt; &#39;aspnetForm&#39; (POST negociacao-de-ativos.aspx)
   &lt;input hidden&gt; &#39;ctl00_ContentPlaceHolder1_ToolkitScriptManager1_HiddenField&#39;: 
   &lt;input hidden&gt; &#39;__VIEWSTATE&#39;: /wEPDwUKLTI2MTA0ODczNg9kFgJmD2QWAgIDD2QWCAIBDw8WAh4EVGV4dAUoU0FVTE8gREUgU09VWkEgR1VFUlJBIEZFUlJFSVJBIERFIENBU1RST2RkAgMPZBYCAgEPFgIeB1Zpc2libGVoZAIFD2QWBAIBDw8WAh8ABRZOZWdvY2lhw6fDo28gZGUgYXRpdm9zZGQCAw9kFgICAw8PFgIfAAUzIC8gRXh0cmF0b3MgZSBJbmZvcm1hdGl2b3MgLyBOZWdvY2lhw6fDo28gZGUgYXRpdm9zZGQCBw9kFgICBQ9kFgJmD2QWCAIDDxBkEBUGCVNlbGVjaW9uZRo4NSAtIEJURyBQQUNUVUFMIENUVk0gUy5BLhgxMDI2IC0gQkFOQ08gQlRHIFBBQ1RVQUwWMTA5OSAtIElOVEVSIERUVk0gTFREQR4zIC0gWFAgSU5WRVNUSU1FTlRPUyBDQ1RWTSBTL0EjMzg2IC0gUklDTyBJTlZFU1RJTUVOVE9TIC0gR1JVUE8gWFAVBgItMQI4NQQxMDI2BDEwOTkBMwMzODYUKwMGZ2dnZ2dnFgFmZAIFDxAPFgIeB0VuYWJsZWRoZBAVAQxTZWxlY2lvbmUuLi4VAQEwFCsDAWcWAWZkAgcPDxYCHwFnZBYEAgUPDxYCHwAFCjE5LzAzLzIwMThkZAIHDw8WAh8ABQowOS8wOS8yMDE5ZGQCCQ9kFggCAQ8PFgIfAAUKMTkvMDMvMjAxOGRkAgMPDxYCHwAFCjA5LzA5LzIwMTlkZAIFDw8WAh8ABQoxOS8wMy8yMDE4ZGQCBw8PFgIfAAUKMDkvMDkvMjAxOWRkZPqigqMb6fRqydjTFyhGIDiRNa0b
+  &lt;input hidden&gt; &#39;__VIEWSTATEGENERATOR&#39;: B345DEBA
   &lt;input hidden&gt; &#39;__EVENTVALIDATION&#39;: /wEWDALKnLLZBgL5hcn2DgLcmdTJDgLHmeTJDgKA9qOrAgKzu7rVBwLSmZjKDgKW09KdCgLT7OvYBALmr6naDAK4koCdDgK0rs+gCNrac6AAGrj+8chIgEiLkj0AS/Rm
   &lt;input hidden&gt; &#39;ctl00$ContentPlaceHolder1$hdnPDF_EXCEL&#39;: 
   &lt;select&gt; &#39;ctl00$ContentPlaceHolder1$ddlAgentes&#39; [1/6]
@@ -1082,8 +1084,8 @@ instituicoes</code></pre>
 [4] &quot;3 - XP INVESTIMENTOS CCTVM S/A&quot;     
 [5] &quot;386 - RICO INVESTIMENTOS - GRUPO XP&quot;</code></pre>
 </div>
-<p>Agora basta percorrer cada um dos bancos, passando o código do banco e submetendo a consulta na página para resgatar o resultado de cada página e montar um dataframe. Com um simple loop resolvemos isso.</p>
-<p>Durante o loop faremos um controle simples para baixar os dados apenas das instituições que apresentam a tabela de compra e venda de ações. As instituições que você nunca comprou apresentam a mensagem “Não foram encontrados resultados para esta pesquisa”. Ao detectar a presença dessa frase, vamos assumir que não foi comprada ações nessa instituição.</p>
+<p>Agora basta percorrer cada um dos bancos, passando o código do banco e submetendo a consulta na página para resgatar o resultado de cada página e montar um dataframe. Com um simples loop resolvemos isso.</p>
+<p>Durante o loop faremos um controle para baixar os dados apenas das instituições que apresentam a tabela de compra e venda de ações. As instituições que você nunca comprou apresentam a mensagem “Não foram encontrados resultados para esta pesquisa”. Ao detectar a presença dessa frase, vamos assumir que não foi comprada ações nessa instituição.</p>
 <p>As datas e o número de conta são preenchidos automaticamente, basta, portanto, enviar o código número que aparece na frente do nome de cada instituição.</p>
 <p>Ao acessar a página que de fato apresenta os dados, serão exibidas duas tabelas, vamos raspar apenas as informações da tabela com o gigantesco id <strong>ctl00_ContentPlaceHolder1_rptAgenteBolsa_ctl00_rptContaBolsa_ctl00_pnAtivosNegociados</strong>. Dela extrairemos a tag <tabela> e descartaremos a última linha de totais.</p>
 <p>O resultado é o seguinte loop:</p>
@@ -1245,7 +1247,7 @@ consulta_carteira &lt;- function(cpf, senha) {
   return(dados_totais)
 }</code></pre>
 </div>
-<p>E chamamos nossa funcão assim</p>
+<p>E chamamos nossa função assim</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 senha &lt;- keyring::key_get(&#39;senha&#39;, &#39;SEU_CPF&#39;, &#39;cei-b3&#39;)

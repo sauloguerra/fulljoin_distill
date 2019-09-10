@@ -135,9 +135,9 @@ instituicoes <- instituicoes[!grepl("Selecione", instituicoes)]
 instituicoes
 ```
 
-Agora basta percorrer cada um dos bancos, passando o código do banco e submetendo a consulta na página para resgatar o resultado de cada página e montar um dataframe. Com um simple loop resolvemos isso.
+Agora basta percorrer cada um dos bancos, passando o código do banco e submetendo a consulta na página para resgatar o resultado de cada página e montar um dataframe. Com um simples loop resolvemos isso.
 
-Durante o loop faremos um controle simples para baixar os dados apenas das instituições que apresentam a tabela de compra e venda de ações. As instituições que você nunca comprou apresentam a mensagem "Não foram encontrados resultados para esta pesquisa". Ao detectar a presença dessa frase, vamos assumir que não foi comprada ações nessa instituição. 
+Durante o loop faremos um controle para baixar os dados apenas das instituições que apresentam a tabela de compra e venda de ações. As instituições que você nunca comprou apresentam a mensagem "Não foram encontrados resultados para esta pesquisa". Ao detectar a presença dessa frase, vamos assumir que não foi comprada ações nessa instituição. 
 
 As datas e o número de conta são preenchidos automaticamente, basta, portanto, enviar o código número que aparece na frente do nome de cada instituição.
 
@@ -249,7 +249,7 @@ consulta_carteira <- function(cpf, senha) {
 }
 ```
 
-E chamamos nossa funcão assim 
+E chamamos nossa função assim 
 
 ```{r, eval=FALSE}
 senha <- keyring::key_get('senha', 'SEU_CPF', 'cei-b3')
