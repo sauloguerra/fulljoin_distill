@@ -15,9 +15,25 @@
       "scraping"
     ],
     "preview": "posts/2019-09-03-b3-rvest-cei/../../images/cei_rvest.png",
-    "last_modified": "2019-09-10T00:28:54-03:00",
+    "last_modified": "2019-09-10T01:04:25-03:00",
     "preview_width": 322,
     "preview_height": 88
+  },
+  {
+    "path": "posts/2019-08-27-hello-world-tensorflow-v2/",
+    "title": "Hello World - TensorFlow V2",
+    "description": "Com a ajuda do pacote `tensorflow`, vamos replicar os códigos de exemplos iniciais do TensorFlow V2, que é a segunda versão da biblioteca de *machine learning* do Google. Apesar dos códigos originais estarem em Python, é fácil convertê-los para R. Nesse post, veremos como.",
+    "author": [],
+    "date": "2019-09-05",
+    "categories": [
+      "TensorFlow",
+      "Deep Learning",
+      "Aprendizado de Máquina"
+    ],
+    "preview": "posts/2019-08-27-hello-world-tensorflow-v2/hello-world-tensorflow-v2_files/figure-html5/unnamed-chunk-7-1.png",
+    "last_modified": "2019-09-10T00:40:37-03:00",
+    "preview_width": 1248,
+    "preview_height": 768
   },
   {
     "path": "posts/2019-07-18-b3-rvest-explorando-dados-financeiros-com-r/",

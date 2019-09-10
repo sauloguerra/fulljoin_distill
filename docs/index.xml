@@ -18,6 +18,14 @@
       <media:content url="https://www.fulljoin.com.br/posts/2019-09-03-b3-rvest-cei/../../images/cei_rvest.png" medium="image" type="image/png" width="322" height="88"/>
     </item>
     <item>
+      <title>Hello World - TensorFlow V2</title>
+      <link>https://www.fulljoin.com.br/posts/2019-08-27-hello-world-tensorflow-v2</link>
+      <description>Com a ajuda do pacote `tensorflow`, vamos replicar os códigos de exemplos iniciais do TensorFlow V2, que é a segunda versão da biblioteca de *machine learning* do Google. Apesar dos códigos originais estarem em Python, é fácil convertê-los para R. Nesse post, veremos como.</description>
+      <guid>https://www.fulljoin.com.br/posts/2019-08-27-hello-world-tensorflow-v2</guid>
+      <pubDate>Qui, 05 Set 2019 00:00:00 +0000</pubDate>
+      <media:content url="https://www.fulljoin.com.br/posts/2019-08-27-hello-world-tensorflow-v2/hello-world-tensorflow-v2_files/figure-html5/unnamed-chunk-7-1.png" medium="image" type="image/png" width="1248" height="768"/>
+    </item>
+    <item>
       <title>B3 + rvest: Explorando dados financeiros com R - parte 1</title>
       <dc:creator>Saulo Guerra</dc:creator>
       <link>https://www.fulljoin.com.br/posts/2019-07-18-b3-rvest-explorando-dados-financeiros-com-r</link>
@@ -87,17 +95,6 @@
       <guid>https://www.fulljoin.com.br/posts/2018-12-21-training-a-dog-breeds-image-classifier-using-keras-in-pre-trained-models</guid>
       <pubDate>Qua, 02 Jan 2019 00:00:00 +0000</pubDate>
       <media:content url="https://www.fulljoin.com.br/posts/2018-12-21-training-a-dog-breeds-image-classifier-using-keras-in-pre-trained-models/training-a-dog-breeds-image-classifier-using-keras-in-pre-trained-models_files/figure-html5/unnamed-chunk-6-1.png" medium="image" type="image/png" width="1248" height="768"/>
-    </item>
-    <item>
-      <title>Classificando Comentários Tóxicos com o R</title>
-      <dc:creator>Paulo Felipe Alencar</dc:creator>
-      <link>https://www.fulljoin.com.br/posts/2018-10-24-classificando-comentrios-txicos</link>
-      <description>Nesse post, vamos criar um classificador de comentários tóxicos a partir de uma
-base de dados disponibilizada em uma competição do Kaggle. Serão utilizadas 
-técnicas chamadas de bag-of-words e tf-idf.</description>
-      <guid>https://www.fulljoin.com.br/posts/2018-10-24-classificando-comentrios-txicos</guid>
-      <pubDate>Dom, 18 Nov 2018 00:00:00 +0000</pubDate>
-      <media:content url="https://www.fulljoin.com.br/posts/2018-10-24-classificando-comentrios-txicos/classificando-comentrios-txicos_files/figure-html5/unnamed-chunk-5-1.png" medium="image" type="image/png" width="1248" height="768"/>
     </item>
   </channel>
 </rss>

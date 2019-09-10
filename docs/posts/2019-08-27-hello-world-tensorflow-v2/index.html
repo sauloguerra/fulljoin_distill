@@ -19,53 +19,46 @@
  <!--/radix_placeholder_import_source-->
 
   <!--radix_placeholder_meta_tags-->
-<title>Fulljoin: CEI + rvest: Explorando dados financeiros com R - parte 2</title>
+<title>Fulljoin: Hello World - TensorFlow V2</title>
 
-<meta property="description" itemprop="description" content="Com o pacote rvest você pode baixar todo seu histórico de compra e venda de ações diretamente do CEI e passar a gerenciar sua carteira pelo R"/>
+<meta property="description" itemprop="description" content="Com a ajuda do pacote `tensorflow`, vamos replicar os códigos de exemplos iniciais do TensorFlow V2, que é a segunda versão da biblioteca de *machine learning* do Google. Apesar dos códigos originais estarem em Python, é fácil convertê-los para R. Nesse post, veremos como."/>
 
-<link rel="canonical" href="https://www.fulljoin.com.br/posts/2019-09-03-b3-rvest-cei/"/>
+<link rel="canonical" href="https://www.fulljoin.com.br/posts/2019-08-27-hello-world-tensorflow-v2/"/>
 
 <!--  https://schema.org/Article -->
-<meta property="article:published" itemprop="datePublished" content="2019-09-10"/>
-<meta property="article:created" itemprop="dateCreated" content="2019-09-10"/>
-<meta name="article:author" content="Saulo Guerra"/>
+<meta property="article:published" itemprop="datePublished" content="2019-09-05"/>
+<meta property="article:created" itemprop="dateCreated" content="2019-09-05"/>
 
 <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
-<meta property="og:title" content="Fulljoin: CEI + rvest: Explorando dados financeiros com R - parte 2"/>
+<meta property="og:title" content="Fulljoin: Hello World - TensorFlow V2"/>
 <meta property="og:type" content="article"/>
-<meta property="og:description" content="Com o pacote rvest você pode baixar todo seu histórico de compra e venda de ações diretamente do CEI e passar a gerenciar sua carteira pelo R"/>
-<meta property="og:url" content="https://www.fulljoin.com.br/posts/2019-09-03-b3-rvest-cei/"/>
-<meta property="og:image" content="https://www.fulljoin.com.br/posts/2019-09-03-b3-rvest-cei/../../images/cei_rvest.png"/>
-<meta property="og:image:width" content="322"/>
-<meta property="og:image:height" content="88"/>
+<meta property="og:description" content="Com a ajuda do pacote `tensorflow`, vamos replicar os códigos de exemplos iniciais do TensorFlow V2, que é a segunda versão da biblioteca de *machine learning* do Google. Apesar dos códigos originais estarem em Python, é fácil convertê-los para R. Nesse post, veremos como."/>
+<meta property="og:url" content="https://www.fulljoin.com.br/posts/2019-08-27-hello-world-tensorflow-v2/"/>
+<meta property="og:image" content="https://www.fulljoin.com.br/posts/2019-08-27-hello-world-tensorflow-v2/hello-world-tensorflow-v2_files/figure-html5/unnamed-chunk-7-1.png"/>
+<meta property="og:image:width" content="1248"/>
+<meta property="og:image:height" content="768"/>
 <meta property="og:locale" content="en_US"/>
 <meta property="og:site_name" content="Fulljoin"/>
 
 <!--  https://dev.twitter.com/cards/types/summary -->
 <meta property="twitter:card" content="summary_large_image"/>
-<meta property="twitter:title" content="Fulljoin: CEI + rvest: Explorando dados financeiros com R - parte 2"/>
-<meta property="twitter:description" content="Com o pacote rvest você pode baixar todo seu histórico de compra e venda de ações diretamente do CEI e passar a gerenciar sua carteira pelo R"/>
-<meta property="twitter:url" content="https://www.fulljoin.com.br/posts/2019-09-03-b3-rvest-cei/"/>
-<meta property="twitter:image" content="https://www.fulljoin.com.br/posts/2019-09-03-b3-rvest-cei/../../images/cei_rvest.png"/>
-<meta property="twitter:image:width" content="322"/>
-<meta property="twitter:image:height" content="88"/>
+<meta property="twitter:title" content="Fulljoin: Hello World - TensorFlow V2"/>
+<meta property="twitter:description" content="Com a ajuda do pacote `tensorflow`, vamos replicar os códigos de exemplos iniciais do TensorFlow V2, que é a segunda versão da biblioteca de *machine learning* do Google. Apesar dos códigos originais estarem em Python, é fácil convertê-los para R. Nesse post, veremos como."/>
+<meta property="twitter:url" content="https://www.fulljoin.com.br/posts/2019-08-27-hello-world-tensorflow-v2/"/>
+<meta property="twitter:image" content="https://www.fulljoin.com.br/posts/2019-08-27-hello-world-tensorflow-v2/hello-world-tensorflow-v2_files/figure-html5/unnamed-chunk-7-1.png"/>
+<meta property="twitter:image:width" content="1248"/>
+<meta property="twitter:image:height" content="768"/>
 
-<!--  https://scholar.google.com/intl/en/scholar/inclusion.html#indexing -->
-<meta name="citation_title" content="Fulljoin: CEI + rvest: Explorando dados financeiros com R - parte 2"/>
-<meta name="citation_fulltext_html_url" content="https://www.fulljoin.com.br/posts/2019-09-03-b3-rvest-cei/"/>
-<meta name="citation_online_date" content="2019/09/10"/>
-<meta name="citation_publication_date" content="2019/09/10"/>
-<meta name="citation_author" content="Saulo Guerra"/>
 <!--/radix_placeholder_meta_tags-->
   <!--radix_placeholder_rmarkdown_metadata-->
 
 <script type="text/json" id="radix-rmarkdown-metadata">
-{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","output","draft","categories","preview","citation_url","canonical_url"]}},"value":[{"type":"character","attributes":{},"value":["CEI + rvest: Explorando dados financeiros com R - parte 2"]},{"type":"character","attributes":{},"value":["Com o pacote rvest você pode baixar todo seu histórico de compra e venda de ações diretamente do CEI e passar a gerenciar sua carteira pelo R"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url"]}},"value":[{"type":"character","attributes":{},"value":["Saulo Guerra"]},{"type":"character","attributes":{},"value":["https://github.com/sauloguerra"]}]}]},{"type":"character","attributes":{},"value":["09-10-2019"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]}]},{"type":"logical","attributes":{},"value":[false]},{"type":"character","attributes":{},"value":["rvest","scraping"]},{"type":"character","attributes":{},"value":["../../images/cei_rvest.png"]},{"type":"character","attributes":{},"value":["https://www.fulljoin.com.br/posts/2019-09-03-b3-rvest-cei/"]},{"type":"character","attributes":{},"value":["https://www.fulljoin.com.br/posts/2019-09-03-b3-rvest-cei/"]}]}
+{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","Author","date","output","categories","draft","citation_url","canonical_url"]}},"value":[{"type":"character","attributes":{},"value":["Hello World - TensorFlow V2"]},{"type":"character","attributes":{},"value":["Com a ajuda do pacote `tensorflow`, vamos replicar os códigos de exemplos iniciais do TensorFlow V2, que é a segunda versão da biblioteca de *machine learning* do Google. Apesar dos códigos originais estarem em Python, é fácil convertê-los para R. Nesse post, veremos como."]},{"type":"character","attributes":{},"value":["Paulo Felipe Alencar"]},{"type":"character","attributes":{},"value":["09-05-2019"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]}]},{"type":"character","attributes":{},"value":["TensorFlow","Deep Learning","Aprendizado de Máquina"]},{"type":"logical","attributes":{},"value":[false]},{"type":"character","attributes":{},"value":["https://www.fulljoin.com.br/posts/2019-08-27-hello-world-tensorflow-v2/"]},{"type":"character","attributes":{},"value":["https://www.fulljoin.com.br/posts/2019-08-27-hello-world-tensorflow-v2/"]}]}
 </script>
 <!--/radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-resource-manifest">
-  {"type":"character","attributes":{},"value":["b3-rvest-cei_files/bowser-1.9.3/bowser.min.js","b3-rvest-cei_files/distill-2.2.21/template.v2.js","b3-rvest-cei_files/jquery-1.11.3/jquery.min.js","b3-rvest-cei_files/webcomponents-2.0.0/webcomponents.js"]}
+  {"type":"character","attributes":{},"value":["hello-world-tensorflow-v2_files/bowser-1.9.3/bowser.min.js","hello-world-tensorflow-v2_files/distill-2.2.21/template.v2.js","hello-world-tensorflow-v2_files/figure-html5/unnamed-chunk-3-1.png","hello-world-tensorflow-v2_files/figure-html5/unnamed-chunk-7-1.png","hello-world-tensorflow-v2_files/jquery-1.11.3/jquery.min.js","hello-world-tensorflow-v2_files/webcomponents-2.0.0/webcomponents.js"]}
   </script>
   <!--radix_placeholder_navigation_in_header-->
 
@@ -1330,7 +1323,7 @@ d-appendix {
 <!--radix_placeholder_front_matter-->
 
 <script id="distill-front-matter" type="text/json">
-{"title":"CEI + rvest: Explorando dados financeiros com R - parte 2","description":"Com o pacote rvest você pode baixar todo seu histórico de compra e venda de ações diretamente do CEI e passar a gerenciar sua carteira pelo R","authors":[{"author":"Saulo Guerra","authorURL":"https://github.com/sauloguerra","affiliation":"&nbsp;","affiliationURL":"#"}],"publishedDate":"2019-09-10T00:00:00.000-03:00","citationText":"Guerra, 2019"}
+{"title":"Hello World - TensorFlow V2","description":"Com a ajuda do pacote `tensorflow`, vamos replicar os códigos de exemplos iniciais do TensorFlow V2, que é a segunda versão da biblioteca de *machine learning* do Google. Apesar dos códigos originais estarem em Python, é fácil convertê-los para R. Nesse post, veremos como.","authors":[],"publishedDate":"2019-09-05T00:00:00.000-03:00"}
 </script>
 
 <!--/radix_placeholder_front_matter-->
@@ -1352,266 +1345,396 @@ d-appendix {
 <!--/radix_placeholder_site_before_body-->
 
 <div class="d-title">
-<h1>CEI + rvest: Explorando dados financeiros com R - parte 2</h1>
-<p>Com o pacote rvest você pode baixar todo seu histórico de compra e venda de ações diretamente do CEI e passar a gerenciar sua carteira pelo R</p>
+<h1>Hello World - TensorFlow V2</h1>
+<p>Com a ajuda do pacote <code>tensorflow</code>, vamos replicar os códigos de exemplos iniciais do TensorFlow V2, que é a segunda versão da biblioteca de <em>machine learning</em> do Google. Apesar dos códigos originais estarem em Python, é fácil convertê-los para R. Nesse post, veremos como.</p>
 </div>
 
-<div class="d-byline">
-  Saulo Guerra <a href="https://github.com/sauloguerra" class="uri">https://github.com/sauloguerra</a> 
-  
-<br/>09-10-2019
-</div>
 
 <div class="d-article">
-<p>No post anterior em <a href="https://www.fulljoin.com.br/posts/2019-07-18-b3-rvest-explorando-dados-financeiros-com-r/">B3 + rvest: Explorando dados financeiros com R - parte 1</a> começamos a explorar, com a ajuda do rvest, alguns dados superficiais sobre a bolsa de valores brasileira. Nesse post vamos explorar o CEI - Canal Eletrônico do Investidor, também da B3, e baixar todo o histórico de compra e venda de ações.</p>
-<h2 id="definindo-objetivo">Definindo objetivo</h2>
-<p>Como objetivo a ser alcançado, vamos tentar baixar todo o histórico de compra e venda e montar uma tabela como ponto de partida para uma gestão da própria carteira no R.</p>
-<h2 id="achando-a-fonte-de-dados">Achando a fonte de dados</h2>
-<p>Se você investe em renda variável você certamente o faz por meio de uma corretora. A <strong>[B]³</strong> é a instituição que centraliza toda a gestão das informações e dos contratos, e o CEI é onde o investidor pode ter acesso aos dados direto na fonte.</p>
-<p>Dessa vez o ponto de partida da nossa fonte de dados está protegido por usuário e senha no site do CEI em <a href="https://cei.b3.com.br/CEI_Responsivo/" class="uri">https://cei.b3.com.br/CEI_Responsivo/</a>. Como havia dito, todo investidor pode ter conta no CEI, <a href="https://cei.b3.com.br/CEI_Responsivo/como-acessar.aspx">aqui eles explicam como fazer isso</a>.</p>
-<p>Infelizmente não localizei nenhuma forma rápida de baixar todos os seus próprios dados em formato aberto, csv, json, xml ou algo do tipo. Sendo assim, mais uma vez vamos raspar os dados para o R. O desafio da vez é raspar dados de um site com controle de acesso (usuário e senha). Felizmente o <strong>rvest</strong> torna essa tarefa um pouco mais fácil.</p>
-<p>Vamos usar os seguintes pacotes:</p>
+<h1 id="introducao">Introdução</h1>
+<p>Este post é o primeiro de alguns que pretendemos escrever sobre o TensorFlow no R. Vale ressaltar, desde já, que se trata de uma série de posts que servem como anotações de um processo de aprendizagem sobre esse pacote.</p>
+<p>Para quem não conhece, o TensorFlow é a biblioteca de <em>machine learning</em> do Google. Você pode encontrar a documentação sobre essa biblioteca <a href="https://www.tensorflow.org/">neste link</a>. Para informações sobre a utilização do TensorFlow no R, indico fortemente o blog <a href="https://blogs.rstudio.com/tensorflow/">TensorFlow for R</a>.</p>
+<p>É possível utilizar o TensorFlow no R graças ao pacote <code>reticulate</code>. Este pacote permite o uso do Python de maneira integrada com o R. Para maiores detalhe sobre essa integração, faço referência a <a href="https://blogs.rstudio.com/tensorflow/posts/2019-08-29-using-tf-from-r/">esse post</a>.</p>
+<h1 id="instalacao">Instalação</h1>
+<p>Para instalação do TensorFlow, é preciso que o usuário também tenha instalado o Python. Em regra, recomenda-se a instalação da distribuição <a href="https://www.anaconda.com/">Anaconda</a>.</p>
+<p>No vídeo abaixo, é apresentado um tutorial do passo a passo para instalar os programas e os pacotes necessário para utilizar o TensorFlow no R.</p>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/Maf6xmQI-wM" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
+</iframe>
+<p>O código abaixo instala o pacote <code>tensorflow</code>. Na minha máquina, está instalada a versão de desenvolvimento:</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
-library(rvest) # para nossa raspagem
-library(tidyverse) # para tudo
-library(glue) # para grudar nossas strings
-library(keyring)</code></pre>
+# Versão oficial
+install.packages(&#39;tensorflow&#39;)
+# Versão de desenvolvimento
+remotes::install_github(&quot;rstudio/tensorflow&quot;)</code></pre>
 </div>
-<p>Além dos pacotes clássicos, destaco o pacote <a href="https://github.com/r-lib/keyring">keyring</a> excelente pacote que ajuda a não ficar escrevendo seu usuário e senha em texto aberto no R. Veremos a seguir.</p>
-<p>Mesmo fazendo scraping via R vamos precisar informar nosso usuário (CPF) e senha para acessar o CEI. Considerando que vamos acessar os próprios dados para gerir a própria carteira o pacote keyring atende muito bem. Ao acessar o site <a href="https://cei.b3.com.br" class="uri">https://cei.b3.com.br</a> nos deparamos com a seguinte tela:</p>
-<figure>
-<img src="../../images/cei_tela_inicial.png" alt="Tela inicial" width="75" /><figcaption>Tela inicial</figcaption>
-</figure>
-<p>Comecemos a preparar nosso scraping a partir desta tela. Diferente do post anterior, não vamos começar baixando os dados da tela e sim abrindo uma sessão para simular navegação na parte restrita do site e só depois baixar os dados da tela.</p>
-<p>Vamos usar o rvest para simular uma sessão (controle de acesso com autenticação) do browser. Para isso vamos precisar peencher, via R, o usuário e senha do formulário e enviar uma requisição para que os servidores da B3 nos autentiquem e nos mande de volta um cookie. Leia mais sobre sessão, autenticação e cookies em: <a href="https://pt.wikipedia.org/wiki/Cookie_(inform%C3%A1tica)" class="uri">https://pt.wikipedia.org/wiki/Cookie_(inform%C3%A1tica)</a>, <a href="https://developer.mozilla.org/pt-BR/docs/Web/HTTP/Cookies" class="uri">https://developer.mozilla.org/pt-BR/docs/Web/HTTP/Cookies</a> ou <a href="http://material.curso-r.com/scrape/#sess%C3%B5es-e-cookies" class="uri">http://material.curso-r.com/scrape/#sess%C3%B5es-e-cookies</a></p>
-<p>Primeiro criamos uma sessão.</p>
+<p>Uma vez que o pacote esteja instalado, podemos instalar a versão do TensorFlow para o Python:</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
-url &lt;- &#39;https://cei.b3.com.br&#39;
-sessao &lt;- html_session(url)</code></pre>
-</div>
-<p>Por ser uma página de usuário e senha, temos um formulário para preenchermos. Com o <code>html_form()</code> podemos pegar os formulários disponíveis na página da sessão que abrimos.</p>
-<div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-(form_login &lt;- html_form(sessao))</code></pre>
-<pre><code>
-[[1]]
-&lt;form&gt; &#39;aspnetForm&#39; (POST login.aspx)
-  &lt;input hidden&gt; &#39;__VIEWSTATE&#39;: /wEPDwUKMjEwNTg1MDYwNmRkwOWN09etib3cEcYwkEwmQuk4eGE=
-  &lt;input hidden&gt; &#39;__EVENTVALIDATION&#39;: /wEWBAKE+eKZBgKezL2tCQKt6MueDQKW9Z+RAXuXwk35k3s3/1HrG9WTDCFP3/l4
-  &lt;input text&gt; &#39;ctl00$ContentPlaceHolder1$txtLogin&#39;: 
-  &lt;input password&gt; &#39;ctl00$ContentPlaceHolder1$txtSenha&#39;: 
-  &lt;input submit&gt; &#39;ctl00$ContentPlaceHolder1$btnLogar&#39;: Entrar</code></pre>
-</div>
-<p>O retorno é uma lista com o formulário de login. Reparem nos nomes dos campos disponíveis para preenchimento. Temos um <code>input text</code> para preencher o usuário (CPF) e um <code>input password</code> para preencher a senha. Respetivamente temos <code>ctl00$ContentPlaceHolder1$txtLogin</code> e <code>ctl00$ContentPlaceHolder1$txtSenha</code> para preencher.</p>
-<p>Nesse ponto que usaremos o <strong>keyring</strong> para não deixar explícito no seu código sua senha de acesso ao CEI. Ele vai ajudar a ocultar suas senhas e usá-las de modo mais seguro.</p>
-<p>Primeiro crie um novo “perfil” no keyring para ele armazenar sua senha de forma criptografada. Vamos chamar de <strong>cei-b3</strong>. Como o keyring vai criptografar suas senhas, você precisa definir uma senha mestra para descriptografar quando quiser. Ele vai pedir uma nova senha mestra para o perfil <strong>cei-b3</strong>. Não é a senha do CEI ainda! A partir de agora, todas as senhas que você armazenar no perfil <strong>cei-b3</strong> você vai precisar da senha mestra que escolher nesse ponto.</p>
-<div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-keyring_create(&#39;cei-b3&#39;) # definindo uma senha mestra para armazenamento criptografado</code></pre>
-</div>
-<p>Em seguida defina uma entrada para a senha do seu usuário. Você pode definir a entrada que quiser. Vamos definir a entrada <strong>senha</strong> e nosso username será o próprio CPF. No lugar de <em>12345678900</em> coloque seu CPF de verdade. Agora sim o keyring vai solicitar a senha que você vai usar no CEI.</p>
-<div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-key_set(&#39;senha&#39;, username = &#39;12345678900&#39;, keyring = &#39;cei-b3&#39;)</code></pre>
-</div>
-<p>Pronto, você definiu uma senha mestra e definiu a senha do CEI para o seu CPF. Agora vamos retornar ao formulário do CEI e usar a senha de forma mais segura. Basta chamar da seguinte forma:</p>
-<div class="layout-chunk" data-layout="l-body">
+# versão gpu
+reticulate::conda_install(
+  envname = &#39;r-reticulate&#39;,
+  packages = &#39;tensorflow-gpu==2.0.0rc0&#39;,
+  pip = TRUE
+)
 
+# versão cpu
+reticulate::conda_install(
+  envname = &#39;r-reticulate&#39;,
+  packages = &#39;tensorflow==2.0.0rc0&#39;,
+  pip = TRUE
+)</code></pre>
 </div>
+<p>Com tudo instalado, podemos carregar os pacotes que iremos utilizar neste post.</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
-form_preenchido &lt;- set_values(form_login[[1]], 
-           &#39;ctl00$ContentPlaceHolder1$txtLogin&#39; = &#39;12345678900&#39;,
-           &#39;ctl00$ContentPlaceHolder1$txtSenha&#39; = key_get(&#39;senha&#39;, &#39;12345678900&#39;, &#39;cei-b3&#39;))</code></pre>
+library(tidyverse)
+library(keras)
+library(tensorflow)
+library(tfdatasets)</code></pre>
 </div>
-<p>Com o formulário preenchido vamos simular a submissão dos dados na mesma sessão, seria o mesmo que o “click de entrar”. A B3 vai nos autenticar e devolver a página do usuário logado.</p>
+<p>Ao carregar o pacote <code>tensorflow</code>, fica disponibilizado o módulo do python <code>tf</code>:</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
-submit_form(sessao, form_preenchido)</code></pre>
+tf</code></pre>
 <pre><code>
-&lt;session&gt; https://cei.b3.com.br/CEI_Responsivo/home.aspx
-  Status: 200
-  Type:   text/html; charset=utf-8
-  Size:   48395</code></pre>
-</div>
-<p>Agora estamos na página inicial da área restrita, pós login, já com a sessão autenticada.</p>
-<figure>
-<img src="../../images/cei_tela_logado.png" alt="Tela pós login" width="75" /><figcaption>Tela pós login</figcaption>
-</figure>
-<p>A página com os dados que queremos pegar está no menu <strong>Extratos e Informativos &gt; Negociação de Ativos</strong>. Repare na URL da página, é ela que iremos usar agora. Como estamos em uma página autenticada com uma sessão, precisamos simular a navegação nesta página sem perder a sessão. Para isso usaremos o <strong>jump_to</strong> do rvest.</p>
-<div class="layout-chunk" data-layout="l-body">
+Module(tensorflow)</code></pre>
 <pre class="r"><code>
-url_dados &lt;- glue(&#39;{url}/CEI_Responsivo/negociacao-de-ativos.aspx&#39;)
-pagina_dados &lt;- jump_to(sessao, url_dados)</code></pre>
-</div>
-<p>E agora temos mais um formulário a ser preenchido. Temos os seguintes campos para submeter: instituição, conta, data início e data fim. Aqui no meu caso a data início e data fim já vieram preechidos com os períodos disponíveis.</p>
-<div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-(form_dados &lt;- html_form(pagina_dados))</code></pre>
+tf_version()</code></pre>
 <pre><code>
-[[1]]
-&lt;form&gt; &#39;aspnetForm&#39; (POST negociacao-de-ativos.aspx)
-  &lt;input hidden&gt; &#39;ctl00_ContentPlaceHolder1_ToolkitScriptManager1_HiddenField&#39;: 
-  &lt;input hidden&gt; &#39;__VIEWSTATE&#39;: /wEPDwUKLTI2MTA0ODczNg9kFgJmD2QWAgIDD2QWCAIBDw8WAh4EVGV4dAUoU0FVTE8gREUgU09VWkEgR1VFUlJBIEZFUlJFSVJBIERFIENBU1RST2RkAgMPZBYCAgEPFgIeB1Zpc2libGVoZAIFD2QWBAIBDw8WAh8ABRZOZWdvY2lhw6fDo28gZGUgYXRpdm9zZGQCAw9kFgICAw8PFgIfAAUzIC8gRXh0cmF0b3MgZSBJbmZvcm1hdGl2b3MgLyBOZWdvY2lhw6fDo28gZGUgYXRpdm9zZGQCBw9kFgICBQ9kFgJmD2QWCAIDDxBkEBUGCVNlbGVjaW9uZRo4NSAtIEJURyBQQUNUVUFMIENUVk0gUy5BLhgxMDI2IC0gQkFOQ08gQlRHIFBBQ1RVQUwWMTA5OSAtIElOVEVSIERUVk0gTFREQR4zIC0gWFAgSU5WRVNUSU1FTlRPUyBDQ1RWTSBTL0EjMzg2IC0gUklDTyBJTlZFU1RJTUVOVE9TIC0gR1JVUE8gWFAVBgItMQI4NQQxMDI2BDEwOTkBMwMzODYUKwMGZ2dnZ2dnFgFmZAIFDxAPFgIeB0VuYWJsZWRoZBAVAQxTZWxlY2lvbmUuLi4VAQEwFCsDAWcWAWZkAgcPDxYCHwFnZBYEAgUPDxYCHwAFCjE2LzAzLzIwMThkZAIHDw8WAh8ABQowNi8wOS8yMDE5ZGQCCQ9kFggCAQ8PFgIfAAUKMTYvMDMvMjAxOGRkAgMPDxYCHwAFCjA2LzA5LzIwMTlkZAIFDw8WAh8ABQoxNi8wMy8yMDE4ZGQCBw8PFgIfAAUKMDYvMDkvMjAxOWRkZIVVTqrlFHKCb8JJu4y6EhWrXVy0
-  &lt;input hidden&gt; &#39;__EVENTVALIDATION&#39;: /wEWDAKz7JDUCAL5hcn2DgLcmdTJDgLHmeTJDgKA9qOrAgKzu7rVBwLSmZjKDgKW09KdCgLT7OvYBALmr6naDAK4koCdDgK0rs+gCCz7G26SluymIPUTlG/0OmI3WzQF
-  &lt;input hidden&gt; &#39;ctl00$ContentPlaceHolder1$hdnPDF_EXCEL&#39;: 
-  &lt;select&gt; &#39;ctl00$ContentPlaceHolder1$ddlAgentes&#39; [1/6]
-  &lt;select&gt; &#39;ctl00$ContentPlaceHolder1$ddlContas&#39; [1/1]
-  &lt;input text&gt; &#39;ctl00$ContentPlaceHolder1$txtDataDeBolsa&#39;: 16/03/2018
-  &lt;input text&gt; &#39;ctl00$ContentPlaceHolder1$txtDataAteBolsa&#39;: 06/09/2019
-  &lt;input submit&gt; &#39;ctl00$ContentPlaceHolder1$btnConsultar&#39;: Consultar</code></pre>
+[1] &#39;2.0&#39;</code></pre>
 </div>
-<p>No meu caso, abri contas em alguns bancos gratuitos de investimentos para experimentar o serviço deles. Como você pode comprar ações por diferentes bancos, e como queremos montar uma base com todas as ações, independente de corretora/banco, vamos percorrer todos as instituições para coletar todas as ações registradas.</p>
+<p>Este módulo tem uma série de métodos (funções) que serão utilizadas neste post.</p>
+<h1 id="exemplo-classificando-digitos---mnist">Exemplo: Classificando Dígitos - MNIST</h1>
+<p>O nosso primeiro exemplo segue o “Get Started” do TensorFlow. Vamos implementar no R as duas abordagens: para iniciantes e para experts. O nosso objetivo será classificar dígitos numéricos a partir de imagens. Para quem já viu o mínimo de <em>deep learning</em>, saberá que estamos falando da base MNIST.</p>
+<p>A base MNIST está disponível no próprio tensorflow. Podemos carregá-la com o seguinte código:</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
-instituicoes &lt;- read_html(pagina_dados) %&gt;% 
-  html_nodes(&#39;option&#39;) %&gt;% 
-  html_text()
-
-#tirando o placeholder &#39;Selecione...&#39;
-instituicoes &lt;- instituicoes[!grepl(&quot;Selecione&quot;, instituicoes)] 
-
-instituicoes</code></pre>
+mnist &lt;- tf$keras$datasets$mnist$load_data()
+str(mnist)</code></pre>
 <pre><code>
-[1] &quot;85 - BTG PACTUAL CTVM S.A.&quot;         
-[2] &quot;1026 - BANCO BTG PACTUAL&quot;           
-[3] &quot;1099 - INTER DTVM LTDA&quot;             
-[4] &quot;3 - XP INVESTIMENTOS CCTVM S/A&quot;     
-[5] &quot;386 - RICO INVESTIMENTOS - GRUPO XP&quot;</code></pre>
+List of 2
+ $ :List of 2
+  ..$ : int [1:60000, 1:28, 1:28] 0 0 0 0 0 0 0 0 0 0 ...
+  ..$ : int [1:60000(1d)] 5 0 4 1 9 2 1 3 1 4 ...
+ $ :List of 2
+  ..$ : int [1:10000, 1:28, 1:28] 0 0 0 0 0 0 0 0 0 0 ...
+  ..$ : int [1:10000(1d)] 7 2 1 0 4 1 4 9 5 9 ...</code></pre>
 </div>
-<p>Agora basta percorrer cada um dos bancos, passando o código do banco e submetendo a consulta na página para regaatar o resultado de cada página e montar um dataframe. Com um simple loop resolvemos isso.</p>
-<p>Durante o loop faremos um controle simples para baixar os dados apenas das instituições que apresentam a tabela de compra e venda de ações. As instituições que você nunca comprou apresentam a mensagem “Não foram encontrados resultados para esta pesquisa”. Ao detectar a presença dessa frase, vamos assumir que não foi comprada ações nessa instituição.</p>
-<p>As datas e o número de conta são preenchidos automaticamente, basta portanto enviar o código número que aparece na frente do nome de cada instituição.</p>
-<p>Ao acessar a página que de fato apresenta os dados, serão exibidas duas tabelas, vamos raspar apenas as informações da tabela com o gigantesco id <strong>ctl00_ContentPlaceHolder1_rptAgenteBolsa_ctl00_rptContaBolsa_ctl00_pnAtivosNegociados</strong>. Dela extrairemos a tag <tabela> e descartaremos a última linha de totais.</p>
-<p>O resultado é o seguinte loop:</p>
+<p>Este objeto tem duas listas. A primeira delas é formada pelos dados de treinamento. Temos um array de tamanho <span class="math inline">\(6000\times28\times28\)</span>, representando 6.000 imagens de tamanho <span class="math inline">\(28\times28\)</span> pixels (cada pixel recebe um valor entre 0 e 255). Além disso, temos um vetor de rótulos que indicam qual é o valor entre 0 a 9 que cada imagem representa. Da mesma forma, a segunda lista traz os dados da base de teste com informações de 10.000 imagens.</p>
+<p>Abaixo o <code>%&lt;-%</code> descompacta uma lista em diferentes objetos. Adicionalmente, também dividimos os valores por 255 para tornar o valor de cada pixel um número entre 0 e 1.</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
-dados_totais &lt;- data.frame()
-for(i in instituicoes) {
-  #separando o código do banco do nome
-  banco &lt;- str_split(i, &#39; - &#39;, simplify = TRUE)
-  numero &lt;- banco[1]
-  nome &lt;- banco[2]
-  #o formulário espera receber a seleção do código númerico do banco
-  form_dados_preenchidos &lt;- set_values(form_dados[[1]], 
-                                       &#39;ctl00$ContentPlaceHolder1$ddlAgentes&#39; = numero)
+c(c(x_train, y_train), c(x_test, y_test)) %&lt;-% mnist
+x_train &lt;- x_train/255
+x_test &lt;- x_test/255</code></pre>
+</div>
+<p>Abaixo, visualizamos algumas imagens:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+par(mfcol=c(4,5))
+par(mar=c(0, 0, 3, 0), xaxs=&#39;i&#39;, yaxs=&#39;i&#39;)
+for (idx in 1:20) { 
+    im &lt;- x_train[idx,,
+                  ]
+    im &lt;- t(apply(im, 2, rev)) 
+    image(1:28, 1:28, im, col=gray((0:255)/255), 
+          xaxt=&#39;n&#39;, main=paste(y_train[idx]))
+}</code></pre>
+<p><img src="hello-world-tensorflow-v2_files/figure-html5/unnamed-chunk-7-1.png" width="624" /></p>
+</div>
+<h2 id="abordagem-basica">Abordagem Básica</h2>
+<p>Agora, vamos definir o nosso primeiro modelo seguindo a abordagem básica. Inicialmente, vamos observar como ele seria definido em Python:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="python"><code>
+model = tf.keras.models.Sequential([
+  tf.keras.layers.Flatten(input_shape=(28, 28)),
+  tf.keras.layers.Dense(128, activation=&#39;relu&#39;),
+  tf.keras.layers.Dropout(0.2),
+  tf.keras.layers.Dense(10, activation=&#39;softmax&#39;)
+])
 
-  #submetemos o formulário na mesma sessão logada
-  resultado &lt;- submit_form(sessao, form_dados_preenchidos)
+model.compile(optimizer=&#39;adam&#39;,
+              loss=&#39;sparse_categorical_crossentropy&#39;,
+              metrics=[&#39;accuracy&#39;])</code></pre>
+</div>
+<p>Convertendo para R:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+model &lt;- tf$keras$Sequential(
+  c(
+    tf$keras$layers$Flatten(input_shape = c(28L, 28L)),
+    tf$keras$layers$Dense(512L, activation = &quot;relu&quot;),
+    tf$keras$layers$Dropout(0.2),
+    tf$keras$layers$Dense(10, activation = &quot;softmax&quot;)
+  )
+)
+
+model$compile(
+  optimizer = &quot;adam&quot;,
+  loss = &quot;sparse_categorical_crossentropy&quot;,
+  metrics = list(&quot;accuracy&quot;)
+)</code></pre>
+</div>
+<p>Adicionalmente, podemos definir o modelo utilizando funções do pacote <code>keras</code>:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+model_keras &lt;- keras_model_sequential() %&gt;% 
+  layer_flatten(input_shape = c(28, 28)) %&gt;% 
+  layer_dense(512, activation = &quot;relu&quot;) %&gt;% 
+  layer_dropout(0.2) %&gt;% 
+  layer_dense(10, activation = &quot;softmax&quot;)
+
+model_keras %&gt;% 
+  compile(
+    optimizer = &quot;adam&quot;,
+    loss = &quot;sparse_categorical_crossentropy&quot;,
+    metrics = list(&#39;accuracy&#39;)
+)</code></pre>
+</div>
+<p>Agora, vamos ao treinamento (fit) do modelo. Novamente, veremos primeiro o código em Python, depois o código em R e, por último, utilizando o pacote <code>keras</code>. O parâmetro <code>epochs</code> indica o número de vezes que o algoritmo passará por toda a base de treinamento. No exemplo, opta-se por 5. Após o treinamento, o método <code>evaluate()</code> é utilizado para avaliar o modelo na base de teste.</p>
+<ul>
+<li>Python</li>
+</ul>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="python"><code>
+model.fit(x_train, y_train, epochs=5)
+
+model.evaluate(x_test, y_test)</code></pre>
+</div>
+<ul>
+<li>R</li>
+</ul>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+model$fit(x_train, y_train, epochs = 5L, verbose = 2L)</code></pre>
+<pre><code>
+&lt;tensorflow.python.keras.callbacks.History&gt;</code></pre>
+<pre class="r"><code>
+metricas &lt;- model$evaluate(x_test, y_test, verbose = 2L)
+
+cat(&#39;Acurácia:&#39;, scales::percent(metricas[[2]]))</code></pre>
+<pre><code>
+Acurácia: 98.1%</code></pre>
+</div>
+<ul>
+<li>R + Keras</li>
+</ul>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+model_keras %&gt;% fit(
+  x_train, 
+  y_train,
+  epochs = 5,
+  verbose = 2
+)
+
+test_evaluate &lt;- model_keras %&gt;% evaluate(x_test, y_test, verbose = 2)
+
+test_evaluate</code></pre>
+<pre><code>
+$loss
+[1] 0.06365786
+
+$accuracy
+[1] 0.9807</code></pre>
+</div>
+<p>Finalizado essa primeira abordagem, vamos para abordagem avançada.</p>
+<h2 id="abordagem-avancada">Abordagem Avançada</h2>
+<p>Em primeiro lugar, vale destacar que o termo “avançado” aqui é utilizado apenas para continuar em linha com a página do TensorFlow. Aqui, o código fica um pouco mais complexo, uma vez que iremos abrir o passo a passo do treinamento do modelo. Calcularemos as predições do nosso modelo, computaremos o valor da função de perda, calculamos os gradientes e atualizaremos os parâmetros.</p>
+<p>Para começar, vamos preparar os dados. Uma das camadas que utilizaremos será a camada convolucional 2D. Essa camada, espera como input uma array de dimensão <span class="math inline">\(batch size\times n\times k\times c\)</span>, em que batch size é o número de amostras passadas por iteração para o nosso modelo, <span class="math inline">\(n\)</span> é o número de linhas e <span class="math inline">\(k\)</span> o número de colunas da nossa matriz que representa uma imagem e <span class="math inline">\(c\)</span> é o número de canais. No nosso exemplo, só teremos um canal. Se estivéssemos trabalhando com imagens coloridas, teríamos 3 canais (RGB).</p>
+<p>Abaixo, alteramos nosso array de imagens para ter uma dimensão a mais:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+x_train &lt;- array(x_train, dim = c(dim(x_train), 1))
+x_test &lt;- array(x_test, dim = c(dim(x_test), 1))
+
+dim(x_train)</code></pre>
+<pre><code>
+[1] 60000    28    28     1</code></pre>
+<pre class="r"><code>
+dim(x_test)</code></pre>
+<pre><code>
+[1] 10000    28    28     1</code></pre>
+</div>
+<p>Nosso próximo passo é construir um objeto que irá fornecer exemplos (observações) para o modelo. Para ser mais sucinto, irei apresentar apenas o código em R. O código em python pode ser visualizado <a href="https://www.tensorflow.org/beta/tutorials/quickstart/advanced">neste link</a>. Iremos utilizar o pacote <code>tfdatasets</code> para criar os objetos que irão fornecer dados ao modelo.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+train_ds &lt;- tensor_slices_dataset(tensors = list(x_train, y_train)) %&gt;% 
+  dataset_shuffle(10000) %&gt;% 
+  dataset_batch(128)
   
-  #caso não tenha ações, a mensagem será exibida
-  nao_teve_resultado &lt;- resultado %&gt;%
-    read_html() %&gt;% 
-    html_text() %&gt;% 
-    str_detect(&#39;Não foram encontrados resultados para esta pesquisa&#39;)
+test_ds &lt;- tensor_slices_dataset(tensors = list(x_test, y_test)) %&gt;% 
+  dataset_batch(128)</code></pre>
+</div>
+<p>Para definição do modelo customizado, poderíamos criar um objeto da classe <code>R6</code> usando o pacote de mesmo nome. Contudo, o pacote <code>keras</code> nos fornece uma função que facilita a criação de modelos customizados. Também utilizaremos as funções de camadas (<code>layer_conv_2d()</code>, <code>layer_flatten()</code> e <code>layer_dense()</code>) disponibilizadas pelo <code>keras</code>.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+MyModel &lt;- function(name = NULL) {
+  keras_model_custom(name = &quot;MyModel&quot;, function(self) {
+    
+    self$conv1 &lt;- layer_conv_2d(filters = 32, kernel_size =  3, activation = &quot;relu&quot;)
+    self$flatten &lt;- layer_flatten()
+    self$d1 &lt;- layer_dense(units = 128, activation = &quot;relu&quot;)
+    self$d2 &lt;- layer_dense(units = 10, activation = &quot;softmax&quot;)
+    
+    
+    function(inputs, mask = NULL) {
+      self$conv1(inputs) %&gt;%
+        self$flatten() %&gt;% 
+        self$d1() %&gt;% 
+        self$d2()
+    }
+    
+  })
+}
+
+model &lt;- MyModel()</code></pre>
+</div>
+<p>O objeto <code>model</code> nada mais é uma função que recebe um input (várias imagens) e retorna a probabilidade de cada imagem ser um número entre 0 e 9. Veja o exemplo abaixo para duas imagens. Como nosso modelo ainda não foi treinado, ele atribui praticamente a mesma probabilidade para cada classe.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+model(x_train[1:2,,,1, drop = FALSE]) %&gt;% 
+  as.matrix()</code></pre>
+<pre><code>
+           [,1]       [,2]       [,3]      [,4]       [,5]      [,6]
+[1,] 0.09251988 0.09516452 0.10377929 0.1010672 0.09103622 0.1029180
+[2,] 0.09044854 0.09048019 0.09655939 0.1027379 0.09262010 0.1057449
+           [,7]      [,8]      [,9]      [,10]
+[1,] 0.09560755 0.1096519 0.1150445 0.09321094
+[2,] 0.09526931 0.1089784 0.1193546 0.09780669</code></pre>
+</div>
+<p>Na sequência, define-se a função que computa a “perda” do modelo e a métrica de otimização. A função de perda receberá um conjunto de imagens e seus rótulos e irá computar uma medida de erro do modelo.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+loss_object &lt;- tf$keras$losses$SparseCategoricalCrossentropy()
+optimizer &lt;- tf$keras$optimizers$Adam()</code></pre>
+</div>
+<p>Agora, vamos definir as funções que computam a perda média e a métrica de avaliação do modelo para o treinamento e para o teste.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+train_loss &lt;- tf$keras$metrics$Mean(name=&#39;train_loss&#39;)
+train_accuracy &lt;- tf$keras$metrics$SparseCategoricalAccuracy(name=&#39;train_accuracy&#39;)
+
+test_loss &lt;- tf$keras$metrics$Mean(name=&#39;test_loss&#39;)
+test_accuracy &lt;- tf$keras$metrics$SparseCategoricalAccuracy(name=&#39;test_accuracy&#39;)</code></pre>
+</div>
+<p>O código abaixo define o passo de treinamento. Ele pode ser resumido da seguinte forma:</p>
+<ul>
+<li>A função recebe os dados e os rótulos de um determinado número de observações (imagens);</li>
+<li>Os dados das imagens são aplicados na função <code>model()</code> que retorna um conjunto de predições;</li>
+<li>Computa-se a métrica de perda a partir dos rótulos e das predições;</li>
+<li>Computa-se o gradiente da função de perda com respeito às variáveis (pesos) do modelo;</li>
+<li>Os gradientes são aplicados para atualização dos pesos;</li>
+<li>Por fim, são computados a perda e a acurácia para a base de treinamento.</li>
+</ul>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+train_step &lt;- function(images, labels){
   
-  #caso a mensagem não apareça
-  if(!nao_teve_resultado) {
-    dados_de_um_banco &lt;- resultado %&gt;% 
-      html_nodes(&#39;#ctl00_ContentPlaceHolder1_rptAgenteBolsa_ctl00_rptContaBolsa_ctl00_pnAtivosNegociados&#39;) %&gt;%
-      html_node(&#39;table&#39;) %&gt;%
-      html_table() %&gt;% 
-      .[[1]] %&gt;% 
-      .[-nrow(.),] #descartando a última linha da tabela por ser um totalizador
+  with(tf$GradientTape() %as% tape, {
     
-    dados_de_um_banco$nome_banco &lt;- nome #adicionado nome do banco no dataframe
+    predictions &lt;- model(images)
+    loss &lt;- loss_object(labels, predictions)
     
-    #bind dos dados de compra e venda de cada banco formando um dataframe total
-    dados_totais &lt;- bind_rows(dados_de_um_banco, dados_totais)
-  }
+  })
+  
+  gradients &lt;- tape$gradient(loss, model$variables)
+  optimizer$apply_gradients(
+    purrr::transpose(list(gradients, model$variables))
+  )
+  
+  train_loss(loss)
+  train_accuracy(labels, predictions)
+  
 }</code></pre>
 </div>
-<p>Como estou utilizando meus próprios dados, vou retirar os campos de Valor total e quantidade par questões de segurança. Vamos dar uma olhada no resultado.</p>
+<p>Uma função mais simples é definida para computar o passo para a base de teste:</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
-dados_totais &lt;- dados_totais %&gt;% 
-  select(-`Valor Total(R$)`, -Quantidade)
-
-glimpse(dados_totais)</code></pre>
-<pre><code>
-Observations: 42
-Variables: 9
-$ `Data do Negócio`        &lt;chr&gt; &quot;06/03/2019&quot;, &quot;06/03/2019&quot;, &quot;06/03…
-$ `Compra/Venda`           &lt;chr&gt; &quot;C&quot;, &quot;C&quot;, &quot;C&quot;, &quot;C&quot;, &quot;C&quot;, &quot;C&quot;, &quot;C&quot;,…
-$ Mercado                  &lt;chr&gt; &quot;Mercado a Vista&quot;, &quot;Mercado a Vist…
-$ `Prazo/Vencimento`       &lt;lgl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA…
-$ `Código Negociação`      &lt;chr&gt; &quot;GRND3&quot;, &quot;ITUB3&quot;, &quot;ABEV3F&quot;, &quot;ABEV3…
-$ `Especificação do Ativo` &lt;chr&gt; &quot;GRENDENE    ON      NM&quot;, &quot;ITAUUNI…
-$ `Preço (R$)`             &lt;chr&gt; &quot;8,54&quot;, &quot;30,42&quot;, &quot;16,54&quot;, &quot;16,54&quot;,…
-$ `Fator de Cotação`       &lt;int&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1…
-$ nome_banco               &lt;chr&gt; &quot;XP INVESTIMENTOS CCTVM S/A&quot;, &quot;XP …</code></pre>
-<pre class="r"><code>
-head(dados_totais)</code></pre>
-<pre><code>
-  Data do Negócio Compra/Venda           Mercado Prazo/Vencimento
-1      06/03/2019            C   Mercado a Vista               NA
-2      06/03/2019            C   Mercado a Vista               NA
-3      06/03/2019            C Merc. Fracionário               NA
-4      06/03/2019            C Merc. Fracionário               NA
-5      06/03/2019            C Merc. Fracionário               NA
-6      06/03/2019            C Merc. Fracionário               NA
-  Código Negociação Especificação do Ativo Preço (R$)
-1             GRND3 GRENDENE    ON      NM       8,54
-2             ITUB3 ITAUUNIBANCOON  ED  N1      30,42
-3            ABEV3F         AMBEV S/A   ON      16,54
-4            ABEV3F         AMBEV S/A   ON      16,54
-5            B3SA3F B3          ON      NM      31,74
-6            B3SA3F B3          ON      NM      31,74
-  Fator de Cotação                 nome_banco
-1                1 XP INVESTIMENTOS CCTVM S/A
-2                1 XP INVESTIMENTOS CCTVM S/A
-3                1 XP INVESTIMENTOS CCTVM S/A
-4                1 XP INVESTIMENTOS CCTVM S/A
-5                1 XP INVESTIMENTOS CCTVM S/A
-6                1 XP INVESTIMENTOS CCTVM S/A</code></pre>
-<pre class="r"><code>
-tail(dados_totais)</code></pre>
-<pre><code>
-   Data do Negócio Compra/Venda           Mercado Prazo/Vencimento
-37      16/08/2019            C Merc. Fracionário               NA
-38      04/09/2019            C Merc. Fracionário               NA
-39      04/09/2019            C Merc. Fracionário               NA
-40      04/09/2019            C Merc. Fracionário               NA
-41      05/09/2019            C Merc. Fracionário               NA
-42      05/09/2019            C Merc. Fracionário               NA
-   Código Negociação Especificação do Ativo Preço (R$)
-37            ITUB3F ITAUUNIBANCOON  ED  N1      29,75
-38            ITUB3F ITAUUNIBANCOON  ED  N1      28,84
-39            MDIA3F M.DIASBRANCOON      NM      35,50
-40            MDIA3F M.DIASBRANCOON      NM      35,50
-41            PSSA3F PORTO SEGUROON      NM      55,70
-42            PSSA3F PORTO SEGUROON      NM      55,70
-   Fator de Cotação                 nome_banco
-37                1 XP INVESTIMENTOS CCTVM S/A
-38                1          BANCO BTG PACTUAL
-39                1          BANCO BTG PACTUAL
-40                1          BANCO BTG PACTUAL
-41                1          BANCO BTG PACTUAL
-42                1          BANCO BTG PACTUAL</code></pre>
+test_step &lt;- function(images, labels){
+  predictions &lt;- model(images)
+  t_loss &lt;- loss_object(labels, predictions)
+  test_loss(t_loss)
+  test_accuracy(labels, predictions)
+}</code></pre>
 </div>
-<h3 id="conclusao">Conclusão</h3>
-<p>Temos um dataframe com todo nosso histórico de compra e venda de ações de todas as corretoras utilizadas. Com este resutlado poderemos partir para a gestão da carteira, avaliar os rendimentos e fazer um controle bastante detalhado dos seus investimentos em renda variável.</p>
-<p>No próximo post deste assunto partiremos deste resultado para fazer algumas análises mais interessantes!</p>
-<p>Em breve prepararemos uma função (eventualmente um pacote) com esses processos para facilitar a vida de quem quiser gerir a própria carteira com R.</p>
+<p>Agora, vamos ao treinamento propriamente dito. Iremos definir o número de épocas igual a 5:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+epochs &lt;- 5</code></pre>
+</div>
+<p>Na sequência, vamos transformar nossos objetos de dados em objetos do tipo <code>iterator</code> e realizar o treinamento e as predições de teste:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+for(i in 1:epochs){
+  iter_train &lt;- make_iterator_one_shot(train_ds)
+  iter_test &lt;- make_iterator_one_shot(test_ds)
+  # fase de treinamento
+  until_out_of_range({
+    batch &lt;- iterator_get_next(iter_train)
+    images &lt;- batch[[1]]
+    labels &lt;- batch[[2]]  
+    train_step(images, labels)
+  })
+  
+  # fase de teste
+  until_out_of_range({
+    batch &lt;- iterator_get_next(iter_test)
+    images &lt;- batch[[1]]
+    labels &lt;- batch[[2]]  
+    test_step(images, labels)
+  })
+  
+  # resultados
+  train_loss_r &lt;- as.numeric(train_loss$result()) %&gt;% round(4)
+  test_loss_r &lt;- as.numeric(test_loss$result()) %&gt;% round(4)
+  
+  train_accuracy_r &lt;- as.numeric(train_accuracy$result()) %&gt;% round(4)
+  test_accuracy_r &lt;- as.numeric(test_accuracy$result()) %&gt;% round(4)
+  
+  print(glue::glue(&#39;Epoch {i}, Loss: {train_loss_r}, Accuracy: {train_accuracy_r},
+                   Test Loss: {test_loss_r}, Test Accuracy: {test_accuracy_r}\n&#39;))
+  
+  # resetando as métricas para a próx. época
+  train_loss$reset_states()
+  train_accuracy$reset_states()
+  test_loss$reset_states()
+  test_accuracy$reset_states()
+  
+}</code></pre>
+<pre><code>
+Epoch 1, Loss: 0.1772, Accuracy: 0.9492,
+                   Test Loss: 0.0703, Test Accuracy: 0.9773
+Epoch 2, Loss: 0.0518, Accuracy: 0.9843,
+                   Test Loss: 0.0564, Test Accuracy: 0.9811
+Epoch 3, Loss: 0.0291, Accuracy: 0.9912,
+                   Test Loss: 0.0477, Test Accuracy: 0.983
+Epoch 4, Loss: 0.0173, Accuracy: 0.9953,
+                   Test Loss: 0.0501, Test Accuracy: 0.9832
+Epoch 5, Loss: 0.011, Accuracy: 0.9968,
+                   Test Loss: 0.0533, Test Accuracy: 0.9825</code></pre>
+</div>
+<p>Assim, finalizamos o treinamento e a avaliação do modelo. Este modelo conseguiu uma acurácia de 98.2%.</p>
+<h1 id="consideracoes-finais">Considerações Finais</h1>
+<p>Este é o primeiro post de uma série que pretendemos escrever com alguns exemplos do TensorFlow. O objetivo é arquivar o aprendizado e compartilhar com quem tiver interesse. Hoje trouxemos um exemplo clássico de visão computacional de classificação de números. Espero trazer exemplos mais interessantes nos próximos posts. Críticas e sugestões são bem-vindas.</p>
 <!--radix_placeholder_article_footer-->
 <div class="article-footer">
   <p class="social_footer">
     <span class="disqus-comments">
       <i class="fas fa-comments"></i>
       &nbsp;
-      <span class="disqus-comment-count" data-disqus-identifier="posts/2019-09-03-b3-rvest-cei/">Comment on this article</span>
+      <span class="disqus-comment-count" data-disqus-identifier="posts/2019-08-27-hello-world-tensorflow-v2/">Comment on this article</span>
     </span>
     <span class="article-sharing">
       Share: &nbsp;
-      <a href="https://twitter.com/share?text=CEI%20%2B%20rvest%3A%20Explorando%20dados%20financeiros%20com%20R%20-%20parte%202&amp;url=https%3A%2F%2Fwww.fulljoin.com.br%2Fposts%2F2019-09-03-b3-rvest-cei%2F">
+      <a href="https://twitter.com/share?text=Hello%20World%20-%20TensorFlow%20V2&amp;url=https%3A%2F%2Fwww.fulljoin.com.br%2Fposts%2F2019-08-27-hello-world-tensorflow-v2%2F">
         <i class="fab fa-twitter"></i>
       </a>
-      <a href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https%3A%2F%2Fwww.fulljoin.com.br%2Fposts%2F2019-09-03-b3-rvest-cei%2F&amp;title=CEI%20%2B%20rvest%3A%20Explorando%20dados%20financeiros%20com%20R%20-%20parte%202">
+      <a href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https%3A%2F%2Fwww.fulljoin.com.br%2Fposts%2F2019-08-27-hello-world-tensorflow-v2%2F&amp;title=Hello%20World%20-%20TensorFlow%20V2">
         <i class="fab fa-linkedin"></i>
       </a>
-      <a href="https://www.facebook.com/sharer/sharer.php?s=100&amp;p[url]=https%3A%2F%2Fwww.fulljoin.com.br%2Fposts%2F2019-09-03-b3-rvest-cei%2F">
+      <a href="https://www.facebook.com/sharer/sharer.php?s=100&amp;p[url]=https%3A%2F%2Fwww.fulljoin.com.br%2Fposts%2F2019-08-27-hello-world-tensorflow-v2%2F">
         <i class="fab fa-facebook"></i>
       </a>
     </span>
@@ -1620,8 +1743,8 @@ tail(dados_totais)</code></pre>
   <div id="disqus_thread" class="hidden"></div>
   <script>
 var disqus_config = function () {
-  this.page.url = 'https://www.fulljoin.com.br/posts/2019-09-03-b3-rvest-cei/';
-  this.page.identifier = 'posts/2019-09-03-b3-rvest-cei/';
+  this.page.url = 'https://www.fulljoin.com.br/posts/2019-08-27-hello-world-tensorflow-v2/';
+  this.page.identifier = 'posts/2019-08-27-hello-world-tensorflow-v2/';
 };
 (function() {
   var d = document, s = d.createElement('script');
@@ -1637,22 +1760,20 @@ var disqus_config = function () {
 <div class="d-appendix">
 </div>
 
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
 
 <!--radix_placeholder_site_after_body-->
 <!--/radix_placeholder_site_after_body-->
 <!--radix_placeholder_appendices-->
-<div class="appendix-bottom">
-  <h3 id="citation">Citation</h3>
-  <p>For attribution, please cite this work as</p>
-  <pre class="citation-appendix short">Guerra (2019, Sept. 10). Fulljoin: CEI + rvest: Explorando dados financeiros com R - parte 2. Retrieved from https://www.fulljoin.com.br/posts/2019-09-03-b3-rvest-cei/</pre>
-  <p>BibTeX citation</p>
-  <pre class="citation-appendix long">@misc{guerra2019cei,
-  author = {Guerra, Saulo},
-  title = {Fulljoin: CEI + rvest: Explorando dados financeiros com R - parte 2},
-  url = {https://www.fulljoin.com.br/posts/2019-09-03-b3-rvest-cei/},
-  year = {2019}
-}</pre>
-</div>
+<div class="appendix-bottom"></div>
 <!--/radix_placeholder_appendices-->
 <!--radix_placeholder_navigation_after_body-->
 <div class="distill-site-nav distill-site-footer">

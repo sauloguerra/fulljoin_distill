@@ -28,11 +28,11 @@ Como objetivo a ser alcançado, vamos tentar baixar todo o histórico de compra 
 
 ## Achando a fonte de dados
 
-Se você investe em renda variável você certamente o faz por meio de uma corretora. A _[B]³_ é a instituição que centraliza toda a gestão das informações e dos contratos, e o CEI é onde o investidor pode ter acesso aos dados direto na fonte.
+Se você investe em renda variável você certamente o faz por meio de uma corretora. A **[B]³** é a instituição que centraliza toda a gestão das informações e dos contratos, e o CEI é onde o investidor pode ter acesso aos dados direto na fonte.
 
 Dessa vez o ponto de partida da nossa fonte de dados está protegido por usuário e senha no site do CEI em https://cei.b3.com.br/CEI_Responsivo/. Como havia dito, todo investidor pode ter conta no CEI, [aqui eles explicam como fazer isso](https://cei.b3.com.br/CEI_Responsivo/como-acessar.aspx). 
 
-Infelizmente não localizei nenhuma forma rápida de baixar todos os seus próprios dados em formato aberto, csv, json, xml ou algo do tipo. Sendo assim, mais uma vez vamos raspar os dados para o R. O desafio da vez é raspar dados de um site com controle de acesso (usuário e senha). Felizmente o _rvest_ torna essa tarefa um pouco mais fácil.
+Infelizmente não localizei nenhuma forma rápida de baixar todos os seus próprios dados em formato aberto, csv, json, xml ou algo do tipo. Sendo assim, mais uma vez vamos raspar os dados para o R. O desafio da vez é raspar dados de um site com controle de acesso (usuário e senha). Felizmente o **rvest** torna essa tarefa um pouco mais fácil.
 
 Vamos usar os seguintes pacotes:
 
@@ -68,15 +68,16 @@ Por ser uma página de usuário e senha, temos um formulário para preenchermos.
 
 O retorno é uma lista com o formulário de login. Reparem nos nomes dos campos disponíveis para preenchimento. Temos um `input text` para preencher o usuário (CPF) e um `input password` para preencher a senha. Respetivamente temos `ctl00$ContentPlaceHolder1$txtLogin` e `ctl00$ContentPlaceHolder1$txtSenha` para preencher.
 
-Nesse ponto que usaremos o _keyring_ para não deixar explícito no seu código sua senha de acesso ao CEI. Ele vai ajudar a ocultar suas senhas e usá-las de modo mais seguro. 
+Nesse ponto que usaremos o **keyring** para não deixar explícito no seu código sua senha de acesso ao CEI. Ele vai ajudar a ocultar suas senhas e usá-las de modo mais seguro. 
 
-Primeiro crie um novo "perfil" no keyring para ele armazenar sua senha de forma criptografada. Vamos chamar de _cei-b3_. Como o keyring vai criptografar suas senhas, você precisa definir uma senha mestra para descriptografar quando quiser. Ele vai pedir uma nova senha mestra para o perfil _cei-b3_. Não é a senha do CEI ainda! A partir de agora, todas as senhas que você armazenar no perfil _cei-b3_ você vai precisar da senha mestra que escolher nesse ponto.
+Primeiro crie um novo "perfil" no keyring para ele armazenar sua senha de forma criptografada. Vamos chamar de **cei-b3**. Como o keyring vai criptografar suas senhas, você precisa definir uma senha mestra para descriptografar quando quiser. Ele vai pedir uma nova senha mestra para o perfil **cei-b3**. Não é a senha do CEI ainda! A partir de agora, todas as senhas que você armazenar no perfil **cei-b3** você vai precisar da senha mestra que escolher nesse ponto.
 
 ```{r echo=TRUE, eval=FALSE}
-keyring_create('cei-b3') # definindo uma senha mestra para armazenamento criptografado
+# definindo uma senha mestra para armazenamento criptografado
+keyring_create('cei-b3') 
 ```
 
-Em seguida defina uma entrada para a senha do seu usuário. Você pode definir a entrada que quiser. Vamos definir a entrada *senha* e nosso username será o próprio CPF. No lugar de _12345678900_ coloque seu CPF de verdade. Agora sim o keyring vai solicitar a senha que você vai usar no CEI. 
+Em seguida defina uma entrada para a senha do seu usuário. Você pode definir a entrada que quiser. Vamos definir a entrada **senha** e nosso username será o próprio CPF. No lugar de _12345678900_ coloque seu CPF de verdade. Agora sim o keyring vai solicitar a senha que você vai usar no CEI. 
 
 ```{r echo=TRUE, eval=FALSE}
 key_set('senha', username = '12345678900', keyring = 'cei-b3')
@@ -108,11 +109,7 @@ Agora estamos na página inicial da área restrita, pós login, já com a sessã
 
 ![Tela pós login](../../images/cei_tela_logado.png){ width=75 }
 
-A página com os dados que queremos raspar se chama Negociação de Ativos. Ao acessar, repare na URL, é ela que iremos usar agora.
-
-![Menu](../../images/cei_menu_negociacao.png){ width=75 }
-
-Como estamos em uma página autenticada com uma sessão, precisamos simular a navegação nesta página sem perder a sessão. Para isso usaremos o _jump_to_ do rvest.
+A página com os dados que queremos pegar está no menu **Extratos e Informativos > Negociação de Ativos**. Repare na URL da página, é ela que iremos usar agora. Como estamos em uma página autenticada com uma sessão, precisamos simular a navegação nesta página sem perder a sessão. Para isso usaremos o **jump_to** do rvest.
 
 ```{r}
 url_dados <- glue('{url}/CEI_Responsivo/negociacao-de-ativos.aspx')
@@ -144,7 +141,7 @@ Durante o loop faremos um controle simples para baixar os dados apenas das insti
 
 As datas e o número de conta são preenchidos automaticamente, basta portanto enviar o código número que aparece na frente do nome de cada instituição.
 
-Ao acessar a página que de fato apresenta os dados, serão exibidas duas tabelas, vamos raspar apenas as informações da tabela com o gigantesco id _ctl00_ContentPlaceHolder1_rptAgenteBolsa_ctl00_rptContaBolsa_ctl00_pnAtivosNegociados_. Dela extrairemos a tag <tabela> e descartaremos a última linha de totais.
+Ao acessar a página que de fato apresenta os dados, serão exibidas duas tabelas, vamos raspar apenas as informações da tabela com o gigantesco id **ctl00_ContentPlaceHolder1_rptAgenteBolsa_ctl00_rptContaBolsa_ctl00_pnAtivosNegociados**. Dela extrairemos a tag <tabela> e descartaremos a última linha de totais.
 
 O resultado é o seguinte loop:
 
@@ -185,7 +182,7 @@ for(i in instituicoes) {
 }
 ```
 
-Como estou utilizando meus próprios dados, vou retirar os campos de Valor total e quantidade par questões de segurança.
+Como estou utilizando meus próprios dados, vou retirar os campos de Valor total e quantidade par questões de segurança. Vamos dar uma olhada no resultado.
 
 ```{r}
 dados_totais <- dados_totais %>% 
