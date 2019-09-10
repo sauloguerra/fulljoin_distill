@@ -7,14 +7,14 @@
     <description>Fulljoin
 </description>
     <generator>Distill</generator>
-    <lastBuildDate>Ter, 03 Set 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Ter, 10 Set 2019 00:00:00 +0000</lastBuildDate>
     <item>
       <title>CEI + rvest: Explorando dados financeiros com R - parte 2</title>
       <dc:creator>Saulo Guerra</dc:creator>
       <link>https://www.fulljoin.com.br/posts/2019-09-03-b3-rvest-cei</link>
       <description>Com o pacote rvest você pode baixar todo seu histórico de compra e venda de ações diretamente do CEI e passar a gerenciar sua carteira pelo R</description>
       <guid>https://www.fulljoin.com.br/posts/2019-09-03-b3-rvest-cei</guid>
-      <pubDate>Ter, 03 Set 2019 00:00:00 +0000</pubDate>
+      <pubDate>Ter, 10 Set 2019 00:00:00 +0000</pubDate>
       <media:content url="https://www.fulljoin.com.br/posts/2019-09-03-b3-rvest-cei/../../images/cei_rvest.png" medium="image" type="image/png" width="322" height="88"/>
     </item>
     <item>

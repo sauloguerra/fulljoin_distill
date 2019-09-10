@@ -5,7 +5,7 @@ description: |
 author:
   - name: Saulo Guerra
     url: https://github.com/sauloguerra
-date: 09-03-2019
+date: 09-10-2019
 output:
   distill::distill_article:
     self_contained: false
@@ -85,8 +85,6 @@ key_set('senha', username = '12345678900', keyring = 'cei-b3')
 Pronto, você definiu uma senha mestra e definiu a senha do CEI para o seu CPF. Agora vamos retornar ao formulário do CEI e usar a senha de forma mais segura. Basta chamar da seguinte forma:
 
 ```{r, echo=FALSE, eval=TRUE}
-# key_set('cpf', username = 'saulo', keyring = 'cei-b3')
-# key_set('senha', username = 'saulo', keyring = 'cei-b3')
 # keyring_unlock('cei-b3')
 form_preenchido <- set_values(form_login[[1]], 
            'ctl00$ContentPlaceHolder1$txtLogin' = key_get('cpf', 'saulo', 'cei-b3'),
@@ -110,60 +108,104 @@ Agora estamos na página inicial da área restrita, pós login, já com a sessã
 
 ![Tela pós login](../../images/cei_tela_logado.png){ width=75 }
 
-A página com os dados que queremos raspar se chama Negociação de Ativos. Ao acessar, repare na URL, é ela que 
+A página com os dados que queremos raspar se chama Negociação de Ativos. Ao acessar, repare na URL, é ela que iremos usar agora.
 
-![Menu](../../images/cei_menu.png){ width=75 }
+![Menu](../../images/cei_menu_negociacao.png){ width=75 }
 
-
+Como estamos em uma página autenticada com uma sessão, precisamos simular a navegação nesta página sem perder a sessão. Para isso usaremos o _jump_to_ do rvest.
 
 ```{r}
 url_dados <- glue('{url}/CEI_Responsivo/negociacao-de-ativos.aspx')
 pagina_dados <- jump_to(sessao, url_dados)
+```
+
+E agora temos mais um formulário a ser preenchido. Temos os seguintes campos para submeter: instituição, conta, data início e data fim. Aqui no meu caso a data início e data fim já vieram preechidos com os períodos disponíveis.
+
+```{r}
 (form_dados <- html_form(pagina_dados))
 ```
+
+No meu caso, abri contas em alguns bancos gratuitos de investimentos para experimentar o serviço deles. Como você pode comprar ações por diferentes bancos, e como queremos montar uma base com todas as ações, independente de corretora/banco, vamos percorrer todos as instituições para coletar todas as ações registradas.
 
 ```{r}
 instituicoes <- read_html(pagina_dados) %>% 
   html_nodes('option') %>% 
   html_text()
 
-instituicoes <- instituicoes[!grepl("Selecione", instituicoes)]
+#tirando o placeholder 'Selecione...'
+instituicoes <- instituicoes[!grepl("Selecione", instituicoes)] 
 
 instituicoes
 ```
 
+Agora basta percorrer cada um dos bancos, passando o código do banco e submetendo a consulta na página para regaatar o resultado de cada página e montar um dataframe. Com um simple loop resolvemos isso.
+
+Durante o loop faremos um controle simples para baixar os dados apenas das instituições que apresentam a tabela de compra e venda de ações. As instituições que você nunca comprou apresentam a mensagem "Não foram encontrados resultados para esta pesquisa". Ao detectar a presença dessa frase, vamos assumir que não foi comprada ações nessa instituição. 
+
+As datas e o número de conta são preenchidos automaticamente, basta portanto enviar o código número que aparece na frente do nome de cada instituição.
+
+Ao acessar a página que de fato apresenta os dados, serão exibidas duas tabelas, vamos raspar apenas as informações da tabela com o gigantesco id _ctl00_ContentPlaceHolder1_rptAgenteBolsa_ctl00_rptContaBolsa_ctl00_pnAtivosNegociados_. Dela extrairemos a tag <tabela> e descartaremos a última linha de totais.
+
+O resultado é o seguinte loop:
+
 ```{r}
 dados_totais <- data.frame()
 for(i in instituicoes) {
+  #separando o código do banco do nome
   banco <- str_split(i, ' - ', simplify = TRUE)
   numero <- banco[1]
   nome <- banco[2]
+  #o formulário espera receber a seleção do código númerico do banco
   form_dados_preenchidos <- set_values(form_dados[[1]], 
                                        'ctl00$ContentPlaceHolder1$ddlAgentes' = numero)
 
+  #submetemos o formulário na mesma sessão logada
   resultado <- submit_form(sessao, form_dados_preenchidos)
   
+  #caso não tenha ações, a mensagem será exibida
   nao_teve_resultado <- resultado %>%
     read_html() %>% 
     html_text() %>% 
     str_detect('Não foram encontrados resultados para esta pesquisa')
-
+  
+  #caso a mensagem não apareça
   if(!nao_teve_resultado) {
     dados_de_um_banco <- resultado %>% 
       html_nodes('#ctl00_ContentPlaceHolder1_rptAgenteBolsa_ctl00_rptContaBolsa_ctl00_pnAtivosNegociados') %>%
       html_node('table') %>%
       html_table() %>% 
       .[[1]] %>% 
-      .[-nrow(.),]
+      .[-nrow(.),] #descartando a última linha da tabela por ser um totalizador
     
-    dados_de_um_banco$nome_banco <- nome
+    dados_de_um_banco$nome_banco <- nome #adicionado nome do banco no dataframe
     
+    #bind dos dados de compra e venda de cada banco formando um dataframe total
     dados_totais <- bind_rows(dados_de_um_banco, dados_totais)
   }
 }
-
-glimpse(dados_totais %>% select(-`Valor Total(R$)`, -Quantidade))
 ```
+
+Como estou utilizando meus próprios dados, vou retirar os campos de Valor total e quantidade par questões de segurança.
+
+```{r}
+dados_totais <- dados_totais %>% 
+  select(-`Valor Total(R$)`, -Quantidade)
+
+glimpse(dados_totais)
+
+head(dados_totais)
+
+tail(dados_totais)
+```
+
+### Conclusão
+
+Temos um dataframe com todo nosso histórico de compra e venda de ações de todas as corretoras utilizadas. Com este resutlado poderemos partir para a gestão da carteira, avaliar os rendimentos e fazer um controle bastante detalhado dos seus investimentos em renda variável.
+
+No próximo post deste assunto partiremos deste resultado para fazer algumas análises mais interessantes!
+
+Em breve prepararemos uma função (eventualmente um pacote) com esses processos para facilitar a vida de quem quiser gerir a própria carteira com R.
+
 
 
 
