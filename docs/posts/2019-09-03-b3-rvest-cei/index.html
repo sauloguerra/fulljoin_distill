@@ -1384,7 +1384,7 @@ library(keyring)</code></pre>
 <img src="../../images/cei_tela_inicial.png" alt="Tela inicial" width="75" /><figcaption>Tela inicial</figcaption>
 </figure>
 <p>Comecemos a preparar nosso scraping a partir desta tela. Diferente do post anterior, não vamos começar baixando os dados da tela e sim abrindo uma sessão para simular navegação na parte restrita do site e só depois baixar os dados da tela.</p>
-<p>Vamos usar o rvest para simular uma sessão (controle de acesso com autenticação) do browser. Para isso vamos precisar peencher, via R, o usuário e senha do formulário e enviar uma requisição para que os servidores da B3 nos autentiquem e nos mande de volta um cookie. Leia mais sobre sessão, autenticação e cookies em: <a href="https://pt.wikipedia.org/wiki/Cookie_(inform%C3%A1tica)" class="uri">https://pt.wikipedia.org/wiki/Cookie_(inform%C3%A1tica)</a>, <a href="https://developer.mozilla.org/pt-BR/docs/Web/HTTP/Cookies" class="uri">https://developer.mozilla.org/pt-BR/docs/Web/HTTP/Cookies</a> ou <a href="http://material.curso-r.com/scrape/#sess%C3%B5es-e-cookies" class="uri">http://material.curso-r.com/scrape/#sess%C3%B5es-e-cookies</a></p>
+<p>Vamos usar o rvest para simular uma sessão (controle de acesso com autenticação) do browser. Para isso vamos precisar preencher, via R, o usuário e senha do formulário e enviar uma requisição para que os servidores da B3 nos autentiquem e nos mande de volta um cookie. Leia mais sobre sessão, autenticação e cookies em: <a href="https://pt.wikipedia.org/wiki/Cookie_(inform%C3%A1tica)" class="uri">https://pt.wikipedia.org/wiki/Cookie_(inform%C3%A1tica)</a>, <a href="https://developer.mozilla.org/pt-BR/docs/Web/HTTP/Cookies" class="uri">https://developer.mozilla.org/pt-BR/docs/Web/HTTP/Cookies</a> ou <a href="http://material.curso-r.com/scrape/#sess%C3%B5es-e-cookies" class="uri">http://material.curso-r.com/scrape/#sess%C3%B5es-e-cookies</a></p>
 <p>Primeiro criamos uma sessão.</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
@@ -1409,7 +1409,8 @@ sessao &lt;- html_session(url)</code></pre>
 <p>Primeiro crie um novo “perfil” no keyring para ele armazenar sua senha de forma criptografada. Vamos chamar de <strong>cei-b3</strong>. Como o keyring vai criptografar suas senhas, você precisa definir uma senha mestra para descriptografar quando quiser. Ele vai pedir uma nova senha mestra para o perfil <strong>cei-b3</strong>. Não é a senha do CEI ainda! A partir de agora, todas as senhas que você armazenar no perfil <strong>cei-b3</strong> você vai precisar da senha mestra que escolher nesse ponto.</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
-keyring_create(&#39;cei-b3&#39;) # definindo uma senha mestra para armazenamento criptografado</code></pre>
+# definindo uma senha mestra para armazenamento criptografado
+keyring_create(&#39;cei-b3&#39;) </code></pre>
 </div>
 <p>Em seguida defina uma entrada para a senha do seu usuário. Você pode definir a entrada que quiser. Vamos definir a entrada <strong>senha</strong> e nosso username será o próprio CPF. No lugar de <em>12345678900</em> coloque seu CPF de verdade. Agora sim o keyring vai solicitar a senha que você vai usar no CEI.</p>
 <div class="layout-chunk" data-layout="l-body">
@@ -1446,7 +1447,7 @@ submit_form(sessao, form_preenchido)</code></pre>
 url_dados &lt;- glue(&#39;{url}/CEI_Responsivo/negociacao-de-ativos.aspx&#39;)
 pagina_dados &lt;- jump_to(sessao, url_dados)</code></pre>
 </div>
-<p>E agora temos mais um formulário a ser preenchido. Temos os seguintes campos para submeter: instituição, conta, data início e data fim. Aqui no meu caso a data início e data fim já vieram preechidos com os períodos disponíveis.</p>
+<p>E agora temos mais um formulário a ser preenchido. Temos os seguintes campos para submeter: instituição, conta, data início e data fim. Aqui no meu caso a data início e data fim já vieram preenchidos com os períodos disponíveis.</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 (form_dados &lt;- html_form(pagina_dados))</code></pre>
@@ -1454,13 +1455,13 @@ pagina_dados &lt;- jump_to(sessao, url_dados)</code></pre>
 [[1]]
 &lt;form&gt; &#39;aspnetForm&#39; (POST negociacao-de-ativos.aspx)
   &lt;input hidden&gt; &#39;ctl00_ContentPlaceHolder1_ToolkitScriptManager1_HiddenField&#39;: 
-  &lt;input hidden&gt; &#39;__VIEWSTATE&#39;: /wEPDwUKLTI2MTA0ODczNg9kFgJmD2QWAgIDD2QWCAIBDw8WAh4EVGV4dAUoU0FVTE8gREUgU09VWkEgR1VFUlJBIEZFUlJFSVJBIERFIENBU1RST2RkAgMPZBYCAgEPFgIeB1Zpc2libGVoZAIFD2QWBAIBDw8WAh8ABRZOZWdvY2lhw6fDo28gZGUgYXRpdm9zZGQCAw9kFgICAw8PFgIfAAUzIC8gRXh0cmF0b3MgZSBJbmZvcm1hdGl2b3MgLyBOZWdvY2lhw6fDo28gZGUgYXRpdm9zZGQCBw9kFgICBQ9kFgJmD2QWCAIDDxBkEBUGCVNlbGVjaW9uZRo4NSAtIEJURyBQQUNUVUFMIENUVk0gUy5BLhgxMDI2IC0gQkFOQ08gQlRHIFBBQ1RVQUwWMTA5OSAtIElOVEVSIERUVk0gTFREQR4zIC0gWFAgSU5WRVNUSU1FTlRPUyBDQ1RWTSBTL0EjMzg2IC0gUklDTyBJTlZFU1RJTUVOVE9TIC0gR1JVUE8gWFAVBgItMQI4NQQxMDI2BDEwOTkBMwMzODYUKwMGZ2dnZ2dnFgFmZAIFDxAPFgIeB0VuYWJsZWRoZBAVAQxTZWxlY2lvbmUuLi4VAQEwFCsDAWcWAWZkAgcPDxYCHwFnZBYEAgUPDxYCHwAFCjE2LzAzLzIwMThkZAIHDw8WAh8ABQowNi8wOS8yMDE5ZGQCCQ9kFggCAQ8PFgIfAAUKMTYvMDMvMjAxOGRkAgMPDxYCHwAFCjA2LzA5LzIwMTlkZAIFDw8WAh8ABQoxNi8wMy8yMDE4ZGQCBw8PFgIfAAUKMDYvMDkvMjAxOWRkZIVVTqrlFHKCb8JJu4y6EhWrXVy0
-  &lt;input hidden&gt; &#39;__EVENTVALIDATION&#39;: /wEWDAKz7JDUCAL5hcn2DgLcmdTJDgLHmeTJDgKA9qOrAgKzu7rVBwLSmZjKDgKW09KdCgLT7OvYBALmr6naDAK4koCdDgK0rs+gCCz7G26SluymIPUTlG/0OmI3WzQF
+  &lt;input hidden&gt; &#39;__VIEWSTATE&#39;: /wEPDwUKLTI2MTA0ODczNg9kFgJmD2QWAgIDD2QWCAIBDw8WAh4EVGV4dAUoU0FVTE8gREUgU09VWkEgR1VFUlJBIEZFUlJFSVJBIERFIENBU1RST2RkAgMPZBYCAgEPFgIeB1Zpc2libGVoZAIFD2QWBAIBDw8WAh8ABRZOZWdvY2lhw6fDo28gZGUgYXRpdm9zZGQCAw9kFgICAw8PFgIfAAUzIC8gRXh0cmF0b3MgZSBJbmZvcm1hdGl2b3MgLyBOZWdvY2lhw6fDo28gZGUgYXRpdm9zZGQCBw9kFgICBQ9kFgJmD2QWCAIDDxBkEBUGCVNlbGVjaW9uZRo4NSAtIEJURyBQQUNUVUFMIENUVk0gUy5BLhgxMDI2IC0gQkFOQ08gQlRHIFBBQ1RVQUwWMTA5OSAtIElOVEVSIERUVk0gTFREQR4zIC0gWFAgSU5WRVNUSU1FTlRPUyBDQ1RWTSBTL0EjMzg2IC0gUklDTyBJTlZFU1RJTUVOVE9TIC0gR1JVUE8gWFAVBgItMQI4NQQxMDI2BDEwOTkBMwMzODYUKwMGZ2dnZ2dnFgFmZAIFDxAPFgIeB0VuYWJsZWRoZBAVAQxTZWxlY2lvbmUuLi4VAQEwFCsDAWcWAWZkAgcPDxYCHwFnZBYEAgUPDxYCHwAFCjE5LzAzLzIwMThkZAIHDw8WAh8ABQowOS8wOS8yMDE5ZGQCCQ9kFggCAQ8PFgIfAAUKMTkvMDMvMjAxOGRkAgMPDxYCHwAFCjA5LzA5LzIwMTlkZAIFDw8WAh8ABQoxOS8wMy8yMDE4ZGQCBw8PFgIfAAUKMDkvMDkvMjAxOWRkZPqigqMb6fRqydjTFyhGIDiRNa0b
+  &lt;input hidden&gt; &#39;__EVENTVALIDATION&#39;: /wEWDALKnLLZBgL5hcn2DgLcmdTJDgLHmeTJDgKA9qOrAgKzu7rVBwLSmZjKDgKW09KdCgLT7OvYBALmr6naDAK4koCdDgK0rs+gCNrac6AAGrj+8chIgEiLkj0AS/Rm
   &lt;input hidden&gt; &#39;ctl00$ContentPlaceHolder1$hdnPDF_EXCEL&#39;: 
   &lt;select&gt; &#39;ctl00$ContentPlaceHolder1$ddlAgentes&#39; [1/6]
   &lt;select&gt; &#39;ctl00$ContentPlaceHolder1$ddlContas&#39; [1/1]
-  &lt;input text&gt; &#39;ctl00$ContentPlaceHolder1$txtDataDeBolsa&#39;: 16/03/2018
-  &lt;input text&gt; &#39;ctl00$ContentPlaceHolder1$txtDataAteBolsa&#39;: 06/09/2019
+  &lt;input text&gt; &#39;ctl00$ContentPlaceHolder1$txtDataDeBolsa&#39;: 19/03/2018
+  &lt;input text&gt; &#39;ctl00$ContentPlaceHolder1$txtDataAteBolsa&#39;: 09/09/2019
   &lt;input submit&gt; &#39;ctl00$ContentPlaceHolder1$btnConsultar&#39;: Consultar</code></pre>
 </div>
 <p>No meu caso, abri contas em alguns bancos gratuitos de investimentos para experimentar o serviço deles. Como você pode comprar ações por diferentes bancos, e como queremos montar uma base com todas as ações, independente de corretora/banco, vamos percorrer todos as instituições para coletar todas as ações registradas.</p>
@@ -1481,9 +1482,9 @@ instituicoes</code></pre>
 [4] &quot;3 - XP INVESTIMENTOS CCTVM S/A&quot;     
 [5] &quot;386 - RICO INVESTIMENTOS - GRUPO XP&quot;</code></pre>
 </div>
-<p>Agora basta percorrer cada um dos bancos, passando o código do banco e submetendo a consulta na página para regaatar o resultado de cada página e montar um dataframe. Com um simple loop resolvemos isso.</p>
+<p>Agora basta percorrer cada um dos bancos, passando o código do banco e submetendo a consulta na página para resgatar o resultado de cada página e montar um dataframe. Com um simple loop resolvemos isso.</p>
 <p>Durante o loop faremos um controle simples para baixar os dados apenas das instituições que apresentam a tabela de compra e venda de ações. As instituições que você nunca comprou apresentam a mensagem “Não foram encontrados resultados para esta pesquisa”. Ao detectar a presença dessa frase, vamos assumir que não foi comprada ações nessa instituição.</p>
-<p>As datas e o número de conta são preenchidos automaticamente, basta portanto enviar o código número que aparece na frente do nome de cada instituição.</p>
+<p>As datas e o número de conta são preenchidos automaticamente, basta, portanto, enviar o código número que aparece na frente do nome de cada instituição.</p>
 <p>Ao acessar a página que de fato apresenta os dados, serão exibidas duas tabelas, vamos raspar apenas as informações da tabela com o gigantesco id <strong>ctl00_ContentPlaceHolder1_rptAgenteBolsa_ctl00_rptContaBolsa_ctl00_pnAtivosNegociados</strong>. Dela extrairemos a tag <tabela> e descartaremos a última linha de totais.</p>
 <p>O resultado é o seguinte loop:</p>
 <div class="layout-chunk" data-layout="l-body">
@@ -1531,7 +1532,7 @@ dados_totais &lt;- dados_totais %&gt;%
 
 glimpse(dados_totais)</code></pre>
 <pre><code>
-Observations: 42
+Observations: 44
 Variables: 9
 $ `Data do Negócio`        &lt;chr&gt; &quot;06/03/2019&quot;, &quot;06/03/2019&quot;, &quot;06/03…
 $ `Compra/Venda`           &lt;chr&gt; &quot;C&quot;, &quot;C&quot;, &quot;C&quot;, &quot;C&quot;, &quot;C&quot;, &quot;C&quot;, &quot;C&quot;,…
@@ -1570,31 +1571,89 @@ head(dados_totais)</code></pre>
 tail(dados_totais)</code></pre>
 <pre><code>
    Data do Negócio Compra/Venda           Mercado Prazo/Vencimento
-37      16/08/2019            C Merc. Fracionário               NA
-38      04/09/2019            C Merc. Fracionário               NA
 39      04/09/2019            C Merc. Fracionário               NA
 40      04/09/2019            C Merc. Fracionário               NA
 41      05/09/2019            C Merc. Fracionário               NA
 42      05/09/2019            C Merc. Fracionário               NA
+43      06/09/2019            C   Mercado a Vista               NA
+44      06/09/2019            C   Mercado a Vista               NA
    Código Negociação Especificação do Ativo Preço (R$)
-37            ITUB3F ITAUUNIBANCOON  ED  N1      29,75
-38            ITUB3F ITAUUNIBANCOON  ED  N1      28,84
 39            MDIA3F M.DIASBRANCOON      NM      35,50
 40            MDIA3F M.DIASBRANCOON      NM      35,50
 41            PSSA3F PORTO SEGUROON      NM      55,70
 42            PSSA3F PORTO SEGUROON      NM      55,70
-   Fator de Cotação                 nome_banco
-37                1 XP INVESTIMENTOS CCTVM S/A
-38                1          BANCO BTG PACTUAL
-39                1          BANCO BTG PACTUAL
-40                1          BANCO BTG PACTUAL
-41                1          BANCO BTG PACTUAL
-42                1          BANCO BTG PACTUAL</code></pre>
+43            ALZR11         FII ALIANZA CI     106,20
+44            GGRC11     FII GGRCOVEPCI  ER     141,38
+   Fator de Cotação        nome_banco
+39                1 BANCO BTG PACTUAL
+40                1 BANCO BTG PACTUAL
+41                1 BANCO BTG PACTUAL
+42                1 BANCO BTG PACTUAL
+43                1 BANCO BTG PACTUAL
+44                1 BANCO BTG PACTUAL</code></pre>
+</div>
+<p>Utilizaremos este dataframe final para os próximos posts. Para facilitar nossa vida depois, vamos estruturar uma função. Futuramente, caso os próximos resultados sejam interessantes podemos inclusive estruturar um pacote para facilitar a gestão/análise da sua carteira no R.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+consulta_carteira &lt;- function(cpf, senha) {
+  url &lt;- &#39;https://cei.b3.com.br&#39;
+  sessao &lt;- html_session(url)
+  form_login &lt;- html_form(sessao)
+  
+  form_preenchido &lt;- set_values(form_login[[1]], 
+                               &#39;ctl00$ContentPlaceHolder1$txtLogin&#39; = cpf,
+                               &#39;ctl00$ContentPlaceHolder1$txtSenha&#39; = senha)
+  
+  submit_form(sessao, form_preenchido)
+  url_dados &lt;- glue(&#39;{url}/CEI_Responsivo/negociacao-de-ativos.aspx&#39;)
+  pagina_dados &lt;- jump_to(sessao, url_dados)
+  instituicoes &lt;- read_html(pagina_dados) %&gt;% 
+    html_nodes(&#39;option&#39;) %&gt;% 
+    html_text()
+  
+  instituicoes &lt;- instituicoes[!grepl(&quot;Selecione&quot;, instituicoes)] 
+  
+  form_dados &lt;- html_form(pagina_dados)
+  
+  dados_totais &lt;- data.frame()
+  for(i in instituicoes) {
+    banco &lt;- str_split(i, &#39; - &#39;, simplify = TRUE)
+    numero &lt;- banco[1]
+    nome &lt;- banco[2]
+    form_dados_preenchidos &lt;- set_values(form_dados[[1]], 
+                                         &#39;ctl00$ContentPlaceHolder1$ddlAgentes&#39; = numero)
+    
+    resultado &lt;- submit_form(sessao, form_dados_preenchidos)
+    nao_teve_resultado &lt;- resultado %&gt;%
+      read_html() %&gt;% 
+      html_text() %&gt;% 
+      str_detect(&#39;Não foram encontrados resultados para esta pesquisa&#39;)
+    
+    if(!nao_teve_resultado) {
+      dados_de_um_banco &lt;- resultado %&gt;% 
+        html_nodes(&#39;#ctl00_ContentPlaceHolder1_rptAgenteBolsa_ctl00_rptContaBolsa_ctl00_pnAtivosNegociados&#39;) %&gt;%
+        html_node(&#39;table&#39;) %&gt;%
+        html_table() %&gt;% 
+        .[[1]] %&gt;% 
+        .[-nrow(.),]
+      
+      dados_de_um_banco$nome_banco &lt;- nome
+      
+      dados_totais &lt;- bind_rows(dados_de_um_banco, dados_totais)
+    }
+  }
+  return(dados_totais)
+}</code></pre>
+</div>
+<p>E chamamos nossa funcão assim</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+senha &lt;- keyring::key_get(&#39;senha&#39;, &#39;SEU_CPF&#39;, &#39;cei-b3&#39;)
+final &lt;- consulta_carteira(&#39;SEU_CPF&#39;, senha)</code></pre>
 </div>
 <h3 id="conclusao">Conclusão</h3>
-<p>Temos um dataframe com todo nosso histórico de compra e venda de ações de todas as corretoras utilizadas. Com este resutlado poderemos partir para a gestão da carteira, avaliar os rendimentos e fazer um controle bastante detalhado dos seus investimentos em renda variável.</p>
+<p>Temos um dataframe com todo nosso histórico de compra e venda de ações de todas as corretoras utilizadas. Com este resultado poderemos partir para a gestão da carteira, avaliar os rendimentos, gestão de risco e outros controles detalhados dos seus investimentos em renda variável.</p>
 <p>No próximo post deste assunto partiremos deste resultado para fazer algumas análises mais interessantes!</p>
-<p>Em breve prepararemos uma função (eventualmente um pacote) com esses processos para facilitar a vida de quem quiser gerir a própria carteira com R.</p>
 <!--radix_placeholder_article_footer-->
 <div class="article-footer">
   <p class="social_footer">

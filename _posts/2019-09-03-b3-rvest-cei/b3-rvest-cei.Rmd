@@ -51,7 +51,7 @@ Mesmo fazendo scraping via R vamos precisar informar nosso usuário (CPF) e senh
 
 Comecemos a preparar nosso scraping a partir desta tela. Diferente do post anterior, não vamos começar baixando os dados da tela e sim abrindo uma sessão para simular navegação na parte restrita do site e só depois baixar os dados da tela.
 
-Vamos usar o rvest para simular uma sessão (controle de acesso com autenticação) do browser. Para isso vamos precisar peencher, via R, o usuário e senha do formulário e enviar uma requisição para que os servidores da B3 nos autentiquem e nos mande de volta um cookie. Leia mais sobre sessão, autenticação e cookies em: https://pt.wikipedia.org/wiki/Cookie_(inform%C3%A1tica), https://developer.mozilla.org/pt-BR/docs/Web/HTTP/Cookies ou http://material.curso-r.com/scrape/#sess%C3%B5es-e-cookies
+Vamos usar o rvest para simular uma sessão (controle de acesso com autenticação) do browser. Para isso vamos precisar preencher, via R, o usuário e senha do formulário e enviar uma requisição para que os servidores da B3 nos autentiquem e nos mande de volta um cookie. Leia mais sobre sessão, autenticação e cookies em: https://pt.wikipedia.org/wiki/Cookie_(inform%C3%A1tica), https://developer.mozilla.org/pt-BR/docs/Web/HTTP/Cookies ou http://material.curso-r.com/scrape/#sess%C3%B5es-e-cookies
 
 Primeiro criamos uma sessão.
 
@@ -116,7 +116,7 @@ url_dados <- glue('{url}/CEI_Responsivo/negociacao-de-ativos.aspx')
 pagina_dados <- jump_to(sessao, url_dados)
 ```
 
-E agora temos mais um formulário a ser preenchido. Temos os seguintes campos para submeter: instituição, conta, data início e data fim. Aqui no meu caso a data início e data fim já vieram preechidos com os períodos disponíveis.
+E agora temos mais um formulário a ser preenchido. Temos os seguintes campos para submeter: instituição, conta, data início e data fim. Aqui no meu caso a data início e data fim já vieram preenchidos com os períodos disponíveis.
 
 ```{r}
 (form_dados <- html_form(pagina_dados))
@@ -135,11 +135,11 @@ instituicoes <- instituicoes[!grepl("Selecione", instituicoes)]
 instituicoes
 ```
 
-Agora basta percorrer cada um dos bancos, passando o código do banco e submetendo a consulta na página para regaatar o resultado de cada página e montar um dataframe. Com um simple loop resolvemos isso.
+Agora basta percorrer cada um dos bancos, passando o código do banco e submetendo a consulta na página para resgatar o resultado de cada página e montar um dataframe. Com um simple loop resolvemos isso.
 
 Durante o loop faremos um controle simples para baixar os dados apenas das instituições que apresentam a tabela de compra e venda de ações. As instituições que você nunca comprou apresentam a mensagem "Não foram encontrados resultados para esta pesquisa". Ao detectar a presença dessa frase, vamos assumir que não foi comprada ações nessa instituição. 
 
-As datas e o número de conta são preenchidos automaticamente, basta portanto enviar o código número que aparece na frente do nome de cada instituição.
+As datas e o número de conta são preenchidos automaticamente, basta, portanto, enviar o código número que aparece na frente do nome de cada instituição.
 
 Ao acessar a página que de fato apresenta os dados, serão exibidas duas tabelas, vamos raspar apenas as informações da tabela com o gigantesco id **ctl00_ContentPlaceHolder1_rptAgenteBolsa_ctl00_rptContaBolsa_ctl00_pnAtivosNegociados**. Dela extrairemos a tag <tabela> e descartaremos a última linha de totais.
 
@@ -195,13 +195,72 @@ head(dados_totais)
 tail(dados_totais)
 ```
 
+Utilizaremos este dataframe final para os próximos posts. Para facilitar nossa vida depois, vamos estruturar uma função. Futuramente, caso os próximos resultados sejam interessantes podemos inclusive estruturar um pacote para facilitar a gestão/análise da sua carteira no R.
+
+```{r}
+consulta_carteira <- function(cpf, senha) {
+  url <- 'https://cei.b3.com.br'
+  sessao <- html_session(url)
+  form_login <- html_form(sessao)
+  
+  form_preenchido <- set_values(form_login[[1]], 
+                               'ctl00$ContentPlaceHolder1$txtLogin' = cpf,
+                               'ctl00$ContentPlaceHolder1$txtSenha' = senha)
+  
+  submit_form(sessao, form_preenchido)
+  url_dados <- glue('{url}/CEI_Responsivo/negociacao-de-ativos.aspx')
+  pagina_dados <- jump_to(sessao, url_dados)
+  instituicoes <- read_html(pagina_dados) %>% 
+    html_nodes('option') %>% 
+    html_text()
+  
+  instituicoes <- instituicoes[!grepl("Selecione", instituicoes)] 
+  
+  form_dados <- html_form(pagina_dados)
+  
+  dados_totais <- data.frame()
+  for(i in instituicoes) {
+    banco <- str_split(i, ' - ', simplify = TRUE)
+    numero <- banco[1]
+    nome <- banco[2]
+    form_dados_preenchidos <- set_values(form_dados[[1]], 
+                                         'ctl00$ContentPlaceHolder1$ddlAgentes' = numero)
+    
+    resultado <- submit_form(sessao, form_dados_preenchidos)
+    nao_teve_resultado <- resultado %>%
+      read_html() %>% 
+      html_text() %>% 
+      str_detect('Não foram encontrados resultados para esta pesquisa')
+    
+    if(!nao_teve_resultado) {
+      dados_de_um_banco <- resultado %>% 
+        html_nodes('#ctl00_ContentPlaceHolder1_rptAgenteBolsa_ctl00_rptContaBolsa_ctl00_pnAtivosNegociados') %>%
+        html_node('table') %>%
+        html_table() %>% 
+        .[[1]] %>% 
+        .[-nrow(.),]
+      
+      dados_de_um_banco$nome_banco <- nome
+      
+      dados_totais <- bind_rows(dados_de_um_banco, dados_totais)
+    }
+  }
+  return(dados_totais)
+}
+```
+
+E chamamos nossa funcão assim 
+
+```{r, eval=FALSE}
+senha <- keyring::key_get('senha', 'SEU_CPF', 'cei-b3')
+final <- consulta_carteira('SEU_CPF', senha)
+```
+
 ### Conclusão
 
-Temos um dataframe com todo nosso histórico de compra e venda de ações de todas as corretoras utilizadas. Com este resutlado poderemos partir para a gestão da carteira, avaliar os rendimentos e fazer um controle bastante detalhado dos seus investimentos em renda variável.
+Temos um dataframe com todo nosso histórico de compra e venda de ações de todas as corretoras utilizadas. Com este resultado poderemos partir para a gestão da carteira, avaliar os rendimentos, gestão de risco e outros controles detalhados dos seus investimentos em renda variável.
 
 No próximo post deste assunto partiremos deste resultado para fazer algumas análises mais interessantes!
-
-Em breve prepararemos uma função (eventualmente um pacote) com esses processos para facilitar a vida de quem quiser gerir a própria carteira com R.
 
 
 
