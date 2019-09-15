@@ -19,37 +19,36 @@
  <!--/radix_placeholder_import_source-->
 
   <!--radix_placeholder_meta_tags-->
-  <title>Integrando o R com Excel</title>
+  <title>R com Excel</title>
   
-  <meta property="description" itemprop="description" content="A short description of the post."/>
+  <meta property="description" itemprop="description" content="Neste post mostramos como criar arquivos Excel a partir do R."/>
   
   
   <!--  https://schema.org/Article -->
   <meta property="article:published" itemprop="datePublished" content="2019-09-04"/>
   <meta property="article:created" itemprop="dateCreated" content="2019-09-04"/>
-  <meta name="article:author" content="Miguel Cleaver"/>
   
   <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
-  <meta property="og:title" content="Integrando o R com Excel"/>
+  <meta property="og:title" content="R com Excel"/>
   <meta property="og:type" content="article"/>
-  <meta property="og:description" content="A short description of the post."/>
+  <meta property="og:description" content="Neste post mostramos como criar arquivos Excel a partir do R."/>
   <meta property="og:locale" content="en_US"/>
   
   <!--  https://dev.twitter.com/cards/types/summary -->
   <meta property="twitter:card" content="summary"/>
-  <meta property="twitter:title" content="Integrando o R com Excel"/>
-  <meta property="twitter:description" content="A short description of the post."/>
+  <meta property="twitter:title" content="R com Excel"/>
+  <meta property="twitter:description" content="Neste post mostramos como criar arquivos Excel a partir do R."/>
   
   <!--/radix_placeholder_meta_tags-->
   <!--radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-rmarkdown-metadata">
-  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","output","draft"]}},"value":[{"type":"character","attributes":{},"value":["Integrando o R com Excel"]},{"type":"character","attributes":{},"value":["A short description of the post.\n"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url"]}},"value":[{"type":"character","attributes":{},"value":["Miguel Cleaver"]},{"type":"character","attributes":{},"value":["https://github.com/mgcleaver"]}]}]},{"type":"character","attributes":{},"value":["09-04-2019"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]}]},{"type":"logical","attributes":{},"value":[true]}]}
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","date","output","draft"]}},"value":[{"type":"character","attributes":{},"value":["R com Excel"]},{"type":"character","attributes":{},"value":["Neste post mostramos como criar arquivos Excel a partir do R.\n"]},{"type":"character","attributes":{},"value":["09-04-2019"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]}]},{"type":"logical","attributes":{},"value":[true]}]}
   </script>
   <!--/radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-resource-manifest">
-  {"type":"character","attributes":{},"value":["exemplo.xlsx","mtcars.xlsx"]}
+  {"type":"character","attributes":{},"value":["integrando-o-r-com-excel_files/bowser-1.9.3/bowser.min.js","integrando-o-r-com-excel_files/distill-2.2.21/template.v2.js","integrando-o-r-com-excel_files/jquery-1.11.3/jquery.min.js","integrando-o-r-com-excel_files/webcomponents-2.0.0/webcomponents.js"]}
   </script>
   <!--radix_placeholder_navigation_in_header-->
   <!--/radix_placeholder_navigation_in_header-->
@@ -942,7 +941,7 @@
 <!--radix_placeholder_front_matter-->
 
 <script id="distill-front-matter" type="text/json">
-{"title":"Integrando o R com Excel","description":"A short description of the post.","authors":[{"author":"Miguel Cleaver","authorURL":"https://github.com/mgcleaver","affiliation":"&nbsp;","affiliationURL":"#"}],"publishedDate":"2019-09-04T00:00:00.000-03:00","citationText":"Cleaver, 2019"}
+{"title":"R com Excel","description":"Neste post mostramos como criar arquivos Excel a partir do R.","authors":[],"publishedDate":"2019-09-04T00:00:00.000-03:00"}
 </script>
 
 <!--/radix_placeholder_front_matter-->
@@ -952,65 +951,103 @@
 <!--/radix_placeholder_site_before_body-->
 
 <div class="d-title">
-<h1>Integrando o R com Excel</h1>
-<p>A short description of the post.</p>
+<h1>R com Excel</h1>
+<p>Neste post mostramos como criar arquivos Excel a partir do R.</p>
 </div>
 
-<div class="d-byline">
-  Miguel Cleaver <a href="https://github.com/mgcleaver" class="uri">https://github.com/mgcleaver</a> 
-  
-<br/>09-04-2019
-</div>
 
 <div class="d-article">
-<p>Neste post exploramos como utilizar o R para manipular arquivos do <em>Excel</em> ( com extensão xlsx). Para isso vamos precisar do pacote <strong>openxlsx</strong>.</p>
+<p>Neste post exploramos como utilizar o R para escrever arquivos do <em>Microsoft Excel</em> (extensão .xlsx). Uma das grandes vantagens do R é documentar todas as operações que fazemos para gerar resultados e informações no Excel. Por exemplo, muitas vezes não lembramos quais tabelas e arquivos utilizamos para gerar nossas tabelas. Também pode ser que não lembremos se fizemos alguma alteração manual. Se precisarmos revisar o passo a passo do que fizemos pode ser que encontremos uma enorme dificuldade. Se você usa R, não terá esse problema. Com o pacote <strong>openxlsx</strong> é possível ler e escrever arquivos com extensão “.xlsx”. Como escrever arquivos é um pouco mais complicado do que lê-los, mostramos, neste post, apenas como escrevê-los.</p>
+<h2 id="como-escrevemos-arquivos-excel-com-extensao-.xlsx">Como escrevemos arquivos Excel com extensão .xlsx?</h2>
 <p>O modo mais simples de você escrever um arquivo “xlsx” utilizando o R se dá quando você tem uma única tabela de dados. Esse caso é bastante trivial e deixaremos para o final do post.</p>
-<p>A outra forma de escrever arquivos “xlsx” é um pouco mais trabalhosa, mas nada muito complicado. A pergunta que naturalmente surge é por que usararíamos uma forma mais trabalhosa se existe uma forma menos trabalhosa? A resposta é flexibilidade.</p>
-<p>A segunda forma de escrever arquivos “xlsx” nos permite editá-los com se estivessemos utilizando o próprio Excel (escolher cores, escolher fonte, etc). Se você tiver interesse de conhecer mais sobre as funcionalidades do pacote pode ler a documentação do openxlsx <a href="https://www.rdocumentation.org/packages/openxlsx/versions/4.1.0.1">aqui</a>.</p>
-<h2 id="exemplo-mais-trabalhoso">Exemplo mais trabalhoso</h2>
-<p>Primeiro carregamos os pacotes:</p>
+<p>A outra forma de escrever arquivos “xlsx” é um pouco mais trabalhosa, mas nada muito complicado. A pergunta que naturalmente surge é por que usararíamos uma forma mais trabalhosa se existe uma forma menos trabalhosa?</p>
+<p>Há vezes que queremos trabalhar com diversas planilhas em um mesmo arquivo Excel e é justamente para esse caso que existe uma forma mais trabalhosa. Além disso, há maior flexibilidade, pois podemos editar arquivos como se estivessemos utilizando o próprio Excel (é possível escolher cores, escolher a fonte das células, etc). Se você tiver interesse de conhecer mais sobre as funcionalidades do pacote pode ler a documentação do openxlsx <a href="https://www.rdocumentation.org/packages/openxlsx/versions/4.1.0.1">aqui</a>.</p>
+<h2 id="exemplo-trabalhoso">Exemplo “trabalhoso”</h2>
+<p>Primeiro carregamos os seguinte pacotes:</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 library(dplyr)
 library(openxlsx)</code></pre>
 </div>
-<p>Para este exemplo trabalharemos com a ideia de que queremos escrever duas planilhas em um único arquivo “xlsx”. Dessa forma, vamos trabalhar com duas tabelas disponíveis no pacote <strong>dplyr</strong>: mtcars e iris. A seguir alocamos cada uma das tabelas, respectivamente, para os objetos df1 e df2.</p>
+<p>Para este exemplo trabalharemos com a ideia de que queremos escrever duas planilhas em um único arquivo “xlsx”. Dessa forma, vamos trabalhar com duas tabelas disponíveis no pacote <strong>dplyr</strong>: mtcars e iris. A seguir alocamos cada uma das tabelas para os objetos df1 e df2.</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 df1 &lt;- mtcars
 df2 &lt;- iris</code></pre>
 </div>
-<p>A criação de um arquivo “xlsx” no R com recursos do programa Excel passa por uma sequência de passos bem definidos. Primeiro devemos criar um objeto do tipo “workbook”. Isso pode ser feito da seguinte forma:</p>
+<p>A criação de um arquivo “xlsx” no R passa por uma sequência de passos bem definidos. Primeiro devemos criar um objeto do tipo “workbook”. Isso pode ser feito da seguinte forma:</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 wb &lt;- createWorkbook()</code></pre>
 </div>
-<p>Ao criar um objeto do tipo “workbook” iniciamos nosso arquivo xlsx no ambiente do R. Contudo, deve-se notar que o comando inicia um arquivo sem nenhuma planilha e quando digo isso quero dizer que o arquivo não possui nem sequer uma planilha em branco como é ocorre quando crio um arquivo em branco no programa Excel.</p>
-<p>Portanto, o segundo passo exige que criemos uma planilha antes de escrever os dados. Sempre que quisermos adicionar uma nova planilha no arquivo xlsx, devemos dizer ao R explicitamente para que o faça. O função <code>addWorksheet</code> é responsável por criar uma única planilha. Se quisermos criar duas planilhas, precisamos utilizar essa função duas vezes.</p>
-<p>No primeiro argumento da função <code>addWorksheet</code> deve-se indicar o objeto de tipo “workbook” (objeto wb). No segundo argumento deve-se definir o nome da planilha. Abaixo criam-se duas planilhas.</p>
+<p>Ao criar um objeto do tipo “workbook” iniciamos um projeto de arquivo “xlsx” no ambiente do R sem, de fato, haver criado esse arquivo em alguma pasta do nosso computador. Deve-se notar que o comando inicia um arquivo sem nenhuma planilha e quando digo isso quero dizer que o arquivo não possui nem sequer uma planilha em branco como ocorre quando crio um arquivo em branco no programa Excel.</p>
+<p>Portanto, o segundo passo exige que criemos uma planilha antes de escrever os dados. Sempre que quisermos adicionar uma nova planilha no projeto de arquivo “xlsx”, devemos dizer ao R explicitamente para que o faça. A função <code>addWorksheet</code> cria apenas uma planilha. Se quisermos criar duas planilhas, precisamos utilizar essa função duas vezes.</p>
+<p>No primeiro argumento da função <code>addWorksheet</code> deve-se indicar um objeto do tipo “workbook” (no nosso caso temos o objeto <code>wb</code>). No segundo argumento deve-se definir o nome da planilha. Abaixo criam-se duas planilhas no mesmo projeto de arquivo Excel.</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 addWorksheet(wb, sheetName = &quot;planilha-mtcars&quot;)
 addWorksheet(wb, sheetName = &quot;planilha-iris&quot;)</code></pre>
 </div>
-<p>As planilhas recém criadas estão em branco. Para escrever os dados que queremos nas respectivas planilhas devemos utilizar a função <code>writeData</code>. Esta função possui 3 argumentos muito importantes. No primeiro argumento indica-se o objeto de tipo “workbook” que criamos para iniciar o arquivo xlsx; no argumento “sheet” seleciona-se o nome da planilha na qual desejamos escrever os dados; no argumento “x” selecionamos o objeto que contém os dados que queremos escrever. Como queremos escrever o objeto “df1” na “planilha-mtcars” e o objeto “df2” na “planilha-iris”, fazemos o seguinte:</p>
+<p>As planilhas recém criadas estão em branco. Para escrever os dados que queremos nas respectivas planilhas devemos utilizar a função <code>writeData</code>. Esta função possui 3 argumentos muito importantes. No primeiro argumento indica-se um objeto do tipo “workbook”; no argumento “sheet” seleciona-se o nome da planilha na qual desejamos escrever os dados (temos duas planilhas criadas: “planilha-mtcars” e “planilha-iris”); no argumento “x” selecionamos o objeto que contém os dados que queremos escrever. Como queremos escrever o objeto “df1” na “planilha-mtcars” e o objeto “df2” na “planilha-iris”, fazemos o seguinte:</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 writeData(wb, sheet = &quot;planilha-mtcars&quot;, x = df1)
 writeData(wb, sheet =  &quot;planilha-iris&quot;, x = df2)</code></pre>
 </div>
-<p>Com isso já temos duas planilhas com dados. Agora o que falta é salvar nosso objeto “wb” e escolher um nome para nosso arquivo. Isso é feito por meio da função <code>saveWorkbook</code>. <em>Ao nomear o arquivo, devemos nos lembrar de colocar a extensão “.xlxs” depois do nome do arquivo</em>, caso contrário não será possível abrir o arquivo salvo com o programa Excel.</p>
+<p>Com isso já temos duas planilhas com dados. De forma opcional, podemos editar características das planilhas. Por exemplo, alteremos a largura das colunas 1 e 2 da planilha com nome “planilha-mtcars”:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+setColWidths(wb, sheet = &quot;planilha-mtcars&quot;, cols = 1:2, widths = 10)</code></pre>
+</div>
+<p>Também é possível criar um estilo específico e aplicá-lo a células determinadas. Abaixo crio dois estilos. O primeiro estilo modifica o tamanho da fonte para 16, destaca o texto em negrito e alinha o texto na vertical e na horizontal. Por sua vez, o segundo estilo modifica o tamanho da fonte para 10 e alinha o texto na vertical e na horizontal.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+estilo1 &lt;- createStyle(fontSize = 16,
+                       textDecoration = &quot;bold&quot;, 
+                       halign = &#39;center&#39;,
+                       valign = &#39;center&#39;)
+
+estilo2 &lt;- createStyle(fontSize = 10,
+                       halign = &#39;center&#39;,
+                       valign = &#39;center&#39;)</code></pre>
+</div>
+<p>Os estilos estão criados, mas ainda não selecionamos as células que adotarão os estilos criados. Para aplicar os estilos usamos a função <code>addStyle</code>. O primeiro estilo é aplicado em “planilha-mtcars” para a primeira linha e para as colunas de 1 a 11, isto é, o cabeçalho da tabela. O segundo estilo também é aplicado em “planilha-mtcars”, mas dessa vez somente ao corpo da tabela. É importante notar que quando estamos combinando várias linhas e colunas devemos usar o argumento <code>gridExpand</code> = <code>TRUE</code>. Caso contrário, o R acusará que houve erro. Lembre-se que este passo de configuração de estilos é opcional.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+addStyle(wb,
+         sheet = &quot;planilha-mtcars&quot;,
+         style = estilo1,
+         rows = 1,
+         cols = 1:11)
+
+addStyle(wb, 
+         sheet = &quot;planilha-mtcars&quot;,
+         style = estilo2, 
+         rows = 2:33,
+         cols = 1:11,
+         gridExpand = TRUE)</code></pre>
+</div>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<p>colocar imagem de como fica a planilha.</p>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+<p>Agora o que falta é salvar nosso objeto “wb” e escolher um nome para nosso arquivo. Isso é feito por meio da função <code>saveWorkbook</code>. <em>Ao nomear o arquivo, devemos nos lembrar de colocar a extensão “.xlxs” depois do nome do arquivo</em>, caso contrário o arquivo será ilégivel no Excel. Assim, fazemos o seguinte para salvar nosso arquivo:</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 saveWorkbook(wb, file = &quot;exemplo.xlsx&quot;)</code></pre>
 </div>
 <h2 id="exemplo-mais-direto">Exemplo mais direto</h2>
-<p>Como mencionado no início do post, existe um jeito mais fácil de escrever um arquivo excel a partir to R. Basta utilizar a função <code>write.xlsx</code>. O primeiro argumento se refere ao objeto de dados que desejamos escrever. Já o segundo consite em nomear o arquivo excel. Podemos fazer o seguinte para salvar o objeto df1 em um arquivo “xlsx”:</p>
+<p>Como mencionado no início do post, existe um jeito mais fácil de escrever um arquivo excel a partir do R. Basta utilizar a função <code>write.xlsx</code>. No primeiro argumento da função devemos especificar o objeto que contém os dados que desejamos escrever. No segundo argumento devemos escolher um nome para o nosso arquivo excel acrescido da extensão “.xlsx”. Por exemplo, posso fazer o seguinte para salvar o objeto df1:</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 write.xlsx(df1, file = &quot;mtcars.xlsx&quot;)</code></pre>
 </div>
-<p>Esse arquivo não terá nenhum tipo de formatação, mas salvará os dados trabalhados no R para o formato xlsx.</p>
+<p>Da forma como foi salvo, a planilha não apresentará nenhum tipo de formatação específica, mas salvará os dados que selecionamos com um formatação padrão.</p>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>

@@ -1,7 +1,7 @@
 ---
-title: "Integrando o R com Excel"
+title: "R com Excel"
 description: |
-  Neste post escrevemos artigos Excel a partir do R.
+  Neste post mostramos como criar arquivos Excel a partir do R.
 date: 09-04-2019
 output:
   distill::distill_article:
@@ -13,7 +13,9 @@ draft: true
 knitr::opts_chunk$set(echo = TRUE, eval = FALSE)
 ```
 
-Neste post exploramos como utilizar o R para escrever arquivos do *Microsoft Excel* (extensão .xlsx). Para isso vamos precisar do pacote **openxlsx**.
+Neste post exploramos como utilizar o R para escrever arquivos do *Microsoft Excel* (extensão .xlsx). Uma das grandes vantagens do R é documentar todas as operações que fazemos para gerar resultados e informações no Excel. Por exemplo, muitas vezes não lembramos quais tabelas e arquivos utilizamos para gerar nossas tabelas. Também pode ser que não lembremos se fizemos alguma alteração manual. Se precisarmos revisar o passo a passo do que fizemos pode ser que encontremos uma enorme dificuldade. Se você usa R, não terá esse problema. Com o pacote  **openxlsx** é possível ler e escrever arquivos com extensão ".xlsx". Como escrever arquivos é um pouco mais complicado do que lê-los, mostramos, neste post, apenas como escrevê-los.
+
+## Como escrevemos arquivos Excel com extensão .xlsx?
 
 O modo mais simples de você escrever um arquivo "xlsx" utilizando o R se dá quando você tem uma única tabela de dados. Esse caso é bastante trivial e deixaremos para o final do post.
 
@@ -23,7 +25,7 @@ Há vezes que queremos trabalhar com diversas planilhas em um mesmo arquivo Exce
 
 ## Exemplo "trabalhoso"
 
-Primeiro carregamos os pacotes:
+Primeiro carregamos os seguinte pacotes:
 
 ```{r, message = F, warning = F}
 library(dplyr)
@@ -37,15 +39,15 @@ df1 <- mtcars
 df2 <- iris
 ```
 
-A criação de um arquivo "xlsx" no R com recursos do programa Excel passa por uma sequência de passos bem definidos. Primeiro devemos criar um objeto do tipo "workbook". Isso pode ser feito da seguinte forma: 
+A criação de um arquivo "xlsx" no R passa por uma sequência de passos bem definidos. Primeiro devemos criar um objeto do tipo "workbook". Isso pode ser feito da seguinte forma: 
 
 ```{r}
 wb <- createWorkbook()
 ```
 
-Ao criar um objeto do tipo "workbook" iniciamos um projeto de arquivo "xlsx" no ambiente do R sem, de fato, haver criado esse arquivo em nosso computador. Deve-se notar que o comando inicia um arquivo sem nenhuma planilha e quando digo isso quero dizer que o arquivo não possui nem sequer uma planilha em branco como ocorre quando crio um arquivo em branco no programa Excel.
+Ao criar um objeto do tipo "workbook" iniciamos um projeto de arquivo "xlsx" no ambiente do R sem, de fato, haver criado esse arquivo em alguma pasta do nosso computador. Deve-se notar que o comando inicia um arquivo sem nenhuma planilha e quando digo isso quero dizer que o arquivo não possui nem sequer uma planilha em branco como ocorre quando crio um arquivo em branco no programa Excel.
 
-Portanto, o segundo passo exige que criemos uma planilha antes de escrever os dados. Sempre que quisermos adicionar uma nova planilha no projeto de arquivo "xlsx", devemos dizer ao R explicitamente para que o faça. O função `addWorksheet` cria apenas uma planilha. Se quisermos criar duas planilhas, precisamos utilizar essa função duas vezes.
+Portanto, o segundo passo exige que criemos uma planilha antes de escrever os dados. Sempre que quisermos adicionar uma nova planilha no projeto de arquivo "xlsx", devemos dizer ao R explicitamente para que o faça. A função `addWorksheet` cria apenas uma planilha. Se quisermos criar duas planilhas, precisamos utilizar essa função duas vezes.
 
 No primeiro argumento da função `addWorksheet` deve-se indicar um objeto do tipo "workbook" (no nosso caso temos o objeto `wb`). No segundo argumento deve-se definir o nome da planilha. Abaixo criam-se duas planilhas no mesmo projeto de arquivo Excel.
 
@@ -61,13 +63,13 @@ writeData(wb, sheet = "planilha-mtcars", x = df1)
 writeData(wb, sheet =  "planilha-iris", x = df2)
 ```
 
-Com isso já temos duas planilhas com dados. De forma opcional, podemos editar características das planilhas. Por exemplo, alteremos a largura das colunas 1 e 2 de "planilha-mtcars":
+Com isso já temos duas planilhas com dados. De forma opcional, podemos editar características das planilhas. Por exemplo, alteremos a largura das colunas 1 e 2 da planilha com nome "planilha-mtcars":
 
 ```{r}
 setColWidths(wb, sheet = "planilha-mtcars", cols = 1:2, widths = 10)
 ```
 
-Também é possível criar um estilo específico e aplicá-lo a células determinadas. Abaixo eu crio dois estilos. O primeiro estilo modifica o tamanho da fonte para 16, destaca o texto em negrito e alinha o texto na vertical e na horizontal. Por sua vez, o segundo estilo modifica o tamanho da fonte para 10 e a linha o texto na vertical e na horizontal.
+Também é possível criar um estilo específico e aplicá-lo a células determinadas. Abaixo crio dois estilos. O primeiro estilo modifica o tamanho da fonte para 16, destaca o texto em negrito e alinha o texto na vertical e na horizontal. Por sua vez, o segundo estilo modifica o tamanho da fonte para 10 e alinha o texto na vertical e na horizontal.
 
 ```{r}
 estilo1 <- createStyle(fontSize = 16,
@@ -75,11 +77,12 @@ estilo1 <- createStyle(fontSize = 16,
                        halign = 'center',
                        valign = 'center')
 
-estilo2 <- createStyle(fontSize = 10, halign = 'center',
+estilo2 <- createStyle(fontSize = 10,
+                       halign = 'center',
                        valign = 'center')
 ```
 
-Os estilos estão criados, mas ainda não selecionamos as células que adotarão os estilos criados. O primeiro estilo é aplicado em "planilha-mtcars" para a primeira linha e para as colunas de 1 a 11, isto é, o cabeçalho da tabela. O segundo estilo também é aplicado em "planilha-mtcars", mas dessa vez somente ao corpo da tabela. É importante notar que quando estamos combinando várias linhas e colunas devemos usar o argumento `gridExpand` = `TRUE`. Caso contrário, o R acusará que houve erro. 
+Os estilos estão criados, mas ainda não selecionamos as células que adotarão os estilos criados. Para aplicar os estilos usamos a função `addStyle`. O primeiro estilo é aplicado em "planilha-mtcars" para a primeira linha e para as colunas de 1 a 11, isto é, o cabeçalho da tabela. O segundo estilo também é aplicado em "planilha-mtcars", mas dessa vez somente ao corpo da tabela. É importante notar que quando estamos combinando várias linhas e colunas devemos usar o argumento `gridExpand` = `TRUE`. Caso contrário, o R acusará que houve erro. Lembre-se que este passo de configuração de estilos é opcional.
 
 ```{r}
 addStyle(wb,
@@ -99,7 +102,7 @@ addStyle(wb,
 
 >>>> colocar imagem de como fica a planilha.
 
-Agora o que falta é salvar nosso objeto "wb" e escolher um nome para nosso arquivo. Isso é feito por meio da função `saveWorkbook`. *Ao nomear o arquivo, devemos nos lembrar de colocar a extensão ".xlxs" depois do nome do arquivo*, caso contrário não será possível abrir o arquivo salvo com o programa Excel.
+Agora o que falta é salvar nosso objeto "wb" e escolher um nome para nosso arquivo. Isso é feito por meio da função `saveWorkbook`. *Ao nomear o arquivo, devemos nos lembrar de colocar a extensão ".xlxs" depois do nome do arquivo*, caso contrário o arquivo será ilégivel no Excel. Assim, fazemos o seguinte para salvar nosso arquivo:
 
 ```{r}
 saveWorkbook(wb, file = "exemplo.xlsx")
@@ -113,4 +116,4 @@ Como mencionado no início do post, existe um jeito mais fácil de escrever um a
 write.xlsx(df1, file = "mtcars.xlsx")
 ```
 
-Da forma como foi salvo, a planilha não apresentará nenhum tipo de formatação específica, mas salvará os dados que selecionamos.
+Da forma como foi salvo, a planilha não apresentará nenhum tipo de formatação específica, mas salvará os dados que selecionamos com um formatação padrão.
