@@ -27,7 +27,7 @@ Há vezes que queremos trabalhar com diversas planilhas em um mesmo arquivo Exce
 
 ## Exemplo "trabalhoso"
 
-Primeiro carregamos os seguinte pacotes:
+Primeiro carregamos os seguintes pacotes:
 
 ```{r, message = F, warning = F}
 library(dplyr)
