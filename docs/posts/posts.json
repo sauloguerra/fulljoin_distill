@@ -1,5 +1,22 @@
 [
   {
+    "path": "posts/2019-09-04-integrando-o-r-com-excel/",
+    "title": "R com Excel",
+    "description": "Neste post mostramos como criar arquivos Excel a partir do R.",
+    "author": [
+      {
+        "name": "Miguel Cleaver",
+        "url": {}
+      }
+    ],
+    "date": "2019-09-16",
+    "categories": [],
+    "preview": "posts/2019-09-04-integrando-o-r-com-excel/../../images/excel_mtcars.PNG",
+    "last_modified": "2019-09-16T21:44:43-03:00",
+    "preview_width": 1920,
+    "preview_height": 987
+  },
+  {
     "path": "posts/2019-09-03-b3-rvest-cei/",
     "title": "CEI + rvest: Explorando dados financeiros com R - parte 2",
     "description": "Com o pacote rvest você pode baixar todo seu histórico de compra e venda de ações diretamente do CEI e passar a gerenciar sua carteira pelo R",
@@ -15,7 +32,7 @@
       "scraping"
     ],
     "preview": "posts/2019-09-03-b3-rvest-cei/../../images/cei_rvest.png",
-    "last_modified": "2019-09-10T20:45:19-03:00",
+    "last_modified": "2019-09-10T22:24:17-03:00",
     "preview_width": 322,
     "preview_height": 88
   },
@@ -31,7 +48,7 @@
       "Aprendizado de Máquina"
     ],
     "preview": "posts/2019-08-27-hello-world-tensorflow-v2/hello-world-tensorflow-v2_files/figure-html5/unnamed-chunk-7-1.png",
-    "last_modified": "2019-09-10T00:40:37-03:00",
+    "last_modified": "2019-09-10T22:24:17-03:00",
     "preview_width": 1248,
     "preview_height": 768
   },
@@ -51,7 +68,7 @@
       "scraping"
     ],
     "preview": "posts/2019-07-18-b3-rvest-explorando-dados-financeiros-com-r/../../images/b3_rvest.png",
-    "last_modified": "2019-08-27T21:02:04-03:00",
+    "last_modified": "2019-08-27T22:27:35-03:00",
     "preview_width": 501,
     "preview_height": 218
   },
@@ -68,7 +85,7 @@
     "date": "2019-08-10",
     "categories": [],
     "preview": "posts/2019-07-30-analisando-dados-da-guerra-comercial-parte-2/analisando-dados-da-guerra-comercial-parte-2_files/figure-html5/unnamed-chunk-7-1.png",
-    "last_modified": "2019-08-26T21:28:03-03:00",
+    "last_modified": "2019-08-21T23:33:06-03:00",
     "preview_width": 1152,
     "preview_height": 768
   },
@@ -89,7 +106,7 @@
       "scraping"
     ],
     "preview": "posts/2019-07-31-traduo-de-dados-textuais-com-googlelanguager/../../images/google.PNG",
-    "last_modified": "2019-08-26T21:28:03-03:00",
+    "last_modified": "2019-08-21T23:33:06-03:00",
     "preview_width": 492,
     "preview_height": 209
   },
@@ -106,7 +123,7 @@
     "date": "2019-07-27",
     "categories": [],
     "preview": "posts/2019-07-24-analisando-dados-da-guerra-comercial-com-o-comtradr/analisando-dados-da-guerra-comercial-com-o-comtradr_files/figure-html5/unnamed-chunk-12-1.png",
-    "last_modified": "2019-08-26T21:28:03-03:00",
+    "last_modified": "2019-08-21T23:33:06-03:00",
     "preview_width": 1344,
     "preview_height": 1152
   },
@@ -126,7 +143,7 @@
       "Rstudio"
     ],
     "preview": "posts/2019-07-23-rstudio-dicas/../../images/dicas_funcao.gif",
-    "last_modified": "2019-08-26T21:28:03-03:00"
+    "last_modified": "2019-08-21T23:33:06-03:00"
   },
   {
     "path": "posts/2019-07-16-web-scraping-com-r/",
@@ -144,7 +161,7 @@
       "scraping"
     ],
     "preview": "posts/2019-07-16-web-scraping-com-r/../../images/cbf.gif",
-    "last_modified": "2019-08-26T21:28:03-03:00"
+    "last_modified": "2019-08-21T23:33:06-03:00"
   },
   {
     "path": "posts/2019-07-15-estamos-de-volta/",
@@ -154,7 +171,7 @@
     "date": "2019-07-15",
     "categories": [],
     "preview": "posts/2019-07-15-estamos-de-volta/../../images/voltamos.png",
-    "last_modified": "2019-08-26T21:28:03-03:00",
+    "last_modified": "2019-08-21T23:33:06-03:00",
     "preview_width": 472,
     "preview_height": 271
   },
@@ -176,7 +193,7 @@
       "Computer Vision"
     ],
     "preview": "posts/2018-12-21-training-a-dog-breeds-image-classifier-using-keras-in-pre-trained-models/training-a-dog-breeds-image-classifier-using-keras-in-pre-trained-models_files/figure-html5/unnamed-chunk-6-1.png",
-    "last_modified": "2019-08-26T21:28:03-03:00",
+    "last_modified": "2019-08-21T23:33:06-03:00",
     "preview_width": 1248,
     "preview_height": 768
   },
@@ -197,7 +214,7 @@
       "Aprendizado de Máquina"
     ],
     "preview": "posts/2018-10-24-classificando-comentrios-txicos/classificando-comentrios-txicos_files/figure-html5/unnamed-chunk-5-1.png",
-    "last_modified": "2019-08-26T21:28:01-03:00",
+    "last_modified": "2019-08-21T23:33:05-03:00",
     "preview_width": 1248,
     "preview_height": 768
   },
@@ -209,7 +226,7 @@
     "date": "2017-03-12",
     "categories": [],
     "preview": "posts/2017-03-12-introducao-d3plusr/../../images/D3plusR.png",
-    "last_modified": "2019-08-26T21:28:01-03:00",
+    "last_modified": "2019-08-21T23:33:05-03:00",
     "preview_width": 247,
     "preview_height": 237
   },
@@ -221,7 +238,7 @@
     "date": "2017-01-28",
     "categories": [],
     "preview": "posts/2017-01-28-bases-de-dados-kaggle/../../images/kaggle.png",
-    "last_modified": "2019-08-26T21:28:01-03:00",
+    "last_modified": "2019-08-21T23:33:05-03:00",
     "preview_width": 362,
     "preview_height": 139
   },
@@ -233,7 +250,7 @@
     "date": "2016-09-07",
     "categories": [],
     "preview": "posts/2016-08-26-visualizacao-de-dados-parte-1/visualizacao-de-dados-parte-1_files/figure-html5/unnamed-chunk-4-1.png",
-    "last_modified": "2019-08-26T21:28:01-03:00",
+    "last_modified": "2019-08-21T23:33:05-03:00",
     "preview_width": 1536,
     "preview_height": 768
   },
@@ -245,7 +262,7 @@
     "date": "2016-08-16",
     "categories": [],
     "preview": "posts/2016-08-01-manipulacao-de-dados-parte-1/../../images/dplyr.png",
-    "last_modified": "2019-08-26T21:28:01-03:00",
+    "last_modified": "2019-08-21T23:33:05-03:00",
     "preview_width": 209,
     "preview_height": 242
   },
@@ -257,7 +274,7 @@
     "date": "2016-07-30",
     "categories": [],
     "preview": "posts/2016-07-30-comex-vis/../../images/comexvis.png",
-    "last_modified": "2019-08-26T21:28:01-03:00",
+    "last_modified": "2019-08-21T23:33:05-03:00",
     "preview_width": 750,
     "preview_height": 505
   },
@@ -269,7 +286,7 @@
     "date": "2016-07-10",
     "categories": [],
     "preview": "posts/2016-06-06-intro-modelos-r/intro-modelos-r_files/figure-html5/unnamed-chunk-22-1.png",
-    "last_modified": "2019-08-26T21:28:01-03:00",
+    "last_modified": "2019-08-21T23:33:05-03:00",
     "preview_width": 1248,
     "preview_height": 768
   },
@@ -281,7 +298,7 @@
     "date": "2016-05-25",
     "categories": [],
     "preview": {},
-    "last_modified": "2019-08-26T21:28:01-03:00"
+    "last_modified": "2019-08-21T23:33:05-03:00"
   },
   {
     "path": "posts/2016-05-09-kit-de-sobrevivencia-em-r-parte-7/",
@@ -291,7 +308,7 @@
     "date": "2016-05-09",
     "categories": [],
     "preview": {},
-    "last_modified": "2019-08-26T21:28:01-03:00"
+    "last_modified": "2019-08-21T23:33:05-03:00"
   },
   {
     "path": "posts/2016-05-01-kit-de-sobrevivencia-em-r-parte-6/",
@@ -301,7 +318,7 @@
     "date": "2016-05-01",
     "categories": [],
     "preview": "posts/2016-05-01-kit-de-sobrevivencia-em-r-parte-6/kit-de-sobrevivencia-em-r-parte-6_files/figure-html5/unnamed-chunk-11-1.png",
-    "last_modified": "2019-08-26T21:28:01-03:00",
+    "last_modified": "2019-08-21T23:33:05-03:00",
     "preview_width": 2304,
     "preview_height": 1920
   },
@@ -313,7 +330,7 @@
     "date": "2016-04-21",
     "categories": [],
     "preview": {},
-    "last_modified": "2019-08-26T21:28:01-03:00"
+    "last_modified": "2019-08-21T23:33:05-03:00"
   },
   {
     "path": "posts/2016-04-07-kit-de-sobrevivencia-em-r-parte-4/",
@@ -323,7 +340,7 @@
     "date": "2016-04-12",
     "categories": [],
     "preview": {},
-    "last_modified": "2019-08-26T21:28:01-03:00"
+    "last_modified": "2019-08-21T23:33:05-03:00"
   },
   {
     "path": "posts/2016-03-28-kit-de-sobrevivencia-em-r-parte-3/",
@@ -333,7 +350,7 @@
     "date": "2016-04-03",
     "categories": [],
     "preview": {},
-    "last_modified": "2019-08-26T21:28:01-03:00"
+    "last_modified": "2019-08-21T23:33:05-03:00"
   },
   {
     "path": "posts/2016-03-25-kit-de-sobrevivencia-em-r-parte-2/",
@@ -343,7 +360,7 @@
     "date": "2016-04-02",
     "categories": [],
     "preview": {},
-    "last_modified": "2019-08-26T21:28:01-03:00"
+    "last_modified": "2019-08-21T23:33:05-03:00"
   },
   {
     "path": "posts/2016-03-20-kit-de-sobrevivencia-em-r-parte-1/",
@@ -353,7 +370,7 @@
     "date": "2016-03-20",
     "categories": [],
     "preview": {},
-    "last_modified": "2019-08-26T21:28:01-03:00"
+    "last_modified": "2019-08-21T23:33:05-03:00"
   },
   {
     "path": "posts/2016-03-20-aplicando-ciencia-de-dados-parte-2-equipe/",
@@ -363,7 +380,7 @@
     "date": "2016-03-19",
     "categories": [],
     "preview": {},
-    "last_modified": "2019-08-26T21:28:01-03:00"
+    "last_modified": "2019-08-21T23:33:05-03:00"
   },
   {
     "path": "posts/2016-03-14-como-aplicar-ciencia-de-dados/",
@@ -373,7 +390,7 @@
     "date": "2016-03-14",
     "categories": [],
     "preview": {},
-    "last_modified": "2019-08-26T21:28:01-03:00"
+    "last_modified": "2019-08-21T23:33:04-03:00"
   },
   {
     "path": "posts/2016-03-09-hello-world/",
@@ -388,6 +405,6 @@
     "date": "2016-03-09",
     "categories": [],
     "preview": {},
-    "last_modified": "2019-08-26T21:28:01-03:00"
+    "last_modified": "2019-08-21T23:33:04-03:00"
   }
 ]

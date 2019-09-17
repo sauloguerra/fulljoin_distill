@@ -2,11 +2,11 @@
 title: "R com Excel"
 description: |
   Neste post mostramos como criar arquivos Excel a partir do R.
-date: 09-04-2019
+date: 09-16-2019
+author: Miguel Cleaver
 output:
   distill::distill_article:
     self_contained: false
-draft: true
 ---
 
 ```{r setup, include=FALSE}
@@ -19,9 +19,9 @@ Neste post exploramos como utilizar o R para escrever arquivos do *Microsoft Exc
 
 O modo mais simples de você escrever um arquivo "xlsx" utilizando o R se dá quando você tem uma única tabela de dados. Esse caso é bastante trivial e deixaremos para o final do post.
 
-A outra forma de escrever arquivos "xlsx" é um pouco mais trabalhosa, mas nada muito complicado. A pergunta que naturalmente surge é por que usararíamos uma forma mais trabalhosa se existe uma forma menos trabalhosa? 
+A outra forma de escrever arquivos "xlsx" é um pouco mais trabalhosa, mas nada muito complicado. A pergunta que naturalmente surge é por que usuraríamos uma forma mais trabalhosa se existe uma forma menos trabalhosa? 
 
-Há vezes que queremos trabalhar com diversas planilhas em um mesmo arquivo Excel e é justamente para esse caso que existe uma forma mais trabalhosa. Além disso, há maior flexibilidade, pois podemos editar arquivos como se estivessemos utilizando o próprio Excel (é possível escolher cores, escolher a fonte das células, etc). Se você tiver interesse de conhecer mais sobre as funcionalidades do pacote pode ler a documentação do openxlsx [aqui](https://www.rdocumentation.org/packages/openxlsx/versions/4.1.0.1).
+Há vezes que queremos trabalhar com diversas planilhas em um mesmo arquivo Excel e é justamente para esse caso que existe uma forma mais trabalhosa. Além disso, há maior flexibilidade, pois podemos editar arquivos como se estivéssemos utilizando o próprio Excel (é possível escolher cores, escolher a fonte das células, etc). Se você tiver interesse de conhecer mais sobre as funcionalidades do pacote pode ler a documentação do openxlsx [aqui](https://www.rdocumentation.org/packages/openxlsx/versions/4.1.0.1).
 
 ## Exemplo "trabalhoso"
 
@@ -35,6 +35,8 @@ library(openxlsx)
 Para este exemplo trabalharemos com a ideia de que queremos escrever duas planilhas em um único arquivo "xlsx". Dessa forma, vamos trabalhar com duas tabelas disponíveis no pacote **dplyr**: mtcars e iris. A seguir alocamos cada uma das tabelas para os objetos df1 e df2.
 
 ```{r}
+data("mtcars")
+data("iris")
 df1 <- mtcars
 df2 <- iris
 ```
@@ -66,18 +68,19 @@ writeData(wb, sheet =  "planilha-iris", x = df2)
 Com isso já temos duas planilhas com dados. De forma opcional, podemos editar características das planilhas. Por exemplo, alteremos a largura das colunas 1 e 2 da planilha com nome "planilha-mtcars":
 
 ```{r}
-setColWidths(wb, sheet = "planilha-mtcars", cols = 1:2, widths = 10)
+setColWidths(wb, sheet = "planilha-mtcars", cols = 1:2, widths = 16)
 ```
 
 Também é possível criar um estilo específico e aplicá-lo a células determinadas. Abaixo crio dois estilos. O primeiro estilo modifica o tamanho da fonte para 16, destaca o texto em negrito e alinha o texto na vertical e na horizontal. Por sua vez, o segundo estilo modifica o tamanho da fonte para 10 e alinha o texto na vertical e na horizontal.
 
 ```{r}
 estilo1 <- createStyle(fontSize = 16,
-                       textDecoration = "bold", 
+                       textDecoration = "bold",
                        halign = 'center',
                        valign = 'center')
 
 estilo2 <- createStyle(fontSize = 10,
+                       fontColour = "red",
                        halign = 'center',
                        valign = 'center')
 ```
@@ -99,13 +102,24 @@ addStyle(wb,
          gridExpand = TRUE)
 ```
 
-
->>>> colocar imagem de como fica a planilha.
-
-Agora o que falta é salvar nosso objeto "wb" e escolher um nome para nosso arquivo. Isso é feito por meio da função `saveWorkbook`. *Ao nomear o arquivo, devemos nos lembrar de colocar a extensão ".xlxs" depois do nome do arquivo*, caso contrário o arquivo será ilégivel no Excel. Assim, fazemos o seguinte para salvar nosso arquivo:
+Agora o que falta é salvar nosso objeto "wb" e escolher um nome para nosso arquivo. Isso é feito por meio da função `saveWorkbook`. *Ao nomear o arquivo, devemos nos lembrar de colocar a extensão ".xlxs" depois do nome do arquivo*, caso contrário o arquivo será ilegível no Excel. Assim, fazemos o seguinte para salvar nosso arquivo:
 
 ```{r}
 saveWorkbook(wb, file = "exemplo.xlsx")
+```
+
+Depois de salvar nossa arquivo Excel, podemos ver como ficou cada uma das planilhas.
+
+```{r, echo = F, fig.align='center', eval = TRUE, layout="l-body-outset"}
+knitr::include_graphics('../../images/excel_mtcars.PNG', dpi = 200)
+```
+
+Como podemos perceber a planilha "mtcars" possui as duas primeiras colunas mais largas do que as demais colunas, conforme definido no código R anteriormente. Também notamos que ambos os estilos que criamos foram aplicados as células correspondentes.
+
+Já a planilha "iris" aparece sem formatação específica, uma vez que não aplicamos nenhum estilo a esta planilha.
+
+```{r, echo = F, fig.align='center', eval = TRUE, layout="l-body-outset"}
+knitr::include_graphics('../../images/excel_iris.PNG', dpi = 200)
 ```
 
 ## Exemplo mais direto
@@ -116,4 +130,4 @@ Como mencionado no início do post, existe um jeito mais fácil de escrever um a
 write.xlsx(df1, file = "mtcars.xlsx")
 ```
 
-Da forma como foi salvo, a planilha não apresentará nenhum tipo de formatação específica, mas salvará os dados que selecionamos com um formatação padrão.
+Da forma como foi salvo, a planilha não apresentará nenhum tipo de formatação específica, mas salvará os dados que selecionamos com um formatação igual a da planilha "iris".

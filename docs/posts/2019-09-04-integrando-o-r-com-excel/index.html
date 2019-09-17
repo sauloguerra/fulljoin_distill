@@ -19,47 +19,53 @@
  <!--/radix_placeholder_import_source-->
 
   <!--radix_placeholder_meta_tags-->
-<title>Fulljoin: Hello World</title>
+<title>Fulljoin: R com Excel</title>
 
-<meta property="description" itemprop="description" content="E nasce hoje o Full Join! &#10;Um blog sobre data science e tudo mais que envolve a arte de trabalhar com dados. &#10;A ideia Ã© postar sobre programaÃ§Ã£o, estatÃ­stica, machine learning e anÃ¡lise de dados, buscando consolidar nosso conhecimento e ajudar quem estÃ¡ comeÃ§ando (ou evoluindo!) na carreira de Cientista de Dados."/>
+<meta property="description" itemprop="description" content="Neste post mostramos como criar arquivos Excel a partir do R."/>
 
-<link rel="canonical" href="https://www.fulljoin.com.br/posts/2016-03-09-hello-world/"/>
+<link rel="canonical" href="https://www.fulljoin.com.br/posts/2019-09-04-integrando-o-r-com-excel/"/>
 
 <!--  https://schema.org/Article -->
-<meta property="article:published" itemprop="datePublished" content="2016-03-09"/>
-<meta property="article:created" itemprop="dateCreated" content="2016-03-09"/>
-<meta name="article:author" content="Saulo Guerra"/>
+<meta property="article:published" itemprop="datePublished" content="2019-09-16"/>
+<meta property="article:created" itemprop="dateCreated" content="2019-09-16"/>
+<meta name="article:author" content="Miguel Cleaver"/>
 
 <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
-<meta property="og:title" content="Fulljoin: Hello World"/>
+<meta property="og:title" content="Fulljoin: R com Excel"/>
 <meta property="og:type" content="article"/>
-<meta property="og:description" content="E nasce hoje o Full Join! &#10;Um blog sobre data science e tudo mais que envolve a arte de trabalhar com dados. &#10;A ideia Ã© postar sobre programaÃ§Ã£o, estatÃ­stica, machine learning e anÃ¡lise de dados, buscando consolidar nosso conhecimento e ajudar quem estÃ¡ comeÃ§ando (ou evoluindo!) na carreira de Cientista de Dados."/>
-<meta property="og:url" content="https://www.fulljoin.com.br/posts/2016-03-09-hello-world/"/>
+<meta property="og:description" content="Neste post mostramos como criar arquivos Excel a partir do R."/>
+<meta property="og:url" content="https://www.fulljoin.com.br/posts/2019-09-04-integrando-o-r-com-excel/"/>
+<meta property="og:image" content="https://www.fulljoin.com.br/posts/2019-09-04-integrando-o-r-com-excel/../../images/excel_mtcars.PNG"/>
+<meta property="og:image:width" content="1920"/>
+<meta property="og:image:height" content="987"/>
 <meta property="og:locale" content="en_US"/>
 <meta property="og:site_name" content="Fulljoin"/>
 
 <!--  https://dev.twitter.com/cards/types/summary -->
-<meta property="twitter:card" content="summary"/>
-<meta property="twitter:title" content="Fulljoin: Hello World"/>
-<meta property="twitter:description" content="E nasce hoje o Full Join! &#10;Um blog sobre data science e tudo mais que envolve a arte de trabalhar com dados. &#10;A ideia Ã© postar sobre programaÃ§Ã£o, estatÃ­stica, machine learning e anÃ¡lise de dados, buscando consolidar nosso conhecimento e ajudar quem estÃ¡ comeÃ§ando (ou evoluindo!) na carreira de Cientista de Dados."/>
-<meta property="twitter:url" content="https://www.fulljoin.com.br/posts/2016-03-09-hello-world/"/>
+<meta property="twitter:card" content="summary_large_image"/>
+<meta property="twitter:title" content="Fulljoin: R com Excel"/>
+<meta property="twitter:description" content="Neste post mostramos como criar arquivos Excel a partir do R."/>
+<meta property="twitter:url" content="https://www.fulljoin.com.br/posts/2019-09-04-integrando-o-r-com-excel/"/>
+<meta property="twitter:image" content="https://www.fulljoin.com.br/posts/2019-09-04-integrando-o-r-com-excel/../../images/excel_mtcars.PNG"/>
+<meta property="twitter:image:width" content="1920"/>
+<meta property="twitter:image:height" content="987"/>
 
 <!--  https://scholar.google.com/intl/en/scholar/inclusion.html#indexing -->
-<meta name="citation_title" content="Fulljoin: Hello World"/>
-<meta name="citation_fulltext_html_url" content="https://www.fulljoin.com.br/posts/2016-03-09-hello-world/"/>
-<meta name="citation_online_date" content="2016/03/09"/>
-<meta name="citation_publication_date" content="2016/03/09"/>
-<meta name="citation_author" content="Saulo Guerra"/>
+<meta name="citation_title" content="Fulljoin: R com Excel"/>
+<meta name="citation_fulltext_html_url" content="https://www.fulljoin.com.br/posts/2019-09-04-integrando-o-r-com-excel/"/>
+<meta name="citation_online_date" content="2019/09/16"/>
+<meta name="citation_publication_date" content="2019/09/16"/>
+<meta name="citation_author" content="Miguel Cleaver"/>
 <!--/radix_placeholder_meta_tags-->
   <!--radix_placeholder_rmarkdown_metadata-->
 
 <script type="text/json" id="radix-rmarkdown-metadata">
-{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","output","citation_url","canonical_url"]}},"value":[{"type":"character","attributes":{},"value":["Hello World"]},{"type":"character","attributes":{},"value":["E nasce hoje o Full Join! \nUm blog sobre data science e tudo mais que envolve a arte de trabalhar com dados. \nA ideia é postar sobre programação, estatística, machine learning e análise de dados, buscando consolidar nosso conhecimento e ajudar quem está começando (ou evoluindo!) na carreira de Cientista de Dados."]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name"]}},"value":[{"type":"character","attributes":{},"value":["Saulo Guerra"]}]}]},{"type":"character","attributes":{},"value":["2016-03-09"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]}]},{"type":"character","attributes":{},"value":["https://www.fulljoin.com.br/posts/2016-03-09-hello-world/"]},{"type":"character","attributes":{},"value":["https://www.fulljoin.com.br/posts/2016-03-09-hello-world/"]}]}
+{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","date","author","output","citation_url","canonical_url"]}},"value":[{"type":"character","attributes":{},"value":["R com Excel"]},{"type":"character","attributes":{},"value":["Neste post mostramos como criar arquivos Excel a partir do R."]},{"type":"character","attributes":{},"value":["09-16-2019"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name"]}},"value":[{"type":"character","attributes":{},"value":["Miguel Cleaver"]}]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]}]},{"type":"character","attributes":{},"value":["https://www.fulljoin.com.br/posts/2019-09-04-integrando-o-r-com-excel/"]},{"type":"character","attributes":{},"value":["https://www.fulljoin.com.br/posts/2019-09-04-integrando-o-r-com-excel/"]}]}
 </script>
 <!--/radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-resource-manifest">
-  {"type":"character","attributes":{},"value":["hello-world_files/bowser-1.9.3/bowser.min.js","hello-world_files/distill-2.2.21/template.v2.js","hello-world_files/jquery-1.11.3/jquery.min.js","hello-world_files/webcomponents-2.0.0/webcomponents.js"]}
+  {"type":"character","attributes":{},"value":["integrando-o-r-com-excel_files/bowser-1.9.3/bowser.min.js","integrando-o-r-com-excel_files/distill-2.2.21/template.v2.js","integrando-o-r-com-excel_files/jquery-1.11.3/jquery.min.js","integrando-o-r-com-excel_files/webcomponents-2.0.0/webcomponents.js"]}
   </script>
   <!--radix_placeholder_navigation_in_header-->
 
@@ -1324,7 +1330,7 @@ d-appendix {
 <!--radix_placeholder_front_matter-->
 
 <script id="distill-front-matter" type="text/json">
-{"title":"Hello World","description":"E nasce hoje o Full Join! \nUm blog sobre data science e tudo mais que envolve a arte de trabalhar com dados. \nA ideia é postar sobre programação, estatística, machine learning e análise de dados, buscando consolidar nosso conhecimento e ajudar quem está começando (ou evoluindo!) na carreira de Cientista de Dados.","authors":[{"author":"Saulo Guerra","authorURL":"#","affiliation":"&nbsp;","affiliationURL":"#"}],"publishedDate":"2016-03-09T00:00:00.000-03:00","citationText":"Guerra, 2016"}
+{"title":"R com Excel","description":"Neste post mostramos como criar arquivos Excel a partir do R.","authors":[{"author":"Miguel Cleaver","authorURL":"#","affiliation":"&nbsp;","affiliationURL":"#"}],"publishedDate":"2019-09-16T00:00:00.000-03:00","citationText":"Cleaver, 2019"}
 </script>
 
 <!--/radix_placeholder_front_matter-->
@@ -1346,60 +1352,129 @@ d-appendix {
 <!--/radix_placeholder_site_before_body-->
 
 <div class="d-title">
-<h1>Hello World</h1>
-<p>E nasce hoje o Full Join! Um blog sobre data science e tudo mais que envolve a arte de trabalhar com dados. A ideia é postar sobre programação, estatística, machine learning e análise de dados, buscando consolidar nosso conhecimento e ajudar quem está começando (ou evoluindo!) na carreira de Cientista de Dados.</p>
+<h1>R com Excel</h1>
+<p>Neste post mostramos como criar arquivos Excel a partir do R.</p>
 </div>
 
 <div class="d-byline">
-  Saulo Guerra  
   
-<br/>2016-03-09
+  Miguel Cleaver
+  
+<br/>09-16-2019
 </div>
 
 <div class="d-article">
-<p>Sempre que possível os posts serão em formatos de tutoriais, com exemplos práticos, explicações teóricas e links de referência.</p>
-<h2 id="mas-afinal-o-que-e-data-science">Mas, afinal, o que é data science?</h2>
-<p>Apesar de ser um termo que vem ganhando bastante relevância, não se trata de uma atividade completamente nova. Basicamente todas as áreas do conhecimento já praticavam a tão famosa ciência dos dados muito antes do termo ganhar popularidade.</p>
-<p>Sendo bem simplista, data science nada mais é do que extrair algum tipo de conhecimento, interpretar informações ou realizar descobertas, tudo isso utilizando massas de dados. Normalmente essa atividade é multidisciplinar e envolve matemática, estatística, computação, e, principalmente, capacidade de entender e explorar os dados com os quais se vai trabalhar.</p>
-<h2 id="se-nao-e-novidade-por-que-o-tema-esta-tao-relevante">Se não é novidade, por que o tema está tão relevante?</h2>
-<p>É inquestionável que a capacidade de produção de dados e a capacidade de processamento de dados aumentou muito nas últimas décadas (internet!).</p>
-<p>Aplicar ciência dos dados em um arquivo com 2 toneladas de papel é bem menos viável do que aplicar em 2 peta bytes de dados em um servidor. O aumento da capacidade computacional e a quantidade de dados eletrônicos sendo produzidos proporcionou o cenário perfeito para o desenvolvimento de técnicas computacionais para explorar os dados, descobrir coisas, explicar e até prever situações.</p>
-<blockquote>
-<p>Data Science is an interdisciplinary field about processes and systems to extract knowledge or insights from data in various forms, either structured or unstructured, which is a continuation of some of the data analysis fields such as statistics, data mining, and predictive analytics, similar to Knowledge Discovery in Databases (KDD). Wikipedia <a href="https://en.wikipedia.org/wiki/Data_science" class="uri">https://en.wikipedia.org/wiki/Data_science</a></p>
-</blockquote>
-<h2 id="o-cientista-de-dados">O Cientista de Dados</h2>
-<p>Talvez o aspecto mais intrigante sobre a popularização da ciência dos dados tenha sido a expectativa criada em torno do Cientista de Dados (ou Analista de Dados, como preferirem), o profissional chave da tal ciência dos dados.</p>
-<p>Muito se fala hoje de um Cientista de Dados ideal: um expert em estatística, com habilidades hackers, conhecedor de infraestrutura e banco de dados, poliglota em linguagens de programação e com capacidade de explicar com clareza todas as conclusões de uma análise bem sucedida.</p>
-<p>Dominar essa quantidade de habilidades certamente não é fácil, e sequer é requisito mínimo para trabalhar na área, já que é mais fácil e eficiente montar uma equipe de 3 ou 4 pessoas que reúnam, juntas, todo esse conhecimento. Porém, um profissional que busca se aprimorar em todas essas habilidades sem dúvidas se tornará um Cientista de Dados melhor!</p>
-<p>Esse é o objetivo dos autores desse blog, aprofundar cada vez mais na busca desses conhecimentos e repassar tais conhecimentos para quem também deseja trilhar esse caminho !</p>
-<p>Para o primeiro post não passar batido, aqui vão alguns links bastante úteis para quem deseja começar, praticar e se manter atualizado sobre ciência de dados:</p>
-<ul>
-<li><a href="https://www.datacamp.com/">Datacamp</a></li>
-<li><a href="https://www.kaggle.com">Kaggle</a></li>
-<li><a href="http://www.kdnuggets.com/">KDnuggets</a></li>
-<li><a href="http://www.r-bloggers.com/">R-Bloggers</a></li>
-<li><a href="http://pca.st/dataskeptic">Data Skpetic Podcast</a></li>
-<li><a href="https://www.reddit.com/r/datascience/">/r/datascience (Reddit)</a></li>
-<li><a href="https://www.coursera.org/specializations/jhu-data-science">Data Science Specialization</a></li>
-</ul>
-<p>O <strong>Full Join</strong> será mantido por dois entusiastas da ciência dos dados, Saulo Guerra e Paulo Felipe.</p>
+<p>Neste post exploramos como utilizar o R para escrever arquivos do <em>Microsoft Excel</em> (extensão .xlsx). Uma das grandes vantagens do R é documentar todas as operações que fazemos para gerar resultados e informações no Excel. Por exemplo, muitas vezes não lembramos quais tabelas e arquivos utilizamos para gerar nossas tabelas. Também pode ser que não lembremos se fizemos alguma alteração manual. Se precisarmos revisar o passo a passo do que fizemos pode ser que encontremos uma enorme dificuldade. Se você usa R, não terá esse problema. Com o pacote <strong>openxlsx</strong> é possível ler e escrever arquivos com extensão “.xlsx”. Como escrever arquivos é um pouco mais complicado do que lê-los, mostramos, neste post, apenas como escrevê-los.</p>
+<h2 id="como-escrevemos-arquivos-excel-com-extensao-.xlsx">Como escrevemos arquivos Excel com extensão .xlsx?</h2>
+<p>O modo mais simples de você escrever um arquivo “xlsx” utilizando o R se dá quando você tem uma única tabela de dados. Esse caso é bastante trivial e deixaremos para o final do post.</p>
+<p>A outra forma de escrever arquivos “xlsx” é um pouco mais trabalhosa, mas nada muito complicado. A pergunta que naturalmente surge é por que usuraríamos uma forma mais trabalhosa se existe uma forma menos trabalhosa?</p>
+<p>Há vezes que queremos trabalhar com diversas planilhas em um mesmo arquivo Excel e é justamente para esse caso que existe uma forma mais trabalhosa. Além disso, há maior flexibilidade, pois podemos editar arquivos como se estivéssemos utilizando o próprio Excel (é possível escolher cores, escolher a fonte das células, etc). Se você tiver interesse de conhecer mais sobre as funcionalidades do pacote pode ler a documentação do openxlsx <a href="https://www.rdocumentation.org/packages/openxlsx/versions/4.1.0.1">aqui</a>.</p>
+<h2 id="exemplo-trabalhoso">Exemplo “trabalhoso”</h2>
+<p>Primeiro carregamos os seguinte pacotes:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+library(dplyr)
+library(openxlsx)</code></pre>
+</div>
+<p>Para este exemplo trabalharemos com a ideia de que queremos escrever duas planilhas em um único arquivo “xlsx”. Dessa forma, vamos trabalhar com duas tabelas disponíveis no pacote <strong>dplyr</strong>: mtcars e iris. A seguir alocamos cada uma das tabelas para os objetos df1 e df2.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+data(&quot;mtcars&quot;)
+data(&quot;iris&quot;)
+df1 &lt;- mtcars
+df2 &lt;- iris</code></pre>
+</div>
+<p>A criação de um arquivo “xlsx” no R passa por uma sequência de passos bem definidos. Primeiro devemos criar um objeto do tipo “workbook”. Isso pode ser feito da seguinte forma:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+wb &lt;- createWorkbook()</code></pre>
+</div>
+<p>Ao criar um objeto do tipo “workbook” iniciamos um projeto de arquivo “xlsx” no ambiente do R sem, de fato, haver criado esse arquivo em alguma pasta do nosso computador. Deve-se notar que o comando inicia um arquivo sem nenhuma planilha e quando digo isso quero dizer que o arquivo não possui nem sequer uma planilha em branco como ocorre quando crio um arquivo em branco no programa Excel.</p>
+<p>Portanto, o segundo passo exige que criemos uma planilha antes de escrever os dados. Sempre que quisermos adicionar uma nova planilha no projeto de arquivo “xlsx”, devemos dizer ao R explicitamente para que o faça. A função <code>addWorksheet</code> cria apenas uma planilha. Se quisermos criar duas planilhas, precisamos utilizar essa função duas vezes.</p>
+<p>No primeiro argumento da função <code>addWorksheet</code> deve-se indicar um objeto do tipo “workbook” (no nosso caso temos o objeto <code>wb</code>). No segundo argumento deve-se definir o nome da planilha. Abaixo criam-se duas planilhas no mesmo projeto de arquivo Excel.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+addWorksheet(wb, sheetName = &quot;planilha-mtcars&quot;)
+addWorksheet(wb, sheetName = &quot;planilha-iris&quot;)</code></pre>
+</div>
+<p>As planilhas recém criadas estão em branco. Para escrever os dados que queremos nas respectivas planilhas devemos utilizar a função <code>writeData</code>. Esta função possui 3 argumentos muito importantes. No primeiro argumento indica-se um objeto do tipo “workbook”; no argumento “sheet” seleciona-se o nome da planilha na qual desejamos escrever os dados (temos duas planilhas criadas: “planilha-mtcars” e “planilha-iris”); no argumento “x” selecionamos o objeto que contém os dados que queremos escrever. Como queremos escrever o objeto “df1” na “planilha-mtcars” e o objeto “df2” na “planilha-iris”, fazemos o seguinte:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+writeData(wb, sheet = &quot;planilha-mtcars&quot;, x = df1)
+writeData(wb, sheet =  &quot;planilha-iris&quot;, x = df2)</code></pre>
+</div>
+<p>Com isso já temos duas planilhas com dados. De forma opcional, podemos editar características das planilhas. Por exemplo, alteremos a largura das colunas 1 e 2 da planilha com nome “planilha-mtcars”:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+setColWidths(wb, sheet = &quot;planilha-mtcars&quot;, cols = 1:2, widths = 16)</code></pre>
+</div>
+<p>Também é possível criar um estilo específico e aplicá-lo a células determinadas. Abaixo crio dois estilos. O primeiro estilo modifica o tamanho da fonte para 16, destaca o texto em negrito e alinha o texto na vertical e na horizontal. Por sua vez, o segundo estilo modifica o tamanho da fonte para 10 e alinha o texto na vertical e na horizontal.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+estilo1 &lt;- createStyle(fontSize = 16,
+                       textDecoration = &quot;bold&quot;,
+                       halign = &#39;center&#39;,
+                       valign = &#39;center&#39;)
+
+estilo2 &lt;- createStyle(fontSize = 10,
+                       fontColour = &quot;red&quot;,
+                       halign = &#39;center&#39;,
+                       valign = &#39;center&#39;)</code></pre>
+</div>
+<p>Os estilos estão criados, mas ainda não selecionamos as células que adotarão os estilos criados. Para aplicar os estilos usamos a função <code>addStyle</code>. O primeiro estilo é aplicado em “planilha-mtcars” para a primeira linha e para as colunas de 1 a 11, isto é, o cabeçalho da tabela. O segundo estilo também é aplicado em “planilha-mtcars”, mas dessa vez somente ao corpo da tabela. É importante notar que quando estamos combinando várias linhas e colunas devemos usar o argumento <code>gridExpand</code> = <code>TRUE</code>. Caso contrário, o R acusará que houve erro. Lembre-se que este passo de configuração de estilos é opcional.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+addStyle(wb,
+         sheet = &quot;planilha-mtcars&quot;,
+         style = estilo1,
+         rows = 1,
+         cols = 1:11)
+
+addStyle(wb, 
+         sheet = &quot;planilha-mtcars&quot;,
+         style = estilo2, 
+         rows = 2:33,
+         cols = 1:11,
+         gridExpand = TRUE)</code></pre>
+</div>
+<p>Agora o que falta é salvar nosso objeto “wb” e escolher um nome para nosso arquivo. Isso é feito por meio da função <code>saveWorkbook</code>. <em>Ao nomear o arquivo, devemos nos lembrar de colocar a extensão “.xlxs” depois do nome do arquivo</em>, caso contrário o arquivo será ilegível no Excel. Assim, fazemos o seguinte para salvar nosso arquivo:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+saveWorkbook(wb, file = &quot;exemplo.xlsx&quot;)</code></pre>
+</div>
+<p>Depois de salvar nossa arquivo Excel, podemos ver como ficou cada uma das planilhas.</p>
+<div class="layout-chunk" data-layout="l-body-outset">
+<p><img src="../../images/excel_mtcars.PNG" width="922" style="display: block; margin: auto;" /></p>
+</div>
+<p>Como podemos perceber a planilha “mtcars” possui as duas primeiras colunas mais largas do que as demais colunas, conforme definido no código R anteriormente. Também notamos que ambos os estilos que criamos foram aplicados as células correspondentes.</p>
+<p>Já a planilha “iris” aparece sem formatação específica, uma vez que não aplicamos nenhum estilo a esta planilha.</p>
+<div class="layout-chunk" data-layout="l-body-outset">
+<p><img src="../../images/excel_iris.PNG" width="921" style="display: block; margin: auto;" /></p>
+</div>
+<h2 id="exemplo-mais-direto">Exemplo mais direto</h2>
+<p>Como mencionado no início do post, existe um jeito mais fácil de escrever um arquivo excel a partir do R. Basta utilizar a função <code>write.xlsx</code>. No primeiro argumento da função devemos especificar o objeto que contém os dados que desejamos escrever. No segundo argumento devemos escolher um nome para o nosso arquivo excel acrescido da extensão “.xlsx”. Por exemplo, posso fazer o seguinte para salvar o objeto df1:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+write.xlsx(df1, file = &quot;mtcars.xlsx&quot;)</code></pre>
+</div>
+<p>Da forma como foi salvo, a planilha não apresentará nenhum tipo de formatação específica, mas salvará os dados que selecionamos com um formatação igual a da planilha “iris”.</p>
 <!--radix_placeholder_article_footer-->
 <div class="article-footer">
   <p class="social_footer">
     <span class="disqus-comments">
       <i class="fas fa-comments"></i>
       &nbsp;
-      <span class="disqus-comment-count" data-disqus-identifier="posts/2016-03-09-hello-world/">Comment on this article</span>
+      <span class="disqus-comment-count" data-disqus-identifier="posts/2019-09-04-integrando-o-r-com-excel/">Comment on this article</span>
     </span>
     <span class="article-sharing">
       Share: &nbsp;
-      <a href="https://twitter.com/share?text=Hello%20World&amp;url=https%3A%2F%2Fwww.fulljoin.com.br%2Fposts%2F2016-03-09-hello-world%2F">
+      <a href="https://twitter.com/share?text=R%20com%20Excel&amp;url=https%3A%2F%2Fwww.fulljoin.com.br%2Fposts%2F2019-09-04-integrando-o-r-com-excel%2F">
         <i class="fab fa-twitter"></i>
       </a>
-      <a href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https%3A%2F%2Fwww.fulljoin.com.br%2Fposts%2F2016-03-09-hello-world%2F&amp;title=Hello%20World">
+      <a href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https%3A%2F%2Fwww.fulljoin.com.br%2Fposts%2F2019-09-04-integrando-o-r-com-excel%2F&amp;title=R%20com%20Excel">
         <i class="fab fa-linkedin"></i>
       </a>
-      <a href="https://www.facebook.com/sharer/sharer.php?s=100&amp;p[url]=https%3A%2F%2Fwww.fulljoin.com.br%2Fposts%2F2016-03-09-hello-world%2F">
+      <a href="https://www.facebook.com/sharer/sharer.php?s=100&amp;p[url]=https%3A%2F%2Fwww.fulljoin.com.br%2Fposts%2F2019-09-04-integrando-o-r-com-excel%2F">
         <i class="fab fa-facebook"></i>
       </a>
     </span>
@@ -1408,8 +1483,8 @@ d-appendix {
   <div id="disqus_thread" class="hidden"></div>
   <script>
 var disqus_config = function () {
-  this.page.url = 'https://www.fulljoin.com.br/posts/2016-03-09-hello-world/';
-  this.page.identifier = 'posts/2016-03-09-hello-world/';
+  this.page.url = 'https://www.fulljoin.com.br/posts/2019-09-04-integrando-o-r-com-excel/';
+  this.page.identifier = 'posts/2019-09-04-integrando-o-r-com-excel/';
 };
 (function() {
   var d = document, s = d.createElement('script');
@@ -1432,13 +1507,13 @@ var disqus_config = function () {
 <div class="appendix-bottom">
   <h3 id="citation">Citation</h3>
   <p>For attribution, please cite this work as</p>
-  <pre class="citation-appendix short">Guerra (2016, March 9). Fulljoin: Hello World. Retrieved from https://www.fulljoin.com.br/posts/2016-03-09-hello-world/</pre>
+  <pre class="citation-appendix short">Cleaver (2019, Sept. 16). Fulljoin: R com Excel. Retrieved from https://www.fulljoin.com.br/posts/2019-09-04-integrando-o-r-com-excel/</pre>
   <p>BibTeX citation</p>
-  <pre class="citation-appendix long">@misc{guerra2016hello,
-  author = {Guerra, Saulo},
-  title = {Fulljoin: Hello World},
-  url = {https://www.fulljoin.com.br/posts/2016-03-09-hello-world/},
-  year = {2016}
+  <pre class="citation-appendix long">@misc{cleaver2019r,
+  author = {Cleaver, Miguel},
+  title = {Fulljoin: R com Excel},
+  url = {https://www.fulljoin.com.br/posts/2019-09-04-integrando-o-r-com-excel/},
+  year = {2019}
 }</pre>
 </div>
 <!--/radix_placeholder_appendices-->
