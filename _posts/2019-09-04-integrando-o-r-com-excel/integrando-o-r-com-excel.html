@@ -44,7 +44,7 @@
   <!--radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-rmarkdown-metadata">
-  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","date","author","output"]}},"value":[{"type":"character","attributes":{},"value":["R com Excel"]},{"type":"character","attributes":{},"value":["Neste post mostramos como criar arquivos Excel a partir do R.\n"]},{"type":"character","attributes":{},"value":["09-16-2019"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name"]}},"value":[{"type":"character","attributes":{},"value":["Miguel Cleaver"]}]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]}]}]}
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","date","author","output","categories"]}},"value":[{"type":"character","attributes":{},"value":["R com Excel"]},{"type":"character","attributes":{},"value":["Neste post mostramos como criar arquivos Excel a partir do R.\n"]},{"type":"character","attributes":{},"value":["09-16-2019"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name"]}},"value":[{"type":"character","attributes":{},"value":["Miguel Cleaver"]}]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]}]},{"type":"character","attributes":{},"value":["Excel"]}]}
   </script>
   <!--/radix_placeholder_rmarkdown_metadata-->
   
@@ -964,7 +964,7 @@
 </div>
 
 <div class="d-article">
-<p>Neste post exploramos como utilizar o R para escrever arquivos do <em>Microsoft Excel</em> (extensão .xlsx). Uma das grandes vantagens do R é documentar todas as operações que fazemos para gerar resultados e informações no Excel. Por exemplo, muitas vezes não lembramos quais tabelas e arquivos utilizamos para gerar nossas tabelas. Também pode ser que não lembremos se fizemos alguma alteração manual. Se precisarmos revisar o passo a passo do que fizemos pode ser que encontremos uma enorme dificuldade. Se você usa R, não terá esse problema. Com o pacote <strong>openxlsx</strong> é possível ler e escrever arquivos com extensão “.xlsx”. Como escrever arquivos é um pouco mais complicado do que lê-los, mostramos, neste post, apenas como escrevê-los.</p>
+<p>Neste post exploramos como utilizar o R para escrever arquivos do <em>Microsoft Excel</em> (extensão .xlsx). Uma das grandes vantagens do R é documentar todas as operações que fazemos para gerar resultados e informações no Excel. Por exemplo, muitas vezes não lembramos quais tabelas e arquivos utilizamos para gerar nossas tabelas. Também pode ser que não lembremos se fizemos alguma alteração manual. Se precisarmos revisar o passo a passo do que fizemos pode ser que encontremos uma enorme dificuldade. Se você usa R, não terá esse problema. Com o pacote <strong>openxlsx</strong> é possível ler e escrever arquivos com extensão “.xlsx”, enquanto que o script de R se encarrega de documentar o passo a passo das operações que você fez sobre os dados. Como escrever arquivos é um pouco mais complicado do que lê-los, mostramos, neste post, apenas como escrevê-los.</p>
 <h2 id="como-escrevemos-arquivos-excel-com-extensao-.xlsx">Como escrevemos arquivos Excel com extensão .xlsx?</h2>
 <p>O modo mais simples de você escrever um arquivo “xlsx” utilizando o R se dá quando você tem uma única tabela de dados. Esse caso é bastante trivial e deixaremos para o final do post.</p>
 <p>A outra forma de escrever arquivos “xlsx” é um pouco mais trabalhosa, mas nada muito complicado. A pergunta que naturalmente surge é por que usuraríamos uma forma mais trabalhosa se existe uma forma menos trabalhosa?</p>
@@ -976,7 +976,7 @@
 library(dplyr)
 library(openxlsx)</code></pre>
 </div>
-<p>Para este exemplo trabalharemos com a ideia de que queremos escrever duas planilhas em um único arquivo “xlsx”. Dessa forma, vamos trabalhar com duas tabelas disponíveis no pacote <strong>dplyr</strong>: mtcars e iris. A seguir alocamos cada uma das tabelas para os objetos df1 e df2.</p>
+<p>Para este exemplo trabalharemos com a ideia de que queremos escrever duas planilhas em um único arquivo “xlsx”. Dessa forma, vamos trabalhar com duas tabelas disponíveis no pacote <strong>dplyr</strong>: “mtcars” e “iris”. A seguir alocamos cada uma das tabelas para os objetos df1 e df2.</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 data(&quot;mtcars&quot;)
@@ -1003,12 +1003,12 @@ addWorksheet(wb, sheetName = &quot;planilha-iris&quot;)</code></pre>
 writeData(wb, sheet = &quot;planilha-mtcars&quot;, x = df1)
 writeData(wb, sheet =  &quot;planilha-iris&quot;, x = df2)</code></pre>
 </div>
-<p>Com isso já temos duas planilhas com dados. De forma opcional, podemos editar características das planilhas. Por exemplo, alteremos a largura das colunas 1 e 2 da planilha com nome “planilha-mtcars”:</p>
+<p>Com isso já temos duas planilhas com dados. De forma opcional, podemos editar características das planilhas. Por exemplo, alteremos a largura das colunas 1 e 2 da planilha com nome “planilha-mtcars” para o tamanho 16:</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 setColWidths(wb, sheet = &quot;planilha-mtcars&quot;, cols = 1:2, widths = 16)</code></pre>
 </div>
-<p>Também é possível criar um estilo específico e aplicá-lo a células determinadas. Abaixo crio dois estilos. O primeiro estilo modifica o tamanho da fonte para 16, destaca o texto em negrito e alinha o texto na vertical e na horizontal. Por sua vez, o segundo estilo modifica o tamanho da fonte para 10 e alinha o texto na vertical e na horizontal.</p>
+<p>Também é possível criar um estilo específico e aplicá-lo a células determinadas. Abaixo crio dois estilos. O primeiro estilo modifica o tamanho da fonte para 16, destaca o texto em negrito e alinha o texto na vertical e na horizontal. Por sua vez, o segundo estilo modifica o tamanho da fonte para 10, torna a cor do texto vermelha e alinha o texto na vertical e na horizontal.</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 estilo1 &lt;- createStyle(fontSize = 16,
@@ -1052,12 +1052,14 @@ saveWorkbook(wb, file = &quot;exemplo.xlsx&quot;)</code></pre>
 <p><img src="../../images/excel_iris.PNG" width="921" style="display: block; margin: auto;" /></p>
 </div>
 <h2 id="exemplo-mais-direto">Exemplo mais direto</h2>
-<p>Como mencionado no início do post, existe um jeito mais fácil de escrever um arquivo excel a partir do R. Basta utilizar a função <code>write.xlsx</code>. No primeiro argumento da função devemos especificar o objeto que contém os dados que desejamos escrever. No segundo argumento devemos escolher um nome para o nosso arquivo excel acrescido da extensão “.xlsx”. Por exemplo, posso fazer o seguinte para salvar o objeto df1:</p>
+<p>Como mencionado no início do post, existe um jeito mais fácil de escrever um arquivo Excel a partir do R. Basta utilizar a função <code>write.xlsx</code>. No primeiro argumento da função devemos especificar o objeto que contém os dados que desejamos escrever. No segundo argumento devemos escolher um nome para o nosso arquivo Excel acrescido da extensão “.xlsx”. Por exemplo, posso fazer o seguinte para salvar o objeto df1:</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 write.xlsx(df1, file = &quot;mtcars.xlsx&quot;)</code></pre>
 </div>
-<p>Da forma como foi salvo, a planilha não apresentará nenhum tipo de formatação específica, mas salvará os dados que selecionamos com um formatação igual a da planilha “iris”.</p>
+<p>Da forma como foi salva, a planilha não apresentará nenhum tipo de formatação específica, mas salvará os dados que selecionamos com um formatação igual a da planilha “iris”.</p>
+<h1 id="consideracoes-finais">Considerações Finais</h1>
+<p>Há várias outras formas de aproveitar a interação entre R e Excel. Nos próximos post vamos continuar explorando essa interação.</p>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>

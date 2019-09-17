@@ -10,9 +10,11 @@
       }
     ],
     "date": "2019-09-16",
-    "categories": [],
+    "categories": [
+      "Excel"
+    ],
     "preview": "posts/2019-09-04-integrando-o-r-com-excel/../../images/excel_mtcars.PNG",
-    "last_modified": "2019-09-16T21:44:43-03:00",
+    "last_modified": "2019-09-16T22:28:50-03:00",
     "preview_width": 1920,
     "preview_height": 987
   },
