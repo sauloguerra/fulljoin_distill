@@ -22,7 +22,7 @@ draft: true
 knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
 ```
 
-## INTRODUÇÃO
+## Introdução
 
 Escuto com frequência que loops deveriam ser evitados em R. O motivo: eles não 
 são tão eficientes em R como são em outras linguagens de programação. Existem, 
@@ -54,7 +54,7 @@ n_linhas <- 500000
 
 dados_base <- data.frame(A = rnorm(n_linhas), B = rnorm(n_linhas), C = rnorm(n_linhas))
 
-print(head(dados_base))
+head(dados_base)
 
 ```
 
@@ -67,7 +67,7 @@ criando uma nova coluna com o `dplyr` usando a função `sum()`:
 
 ```{r}
 
-print(dados_base %>% mutate(D = sum(A, B, C)) %>% head())
+dados_base %>% mutate(D = sum(A, B, C)) %>% head()
 
 ```
 
@@ -78,7 +78,7 @@ Uma forma de resolver isto e chegar no resultado que queremos seria:
 
 ```{r}
 
-print(dados_base %>% mutate(D = A + B + C) %>% head())
+dados_base %>% mutate(D = A + B + C) %>% head()
 
 ```
 
@@ -118,8 +118,8 @@ loop_time <- system.time({
   
 })
 
-print(head(dados_base_loop))
-print(loop_time)
+head(dados_base_loop)
+loop_time
 
 ```
 
@@ -164,8 +164,8 @@ foreach_time <- system.time({
 
 stopCluster(cl)
 
-print(head(dados_base_foreach))
-print(foreach_time)
+head(dados_base_foreach)
+foreach_time
 
 ```
 
@@ -207,8 +207,8 @@ apply_time <- system.time({
   
 })
 
-print(head(dados_base_apply))
-print(apply_time)
+head(dados_base_apply)
+apply_time
 
 ```
 
@@ -242,8 +242,8 @@ futureapply_time <- system.time({
   
 })
 
-print(head(dados_base_futureapply))
-print(futureapply_time)
+head(dados_base_futureapply)
+futureapply_time
 
 ```
 
@@ -280,8 +280,8 @@ purrr_time <- system.time({
   
 })
 
-print(head(dados_base_map))
-print(purrr_time)
+head(dados_base_map)
+purrr_time
 
 ```
 
@@ -315,8 +315,8 @@ furrr_time <- system.time({
   
 })
 
-print(head(dados_base_furr))
-print(furrr_time)
+head(dados_base_furr)
+furrr_time
 
 ```
 
