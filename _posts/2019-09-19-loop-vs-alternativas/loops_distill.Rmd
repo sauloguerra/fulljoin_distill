@@ -1,0 +1,334 @@
+---
+title: "Por que evitar loops em R?"
+description: |
+  Vamos testar o desempenho de loops contra possíveis alternativas para verificar o quão efetivo ele é.
+Author: Diego Afonso de Castro
+date: "`r Sys.Date()`"
+output: 
+  distill::distill_article:
+    self_contained: false
+  categories:
+    - loops
+    - apply
+    - purrr
+    - furrr
+    - foreach
+    - future.apply
+draft: true
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
+```
+
+## INTRODUÇÃO
+
+Escuto com frequência que loops deveriam ser evitados em R. O motivo: eles não 
+são tão eficientes em R como são em outras linguagens de programação. Existem, 
+porém, formas de substituir loops usando, por exemplo, funções da família *apply*, 
+o pacote `purrr` e abordagens de paralelização.
+
+Neste post vamos comparar a performance do loop e seus substitutos por meio de
+um simples exercício.
+
+## Tarefa
+
+Primeiramente, vamos carregar o pacote `dplyr` para montar a estrutura da tarefa
+e definir uma *seed* para fins de replicação.
+
+```{r}
+
+library(dplyr)
+
+set.seed(123)
+
+```
+
+Agora vamos criar um data frame no qual cada uma das 3 colunas é formada por 
+valores criados a partir de uma curva normal com média zero e desvio padrão 1.
+
+```{r}
+
+n_linhas <- 500000
+
+dados_base <- data.frame(A = rnorm(n_linhas), B = rnorm(n_linhas), C = rnorm(n_linhas))
+
+print(head(dados_base))
+
+```
+
+O nosso objetivo é criar uma quarta coluna onde cada elemento seja a soma dos elementos
+das demais colunas na mesma linha, ou seja, o elemento na primeira linha da quarta
+coluna é a soma dos elementos da primeira linha das colunas **A**, **B** e **C**.
+
+Para entendermos melhor o uso deste exemplo, vamos tentar realizar essa tarefa
+criando uma nova coluna com o `dplyr` usando a função `sum()`:
+
+```{r}
+
+print(dados_base %>% mutate(D = sum(A, B, C)) %>% head())
+
+```
+
+Usando a função `sum()`, não conseguimos obter o resultado que desejamos. Neste caso,
+cada elemento da coluna **D** é a soma de todos os elementos de cada uma das colunas.
+
+Uma forma de resolver isto e chegar no resultado que queremos seria:
+
+```{r}
+
+print(dados_base %>% mutate(D = A + B + C) %>% head())
+
+```
+
+O problema é que se tivéssemos, por exemplo, 1000 colunas, não seria prático escrever
+a soma incluindo cada uma delas. Além disso, em alguns casos temos funções específicas
+que queremos aplicar a cada uma das linhas, o que nos obriga a encontrar uma outras
+formas de lidar com essa questão. 
+
+## Solução 1: loop
+
+Podemos criar um loop para inserir a soma de cada linha na coluna D. Primeiro,
+temos que lembrar que o objetivo deste post é avaliar as diferenças de desempenho
+entre o loop e seus possíveis substitutos. Então, além de mostrar abaixo como fazer
+o loop, vamos também calcular o tempo que a tarefa demora.
+
+Para realizar o loop, usamos uma variável *i* que varia de 1 até o número de linhas
+que o nosso data frame possui. Tal variável é responsável por
+selecionar a linha específica que queremos somar e também por indicar o local no
+qual a soma será inserida no data frame.
+
+```{r}
+
+# Criar coluna com NA
+
+dados_base_loop <- dados_base %>% mutate(D = NA)
+
+
+# Realizar o loop e medir o tempo gasto
+
+loop_time <- system.time({
+  
+  for (i in 1:nrow(dados_base)) {
+    
+    dados_base_loop$D[i] <- sum(dados_base_loop[i, 1:3])
+    
+  }
+  
+})
+
+print(head(dados_base_loop))
+print(loop_time)
+
+```
+
+Podemos ver que o data frame criado é o que realmente queríamos gerar (basta comparar
+a coluna D deste data frame e do data frame da seção anterior) e que o tempo necessário
+para a realização dessa tarefa foi `r loop_time[[3]]` segundos.
+
+
+
+## Solução 2: foreach
+
+Basicamente, esta abordagem é a mesma da anterior, mas neste caso paralelizando
+o processo. Isto quer dizer que mais de um *core* do computador realiza a mesma 
+tarefa. Entretanto, caso um dos *cores* atua em partes diferentes do data frame.
+
+```{r}
+
+library(foreach)
+library(doParallel)
+
+#setup parallel backend to use many processors
+cores=detectCores()
+cl <- makeCluster(cores[1]-1) #not to overload your computer
+registerDoParallel(cl)
+
+
+# Realizar o loop e medir o tempo gasto
+
+foreach_time <- system.time({
+  
+  D_valores_foreach <- foreach (i = 1:nrow(dados_base)) %dopar% {
+    
+    return(sum(dados_base[i,]))
+    
+  }
+  
+  dados_base_foreach <- dados_base
+  
+  dados_base_foreach$D <- D_valores_foreach
+  
+})
+
+stopCluster(cl)
+
+print(head(dados_base_foreach))
+print(foreach_time)
+
+```
+
+O coluna **D** gerada é como esperávamos. Além disso, o tempo total para realização
+da tarefa reduz consideravelmente para `r foreach_time[[3]]` segundos.
+
+
+## Solução 3: família apply
+
+Primeiramente, vale uma breve explicação do que é a família *apply*. A família *apply* 
+é composta de funções que pertence ao R base as quais aplicam outras funções a
+determinadas estrutura. Claro? Provavelmente não. Vamos resumir algumas dessas funções
+para ficar mais fácil de entender:
+
++ `apply()` age em arrays (matrizes ou objetos similares a matriz com mais de duas
+dimensões). É útil quando queremos aplicar a mesma função às linhas ou colunas de 
+uma matriz;
++ `lapply()` age em listas, data frames e vetores. Aplica uma função a todos elementos
+de uma lista, vetor, etc. Retorna uma lista contendo os resultados.
++ `sapply()` é similar ao `lapply()`, mas tenta retornar um objeto mais simples do que
+uma lista, como um vetor por exemplo. 
++ `mapply()` permite utilizar funções que aceitam apenas escalares, mas funciona de 
+maneira similar ao `sapply()`.
+
+Ok, mas como utilizar a família *apply* na nossa tarefa? Pelas definições acima,
+a melhor função para o nosso caso é `apply()`. No nosso caso, esta função retornará
+um vetor com valores da coluna **D**. Então uma tarefa a mais será necessária:
+concatenar este vetor ao data frame final. Vamos ao exemplo:
+
+```{r}
+
+apply_time <- system.time({
+  
+  D_valores_apply <- apply(X = dados_base, MARGIN = 1, FUN = sum)
+  
+  dados_base_apply <- dados_base
+  
+  dados_base_apply$D <- D_valores_apply
+  
+})
+
+print(head(dados_base_apply))
+print(apply_time)
+
+```
+
+O argumento *X* é a matriz na qual aplicamos a função *FUN*, no caso *sum*. O argumento
+*MARGIN* diz em qual direção queremos aplicar a nossa função. 1 quer dizer que será
+aplicado a função *sum* em cada **linha** da matrix *X* e 2 em cada coluna da mesma
+matriz. 
+
+Usando a função `apply()`, o novo tempo para realizar a tarefa é de `r apply_time[[3]]` 
+segundos. Ótimo aumento de desempenho, não é mesmo?
+
+
+## Solução 4: future apply
+
+Usando o pacote `future.apply` é possível paralelizar o processo anterior que usou
+apply.
+
+```{r}
+
+library(future.apply)
+plan(multiprocess, workers = 3) ## Parallelize using 3 cores
+
+
+futureapply_time <- system.time({
+  
+  D_valores_futureapply <- future_apply(X = dados_base, MARGIN = 1, FUN = sum)
+  
+  dados_base_futureapply <- dados_base
+  
+  dados_base_futureapply$D <- D_valores_futureapply
+  
+})
+
+print(head(dados_base_futureapply))
+print(futureapply_time)
+
+```
+
+Notamos que neste caso não houve melhoria de desempenho. Nem sempre a paralelização
+melhora a performance. Isso ocorre porque ao paralelizar a tarefa, é necessário
+que haja sincronização dos *cores* em alguns momentos para inserir os resultados
+na posição correta e isso pode gerar um aumento no tempo gasto.
+
+
+## Solução 5: purrr
+
+Vamos testar uma outra alternativa, o pacote `purrr`. Esse pacote é parte de um 
+pacote mais abrangente chamado `tidyverse`. E essa é uma vantagem das funções do
+`purrr` por conseguir interagir facilmente com os demais pacote do `tidyverse`. 
+
+Para a realização da tarefas que devemos realizar, vamos utilizar a função `pmap()`,
+que é uma alternativa para realização de iterações em linhas de um data frame. No 
+final das iterações, uma lista com um elemento para cada linha será retornado. Por isso,
+alguma manipulações extras nos dados são necessárias.
+
+Vamos aos testes:
+
+```{r}
+
+library(purrr)
+
+purrr_time <- system.time({
+  
+    D_valores_map <- pmap(dados_base, sum) %>% unlist()
+  
+  dados_base_map <- dados_base
+  
+  dados_base_map$D <- D_valores_map
+  
+})
+
+print(head(dados_base_map))
+print(purrr_time)
+
+```
+
+usando o *purrr*, obtivemos um resultado levemente pior (`r purrr_time[[3]]` segundos) do 
+que no caso do *apply*. Porém, quando comparado com loop, *foreach* e *future.apply*, 
+o *purrr* realizou a tarefa mais rapidamente.
+
+
+## Solução 6: furrr
+
+Finalmente, vamos paralelizar a solução anterior usando o pacote *furrr*. Ele 
+funciona de forma muito similar ao *purrr*, como pode ser visto abaixo.
+
+```{r}
+
+library(furrr)
+future::plan(multiprocess)
+
+```
+
+
+```{r}
+
+furrr_time <- system.time({
+  
+  D_valores_furr <- future_pmap(dados_base, sum) %>% unlist()
+  
+  dados_base_furr <- dados_base
+  
+  dados_base_furr$D <- D_valores_furr
+  
+})
+
+print(head(dados_base_furr))
+print(furrr_time)
+
+```
+
+Houve uma leve perda de desempenho em relação ao *purrr* and *apply*, mas o resultado
+foi melhor do que a demais soluções.
+
+
+## Conclusão
+
+Em uma simples tarefa de criação de uma nova coluna em um data frame baseada em informações
+das demais colunas, testamos uma abordagem usando loop e algumas alternativas a ele.
+Vimos que, neste caso (para outro tipo de tarefas os resultados pode ser bastante diferentes),
+o loop foi a alternativa de pior desempenho. Além disso, com exceção do loop, as estratégias
+de paralelização não aumentaram a velocidade de execução da tarefa, apesar de haver diversos
+exemplos mostrando casos em que tais estratégias podem ser utilizadas de forma bastante efetiva.
