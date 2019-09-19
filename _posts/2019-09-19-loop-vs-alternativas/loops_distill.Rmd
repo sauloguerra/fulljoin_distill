@@ -332,3 +332,7 @@ Vimos que, neste caso (para outro tipo de tarefas os resultados pode ser bastant
 o loop foi a alternativa de pior desempenho. Além disso, com exceção do loop, as estratégias
 de paralelização não aumentaram a velocidade de execução da tarefa, apesar de haver diversos
 exemplos mostrando casos em que tais estratégias podem ser utilizadas de forma bastante efetiva.
+Neste caso, o custo de distribuição da tarefa entre os *cores* (*workers*) é maior do que o ganho
+de tempo por dividir a tarefa entre eles. Vamos apresentar em outro post o processo de paralelização de forma mais detalhada e incluir exemplos nos quais a paralelização apresenta
+ganhos significativos de desempenho. De todo modo, o objetivo deste post foi alcançado: mostramos
+que existem alternativas ao loop que trazem um relevante aumento de performance.
