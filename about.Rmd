@@ -17,4 +17,5 @@ Sou economista com graduação e mestrado na Universidade Federal do Ceará - UF
 ## Miguel Cleaver
 Tenho graduação e mestrado em economia pela Universidade de Brasília (UnB). Trabalho no Ministério da Economia como Analista de Comércio Exterior. A maior parte do meu trabalho como Analista tem sido na área de limpeza, estruturação, análise e visualização de dados. Recentemente, tenho buscado me especializar em algoritmos preditivos supervisionados e não supervisionados. O R é minha principal linguagem de programação.
 
-
+## Diego Castro
+Tenho graduação e mestrado em economia pela Universidade de Brasília (UnB) e mestrado em Análise de Dados pela Universidade de Sheffield (Reino Unido). Trabalho no Ministério da Economia como Analista de Comércio Exterior. Minha principal linguagem de programação é o R, mas também possuo experiência em Python. Me dediquei recentemente a estudar a utilização de imagens de satélite para previsão de renda em cidades brasileiras usando, para tanto, redes neurais convolucionais e modelos de regressão e classificação. 
