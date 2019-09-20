@@ -7,7 +7,15 @@
     <description>Fulljoin
 </description>
     <generator>Distill</generator>
-    <lastBuildDate>seg, 16 set 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>sex, 20 set 2019 00:00:00 +0000</lastBuildDate>
+    <item>
+      <title>Por que evitar loops em R?</title>
+      <link>https://www.fulljoin.com.br/posts/2019-09-19-loop-vs-alternativas</link>
+      <description>Vamos testar o desempenho de loops contra possíveis alternativas para verificar o quão efetivo ele é.</description>
+      <guid>https://www.fulljoin.com.br/posts/2019-09-19-loop-vs-alternativas</guid>
+      <pubDate>sex, 20 set 2019 00:00:00 +0000</pubDate>
+      <media:content url="https://www.fulljoin.com.br/posts/2019-09-19-loop-vs-alternativas/../../images/cronometro.jpg" medium="image" type="image/jpeg"/>
+    </item>
     <item>
       <title>R com Excel</title>
       <dc:creator>Miguel Cleaver</dc:creator>
@@ -87,14 +95,6 @@
       <guid>https://www.fulljoin.com.br/posts/2019-07-16-web-scraping-com-r</guid>
       <pubDate>ter, 16 jul 2019 00:00:00 +0000</pubDate>
       <media:content url="https://www.fulljoin.com.br/posts/2019-07-16-web-scraping-com-r/../../images/cbf.gif" medium="image" type="image/gif"/>
-    </item>
-    <item>
-      <title>Estamos de volta!</title>
-      <link>https://www.fulljoin.com.br/posts/2019-07-15-estamos-de-volta</link>
-      <description>Depois de muito tempo sem nenhuma atualização, estamos revivendo o Fulljoin!</description>
-      <guid>https://www.fulljoin.com.br/posts/2019-07-15-estamos-de-volta</guid>
-      <pubDate>seg, 15 jul 2019 00:00:00 +0000</pubDate>
-      <media:content url="https://www.fulljoin.com.br/posts/2019-07-15-estamos-de-volta/../../images/voltamos.png" medium="image" type="image/png" width="472" height="271"/>
     </item>
   </channel>
 </rss>

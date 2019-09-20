@@ -25,8 +25,8 @@
   
   
   <!--  https://schema.org/Article -->
-  <meta property="article:published" itemprop="datePublished" content="2019-09-19"/>
-  <meta property="article:created" itemprop="dateCreated" content="2019-09-19"/>
+  <meta property="article:published" itemprop="datePublished" content="2019-09-20"/>
+  <meta property="article:created" itemprop="dateCreated" content="2019-09-20"/>
   
   <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
   <meta property="og:title" content="Por que evitar loops em R?"/>
@@ -43,7 +43,7 @@
   <!--radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-rmarkdown-metadata">
-  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","Author","date","output","draft"]}},"value":[{"type":"character","attributes":{},"value":["Por que evitar loops em R?"]},{"type":"character","attributes":{},"value":["Vamos testar o desempenho de loops contra possíveis alternativas para verificar o quão efetivo ele é.\n"]},{"type":"character","attributes":{},"value":["Diego Afonso de Castro"]},{"type":"character","attributes":{},"value":["2019-09-19"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article","categories"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]},{"type":"character","attributes":{},"value":["loops","apply","purrr","furrr","foreach","future.apply"]}]},{"type":"logical","attributes":{},"value":[true]}]}
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","Author","date","output","draft","preview"]}},"value":[{"type":"character","attributes":{},"value":["Por que evitar loops em R?"]},{"type":"character","attributes":{},"value":["Vamos testar o desempenho de loops contra possíveis alternativas para verificar o quão efetivo ele é.\n"]},{"type":"character","attributes":{},"value":["Diego Afonso de Castro"]},{"type":"character","attributes":{},"value":["2019-09-20"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article","categories"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]},{"type":"character","attributes":{},"value":["loops","apply","purrr","furrr","foreach","future.apply"]}]},{"type":"logical","attributes":{},"value":[false]},{"type":"character","attributes":{},"value":["../../images/cronometro.jpg"]}]}
   </script>
   <!--/radix_placeholder_rmarkdown_metadata-->
   
@@ -941,7 +941,7 @@
 <!--radix_placeholder_front_matter-->
 
 <script id="distill-front-matter" type="text/json">
-{"title":"Por que evitar loops em R?","description":"Vamos testar o desempenho de loops contra possíveis alternativas para verificar o quão efetivo ele é.","authors":[],"publishedDate":"2019-09-19T00:00:00.000-03:00"}
+{"title":"Por que evitar loops em R?","description":"Vamos testar o desempenho de loops contra possíveis alternativas para verificar o quão efetivo ele é.","authors":[],"publishedDate":"2019-09-20T00:00:00.000-03:00"}
 </script>
 
 <!--/radix_placeholder_front_matter-->
@@ -1049,9 +1049,9 @@ head(dados_base_loop)</code></pre>
 loop_time</code></pre>
 <pre><code>
    user  system elapsed 
- 488.80  282.28  782.89 </code></pre>
+ 519.70  291.34  845.30 </code></pre>
 </div>
-<p>Podemos ver que o data frame criado é o que realmente queríamos gerar (basta comparar a coluna D deste data frame e do data frame da seção anterior) e que o tempo necessário para a realização dessa tarefa foi 782.89 segundos.</p>
+<p>Podemos ver que o data frame criado é o que realmente queríamos gerar (basta comparar a coluna D deste data frame e do data frame da seção anterior) e que o tempo necessário para a realização dessa tarefa foi 845.3 segundos.</p>
 <h2 id="solucao-2-foreach">Solução 2: foreach</h2>
 <p>Basicamente, esta abordagem é a mesma da anterior, mas neste caso paralelizando o processo. Isto quer dizer que mais de um <em>core</em> do computador realiza a mesma tarefa. Entretanto, caso um dos <em>cores</em> atua em partes diferentes do data frame.</p>
 <div class="layout-chunk" data-layout="l-body">
@@ -1096,9 +1096,9 @@ head(dados_base_foreach)</code></pre>
 foreach_time</code></pre>
 <pre><code>
    user  system elapsed 
- 195.55   15.81  227.05 </code></pre>
+ 200.39   18.52  239.24 </code></pre>
 </div>
-<p>O coluna <strong>D</strong> gerada é como esperávamos. Além disso, o tempo total para realização da tarefa reduz consideravelmente para 227.05 segundos.</p>
+<p>O coluna <strong>D</strong> gerada é como esperávamos. Além disso, o tempo total para realização da tarefa reduz consideravelmente para 239.24 segundos.</p>
 <h2 id="solucao-3-familia-apply">Solução 3: família apply</h2>
 <p>Primeiramente, vale uma breve explicação do que é a família <em>apply</em>. A família <em>apply</em> é composta de funções que pertence ao R base as quais aplicam outras funções a determinadas estrutura. Claro? Provavelmente não. Vamos resumir algumas dessas funções para ficar mais fácil de entender:</p>
 <ul>
@@ -1133,10 +1133,10 @@ head(dados_base_apply)</code></pre>
 apply_time</code></pre>
 <pre><code>
    user  system elapsed 
-   0.81    0.08    0.92 </code></pre>
+   0.69    0.05    0.75 </code></pre>
 </div>
 <p>O argumento <em>X</em> é a matriz na qual aplicamos a função <em>FUN</em>, no caso <em>sum</em>. O argumento <em>MARGIN</em> diz em qual direção queremos aplicar a nossa função. 1 quer dizer que será aplicado a função <em>sum</em> em cada <strong>linha</strong> da matrix <em>X</em> e 2 em cada coluna da mesma matriz.</p>
-<p>Usando a função <code>apply()</code>, o novo tempo para realizar a tarefa é de 0.92 segundos. Ótimo aumento de desempenho, não é mesmo?</p>
+<p>Usando a função <code>apply()</code>, o novo tempo para realizar a tarefa é de 0.75 segundos. Ótimo aumento de desempenho, não é mesmo?</p>
 <h2 id="solucao-4-future-apply">Solução 4: future apply</h2>
 <p>Usando o pacote <code>future.apply</code> é possível paralelizar o processo anterior que usou apply.</p>
 <div class="layout-chunk" data-layout="l-body">
@@ -1168,7 +1168,7 @@ head(dados_base_futureapply)</code></pre>
 futureapply_time</code></pre>
 <pre><code>
    user  system elapsed 
-   5.81    0.19    7.33 </code></pre>
+   5.20    0.15    6.38 </code></pre>
 </div>
 <p>Notamos que neste caso não houve melhoria de desempenho. Nem sempre a paralelização melhora a performance. Isso ocorre porque ao paralelizar a tarefa, é necessário que haja sincronização dos <em>cores</em> em alguns momentos para inserir os resultados na posição correta e isso pode gerar um aumento no tempo gasto.</p>
 <h2 id="solucao-5-purrr">Solução 5: purrr</h2>
@@ -1202,9 +1202,9 @@ head(dados_base_map)</code></pre>
 purrr_time</code></pre>
 <pre><code>
    user  system elapsed 
-   1.68    0.00    1.73 </code></pre>
+   1.48    0.00    1.48 </code></pre>
 </div>
-<p>usando o <em>purrr</em>, obtivemos um resultado levemente pior (1.73 segundos) do que no caso do <em>apply</em>. Porém, quando comparado com loop, <em>foreach</em> e <em>future.apply</em>, o <em>purrr</em> realizou a tarefa mais rapidamente.</p>
+<p>usando o <em>purrr</em>, obtivemos um resultado levemente pior (1.48 segundos) do que no caso do <em>apply</em>. Porém, quando comparado com loop, <em>foreach</em> e <em>future.apply</em>, o <em>purrr</em> realizou a tarefa mais rapidamente.</p>
 <h2 id="solucao-6-furrr">Solução 6: furrr</h2>
 <p>Finalmente, vamos paralelizar a solução anterior usando o pacote <em>furrr</em>. Ele funciona de forma muito similar ao <em>purrr</em>, como pode ser visto abaixo.</p>
 <div class="layout-chunk" data-layout="l-body">
@@ -1237,7 +1237,7 @@ head(dados_base_furr)</code></pre>
 furrr_time</code></pre>
 <pre><code>
    user  system elapsed 
-   0.17    0.02    1.99 </code></pre>
+   0.16    0.00    2.19 </code></pre>
 </div>
 <p>Houve uma leve perda de desempenho em relação ao <em>purrr</em> and <em>apply</em>, mas o resultado foi melhor do que a demais soluções.</p>
 <h2 id="conclusao">Conclusão</h2>

@@ -14,7 +14,8 @@ output:
     - furrr
     - foreach
     - future.apply
-draft: true
+draft: false
+preview: ../../images/cronometro.jpg
 ---
 
 
