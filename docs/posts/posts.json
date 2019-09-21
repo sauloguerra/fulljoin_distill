@@ -2,12 +2,12 @@
   {
     "path": "posts/2019-09-19-loop-vs-alternativas/",
     "title": "Por que evitar loops em R?",
-    "description": "Vamos testar o desempenho de loops contra possíveis alternativas para verificar o quão efetivo ele é.",
+    "description": "A partir de um simples exemplo, vamos testar o desempenho de loops comparando-o com os de outras possíveis alternativas.",
     "author": [],
     "date": "2019-09-20",
     "categories": [],
     "preview": "posts/2019-09-19-loop-vs-alternativas/../../images/cronometro.jpg",
-    "last_modified": "2019-09-20T13:49:02-03:00"
+    "last_modified": "2019-09-20T21:40:50-03:00"
   },
   {
     "path": "posts/2019-09-04-integrando-o-r-com-excel/",

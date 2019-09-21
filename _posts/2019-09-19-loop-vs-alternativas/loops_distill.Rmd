@@ -1,14 +1,14 @@
 ---
 title: "Por que evitar loops em R?"
 description: |
-  Vamos testar o desempenho de loops contra possíveis alternativas para verificar o quão efetivo ele é.
+  A partir de um simples exemplo, vamos testar o desempenho de loops comparando-o com os de outras possíveis alternativas.
 Author: Diego Afonso de Castro
 date: "`r Sys.Date()`"
 output: 
   distill::distill_article:
     self_contained: false
   categories:
-    - loops
+    - loop
     - apply
     - purrr
     - furrr
@@ -133,8 +133,8 @@ para a realização dessa tarefa foi `r loop_time[[3]]` segundos.
 ## Solução 2: foreach
 
 Basicamente, esta abordagem é a mesma da anterior, mas neste caso paralelizando
-o processo. Isto quer dizer que mais de um *core* do computador realiza a mesma 
-tarefa. Entretanto, caso um dos *cores* atua em partes diferentes do data frame.
+o processo. Isto quer dizer que mais de um núcleo do computador realiza a mesma 
+tarefa. Entretanto, cada um dos núcleos atua em partes diferentes do data frame.
 
 ```{r}
 
@@ -170,7 +170,7 @@ foreach_time
 
 ```
 
-O coluna **D** gerada é como esperávamos. Além disso, o tempo total para realização
+A coluna **D** gerada é como esperávamos. Além disso, o tempo total para realização
 da tarefa reduz consideravelmente para `r foreach_time[[3]]` segundos.
 
 
@@ -294,12 +294,13 @@ o *purrr* realizou a tarefa mais rapidamente.
 ## Solução 6: furrr
 
 Finalmente, vamos paralelizar a solução anterior usando o pacote *furrr*. Ele 
-funciona de forma muito similar ao *purrr*, como pode ser visto abaixo.
+funciona de forma muito similar ao *purrr*, apenas trocando a função `pmap()` por 
+`future_pmap()`, como pode ser visto abaixo.
 
 ```{r}
 
 library(furrr)
-future::plan(multiprocess)
+plan(multiprocess)
 
 ```
 
@@ -330,10 +331,45 @@ foi melhor do que a demais soluções.
 Em uma simples tarefa de criação de uma nova coluna em um data frame baseada em informações
 das demais colunas, testamos uma abordagem usando loop e algumas alternativas a ele.
 Vimos que, neste caso (para outro tipo de tarefas os resultados pode ser bastante diferentes),
-o loop foi a alternativa de pior desempenho. Além disso, com exceção do loop, as estratégias
-de paralelização não aumentaram a velocidade de execução da tarefa, apesar de haver diversos
-exemplos mostrando casos em que tais estratégias podem ser utilizadas de forma bastante efetiva.
-Neste caso, o custo de distribuição da tarefa entre os *cores* (*workers*) é maior do que o ganho
-de tempo por dividir a tarefa entre eles. Vamos apresentar em outro post o processo de paralelização de forma mais detalhada e incluir exemplos nos quais a paralelização apresenta
-ganhos significativos de desempenho. De todo modo, o objetivo deste post foi alcançado: mostramos
-que existem alternativas ao loop que trazem um relevante aumento de performance.
+o loop foi a alternativa de pior desempenho (ver gráfico abaixo). 
+
+```{r}
+
+library(ggplot2)
+
+df_grafico <- data.frame(abordagem = c("loop", "foreach", 
+                                       "apply", "future.apply", 
+                                       "pmap", "future_pmap"),
+                         tempo = c(loop_time[[3]], foreach_time[[3]], 
+                                   apply_time[[3]], futureapply_time[[3]], 
+                                   purrr_time[[3]], furrr_time[[3]])) %>% 
+  mutate(tempo = round(tempo, 2),
+         abordagem_factor =  factor(abordagem, 
+                                    levels=c("future_pmap", "pmap", 
+                                             "future.apply", "apply",  
+                                             "foreach", "loop")))
+
+tempo_max = max(df_grafico$tempo)
+
+ggplot(df_grafico, aes(x=abordagem_factor, y=tempo, label=tempo)) +
+  geom_point(stat='identity', color=c("#619CFF"), size=9, alpha = 0.7)  +
+  geom_segment(aes(y = 0, 
+                   x = abordagem_factor, 
+                   yend = tempo, 
+                   xend = abordagem_factor), 
+               color = c("#619CFF"),
+               alpha = 0.6,
+               size = 1) +
+  geom_text(color="#333333", size=2.8, fontface = "bold") +
+  theme(axis.title = element_blank(),
+        axis.text.y = element_text(face = "bold", size = 10),
+        strip.text = element_text(face = "bold", color = "#333333", size = 10),
+        panel.grid.major = element_line(size = 0.01), 
+        panel.grid.minor = element_blank()) +
+  ylim(-0, tempo_max+2) +
+  coord_flip()
+
+```
+
+
+Além disso, com exceção do loop, as estratégias de paralelização não aumentaram a velocidade de execução da tarefa, apesar de haver diversos exemplos mostrando casos em que tais estratégias podem ser utilizadas de forma bastante efetiva. Neste caso, o custo de distribuição da tarefa entre os núcleos (*workers*) é maior do que o ganho de tempo por dividir a tarefa entre eles. Vamos apresentar em outro post o processo de paralelização de forma mais detalhada e incluir exemplos nos quais a paralelização apresenta ganhos significativos de desempenho. De todo modo, o objetivo deste post foi alcançado: mostramos que existem alternativas ao loop que trazem um relevante aumento de performance.

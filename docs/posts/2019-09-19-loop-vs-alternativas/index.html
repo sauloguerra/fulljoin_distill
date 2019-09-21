@@ -21,7 +21,7 @@
   <!--radix_placeholder_meta_tags-->
 <title>Fulljoin: Por que evitar loops em R?</title>
 
-<meta property="description" itemprop="description" content="Vamos testar o desempenho de loops contra possíveis alternativas para verificar o quão efetivo ele é."/>
+<meta property="description" itemprop="description" content="A partir de um simples exemplo, vamos testar o desempenho de loops comparando-o com os de outras possíveis alternativas."/>
 
 <link rel="canonical" href="https://www.fulljoin.com.br/posts/2019-09-19-loop-vs-alternativas/"/>
 
@@ -32,7 +32,7 @@
 <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
 <meta property="og:title" content="Fulljoin: Por que evitar loops em R?"/>
 <meta property="og:type" content="article"/>
-<meta property="og:description" content="Vamos testar o desempenho de loops contra possíveis alternativas para verificar o quão efetivo ele é."/>
+<meta property="og:description" content="A partir de um simples exemplo, vamos testar o desempenho de loops comparando-o com os de outras possíveis alternativas."/>
 <meta property="og:url" content="https://www.fulljoin.com.br/posts/2019-09-19-loop-vs-alternativas/"/>
 <meta property="og:image" content="https://www.fulljoin.com.br/posts/2019-09-19-loop-vs-alternativas/../../images/cronometro.jpg"/>
 <meta property="og:locale" content="en_US"/>
@@ -41,7 +41,7 @@
 <!--  https://dev.twitter.com/cards/types/summary -->
 <meta property="twitter:card" content="summary_large_image"/>
 <meta property="twitter:title" content="Fulljoin: Por que evitar loops em R?"/>
-<meta property="twitter:description" content="Vamos testar o desempenho de loops contra possíveis alternativas para verificar o quão efetivo ele é."/>
+<meta property="twitter:description" content="A partir de um simples exemplo, vamos testar o desempenho de loops comparando-o com os de outras possíveis alternativas."/>
 <meta property="twitter:url" content="https://www.fulljoin.com.br/posts/2019-09-19-loop-vs-alternativas/"/>
 <meta property="twitter:image" content="https://www.fulljoin.com.br/posts/2019-09-19-loop-vs-alternativas/../../images/cronometro.jpg"/>
 
@@ -49,12 +49,12 @@
   <!--radix_placeholder_rmarkdown_metadata-->
 
 <script type="text/json" id="radix-rmarkdown-metadata">
-{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","Author","date","output","draft","preview","citation_url","canonical_url"]}},"value":[{"type":"character","attributes":{},"value":["Por que evitar loops em R?"]},{"type":"character","attributes":{},"value":["Vamos testar o desempenho de loops contra possíveis alternativas para verificar o quão efetivo ele é."]},{"type":"character","attributes":{},"value":["Diego Afonso de Castro"]},{"type":"character","attributes":{},"value":["2019-09-20"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article","categories"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]},{"type":"character","attributes":{},"value":["loops","apply","purrr","furrr","foreach","future.apply"]}]},{"type":"logical","attributes":{},"value":[false]},{"type":"character","attributes":{},"value":["../../images/cronometro.jpg"]},{"type":"character","attributes":{},"value":["https://www.fulljoin.com.br/posts/2019-09-19-loop-vs-alternativas/"]},{"type":"character","attributes":{},"value":["https://www.fulljoin.com.br/posts/2019-09-19-loop-vs-alternativas/"]}]}
+{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","Author","date","output","draft","preview","citation_url","canonical_url"]}},"value":[{"type":"character","attributes":{},"value":["Por que evitar loops em R?"]},{"type":"character","attributes":{},"value":["A partir de um simples exemplo, vamos testar o desempenho de loops comparando-o com os de outras possíveis alternativas."]},{"type":"character","attributes":{},"value":["Diego Afonso de Castro"]},{"type":"character","attributes":{},"value":["2019-09-20"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article","categories"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]},{"type":"character","attributes":{},"value":["loop","apply","purrr","furrr","foreach","future.apply"]}]},{"type":"logical","attributes":{},"value":[false]},{"type":"character","attributes":{},"value":["../../images/cronometro.jpg"]},{"type":"character","attributes":{},"value":["https://www.fulljoin.com.br/posts/2019-09-19-loop-vs-alternativas/"]},{"type":"character","attributes":{},"value":["https://www.fulljoin.com.br/posts/2019-09-19-loop-vs-alternativas/"]}]}
 </script>
 <!--/radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-resource-manifest">
-  {"type":"character","attributes":{},"value":["loops_distill_files/bowser-1.9.3/bowser.min.js","loops_distill_files/distill-2.2.21/template.v2.js","loops_distill_files/jquery-1.11.3/jquery.min.js","loops_distill_files/webcomponents-2.0.0/webcomponents.js"]}
+  {"type":"character","attributes":{},"value":["loops_distill_files/bowser-1.9.3/bowser.min.js","loops_distill_files/distill-2.2.21/template.v2.js","loops_distill_files/figure-html5/unnamed-chunk-12-1.png","loops_distill_files/jquery-1.11.3/jquery.min.js","loops_distill_files/webcomponents-2.0.0/webcomponents.js"]}
   </script>
   <!--radix_placeholder_navigation_in_header-->
 
@@ -1319,7 +1319,7 @@ d-appendix {
 <!--radix_placeholder_front_matter-->
 
 <script id="distill-front-matter" type="text/json">
-{"title":"Por que evitar loops em R?","description":"Vamos testar o desempenho de loops contra possíveis alternativas para verificar o quão efetivo ele é.","authors":[],"publishedDate":"2019-09-20T00:00:00.000-03:00"}
+{"title":"Por que evitar loops em R?","description":"A partir de um simples exemplo, vamos testar o desempenho de loops comparando-o com os de outras possíveis alternativas.","authors":[],"publishedDate":"2019-09-20T00:00:00.000-03:00"}
 </script>
 
 <!--/radix_placeholder_front_matter-->
@@ -1342,7 +1342,7 @@ d-appendix {
 
 <div class="d-title">
 <h1>Por que evitar loops em R?</h1>
-<p>Vamos testar o desempenho de loops contra possíveis alternativas para verificar o quão efetivo ele é.</p>
+<p>A partir de um simples exemplo, vamos testar o desempenho de loops comparando-o com os de outras possíveis alternativas.</p>
 </div>
 
 
@@ -1439,11 +1439,11 @@ head(dados_base_loop)</code></pre>
 loop_time</code></pre>
 <pre><code>
    user  system elapsed 
- 519.70  291.34  845.30 </code></pre>
+ 490.09  275.85  768.42 </code></pre>
 </div>
-<p>Podemos ver que o data frame criado é o que realmente queríamos gerar (basta comparar a coluna D deste data frame e do data frame da seção anterior) e que o tempo necessário para a realização dessa tarefa foi 845.3 segundos.</p>
+<p>Podemos ver que o data frame criado é o que realmente queríamos gerar (basta comparar a coluna D deste data frame e do data frame da seção anterior) e que o tempo necessário para a realização dessa tarefa foi 768.42 segundos.</p>
 <h2 id="solucao-2-foreach">Solução 2: foreach</h2>
-<p>Basicamente, esta abordagem é a mesma da anterior, mas neste caso paralelizando o processo. Isto quer dizer que mais de um <em>core</em> do computador realiza a mesma tarefa. Entretanto, caso um dos <em>cores</em> atua em partes diferentes do data frame.</p>
+<p>Basicamente, esta abordagem é a mesma da anterior, mas neste caso paralelizando o processo. Isto quer dizer que mais de um núcleo do computador realiza a mesma tarefa. Entretanto, cada um dos núcleos atua em partes diferentes do data frame.</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 library(foreach)
@@ -1486,9 +1486,9 @@ head(dados_base_foreach)</code></pre>
 foreach_time</code></pre>
 <pre><code>
    user  system elapsed 
- 200.39   18.52  239.24 </code></pre>
+ 189.93   17.39  214.53 </code></pre>
 </div>
-<p>O coluna <strong>D</strong> gerada é como esperávamos. Além disso, o tempo total para realização da tarefa reduz consideravelmente para 239.24 segundos.</p>
+<p>A coluna <strong>D</strong> gerada é como esperávamos. Além disso, o tempo total para realização da tarefa reduz consideravelmente para 214.53 segundos.</p>
 <h2 id="solucao-3-familia-apply">Solução 3: família apply</h2>
 <p>Primeiramente, vale uma breve explicação do que é a família <em>apply</em>. A família <em>apply</em> é composta de funções que pertence ao R base as quais aplicam outras funções a determinadas estrutura. Claro? Provavelmente não. Vamos resumir algumas dessas funções para ficar mais fácil de entender:</p>
 <ul>
@@ -1523,10 +1523,10 @@ head(dados_base_apply)</code></pre>
 apply_time</code></pre>
 <pre><code>
    user  system elapsed 
-   0.69    0.05    0.75 </code></pre>
+   0.69    0.08    0.77 </code></pre>
 </div>
 <p>O argumento <em>X</em> é a matriz na qual aplicamos a função <em>FUN</em>, no caso <em>sum</em>. O argumento <em>MARGIN</em> diz em qual direção queremos aplicar a nossa função. 1 quer dizer que será aplicado a função <em>sum</em> em cada <strong>linha</strong> da matrix <em>X</em> e 2 em cada coluna da mesma matriz.</p>
-<p>Usando a função <code>apply()</code>, o novo tempo para realizar a tarefa é de 0.75 segundos. Ótimo aumento de desempenho, não é mesmo?</p>
+<p>Usando a função <code>apply()</code>, o novo tempo para realizar a tarefa é de 0.77 segundos. Ótimo aumento de desempenho, não é mesmo?</p>
 <h2 id="solucao-4-future-apply">Solução 4: future apply</h2>
 <p>Usando o pacote <code>future.apply</code> é possível paralelizar o processo anterior que usou apply.</p>
 <div class="layout-chunk" data-layout="l-body">
@@ -1558,7 +1558,7 @@ head(dados_base_futureapply)</code></pre>
 futureapply_time</code></pre>
 <pre><code>
    user  system elapsed 
-   5.20    0.15    6.38 </code></pre>
+   5.42    0.14    7.01 </code></pre>
 </div>
 <p>Notamos que neste caso não houve melhoria de desempenho. Nem sempre a paralelização melhora a performance. Isso ocorre porque ao paralelizar a tarefa, é necessário que haja sincronização dos <em>cores</em> em alguns momentos para inserir os resultados na posição correta e isso pode gerar um aumento no tempo gasto.</p>
 <h2 id="solucao-5-purrr">Solução 5: purrr</h2>
@@ -1592,15 +1592,15 @@ head(dados_base_map)</code></pre>
 purrr_time</code></pre>
 <pre><code>
    user  system elapsed 
-   1.48    0.00    1.48 </code></pre>
+   1.41    0.00    1.40 </code></pre>
 </div>
-<p>usando o <em>purrr</em>, obtivemos um resultado levemente pior (1.48 segundos) do que no caso do <em>apply</em>. Porém, quando comparado com loop, <em>foreach</em> e <em>future.apply</em>, o <em>purrr</em> realizou a tarefa mais rapidamente.</p>
+<p>usando o <em>purrr</em>, obtivemos um resultado levemente pior (1.4 segundos) do que no caso do <em>apply</em>. Porém, quando comparado com loop, <em>foreach</em> e <em>future.apply</em>, o <em>purrr</em> realizou a tarefa mais rapidamente.</p>
 <h2 id="solucao-6-furrr">Solução 6: furrr</h2>
-<p>Finalmente, vamos paralelizar a solução anterior usando o pacote <em>furrr</em>. Ele funciona de forma muito similar ao <em>purrr</em>, como pode ser visto abaixo.</p>
+<p>Finalmente, vamos paralelizar a solução anterior usando o pacote <em>furrr</em>. Ele funciona de forma muito similar ao <em>purrr</em>, apenas trocando a função <code>pmap()</code> por <code>future_pmap()</code>, como pode ser visto abaixo.</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 library(furrr)
-future::plan(multiprocess)</code></pre>
+plan(multiprocess)</code></pre>
 </div>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
@@ -1627,11 +1627,49 @@ head(dados_base_furr)</code></pre>
 furrr_time</code></pre>
 <pre><code>
    user  system elapsed 
-   0.16    0.00    2.19 </code></pre>
+   0.17    0.00    2.27 </code></pre>
 </div>
 <p>Houve uma leve perda de desempenho em relação ao <em>purrr</em> and <em>apply</em>, mas o resultado foi melhor do que a demais soluções.</p>
 <h2 id="conclusao">Conclusão</h2>
-<p>Em uma simples tarefa de criação de uma nova coluna em um data frame baseada em informações das demais colunas, testamos uma abordagem usando loop e algumas alternativas a ele. Vimos que, neste caso (para outro tipo de tarefas os resultados pode ser bastante diferentes), o loop foi a alternativa de pior desempenho. Além disso, com exceção do loop, as estratégias de paralelização não aumentaram a velocidade de execução da tarefa, apesar de haver diversos exemplos mostrando casos em que tais estratégias podem ser utilizadas de forma bastante efetiva. Neste caso, o custo de distribuição da tarefa entre os <em>cores</em> (<em>workers</em>) é maior do que o ganho de tempo por dividir a tarefa entre eles. Vamos apresentar em outro post o processo de paralelização de forma mais detalhada e incluir exemplos nos quais a paralelização apresenta ganhos significativos de desempenho. De todo modo, o objetivo deste post foi alcançado: mostramos que existem alternativas ao loop que trazem um relevante aumento de performance.</p>
+<p>Em uma simples tarefa de criação de uma nova coluna em um data frame baseada em informações das demais colunas, testamos uma abordagem usando loop e algumas alternativas a ele. Vimos que, neste caso (para outro tipo de tarefas os resultados pode ser bastante diferentes), o loop foi a alternativa de pior desempenho (ver gráfico abaixo).</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+library(ggplot2)
+
+df_grafico &lt;- data.frame(abordagem = c(&quot;loop&quot;, &quot;foreach&quot;, 
+                                       &quot;apply&quot;, &quot;future.apply&quot;, 
+                                       &quot;pmap&quot;, &quot;future_pmap&quot;),
+                         tempo = c(loop_time[[3]], foreach_time[[3]], 
+                                   apply_time[[3]], futureapply_time[[3]], 
+                                   purrr_time[[3]], furrr_time[[3]])) %&gt;% 
+  mutate(tempo = round(tempo, 2),
+         abordagem_factor =  factor(abordagem, 
+                                    levels=c(&quot;future_pmap&quot;, &quot;pmap&quot;, 
+                                             &quot;future.apply&quot;, &quot;apply&quot;,  
+                                             &quot;foreach&quot;, &quot;loop&quot;)))
+
+tempo_max = max(df_grafico$tempo)
+
+ggplot(df_grafico, aes(x=abordagem_factor, y=tempo, label=tempo)) +
+  geom_point(stat=&#39;identity&#39;, color=c(&quot;#619CFF&quot;), size=9, alpha = 0.7)  +
+  geom_segment(aes(y = 0, 
+                   x = abordagem_factor, 
+                   yend = tempo, 
+                   xend = abordagem_factor), 
+               color = c(&quot;#619CFF&quot;),
+               alpha = 0.6,
+               size = 1) +
+  geom_text(color=&quot;#333333&quot;, size=2.8, fontface = &quot;bold&quot;) +
+  theme(axis.title = element_blank(),
+        axis.text.y = element_text(face = &quot;bold&quot;, size = 10),
+        strip.text = element_text(face = &quot;bold&quot;, color = &quot;#333333&quot;, size = 10),
+        panel.grid.major = element_line(size = 0.01), 
+        panel.grid.minor = element_blank()) +
+  ylim(-0, tempo_max+2) +
+  coord_flip()</code></pre>
+<p><img src="loops_distill_files/figure-html5/unnamed-chunk-12-1.png" width="624" /></p>
+</div>
+<p>Além disso, com exceção do loop, as estratégias de paralelização não aumentaram a velocidade de execução da tarefa, apesar de haver diversos exemplos mostrando casos em que tais estratégias podem ser utilizadas de forma bastante efetiva. Neste caso, o custo de distribuição da tarefa entre os núcleos (<em>workers</em>) é maior do que o ganho de tempo por dividir a tarefa entre eles. Vamos apresentar em outro post o processo de paralelização de forma mais detalhada e incluir exemplos nos quais a paralelização apresenta ganhos significativos de desempenho. De todo modo, o objetivo deste post foi alcançado: mostramos que existem alternativas ao loop que trazem um relevante aumento de performance.</p>
 <!--radix_placeholder_article_footer-->
 <div class="article-footer">
   <p class="social_footer">

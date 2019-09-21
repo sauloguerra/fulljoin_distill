@@ -11,7 +11,7 @@
     <item>
       <title>Por que evitar loops em R?</title>
       <link>https://www.fulljoin.com.br/posts/2019-09-19-loop-vs-alternativas</link>
-      <description>Vamos testar o desempenho de loops contra possíveis alternativas para verificar o quão efetivo ele é.</description>
+      <description>A partir de um simples exemplo, vamos testar o desempenho de loops comparando-o com os de outras possíveis alternativas.</description>
       <guid>https://www.fulljoin.com.br/posts/2019-09-19-loop-vs-alternativas</guid>
       <pubDate>sex, 20 set 2019 00:00:00 +0000</pubDate>
       <media:content url="https://www.fulljoin.com.br/posts/2019-09-19-loop-vs-alternativas/../../images/cronometro.jpg" medium="image" type="image/jpeg"/>
