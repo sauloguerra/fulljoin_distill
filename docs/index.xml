@@ -7,13 +7,13 @@
     <description>Fulljoin
 </description>
     <generator>Distill</generator>
-    <lastBuildDate>sex, 20 set 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>s�b, 21 set 2019 00:00:00 +0000</lastBuildDate>
     <item>
-      <title>Por que evitar loops em R?</title>
+      <title>Por que evitar for loops em R?</title>
       <link>https://www.fulljoin.com.br/posts/2019-09-19-loop-vs-alternativas</link>
-      <description>A partir de um simples exemplo, vamos testar o desempenho de loops comparando-o com os de outras possíveis alternativas.</description>
+      <description>A partir de um simples exemplo, vamos testar o desempenho de for loops comparando-o com a performance de outras alternativas como apply, funções do purrr e estratégias paralelizadas.</description>
       <guid>https://www.fulljoin.com.br/posts/2019-09-19-loop-vs-alternativas</guid>
-      <pubDate>sex, 20 set 2019 00:00:00 +0000</pubDate>
+      <pubDate>s�b, 21 set 2019 00:00:00 +0000</pubDate>
       <media:content url="https://www.fulljoin.com.br/posts/2019-09-19-loop-vs-alternativas/../../images/cronometro.jpg" medium="image" type="image/jpeg"/>
     </item>
     <item>
