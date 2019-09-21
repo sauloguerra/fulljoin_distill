@@ -3,11 +3,16 @@
     "path": "posts/2019-09-19-loop-vs-alternativas/",
     "title": "Por que evitar for loops em R?",
     "description": "A partir de um simples exemplo, vamos testar o desempenho de for loops comparando-o com a performance de outras alternativas como apply, funções do purrr e estratégias paralelizadas.",
-    "author": [],
+    "author": [
+      {
+        "name": "Diego Afonso de Castro",
+        "url": {}
+      }
+    ],
     "date": "2019-09-21",
     "categories": [],
     "preview": "posts/2019-09-19-loop-vs-alternativas/../../images/capa_loop.png",
-    "last_modified": "2019-09-21T11:49:31-03:00",
+    "last_modified": "2019-09-21T13:41:38-03:00",
     "preview_width": 875,
     "preview_height": 420
   },

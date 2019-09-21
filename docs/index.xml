@@ -10,6 +10,7 @@
     <lastBuildDate>s�b, 21 set 2019 00:00:00 +0000</lastBuildDate>
     <item>
       <title>Por que evitar for loops em R?</title>
+      <dc:creator>Diego Afonso de Castro</dc:creator>
       <link>https://www.fulljoin.com.br/posts/2019-09-19-loop-vs-alternativas</link>
       <description>A partir de um simples exemplo, vamos testar o desempenho de for loops comparando-o com a performance de outras alternativas como apply, funções do purrr e estratégias paralelizadas.</description>
       <guid>https://www.fulljoin.com.br/posts/2019-09-19-loop-vs-alternativas</guid>

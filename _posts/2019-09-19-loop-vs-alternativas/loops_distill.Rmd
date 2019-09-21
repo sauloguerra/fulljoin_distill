@@ -2,7 +2,7 @@
 title: "Por que evitar for loops em R?"
 description: |
   A partir de um simples exemplo, vamos testar o desempenho de for loops comparando-o com a performance de outras alternativas como apply, funções do purrr e estratégias paralelizadas.
-Author: Diego Afonso de Castro
+author: Diego Afonso de Castro
 date: "`r Sys.Date()`"
 output: 
   distill::distill_article:
