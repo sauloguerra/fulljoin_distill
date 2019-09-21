@@ -43,7 +43,7 @@
   <!--radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-rmarkdown-metadata">
-  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","Author","date","output","draft","preview"]}},"value":[{"type":"character","attributes":{},"value":["Por que evitar for loops em R?"]},{"type":"character","attributes":{},"value":["A partir de um simples exemplo, vamos testar o desempenho de for loops comparando-o com a performance de outras alternativas como apply, funções do purrr e estratégias paralelizadas.\n"]},{"type":"character","attributes":{},"value":["Diego Afonso de Castro"]},{"type":"character","attributes":{},"value":["2019-09-21"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article","categories"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]},{"type":"character","attributes":{},"value":["for loop","apply","purrr","furrr","foreach","future.apply"]}]},{"type":"logical","attributes":{},"value":[false]},{"type":"character","attributes":{},"value":["../../images/cronometro.jpg"]}]}
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","Author","date","output","draft","preview"]}},"value":[{"type":"character","attributes":{},"value":["Por que evitar for loops em R?"]},{"type":"character","attributes":{},"value":["A partir de um simples exemplo, vamos testar o desempenho de for loops comparando-o com a performance de outras alternativas como apply, funções do purrr e estratégias paralelizadas.\n"]},{"type":"character","attributes":{},"value":["Diego Afonso de Castro"]},{"type":"character","attributes":{},"value":["2019-09-21"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article","categories"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]},{"type":"character","attributes":{},"value":["for loop","apply","purrr","furrr","foreach","future.apply"]}]},{"type":"logical","attributes":{},"value":[false]},{"type":"character","attributes":{},"value":["../../images/capa_loop.png"]}]}
   </script>
   <!--/radix_placeholder_rmarkdown_metadata-->
   
@@ -1049,9 +1049,9 @@ head(dados_base_loop)</code></pre>
 loop_time</code></pre>
 <pre><code>
    user  system elapsed 
- 489.33  280.50  772.32 </code></pre>
+ 487.92  274.69  764.65 </code></pre>
 </div>
-<p>Podemos ver que o data frame criado é o que realmente queríamos gerar (basta comparar a coluna D deste data frame e do data frame da seção anterior) e que o tempo necessário para a realização dessa tarefa foi 772.32 segundos.</p>
+<p>Podemos ver que o data frame criado é o que realmente queríamos gerar (basta comparar a coluna D deste data frame e do data frame da seção anterior) e que o tempo necessário para a realização dessa tarefa foi 764.65 segundos.</p>
 <h2 id="solucao-2-foreach">Solução 2: foreach</h2>
 <p>Basicamente, esta abordagem é a mesma da anterior, mas neste caso paralelizando o processo. Isto quer dizer que mais de um núcleo do computador realiza a mesma tarefa. Entretanto, cada um dos núcleos atua em partes diferentes do data frame.</p>
 <div class="layout-chunk" data-layout="l-body">
@@ -1059,9 +1059,9 @@ loop_time</code></pre>
 library(foreach)
 library(doParallel)
 
-#setup parallel backend to use many processors
+# configurar número de núcleos que serão utilizados
 cores=detectCores()
-cl &lt;- makeCluster(cores[1]-1) #not to overload your computer
+cl &lt;- makeCluster(3) # usar 3 núcleos
 registerDoParallel(cl)
 
 
@@ -1096,9 +1096,9 @@ head(dados_base_foreach)</code></pre>
 foreach_time</code></pre>
 <pre><code>
    user  system elapsed 
- 256.14   20.39  309.84 </code></pre>
+ 215.31   17.80  265.53 </code></pre>
 </div>
-<p>A coluna <strong>D</strong> gerada é como esperávamos. Além disso, o tempo total para realização da tarefa reduz consideravelmente para 309.84 segundos.</p>
+<p>A coluna <strong>D</strong> gerada é como esperávamos. Além disso, o tempo total para realização da tarefa reduz consideravelmente para 265.53 segundos.</p>
 <h2 id="solucao-3-familia-apply">Solução 3: família apply</h2>
 <p>Primeiramente, vale uma breve explicação do que é a família <em>apply</em>. A família <em>apply</em> é composta de funções que pertence ao R base as quais aplicam outras funções a determinadas estrutura. Claro? Provavelmente não. Vamos resumir algumas dessas funções para ficar mais fácil de entender:</p>
 <ul>
@@ -1133,16 +1133,16 @@ head(dados_base_apply)</code></pre>
 apply_time</code></pre>
 <pre><code>
    user  system elapsed 
-   1.66    0.05    2.11 </code></pre>
+   0.80    0.03    0.86 </code></pre>
 </div>
 <p>O argumento <em>X</em> é a matriz na qual aplicamos a função <em>FUN</em>, no caso <em>sum</em>. O argumento <em>MARGIN</em> diz em qual direção queremos aplicar a nossa função. 1 quer dizer que será aplicado a função <em>sum</em> em cada <strong>linha</strong> da matrix <em>X</em> e 2 em cada coluna da mesma matriz.</p>
-<p>Usando a função <code>apply()</code>, o novo tempo para realizar a tarefa é de 2.11 segundos. Ótimo aumento de desempenho, não é mesmo?</p>
+<p>Usando a função <code>apply()</code>, o novo tempo para realizar a tarefa é de 0.86 segundos. Ótimo aumento de desempenho, não é mesmo?</p>
 <h2 id="solucao-4-future-apply">Solução 4: future apply</h2>
 <p>Usando o pacote <code>future.apply</code> é possível paralelizar o processo anterior que usou apply.</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 library(future.apply)
-plan(multiprocess, workers = 3) ## Parallelize using 3 cores
+plan(multiprocess, workers = 3) ## Paralelização usando 3 núcleos
 
 
 futureapply_time &lt;- system.time({
@@ -1168,7 +1168,7 @@ head(dados_base_futureapply)</code></pre>
 futureapply_time</code></pre>
 <pre><code>
    user  system elapsed 
-   9.69    0.33   12.37 </code></pre>
+   5.67    0.13    6.78 </code></pre>
 </div>
 <p>Notamos que neste caso não houve melhoria de desempenho. Nem sempre a paralelização melhora a performance. Isso ocorre porque ao paralelizar a tarefa, é necessário que haja sincronização dos <em>cores</em> em alguns momentos para inserir os resultados na posição correta e isso pode gerar um aumento no tempo gasto.</p>
 <h2 id="solucao-5-purrr">Solução 5: purrr</h2>
@@ -1202,9 +1202,9 @@ head(dados_base_map)</code></pre>
 purrr_time</code></pre>
 <pre><code>
    user  system elapsed 
-   2.51    0.00    2.75 </code></pre>
+   1.43    0.01    1.43 </code></pre>
 </div>
-<p>usando o <em>purrr</em>, obtivemos um resultado levemente pior (2.75 segundos) do que no caso do <em>apply</em>. Porém, quando comparado com for loop, <em>foreach</em> e <em>future.apply</em>, o <em>purrr</em> realizou a tarefa mais rapidamente.</p>
+<p>usando o <em>purrr</em>, obtivemos um resultado levemente pior (1.43 segundos) do que no caso do <em>apply</em>. Porém, quando comparado com for loop, <em>foreach</em> e <em>future.apply</em>, o <em>purrr</em> realizou a tarefa mais rapidamente.</p>
 <h2 id="solucao-6-furrr">Solução 6: furrr</h2>
 <p>Finalmente, vamos paralelizar a solução anterior usando o pacote <em>furrr</em>. Ele funciona de forma muito similar ao <em>purrr</em>, apenas trocando a função <code>pmap()</code> por <code>future_pmap()</code>, como pode ser visto abaixo.</p>
 <div class="layout-chunk" data-layout="l-body">
@@ -1237,7 +1237,7 @@ head(dados_base_furr)</code></pre>
 furrr_time</code></pre>
 <pre><code>
    user  system elapsed 
-   0.28    0.02    3.69 </code></pre>
+   0.18    0.00    2.11 </code></pre>
 </div>
 <p>Houve uma leve perda de desempenho em relação ao <em>purrr</em> and <em>apply</em>, mas o resultado foi melhor do que a demais soluções.</p>
 <h2 id="conclusao">Conclusão</h2>

@@ -15,7 +15,7 @@ output:
     - foreach
     - future.apply
 draft: false
-preview: ../../images/cronometro.jpg
+preview: ../../images/capa_loop.png
 ---
 
 
@@ -141,9 +141,9 @@ tarefa. Entretanto, cada um dos núcleos atua em partes diferentes do data frame
 library(foreach)
 library(doParallel)
 
-#setup parallel backend to use many processors
+# configurar número de núcleos que serão utilizados
 cores=detectCores()
-cl <- makeCluster(cores[1]-1) #not to overload your computer
+cl <- makeCluster(3) # usar 3 núcleos
 registerDoParallel(cl)
 
 
@@ -230,7 +230,7 @@ apply.
 ```{r}
 
 library(future.apply)
-plan(multiprocess, workers = 3) ## Parallelize using 3 cores
+plan(multiprocess, workers = 3) ## Paralelização usando 3 núcleos
 
 
 futureapply_time <- system.time({
@@ -352,15 +352,15 @@ df_grafico <- data.frame(abordagem = c("for loop", "foreach",
 tempo_max = max(df_grafico$tempo)
 
 ggplot(df_grafico, aes(x=abordagem_factor, y=tempo, label=tempo)) +
-  geom_point(stat='identity', color=c("#619CFF"), size=9, alpha = 0.7)  +
+  geom_point(stat='identity', color=c("#619CFF"), size=10.5, alpha = 0.7)  +
   geom_segment(aes(y = 0, 
                    x = abordagem_factor, 
-                   yend = tempo, 
+                   yend = tempo-9, 
                    xend = abordagem_factor), 
                color = c("#619CFF"),
                alpha = 0.6,
                size = 1) +
-  geom_text(color="#333333", size=2.8, fontface = "bold") +
+  geom_text(color="#333333", size=2.5, fontface = "bold") +
   theme(axis.title = element_blank(),
         axis.text.y = element_text(face = "bold", size = 10),
         strip.text = element_text(face = "bold", color = "#333333", size = 10),
