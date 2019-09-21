@@ -1,0 +1,158 @@
+---
+title: "Modelagem de Tópicos com o R: Analisando os Textos de Acordos Comerciais"
+description: |
+  Neste post, vamos fazer uma análise de tópicos utilizando os pacotes tidytext e topicmodels. Essa análise consiste em extrair um conjunto de temas (tópicos) de um conjunto de textos. Para isso, utilizamos uma base de textos de acordos comerciais. Veremos que o método utilizado é capaz de identificar uma séria de tópicos relevantes.  
+author: Paulo Felipe Alencar
+date: 09-19-2019
+output:
+  distill::distill_article:
+    self_contained: false
+draft: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Introdução
+
+Os acordos comerciais celebrados ao redor do mundo e que são notificados à Organização Mundial de Comércio (OMC) possuem um texto que descreve os diversos aspectos que foram negociados e acertados entre os diferentes parceiros. Recentemente, uma iniciativa conjunta da UNCTAD e de alguns parceiros desenvolveu uma base anotada com o texto de, aproximadamente, 450 acordos comerciais. 
+
+Vamos utilizar essa base para trabalhar com processamente de dados textuais no R. Utilizaremos o pacote `tidytext` para trabalhar com os textos em um formato *tidy*, ou seja, com dados em formato tabular (em *data.frames*).
+
+# Pacotes
+
+```{r}
+library(tidyverse)
+library(xml2)
+library(topicmodels)
+library(lubridate)
+```
+
+```{r}
+extrafont::loadfonts(device = "win", quiet = TRUE)
+theme_set(
+  theme_minimal() + 
+    theme(
+      plot.title = element_text(face = "bold", size = 16),
+      title = element_text(family = "Arial Narrow")
+    )
+)
+```
+
+
+
+# Dados
+
+Os dados estão disponíveis neste link: [https://github.com/mappingtreaties/tota](https://github.com/mappingtreaties/tota).
+
+São 451 arquivos xml com os textos de cada acordo. Por exemplo:
+
+![](exemplo_xml.png)
+
+Assim, precisaremos ler cada um deles e convertê-los para data.frame. Dessa forma, vamos primeiro criar um vetor com os caminhos dos arquivos:
+
+```{r}
+arquivos_pta <- list.files('xml/', full.names = TRUE)
+arquivos_pta[1:3]
+```
+
+A função `ler_texto_acordo()` recebe como input o caminho de um arquivo e retorna um data.frame com os dados de um acordo. Cada linha do `data.frame` representa um capítulo do acordo. Na tabela abaixo, o leitor pode dar uma explorada nas variáveis que criamos.
+
+```{r}
+ler_texto_acordo <- function(arquivo){
+  
+  pta <- read_xml(arquivo)
+  
+  pta_id <- pta %>% 
+    xml_find_all("//wto_rta_id") %>% 
+    xml_text()
+  
+  pta_nome <- pta %>% 
+    xml_find_all("//name") %>% 
+    xml_text()
+  
+  pta_status <- pta %>% 
+    xml_find_all("//status") %>% 
+    xml_text()
+  
+  pta_data_assinatura <- pta %>% 
+    xml_find_all("//date_signed") %>% 
+    xml_text()
+  
+  pta_lingua <- pta %>% 
+    xml_find_all("//language") %>% 
+    xml_text()
+  
+  capitulos <- pta %>% 
+    xml_find_all("//chapter") 
+  
+  texto_capitulos <- capitulos %>% 
+    map(xml_contents) %>% 
+    map_chr(~{
+      .x %>% 
+        map_chr(xml_text) %>% 
+        paste0(collapse = " \n ")
+    }) 
+  
+  capitulos %>% 
+    map(xml_attrs) %>% 
+    map_df(as.list) %>% 
+    mutate(
+      pta_id = pta_id,
+      pta_nome = pta_nome,
+      pta_status = pta_status,
+      pta_data_assinatura = ymd(pta_data_assinatura),
+      id_capitulo = paste0(pta_id, "_", chapter_identifier),
+      ano = year(pta_data_assinatura),
+      pta_lingua = pta_lingua,
+      texto = texto_capitulos
+    ) %>% 
+    select(contains("pta"), everything())
+}
+
+
+ler_texto_acordo(arquivos_pta[5]) %>% 
+  rmarkdown::paged_table()
+```
+
+Agora, vamos usar a função `map_df()` para ler todos os arquivos e combiná-los em um único `data.frame`. 
+
+```{r}
+pta_df <- map_df(arquivos_pta, ler_texto_acordo)
+```
+
+Os acordos podem estar em várias línguas:
+
+```{r}
+pta_df %>% 
+  select(pta_id, pta_lingua) %>% 
+  distinct() %>% 
+  count(pta_lingua)
+```
+
+Para a nossa análise, vamos nos restringir aos textos que estão em inglês:
+
+```{r}
+pta_df <- pta_df %>% 
+  filter(pta_lingua == "en")
+```
+
+Com a nossa base preparada, vamos checar quantos acordos foram assinados por ano:
+
+```{r, layout="l-body-outset"}
+pta_df %>% 
+  select(pta_id, ano) %>%
+  distinct() %>% 
+  ggplot(aes(x = ano)) +
+  geom_bar(fill = "#2980b9") + 
+  scale_x_continuous(breaks = seq(1950, 2010, 10)) +
+  labs(
+    title = "Número de Acordos Comerciais Assinados por Ano",
+    subtitle = "Os acordos comerciais se proliferaram a partir da década de 90.
+A Organinazação Mundial de Comércio (OMC) foi criada em 1995.",
+    x = "Ano",
+    y = "Número de Acordos"
+  )
+```
+
