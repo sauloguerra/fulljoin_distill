@@ -28,6 +28,7 @@
 <!--  https://schema.org/Article -->
 <meta property="article:published" itemprop="datePublished" content="2019-09-05"/>
 <meta property="article:created" itemprop="dateCreated" content="2019-09-05"/>
+<meta name="article:author" content="Paulo Felipe Alencar"/>
 
 <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
 <meta property="og:title" content="Fulljoin: Hello World - TensorFlow V2"/>
@@ -49,11 +50,17 @@
 <meta property="twitter:image:width" content="1248"/>
 <meta property="twitter:image:height" content="768"/>
 
+<!--  https://scholar.google.com/intl/en/scholar/inclusion.html#indexing -->
+<meta name="citation_title" content="Fulljoin: Hello World - TensorFlow V2"/>
+<meta name="citation_fulltext_html_url" content="https://www.fulljoin.com.br/posts/2019-08-27-hello-world-tensorflow-v2/"/>
+<meta name="citation_online_date" content="2019/09/05"/>
+<meta name="citation_publication_date" content="2019/09/05"/>
+<meta name="citation_author" content="Paulo Felipe Alencar"/>
 <!--/radix_placeholder_meta_tags-->
   <!--radix_placeholder_rmarkdown_metadata-->
 
 <script type="text/json" id="radix-rmarkdown-metadata">
-{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","Author","date","output","categories","draft","citation_url","canonical_url"]}},"value":[{"type":"character","attributes":{},"value":["Hello World - TensorFlow V2"]},{"type":"character","attributes":{},"value":["Com a ajuda do pacote `tensorflow`, vamos replicar os códigos de exemplos iniciais do TensorFlow V2, que é a segunda versão da biblioteca de *machine learning* do Google. Apesar dos códigos originais estarem em Python, é fácil convertê-los para R. Nesse post, veremos como."]},{"type":"character","attributes":{},"value":["Paulo Felipe Alencar"]},{"type":"character","attributes":{},"value":["09-05-2019"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]}]},{"type":"character","attributes":{},"value":["TensorFlow","Deep Learning","Aprendizado de Máquina"]},{"type":"logical","attributes":{},"value":[false]},{"type":"character","attributes":{},"value":["https://www.fulljoin.com.br/posts/2019-08-27-hello-world-tensorflow-v2/"]},{"type":"character","attributes":{},"value":["https://www.fulljoin.com.br/posts/2019-08-27-hello-world-tensorflow-v2/"]}]}
+{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","output","categories","draft","citation_url","canonical_url"]}},"value":[{"type":"character","attributes":{},"value":["Hello World - TensorFlow V2"]},{"type":"character","attributes":{},"value":["Com a ajuda do pacote `tensorflow`, vamos replicar os códigos de exemplos iniciais do TensorFlow V2, que é a segunda versão da biblioteca de *machine learning* do Google. Apesar dos códigos originais estarem em Python, é fácil convertê-los para R. Nesse post, veremos como."]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name"]}},"value":[{"type":"character","attributes":{},"value":["Paulo Felipe Alencar"]}]}]},{"type":"character","attributes":{},"value":["09-05-2019"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]}]},{"type":"character","attributes":{},"value":["TensorFlow","Deep Learning","Aprendizado de Máquina"]},{"type":"logical","attributes":{},"value":[false]},{"type":"character","attributes":{},"value":["https://www.fulljoin.com.br/posts/2019-08-27-hello-world-tensorflow-v2/"]},{"type":"character","attributes":{},"value":["https://www.fulljoin.com.br/posts/2019-08-27-hello-world-tensorflow-v2/"]}]}
 </script>
 <!--/radix_placeholder_rmarkdown_metadata-->
   
@@ -1323,7 +1330,7 @@ d-appendix {
 <!--radix_placeholder_front_matter-->
 
 <script id="distill-front-matter" type="text/json">
-{"title":"Hello World - TensorFlow V2","description":"Com a ajuda do pacote `tensorflow`, vamos replicar os códigos de exemplos iniciais do TensorFlow V2, que é a segunda versão da biblioteca de *machine learning* do Google. Apesar dos códigos originais estarem em Python, é fácil convertê-los para R. Nesse post, veremos como.","authors":[],"publishedDate":"2019-09-05T00:00:00.000-03:00"}
+{"title":"Hello World - TensorFlow V2","description":"Com a ajuda do pacote `tensorflow`, vamos replicar os códigos de exemplos iniciais do TensorFlow V2, que é a segunda versão da biblioteca de *machine learning* do Google. Apesar dos códigos originais estarem em Python, é fácil convertê-los para R. Nesse post, veremos como.","authors":[{"author":"Paulo Felipe Alencar","authorURL":"#","affiliation":"&nbsp;","affiliationURL":"#"}],"publishedDate":"2019-09-05T00:00:00.000-03:00","citationText":"Alencar, 2019"}
 </script>
 
 <!--/radix_placeholder_front_matter-->
@@ -1349,6 +1356,12 @@ d-appendix {
 <p>Com a ajuda do pacote <code>tensorflow</code>, vamos replicar os códigos de exemplos iniciais do TensorFlow V2, que é a segunda versão da biblioteca de <em>machine learning</em> do Google. Apesar dos códigos originais estarem em Python, é fácil convertê-los para R. Nesse post, veremos como.</p>
 </div>
 
+<div class="d-byline">
+  
+  Paulo Felipe Alencar
+  
+<br/>09-05-2019
+</div>
 
 <div class="d-article">
 <h1 id="introducao">Introdução</h1>
@@ -1515,7 +1528,7 @@ metricas &lt;- model$evaluate(x_test, y_test, verbose = 2L)
 
 cat(&#39;Acurácia:&#39;, scales::percent(metricas[[2]]))</code></pre>
 <pre><code>
-Acurácia: 98.1%</code></pre>
+Acurácia: 97.9%</code></pre>
 </div>
 <ul>
 <li>R + Keras</li>
@@ -1534,10 +1547,10 @@ test_evaluate &lt;- model_keras %&gt;% evaluate(x_test, y_test, verbose = 2)
 test_evaluate</code></pre>
 <pre><code>
 $loss
-[1] 0.06365786
+[1] 0.06266951
 
 $accuracy
-[1] 0.9807</code></pre>
+[1] 0.9827</code></pre>
 </div>
 <p>Finalizado essa primeira abordagem, vamos para abordagem avançada.</p>
 <h2 id="abordagem-avancada">Abordagem Avançada</h2>
@@ -1597,12 +1610,12 @@ model &lt;- MyModel()</code></pre>
 model(x_train[1:2,,,1, drop = FALSE]) %&gt;% 
   as.matrix()</code></pre>
 <pre><code>
-           [,1]       [,2]       [,3]      [,4]       [,5]      [,6]
-[1,] 0.09251988 0.09516452 0.10377929 0.1010672 0.09103622 0.1029180
-[2,] 0.09044854 0.09048019 0.09655939 0.1027379 0.09262010 0.1057449
-           [,7]      [,8]      [,9]      [,10]
-[1,] 0.09560755 0.1096519 0.1150445 0.09321094
-[2,] 0.09526931 0.1089784 0.1193546 0.09780669</code></pre>
+           [,1]       [,2]      [,3]      [,4]       [,5]       [,6]
+[1,] 0.08942941 0.08273468 0.1086220 0.1110561 0.09125580 0.08612970
+[2,] 0.09866208 0.10674505 0.1095978 0.1086109 0.09095311 0.09663103
+           [,7]       [,8]      [,9]     [,10]
+[1,] 0.10976373 0.08834255 0.1196512 0.1130148
+[2,] 0.09842379 0.08573665 0.0979837 0.1066559</code></pre>
 </div>
 <p>Na sequência, define-se a função que computa a “perda” do modelo e a métrica de otimização. A função de perda receberá um conjunto de imagens e seus rótulos e irá computar uma medida de erro do modelo.</p>
 <div class="layout-chunk" data-layout="l-body">
@@ -1704,18 +1717,18 @@ for(i in 1:epochs){
   
 }</code></pre>
 <pre><code>
-Epoch 1, Loss: 0.1772, Accuracy: 0.9492,
-                   Test Loss: 0.0703, Test Accuracy: 0.9773
-Epoch 2, Loss: 0.0518, Accuracy: 0.9843,
-                   Test Loss: 0.0564, Test Accuracy: 0.9811
-Epoch 3, Loss: 0.0291, Accuracy: 0.9912,
-                   Test Loss: 0.0477, Test Accuracy: 0.983
-Epoch 4, Loss: 0.0173, Accuracy: 0.9953,
-                   Test Loss: 0.0501, Test Accuracy: 0.9832
-Epoch 5, Loss: 0.011, Accuracy: 0.9968,
-                   Test Loss: 0.0533, Test Accuracy: 0.9825</code></pre>
+Epoch 1, Loss: 0.1813, Accuracy: 0.9462,
+                   Test Loss: 0.0744, Test Accuracy: 0.9758
+Epoch 2, Loss: 0.0547, Accuracy: 0.984,
+                   Test Loss: 0.0542, Test Accuracy: 0.9809
+Epoch 3, Loss: 0.0301, Accuracy: 0.9911,
+                   Test Loss: 0.053, Test Accuracy: 0.9824
+Epoch 4, Loss: 0.017, Accuracy: 0.9955,
+                   Test Loss: 0.0524, Test Accuracy: 0.9824
+Epoch 5, Loss: 0.0107, Accuracy: 0.9972,
+                   Test Loss: 0.0516, Test Accuracy: 0.9848</code></pre>
 </div>
-<p>Assim, finalizamos o treinamento e a avaliação do modelo. Este modelo conseguiu uma acurácia de 98.2%.</p>
+<p>Assim, finalizamos o treinamento e a avaliação do modelo. Este modelo conseguiu uma acurácia de 98.5%.</p>
 <h1 id="consideracoes-finais">Considerações Finais</h1>
 <p>Este é o primeiro post de uma série que pretendemos escrever com alguns exemplos do TensorFlow. O objetivo é arquivar o aprendizado e compartilhar com quem tiver interesse. Hoje trouxemos um exemplo clássico de visão computacional de classificação de números. Espero trazer exemplos mais interessantes nos próximos posts. Críticas e sugestões são bem-vindas.</p>
 <!--radix_placeholder_article_footer-->
@@ -1773,7 +1786,18 @@ var disqus_config = function () {
 <!--radix_placeholder_site_after_body-->
 <!--/radix_placeholder_site_after_body-->
 <!--radix_placeholder_appendices-->
-<div class="appendix-bottom"></div>
+<div class="appendix-bottom">
+  <h3 id="citation">Citation</h3>
+  <p>For attribution, please cite this work as</p>
+  <pre class="citation-appendix short">Alencar (2019, Sept. 5). Fulljoin: Hello World - TensorFlow V2. Retrieved from https://www.fulljoin.com.br/posts/2019-08-27-hello-world-tensorflow-v2/</pre>
+  <p>BibTeX citation</p>
+  <pre class="citation-appendix long">@misc{alencar2019hello,
+  author = {Alencar, Paulo Felipe},
+  title = {Fulljoin: Hello World - TensorFlow V2},
+  url = {https://www.fulljoin.com.br/posts/2019-08-27-hello-world-tensorflow-v2/},
+  year = {2019}
+}</pre>
+</div>
 <!--/radix_placeholder_appendices-->
 <!--radix_placeholder_navigation_after_body-->
 <div class="distill-site-nav distill-site-footer">

@@ -7,14 +7,14 @@
     <description>Fulljoin
 </description>
     <generator>Distill</generator>
-    <lastBuildDate>s�b, 21 set 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>sáb, 21 set 2019 00:00:00 +0000</lastBuildDate>
     <item>
       <title>Por que evitar for loops em R?</title>
       <dc:creator>Diego Afonso de Castro</dc:creator>
       <link>https://www.fulljoin.com.br/posts/2019-09-19-loop-vs-alternativas</link>
       <description>A partir de um simples exemplo, vamos testar o desempenho de for loops comparando-o com a performance de outras alternativas como apply, funções do purrr e estratégias paralelizadas.</description>
       <guid>https://www.fulljoin.com.br/posts/2019-09-19-loop-vs-alternativas</guid>
-      <pubDate>s�b, 21 set 2019 00:00:00 +0000</pubDate>
+      <pubDate>sáb, 21 set 2019 00:00:00 +0000</pubDate>
       <media:content url="https://www.fulljoin.com.br/posts/2019-09-19-loop-vs-alternativas/../../images/capa_loop.png" medium="image" type="image/png" width="875" height="420"/>
     </item>
     <item>
@@ -37,6 +37,7 @@
     </item>
     <item>
       <title>Hello World - TensorFlow V2</title>
+      <dc:creator>Paulo Felipe Alencar</dc:creator>
       <link>https://www.fulljoin.com.br/posts/2019-08-27-hello-world-tensorflow-v2</link>
       <description>Com a ajuda do pacote `tensorflow`, vamos replicar os códigos de exemplos iniciais do TensorFlow V2, que é a segunda versão da biblioteca de *machine learning* do Google. Apesar dos códigos originais estarem em Python, é fácil convertê-los para R. Nesse post, veremos como.</description>
       <guid>https://www.fulljoin.com.br/posts/2019-08-27-hello-world-tensorflow-v2</guid>
@@ -58,7 +59,7 @@
       <link>https://www.fulljoin.com.br/posts/2019-07-30-analisando-dados-da-guerra-comercial-parte-2</link>
       <description>Nesta segunda parte, vamos aprofundar um pouco a nossa análise inicial. Realmente as sobretaxas impostas pelos Estados Unidos a produtos chineses não tiverem efeitos prático? Utilizando dados mensais que compreendem o período de janeiro de 2012 até maio de 2019, encontramos evidências dos seus efeitos. As estimativas indicam um nível de importação, em média, 20% menor para os produtos chineses sujeitos a sobretaxas.</description>
       <guid>https://www.fulljoin.com.br/posts/2019-07-30-analisando-dados-da-guerra-comercial-parte-2</guid>
-      <pubDate>s�b, 10 ago 2019 00:00:00 +0000</pubDate>
+      <pubDate>sáb, 10 ago 2019 00:00:00 +0000</pubDate>
       <media:content url="https://www.fulljoin.com.br/posts/2019-07-30-analisando-dados-da-guerra-comercial-parte-2/analisando-dados-da-guerra-comercial-parte-2_files/figure-html5/unnamed-chunk-7-1.png" medium="image" type="image/png" width="1152" height="768"/>
     </item>
     <item>
@@ -76,7 +77,7 @@
       <link>https://www.fulljoin.com.br/posts/2019-07-24-analisando-dados-da-guerra-comercial-com-o-comtradr</link>
       <description>Neste post iremos fazer uma breve apresentação sobre o pacote comtradr. Este pacote permite importar dados de comércio exterior do Comtrade diretamente pelo R, utilizando a API fornecida pelo portal das Nações Unidas. Utilizamos os dados para uma breve análise sobre a Guerra Comercial.</description>
       <guid>https://www.fulljoin.com.br/posts/2019-07-24-analisando-dados-da-guerra-comercial-com-o-comtradr</guid>
-      <pubDate>s�b, 27 jul 2019 00:00:00 +0000</pubDate>
+      <pubDate>sáb, 27 jul 2019 00:00:00 +0000</pubDate>
       <media:content url="https://www.fulljoin.com.br/posts/2019-07-24-analisando-dados-da-guerra-comercial-com-o-comtradr/analisando-dados-da-guerra-comercial-com-o-comtradr_files/figure-html5/unnamed-chunk-12-1.png" medium="image" type="image/png" width="1344" height="1152"/>
     </item>
     <item>
