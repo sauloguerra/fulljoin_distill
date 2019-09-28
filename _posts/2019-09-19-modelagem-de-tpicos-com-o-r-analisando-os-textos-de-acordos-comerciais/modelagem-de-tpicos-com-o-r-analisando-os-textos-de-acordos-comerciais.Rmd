@@ -24,18 +24,23 @@ Vamos utilizar essa base para trabalhar com processamente de dados textuais no R
 
 ```{r}
 library(tidyverse)
+library(tidytext)
 library(xml2)
 library(topicmodels)
 library(lubridate)
 ```
 
 ```{r}
-extrafont::loadfonts(device = "win", quiet = TRUE)
+extrafont::loadfonts(quiet = TRUE)
 theme_set(
   theme_minimal() + 
     theme(
       plot.title = element_text(face = "bold", size = 16),
-      title = element_text(family = "Arial Narrow")
+      text = element_text(family = "Arial Narrow"),
+      axis.text = element_text(color = "#000000"),
+      strip.text = element_text(face = "bold", color = "#000000"),
+      legend.position = "top",
+      legend.justification = "left"
     )
 )
 ```
@@ -140,7 +145,7 @@ pta_df <- pta_df %>%
 
 Com a nossa base preparada, vamos checar quantos acordos foram assinados por ano:
 
-```{r, layout="l-body-outset"}
+```{r}
 pta_df %>% 
   select(pta_id, ano) %>%
   distinct() %>% 
@@ -149,10 +154,146 @@ pta_df %>%
   scale_x_continuous(breaks = seq(1950, 2010, 10)) +
   labs(
     title = "Número de Acordos Comerciais Assinados por Ano",
-    subtitle = "Os acordos comerciais se proliferaram a partir da década de 90.
-A Organinazação Mundial de Comércio (OMC) foi criada em 1995.",
+    subtitle = "Os acordos comerciais se proliferaram a partir da década de 90. A Organinazação Mundial de Comércio (OMC)\nfoi criada em 1995.",
     x = "Ano",
     y = "Número de Acordos"
+  )
+```
+
+# Convertendo os textos para o formato tidy
+
+O primeiro passo para a nossa análise dos textos do acordo é converter os dados para o formato *tidy*. Neste forma, cada linha representará uma palavra de cada documento. Aqui, definimos "documento" como um capítulo de um acordo específico (coluna `id_capitulo`).
+
+```{r}
+textos_df <- pta_df %>% 
+  unnest_tokens(word, texto) %>% 
+  select(id_capitulo, word) %>% 
+  anti_join(stop_words) %>% 
+  filter(!str_detect(word, "[0-9]"))
+
+dim(textos_df)
+head(textos_df)
+```
+
+```{r}
+palavras_frequentes <- textos_df %>% 
+  filter(!word %in% c("party", "parties")) %>% 
+  count(word) %>% 
+  top_n(2000) %>% 
+  pull(word)
+```
+
+
+A função `unnest_tokens()` irá quebrar a variável `texto` por palavras. Ao todo, temos `r nrow(textos_df)` palavras. Veja que cada linha agora é uma palavra.
+
+# Modelando tópicos
+
+EXPLICAR O  MÉTODO.
+
+```{r}
+textos_dtm <- textos_df %>% 
+  filter(word %in% palavras_frequentes) %>% 
+  group_by(id_capitulo, word) %>% 
+  summarise(n = n()) %>% 
+  cast_dtm(document = id_capitulo, term = word, value = n)
+```
+
+```{r}
+#acordos_lda <- LDA(textos_dtm, k = 16, control = list(seed = 9876))
+#save(acordos_lda, file = 'acordos_lda.RData')
+load('acordos_lda.RData')
+```
+
+Com o modelo estimado, pode-se extrair o $\beta$, que é a probabilidade estimada de cada termo dentro de um determinado tópico.
+
+```{r}
+termos_acordos <- tidy(acordos_lda, type = "beta")
+```
+
+Dessa forma, podemos extrair os termos com os maiores $\beta$ de cada tópico. Assim, é possível checar se essas palavras indicam sobre qual assunto cada tópico está relacionado. Para quem trabalha no dia a dia com acordos comerciais, deve ser fácil indicar os tópicos. Mesmo não sendo especialista, é possível facilmente identificar que, por exemplo, o tópico 1 refere-se a compras públicas. Já o tópico 7 indica que seja algo relacionado ao tema de propriedade intelectual.
+
+```{r,layout="l-page", fig.height=8, fig.width=8}
+termos_acordos %>% 
+  group_by(topic) %>% 
+  top_n(10, beta) %>% 
+  ungroup() %>%
+  arrange(topic, -beta) %>% 
+  mutate(
+    term = reorder_within(term, beta, topic),
+    topic = paste0("Tópico: ", topic),
+    topic = factor(topic, levels = paste0("Tópico: ", 1:16))
+  ) %>%
+  ggplot(aes(y = term, x = beta, color = topic)) +
+  geom_point(size = 3, show.legend = FALSE) +
+  geom_segment(
+    mapping = aes(yend = term),
+    xend = 0,
+    linetype = "dotted",
+    show.legend = FALSE
+  ) +
+  facet_wrap(~ topic, scales = "free") +
+  scale_y_reordered() +
+  labs(
+    title = "Principais termos de cada tópico extraído dos textos dos acordos comerciais",
+    subtitle = "O beta é a probabilidade estimada de um determinado termo ter sido gerado por um tópico específico.",
+    x = "Termo"
+  ) +
+  theme(
+    panel.grid.major.y = element_blank(),
+    panel.grid.minor.x = element_blank()
+  )
+```
+
+Também é possível extrair a proporção de cada tópico em cada documento. No nosso caso, um documento refere-se a um capítulo de um acordo. Essa base tem a grande vantagem que a maioria dos capítulos já estão rotulados. A única de dificuldade é que existem mais de 900 rótulos diferentes. Muitas vezes, trata-se do mesmo tema, mas com uma escrita diferente. De toda forma, podemos verificar para quais rótulos os nossos tópicos estão associados.
+
+Primeiro vamos extrair a proporção de cada tópico em cada documento:
+
+```{r}
+capitulo_topico <- tidy(acordos_lda, matrix = "gamma")
+```
+
+Agora, vamos combinar o objeto `capitulo_topico` com o data.frame de acordos (`pta_df`), selecionando as colunas `pta_nome`, `id_capitulo`, `ano` e `name`.
+
+```{r}
+capitulo_topico <- capitulo_topico %>% 
+  left_join(
+    pta_df %>% 
+      select(pta_nome, id_capitulo, ano, name),
+    by = c("document" = "id_capitulo")
+  )
+```
+
+Por fim, iremos remover os capítulos que não estão rotulados e vamos extrair o documento que tem a maior proporção de cada tópico. Depois mostramos cada tópico e o rótulo que consta na base de dados dos textos de acordos. O resultado está bem alinhado com o esperaríamos olhando o gráfico anterior. Por exemplo, o tópico 10 claramente refere-se ao tópico de "Defesa Comercial". Na base, o capítulo que tem a maior proporção deste tópico está rotulado como "Safeguard Measures".
+
+```{r}
+capitulo_topico %>% 
+  filter(!is.na(name)) %>% 
+  group_by(topic) %>% 
+  filter(gamma == max(gamma)) %>% 
+  select(topic, name)
+```
+
+Para finalizar a nossa análise, vamos verificar a dinâmica da frequência de acordos que incluiram ou não um capítulo sobre Proprieda Intelectual. Para isso, vamos considerar que um acordo possui um capítulo sobre Propriedade Intelectual se existe algum capítulo com uma proporção desse tópico superior a 50%. Verificamos que esse tema ficou mais relevante após 2005, período que se verifica uma maior frequência de acordos que abrangem esse tema.
+
+```{r}
+capitulo_topico %>% 
+  mutate(ip = topic == 7 & gamma > .5) %>% 
+  group_by(pta_nome, ano) %>% 
+  summarise(ip = max(ip)) %>% 
+  ungroup() %>% 
+  count(ano, ip) %>% 
+  mutate(ip = ifelse(ip == 1, "Sim", "Não"),
+         ip = factor(ip, levels = c("Sim", "Não"))) %>% 
+  ggplot(aes(x = ano, y = n, fill = ip)) +
+  geom_col() +
+  scale_fill_manual(values = c("#e55039", "#b2bec3")) +
+  scale_x_continuous(breaks = seq(1950, 2020, 10)) +
+  labs(
+    title = "Evolução de acordos comerciais com ou sem capítulos sobre
+propriedade intelectual",
+    x = "Ano",
+    y = "Frequência",
+    fill = "Acordo com Capítulo\nde Propriedade Intelectual?"
   )
 ```
 
