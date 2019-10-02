@@ -7,14 +7,14 @@
     <description>Fulljoin
 </description>
     <generator>Distill</generator>
-    <lastBuildDate>sáb, 21 set 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sáb, 21 Set 2019 00:00:00 +0000</lastBuildDate>
     <item>
       <title>Por que evitar for loops em R?</title>
       <dc:creator>Diego Afonso de Castro</dc:creator>
       <link>https://www.fulljoin.com.br/posts/2019-09-19-loop-vs-alternativas</link>
       <description>A partir de um simples exemplo, vamos testar o desempenho de for loops comparando-o com a performance de outras alternativas como apply, funções do purrr e estratégias paralelizadas.</description>
       <guid>https://www.fulljoin.com.br/posts/2019-09-19-loop-vs-alternativas</guid>
-      <pubDate>sáb, 21 set 2019 00:00:00 +0000</pubDate>
+      <pubDate>Sáb, 21 Set 2019 00:00:00 +0000</pubDate>
       <media:content url="https://www.fulljoin.com.br/posts/2019-09-19-loop-vs-alternativas/../../images/capa_loop.png" medium="image" type="image/png" width="875" height="420"/>
     </item>
     <item>
@@ -23,7 +23,7 @@
       <link>https://www.fulljoin.com.br/posts/2019-09-04-integrando-o-r-com-excel</link>
       <description>Neste post mostramos como criar arquivos Excel a partir do R.</description>
       <guid>https://www.fulljoin.com.br/posts/2019-09-04-integrando-o-r-com-excel</guid>
-      <pubDate>seg, 16 set 2019 00:00:00 +0000</pubDate>
+      <pubDate>Seg, 16 Set 2019 00:00:00 +0000</pubDate>
       <media:content url="https://www.fulljoin.com.br/posts/2019-09-04-integrando-o-r-com-excel/../../images/excel_mtcars.PNG" medium="image" type="image/png" width="1920" height="987"/>
     </item>
     <item>
@@ -32,7 +32,7 @@
       <link>https://www.fulljoin.com.br/posts/2019-09-03-b3-rvest-cei</link>
       <description>Com o pacote rvest você pode baixar todo seu histórico de compra e venda de ações diretamente do CEI e passar a gerenciar sua carteira pelo R</description>
       <guid>https://www.fulljoin.com.br/posts/2019-09-03-b3-rvest-cei</guid>
-      <pubDate>ter, 10 set 2019 00:00:00 +0000</pubDate>
+      <pubDate>Ter, 10 Set 2019 00:00:00 +0000</pubDate>
       <media:content url="https://www.fulljoin.com.br/posts/2019-09-03-b3-rvest-cei/../../images/cei_rvest.png" medium="image" type="image/png" width="322" height="88"/>
     </item>
     <item>
@@ -41,7 +41,7 @@
       <link>https://www.fulljoin.com.br/posts/2019-08-27-hello-world-tensorflow-v2</link>
       <description>Com a ajuda do pacote `tensorflow`, vamos replicar os códigos de exemplos iniciais do TensorFlow V2, que é a segunda versão da biblioteca de *machine learning* do Google. Apesar dos códigos originais estarem em Python, é fácil convertê-los para R. Nesse post, veremos como.</description>
       <guid>https://www.fulljoin.com.br/posts/2019-08-27-hello-world-tensorflow-v2</guid>
-      <pubDate>qui, 05 set 2019 00:00:00 +0000</pubDate>
+      <pubDate>Qui, 05 Set 2019 00:00:00 +0000</pubDate>
       <media:content url="https://www.fulljoin.com.br/posts/2019-08-27-hello-world-tensorflow-v2/hello-world-tensorflow-v2_files/figure-html5/unnamed-chunk-7-1.png" medium="image" type="image/png" width="1248" height="768"/>
     </item>
     <item>
@@ -50,7 +50,7 @@
       <link>https://www.fulljoin.com.br/posts/2019-07-18-b3-rvest-explorando-dados-financeiros-com-r</link>
       <description>Primeiro de uma sequência de posts onde vamos utilizar o R para explorar dados financeiros disponíveis na internet. Aprofundaremos bastante em web scraping e manipulação de dados.</description>
       <guid>https://www.fulljoin.com.br/posts/2019-07-18-b3-rvest-explorando-dados-financeiros-com-r</guid>
-      <pubDate>ter, 27 ago 2019 00:00:00 +0000</pubDate>
+      <pubDate>Ter, 27 Ago 2019 00:00:00 +0000</pubDate>
       <media:content url="https://www.fulljoin.com.br/posts/2019-07-18-b3-rvest-explorando-dados-financeiros-com-r/../../images/b3_rvest.png" medium="image" type="image/png" width="501" height="218"/>
     </item>
     <item>
@@ -59,7 +59,7 @@
       <link>https://www.fulljoin.com.br/posts/2019-07-30-analisando-dados-da-guerra-comercial-parte-2</link>
       <description>Nesta segunda parte, vamos aprofundar um pouco a nossa análise inicial. Realmente as sobretaxas impostas pelos Estados Unidos a produtos chineses não tiverem efeitos prático? Utilizando dados mensais que compreendem o período de janeiro de 2012 até maio de 2019, encontramos evidências dos seus efeitos. As estimativas indicam um nível de importação, em média, 20% menor para os produtos chineses sujeitos a sobretaxas.</description>
       <guid>https://www.fulljoin.com.br/posts/2019-07-30-analisando-dados-da-guerra-comercial-parte-2</guid>
-      <pubDate>sáb, 10 ago 2019 00:00:00 +0000</pubDate>
+      <pubDate>Sáb, 10 Ago 2019 00:00:00 +0000</pubDate>
       <media:content url="https://www.fulljoin.com.br/posts/2019-07-30-analisando-dados-da-guerra-comercial-parte-2/analisando-dados-da-guerra-comercial-parte-2_files/figure-html5/unnamed-chunk-7-1.png" medium="image" type="image/png" width="1152" height="768"/>
     </item>
     <item>
@@ -68,7 +68,7 @@
       <link>https://www.fulljoin.com.br/posts/2019-07-31-traduo-de-dados-textuais-com-googlelanguager</link>
       <description>O pacote googleLanguageR utiliza o serviço de API do Google Tradutor e nos permite traduzir textos automaticamente.</description>
       <guid>https://www.fulljoin.com.br/posts/2019-07-31-traduo-de-dados-textuais-com-googlelanguager</guid>
-      <pubDate>qua, 31 jul 2019 00:00:00 +0000</pubDate>
+      <pubDate>Qua, 31 Jul 2019 00:00:00 +0000</pubDate>
       <media:content url="https://www.fulljoin.com.br/posts/2019-07-31-traduo-de-dados-textuais-com-googlelanguager/../../images/google.PNG" medium="image" type="image/png" width="492" height="209"/>
     </item>
     <item>
@@ -77,7 +77,7 @@
       <link>https://www.fulljoin.com.br/posts/2019-07-24-analisando-dados-da-guerra-comercial-com-o-comtradr</link>
       <description>Neste post iremos fazer uma breve apresentação sobre o pacote comtradr. Este pacote permite importar dados de comércio exterior do Comtrade diretamente pelo R, utilizando a API fornecida pelo portal das Nações Unidas. Utilizamos os dados para uma breve análise sobre a Guerra Comercial.</description>
       <guid>https://www.fulljoin.com.br/posts/2019-07-24-analisando-dados-da-guerra-comercial-com-o-comtradr</guid>
-      <pubDate>sáb, 27 jul 2019 00:00:00 +0000</pubDate>
+      <pubDate>Sáb, 27 Jul 2019 00:00:00 +0000</pubDate>
       <media:content url="https://www.fulljoin.com.br/posts/2019-07-24-analisando-dados-da-guerra-comercial-com-o-comtradr/analisando-dados-da-guerra-comercial-com-o-comtradr_files/figure-html5/unnamed-chunk-12-1.png" medium="image" type="image/png" width="1344" height="1152"/>
     </item>
     <item>
@@ -86,7 +86,7 @@
       <link>https://www.fulljoin.com.br/posts/2019-07-23-rstudio-dicas</link>
       <description>Dicas úteis - R e Rstudio (Windows)</description>
       <guid>https://www.fulljoin.com.br/posts/2019-07-23-rstudio-dicas</guid>
-      <pubDate>qui, 25 jul 2019 00:00:00 +0000</pubDate>
+      <pubDate>Qui, 25 Jul 2019 00:00:00 +0000</pubDate>
       <media:content url="https://www.fulljoin.com.br/posts/2019-07-23-rstudio-dicas/../../images/dicas_funcao.gif" medium="image" type="image/gif"/>
     </item>
     <item>
@@ -95,7 +95,7 @@
       <link>https://www.fulljoin.com.br/posts/2019-07-16-web-scraping-com-r</link>
       <description>Nesse post apresentaremos um tutorial básico de web scraping utilizando o pacote rvest para extrair dados de jogos divulgadas no site da CBF. Rvest é um pacote do R que simplifica muito tarefas de scraping e te ajuda a extrair dados HTML das páginas web.</description>
       <guid>https://www.fulljoin.com.br/posts/2019-07-16-web-scraping-com-r</guid>
-      <pubDate>ter, 16 jul 2019 00:00:00 +0000</pubDate>
+      <pubDate>Ter, 16 Jul 2019 00:00:00 +0000</pubDate>
       <media:content url="https://www.fulljoin.com.br/posts/2019-07-16-web-scraping-com-r/../../images/cbf.gif" medium="image" type="image/gif"/>
     </item>
   </channel>

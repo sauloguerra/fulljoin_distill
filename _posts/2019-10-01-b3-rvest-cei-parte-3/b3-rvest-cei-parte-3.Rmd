@@ -1,0 +1,336 @@
+---
+title: "Avaliando sua carteira: Explorando dados financeiros com R - parte 3"
+description: |
+  Nesse poste vamos baixar nossa carteira do CEI, baixar as cotações históricas e testar um método de comparação do rendimento diário acumulado com um benchmark.
+author: Saulo Guerra
+date: 10-01-2019
+output:
+  distill::distill_article:
+    self_contained: false
+preview: ../../images/cei_retorno_carteira.png
+draft: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, cache = FALSE, warning = FALSE, message = FALSE)
+```
+
+Nos dois posts anteriores, [primeiro nesse](https://www.fulljoin.com.br/posts/2019-07-18-b3-rvest-explorando-dados-financeiros-com-r/), [depois nesse](https://www.fulljoin.com.br/posts/2019-09-03-b3-rvest-cei/), demos nossos primeiros passos explorando dados financeiros da B3 e do CEI com R. Neste post vamos partir da carteira que baixamos do CEI pro R e tentar calcular o rendimento comparando com um o índice IBOV.
+
+Por ser um mero novato no mercado financeiro, há grande chance de apresentar algum conceito equivocado sobre renda variável. Apesar do objetivo aqui ser explorar o R e as possibilidade de interação com dados da B3, estou completamente aberto para receber dicas, broncas, esculachos ou correções sobre qualquer coisa que eu venha a escrever a respeito deste tema!
+
+## Definindo objetivo
+
+Como objetivo a ser alcançado, baixaremos nossa carteira, baixaremos o histórico de cotações das ações em carteira e calcularemos nosso rendimento, além de comparar com alguns índices.
+
+## Achando a fonte de dados
+
+Nossa fonte será o CEI, onde a B3 disponibiliza as informações dos seus ativos financeiros. Usaremos também a API gratuita de cotações do Yahoo.
+
+Vamos usar os seguintes pacotes:
+
+```{r}
+library(rvest)
+library(glue)
+library(tidyquant)
+library(ggplot2)
+library(plotly) # para gráficos interativos
+```
+
+```{r echo=FALSE, message=FALSE}
+library(keyring)
+```
+
+## Baixando e organizando a carteira
+
+Vamos aproveitar a função apresentada no último post:
+
+```{r}
+consulta_carteira <- function(cpf, senha) {
+  url <- 'https://cei.b3.com.br'
+  sessao <- html_session(url)
+  form_login <- html_form(sessao)
+  
+  form_preenchido <- set_values(form_login[[1]], 
+                                'ctl00$ContentPlaceHolder1$txtLogin' = cpf,
+                                'ctl00$ContentPlaceHolder1$txtSenha' = senha)
+  
+  submit_form(sessao, form_preenchido)
+  url_dados <- glue('{url}/CEI_Responsivo/negociacao-de-ativos.aspx')
+  pagina_dados <- jump_to(sessao, url_dados)
+  instituicoes <- read_html(pagina_dados) %>% 
+    html_nodes('option') %>% 
+    html_text()
+  
+  form_dados <- html_form(pagina_dados)
+  
+  consulta_carteira_banco <- function(i, form_dados) {
+      banco <- str_split(i, ' - ', simplify = TRUE)
+      numero <- banco[1]
+      nome <- banco[2]
+      form_dados_preenchidos <- set_values(form_dados[[1]], 
+                                           'ctl00$ContentPlaceHolder1$ddlAgentes' = numero)
+      
+      resultado <- submit_form(sessao, form_dados_preenchidos)
+      nao_teve_resultado <- resultado %>%
+        read_html() %>% 
+        html_text() %>% 
+        str_detect('Não foram encontrados resultados para esta pesquisa')
+      
+      dados_de_um_banco <- data.frame()
+      message(glue('lendo banco {nome}'))
+      if(!nao_teve_resultado) {
+        dados_de_um_banco <- resultado %>% 
+          html_nodes('#ctl00_ContentPlaceHolder1_rptAgenteBolsa_ctl00_rptContaBolsa_ctl00_pnAtivosNegociados') %>%
+          html_node('table') %>%
+          html_table() %>% 
+          .[[1]] %>% 
+          .[-nrow(.),]
+        
+        dados_de_um_banco$Nome_banco <- nome
+      }
+      return(dados_de_um_banco)
+  }
+  
+  # função para converter os textos de valor em números
+  converte_texto_em_numero <- function(numero) {
+    as.numeric(str_replace_all(str_replace_all(numero, '\\.', ''), ',', '\\.'))
+  }
+  
+  instituicoes <- instituicoes[!grepl("Selecione", instituicoes)] 
+  
+  dados_totais <- instituicoes %>% 
+    map_dfr(~consulta_carteira_banco(.x, form_dados)) %>% 
+    mutate_at(.vars = vars(`Valor Total(R$)`, `Preço (R$)`, Quantidade), 
+              .funs = list(converte_texto_em_numero)) %>%
+    mutate(Data = lubridate::dmy(`Data do Negócio`),
+           `Valor Total(R$)` = `Valor Total(R$)`*ifelse(`Compra/Venda`=='V', -1, 1)) %>% 
+    select(Data, everything(), -`Data do Negócio`)
+    
+  return(dados_totais)
+}
+```
+
+Fiz algumas modificações na função, mas o intuito é exatamente o mesmo. Caso as alterações não estejam claras ou alguma coisa na função possa ser melhorada, por favor deixe um comentário que esclareceremos.
+
+Carregue a função e baixe sua carteira. Lembre-se de opcionalmente usar o pacote _keyring_ para gerenciar suas senhas
+
+```{r echo=FALSE, eval=TRUE}
+carteira_original <- consulta_carteira(key_get('cpf', 'saulo', 'cei-b3'), key_get('senha', 'saulo', 'cei-b3'))
+carteira <- carteira_original
+```
+
+```{r echo=TRUE, eval=FALSE}
+carteira <- consulta_carteira('SEU_CPF', 'SUA_SENHA')
+```
+
+```{r}
+glimpse(carteira)
+```
+
+Como você pode fazer diferentes compras de uma mesma ação no mesmo dia, para simplificar, vamos pegar o preço médio das ordens agregadas por data. Vamos aproveitar e tirar o _F_ (de Fracionado) do ticker. Só vale a pena manter o _F_ se você for comprar e vender no mercado fracionado, já que os preços de compra e venda costumam ser um pouco diferentes do lote cheio.
+
+```{r}
+carteira <- carteira %>%
+  select(everything(), Valor = `Valor Total(R$)`, Preco = `Preço (R$)`, 
+         Codigo = `Código Negociação`, Fluxo = `Compra/Venda`) %>% 
+  mutate(Codigo = sub('F$', '', Codigo)) %>% 
+  group_by(Codigo, Data, Fluxo) %>% 
+  summarise(Preco = weighted.mean(Preco, Quantidade),
+            Quantidade = sum(Quantidade),
+            Total = sum(Valor)) %>% 
+  ungroup() %>% 
+  arrange(Data) 
+```
+
+Agora vamos preparar uma função para baixar o histórico de cotações da API gratuita do Yahoo. Para isso usaremos a função _getSymbol_ do pacote _quantmod_, carregado junto com o _tidyquant_. (O tidyquant é um potente pacote para dados financeiros, que além de agregar os mais importantes pacotes do assunto, apresenta funções sensacionais para gestão de portfólio. Infelizmente ainda não sei nada disso, então o tidyquant está completamente subutilizado neste post).
+
+
+```{r}
+historico_cotacoes <- function(tickers, inicio = today(), fim = today()) {
+  tickers %>% 
+    map_dfr(~{
+      df <- getSymbols(.x, from = inicio, to = fim,
+                       source = 'Yahoo', # fonte: API gratuita do Yahoo
+                       auto.assign = FALSE)
+      df <- df[,c(4, 6)] 
+      # 4 - preço de fechamento
+      # 6 - preço ajustado
+      names(df) <- c('P_fechamento', 'P_ajustado')
+      data.frame(timestamp = index(df), # convertendo em coluna as datas que são indices de linha
+                 coredata(df), 
+                 symbol = .x, 
+                 stringsAsFactors = FALSE)
+    }) %>% 
+    mutate(symbol = sub('\\.SA$', '', symbol)) %>% # retirando o .SA dos tickers
+    select(Data = timestamp, Codigo = symbol, P_fechamento, P_ajustado)
+}
+```
+
+Depois de alguns experimentos com a API do Yahoo, percebi um comportamento muito estranho com tickers de Fundo Imobiliário, retornando em alguns casos apenas o último dia. Isso me fez concluir que a API gratuita do Yahoo é uma porcaria. Caso você conheça alguma API para cotações históricas melhores que a do Yahoo, por favor nos avise nos comentários!
+
+Para não prejudicar o exercício, e até que eu encontre uma API melhor, prosseguiremos sem os tickers terminados em 11.
+
+```{r}
+carteira <- carteira %>% 
+  filter(!str_detect(Codigo, '11$')) # $ significa "terminar com" em regex
+```
+
+Recuperemos então as cotações históricas. Por algum motivo estranho, sem explicação aparente, alguns tickers falharam na API do Yahoo passando uma data início que não seja o primeiro dia do mês. Por segurança, vamos resgatar todos históricos desde o primeiro dia do mês da compra mais antiga da carteira. Essa API definitivamente não é boa... mas é gratuita!
+
+```{r}
+inicio <- as.Date(as.yearmon(min(carteira$Data), "%m/%Y"))
+
+cotacoes_historicas <- carteira %>% 
+  glue_data('{Codigo}.SA') %>% # glue!
+  unique() %>% 
+  historico_cotacoes(inicio = inicio, fim = today())
+
+glimpse(cotacoes_historicas)
+head(cotacoes_historicas)
+tail(cotacoes_historicas)
+```
+
+Agora vamos cruzar os dados com a carteira e calcular os rendimentos.
+
+```{r eval=TRUE, echo=FALSE}
+carteira <- carteira %>% 
+  mutate(Quantidade = Quantidade*ifelse(Codigo == 'IRBR3',3,1))
+```
+
+```{r}
+carteira <- carteira %>% 
+  right_join(cotacoes_historicas, by = c('Data', 'Codigo')) %>% # join com cotações
+  replace_na(list(Quantidade = 0, Total = 0)) %>% # preenchendo zero nos dias sem movimento
+  group_by(Codigo) %>% 
+  arrange(Data) %>% 
+  mutate(Quantidade_custodia = cumsum(Quantidade), # total acumulado de cada ação
+         Valor_mercado = Quantidade_custodia * P_ajustado) %>% # valor de mercado do acumulado no dia
+  mutate(Fluxo_dummy = Fluxo, # apenas para me livrar das cotações anteriores as compras
+         Fluxo_dummy = na.locf(Fluxo_dummy, na.rm = F)) %>% 
+  filter(!is.na(Fluxo_dummy)) %>% 
+  select(-Fluxo_dummy) %>% 
+  ungroup()
+
+glimpse(carteira)
+```
+
+## Calculando o retorno
+
+Depois de apanhar um pouco para entender a melhor forma de calcular o retorno acumulado, de forma agregada e desagregada, e depois de ótimas dicas de um amigo, entendi que o ideal é tratar sua carteira como um único fundo de cotas, e suas compras e venda, independente da ação, como compras de cotas desse fundo. Dessa forma, caso queira desagregar para ver o rendimento em diferentes níveis, basta tratar a agregação desejada como um fundo a parte. 
+
+Sumarizamos por dia e pegaremos a quantidade de ações custodiadas vezes seu respectivo preço de fechamento divido pelo valor total aplicado. Dessa forma teremos o valor da cota desse dia. Façamos o mesmo para o preço ajustado, que difere do preço de fechamento pelos ajustes feitos (direto na fonte) para descontar dividendos e outras coisas. Dividido a cota com valor ajustado pela cota de fechameto temos uma cota real.
+
+Sendo assim, escolhemos o primeiro dia e calculamos a cota inicial. A partir dela vamos equalizando a compra e venda de novas cotas:
+
+```{r}
+calcula_cota_inicial <- function(dados) {
+  dados %>% 
+    filter(Data == min(Data)) %>%  
+    group_by(Data) %>% 
+    summarise(Valor_cotas = sum((Quantidade * P_fechamento)/sum(Total)),
+              Valor_cotas_ajustadas = sum((Quantidade * P_ajustado)/sum(Total)),
+              Valor_cotas_real = Valor_cotas_ajustadas/Valor_cotas) %>% 
+    pull(Valor_cotas_real)
+}
+
+cota_inicial <- carteira %>% 
+  calcula_cota_inicial()
+```
+
+Agora calculamos o valor investido (compra e venda).
+
+```{r}
+calcula_valor_investido <- function(dados) {
+  dados %>% 
+    group_by(Data) %>% 
+    summarise(Valor_investido = sum(Total, na.rm = TRUE), 
+              Valor_mercado = sum(Valor_mercado, na.rm = TRUE)) %>% 
+    mutate(Qtd_cota = Valor_investido,
+           Valor_cota = Valor_mercado / Qtd_cota)
+}
+
+retorno <- carteira %>% 
+  calcula_valor_investido()
+```
+
+Com o valor da cota inicial e com o valor de mercado de cada investimento calculamos o retorno dia a dia com base na cota inicial e reequilibrando o valor da cota com os novos aportes e com os preços de mercado já calculados.
+
+```{r}
+calcula_retorno_cotas <- function(dados) {
+  for(i in 2:nrow(dados)) {
+    dados$Qtd_cota[i] = dados$Qtd_cota[i-1] + (dados$Valor_investido[i] / dados$Valor_cota[i-1])
+    dados$Valor_cota[i] = dados$Valor_mercado[i] / dados$Qtd_cota[i]
+  }
+  
+  return(dados)
+}
+
+retorno_cotas <- calcula_retorno_cotas(retorno)
+```
+
+Uma simples função para calcular o retorno em um perído agregado
+
+```{r}
+mede_retorno_periodo <- function(dados) {
+  dados %>% 
+    arrange(Data) %>%
+    mutate(R_dia = 100 * (Valor_cota/dados$Valor_cota[1]-1))
+}
+
+retorno_total <- retorno_cotas %>% 
+  mede_retorno_periodo()
+```
+
+Pronto, agora baixamos a série do índice Bovespa para um benchmark mínimo e aplicamos o mesmo cálculo de retorno/cota. Fazemos um join com o benchmark onde a data é a chave e teremos um data frame com ambas as séries de retornos acumulados prontas para comparação.
+
+```{r}
+benchmark <- historico_cotacoes('^BVSP', inicio = inicio, fim = today())
+
+retorno_benchmark <- benchmark %>%
+  rename(Valor_cota = P_ajustado) %>% 
+  filter(Data >= min(retorno_total$Data)) %>% 
+  mede_retorno_periodo()
+
+retorno_comparado <- retorno_total %>% 
+  select(Data, R_Carteira = R_dia) %>% 
+  inner_join(retorno_benchmark %>% 
+               select(Data, R_IBOV = R_dia), by='Data')
+
+head(retorno_comparado)
+tail(retorno_comparado)
+```
+
+Com um simples gráfico utilizando o plotly + ggplot2 podemos visualizar o comportamento do retorno acumulado comparado com nosso benchmark. Percebe-se que minha carteira (sem os fundos imobiliários!) tem um desempenho lastimável frente ao principal índice de comparação IBOV, revelando minha falta de talento para comprar ações.
+
+```{r}
+plota_comparacao <- function(dados) {
+  dados %>%
+    ggplot(aes(x=Data, y=Retorno, group=Serie)) + 
+    geom_line(aes(color=Serie)) + 
+    geom_hline(yintercept=0) +
+    scale_x_date(date_labels = "%b %y", 
+                 date_breaks = "1 months",
+                 limits = c(min(retorno_comparado$Data), NA)) +
+    theme_minimal()
+    
+}
+
+plot_retorno <- retorno_comparado %>% 
+  gather('Serie', 'Retorno', starts_with('R_')) %>% 
+  mutate(Retorno = round(Retorno,2)) %>% 
+  plota_comparacao() +
+  ggtitle('Comparação do retorno acumulado desde o primeiro dia da carteira')
+
+ggplotly(plot_retorno, tooltip = c("Retorno"))
+```
+
+Com poucas adaptações conseguiríamos calcular rendimentos mensais acumualdos e inserir mais séries como benchmarnk.
+
+## Conclusão
+
+Além de ter excluído alguns tickers por problemas na API que usamos como fonte, há uma série de ajustes que precisam ser feitos na carteira para calcular com mais precisão: tratar desdobramentos, impostos, corretagens, etc.
+
+Além de precisar de uma API mais confiável do que a do Yahoo, seria legal também adaptar a leitura dos dados para flexibilizar um possível input via planilha de Excel, assim possibilitaria trazer para o R controles de compra e venda já existentes feitos fora do CEI.
+
+Em um próximo post vamos tentar explorar mais a fundo a composição da carteira, correlações e alguma avaliação simplificada de riscos.

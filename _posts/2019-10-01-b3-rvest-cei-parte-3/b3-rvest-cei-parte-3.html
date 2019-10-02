@@ -1,0 +1,1350 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"/>
+  <meta name="generator" content="distill" />
+
+  <style type="text/css">
+  /* Hide doc at startup (prevent jankiness while JS renders/transforms) */
+  body {
+    visibility: hidden;
+  }
+  </style>
+
+ <!--radix_placeholder_import_source-->
+ <!--/radix_placeholder_import_source-->
+
+  <!--radix_placeholder_meta_tags-->
+  <title>Avaliando sua carteira: Explorando dados financeiros com R - parte 3</title>
+  
+  <meta property="description" itemprop="description" content="Nesse poste vamos baixar nossa carteira do CEI, baixar as cotações históricas e testar um método de comparação do rendimento diário acumulado com um benchmark."/>
+  
+  
+  <!--  https://schema.org/Article -->
+  <meta property="article:published" itemprop="datePublished" content="2019-10-01"/>
+  <meta property="article:created" itemprop="dateCreated" content="2019-10-01"/>
+  <meta name="article:author" content="Saulo Guerra"/>
+  
+  <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
+  <meta property="og:title" content="Avaliando sua carteira: Explorando dados financeiros com R - parte 3"/>
+  <meta property="og:type" content="article"/>
+  <meta property="og:description" content="Nesse poste vamos baixar nossa carteira do CEI, baixar as cotações históricas e testar um método de comparação do rendimento diário acumulado com um benchmark."/>
+  <meta property="og:locale" content="en_US"/>
+  
+  <!--  https://dev.twitter.com/cards/types/summary -->
+  <meta property="twitter:card" content="summary"/>
+  <meta property="twitter:title" content="Avaliando sua carteira: Explorando dados financeiros com R - parte 3"/>
+  <meta property="twitter:description" content="Nesse poste vamos baixar nossa carteira do CEI, baixar as cotações históricas e testar um método de comparação do rendimento diário acumulado com um benchmark."/>
+  
+  <!--/radix_placeholder_meta_tags-->
+  <!--radix_placeholder_rmarkdown_metadata-->
+  
+  <script type="text/json" id="radix-rmarkdown-metadata">
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","output","preview","draft"]}},"value":[{"type":"character","attributes":{},"value":["Avaliando sua carteira: Explorando dados financeiros com R - parte 3"]},{"type":"character","attributes":{},"value":["Nesse poste vamos baixar nossa carteira do CEI, baixar as cotações históricas e testar um método de comparação do rendimento diário acumulado com um benchmark.\n"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name"]}},"value":[{"type":"character","attributes":{},"value":["Saulo Guerra"]}]}]},{"type":"character","attributes":{},"value":["10-01-2019"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]}]},{"type":"character","attributes":{},"value":["../../images/cei_retorno_carteira.png"]},{"type":"logical","attributes":{},"value":[true]}]}
+  </script>
+  <!--/radix_placeholder_rmarkdown_metadata-->
+  
+  <script type="text/json" id="radix-resource-manifest">
+  {"type":"character","attributes":{},"value":["b3-rvest-cei-parte-3_files/bowser-1.9.3/bowser.min.js","b3-rvest-cei-parte-3_files/crosstalk-1.0.0/css/crosstalk.css","b3-rvest-cei-parte-3_files/crosstalk-1.0.0/js/crosstalk.js","b3-rvest-cei-parte-3_files/crosstalk-1.0.0/js/crosstalk.js.map","b3-rvest-cei-parte-3_files/crosstalk-1.0.0/js/crosstalk.min.js","b3-rvest-cei-parte-3_files/crosstalk-1.0.0/js/crosstalk.min.js.map","b3-rvest-cei-parte-3_files/distill-2.2.21/template.v2.js","b3-rvest-cei-parte-3_files/htmlwidgets-1.3/htmlwidgets.js","b3-rvest-cei-parte-3_files/jquery-1.11.3/jquery-AUTHORS.txt","b3-rvest-cei-parte-3_files/jquery-1.11.3/jquery.js","b3-rvest-cei-parte-3_files/jquery-1.11.3/jquery.min.js","b3-rvest-cei-parte-3_files/jquery-1.11.3/jquery.min.map","b3-rvest-cei-parte-3_files/plotly-binding-4.9.0/plotly.js","b3-rvest-cei-parte-3_files/plotly-htmlwidgets-css-1.46.1/plotly-htmlwidgets.css","b3-rvest-cei-parte-3_files/plotly-main-1.46.1/plotly-latest.min.js","b3-rvest-cei-parte-3_files/typedarray-0.1/typedarray.min.js","b3-rvest-cei-parte-3_files/webcomponents-2.0.0/webcomponents.js"]}
+  </script>
+  <!--radix_placeholder_navigation_in_header-->
+  <!--/radix_placeholder_navigation_in_header-->
+  <!--radix_placeholder_distill-->
+  
+  <style type="text/css">
+  
+  body {
+    background-color: white;
+  }
+  
+  .pandoc-table {
+    width: 100%;
+  }
+  
+  .pandoc-table>caption {
+    margin-bottom: 10px;
+  }
+  
+  .pandoc-table th:not([align]) {
+    text-align: left;
+  }
+  
+  .pagedtable-footer {
+    font-size: 15px;
+  }
+  
+  .html-widget {
+    margin-bottom: 2.0em;
+  }
+  
+  .l-screen-inset {
+    padding-right: 16px;
+  }
+  
+  .l-screen .caption {
+    margin-left: 10px;
+  }
+  
+  .shaded {
+    background: rgb(247, 247, 247);
+    padding-top: 20px;
+    padding-bottom: 20px;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  }
+  
+  .shaded .html-widget {
+    margin-bottom: 0;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+  }
+  
+  .shaded .shaded-content {
+    background: white;
+  }
+  
+  .text-output {
+    margin-top: 0;
+    line-height: 1.5em;
+  }
+  
+  .hidden {
+    display: none !important;
+  }
+  
+  d-article {
+    padding-bottom: 30px;
+  }
+  
+  d-appendix {
+    padding-top: 30px;
+  }
+  
+  d-article>p>img {
+    width: 100%;
+  }
+  
+  d-article iframe {
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    margin-bottom: 2.0em;
+    width: 100%;
+  }
+  
+  figure img.external {
+    background: white;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+    padding: 18px;
+    box-sizing: border-box;
+  }
+  
+  /* CSS for table of contents */
+  
+  .d-toc {
+    color: rgba(0,0,0,0.8);
+    font-size: 0.8em;
+    line-height: 1em;
+  }
+  
+  .d-toc-header {
+    font-size: 0.6rem;
+    font-weight: 400;
+    color: rgba(0, 0, 0, 0.5);
+    text-transform: uppercase;
+    margin-top: 0;
+    margin-bottom: 1.3em;
+  }
+  
+  .d-toc a {
+    border-bottom: none;
+  }
+  
+  .d-toc ul {
+    padding-left: 0;
+  }
+  
+  .d-toc li>ul {
+    padding-top: 0.8em;
+    padding-left: 16px;
+    margin-bottom: 0.6em;
+  }
+  
+  .d-toc ul,
+  .d-toc li {
+    list-style-type: none;
+  }
+  
+  .d-toc li {
+    margin-bottom: 0.9em;
+  }
+  
+  .d-toc-separator {
+    margin-top: 20px;
+    margin-bottom: 2em;
+  }
+  
+  .d-article-with-toc {
+    border-top: none;
+    padding-top: 0;
+  }
+  
+  
+  
+  /* Tweak code blocks (note that this CSS is repeated above in an injection
+     into the d-code shadow dom) */
+  
+  d-code {
+    overflow-x: auto !important;
+  }
+  
+  pre.d-code code.d-code {
+    padding-left: 10px;
+    font-size: 12px;
+    border-left: 2px solid rgba(0,0,0,0.1);
+  }
+  
+  pre.text-output {
+  
+    font-size: 12px;
+    color: black;
+    background: none;
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+    text-align: left;
+    white-space: pre;
+    word-spacing: normal;
+    word-break: normal;
+    word-wrap: normal;
+    line-height: 1.5;
+  
+    -moz-tab-size: 4;
+    -o-tab-size: 4;
+    tab-size: 4;
+  
+    -webkit-hyphens: none;
+    -moz-hyphens: none;
+    -ms-hyphens: none;
+    hyphens: none;
+  }
+  
+  @media(min-width: 768px) {
+  
+  d-code {
+    overflow-x: visible !important;
+  }
+  
+  pre.d-code code.d-code  {
+      padding-left: 18px;
+      font-size: 14px;
+  }
+  pre.text-output {
+    font-size: 14px;
+  }
+  }
+  
+  /* Figure */
+  
+  .figure {
+    position: relative;
+    margin-bottom: 2.5em;
+    margin-top: 1.5em;
+  }
+  
+  .figure img {
+    width: 100%;
+  }
+  
+  .figure .caption {
+    color: rgba(0, 0, 0, 0.6);
+    font-size: 12px;
+    line-height: 1.5em;
+  }
+  
+  .figure img.external {
+    background: white;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+    padding: 18px;
+    box-sizing: border-box;
+  }
+  
+  .figure .caption a {
+    color: rgba(0, 0, 0, 0.6);
+  }
+  
+  .figure .caption b,
+  .figure .caption strong, {
+    font-weight: 600;
+    color: rgba(0, 0, 0, 1.0);
+  }
+  
+  
+  
+  /* Tweak 1000px media break to show more text */
+  
+  @media(min-width: 1000px) {
+    .base-grid,
+    distill-header,
+    d-title,
+    d-abstract,
+    d-article,
+    d-appendix,
+    distill-appendix,
+    d-byline,
+    d-footnote-list,
+    d-citation-list,
+    distill-footer {
+      grid-template-columns: [screen-start] 1fr [page-start kicker-start] 80px [middle-start] 50px [text-start kicker-end] 65px 65px 65px 65px 65px 65px 65px 65px [text-end gutter-start] 65px [middle-end] 65px [page-end gutter-end] 1fr [screen-end];
+      grid-column-gap: 16px;
+    }
+  
+    .grid {
+      grid-column-gap: 16px;
+    }
+  
+    d-article {
+      font-size: 1.06rem;
+      line-height: 1.7em;
+    }
+    figure .caption, .figure .caption, figure figcaption {
+      font-size: 13px;
+    }
+  }
+  
+  @media(min-width: 1180px) {
+    .base-grid,
+    distill-header,
+    d-title,
+    d-abstract,
+    d-article,
+    d-appendix,
+    distill-appendix,
+    d-byline,
+    d-footnote-list,
+    d-citation-list,
+    distill-footer {
+      grid-template-columns: [screen-start] 1fr [page-start kicker-start] 60px [middle-start] 60px [text-start kicker-end] 60px 60px 60px 60px 60px 60px 60px 60px [text-end gutter-start] 60px [middle-end] 60px [page-end gutter-end] 1fr [screen-end];
+      grid-column-gap: 32px;
+    }
+  
+    .grid {
+      grid-column-gap: 32px;
+    }
+  }
+  
+  
+  /* Get the citation styles for the appendix (not auto-injected on render since
+     we do our own rendering of the citation appendix) */
+  
+  d-appendix .citation-appendix,
+  .d-appendix .citation-appendix {
+    font-size: 11px;
+    line-height: 15px;
+    border-left: 1px solid rgba(0, 0, 0, 0.1);
+    padding-left: 18px;
+    border: 1px solid rgba(0,0,0,0.1);
+    background: rgba(0, 0, 0, 0.02);
+    padding: 10px 18px;
+    border-radius: 3px;
+    color: rgba(150, 150, 150, 1);
+    overflow: hidden;
+    margin-top: -12px;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+  }
+  
+  
+  /* Social footer */
+  
+  .social_footer {
+    margin-top: 30px;
+    margin-bottom: 0;
+    color: rgba(0,0,0,0.67);
+  }
+  
+  .disqus-comments {
+    margin-right: 30px;
+  }
+  
+  .disqus-comment-count {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+    cursor: pointer;
+  }
+  
+  #disqus_thread {
+    margin-top: 30px;
+  }
+  
+  .article-sharing a {
+    border-bottom: none;
+    margin-right: 8px;
+  }
+  
+  .article-sharing a:hover {
+    border-bottom: none;
+  }
+  
+  .sidebar-section.subscribe {
+    font-size: 12px;
+    line-height: 1.6em;
+  }
+  
+  .subscribe p {
+    margin-bottom: 0.5em;
+  }
+  
+  
+  .article-footer .subscribe {
+    font-size: 15px;
+    margin-top: 45px;
+  }
+  
+  
+  /* Improve display for browsers without grid (IE/Edge <= 15) */
+  
+  .downlevel {
+    line-height: 1.6em;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
+    margin: 0;
+  }
+  
+  .downlevel .d-title {
+    padding-top: 6rem;
+    padding-bottom: 1.5rem;
+  }
+  
+  .downlevel .d-title h1 {
+    font-size: 50px;
+    font-weight: 700;
+    line-height: 1.1em;
+    margin: 0 0 0.5rem;
+  }
+  
+  .downlevel .d-title p {
+    font-weight: 300;
+    font-size: 1.2rem;
+    line-height: 1.55em;
+    margin-top: 0;
+  }
+  
+  .downlevel .d-byline {
+    padding-top: 0.8em;
+    padding-bottom: 0.8em;
+    font-size: 0.8rem;
+    line-height: 1.8em;
+  }
+  
+  .downlevel .section-separator {
+    border: none;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+  }
+  
+  .downlevel .d-article {
+    font-size: 1.06rem;
+    line-height: 1.7em;
+    padding-top: 1rem;
+    padding-bottom: 2rem;
+  }
+  
+  
+  .downlevel .d-appendix {
+    padding-left: 0;
+    padding-right: 0;
+    max-width: none;
+    font-size: 0.8em;
+    line-height: 1.7em;
+    margin-bottom: 0;
+    color: rgba(0,0,0,0.5);
+    padding-top: 40px;
+    padding-bottom: 48px;
+  }
+  
+  .downlevel .footnotes ol {
+    padding-left: 13px;
+  }
+  
+  .downlevel .base-grid,
+  .downlevel .distill-header,
+  .downlevel .d-title,
+  .downlevel .d-abstract,
+  .downlevel .d-article,
+  .downlevel .d-appendix,
+  .downlevel .distill-appendix,
+  .downlevel .d-byline,
+  .downlevel .d-footnote-list,
+  .downlevel .d-citation-list,
+  .downlevel .distill-footer,
+  .downlevel .appendix-bottom,
+  .downlevel .posts-container {
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+  
+  @media(min-width: 768px) {
+    .downlevel .base-grid,
+    .downlevel .distill-header,
+    .downlevel .d-title,
+    .downlevel .d-abstract,
+    .downlevel .d-article,
+    .downlevel .d-appendix,
+    .downlevel .distill-appendix,
+    .downlevel .d-byline,
+    .downlevel .d-footnote-list,
+    .downlevel .d-citation-list,
+    .downlevel .distill-footer,
+    .downlevel .appendix-bottom,
+    .downlevel .posts-container {
+    padding-left: 150px;
+    padding-right: 150px;
+    max-width: 900px;
+  }
+  }
+  
+  .downlevel pre code {
+    display: block;
+    border-left: 2px solid rgba(0, 0, 0, .1);
+    padding: 0 0 0 20px;
+    font-size: 14px;
+  }
+  
+  .downlevel code, .downlevel pre {
+    color: black;
+    background: none;
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+    text-align: left;
+    white-space: pre;
+    word-spacing: normal;
+    word-break: normal;
+    word-wrap: normal;
+    line-height: 1.5;
+  
+    -moz-tab-size: 4;
+    -o-tab-size: 4;
+    tab-size: 4;
+  
+    -webkit-hyphens: none;
+    -moz-hyphens: none;
+    -ms-hyphens: none;
+    hyphens: none;
+  }
+  
+  </style>
+  
+  <script type="application/javascript">
+  
+  function is_downlevel_browser() {
+    if (bowser.isUnsupportedBrowser({ msie: "12", msedge: "16"},
+                                   window.navigator.userAgent)) {
+      return true;
+    } else {
+      return window.load_distill_framework === undefined;
+    }
+  }
+  
+  // show body when load is complete
+  function on_load_complete() {
+  
+    // set body to visible
+    document.body.style.visibility = 'visible';
+  
+    // force redraw for leaflet widgets
+    if (window.HTMLWidgets) {
+      var maps = window.HTMLWidgets.findAll(".leaflet");
+      $.each(maps, function(i, el) {
+        var map = this.getMap();
+        map.invalidateSize();
+        map.eachLayer(function(layer) {
+          if (layer instanceof L.TileLayer)
+            layer.redraw();
+        });
+      });
+    }
+  
+    // trigger 'shown' so htmlwidgets resize
+    $('d-article').trigger('shown');
+  }
+  
+  function init_distill() {
+  
+    init_common();
+  
+    // create front matter
+    var front_matter = $('<d-front-matter></d-front-matter>');
+    $('#distill-front-matter').wrap(front_matter);
+  
+    // create d-title
+    $('.d-title').changeElementType('d-title');
+  
+    // create d-byline
+    var byline = $('<d-byline></d-byline>');
+    $('.d-byline').replaceWith(byline);
+  
+    // create d-article
+    var article = $('<d-article></d-article>');
+    $('.d-article').wrap(article).children().unwrap();
+  
+    // move posts container into article
+    $('.posts-container').appendTo($('d-article'));
+  
+    // create d-appendix
+    $('.d-appendix').changeElementType('d-appendix');
+  
+    // create d-bibliography
+    var bibliography = $('<d-bibliography></d-bibliography>');
+    $('#distill-bibliography').wrap(bibliography);
+  
+    // flag indicating that we have appendix items
+    var appendix = $('.appendix-bottom').children('h3').length > 0;
+  
+    // replace citations with <d-cite>
+    $('.citation').each(function(i, val) {
+      appendix = true;
+      var cites = $(this).attr('data-cites').split(" ");
+      var dt_cite = $('<d-cite></d-cite>');
+      dt_cite.attr('key', cites.join());
+      $(this).replaceWith(dt_cite);
+    });
+    // remove refs
+    $('#refs').remove();
+  
+    // replace footnotes with <d-footnote>
+    $('.footnote-ref').each(function(i, val) {
+      appendix = true;
+      var href = $(this).attr('href');
+      var id = href.replace('#', '');
+      var fn = $('#' + id);
+      var fn_p = $('#' + id + '>p');
+      fn_p.find('.footnote-back').remove();
+      var text = fn_p.html();
+      var dtfn = $('<d-footnote></d-footnote>');
+      dtfn.html(text);
+      $(this).replaceWith(dtfn);
+    });
+    // remove footnotes
+    $('.footnotes').remove();
+  
+    $('h1.appendix, h2.appendix').each(function(i, val) {
+      $(this).changeElementType('h3');
+    });
+    $('h3.appendix').each(function(i, val) {
+      var id = $(this).attr('id');
+      $('.d-toc a[href="#' + id + '"]').parent().remove();
+      appendix = true;
+      $(this).nextUntil($('h1, h2, h3')).addBack().appendTo($('d-appendix'));
+    });
+  
+    // show d-appendix if we have appendix content
+    $("d-appendix").css('display', appendix ? 'grid' : 'none');
+  
+    // replace code blocks with d-code
+    $('pre>code').each(function(i, val) {
+      var code = $(this);
+      var pre = code.parent();
+      var clz = "";
+      var language = pre.attr('class');
+      if (language) {
+        // map unknown languages to "clike" (without this they just dissapear)
+        if ($.inArray(language, ["bash", "clike", "css", "go", "html",
+                                 "javascript", "js", "julia", "lua", "markdown",
+                                 "markup", "mathml", "python", "svg", "xml"]) == -1)
+          language = "clike";
+        language = ' language="' + language + '"';
+        var dt_code = $('<d-code block' + language + clz + '></d-code>');
+        dt_code.text(code.text());
+        pre.replaceWith(dt_code);
+      } else {
+        code.addClass('text-output').unwrap().changeElementType('pre');
+      }
+    });
+  
+    // localize layout chunks to just output
+    $('.layout-chunk').each(function(i, val) {
+  
+      // capture layout
+      var layout = $(this).attr('data-layout');
+  
+      // apply layout to markdown level block elements
+      var elements = $(this).children().not('d-code, pre.text-output, script');
+      elements.each(function(i, el) {
+        var layout_div = $('<div class="' + layout + '"></div>');
+        if (layout_div.hasClass('shaded')) {
+          var shaded_content = $('<div class="shaded-content"></div>');
+          $(this).wrap(shaded_content);
+          $(this).parent().wrap(layout_div);
+        } else {
+          $(this).wrap(layout_div);
+        }
+      });
+  
+  
+      // unwrap the layout-chunk div
+      $(this).children().unwrap();
+    });
+  
+    // load distill framework
+    load_distill_framework();
+  
+    // wait for window.distillRunlevel == 4 to do post processing
+    function distill_post_process() {
+  
+      if (!window.distillRunlevel || window.distillRunlevel < 4)
+        return;
+  
+      // hide author/affiliations entirely if we have no authors
+      var front_matter = JSON.parse($("#distill-front-matter").html());
+      var have_authors = front_matter.authors && front_matter.authors.length > 0;
+      if (!have_authors)
+        $('d-byline').addClass('hidden');
+  
+      // table of contents
+      if (have_authors) // adjust border if we are in authors
+        $('.d-toc').parent().addClass('d-article-with-toc');
+  
+      // strip links that point to #
+      $('.authors-affiliations').find('a[href="#"]').removeAttr('href');
+  
+      // hide elements of author/affiliations grid that have no value
+      function hide_byline_column(caption) {
+        $('d-byline').find('h3:contains("' + caption + '")').parent().css('visibility', 'hidden');
+      }
+  
+      // affiliations
+      var have_affiliations = false;
+      for (var i = 0; i<front_matter.authors.length; ++i) {
+        var author = front_matter.authors[i];
+        if (author.affiliation !== "&nbsp;") {
+          have_affiliations = true;
+          break;
+        }
+      }
+      if (!have_affiliations)
+        $('d-byline').find('h3:contains("Affiliations")').css('visibility', 'hidden');
+  
+      // published date
+      if (!front_matter.publishedDate)
+        hide_byline_column("Published");
+  
+      // document object identifier
+      var doi = $('d-byline').find('h3:contains("DOI")');
+      var doi_p = doi.next().empty();
+      if (!front_matter.doi) {
+        // if we have a citation and valid citationText then link to that
+        if ($('#citation').length > 0 && front_matter.citationText) {
+          doi.html('Citation');
+          $('<a href="#citation"></a>')
+            .text(front_matter.citationText)
+            .appendTo(doi_p);
+        } else {
+          hide_byline_column("DOI");
+        }
+      } else {
+        $('<a></a>')
+           .attr('href', "https://doi.org/" + front_matter.doi)
+           .html(front_matter.doi)
+           .appendTo(doi_p);
+      }
+  
+       // change plural form of authors/affiliations
+      if (front_matter.authors.length === 1) {
+        var grid = $('.authors-affiliations');
+        grid.children('h3:contains("Authors")').text('Author');
+        grid.children('h3:contains("Affiliations")').text('Affiliation');
+      }
+  
+      // inject pre code styles (can't do this with a global stylesheet b/c a shadow root is used)
+      $('d-code').each(function(i, val) {
+        var style = document.createElement('style');
+        style.innerHTML = 'pre code { padding-left: 10px; font-size: 12px; border-left: 2px solid rgba(0,0,0,0.1); } ' +
+                          '@media(min-width: 768px) { pre code { padding-left: 18px; font-size: 14px; } }';
+        if (this.shadowRoot)
+          this.shadowRoot.appendChild(style);
+      });
+  
+      // move appendix-bottom entries to the bottom
+      $('.appendix-bottom').appendTo('d-appendix').children().unwrap();
+      $('.appendix-bottom').remove();
+  
+      // clear polling timer
+      clearInterval(tid);
+  
+      // show body now that everything is ready
+      on_load_complete();
+    }
+  
+    var tid = setInterval(distill_post_process, 50);
+    distill_post_process();
+  
+  }
+  
+  function init_downlevel() {
+  
+    init_common();
+  
+     // insert hr after d-title
+    $('.d-title').after($('<hr class="section-separator"/>'));
+  
+    // check if we have authors
+    var front_matter = JSON.parse($("#distill-front-matter").html());
+    var have_authors = front_matter.authors && front_matter.authors.length > 0;
+  
+    // manage byline/border
+    if (!have_authors)
+      $('.d-byline').remove();
+    $('.d-byline').after($('<hr class="section-separator"/>'));
+    $('.d-byline a').remove();
+  
+    // remove toc
+    $('.d-toc-header').remove();
+    $('.d-toc').remove();
+    $('.d-toc-separator').remove();
+  
+    // move appendix elements
+    $('h1.appendix, h2.appendix').each(function(i, val) {
+      $(this).changeElementType('h3');
+    });
+    $('h3.appendix').each(function(i, val) {
+      $(this).nextUntil($('h1, h2, h3')).addBack().appendTo($('.d-appendix'));
+    });
+  
+  
+    // inject headers into references and footnotes
+    var refs_header = $('<h3></h3>');
+    refs_header.text('References');
+    $('#refs').prepend(refs_header);
+  
+    var footnotes_header = $('<h3></h3');
+    footnotes_header.text('Footnotes');
+    $('.footnotes').children('hr').first().replaceWith(footnotes_header);
+  
+    // move appendix-bottom entries to the bottom
+    $('.appendix-bottom').appendTo('.d-appendix').children().unwrap();
+    $('.appendix-bottom').remove();
+  
+    // remove appendix if it's empty
+    if ($('.d-appendix').children().length === 0)
+      $('.d-appendix').remove();
+  
+    // prepend separator above appendix
+    $('.d-appendix').before($('<hr class="section-separator" style="clear: both"/>'));
+  
+    // trim code
+    $('pre>code').each(function(i, val) {
+      $(this).html($.trim($(this).html()));
+    });
+  
+    // move posts-container right before article
+    $('.posts-container').insertBefore($('.d-article'));
+  
+    $('body').addClass('downlevel');
+  
+    on_load_complete();
+  }
+  
+  
+  function init_common() {
+  
+    // jquery plugin to change element types
+    (function($) {
+      $.fn.changeElementType = function(newType) {
+        var attrs = {};
+  
+        $.each(this[0].attributes, function(idx, attr) {
+          attrs[attr.nodeName] = attr.nodeValue;
+        });
+  
+        this.replaceWith(function() {
+          return $("<" + newType + "/>", attrs).append($(this).contents());
+        });
+      };
+    })(jQuery);
+  
+    // prevent underline for linked images
+    $('a > img').parent().css({'border-bottom' : 'none'});
+  
+    // mark non-body figures created by knitr chunks as 100% width
+    $('.layout-chunk').each(function(i, val) {
+      var figures = $(this).find('img, .html-widget');
+      if ($(this).attr('data-layout') !== "l-body") {
+        figures.css('width', '100%');
+      } else {
+        figures.css('max-width', '100%');
+        figures.filter("[width]").each(function(i, val) {
+          var fig = $(this);
+          fig.css('width', fig.attr('width') + 'px');
+        });
+  
+      }
+    });
+  
+    // auto-append index.html to post-preview links in file: protocol
+    // and in rstudio ide preview
+    $('.post-preview').each(function(i, val) {
+      if (window.location.protocol === "file:")
+        $(this).attr('href', $(this).attr('href') + "index.html");
+    });
+  
+    // get rid of index.html references in header
+    if (window.location.protocol !== "file:") {
+      $('.distill-site-header a[href]').each(function(i,val) {
+        $(this).attr('href', $(this).attr('href').replace("index.html", "./"));
+      });
+    }
+  
+    // add class to pandoc style tables
+    $('tr.header').parent('thead').parent('table').addClass('pandoc-table');
+    $('.kable-table').children('table').addClass('pandoc-table');
+  
+    // add figcaption style to table captions
+    $('caption').parent('table').addClass("figcaption");
+  
+    // initialize posts list
+    if (window.init_posts_list)
+      window.init_posts_list();
+  
+    // implmement disqus comment link
+    $('.disqus-comment-count').click(function() {
+      window.headroom_prevent_pin = true;
+      $('#disqus_thread').toggleClass('hidden');
+      if (!$('#disqus_thread').hasClass('hidden')) {
+        var offset = $(this).offset();
+        $(window).resize();
+        $('html, body').animate({
+          scrollTop: offset.top - 35
+        });
+      }
+    });
+  }
+  
+  document.addEventListener('DOMContentLoaded', function() {
+    if (is_downlevel_browser())
+      init_downlevel();
+    else
+      window.addEventListener('WebComponentsReady', init_distill);
+  });
+  
+  </script>
+  
+  <!--/radix_placeholder_distill-->
+  <script src="b3-rvest-cei-parte-3_files/htmlwidgets-1.3/htmlwidgets.js"></script>
+  <script src="b3-rvest-cei-parte-3_files/plotly-binding-4.9.0/plotly.js"></script>
+  <script src="b3-rvest-cei-parte-3_files/typedarray-0.1/typedarray.min.js"></script>
+  <script src="b3-rvest-cei-parte-3_files/jquery-1.11.3/jquery.min.js"></script>
+  <link href="b3-rvest-cei-parte-3_files/crosstalk-1.0.0/css/crosstalk.css" rel="stylesheet" />
+  <script src="b3-rvest-cei-parte-3_files/crosstalk-1.0.0/js/crosstalk.min.js"></script>
+  <link href="b3-rvest-cei-parte-3_files/plotly-htmlwidgets-css-1.46.1/plotly-htmlwidgets.css" rel="stylesheet" />
+  <script src="b3-rvest-cei-parte-3_files/plotly-main-1.46.1/plotly-latest.min.js"></script>
+  <script src="b3-rvest-cei-parte-3_files/bowser-1.9.3/bowser.min.js"></script>
+  <script src="b3-rvest-cei-parte-3_files/webcomponents-2.0.0/webcomponents.js"></script>
+  <script src="b3-rvest-cei-parte-3_files/distill-2.2.21/template.v2.js"></script>
+  <!--radix_placeholder_site_in_header-->
+  <!--/radix_placeholder_site_in_header-->
+
+
+</head>
+
+<body>
+
+<!--radix_placeholder_front_matter-->
+
+<script id="distill-front-matter" type="text/json">
+{"title":"Avaliando sua carteira: Explorando dados financeiros com R - parte 3","description":"Nesse poste vamos baixar nossa carteira do CEI, baixar as cotações históricas e testar um método de comparação do rendimento diário acumulado com um benchmark.","authors":[{"author":"Saulo Guerra","authorURL":"#","affiliation":"&nbsp;","affiliationURL":"#"}],"publishedDate":"2019-10-01T00:00:00.000-03:00","citationText":"Guerra, 2019"}
+</script>
+
+<!--/radix_placeholder_front_matter-->
+<!--radix_placeholder_navigation_before_body-->
+<!--/radix_placeholder_navigation_before_body-->
+<!--radix_placeholder_site_before_body-->
+<!--/radix_placeholder_site_before_body-->
+
+<div class="d-title">
+<h1>Avaliando sua carteira: Explorando dados financeiros com R - parte 3</h1>
+<p>Nesse poste vamos baixar nossa carteira do CEI, baixar as cotações históricas e testar um método de comparação do rendimento diário acumulado com um benchmark.</p>
+</div>
+
+<div class="d-byline">
+  
+  Saulo Guerra
+  
+<br/>10-01-2019
+</div>
+
+<div class="d-article">
+<p>Nos dois posts anteriores, <a href="https://www.fulljoin.com.br/posts/2019-07-18-b3-rvest-explorando-dados-financeiros-com-r/">primeiro nesse</a>, <a href="https://www.fulljoin.com.br/posts/2019-09-03-b3-rvest-cei/">depois nesse</a>, demos nossos primeiros passos explorando dados financeiros da B3 e do CEI com R. Neste post vamos partir da carteira que baixamos do CEI pro R e tentar calcular o rendimento comparando com um o índice IBOV.</p>
+<p>Por ser um mero novato no mercado financeiro, há grande chance de apresentar algum conceito equivocado sobre renda variável. Apesar do objetivo aqui ser explorar o R e as possibilidade de interação com dados da B3, estou completamente aberto para receber dicas, broncas, esculachos ou correções sobre qualquer coisa que eu venha a escrever a respeito deste tema!</p>
+<h2 id="definindo-objetivo">Definindo objetivo</h2>
+<p>Como objetivo a ser alcançado, baixaremos nossa carteira, baixaremos o histórico de cotações das ações em carteira e calcularemos nosso rendimento, além de comparar com alguns índices.</p>
+<h2 id="achando-a-fonte-de-dados">Achando a fonte de dados</h2>
+<p>Nossa fonte será o CEI, onde a B3 disponibiliza as informações dos seus ativos financeiros. Usaremos também a API gratuita de cotações do Yahoo.</p>
+<p>Vamos usar os seguintes pacotes:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+library(rvest)
+library(glue)
+library(tidyquant)
+library(ggplot2)
+library(plotly) # para gráficos interativos</code></pre>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<h2 id="baixando-e-organizando-a-carteira">Baixando e organizando a carteira</h2>
+<p>Vamos aproveitar a função apresentada no último post:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+consulta_carteira &lt;- function(cpf, senha) {
+  url &lt;- &#39;https://cei.b3.com.br&#39;
+  sessao &lt;- html_session(url)
+  form_login &lt;- html_form(sessao)
+  
+  form_preenchido &lt;- set_values(form_login[[1]], 
+                                &#39;ctl00$ContentPlaceHolder1$txtLogin&#39; = cpf,
+                                &#39;ctl00$ContentPlaceHolder1$txtSenha&#39; = senha)
+  
+  submit_form(sessao, form_preenchido)
+  url_dados &lt;- glue(&#39;{url}/CEI_Responsivo/negociacao-de-ativos.aspx&#39;)
+  pagina_dados &lt;- jump_to(sessao, url_dados)
+  instituicoes &lt;- read_html(pagina_dados) %&gt;% 
+    html_nodes(&#39;option&#39;) %&gt;% 
+    html_text()
+  
+  form_dados &lt;- html_form(pagina_dados)
+  
+  consulta_carteira_banco &lt;- function(i, form_dados) {
+      banco &lt;- str_split(i, &#39; - &#39;, simplify = TRUE)
+      numero &lt;- banco[1]
+      nome &lt;- banco[2]
+      form_dados_preenchidos &lt;- set_values(form_dados[[1]], 
+                                           &#39;ctl00$ContentPlaceHolder1$ddlAgentes&#39; = numero)
+      
+      resultado &lt;- submit_form(sessao, form_dados_preenchidos)
+      nao_teve_resultado &lt;- resultado %&gt;%
+        read_html() %&gt;% 
+        html_text() %&gt;% 
+        str_detect(&#39;Não foram encontrados resultados para esta pesquisa&#39;)
+      
+      dados_de_um_banco &lt;- data.frame()
+      message(glue(&#39;lendo banco {nome}&#39;))
+      if(!nao_teve_resultado) {
+        dados_de_um_banco &lt;- resultado %&gt;% 
+          html_nodes(&#39;#ctl00_ContentPlaceHolder1_rptAgenteBolsa_ctl00_rptContaBolsa_ctl00_pnAtivosNegociados&#39;) %&gt;%
+          html_node(&#39;table&#39;) %&gt;%
+          html_table() %&gt;% 
+          .[[1]] %&gt;% 
+          .[-nrow(.),]
+        
+        dados_de_um_banco$Nome_banco &lt;- nome
+      }
+      return(dados_de_um_banco)
+  }
+  
+  # função para converter os textos de valor em números
+  converte_texto_em_numero &lt;- function(numero) {
+    as.numeric(str_replace_all(str_replace_all(numero, &#39;\\.&#39;, &#39;&#39;), &#39;,&#39;, &#39;\\.&#39;))
+  }
+  
+  instituicoes &lt;- instituicoes[!grepl(&quot;Selecione&quot;, instituicoes)] 
+  
+  dados_totais &lt;- instituicoes %&gt;% 
+    map_dfr(~consulta_carteira_banco(.x, form_dados)) %&gt;% 
+    mutate_at(.vars = vars(`Valor Total(R$)`, `Preço (R$)`, Quantidade), 
+              .funs = list(converte_texto_em_numero)) %&gt;%
+    mutate(Data = lubridate::dmy(`Data do Negócio`),
+           `Valor Total(R$)` = `Valor Total(R$)`*ifelse(`Compra/Venda`==&#39;V&#39;, -1, 1)) %&gt;% 
+    select(Data, everything(), -`Data do Negócio`)
+    
+  return(dados_totais)
+}</code></pre>
+</div>
+<p>Fiz algumas modificações na função, mas o intuito é exatamente o mesmo. Caso as alterações não estejam claras ou alguma coisa na função possa ser melhorada, por favor deixe um comentário que esclareceremos.</p>
+<p>Carregue a função e baixe sua carteira. Lembre-se de opcionalmente usar o pacote <em>keyring</em> para gerenciar suas senhas</p>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+carteira &lt;- consulta_carteira(&#39;SEU_CPF&#39;, &#39;SUA_SENHA&#39;)</code></pre>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+glimpse(carteira)</code></pre>
+<pre><code>
+Observations: 47
+Variables: 11
+$ Data                     &lt;date&gt; 2019-09-04, 2019-09-04, 2019-09-0…
+$ `Compra/Venda`           &lt;chr&gt; &quot;C&quot;, &quot;C&quot;, &quot;C&quot;, &quot;C&quot;, &quot;C&quot;, &quot;C&quot;, &quot;C&quot;,…
+$ Mercado                  &lt;chr&gt; &quot;Merc. Fracionário&quot;, &quot;Merc. Fracio…
+$ `Prazo/Vencimento`       &lt;lgl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA…
+$ `Código Negociação`      &lt;chr&gt; &quot;ITUB3F&quot;, &quot;MDIA3F&quot;, &quot;MDIA3F&quot;, &quot;PSS…
+$ `Especificação do Ativo` &lt;chr&gt; &quot;ITAUUNIBANCOON  ED  N1&quot;, &quot;M.DIASB…
+$ Quantidade               &lt;dbl&gt; 42, 25, 9, 4, 17, 5, 4, 2, 10, 16,…
+$ `Preço (R$)`             &lt;dbl&gt; 28.84, 35.50, 35.50, 55.70, 55.70,…
+$ `Valor Total(R$)`        &lt;dbl&gt; 1211.28, 887.50, 319.50, 222.80, 9…
+$ `Fator de Cotação`       &lt;int&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1…
+$ Nome_banco               &lt;chr&gt; &quot;BANCO BTG PACTUAL&quot;, &quot;BANCO BTG PA…</code></pre>
+</div>
+<p>Como você pode fazer diferentes compras de uma mesma ação no mesmo dia, para simplificar, vamos pegar o preço médio das ordens agregadas por data. Vamos aproveitar e tirar o <em>F</em> (de Fracionado) do ticker. Só vale a pena manter o <em>F</em> se você for comprar e vender no mercado fracionado, já que os preços de compra e venda costumam ser um pouco diferentes do lote cheio.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+carteira &lt;- carteira %&gt;%
+  select(everything(), Valor = `Valor Total(R$)`, Preco = `Preço (R$)`, 
+         Codigo = `Código Negociação`, Fluxo = `Compra/Venda`) %&gt;% 
+  mutate(Codigo = sub(&#39;F$&#39;, &#39;&#39;, Codigo)) %&gt;% 
+  group_by(Codigo, Data, Fluxo) %&gt;% 
+  summarise(Preco = weighted.mean(Preco, Quantidade),
+            Quantidade = sum(Quantidade),
+            Total = sum(Valor)) %&gt;% 
+  ungroup() %&gt;% 
+  arrange(Data) </code></pre>
+</div>
+<p>Agora vamos preparar uma função para baixar o histórico de cotações da API gratuita do Yahoo. Para isso usaremos a função <em>getSymbol</em> do pacote <em>quantmod</em>, carregado junto com o <em>tidyquant</em>. (O tidyquant é um potente pacote para dados financeiros, que além de agregar os mais importantes pacotes do assunto, apresenta funções sensacionais para gestão de portfólio. Infelizmente ainda não sei nada disso, então o tidyquant está completamente subutilizado neste post).</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+historico_cotacoes &lt;- function(tickers, inicio = today(), fim = today()) {
+  tickers %&gt;% 
+    map_dfr(~{
+      df &lt;- getSymbols(.x, from = inicio, to = fim,
+                       source = &#39;Yahoo&#39;, # fonte: API gratuita do Yahoo
+                       auto.assign = FALSE)
+      df &lt;- df[,c(4, 6)] 
+      # 4 - preço de fechamento
+      # 6 - preço ajustado
+      names(df) &lt;- c(&#39;P_fechamento&#39;, &#39;P_ajustado&#39;)
+      data.frame(timestamp = index(df), # convertendo em coluna as datas que são indices de linha
+                 coredata(df), 
+                 symbol = .x, 
+                 stringsAsFactors = FALSE)
+    }) %&gt;% 
+    mutate(symbol = sub(&#39;\\.SA$&#39;, &#39;&#39;, symbol)) %&gt;% # retirando o .SA dos tickers
+    select(Data = timestamp, Codigo = symbol, P_fechamento, P_ajustado)
+}</code></pre>
+</div>
+<p>Depois de alguns experimentos com a API do Yahoo, percebi um comportamento muito estranho com tickers de Fundo Imobiliário, retornando em alguns casos apenas o último dia. Isso me fez concluir que a API gratuita do Yahoo é uma porcaria. Caso você conheça alguma API para cotações históricas melhores que a do Yahoo, por favor nos avise nos comentários!</p>
+<p>Para não prejudicar o exercício, e até que eu encontre uma API melhor, prosseguiremos sem os tickers terminados em 11.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+carteira &lt;- carteira %&gt;% 
+  filter(!str_detect(Codigo, &#39;11$&#39;)) # $ significa &quot;terminar com&quot; em regex</code></pre>
+</div>
+<p>Recuperemos então as cotações históricas. Por algum motivo estranho, sem explicação aparente, alguns tickers falharam na API do Yahoo passando uma data início que não seja o primeiro dia do mês. Por segurança, vamos resgatar todos históricos desde o primeiro dia do mês da compra mais antiga da carteira. Essa API definitivamente não é boa… mas é gratuita!</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+inicio &lt;- as.Date(as.yearmon(min(carteira$Data), &quot;%m/%Y&quot;))
+
+cotacoes_historicas &lt;- carteira %&gt;% 
+  glue_data(&#39;{Codigo}.SA&#39;) %&gt;% # glue!
+  unique() %&gt;% 
+  historico_cotacoes(inicio = inicio, fim = today())
+
+glimpse(cotacoes_historicas)</code></pre>
+<pre><code>
+Observations: 2,044
+Variables: 4
+$ Data         &lt;date&gt; 2019-03-01, 2019-03-06, 2019-03-07, 2019-03-0…
+$ Codigo       &lt;chr&gt; &quot;ABEV3&quot;, &quot;ABEV3&quot;, &quot;ABEV3&quot;, &quot;ABEV3&quot;, &quot;ABEV3&quot;, &quot;…
+$ P_fechamento &lt;dbl&gt; 16.76, 16.37, 16.69, 16.59, 17.11, 17.00, 16.9…
+$ P_ajustado   &lt;dbl&gt; 16.76, 16.37, 16.69, 16.59, 17.11, 17.00, 16.9…</code></pre>
+<pre class="r"><code>
+head(cotacoes_historicas)</code></pre>
+<pre><code>
+        Data Codigo P_fechamento P_ajustado
+1 2019-03-01  ABEV3        16.76      16.76
+2 2019-03-06  ABEV3        16.37      16.37
+3 2019-03-07  ABEV3        16.69      16.69
+4 2019-03-08  ABEV3        16.59      16.59
+5 2019-03-11  ABEV3        17.11      17.11
+6 2019-03-12  ABEV3        17.00      17.00</code></pre>
+<pre class="r"><code>
+tail(cotacoes_historicas)</code></pre>
+<pre><code>
+           Data Codigo P_fechamento P_ajustado
+2039 2019-09-23  LINX3        33.58      33.58
+2040 2019-09-24  LINX3        33.58      33.58
+2041 2019-09-25  LINX3        32.90      32.90
+2042 2019-09-26  LINX3        33.16      33.16
+2043 2019-09-27  LINX3        33.20      33.20
+2044 2019-09-30  LINX3        32.34      32.34</code></pre>
+</div>
+<p>Agora vamos cruzar os dados com a carteira e calcular os rendimentos.</p>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+carteira &lt;- carteira %&gt;% 
+  right_join(cotacoes_historicas, by = c(&#39;Data&#39;, &#39;Codigo&#39;)) %&gt;% # join com cotações
+  replace_na(list(Quantidade = 0, Total = 0)) %&gt;% # preenchendo zero nos dias sem movimento
+  group_by(Codigo) %&gt;% 
+  arrange(Data) %&gt;% 
+  mutate(Quantidade_custodia = cumsum(Quantidade), # total acumulado de cada ação
+         Valor_mercado = Quantidade_custodia * P_ajustado) %&gt;% # valor de mercado do acumulado no dia
+  mutate(Fluxo_dummy = Fluxo, # apenas para me livrar das cotações anteriores as compras
+         Fluxo_dummy = na.locf(Fluxo_dummy, na.rm = F)) %&gt;% 
+  filter(!is.na(Fluxo_dummy)) %&gt;% 
+  select(-Fluxo_dummy) %&gt;% 
+  ungroup()
+
+glimpse(carteira)</code></pre>
+<pre><code>
+Observations: 1,620
+Variables: 10
+$ Codigo              &lt;chr&gt; &quot;ABEV3&quot;, &quot;B3SA3&quot;, &quot;GRND3&quot;, &quot;ITUB3&quot;, &quot;PS…
+$ Data                &lt;date&gt; 2019-03-06, 2019-03-06, 2019-03-06, 20…
+$ Fluxo               &lt;chr&gt; &quot;C&quot;, &quot;C&quot;, &quot;C&quot;, &quot;C&quot;, &quot;C&quot;, NA, NA, NA, NA…
+$ Preco               &lt;dbl&gt; 16.54, 31.74, 8.54, 30.42, 55.84, NA, N…
+$ Quantidade          &lt;dbl&gt; 97, 80, 300, 100, 40, 0, 0, 0, 0, 0, 0,…
+$ Total               &lt;dbl&gt; 1604.38, 2539.20, 2562.00, 3042.00, 223…
+$ P_fechamento        &lt;dbl&gt; 16.37, 31.61, 8.52, 30.49, 55.60, 16.69…
+$ P_ajustado          &lt;dbl&gt; 16.370001, 30.963104, 8.288935, 30.1427…
+$ Quantidade_custodia &lt;dbl&gt; 97, 80, 300, 100, 40, 97, 80, 300, 100,…
+$ Valor_mercado       &lt;dbl&gt; 1587.890, 2477.048, 2486.680, 3014.276,…</code></pre>
+</div>
+<h2 id="calculando-o-retorno">Calculando o retorno</h2>
+<p>Depois de apanhar um pouco para entender a melhor forma de calcular o retorno acumulado, de forma agregada e desagregada, e depois de ótimas dicas de um amigo, entendi que o ideal é tratar sua carteira como um único fundo de cotas, e suas compras e venda, independente da ação, como compras de cotas desse fundo. Dessa forma, caso queira desagregar para ver o rendimento em diferentes níveis, basta tratar a agregação desejada como um fundo a parte.</p>
+<p>Sumarizamos por dia e pegaremos a quantidade de ações custodiadas vezes seu respectivo preço de fechamento divido pelo valor total aplicado. Dessa forma teremos o valor da cota desse dia. Façamos o mesmo para o preço ajustado, que difere do preço de fechamento pelos ajustes feitos (direto na fonte) para descontar dividendos e outras coisas. Dividido a cota com valor ajustado pela cota de fechameto temos uma cota real.</p>
+<p>Sendo assim, escolhemos o primeiro dia e calculamos a cota inicial. A partir dela vamos equalizando a compra e venda de novas cotas:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+calcula_cota_inicial &lt;- function(dados) {
+  dados %&gt;% 
+    filter(Data == min(Data)) %&gt;%  
+    group_by(Data) %&gt;% 
+    summarise(Valor_cotas = sum((Quantidade * P_fechamento)/sum(Total)),
+              Valor_cotas_ajustadas = sum((Quantidade * P_ajustado)/sum(Total)),
+              Valor_cotas_real = Valor_cotas_ajustadas/Valor_cotas) %&gt;% 
+    pull(Valor_cotas_real)
+}
+
+cota_inicial &lt;- carteira %&gt;% 
+  calcula_cota_inicial()</code></pre>
+</div>
+<p>Agora calculamos o valor investido (compra e venda).</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+calcula_valor_investido &lt;- function(dados) {
+  dados %&gt;% 
+    group_by(Data) %&gt;% 
+    summarise(Valor_investido = sum(Total, na.rm = TRUE), 
+              Valor_mercado = sum(Valor_mercado, na.rm = TRUE)) %&gt;% 
+    mutate(Qtd_cota = Valor_investido,
+           Valor_cota = Valor_mercado / Qtd_cota)
+}
+
+retorno &lt;- carteira %&gt;% 
+  calcula_valor_investido()</code></pre>
+</div>
+<p>Com o valor da cota inicial e com o valor de mercado de cada investimento calculamos o retorno dia a dia com base na cota inicial e reequilibrando o valor da cota com os novos aportes e com os preços de mercado já calculados.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+calcula_retorno_cotas &lt;- function(dados) {
+  for(i in 2:nrow(dados)) {
+    dados$Qtd_cota[i] = dados$Qtd_cota[i-1] + (dados$Valor_investido[i] / dados$Valor_cota[i-1])
+    dados$Valor_cota[i] = dados$Valor_mercado[i] / dados$Qtd_cota[i]
+  }
+  
+  return(dados)
+}
+
+retorno_cotas &lt;- calcula_retorno_cotas(retorno)</code></pre>
+</div>
+<p>Uma simples função para calcular o retorno em um perído agregado</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+mede_retorno_periodo &lt;- function(dados) {
+  dados %&gt;% 
+    arrange(Data) %&gt;%
+    mutate(R_dia = 100 * (Valor_cota/dados$Valor_cota[1]-1))
+}
+
+retorno_total &lt;- retorno_cotas %&gt;% 
+  mede_retorno_periodo()</code></pre>
+</div>
+<p>Pronto, agora baixamos a série do índice Bovespa para um benchmark mínimo e aplicamos o mesmo cálculo de retorno/cota. Fazemos um join com o benchmark onde a data é a chave e teremos um data frame com ambas as séries de retornos acumulados prontas para comparação.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+benchmark &lt;- historico_cotacoes(&#39;^BVSP&#39;, inicio = inicio, fim = today())
+
+retorno_benchmark &lt;- benchmark %&gt;%
+  rename(Valor_cota = P_ajustado) %&gt;% 
+  filter(Data &gt;= min(retorno_total$Data)) %&gt;% 
+  mede_retorno_periodo()
+
+retorno_comparado &lt;- retorno_total %&gt;% 
+  select(Data, R_Carteira = R_dia) %&gt;% 
+  inner_join(retorno_benchmark %&gt;% 
+               select(Data, R_IBOV = R_dia), by=&#39;Data&#39;)
+
+head(retorno_comparado)</code></pre>
+<pre><code>
+# A tibble: 6 x 3
+  Data       R_Carteira R_IBOV
+  &lt;date&gt;          &lt;dbl&gt;  &lt;dbl&gt;
+1 2019-03-06     0       0    
+2 2019-03-07     0.0443  0.131
+3 2019-03-08     0.777   1.22 
+4 2019-03-11     2.94    4.04 
+5 2019-03-12     3.24    3.83 
+6 2019-03-13     3.71    4.97 </code></pre>
+<pre class="r"><code>
+tail(retorno_comparado)</code></pre>
+<pre><code>
+# A tibble: 6 x 3
+  Data       R_Carteira R_IBOV
+  &lt;date&gt;          &lt;dbl&gt;  &lt;dbl&gt;
+1 2019-09-23       11.5   11.1
+2 2019-09-24       11.4   10.3
+3 2019-09-25       10.9   10.9
+4 2019-09-26       11.9   11.8
+5 2019-09-27       12.2   11.5
+6 2019-09-30       12.8   11.2</code></pre>
+</div>
+<p>Com um simples gráfico utilizando o plotly + ggplot2 podemos visualizar o comportamento do retorno acumulado comparado com nosso benchmark. Percebe-se que minha carteira (sem os fundos imobiliários!) tem um desempenho lastimável frente ao principal índice de comparação IBOV, revelando minha falta de talento para comprar ações.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+plota_comparacao &lt;- function(dados) {
+  dados %&gt;%
+    ggplot(aes(x=Data, y=Retorno, group=Serie)) + 
+    geom_line(aes(color=Serie)) + 
+    geom_hline(yintercept=0) +
+    scale_x_date(date_labels = &quot;%b %y&quot;, 
+                 date_breaks = &quot;1 months&quot;,
+                 limits = c(min(retorno_comparado$Data), NA)) +
+    theme_minimal()
+    
+}
+
+plot_retorno &lt;- retorno_comparado %&gt;% 
+  gather(&#39;Serie&#39;, &#39;Retorno&#39;, starts_with(&#39;R_&#39;)) %&gt;% 
+  mutate(Retorno = round(Retorno,2)) %&gt;% 
+  plota_comparacao() +
+  ggtitle(&#39;Comparação do retorno acumulado desde o primeiro dia da carteira&#39;)
+
+ggplotly(plot_retorno, tooltip = c(&quot;Retorno&quot;))</code></pre>
+<div id="htmlwidget-d2be5f3b0f5c1a27b99c" style="width:624px;height:384px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-d2be5f3b0f5c1a27b99c">{"x":{"data":[{"x":[17961,17962,17963,17966,17967,17968,17969,17970,17973,17974,17975,17976,17977,17980,17981,17982,17983,17984,17987,17988,17989,17990,17991,17994,17995,17996,17997,17998,18001,18002,18003,18004,18008,18009,18010,18011,18012,18015,18016,18018,18019,18022,18023,18024,18025,18026,18029,18030,18031,18032,18033,18036,18037,18038,18039,18040,18043,18044,18045,18046,18047,18050,18051,18052,18053,18054,18057,18058,18059,18060,18061,18064,18065,18066,18068,18071,18072,18073,18074,18075,18078,18079,18080,18081,18082,18085,18087,18088,18089,18092,18093,18094,18095,18096,18099,18100,18101,18102,18103,18106,18107,18108,18109,18110,18113,18114,18115,18116,18117,18120,18121,18122,18123,18124,18127,18128,18129,18130,18131,18134,18135,18136,18137,18138,18141,18142,18143,18144,18145,18148,18149,18150,18151,18152,18155,18156,18157,18158,18159,18162,18163,18164,18165,18166,18169],"y":[0,0.04,0.78,2.94,3.24,3.71,2.42,3.33,4.64,4.44,2.78,1,-0.98,-1.27,0.08,-2.77,-1.32,-0.63,-0,-0.55,-1.49,-0.58,0.76,1.3,-0.51,-1.41,-2.23,-2.67,-1.73,-2.23,-3.3,-2.68,-1.84,-0.27,-0.31,1.53,-0.57,-0.49,-0.72,-1.64,-1.58,-2.26,-2.48,-1.43,-2.53,-2.59,-4.9,-5.09,-5.61,-6.61,-7.15,-5.08,-3.12,-3.42,-3.47,-4.13,-3.92,-1.83,-1.14,0.35,0.35,0.84,0.9,-0.23,0.63,1.66,1.38,1.49,0.97,1.48,0.4,0.64,2.1,3.01,4.15,4.64,2.51,2.59,2.77,3.32,3.45,3.02,4.08,5.54,6.62,6.96,9.26,9.02,7.13,6.1,6.82,6.78,6.56,5.44,6.15,6.07,6.62,6,6.4,7.05,7.03,6.65,7.01,7.68,5.94,9.21,9.94,10.85,12.73,10.28,11.55,8.86,6.51,8.02,7.58,7.25,8.59,7.4,5.39,3.82,4.55,5.35,8.01,10.36,8.96,8.07,8.33,9.09,8.97,8.65,8.79,10.82,10.7,9.1,9.28,11,11.53,12.18,11.94,11.46,11.4,10.88,11.88,12.15,12.76],"text":["Retorno:  0.00","Retorno:  0.04","Retorno:  0.78","Retorno:  2.94","Retorno:  3.24","Retorno:  3.71","Retorno:  2.42","Retorno:  3.33","Retorno:  4.64","Retorno:  4.44","Retorno:  2.78","Retorno:  1.00","Retorno: -0.98","Retorno: -1.27","Retorno:  0.08","Retorno: -2.77","Retorno: -1.32","Retorno: -0.63","Retorno:  0.00","Retorno: -0.55","Retorno: -1.49","Retorno: -0.58","Retorno:  0.76","Retorno:  1.30","Retorno: -0.51","Retorno: -1.41","Retorno: -2.23","Retorno: -2.67","Retorno: -1.73","Retorno: -2.23","Retorno: -3.30","Retorno: -2.68","Retorno: -1.84","Retorno: -0.27","Retorno: -0.31","Retorno:  1.53","Retorno: -0.57","Retorno: -0.49","Retorno: -0.72","Retorno: -1.64","Retorno: -1.58","Retorno: -2.26","Retorno: -2.48","Retorno: -1.43","Retorno: -2.53","Retorno: -2.59","Retorno: -4.90","Retorno: -5.09","Retorno: -5.61","Retorno: -6.61","Retorno: -7.15","Retorno: -5.08","Retorno: -3.12","Retorno: -3.42","Retorno: -3.47","Retorno: -4.13","Retorno: -3.92","Retorno: -1.83","Retorno: -1.14","Retorno:  0.35","Retorno:  0.35","Retorno:  0.84","Retorno:  0.90","Retorno: -0.23","Retorno:  0.63","Retorno:  1.66","Retorno:  1.38","Retorno:  1.49","Retorno:  0.97","Retorno:  1.48","Retorno:  0.40","Retorno:  0.64","Retorno:  2.10","Retorno:  3.01","Retorno:  4.15","Retorno:  4.64","Retorno:  2.51","Retorno:  2.59","Retorno:  2.77","Retorno:  3.32","Retorno:  3.45","Retorno:  3.02","Retorno:  4.08","Retorno:  5.54","Retorno:  6.62","Retorno:  6.96","Retorno:  9.26","Retorno:  9.02","Retorno:  7.13","Retorno:  6.10","Retorno:  6.82","Retorno:  6.78","Retorno:  6.56","Retorno:  5.44","Retorno:  6.15","Retorno:  6.07","Retorno:  6.62","Retorno:  6.00","Retorno:  6.40","Retorno:  7.05","Retorno:  7.03","Retorno:  6.65","Retorno:  7.01","Retorno:  7.68","Retorno:  5.94","Retorno:  9.21","Retorno:  9.94","Retorno: 10.85","Retorno: 12.73","Retorno: 10.28","Retorno: 11.55","Retorno:  8.86","Retorno:  6.51","Retorno:  8.02","Retorno:  7.58","Retorno:  7.25","Retorno:  8.59","Retorno:  7.40","Retorno:  5.39","Retorno:  3.82","Retorno:  4.55","Retorno:  5.35","Retorno:  8.01","Retorno: 10.36","Retorno:  8.96","Retorno:  8.07","Retorno:  8.33","Retorno:  9.09","Retorno:  8.97","Retorno:  8.65","Retorno:  8.79","Retorno: 10.82","Retorno: 10.70","Retorno:  9.10","Retorno:  9.28","Retorno: 11.00","Retorno: 11.53","Retorno: 12.18","Retorno: 11.94","Retorno: 11.46","Retorno: 11.40","Retorno: 10.88","Retorno: 11.88","Retorno: 12.15","Retorno: 12.76"],"type":"scatter","mode":"lines","line":{"width":1.88976377952756,"color":"rgba(248,118,109,1)","dash":"solid"},"hoveron":"points","name":"R_Carteira","legendgroup":"R_Carteira","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[17961,17962,17963,17966,17967,17968,17969,17970,17973,17974,17975,17976,17977,17980,17981,17982,17983,17984,17987,17988,17989,17990,17991,17994,17995,17996,17997,17998,18001,18002,18003,18004,18008,18009,18010,18011,18012,18015,18016,18018,18019,18022,18023,18024,18025,18026,18029,18030,18031,18032,18033,18036,18037,18038,18039,18040,18043,18044,18045,18046,18047,18050,18051,18052,18053,18054,18057,18058,18059,18060,18061,18064,18065,18066,18068,18071,18072,18073,18074,18075,18078,18079,18080,18081,18082,18085,18087,18088,18089,18092,18093,18094,18095,18096,18099,18100,18101,18102,18103,18106,18107,18108,18109,18110,18113,18114,18115,18116,18117,18120,18121,18122,18123,18124,18127,18128,18129,18130,18131,18134,18135,18136,18137,18138,18141,18142,18143,18144,18145,18148,18149,18150,18151,18152,18155,18156,18157,18158,18159,18162,18163,18164,18165,18166,18169],"y":[0,0.13,1.22,4.04,3.83,4.97,4.66,5.22,6.13,5.7,4.06,2.67,-0.51,-0.59,1.16,-2.46,0.18,1.27,1.95,1.24,0.29,2.22,3.07,3.35,2.2,1.84,0.57,-1.42,-1.2,0.12,-0.99,0.38,0.39,1.81,0.88,2.48,2.14,2.09,2.27,1.39,1.9,0.84,0.18,1.46,0.63,0.04,-2.64,-2.26,-2.75,-4.45,-4.48,-2.41,0.28,0.15,-0.33,-0.63,0.69,2.31,2.49,3.44,2.99,2.98,3.36,1.89,3.17,3.83,3.45,5.03,4.36,4.84,4.06,3.62,5.51,6.46,8.27,8.33,6.24,6.87,6.91,7.16,7.56,6.78,8.31,10,10.48,10.95,12.31,11.6,10.28,10.17,10.14,10.23,11.14,9.8,10.33,10.07,10.51,8.96,9.13,9.83,9.25,8.06,8.39,8.98,6.24,8.43,9.09,10.51,10.38,8.17,9.64,6.41,5.14,5.93,5.57,5.31,7.41,6.15,3.66,2.35,3.25,4.22,6.69,7.34,6.8,5.8,7.41,8.52,9.25,9.51,9.36,9.8,10.78,9.85,10.04,11.04,10.95,10.74,11.25,11.06,10.25,10.89,11.78,11.53,11.17],"text":["Retorno:  0.00","Retorno:  0.13","Retorno:  1.22","Retorno:  4.04","Retorno:  3.83","Retorno:  4.97","Retorno:  4.66","Retorno:  5.22","Retorno:  6.13","Retorno:  5.70","Retorno:  4.06","Retorno:  2.67","Retorno: -0.51","Retorno: -0.59","Retorno:  1.16","Retorno: -2.46","Retorno:  0.18","Retorno:  1.27","Retorno:  1.95","Retorno:  1.24","Retorno:  0.29","Retorno:  2.22","Retorno:  3.07","Retorno:  3.35","Retorno:  2.20","Retorno:  1.84","Retorno:  0.57","Retorno: -1.42","Retorno: -1.20","Retorno:  0.12","Retorno: -0.99","Retorno:  0.38","Retorno:  0.39","Retorno:  1.81","Retorno:  0.88","Retorno:  2.48","Retorno:  2.14","Retorno:  2.09","Retorno:  2.27","Retorno:  1.39","Retorno:  1.90","Retorno:  0.84","Retorno:  0.18","Retorno:  1.46","Retorno:  0.63","Retorno:  0.04","Retorno: -2.64","Retorno: -2.26","Retorno: -2.75","Retorno: -4.45","Retorno: -4.48","Retorno: -2.41","Retorno:  0.28","Retorno:  0.15","Retorno: -0.33","Retorno: -0.63","Retorno:  0.69","Retorno:  2.31","Retorno:  2.49","Retorno:  3.44","Retorno:  2.99","Retorno:  2.98","Retorno:  3.36","Retorno:  1.89","Retorno:  3.17","Retorno:  3.83","Retorno:  3.45","Retorno:  5.03","Retorno:  4.36","Retorno:  4.84","Retorno:  4.06","Retorno:  3.62","Retorno:  5.51","Retorno:  6.46","Retorno:  8.27","Retorno:  8.33","Retorno:  6.24","Retorno:  6.87","Retorno:  6.91","Retorno:  7.16","Retorno:  7.56","Retorno:  6.78","Retorno:  8.31","Retorno: 10.00","Retorno: 10.48","Retorno: 10.95","Retorno: 12.31","Retorno: 11.60","Retorno: 10.28","Retorno: 10.17","Retorno: 10.14","Retorno: 10.23","Retorno: 11.14","Retorno:  9.80","Retorno: 10.33","Retorno: 10.07","Retorno: 10.51","Retorno:  8.96","Retorno:  9.13","Retorno:  9.83","Retorno:  9.25","Retorno:  8.06","Retorno:  8.39","Retorno:  8.98","Retorno:  6.24","Retorno:  8.43","Retorno:  9.09","Retorno: 10.51","Retorno: 10.38","Retorno:  8.17","Retorno:  9.64","Retorno:  6.41","Retorno:  5.14","Retorno:  5.93","Retorno:  5.57","Retorno:  5.31","Retorno:  7.41","Retorno:  6.15","Retorno:  3.66","Retorno:  2.35","Retorno:  3.25","Retorno:  4.22","Retorno:  6.69","Retorno:  7.34","Retorno:  6.80","Retorno:  5.80","Retorno:  7.41","Retorno:  8.52","Retorno:  9.25","Retorno:  9.51","Retorno:  9.36","Retorno:  9.80","Retorno: 10.78","Retorno:  9.85","Retorno: 10.04","Retorno: 11.04","Retorno: 10.95","Retorno: 10.74","Retorno: 11.25","Retorno: 11.06","Retorno: 10.25","Retorno: 10.89","Retorno: 11.78","Retorno: 11.53","Retorno: 11.17"],"type":"scatter","mode":"lines","line":{"width":1.88976377952756,"color":"rgba(0,191,196,1)","dash":"solid"},"hoveron":"points","name":"R_IBOV","legendgroup":"R_IBOV","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[17950.6,18179.4],"y":[0,0],"text":"","type":"scatter","mode":"lines","line":{"width":1.88976377952756,"color":"rgba(0,0,0,1)","dash":"solid"},"hoveron":"points","showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null}],"layout":{"margin":{"t":45.4063926940639,"r":7.30593607305936,"b":41.8264840182648,"l":37.2602739726027},"font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187},"title":{"text":"Comparação do retorno acumulado desde o primeiro dia da carteira","font":{"color":"rgba(0,0,0,1)","family":"","size":17.5342465753425},"x":0,"xref":"paper"},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[17950.6,18179.4],"tickmode":"array","ticktext":["Mar 19","Abr 19","Mai 19","Jun 19","Jul 19","Ago 19","Set 19","Out 19"],"tickvals":[17956,17987,18017,18048,18078,18109,18140,18170],"categoryorder":"array","categoryarray":["Mar 19","Abr 19","Mai 19","Jun 19","Jul 19","Ago 19","Set 19","Out 19"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.65296803652968,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176,"zeroline":false,"anchor":"y","title":{"text":"Data","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[-8.1455,13.7555],"tickmode":"array","ticktext":["-5","0","5","10"],"tickvals":[-5,0,5,10],"categoryorder":"array","categoryarray":["-5","0","5","10"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.65296803652968,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176,"zeroline":false,"anchor":"x","title":{"text":"Retorno","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}},"hoverformat":".2f"},"shapes":[{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0,"x1":1,"y0":0,"y1":1}],"showlegend":true,"legend":{"bgcolor":null,"bordercolor":null,"borderwidth":0,"font":{"color":"rgba(0,0,0,1)","family":"","size":11.689497716895},"y":0.891732283464567},"annotations":[{"text":"Serie","x":1.02,"y":1,"showarrow":false,"ax":0,"ay":0,"font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187},"xref":"paper","yref":"paper","textangle":-0,"xanchor":"left","yanchor":"bottom","legendTitle":true}],"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","showSendToCloud":false},"source":"A","attrs":{"119877f678c0":{"colour":{},"x":{},"y":{},"type":"scatter"},"11985671c2c7":{"yintercept":{}}},"cur_data":"119877f678c0","visdat":{"119877f678c0":["function (y) ","x"],"11985671c2c7":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+<p>Com poucas adaptações conseguiríamos calcular rendimentos mensais acumualdos e inserir mais séries como benchmarnk.</p>
+<h2 id="conclusao">Conclusão</h2>
+<p>Além de ter excluído alguns tickers por problemas na API que usamos como fonte, há uma série de ajustes que precisam ser feitos na carteira para calcular com mais precisão: tratar desdobramentos, impostos, corretagens, etc.</p>
+<p>Além de precisar de uma API mais confiável do que a do Yahoo, seria legal também adaptar a leitura dos dados para flexibilizar um possível input via planilha de Excel, assim possibilitaria trazer para o R controles de compra e venda já existentes feitos fora do CEI.</p>
+<p>Em um próximo post vamos tentar explorar mais a fundo a composição da carteira, correlações e alguma avaliação simplificada de riscos.</p>
+<!--radix_placeholder_article_footer-->
+<!--/radix_placeholder_article_footer-->
+</div>
+
+<div class="d-appendix">
+</div>
+
+
+<!--radix_placeholder_site_after_body-->
+<!--/radix_placeholder_site_after_body-->
+<!--radix_placeholder_appendices-->
+<div class="appendix-bottom"></div>
+<!--/radix_placeholder_appendices-->
+<!--radix_placeholder_navigation_after_body-->
+<!--/radix_placeholder_navigation_after_body-->
+
+</body>
+
+</html>
