@@ -7,7 +7,16 @@
     <description>Fulljoin
 </description>
     <generator>Distill</generator>
-    <lastBuildDate>Sáb, 21 Set 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Ter, 01 Out 2019 00:00:00 +0000</lastBuildDate>
+    <item>
+      <title>Avaliando sua carteira: Explorando dados financeiros com R - parte 3</title>
+      <dc:creator>Saulo Guerra</dc:creator>
+      <link>https://www.fulljoin.com.br/posts/2019-10-01-b3-rvest-cei-parte-3</link>
+      <description>Nesse poste vamos baixar nossa carteira do CEI, baixar as cotações históricas e testar um método de comparação do rendimento diário acumulado com um benchmark.</description>
+      <guid>https://www.fulljoin.com.br/posts/2019-10-01-b3-rvest-cei-parte-3</guid>
+      <pubDate>Ter, 01 Out 2019 00:00:00 +0000</pubDate>
+      <media:content url="https://www.fulljoin.com.br/posts/2019-10-01-b3-rvest-cei-parte-3/../../images/cei_retorno_carteira.png" medium="image" type="image/png" width="506" height="290"/>
+    </item>
     <item>
       <title>Por que evitar for loops em R?</title>
       <dc:creator>Diego Afonso de Castro</dc:creator>
@@ -88,15 +97,6 @@
       <guid>https://www.fulljoin.com.br/posts/2019-07-23-rstudio-dicas</guid>
       <pubDate>Qui, 25 Jul 2019 00:00:00 +0000</pubDate>
       <media:content url="https://www.fulljoin.com.br/posts/2019-07-23-rstudio-dicas/../../images/dicas_funcao.gif" medium="image" type="image/gif"/>
-    </item>
-    <item>
-      <title>Scraping de dados da CBF com rvest</title>
-      <dc:creator>Miguel Cleaver</dc:creator>
-      <link>https://www.fulljoin.com.br/posts/2019-07-16-web-scraping-com-r</link>
-      <description>Nesse post apresentaremos um tutorial básico de web scraping utilizando o pacote rvest para extrair dados de jogos divulgadas no site da CBF. Rvest é um pacote do R que simplifica muito tarefas de scraping e te ajuda a extrair dados HTML das páginas web.</description>
-      <guid>https://www.fulljoin.com.br/posts/2019-07-16-web-scraping-com-r</guid>
-      <pubDate>Ter, 16 Jul 2019 00:00:00 +0000</pubDate>
-      <media:content url="https://www.fulljoin.com.br/posts/2019-07-16-web-scraping-com-r/../../images/cbf.gif" medium="image" type="image/gif"/>
     </item>
   </channel>
 </rss>

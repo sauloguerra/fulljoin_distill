@@ -8,7 +8,7 @@ output:
   distill::distill_article:
     self_contained: false
 preview: ../../images/cei_retorno_carteira.png
-draft: true
+draft: false
 ---
 
 ```{r setup, include=FALSE}
@@ -191,7 +191,7 @@ head(cotacoes_historicas)
 tail(cotacoes_historicas)
 ```
 
-Agora vamos cruzar os dados com a carteira e calcular os rendimentos.
+Agora vamos cruzar os dados com a carteira e começar a calcular os rendimentos, por partes.
 
 ```{r eval=TRUE, echo=FALSE}
 carteira <- carteira %>% 
@@ -215,13 +215,13 @@ carteira <- carteira %>%
 glimpse(carteira)
 ```
 
-## Calculando o retorno
+## Calculando o rendimento
 
-Depois de apanhar um pouco para entender a melhor forma de calcular o retorno acumulado, de forma agregada e desagregada, e depois de ótimas dicas de um amigo, entendi que o ideal é tratar sua carteira como um único fundo de cotas, e suas compras e venda, independente da ação, como compras de cotas desse fundo. Dessa forma, caso queira desagregar para ver o rendimento em diferentes níveis, basta tratar a agregação desejada como um fundo a parte. 
+Depois de apanhar um pouco para entender a melhor forma de calcular o rendimento acumulado, de forma agregada, e com a ajuda de ótimas dicas de um amigo, entendi que o ideal é tratar sua carteira inteira como um único fundo de cotas, e suas compras e venda, independente da ação, como compras de cotas desse fundo. Dessa forma, caso queira desagregar para ver o rendimento em diferentes níveis de detalhes ou períodos, basta tratar a agregação desejada como um fundo a parte. 
 
-Sumarizamos por dia e pegaremos a quantidade de ações custodiadas vezes seu respectivo preço de fechamento divido pelo valor total aplicado. Dessa forma teremos o valor da cota desse dia. Façamos o mesmo para o preço ajustado, que difere do preço de fechamento pelos ajustes feitos (direto na fonte) para descontar dividendos e outras coisas. Dividido a cota com valor ajustado pela cota de fechameto temos uma cota real.
+Começaremos sumarizando por dia e pegando a quantidade de ações custodiadas vezes seu respectivo preço de fechamento divido pelo valor total aplicado. Dessa forma teremos o valor custodiado nesse dia. Façamos o mesmo para o preço ajustado, que difere do preço de fechamento pelos ajustes feitos (direto na fonte) para descontar dividendos e outras coisas. Dividido o calculado com valor ajustado pelo calculado com fechamento, pegamos apenas o primeiro dia temos uma cota inicial real.
 
-Sendo assim, escolhemos o primeiro dia e calculamos a cota inicial. A partir dela vamos equalizando a compra e venda de novas cotas:
+A partir da cota inicial vamos equalizando a compra e venda de novas cotas.
 
 ```{r}
 calcula_cota_inicial <- function(dados) {
@@ -254,7 +254,7 @@ retorno <- carteira %>%
   calcula_valor_investido()
 ```
 
-Com o valor da cota inicial e com o valor de mercado de cada investimento calculamos o retorno dia a dia com base na cota inicial e reequilibrando o valor da cota com os novos aportes e com os preços de mercado já calculados.
+Com o valor da cota inicial e com o valor de mercado de cada aporte/venda calculamos o retorno dia a dia apreço de mercado (ajustado) com base na cota inicial e reequilibrando o valor da cota com os novos aportes (a valor de mercado já calculados).
 
 ```{r}
 calcula_retorno_cotas <- function(dados) {
@@ -269,7 +269,7 @@ calcula_retorno_cotas <- function(dados) {
 retorno_cotas <- calcula_retorno_cotas(retorno)
 ```
 
-Uma simples função para calcular o retorno em um perído agregado
+Uma simples função para calcular o retorno em um período agregado. Nesse exercício calculamos por dia mesmo. 
 
 ```{r}
 mede_retorno_periodo <- function(dados) {
@@ -282,7 +282,7 @@ retorno_total <- retorno_cotas %>%
   mede_retorno_periodo()
 ```
 
-Pronto, agora baixamos a série do índice Bovespa para um benchmark mínimo e aplicamos o mesmo cálculo de retorno/cota. Fazemos um join com o benchmark onde a data é a chave e teremos um data frame com ambas as séries de retornos acumulados prontas para comparação.
+Pronto, agora pegamos a série do índice Bovespa para um benchmark básico e aplicamos o mesmo cálculo de retorno/cota. Fazemos um [join](https://www.fulljoin.com.br/posts/2016-05-12-tudo-sobre-joins/) com o benchmark onde a data é a chave e teremos um data frame com ambas as séries de retornos acumulados, dia a dia, prontas para comparação.
 
 ```{r}
 benchmark <- historico_cotacoes('^BVSP', inicio = inicio, fim = today())
@@ -301,7 +301,7 @@ head(retorno_comparado)
 tail(retorno_comparado)
 ```
 
-Com um simples gráfico utilizando o plotly + ggplot2 podemos visualizar o comportamento do retorno acumulado comparado com nosso benchmark. Percebe-se que minha carteira (sem os fundos imobiliários!) tem um desempenho lastimável frente ao principal índice de comparação IBOV, revelando minha falta de talento para comprar ações.
+Com um simples gráfico utilizando o plotly + ggplot2 podemos visualizar o comportamento do retorno acumulado comparado com nosso benchmark. Percebe-se que minha carteira (sem os fundos imobiliários!) tem um desempenho lastimável frente ao principal índice de comparação IBOV, sem ganhos relevantes contra o índice, revelando minha falta de talento para comprar ações.
 
 ```{r}
 plota_comparacao <- function(dados) {
@@ -325,12 +325,12 @@ plot_retorno <- retorno_comparado %>%
 ggplotly(plot_retorno, tooltip = c("Retorno"))
 ```
 
-Com poucas adaptações conseguiríamos calcular rendimentos mensais acumualdos e inserir mais séries como benchmarnk.
+Com poucas adaptações conseguiríamos calcular rendimentos mensais acumulados e inserir mais séries como benchmarnk (CDI, dólar, IFIX, outras carteiras, etc).
 
 ## Conclusão
 
-Além de ter excluído alguns tickers por problemas na API que usamos como fonte, há uma série de ajustes que precisam ser feitos na carteira para calcular com mais precisão: tratar desdobramentos, impostos, corretagens, etc.
+Além de ter excluído alguns tickers por problemas na API que usamos como fonte, há uma série de ajustes que precisariam ser feitos nos dados iniciais da carteira para calcular os retornos com mais precisão: tratar desdobramentos, impostos, descontar corretagens na venda, etc.
 
-Além de precisar de uma API mais confiável do que a do Yahoo, seria legal também adaptar a leitura dos dados para flexibilizar um possível input via planilha de Excel, assim possibilitaria trazer para o R controles de compra e venda já existentes feitos fora do CEI.
+É necessário encontrar uma API mais confiável do que a do Yahoo, que não demonstrou ser confiável. Seria legal também adaptar a leitura dos dados para flexibilizar um possível input via planilha de Excel ou csv, assim permitira trazer para o R controles de compra e venda já existentes feitos em planilhas fora do CEI.
 
-Em um próximo post vamos tentar explorar mais a fundo a composição da carteira, correlações e alguma avaliação simplificada de riscos.
+Em um próximo post vamos tentar explorar mais a fundo a composição da carteira, correlações, alguma avaliação simplificada de riscos e outros tipos de visualizações interessantes para dados financeiros. Vale a pena também um post específico para mostrar o pacote tidyquant.

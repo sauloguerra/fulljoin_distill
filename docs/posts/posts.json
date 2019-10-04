@@ -1,5 +1,22 @@
 [
   {
+    "path": "posts/2019-10-01-b3-rvest-cei-parte-3/",
+    "title": "Avaliando sua carteira: Explorando dados financeiros com R - parte 3",
+    "description": "Nesse poste vamos baixar nossa carteira do CEI, baixar as cotações históricas e testar um método de comparação do rendimento diário acumulado com um benchmark.",
+    "author": [
+      {
+        "name": "Saulo Guerra",
+        "url": {}
+      }
+    ],
+    "date": "2019-10-01",
+    "categories": [],
+    "preview": "posts/2019-10-01-b3-rvest-cei-parte-3/../../images/cei_retorno_carteira.png",
+    "last_modified": "2019-10-03T23:54:34-03:00",
+    "preview_width": 506,
+    "preview_height": 290
+  },
+  {
     "path": "posts/2019-09-19-loop-vs-alternativas/",
     "title": "Por que evitar for loops em R?",
     "description": "A partir de um simples exemplo, vamos testar o desempenho de for loops comparando-o com a performance de outras alternativas como apply, funções do purrr e estratégias paralelizadas.",
