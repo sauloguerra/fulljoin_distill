@@ -17,7 +17,7 @@ knitr::opts_chunk$set(echo = TRUE, cache = FALSE, warning = FALSE, message = FAL
 
 Nos dois posts anteriores, [primeiro nesse](https://www.fulljoin.com.br/posts/2019-07-18-b3-rvest-explorando-dados-financeiros-com-r/), [depois nesse](https://www.fulljoin.com.br/posts/2019-09-03-b3-rvest-cei/), demos nossos primeiros passos explorando dados financeiros da B3 e do CEI com R. Neste post vamos partir da carteira que baixamos do CEI pro R e tentar calcular o rendimento comparando com um o índice IBOV.
 
-Por ser um mero novato no mercado financeiro, há grande chance de apresentar algum conceito equivocado sobre renda variável. Apesar do objetivo aqui ser explorar o R e as possibilidade de interação com dados da B3, estou completamente aberto para receber dicas, broncas, esculachos ou correções sobre qualquer coisa que eu venha a escrever a respeito deste tema!
+Por ser um mero novato no mercado financeiro, há grande chance de apresentar algum conceito equivocado sobre renda variável. Apesar do objetivo aqui ser explorar o R e as possibilidade de interação com dados da B3, estou completamente aberto para receber dicas, avisos de erros e possíveis correções que precisam ser feitas sobre qualquer coisa que eu venha a escrever a respeito deste tema.
 
 ## Definindo objetivo
 
@@ -167,7 +167,7 @@ historico_cotacoes <- function(tickers, inicio = today(), fim = today()) {
 }
 ```
 
-Depois de alguns experimentos com a API do Yahoo, percebi um comportamento muito estranho com tickers de Fundo Imobiliário, retornando em alguns casos apenas o último dia. Isso me fez concluir que a API gratuita do Yahoo é uma porcaria. Caso você conheça alguma API para cotações históricas melhores que a do Yahoo, por favor nos avise nos comentários!
+Depois de alguns experimentos com a API do Yahoo, percebi um comportamento muito estranho com tickers de Fundo Imobiliário, retornando em alguns casos apenas o último dia. Isso me fez concluir que a API gratuita do Yahoo não parece muito confiável. Caso você conheça alguma API para cotações históricas melhores que a do Yahoo, por favor nos avise nos comentários.
 
 Para não prejudicar o exercício, e até que eu encontre uma API melhor, prosseguiremos sem os tickers terminados em 11.
 
@@ -331,6 +331,6 @@ Com poucas adaptações conseguiríamos calcular rendimentos mensais acumulados 
 
 Além de ter excluído alguns tickers por problemas na API que usamos como fonte, há uma série de ajustes que precisariam ser feitos nos dados iniciais da carteira para calcular os retornos com mais precisão: tratar desdobramentos, impostos, descontar corretagens na venda, etc.
 
-É necessário encontrar uma API mais confiável do que a do Yahoo, que não demonstrou ser confiável. Seria legal também adaptar a leitura dos dados para flexibilizar um possível input via planilha de Excel ou csv, assim permitira trazer para o R controles de compra e venda já existentes feitos em planilhas fora do CEI.
+É necessário encontrar uma API mais confiável do que a do Yahoo, que apresentou comportamento estranho. Seria legal também adaptar a leitura dos dados para flexibilizar um possível input via planilha de Excel ou csv, assim permitira trazer para o R controles de compra e venda já existentes feitos em planilhas fora do CEI.
 
 Em um próximo post vamos tentar explorar mais a fundo a composição da carteira, correlações, alguma avaliação simplificada de riscos e outros tipos de visualizações interessantes para dados financeiros. Vale a pena também um post específico para mostrar o pacote tidyquant.
