@@ -1,0 +1,176 @@
+---
+title: "Manipulação de texto com stringr"
+description: |
+  Este é o post inicial de uma série de posts que faremos sobre manipulações de texto com o pacote stringr. Iremos criar alguns problemas e mostrar quais funções do pacote devemos utilizar para solucionar esses problemas. Aprenderemos a limpar os dados e a padronizá-los. Se você tem dificuldade com manipulação de texto, esse post é para você.
+date: 10-13-2019
+author: Miguel Cleaver
+categories:
+  - Manipulação de texto
+  - stringr
+output:
+  distill::distill_article:
+    self_contained: false
+preview: ../../images/logo_stringr.png
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Este post inicia uma série de posts que iremos fazer sobre manipulação de texto. Para esse fim, utilizaremos o pacote [stringr](https://www.rdocumentation.org/packages/stringr/versions/1.4.0). Se você tem dificuldade com a manipulação de dados textuais no R, esse post é para você. Ao longo da série, vamos criar diferentes problemas e mostrar como podemos resolvê-los. Em posts futuros, ainda teremos a oportunidade de aprender alguns detalhes básicos de expressões regulares (**regex**), que são fundamentais para a manipulação de texto.
+
+Regex não é difícil, mas exige um pouco de paciência. Para quem já tiver interesse de ir se informando sobre o assunto, vale a pena dar uma olhada na página do [Wikipédia sobre regex](https://pt.wikipedia.org/wiki/Express%C3%A3o_regular) e neste [link](https://regexr.com/) mais prático sobre **regex**.
+
+### Criação de dados textuais
+
+Esta etapa visa criar uma pequena base de dados para que possamos fazer nossos exercícios de manipulações de texto.
+
+Primeiramente, carregamos os pacotes `dplyr`  e `stringr`.
+
+```{r}
+library(dplyr)
+library(stringr)
+```
+
+Para que você possa replicar este exercício vamos usar a função `set.seed` (**obs.** se sua versão do R for anterior à versão 3.6.0, você não vai conseguir replicar o exercício, mas pode ficar tranquilo que ainda assim vai conseguir acompanhar a lógica das funções que iremos explorar).
+
+```{r}
+# colocamos um seed para reprodutibilidade
+set.seed(12345)
+
+# criamos um vetor númerico de tamanho 200 com valores entre 1 e 99999; 
+numeros <- sample(1:99999, 200) %>% 
+  as.character()
+
+# definimos um conjunto de letras e pontuações.
+letras <- c(letters, ".", ",", ";", " ")
+
+# criamos uma função para gerar um texto de caracteres aleatórios
+# com no minimo 10 carateres e no maximo 50 caracteres
+texto_aleatorio <- function() {
+  i <- sample(10:50, 1)
+  texto <- sample(letras, i, replace = TRUE)
+  paste0(texto, collapse = "")
+}
+
+dado_textual <- vector(mode = "character", length = 200)
+for(i in 1:length(dado_textual)) {
+  dado_textual[i] <- texto_aleatorio()
+}
+
+df <- tibble(codigos = numeros,
+             descricao = dado_textual)
+```
+
+
+### Problema n. 1: Como adicionar caracteres para que as observações de uma coluna tenham sempre o mesmo tamanho?
+
+Suponhamos que você precisa padronizar a primeira coluna de forma que ela tenha sempre seis dígitos. Assim, para uma observação com o número "10", a qual tem dois dígitos, precisaríamos adicionar mais quatro dígitos para que a observação tenha no total seis dígitos.
+
+Suponha que desejemos manter a informação que os nossos dados nos fornecem, isto é, não queremos perder a informação do valor da coluna. Se optarmos em preencher os demais dígitos da observação de valor "10" com zeros, deveremos preenchê-los da esquerda para a direita para obter "000010". Já se preenchermos nossa observação "10" com zeros da direita para esquerda obteríamos "100000". Isso geraria uma ambiguidade, pois não saberíamos se o dado tinha inicialmente o valor 10 ou o valor 10.000. Por isso, nesse caso, o ideal seria preencher nossa observação com zeros da esquerda para a direita. 
+
+Mas, afinal, como preencher caracteres adicionais nos nossos dados para que todas as observações tenham seis dígitos? 
+
+A função que resolve nosso problema se chama `str_pad`. 
+
+No primeiro argumento da função devemos inserir o objeto que queremos padronizar. No nosso caso, suponhamos que queremos padronizar a primeira coluna do objeto `df` (coluna "codigos"). Todos os elementos da coluna possuem até cinco dígitos, mas queremos que os dados dessa coluna tenham sempre seis dígitos.
+
+Portanto, no argumento `width` devemos inserir o tamanho que queremos que cada elemento do nosso vetor tenha, isto é, `width = 6`. No argumento `side` escolhemos "left" (esquerda), uma vez que, para este exemplo, queremos completar o nosso dado com um caractere da nossa escolha pelo lado esquerdo do dado. No argumento `pad` deve-se escolher uma letra, número ou símbolo para preencher os elementos do nosso dado. No presente caso, como queremos preencher os dígitos remanescentes com o dígito zero, devemos especificar `pad = "0"`.
+
+Primeiramente vejamos a coluna `codigos` do objeto `df`:
+
+```{r}
+# ver coluna "codigos" em form de vetor
+df %>% 
+  pull(codigos)
+```
+
+Agora façamos a alteração proposta na coluna "codigos":
+
+```{r}
+df_temp <- df %>% 
+  mutate(codigos = str_pad(codigos, # reescrevemos a coluna codigos
+                      width = 6, 
+                      side = "left", 
+                      pad = "0"))
+
+# ver como ficou a coluna "codigos" em forma de vetor
+df_temp %>% 
+  pull(codigos)
+```
+
+Como se pode ver, todos os dados da coluna "codigos" tem seis caracteres, ou, mais especificamente, seis dígitos. Se você gosta de conferir o que você fez, pode pedir para o R contar o número de caracteres da seguinte forma:
+
+```{r}
+df_temp %>% 
+  count(caracteres = nchar(codigos))
+
+```
+
+Acima contamos os caracteres da coluna "codigos". Há 200 observações, todas com seis caracteres.
+
+Para fins didáticos, fazemos um procedimento semelhante, mas, agora, em vez de preencher nossas observações com zeros pela esquerda, preenchemos com asteriscos ("\*") pela direita.
+
+```{r}
+df_temp <- df %>% 
+  mutate(codigos = str_pad(codigos,
+                           width = 6,
+                           side = "right",
+                           pad = "*"))
+
+df_temp %>% 
+  pull(codigos)
+```
+
+### Problema n. 2: Como reduzir o numero de caracteres para um tamanho menor do que o existente nos nossos dados?
+
+Para esse exercício, vamos usar o objeto `df_temp`, recém definido. A coluna "codigos" tem seis caracteres, mas vamos supor que também precisamos criar uma coluna que captura os três primeiros caracteres da coluna "codigos".
+
+A função que vai nos ajudar com essa tarefa se chama `str_sub`. No nosso caso, queremos extrair os três primeiros caracteres da coluna "codigos". É esta coluna que deve ser inserida no primeiro argumento. 
+
+No segundo e no terceiro argumento inserimos, respectivamente, a posição numérica inicial e final referente aos caracteres das observações da coluna "codigos" que queremos extrair. Como queremos extrair os três primeiros caracteres, a posição inicial deve ser a posição númerica do primeiro caractere e a posição final deve ser a posição do terceiro caractere.  
+
+```{r}
+df_temp <- df_temp %>% 
+  mutate(primeiros_tres = str_sub(codigos, 1, 3))
+
+df_temp %>% 
+  head()
+```
+
+Para consolidarmos o conhecimento, agora suponha que ainda temos o objetivo de criar uma nova coluna apenas com apenas o terceiro caractere da coluna "codigos". Chamemos essa coluna de "digito3".
+
+```{r}
+df_temp <- df_temp %>% 
+  mutate(digito3 = str_sub(codigos, 3, 3))
+
+head(df_temp)
+```
+
+### Problema n. 3: como filtrar dados com certos padrões no texto?
+
+Para filtrar padrões de interesse em dados textuais podemos utilizar a função `str_detect`. Esta função retorna um valor lógico. Retorna TRUE para o caso do padrão ter sido detectado e retorna FALSE, caso contrário. No primeiro argumento, inserimos o vetor para o qual queremos detectar algum padrão. No segundo argumento, inserimos o padrão que desejamos detectar. 
+
+Ao usar essa função em conjunto com a função `filter` conseguimos filtrar padrões de interesse, uma vez que a função `filter ` usa vetores lógicos para fazer filtros. Para o problema n. 3, vamos trabalhar com a coluna "descricao" que criamos no início do post.
+
+Suponha que desejamos encontrar todas as observações que possuem o padrão de letras "mm" (o padrão "mm" pode aparecer em qualquer posição do texto). Assim, podemos fazer o seguinte:
+
+```{r}
+df_temp %>% 
+  filter(str_detect(descricao, "mm"))
+```
+
+Apenas quatro observações de um total de 200 possuem o padrão "mm".
+
+Agora olhemos para a quarta observação da coluna "descricao" acima. Os três primeiros caracteres são "wuq". Será que há mais observações com esse padrão na coluna "descricao"? Vamos investigar:
+
+```{r}
+df_temp %>% 
+  filter(str_detect(descricao, "wuq"))
+```
+
+Como podemos notar somente há uma observação com o padrão "wuq". 
+
+Bom, vamos encerrando por aqui. No próxima parte desta sequência de posts veremos um pouco mais de como identificar observações textuais, como eliminar caracteres indesejados e, também, como substitui-los por outros caracteres.
+
+Até breve!
