@@ -19,7 +19,7 @@
  <!--/radix_placeholder_import_source-->
 
   <!--radix_placeholder_meta_tags-->
-  <title>Modelagem de Tópicos com o R: Analisando os Textos de Acordos Comerciais</title>
+  <title>Tidytext e Modelagem de Tópicos com o R: Analisando os Textos de Acordos Comerciais</title>
   
   <meta property="description" itemprop="description" content="Neste post, vamos fazer uma análise de tópicos utilizando os pacotes tidytext e topicmodels. Essa análise consiste em extrair um conjunto de temas (tópicos) de um conjunto de textos. Para isso, utilizamos uma base de textos de acordos comerciais. Veremos que o método utilizado é capaz de identificar uma séria de tópicos relevantes."/>
   
@@ -30,26 +30,26 @@
   <meta name="article:author" content="Paulo Felipe Alencar"/>
   
   <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
-  <meta property="og:title" content="Modelagem de Tópicos com o R: Analisando os Textos de Acordos Comerciais"/>
+  <meta property="og:title" content="Tidytext e Modelagem de Tópicos com o R: Analisando os Textos de Acordos Comerciais"/>
   <meta property="og:type" content="article"/>
   <meta property="og:description" content="Neste post, vamos fazer uma análise de tópicos utilizando os pacotes tidytext e topicmodels. Essa análise consiste em extrair um conjunto de temas (tópicos) de um conjunto de textos. Para isso, utilizamos uma base de textos de acordos comerciais. Veremos que o método utilizado é capaz de identificar uma séria de tópicos relevantes."/>
   <meta property="og:locale" content="en_US"/>
   
   <!--  https://dev.twitter.com/cards/types/summary -->
   <meta property="twitter:card" content="summary"/>
-  <meta property="twitter:title" content="Modelagem de Tópicos com o R: Analisando os Textos de Acordos Comerciais"/>
+  <meta property="twitter:title" content="Tidytext e Modelagem de Tópicos com o R: Analisando os Textos de Acordos Comerciais"/>
   <meta property="twitter:description" content="Neste post, vamos fazer uma análise de tópicos utilizando os pacotes tidytext e topicmodels. Essa análise consiste em extrair um conjunto de temas (tópicos) de um conjunto de textos. Para isso, utilizamos uma base de textos de acordos comerciais. Veremos que o método utilizado é capaz de identificar uma séria de tópicos relevantes."/>
   
   <!--/radix_placeholder_meta_tags-->
   <!--radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-rmarkdown-metadata">
-  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","output","draft"]}},"value":[{"type":"character","attributes":{},"value":["Modelagem de Tópicos com o R: Analisando os Textos de Acordos Comerciais"]},{"type":"character","attributes":{},"value":["Neste post, vamos fazer uma análise de tópicos utilizando os pacotes tidytext e topicmodels. Essa análise consiste em extrair um conjunto de temas (tópicos) de um conjunto de textos. Para isso, utilizamos uma base de textos de acordos comerciais. Veremos que o método utilizado é capaz de identificar uma séria de tópicos relevantes.  \n"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name"]}},"value":[{"type":"character","attributes":{},"value":["Paulo Felipe Alencar"]}]}]},{"type":"character","attributes":{},"value":["09-19-2019"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]}]},{"type":"logical","attributes":{},"value":[true]}]}
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","output","draft"]}},"value":[{"type":"character","attributes":{},"value":["Tidytext e Modelagem de Tópicos com o R: Analisando os Textos de Acordos Comerciais"]},{"type":"character","attributes":{},"value":["Neste post, vamos fazer uma análise de tópicos utilizando os pacotes tidytext e topicmodels. Essa análise consiste em extrair um conjunto de temas (tópicos) de um conjunto de textos. Para isso, utilizamos uma base de textos de acordos comerciais. Veremos que o método utilizado é capaz de identificar uma séria de tópicos relevantes.  \n"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name"]}},"value":[{"type":"character","attributes":{},"value":["Paulo Felipe Alencar"]}]}]},{"type":"character","attributes":{},"value":["09-19-2019"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]}]},{"type":"logical","attributes":{},"value":[true]}]}
   </script>
   <!--/radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-resource-manifest">
-  {"type":"character","attributes":{},"value":["exemplo_xml.png","modelagem-de-tpicos-com-o-r-analisando-os-textos-de-acordos-comerciais_files/bowser-1.9.3/bowser.min.js","modelagem-de-tpicos-com-o-r-analisando-os-textos-de-acordos-comerciais_files/distill-2.2.21/template.v2.js","modelagem-de-tpicos-com-o-r-analisando-os-textos-de-acordos-comerciais_files/figure-html5/unnamed-chunk-14-1.png","modelagem-de-tpicos-com-o-r-analisando-os-textos-de-acordos-comerciais_files/figure-html5/unnamed-chunk-18-1.png","modelagem-de-tpicos-com-o-r-analisando-os-textos-de-acordos-comerciais_files/figure-html5/unnamed-chunk-8-1.png","modelagem-de-tpicos-com-o-r-analisando-os-textos-de-acordos-comerciais_files/jquery-1.11.3/jquery.min.js","modelagem-de-tpicos-com-o-r-analisando-os-textos-de-acordos-comerciais_files/pagedtable-1.1/css/pagedtable.css","modelagem-de-tpicos-com-o-r-analisando-os-textos-de-acordos-comerciais_files/pagedtable-1.1/js/pagedtable.js","modelagem-de-tpicos-com-o-r-analisando-os-textos-de-acordos-comerciais_files/webcomponents-2.0.0/webcomponents.js","xml/pta_1.xml","xml/pta_10.xml","xml/pta_100.xml","xml/pta_101.xml","xml/pta_102.xml","xml/pta_103.xml","xml/pta_104.xml","xml/pta_105.xml","xml/pta_106.xml","xml/pta_107.xml","xml/pta_108.xml","xml/pta_109.xml","xml/pta_11.xml","xml/pta_110.xml","xml/pta_111.xml","xml/pta_112.xml","xml/pta_113.xml","xml/pta_114.xml","xml/pta_115.xml","xml/pta_116.xml","xml/pta_117.xml","xml/pta_118.xml","xml/pta_119.xml","xml/pta_12.xml","xml/pta_120.xml","xml/pta_121.xml","xml/pta_122.xml","xml/pta_123.xml","xml/pta_124.xml","xml/pta_125.xml","xml/pta_126.xml","xml/pta_127.xml","xml/pta_128.xml","xml/pta_129.xml","xml/pta_13.xml","xml/pta_130.xml","xml/pta_131.xml","xml/pta_132.xml","xml/pta_133.xml","xml/pta_134.xml","xml/pta_135.xml","xml/pta_136.xml","xml/pta_137.xml","xml/pta_138.xml","xml/pta_139.xml","xml/pta_14.xml","xml/pta_140.xml","xml/pta_141.xml","xml/pta_142.xml","xml/pta_143.xml","xml/pta_144.xml","xml/pta_145.xml","xml/pta_146.xml","xml/pta_147.xml","xml/pta_148.xml","xml/pta_149.xml","xml/pta_15.xml","xml/pta_150.xml","xml/pta_151.xml","xml/pta_152.xml","xml/pta_153.xml","xml/pta_154.xml","xml/pta_155.xml","xml/pta_156.xml","xml/pta_157.xml","xml/pta_158.xml","xml/pta_159.xml","xml/pta_16.xml","xml/pta_160.xml","xml/pta_161.xml","xml/pta_162.xml","xml/pta_163.xml","xml/pta_164.xml","xml/pta_165.xml","xml/pta_166.xml","xml/pta_167.xml","xml/pta_168.xml","xml/pta_169.xml","xml/pta_17.xml","xml/pta_170.xml","xml/pta_171.xml","xml/pta_172.xml","xml/pta_173.xml","xml/pta_174.xml","xml/pta_175.xml","xml/pta_176.xml","xml/pta_177.xml","xml/pta_178.xml","xml/pta_179.xml","xml/pta_18.xml","xml/pta_180.xml","xml/pta_181.xml","xml/pta_182.xml","xml/pta_183.xml","xml/pta_184.xml","xml/pta_185.xml","xml/pta_186.xml","xml/pta_187.xml","xml/pta_188.xml","xml/pta_189.xml","xml/pta_19.xml","xml/pta_190.xml","xml/pta_191.xml","xml/pta_192.xml","xml/pta_193.xml","xml/pta_194.xml","xml/pta_195.xml","xml/pta_196.xml","xml/pta_197.xml","xml/pta_198.xml","xml/pta_199.xml","xml/pta_2.xml","xml/pta_20.xml","xml/pta_200.xml","xml/pta_201.xml","xml/pta_202.xml","xml/pta_203.xml","xml/pta_204.xml","xml/pta_205.xml","xml/pta_206.xml","xml/pta_207.xml","xml/pta_208.xml","xml/pta_209.xml","xml/pta_21.xml","xml/pta_210.xml","xml/pta_211.xml","xml/pta_212.xml","xml/pta_213.xml","xml/pta_214.xml","xml/pta_215.xml","xml/pta_216.xml","xml/pta_217.xml","xml/pta_218.xml","xml/pta_219.xml","xml/pta_22.xml","xml/pta_220.xml","xml/pta_221.xml","xml/pta_222.xml","xml/pta_223.xml","xml/pta_224.xml","xml/pta_225.xml","xml/pta_226.xml","xml/pta_227.xml","xml/pta_228.xml","xml/pta_229.xml","xml/pta_23.xml","xml/pta_230.xml","xml/pta_231.xml","xml/pta_232.xml","xml/pta_233.xml","xml/pta_234.xml","xml/pta_235.xml","xml/pta_236.xml","xml/pta_237.xml","xml/pta_238.xml","xml/pta_239.xml","xml/pta_24.xml","xml/pta_240.xml","xml/pta_241.xml","xml/pta_242.xml","xml/pta_243.xml","xml/pta_244.xml","xml/pta_245.xml","xml/pta_246.xml","xml/pta_247.xml","xml/pta_248.xml","xml/pta_249.xml","xml/pta_25.xml","xml/pta_250.xml","xml/pta_251.xml","xml/pta_252.xml","xml/pta_253.xml","xml/pta_254.xml","xml/pta_255.xml","xml/pta_256.xml","xml/pta_257.xml","xml/pta_258.xml","xml/pta_259.xml","xml/pta_26.xml","xml/pta_260.xml","xml/pta_261.xml","xml/pta_262.xml","xml/pta_263.xml","xml/pta_264.xml","xml/pta_265.xml","xml/pta_266.xml","xml/pta_267.xml","xml/pta_268.xml","xml/pta_269.xml","xml/pta_27.xml","xml/pta_270.xml","xml/pta_271.xml","xml/pta_272.xml","xml/pta_273.xml","xml/pta_274.xml","xml/pta_275.xml","xml/pta_276.xml","xml/pta_277.xml","xml/pta_278.xml","xml/pta_279.xml","xml/pta_28.xml","xml/pta_280.xml","xml/pta_281.xml","xml/pta_282.xml","xml/pta_283.xml","xml/pta_284.xml","xml/pta_285.xml","xml/pta_286.xml","xml/pta_287.xml","xml/pta_288.xml","xml/pta_289.xml","xml/pta_29.xml","xml/pta_290.xml","xml/pta_291.xml","xml/pta_292.xml","xml/pta_293.xml","xml/pta_294.xml","xml/pta_295.xml","xml/pta_296.xml","xml/pta_297.xml","xml/pta_298.xml","xml/pta_299.xml","xml/pta_3.xml","xml/pta_30.xml","xml/pta_300.xml","xml/pta_301.xml","xml/pta_302.xml","xml/pta_303.xml","xml/pta_304.xml","xml/pta_305.xml","xml/pta_306.xml","xml/pta_307.xml","xml/pta_308.xml","xml/pta_309.xml","xml/pta_31.xml","xml/pta_310.xml","xml/pta_311.xml","xml/pta_312.xml","xml/pta_313.xml","xml/pta_314.xml","xml/pta_315.xml","xml/pta_316.xml","xml/pta_317.xml","xml/pta_318.xml","xml/pta_319.xml","xml/pta_32.xml","xml/pta_320.xml","xml/pta_321.xml","xml/pta_322.xml","xml/pta_323.xml","xml/pta_324.xml","xml/pta_325.xml","xml/pta_326.xml","xml/pta_327.xml","xml/pta_328.xml","xml/pta_329.xml","xml/pta_33.xml","xml/pta_330.xml","xml/pta_331.xml","xml/pta_332.xml","xml/pta_333.xml","xml/pta_334.xml","xml/pta_335.xml","xml/pta_336.xml","xml/pta_337.xml","xml/pta_338.xml","xml/pta_339.xml","xml/pta_34.xml","xml/pta_340.xml","xml/pta_341.xml","xml/pta_342.xml","xml/pta_343.xml","xml/pta_344.xml","xml/pta_345.xml","xml/pta_346.xml","xml/pta_347.xml","xml/pta_348.xml","xml/pta_349.xml","xml/pta_35.xml","xml/pta_350.xml","xml/pta_351.xml","xml/pta_352.xml","xml/pta_353.xml","xml/pta_354.xml","xml/pta_355.xml","xml/pta_356.xml","xml/pta_357.xml","xml/pta_358.xml","xml/pta_359.xml","xml/pta_36.xml","xml/pta_360.xml","xml/pta_361.xml","xml/pta_362.xml","xml/pta_363.xml","xml/pta_364.xml","xml/pta_365.xml","xml/pta_366.xml","xml/pta_367.xml","xml/pta_368.xml","xml/pta_369.xml","xml/pta_37.xml","xml/pta_370.xml","xml/pta_371.xml","xml/pta_372.xml","xml/pta_373.xml","xml/pta_374.xml","xml/pta_375.xml","xml/pta_376.xml","xml/pta_377.xml","xml/pta_378.xml","xml/pta_379.xml","xml/pta_38.xml","xml/pta_380.xml","xml/pta_381.xml","xml/pta_382.xml","xml/pta_383.xml","xml/pta_384.xml","xml/pta_385.xml","xml/pta_386.xml","xml/pta_387.xml","xml/pta_388.xml","xml/pta_389.xml","xml/pta_39.xml","xml/pta_390.xml","xml/pta_391.xml","xml/pta_392.xml","xml/pta_393.xml","xml/pta_394.xml","xml/pta_395.xml","xml/pta_396.xml","xml/pta_397.xml","xml/pta_398.xml","xml/pta_399.xml","xml/pta_4.xml","xml/pta_40.xml","xml/pta_400.xml","xml/pta_401.xml","xml/pta_402.xml","xml/pta_403.xml","xml/pta_404.xml","xml/pta_405.xml","xml/pta_406.xml","xml/pta_407.xml","xml/pta_408.xml","xml/pta_409.xml","xml/pta_41.xml","xml/pta_410.xml","xml/pta_411.xml","xml/pta_412.xml","xml/pta_413.xml","xml/pta_414.xml","xml/pta_415.xml","xml/pta_416.xml","xml/pta_417.xml","xml/pta_418.xml","xml/pta_419.xml","xml/pta_42.xml","xml/pta_420.xml","xml/pta_421.xml","xml/pta_422.xml","xml/pta_423.xml","xml/pta_424.xml","xml/pta_425.xml","xml/pta_426.xml","xml/pta_427.xml","xml/pta_428.xml","xml/pta_429.xml","xml/pta_43.xml","xml/pta_430.xml","xml/pta_431.xml","xml/pta_432.xml","xml/pta_433.xml","xml/pta_434.xml","xml/pta_435.xml","xml/pta_436.xml","xml/pta_437.xml","xml/pta_438.xml","xml/pta_439.xml","xml/pta_44.xml","xml/pta_440.xml","xml/pta_441.xml","xml/pta_442.xml","xml/pta_443.xml","xml/pta_444.xml","xml/pta_445.xml","xml/pta_446.xml","xml/pta_447.xml","xml/pta_448.xml","xml/pta_449.xml","xml/pta_45.xml","xml/pta_450.xml","xml/pta_46.xml","xml/pta_47.xml","xml/pta_48.xml","xml/pta_49.xml","xml/pta_5.xml","xml/pta_50.xml","xml/pta_51.xml","xml/pta_52.xml","xml/pta_53.xml","xml/pta_54.xml","xml/pta_55.xml","xml/pta_56.xml","xml/pta_57.xml","xml/pta_58.xml","xml/pta_59.xml","xml/pta_6.xml","xml/pta_60.xml","xml/pta_61.xml","xml/pta_62.xml","xml/pta_63.xml","xml/pta_64.xml","xml/pta_65.xml","xml/pta_66.xml","xml/pta_67.xml","xml/pta_68.xml","xml/pta_69.xml","xml/pta_7.xml","xml/pta_70.xml","xml/pta_71.xml","xml/pta_72.xml","xml/pta_73.xml","xml/pta_74.xml","xml/pta_75.xml","xml/pta_76.xml","xml/pta_77.xml","xml/pta_78.xml","xml/pta_79.xml","xml/pta_8.xml","xml/pta_80.xml","xml/pta_81.xml","xml/pta_82.xml","xml/pta_83.xml","xml/pta_84.xml","xml/pta_85.xml","xml/pta_86.xml","xml/pta_87.xml","xml/pta_88.xml","xml/pta_89.xml","xml/pta_9.xml","xml/pta_90.xml","xml/pta_91.xml","xml/pta_92.xml","xml/pta_93.xml","xml/pta_94.xml","xml/pta_95.xml","xml/pta_96.xml","xml/pta_97.xml","xml/pta_98.xml","xml/pta_99.xml"]}
+  {"type":"character","attributes":{},"value":["exemplo_xml.png","modelagem-de-tpicos-com-o-r-analisando-os-textos-de-acordos-comerciais_files/bowser-1.9.3/bowser.min.js","modelagem-de-tpicos-com-o-r-analisando-os-textos-de-acordos-comerciais_files/distill-2.2.21/template.v2.js","modelagem-de-tpicos-com-o-r-analisando-os-textos-de-acordos-comerciais_files/figure-html5/unnamed-chunk-14-1.png","modelagem-de-tpicos-com-o-r-analisando-os-textos-de-acordos-comerciais_files/figure-html5/unnamed-chunk-15-1.png","modelagem-de-tpicos-com-o-r-analisando-os-textos-de-acordos-comerciais_files/figure-html5/unnamed-chunk-16-1.png","modelagem-de-tpicos-com-o-r-analisando-os-textos-de-acordos-comerciais_files/figure-html5/unnamed-chunk-18-1.png","modelagem-de-tpicos-com-o-r-analisando-os-textos-de-acordos-comerciais_files/figure-html5/unnamed-chunk-19-1.png","modelagem-de-tpicos-com-o-r-analisando-os-textos-de-acordos-comerciais_files/figure-html5/unnamed-chunk-20-1.png","modelagem-de-tpicos-com-o-r-analisando-os-textos-de-acordos-comerciais_files/figure-html5/unnamed-chunk-8-1.png","modelagem-de-tpicos-com-o-r-analisando-os-textos-de-acordos-comerciais_files/jquery-1.11.3/jquery.min.js","modelagem-de-tpicos-com-o-r-analisando-os-textos-de-acordos-comerciais_files/pagedtable-1.1/css/pagedtable.css","modelagem-de-tpicos-com-o-r-analisando-os-textos-de-acordos-comerciais_files/pagedtable-1.1/js/pagedtable.js","modelagem-de-tpicos-com-o-r-analisando-os-textos-de-acordos-comerciais_files/webcomponents-2.0.0/webcomponents.js","xml/pta_1.xml","xml/pta_10.xml","xml/pta_100.xml","xml/pta_101.xml","xml/pta_102.xml","xml/pta_103.xml","xml/pta_104.xml","xml/pta_105.xml","xml/pta_106.xml","xml/pta_107.xml","xml/pta_108.xml","xml/pta_109.xml","xml/pta_11.xml","xml/pta_110.xml","xml/pta_111.xml","xml/pta_112.xml","xml/pta_113.xml","xml/pta_114.xml","xml/pta_115.xml","xml/pta_116.xml","xml/pta_117.xml","xml/pta_118.xml","xml/pta_119.xml","xml/pta_12.xml","xml/pta_120.xml","xml/pta_121.xml","xml/pta_122.xml","xml/pta_123.xml","xml/pta_124.xml","xml/pta_125.xml","xml/pta_126.xml","xml/pta_127.xml","xml/pta_128.xml","xml/pta_129.xml","xml/pta_13.xml","xml/pta_130.xml","xml/pta_131.xml","xml/pta_132.xml","xml/pta_133.xml","xml/pta_134.xml","xml/pta_135.xml","xml/pta_136.xml","xml/pta_137.xml","xml/pta_138.xml","xml/pta_139.xml","xml/pta_14.xml","xml/pta_140.xml","xml/pta_141.xml","xml/pta_142.xml","xml/pta_143.xml","xml/pta_144.xml","xml/pta_145.xml","xml/pta_146.xml","xml/pta_147.xml","xml/pta_148.xml","xml/pta_149.xml","xml/pta_15.xml","xml/pta_150.xml","xml/pta_151.xml","xml/pta_152.xml","xml/pta_153.xml","xml/pta_154.xml","xml/pta_155.xml","xml/pta_156.xml","xml/pta_157.xml","xml/pta_158.xml","xml/pta_159.xml","xml/pta_16.xml","xml/pta_160.xml","xml/pta_161.xml","xml/pta_162.xml","xml/pta_163.xml","xml/pta_164.xml","xml/pta_165.xml","xml/pta_166.xml","xml/pta_167.xml","xml/pta_168.xml","xml/pta_169.xml","xml/pta_17.xml","xml/pta_170.xml","xml/pta_171.xml","xml/pta_172.xml","xml/pta_173.xml","xml/pta_174.xml","xml/pta_175.xml","xml/pta_176.xml","xml/pta_177.xml","xml/pta_178.xml","xml/pta_179.xml","xml/pta_18.xml","xml/pta_180.xml","xml/pta_181.xml","xml/pta_182.xml","xml/pta_183.xml","xml/pta_184.xml","xml/pta_185.xml","xml/pta_186.xml","xml/pta_187.xml","xml/pta_188.xml","xml/pta_189.xml","xml/pta_19.xml","xml/pta_190.xml","xml/pta_191.xml","xml/pta_192.xml","xml/pta_193.xml","xml/pta_194.xml","xml/pta_195.xml","xml/pta_196.xml","xml/pta_197.xml","xml/pta_198.xml","xml/pta_199.xml","xml/pta_2.xml","xml/pta_20.xml","xml/pta_200.xml","xml/pta_201.xml","xml/pta_202.xml","xml/pta_203.xml","xml/pta_204.xml","xml/pta_205.xml","xml/pta_206.xml","xml/pta_207.xml","xml/pta_208.xml","xml/pta_209.xml","xml/pta_21.xml","xml/pta_210.xml","xml/pta_211.xml","xml/pta_212.xml","xml/pta_213.xml","xml/pta_214.xml","xml/pta_215.xml","xml/pta_216.xml","xml/pta_217.xml","xml/pta_218.xml","xml/pta_219.xml","xml/pta_22.xml","xml/pta_220.xml","xml/pta_221.xml","xml/pta_222.xml","xml/pta_223.xml","xml/pta_224.xml","xml/pta_225.xml","xml/pta_226.xml","xml/pta_227.xml","xml/pta_228.xml","xml/pta_229.xml","xml/pta_23.xml","xml/pta_230.xml","xml/pta_231.xml","xml/pta_232.xml","xml/pta_233.xml","xml/pta_234.xml","xml/pta_235.xml","xml/pta_236.xml","xml/pta_237.xml","xml/pta_238.xml","xml/pta_239.xml","xml/pta_24.xml","xml/pta_240.xml","xml/pta_241.xml","xml/pta_242.xml","xml/pta_243.xml","xml/pta_244.xml","xml/pta_245.xml","xml/pta_246.xml","xml/pta_247.xml","xml/pta_248.xml","xml/pta_249.xml","xml/pta_25.xml","xml/pta_250.xml","xml/pta_251.xml","xml/pta_252.xml","xml/pta_253.xml","xml/pta_254.xml","xml/pta_255.xml","xml/pta_256.xml","xml/pta_257.xml","xml/pta_258.xml","xml/pta_259.xml","xml/pta_26.xml","xml/pta_260.xml","xml/pta_261.xml","xml/pta_262.xml","xml/pta_263.xml","xml/pta_264.xml","xml/pta_265.xml","xml/pta_266.xml","xml/pta_267.xml","xml/pta_268.xml","xml/pta_269.xml","xml/pta_27.xml","xml/pta_270.xml","xml/pta_271.xml","xml/pta_272.xml","xml/pta_273.xml","xml/pta_274.xml","xml/pta_275.xml","xml/pta_276.xml","xml/pta_277.xml","xml/pta_278.xml","xml/pta_279.xml","xml/pta_28.xml","xml/pta_280.xml","xml/pta_281.xml","xml/pta_282.xml","xml/pta_283.xml","xml/pta_284.xml","xml/pta_285.xml","xml/pta_286.xml","xml/pta_287.xml","xml/pta_288.xml","xml/pta_289.xml","xml/pta_29.xml","xml/pta_290.xml","xml/pta_291.xml","xml/pta_292.xml","xml/pta_293.xml","xml/pta_294.xml","xml/pta_295.xml","xml/pta_296.xml","xml/pta_297.xml","xml/pta_298.xml","xml/pta_299.xml","xml/pta_3.xml","xml/pta_30.xml","xml/pta_300.xml","xml/pta_301.xml","xml/pta_302.xml","xml/pta_303.xml","xml/pta_304.xml","xml/pta_305.xml","xml/pta_306.xml","xml/pta_307.xml","xml/pta_308.xml","xml/pta_309.xml","xml/pta_31.xml","xml/pta_310.xml","xml/pta_311.xml","xml/pta_312.xml","xml/pta_313.xml","xml/pta_314.xml","xml/pta_315.xml","xml/pta_316.xml","xml/pta_317.xml","xml/pta_318.xml","xml/pta_319.xml","xml/pta_32.xml","xml/pta_320.xml","xml/pta_321.xml","xml/pta_322.xml","xml/pta_323.xml","xml/pta_324.xml","xml/pta_325.xml","xml/pta_326.xml","xml/pta_327.xml","xml/pta_328.xml","xml/pta_329.xml","xml/pta_33.xml","xml/pta_330.xml","xml/pta_331.xml","xml/pta_332.xml","xml/pta_333.xml","xml/pta_334.xml","xml/pta_335.xml","xml/pta_336.xml","xml/pta_337.xml","xml/pta_338.xml","xml/pta_339.xml","xml/pta_34.xml","xml/pta_340.xml","xml/pta_341.xml","xml/pta_342.xml","xml/pta_343.xml","xml/pta_344.xml","xml/pta_345.xml","xml/pta_346.xml","xml/pta_347.xml","xml/pta_348.xml","xml/pta_349.xml","xml/pta_35.xml","xml/pta_350.xml","xml/pta_351.xml","xml/pta_352.xml","xml/pta_353.xml","xml/pta_354.xml","xml/pta_355.xml","xml/pta_356.xml","xml/pta_357.xml","xml/pta_358.xml","xml/pta_359.xml","xml/pta_36.xml","xml/pta_360.xml","xml/pta_361.xml","xml/pta_362.xml","xml/pta_363.xml","xml/pta_364.xml","xml/pta_365.xml","xml/pta_366.xml","xml/pta_367.xml","xml/pta_368.xml","xml/pta_369.xml","xml/pta_37.xml","xml/pta_370.xml","xml/pta_371.xml","xml/pta_372.xml","xml/pta_373.xml","xml/pta_374.xml","xml/pta_375.xml","xml/pta_376.xml","xml/pta_377.xml","xml/pta_378.xml","xml/pta_379.xml","xml/pta_38.xml","xml/pta_380.xml","xml/pta_381.xml","xml/pta_382.xml","xml/pta_383.xml","xml/pta_384.xml","xml/pta_385.xml","xml/pta_386.xml","xml/pta_387.xml","xml/pta_388.xml","xml/pta_389.xml","xml/pta_39.xml","xml/pta_390.xml","xml/pta_391.xml","xml/pta_392.xml","xml/pta_393.xml","xml/pta_394.xml","xml/pta_395.xml","xml/pta_396.xml","xml/pta_397.xml","xml/pta_398.xml","xml/pta_399.xml","xml/pta_4.xml","xml/pta_40.xml","xml/pta_400.xml","xml/pta_401.xml","xml/pta_402.xml","xml/pta_403.xml","xml/pta_404.xml","xml/pta_405.xml","xml/pta_406.xml","xml/pta_407.xml","xml/pta_408.xml","xml/pta_409.xml","xml/pta_41.xml","xml/pta_410.xml","xml/pta_411.xml","xml/pta_412.xml","xml/pta_413.xml","xml/pta_414.xml","xml/pta_415.xml","xml/pta_416.xml","xml/pta_417.xml","xml/pta_418.xml","xml/pta_419.xml","xml/pta_42.xml","xml/pta_420.xml","xml/pta_421.xml","xml/pta_422.xml","xml/pta_423.xml","xml/pta_424.xml","xml/pta_425.xml","xml/pta_426.xml","xml/pta_427.xml","xml/pta_428.xml","xml/pta_429.xml","xml/pta_43.xml","xml/pta_430.xml","xml/pta_431.xml","xml/pta_432.xml","xml/pta_433.xml","xml/pta_434.xml","xml/pta_435.xml","xml/pta_436.xml","xml/pta_437.xml","xml/pta_438.xml","xml/pta_439.xml","xml/pta_44.xml","xml/pta_440.xml","xml/pta_441.xml","xml/pta_442.xml","xml/pta_443.xml","xml/pta_444.xml","xml/pta_445.xml","xml/pta_446.xml","xml/pta_447.xml","xml/pta_448.xml","xml/pta_449.xml","xml/pta_45.xml","xml/pta_450.xml","xml/pta_46.xml","xml/pta_47.xml","xml/pta_48.xml","xml/pta_49.xml","xml/pta_5.xml","xml/pta_50.xml","xml/pta_51.xml","xml/pta_52.xml","xml/pta_53.xml","xml/pta_54.xml","xml/pta_55.xml","xml/pta_56.xml","xml/pta_57.xml","xml/pta_58.xml","xml/pta_59.xml","xml/pta_6.xml","xml/pta_60.xml","xml/pta_61.xml","xml/pta_62.xml","xml/pta_63.xml","xml/pta_64.xml","xml/pta_65.xml","xml/pta_66.xml","xml/pta_67.xml","xml/pta_68.xml","xml/pta_69.xml","xml/pta_7.xml","xml/pta_70.xml","xml/pta_71.xml","xml/pta_72.xml","xml/pta_73.xml","xml/pta_74.xml","xml/pta_75.xml","xml/pta_76.xml","xml/pta_77.xml","xml/pta_78.xml","xml/pta_79.xml","xml/pta_8.xml","xml/pta_80.xml","xml/pta_81.xml","xml/pta_82.xml","xml/pta_83.xml","xml/pta_84.xml","xml/pta_85.xml","xml/pta_86.xml","xml/pta_87.xml","xml/pta_88.xml","xml/pta_89.xml","xml/pta_9.xml","xml/pta_90.xml","xml/pta_91.xml","xml/pta_92.xml","xml/pta_93.xml","xml/pta_94.xml","xml/pta_95.xml","xml/pta_96.xml","xml/pta_97.xml","xml/pta_98.xml","xml/pta_99.xml"]}
   </script>
   <!--radix_placeholder_navigation_in_header-->
   <!--/radix_placeholder_navigation_in_header-->
@@ -944,7 +944,7 @@
 <!--radix_placeholder_front_matter-->
 
 <script id="distill-front-matter" type="text/json">
-{"title":"Modelagem de Tópicos com o R: Analisando os Textos de Acordos Comerciais","description":"Neste post, vamos fazer uma análise de tópicos utilizando os pacotes tidytext e topicmodels. Essa análise consiste em extrair um conjunto de temas (tópicos) de um conjunto de textos. Para isso, utilizamos uma base de textos de acordos comerciais. Veremos que o método utilizado é capaz de identificar uma séria de tópicos relevantes.","authors":[{"author":"Paulo Felipe Alencar","authorURL":"#","affiliation":"&nbsp;","affiliationURL":"#"}],"publishedDate":"2019-09-19T00:00:00.000-03:00","citationText":"Alencar, 2019"}
+{"title":"Tidytext e Modelagem de Tópicos com o R: Analisando os Textos de Acordos Comerciais","description":"Neste post, vamos fazer uma análise de tópicos utilizando os pacotes tidytext e topicmodels. Essa análise consiste em extrair um conjunto de temas (tópicos) de um conjunto de textos. Para isso, utilizamos uma base de textos de acordos comerciais. Veremos que o método utilizado é capaz de identificar uma séria de tópicos relevantes.","authors":[{"author":"Paulo Felipe Alencar","authorURL":"#","affiliation":"&nbsp;","affiliationURL":"#"}],"publishedDate":"2019-09-19T00:00:00.000-03:00","citationText":"Alencar, 2019"}
 </script>
 
 <!--/radix_placeholder_front_matter-->
@@ -954,7 +954,7 @@
 <!--/radix_placeholder_site_before_body-->
 
 <div class="d-title">
-<h1>Modelagem de Tópicos com o R: Analisando os Textos de Acordos Comerciais</h1>
+<h1>Tidytext e Modelagem de Tópicos com o R: Analisando os Textos de Acordos Comerciais</h1>
 <p>Neste post, vamos fazer uma análise de tópicos utilizando os pacotes tidytext e topicmodels. Essa análise consiste em extrair um conjunto de temas (tópicos) de um conjunto de textos. Para isso, utilizamos uma base de textos de acordos comerciais. Veremos que o método utilizado é capaz de identificar uma séria de tópicos relevantes.<br /></p>
 </div>
 
@@ -967,30 +967,29 @@
 
 <div class="d-article">
 <h1 id="introducao">Introdução</h1>
-<p>Os acordos comerciais celebrados ao redor do mundo e que são notificados à Organização Mundial de Comércio (OMC) possuem um texto que descreve os diversos aspectos que foram negociados e acertados entre os diferentes parceiros. Recentemente, uma iniciativa conjunta da UNCTAD e de alguns parceiros desenvolveu uma base anotada com o texto de, aproximadamente, 450 acordos comerciais.</p>
-<p>Vamos utilizar essa base para trabalhar com processamente de dados textuais no R. Utilizaremos o pacote <code>tidytext</code> para trabalhar com os textos em um formato <em>tidy</em>, ou seja, com dados em formato tabular (em <em>data.frames</em>).</p>
+<p>É bastante comum que uma análise de dados envolvam textos. Neste post, vamos trabalhar textos no formato <em>tidy</em> utilizando o pacote <code>tidytext</code>. Após a manipulação de dados, vamos estimar um modelo de tópicos utilizando o pacote <code>topicmodels</code>. Esta abordagem permite encontrar diversos “temas” dentro de um conjunto de textos. Este post segue o que está descrito no livro <a href="https://www.tidytextmining.com/">Tidy Text Mining with R</a> que foi escrito pelos mesmos autores do pacote <code>tidytext</code>.</p>
+<p>Como aplicação, utilizaremos textos de acordos comerciais da base <a href="http://mappinginvestmenttreaties.com/rta/"><em>Text of Trade Agreements - TOTA</em></a> desenvolvida pela UNCTAD e que abrange 451 acordos comerciais. Os acordos comerciais celebrados ao redor do mundo e que são notificados à Organização Mundial de Comércio (OMC) possuem um texto que descreve os diversos aspectos que foram negociados e acertados entre os diferentes parceiros. Os acordos comerciais cobrem desde questões tarifárias a questões de propriedade intelectual.</p>
+<p>Vamos começar a nossa análise!</p>
 <h1 id="pacotes">Pacotes</h1>
+<p>Aqui estão listados os pacotes que utilizamos neste post.</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 library(tidyverse)
 library(tidytext)
 library(xml2)
 library(topicmodels)
-library(lubridate)</code></pre>
+library(lubridate)
+library(hrbrthemes)</code></pre>
 </div>
+<p>A função <code>theme_set()</code> define o tema para todos os gráficos do ggplot2.</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
-extrafont::loadfonts(quiet = TRUE)
 theme_set(
-  theme_minimal() + 
-    theme(
-      plot.title = element_text(face = &quot;bold&quot;, size = 16),
-      text = element_text(family = &quot;Arial Narrow&quot;),
-      axis.text = element_text(color = &quot;#000000&quot;),
-      strip.text = element_text(face = &quot;bold&quot;, color = &quot;#000000&quot;),
+ theme_ipsum() +
+   theme(
       legend.position = &quot;top&quot;,
       legend.justification = &quot;left&quot;
-    )
+   )
 )</code></pre>
 </div>
 <h1 id="dados">Dados</h1>
@@ -1105,14 +1104,35 @@ pta_df %&gt;%
   scale_x_continuous(breaks = seq(1950, 2010, 10)) +
   labs(
     title = &quot;Número de Acordos Comerciais Assinados por Ano&quot;,
-    subtitle = &quot;Os acordos comerciais se proliferaram a partir da década de 90. A Organinazação Mundial de Comércio (OMC)\nfoi criada em 1995.&quot;,
+    subtitle = &quot;Os acordos comerciais se proliferaram a partir da década de 90.
+A Organização Mundial de Comércio (OMC)foi criada em 1995.&quot;,
     x = &quot;Ano&quot;,
     y = &quot;Número de Acordos&quot;
   )</code></pre>
 <p><img src="modelagem-de-tpicos-com-o-r-analisando-os-textos-de-acordos-comerciais_files/figure-html5/unnamed-chunk-8-1.png" width="624" /></p>
 </div>
-<h1 id="convertendo-os-textos-para-o-formato-tidy">Convertendo os textos para o formato tidy</h1>
-<p>O primeiro passo para a nossa análise dos textos do acordo é converter os dados para o formato <em>tidy</em>. Neste forma, cada linha representará uma palavra de cada documento. Aqui, definimos “documento” como um capítulo de um acordo específico (coluna <code>id_capitulo</code>).</p>
+<h1 id="convertendo-os-textos-para-o-formato-tidy-text">Convertendo os textos para o formato tidy text</h1>
+<p>Para os autores do pacote <code>tidytext</code>, o formato de dados <code>tidy</code> para textos seria aquele de uma tabela com uma linha por <em>token</em>. Aqui, <em>token</em> seria uma unidade de texto relevante (caractere, palavra, parágrafo etc.). Neste post, a nossa unidade será o de palavras. Assim, teremos um data.frame com uma linha para cada palavra de cada documento. Aqui, definimos “documento” como um capítulo de um acordo específico (coluna <code>id_capitulo</code>).</p>
+<p>Adicional, removemos as chamadas <em>stop words</em> com um <code>anti_join()</code>. Veja abaixo o que seria esse objeto <code>stop_words</code>:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+head(stop_words, 10)</code></pre>
+<pre><code>
+# A tibble: 10 x 2
+   word        lexicon
+   &lt;chr&gt;       &lt;chr&gt;  
+ 1 a           SMART  
+ 2 a&#39;s         SMART  
+ 3 able        SMART  
+ 4 about       SMART  
+ 5 above       SMART  
+ 6 according   SMART  
+ 7 accordingly SMART  
+ 8 across      SMART  
+ 9 actually    SMART  
+10 after       SMART  </code></pre>
+</div>
+<p>Além das <em>stop words</em>, as palavrar que possuem números também são removidas.</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 textos_df &lt;- pta_df %&gt;% 
@@ -1137,6 +1157,8 @@ head(textos_df)</code></pre>
 5 1_1         hereinafter
 6 1_1         referred   </code></pre>
 </div>
+<p>A função <code>unnest_tokens()</code> irá quebrar a variável <code>texto</code> por palavras. Ao todo, temos 2567029 palavras. Veja que cada linha agora é uma palavra.</p>
+<p>Abaixo é criado um data.frame com as 2000 palavras mais frequentes. As palavras <em>party</em> e <em>parties</em> são bastante frequentes, mas não trazem nenhuma informação relevante. Dessa forma, elas são removidas da lista de palavras mais frequentes..</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 palavras_frequentes &lt;- textos_df %&gt;% 
@@ -1145,9 +1167,11 @@ palavras_frequentes &lt;- textos_df %&gt;%
   top_n(2000) %&gt;% 
   pull(word)</code></pre>
 </div>
-<p>A função <code>unnest_tokens()</code> irá quebrar a variável <code>texto</code> por palavras. Ao todo, temos 2567029 palavras. Veja que cada linha agora é uma palavra.</p>
 <h1 id="modelando-topicos">Modelando tópicos</h1>
-<p>EXPLICAR O MÉTODO.</p>
+<p>Com os nossos dados quase prontos, vamos falar sobre o método que será utilizado: Latent Dirichlet Allocation (LDA). O nosso objetivo é encontrar os tópicos que existiriam em uma coleção de documentos. Neste modelo, define-se um quantidade de tópicos <span class="math inline">\(k\)</span> e o algoritmo irá estimar a distribuição de termos (<span class="math inline">\(\beta\)</span>) de cada tópico. Esta distribuição traz a probabilidade de ocorrência de uma palavra em um determinado tópico.</p>
+<p>Além disso, cada documento é uma mistura de tópicos. Por exemplo, supondo 2 tópicos, o documento 1 é 60% do tópico X e 40% do tópico Y. O que o LDA faz é estimar essas distribuições a partir da frequência de palavras dentro de cada documento.</p>
+<p>Para maiores detalhes, ver o <a href="https://www.tidytextmining.com/topicmodeling.html">capítulo 6</a> e o vignette do <code>topicmodels</code> (<code>vignette(&quot;topicmodels&quot;)</code>).</p>
+<p>Para estimar o modelo, é preciso uma matriz de termos por documento. Cara linha dessa matriz é um documento e cada coluna é um termo (uma palavra). O valor em cada posição é a frequência de cada termo em cada documento. A função <code>cast_dtm()</code> converte o data.frame para uma matriz de termos por documento.</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 textos_dtm &lt;- textos_df %&gt;% 
@@ -1156,20 +1180,31 @@ textos_dtm &lt;- textos_df %&gt;%
   summarise(n = n()) %&gt;% 
   cast_dtm(document = id_capitulo, term = word, value = n)</code></pre>
 </div>
+<p>A função abaixo estima o modelo. Além dos dados, definimos arbitrariamente o número de tópicos em 16 e fixamos a <em>seed</em> para possibilitar a reprodutibilidade dos resultados.</p>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
-#acordos_lda &lt;- LDA(textos_dtm, k = 16, control = list(seed = 9876))
-#save(acordos_lda, file = &#39;acordos_lda.RData&#39;)
-load(&#39;acordos_lda.RData&#39;)</code></pre>
+acordos_lda &lt;- LDA(textos_dtm, k = 16, control = list(seed = 9876))</code></pre>
 </div>
 <p>Com o modelo estimado, pode-se extrair o <span class="math inline">\(\beta\)</span>, que é a probabilidade estimada de cada termo dentro de um determinado tópico.</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 termos_acordos &lt;- tidy(acordos_lda, type = &quot;beta&quot;)</code></pre>
 </div>
-<p>Dessa forma, podemos extrair os termos com os maiores <span class="math inline">\(\beta\)</span> de cada tópico. Assim, é possível checar se essas palavras indicam sobre qual assunto cada tópico está relacionado. Para quem trabalha no dia a dia com acordos comerciais, deve ser fácil indicar os tópicos. Mesmo não sendo especialista, é possível facilmente identificar que, por exemplo, o tópico 1 refere-se a compras públicas. Já o tópico 7 indica que seja algo relacionado ao tema de propriedade intelectual.</p>
+<p>Dessa forma, podemos extrair os termos com as maiores probabilidades dentro de cada tópico. Assim, é possível checar se essas palavras indicam sobre qual assunto cada tópico está relacionado. Para quem trabalha no dia a dia com acordos comerciais, deve ser fácil indicar os tópicos. Mesmo não sendo especialista, é possível facilmente identificar que, por exemplo, o tópico 1 refere-se a compras públicas. Já o tópico 7 indica que seja algo relacionado ao tema de propriedade intelectual.</p>
 <div class="layout-chunk" data-layout="l-page">
 <pre class="r"><code>
+#https://stackoverflow.com/questions/28436855/change-the-number-of-breaks-using-facet-grid-in-ggplot2
+equal_breaks &lt;- function(n = 3, s = 0.05, ...){
+  function(x){
+    # rescaling
+    d &lt;- s * diff(range(x)) / (1+2*s)
+    seq(min(x)+d, max(x)-d, length=n)
+  }
+}
+
 termos_acordos %&gt;% 
   group_by(topic) %&gt;% 
   top_n(10, beta) %&gt;% 
@@ -1181,7 +1216,7 @@ termos_acordos %&gt;%
     topic = factor(topic, levels = paste0(&quot;Tópico: &quot;, 1:16))
   ) %&gt;%
   ggplot(aes(y = term, x = beta, color = topic)) +
-  geom_point(size = 3, show.legend = FALSE) +
+  geom_point(size = 2, show.legend = FALSE) +
   geom_segment(
     mapping = aes(yend = term),
     xend = 0,
@@ -1190,16 +1225,23 @@ termos_acordos %&gt;%
   ) +
   facet_wrap(~ topic, scales = &quot;free&quot;) +
   scale_y_reordered() +
+  scale_x_continuous(
+    breaks = equal_breaks(n = 3, s = 0.01),
+    labels = scales::number_format(big.mark = &quot;.&quot;, decimal.mark = &quot;,&quot;, accuracy = 0.01)
+  ) +
   labs(
-    title = &quot;Principais termos de cada tópico extraído dos textos dos acordos comerciais&quot;,
-    subtitle = &quot;O beta é a probabilidade estimada de um determinado termo ter sido gerado por um tópico específico.&quot;,
-    x = &quot;Termo&quot;
+    title = &quot;Principais termos de cada tópico extraído dos textos dos\nacordos comerciais&quot;,
+    subtitle = &quot;O beta é a probabilidade estimada de um determinado termo ter sido gerado em cada tópico específico.&quot;,
+    y = &quot;Termo&quot;
   ) +
   theme(
     panel.grid.major.y = element_blank(),
     panel.grid.minor.x = element_blank()
+  ) +
+  theme_ipsum(
+    axis_text_size = 8
   )</code></pre>
-<p><img src="modelagem-de-tpicos-com-o-r-analisando-os-textos-de-acordos-comerciais_files/figure-html5/unnamed-chunk-14-1.png" width="768" /></p>
+<p><img src="modelagem-de-tpicos-com-o-r-analisando-os-textos-de-acordos-comerciais_files/figure-html5/unnamed-chunk-16-1.png" width="768" /></p>
 </div>
 <p>Também é possível extrair a proporção de cada tópico em cada documento. No nosso caso, um documento refere-se a um capítulo de um acordo. Essa base tem a grande vantagem que a maioria dos capítulos já estão rotulados. A única de dificuldade é que existem mais de 900 rótulos diferentes. Muitas vezes, trata-se do mesmo tema, mas com uma escrita diferente. De toda forma, podemos verificar para quais rótulos os nossos tópicos estão associados.</p>
 <p>Primeiro vamos extrair a proporção de cada tópico em cada documento:</p>
@@ -1247,7 +1289,7 @@ capitulo_topico %&gt;%
 15    15 Telecommunications Services                      
 16    16 Dispute Settlement                               </code></pre>
 </div>
-<p>Para finalizar a nossa análise, vamos verificar a dinâmica da frequência de acordos que incluiram ou não um capítulo sobre Proprieda Intelectual. Para isso, vamos considerar que um acordo possui um capítulo sobre Propriedade Intelectual se existe algum capítulo com uma proporção desse tópico superior a 50%. Verificamos que esse tema ficou mais relevante após 2005, período que se verifica uma maior frequência de acordos que abrangem esse tema.</p>
+<p>Para finalizar a nossa análise, vamos verificar a dinâmica da frequência de acordos que incluíram ou não um capítulo sobre Propriedade Intelectual. Para isso, vamos considerar que um acordo possui um capítulo sobre Propriedade Intelectual se existe algum capítulo com uma proporção desse tópico superior a 50%. Verificamos que esse tema ficou mais relevante após 2005, período que se verifica uma maior frequência de acordos que abrangem esse tema.</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 capitulo_topico %&gt;% 
@@ -1263,14 +1305,17 @@ capitulo_topico %&gt;%
   scale_fill_manual(values = c(&quot;#e55039&quot;, &quot;#b2bec3&quot;)) +
   scale_x_continuous(breaks = seq(1950, 2020, 10)) +
   labs(
-    title = &quot;Evolução de acordos comerciais com ou sem capítulos sobre
-propriedade intelectual&quot;,
+    title = &quot;Evolução de acordos comerciais com ou sem capítulos
+sobre propriedade intelectual&quot;,
     x = &quot;Ano&quot;,
     y = &quot;Frequência&quot;,
     fill = &quot;Acordo com Capítulo\nde Propriedade Intelectual?&quot;
   )</code></pre>
-<p><img src="modelagem-de-tpicos-com-o-r-analisando-os-textos-de-acordos-comerciais_files/figure-html5/unnamed-chunk-18-1.png" width="624" /></p>
+<p><img src="modelagem-de-tpicos-com-o-r-analisando-os-textos-de-acordos-comerciais_files/figure-html5/unnamed-chunk-20-1.png" width="624" /></p>
 </div>
+<h2 id="consideracoes-finais">Considerações Finais</h2>
+<p>Neste post, trabalhamos com dados textuais no R e mostramos como é possível estimar um modelo de tópicos. Usamos uma base de dados de textos de acordos comerciais, mas a aplicação pode ser facilmente transferida para outros contextos.</p>
+<p>Existem diversas outras aplicações relacionadas a Processamento de Linguagem Natural que poderão ser apresentadas em outros posts. Hoje, ficamos por aqui!</p>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>

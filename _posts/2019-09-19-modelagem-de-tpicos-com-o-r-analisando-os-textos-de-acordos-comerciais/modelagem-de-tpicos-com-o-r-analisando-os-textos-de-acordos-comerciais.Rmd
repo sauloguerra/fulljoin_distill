@@ -1,5 +1,5 @@
 ---
-title: "Modelagem de Tópicos com o R: Analisando os Textos de Acordos Comerciais"
+title: "Tidytext e Modelagem de Tópicos com o R: Analisando os Textos de Acordos Comerciais"
 description: |
   Neste post, vamos fazer uma análise de tópicos utilizando os pacotes tidytext e topicmodels. Essa análise consiste em extrair um conjunto de temas (tópicos) de um conjunto de textos. Para isso, utilizamos uma base de textos de acordos comerciais. Veremos que o método utilizado é capaz de identificar uma séria de tópicos relevantes.  
 author: Paulo Felipe Alencar
@@ -11,16 +11,20 @@ draft: true
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = TRUE, fig.height = 5)
 ```
 
 # Introdução
 
-Os acordos comerciais celebrados ao redor do mundo e que são notificados à Organização Mundial de Comércio (OMC) possuem um texto que descreve os diversos aspectos que foram negociados e acertados entre os diferentes parceiros. Recentemente, uma iniciativa conjunta da UNCTAD e de alguns parceiros desenvolveu uma base anotada com o texto de, aproximadamente, 450 acordos comerciais. 
+É bastante comum que uma análise de dados envolvam textos. Neste post, vamos trabalhar textos no formato *tidy* utilizando o pacote `tidytext`. Após a manipulação de dados, vamos estimar um modelo de tópicos utilizando o pacote `topicmodels`. Esta abordagem permite encontrar diversos "temas" dentro de um conjunto de textos. Este post segue o que está descrito no livro [Tidy Text Mining with R](https://www.tidytextmining.com/) que foi escrito pelos mesmos autores do pacote `tidytext`.
 
-Vamos utilizar essa base para trabalhar com processamente de dados textuais no R. Utilizaremos o pacote `tidytext` para trabalhar com os textos em um formato *tidy*, ou seja, com dados em formato tabular (em *data.frames*).
+Como aplicação, utilizaremos textos de acordos comerciais da base [*Text of Trade Agreements - TOTA*](http://mappinginvestmenttreaties.com/rta/) desenvolvida pela UNCTAD e que abrange 451 acordos comerciais. Os acordos comerciais celebrados ao redor do mundo e que são notificados à Organização Mundial de Comércio (OMC) possuem um texto que descreve os diversos aspectos que foram negociados e acertados entre os diferentes parceiros. Os acordos comerciais cobrem desde questões tarifárias a questões de propriedade intelectual.
+
+Vamos começar a nossa análise!
 
 # Pacotes
+
+Aqui estão listados os pacotes que utilizamos neste post.
 
 ```{r}
 library(tidyverse)
@@ -28,20 +32,18 @@ library(tidytext)
 library(xml2)
 library(topicmodels)
 library(lubridate)
+library(hrbrthemes)
 ```
 
+A função `theme_set()` define o tema para todos os gráficos do ggplot2.
+
 ```{r}
-extrafont::loadfonts(quiet = TRUE)
 theme_set(
-  theme_minimal() + 
-    theme(
-      plot.title = element_text(face = "bold", size = 16),
-      text = element_text(family = "Arial Narrow"),
-      axis.text = element_text(color = "#000000"),
-      strip.text = element_text(face = "bold", color = "#000000"),
+ theme_ipsum() +
+   theme(
       legend.position = "top",
       legend.justification = "left"
-    )
+   )
 )
 ```
 
@@ -154,15 +156,24 @@ pta_df %>%
   scale_x_continuous(breaks = seq(1950, 2010, 10)) +
   labs(
     title = "Número de Acordos Comerciais Assinados por Ano",
-    subtitle = "Os acordos comerciais se proliferaram a partir da década de 90. A Organinazação Mundial de Comércio (OMC)\nfoi criada em 1995.",
+    subtitle = "Os acordos comerciais se proliferaram a partir da década de 90.
+A Organização Mundial de Comércio (OMC)foi criada em 1995.",
     x = "Ano",
     y = "Número de Acordos"
   )
 ```
 
-# Convertendo os textos para o formato tidy
+# Convertendo os textos para o formato tidy text
 
-O primeiro passo para a nossa análise dos textos do acordo é converter os dados para o formato *tidy*. Neste forma, cada linha representará uma palavra de cada documento. Aqui, definimos "documento" como um capítulo de um acordo específico (coluna `id_capitulo`).
+Para os autores do pacote `tidytext`, o formato de dados `tidy` para textos seria aquele de uma tabela com uma linha por *token*. Aqui, *token* seria uma unidade de texto relevante (caractere, palavra, parágrafo etc.). Neste post, a nossa unidade será o de palavras. Assim, teremos um data.frame com uma linha para cada palavra de cada documento. Aqui, definimos "documento" como um capítulo de um acordo específico (coluna `id_capitulo`).
+
+Adicional, removemos as chamadas *stop words* com um `anti_join()`. Veja abaixo o que seria esse objeto `stop_words`:
+
+```{r}
+head(stop_words, 10)
+```
+
+Além das *stop words*, as palavrar que possuem números também são removidas.
 
 ```{r}
 textos_df <- pta_df %>% 
@@ -175,6 +186,10 @@ dim(textos_df)
 head(textos_df)
 ```
 
+A função `unnest_tokens()` irá quebrar a variável `texto` por palavras. Ao todo, temos `r nrow(textos_df)` palavras. Veja que cada linha agora é uma palavra.
+
+Abaixo é criado um data.frame com as 2000 palavras mais frequentes. As palavras *party* e *parties* são bastante frequentes, mas não trazem nenhuma informação relevante. Dessa forma, elas são removidas da lista de palavras mais frequentes..
+
 ```{r}
 palavras_frequentes <- textos_df %>% 
   filter(!word %in% c("party", "parties")) %>% 
@@ -184,11 +199,15 @@ palavras_frequentes <- textos_df %>%
 ```
 
 
-A função `unnest_tokens()` irá quebrar a variável `texto` por palavras. Ao todo, temos `r nrow(textos_df)` palavras. Veja que cada linha agora é uma palavra.
-
 # Modelando tópicos
 
-EXPLICAR O  MÉTODO.
+Com os nossos dados quase prontos, vamos falar sobre o método que será utilizado: Latent Dirichlet Allocation (LDA). O nosso objetivo é encontrar os tópicos que existiriam em uma coleção de documentos. Neste modelo, define-se um quantidade de tópicos $k$ e o algoritmo irá estimar a distribuição de termos ($\beta$) de cada tópico. Esta distribuição traz a probabilidade de ocorrência de uma palavra em um determinado tópico.
+
+Além disso, cada documento é uma mistura de tópicos. Por exemplo, supondo 2 tópicos, o documento 1 é 60% do tópico X e 40% do tópico Y. O que o LDA faz é estimar essas distribuições a partir da frequência de palavras dentro de cada documento.
+
+Para maiores detalhes, ver o [capítulo 6](https://www.tidytextmining.com/topicmodeling.html) e o vignette do `topicmodels` (`vignette("topicmodels")`). 
+
+Para estimar o modelo, é preciso uma matriz de termos por documento. Cara linha dessa matriz é um documento e cada coluna é um termo (uma palavra). O valor em cada posição é a frequência de cada termo em cada documento. A função `cast_dtm()` converte o data.frame para uma matriz de termos por documento.
 
 ```{r}
 textos_dtm <- textos_df %>% 
@@ -198,10 +217,16 @@ textos_dtm <- textos_df %>%
   cast_dtm(document = id_capitulo, term = word, value = n)
 ```
 
-```{r}
+A função abaixo estima o modelo. Além dos dados, definimos arbitrariamente o número de tópicos em 16 e fixamos a *seed* para possibilitar a reprodutibilidade dos resultados.
+
+```{r, echo = FALSE}
 #acordos_lda <- LDA(textos_dtm, k = 16, control = list(seed = 9876))
 #save(acordos_lda, file = 'acordos_lda.RData')
 load('acordos_lda.RData')
+```
+
+```{r, echo = TRUE, eval = FALSE}
+acordos_lda <- LDA(textos_dtm, k = 16, control = list(seed = 9876))
 ```
 
 Com o modelo estimado, pode-se extrair o $\beta$, que é a probabilidade estimada de cada termo dentro de um determinado tópico.
@@ -210,9 +235,18 @@ Com o modelo estimado, pode-se extrair o $\beta$, que é a probabilidade estimad
 termos_acordos <- tidy(acordos_lda, type = "beta")
 ```
 
-Dessa forma, podemos extrair os termos com os maiores $\beta$ de cada tópico. Assim, é possível checar se essas palavras indicam sobre qual assunto cada tópico está relacionado. Para quem trabalha no dia a dia com acordos comerciais, deve ser fácil indicar os tópicos. Mesmo não sendo especialista, é possível facilmente identificar que, por exemplo, o tópico 1 refere-se a compras públicas. Já o tópico 7 indica que seja algo relacionado ao tema de propriedade intelectual.
+Dessa forma, podemos extrair os termos com as maiores probabilidades dentro de cada tópico. Assim, é possível checar se essas palavras indicam sobre qual assunto cada tópico está relacionado. Para quem trabalha no dia a dia com acordos comerciais, deve ser fácil indicar os tópicos. Mesmo não sendo especialista, é possível facilmente identificar que, por exemplo, o tópico 1 refere-se a compras públicas. Já o tópico 7 indica que seja algo relacionado ao tema de propriedade intelectual.
 
-```{r,layout="l-page", fig.height=8, fig.width=8}
+```{r,layout="l-page", fig.height=9, fig.width=8}
+#https://stackoverflow.com/questions/28436855/change-the-number-of-breaks-using-facet-grid-in-ggplot2
+equal_breaks <- function(n = 3, s = 0.05, ...){
+  function(x){
+    # rescaling
+    d <- s * diff(range(x)) / (1+2*s)
+    seq(min(x)+d, max(x)-d, length=n)
+  }
+}
+
 termos_acordos %>% 
   group_by(topic) %>% 
   top_n(10, beta) %>% 
@@ -224,7 +258,7 @@ termos_acordos %>%
     topic = factor(topic, levels = paste0("Tópico: ", 1:16))
   ) %>%
   ggplot(aes(y = term, x = beta, color = topic)) +
-  geom_point(size = 3, show.legend = FALSE) +
+  geom_point(size = 2, show.legend = FALSE) +
   geom_segment(
     mapping = aes(yend = term),
     xend = 0,
@@ -233,14 +267,21 @@ termos_acordos %>%
   ) +
   facet_wrap(~ topic, scales = "free") +
   scale_y_reordered() +
+  scale_x_continuous(
+    breaks = equal_breaks(n = 3, s = 0.01),
+    labels = scales::number_format(big.mark = ".", decimal.mark = ",", accuracy = 0.01)
+  ) +
   labs(
-    title = "Principais termos de cada tópico extraído dos textos dos acordos comerciais",
-    subtitle = "O beta é a probabilidade estimada de um determinado termo ter sido gerado por um tópico específico.",
-    x = "Termo"
+    title = "Principais termos de cada tópico extraído dos textos dos\nacordos comerciais",
+    subtitle = "O beta é a probabilidade estimada de um determinado termo ter sido gerado em cada tópico específico.",
+    y = "Termo"
   ) +
   theme(
     panel.grid.major.y = element_blank(),
     panel.grid.minor.x = element_blank()
+  ) +
+  theme_ipsum(
+    axis_text_size = 8
   )
 ```
 
@@ -273,7 +314,7 @@ capitulo_topico %>%
   select(topic, name)
 ```
 
-Para finalizar a nossa análise, vamos verificar a dinâmica da frequência de acordos que incluiram ou não um capítulo sobre Proprieda Intelectual. Para isso, vamos considerar que um acordo possui um capítulo sobre Propriedade Intelectual se existe algum capítulo com uma proporção desse tópico superior a 50%. Verificamos que esse tema ficou mais relevante após 2005, período que se verifica uma maior frequência de acordos que abrangem esse tema.
+Para finalizar a nossa análise, vamos verificar a dinâmica da frequência de acordos que incluíram ou não um capítulo sobre Propriedade Intelectual. Para isso, vamos considerar que um acordo possui um capítulo sobre Propriedade Intelectual se existe algum capítulo com uma proporção desse tópico superior a 50%. Verificamos que esse tema ficou mais relevante após 2005, período que se verifica uma maior frequência de acordos que abrangem esse tema.
 
 ```{r}
 capitulo_topico %>% 
@@ -289,11 +330,16 @@ capitulo_topico %>%
   scale_fill_manual(values = c("#e55039", "#b2bec3")) +
   scale_x_continuous(breaks = seq(1950, 2020, 10)) +
   labs(
-    title = "Evolução de acordos comerciais com ou sem capítulos sobre
-propriedade intelectual",
+    title = "Evolução de acordos comerciais com ou sem capítulos
+sobre propriedade intelectual",
     x = "Ano",
     y = "Frequência",
     fill = "Acordo com Capítulo\nde Propriedade Intelectual?"
   )
 ```
 
+## Considerações Finais
+
+Neste post, trabalhamos com dados textuais no R e mostramos como é possível estimar um modelo de tópicos. Usamos uma base de dados de textos de acordos comerciais, mas a aplicação pode ser facilmente transferida para outros contextos. 
+
+Existem diversas outras aplicações relacionadas a Processamento de Linguagem Natural que poderão ser apresentadas em outros posts. Hoje, ficamos por aqui! 
