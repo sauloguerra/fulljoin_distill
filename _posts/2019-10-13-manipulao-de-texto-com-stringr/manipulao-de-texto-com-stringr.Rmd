@@ -16,6 +16,7 @@ preview: ../../images/logo_stringr.png
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
+<!-- More -->
 
 Este post inicia uma série de posts que iremos fazer sobre manipulação de texto. Para esse fim, utilizaremos o pacote [stringr](https://www.rdocumentation.org/packages/stringr/versions/1.4.0). Se você tem dificuldade com a manipulação de dados textuais no R, esse post é para você. Ao longo da série, vamos criar diferentes problemas e mostrar como podemos resolvê-los. Em posts futuros, ainda teremos a oportunidade de aprender alguns detalhes básicos de expressões regulares (**regex**), que são fundamentais para a manipulação de texto.
 
@@ -25,11 +26,13 @@ Regex não é difícil, mas exige um pouco de paciência. Para quem já tiver in
 
 Esta etapa visa criar uma pequena base de dados para que possamos fazer nossos exercícios de manipulações de texto.
 
-Primeiramente, carregamos os pacotes `dplyr`  e `stringr`.
+Primeiramente, carregamos os pacotes `dplyr`, `stringr`, `tidyr` e `data.table`.
 
 ```{r}
 library(dplyr)
 library(stringr)
+library(tidyr)
+library(data.table)
 ```
 
 Para que você possa replicar este exercício vamos usar a função `set.seed` (**obs.** se sua versão do R for anterior à versão 3.6.0, você não vai conseguir replicar o exercício, mas pode ficar tranquilo que ainda assim vai conseguir acompanhar a lógica das funções que iremos explorar).
@@ -58,7 +61,24 @@ for(i in 1:length(dado_textual)) {
   dado_textual[i] <- texto_aleatorio()
 }
 
+## baixamos uma correlacao de nomes de paises em ingles,
+## portugues e com os respectivos codigos ISOA3
+
+paises <- fread(
+  "https://raw.githubusercontent.com/mgcleaver/correlacoes/master/paises_isoa.txt",
+                encoding = "UTF-8"
+) %>% 
+  slice(sample(1:249, 10, replace = FALSE)) %>% # selecionamos 10 observações aleatórias
+  select(ISOA, pais_port)
+
+paises <- paises %>% 
+  unite(col = pais, pais_port, ISOA, sep = "-") %>%  # unimos os elementos de duas colunas
+  pull(pais)
+
+paises <- sample(paises, 200, replace = TRUE)
+
 df <- tibble(codigos = numeros,
+             pais = paises,
              descricao = dado_textual)
 ```
 
@@ -122,23 +142,38 @@ df_temp %>%
   pull(codigos)
 ```
 
-### Problema n. 2: Como reduzir o numero de caracteres para um tamanho menor do que o existente nos nossos dados?
+### Problema n. 2: Como extrair um subconjunto de caracteres consecutivos de um texto?
 
-Para esse exercício, vamos usar o objeto `df_temp`, recém definido. A coluna "codigos" tem seis caracteres, mas vamos supor que também precisamos criar uma coluna que captura os três primeiros caracteres da coluna "codigos".
-
-A função que vai nos ajudar com essa tarefa se chama `str_sub`. No nosso caso, queremos extrair os três primeiros caracteres da coluna "codigos". É esta coluna que deve ser inserida no primeiro argumento. 
-
-No segundo e no terceiro argumento inserimos, respectivamente, a posição numérica inicial e final referente aos caracteres das observações da coluna "codigos" que queremos extrair. Como queremos extrair os três primeiros caracteres, a posição inicial deve ser a posição númerica do primeiro caractere e a posição final deve ser a posição do terceiro caractere.  
+Para esse exercício, podemos começar utilizando o objeto `paises` que criamos no início do post. Vejamos os primeiros dez elementos do objeto que criamos:
 
 ```{r}
+paises[1:10]
+```
+
+Como podemos extrair os últimos três caracteres do objeto `paises`? A função que vai nos ajudar com essa tarefa se chama `str_sub`. No primeiro argumento da função devemos inserir o objeto que desejamos manipular. No nosso caso, inserimos o objeto `paises`. No segundo e no terceiro argumento devemos inserir a posição incial e a final dos caracteres que desejamos extrair. Por exemplo, para extrair os três primeiros caracteres e os três ultimos caracteres de `paises`, podemos fazer, respectivamente, o seguinte: 
+
+```{r}
+# tres primeiros caracteres
+str_sub(paises, 1, 3)
+```
+
+
+```{r}
+# tres ultimos caracteres
+str_sub(paises, -3, -1) # os numeros negativos indicam que contamos de trás para frente
+```
+
+Agora, criemos uma nova coluna chamada "isoa3" que consiste nas últimas três letras da coluna `pais` do objeto `df_temp`:
+ 
+```{r}
 df_temp <- df_temp %>% 
-  mutate(primeiros_tres = str_sub(codigos, 1, 3))
+  mutate(isoa3 = str_sub(pais, -3, -1))
 
 df_temp %>% 
   head()
 ```
 
-Para consolidarmos o conhecimento, agora suponha que ainda temos o objetivo de criar uma nova coluna apenas com apenas o terceiro caractere da coluna "codigos". Chamemos essa coluna de "digito3".
+Para consolidarmos o conhecimento, agora suponha que ainda temos o objetivo de criar uma nova coluna com apenas o terceiro caractere da coluna "codigos". Chamemos essa coluna de "digito3".
 
 ```{r}
 df_temp <- df_temp %>% 
@@ -151,9 +186,18 @@ head(df_temp)
 
 Para filtrar padrões de interesse em dados textuais podemos utilizar a função `str_detect`. Esta função retorna um valor lógico. Retorna TRUE para o caso do padrão ter sido detectado e retorna FALSE, caso contrário. No primeiro argumento, inserimos o vetor para o qual queremos detectar algum padrão. No segundo argumento, inserimos o padrão que desejamos detectar. 
 
-Ao usar essa função em conjunto com a função `filter` conseguimos filtrar padrões de interesse, uma vez que a função `filter ` usa vetores lógicos para fazer filtros. Para o problema n. 3, vamos trabalhar com a coluna "descricao" que criamos no início do post.
+Ao usar essa função em conjunto com a função `filter` conseguimos filtrar padrões de interesse, uma vez que a função `filter ` usa vetores lógicos para fazer filtros. Para o problema n. 3, vamos trabalhar com a coluna "pais".
 
-Suponha que desejamos encontrar todas as observações que possuem o padrão de letras "mm" (o padrão "mm" pode aparecer em qualquer posição do texto). Assim, podemos fazer o seguinte:
+Suponha que desejamos encontrar todas as observações que possuem o padrão "URY" na coluna pais. Assim, podemo fazer o seguinte:
+
+```{r}
+df %>% 
+  filter(str_detect(pais, "URY"))
+```
+
+Na coluna "pais", somente 22 observações foram encontradas contendo o padrão "URY".
+
+Agora suponha que desejamos encontrar todas as observações que possuem o padrão de letras "mm" na coluna `descricao`. Assim, podemos fazer o seguinte:
 
 ```{r}
 df_temp %>% 
@@ -162,14 +206,16 @@ df_temp %>%
 
 Apenas quatro observações de um total de 200 possuem o padrão "mm".
 
-Agora olhemos para a quarta observação da coluna "descricao" acima. Os três primeiros caracteres são "wuq". Será que há mais observações com esse padrão na coluna "descricao"? Vamos investigar:
+Agora olhemos para a quarta observação da coluna "descricao" acima. Os três primeiros caracteres  são "wuq". Será que há mais observações com esse padrão na coluna "descricao"? Vamos investigar:
 
 ```{r}
 df_temp %>% 
   filter(str_detect(descricao, "wuq"))
 ```
 
-Como podemos notar somente há uma observação com o padrão "wuq". 
+Como podemos notar somente há uma observação com o padrão "wuq" na coluna "descricao". 
+
+Como desafio tente encontrar todas as observações que possuem um ponto (".") ou talvez dois pontos (".."). 
 
 Bom, vamos encerrando por aqui. No próxima parte desta sequência de posts veremos um pouco mais de como identificar observações textuais, como eliminar caracteres indesejados e, também, como substitui-los por outros caracteres.
 

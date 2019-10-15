@@ -1364,15 +1364,18 @@ d-appendix {
 </div>
 
 <div class="d-article">
+<!-- More -->
 <p>Este post inicia uma série de posts que iremos fazer sobre manipulação de texto. Para esse fim, utilizaremos o pacote <a href="https://www.rdocumentation.org/packages/stringr/versions/1.4.0">stringr</a>. Se você tem dificuldade com a manipulação de dados textuais no R, esse post é para você. Ao longo da série, vamos criar diferentes problemas e mostrar como podemos resolvê-los. Em posts futuros, ainda teremos a oportunidade de aprender alguns detalhes básicos de expressões regulares (<strong>regex</strong>), que são fundamentais para a manipulação de texto.</p>
 <p>Regex não é difícil, mas exige um pouco de paciência. Para quem já tiver interesse de ir se informando sobre o assunto, vale a pena dar uma olhada na página do <a href="https://pt.wikipedia.org/wiki/Express%C3%A3o_regular">Wikipédia sobre regex</a> e neste <a href="https://regexr.com/">link</a> mais prático sobre <strong>regex</strong>.</p>
 <h3 id="criação-de-dados-textuais">Criação de dados textuais</h3>
 <p>Esta etapa visa criar uma pequena base de dados para que possamos fazer nossos exercícios de manipulações de texto.</p>
-<p>Primeiramente, carregamos os pacotes <code>dplyr</code> e <code>stringr</code>.</p>
+<p>Primeiramente, carregamos os pacotes <code>dplyr</code>, <code>stringr</code>, <code>tidyr</code> e <code>data.table</code>.</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 library(dplyr)
-library(stringr)</code></pre>
+library(stringr)
+library(tidyr)
+library(data.table)</code></pre>
 </div>
 <p>Para que você possa replicar este exercício vamos usar a função <code>set.seed</code> (<strong>obs.</strong> se sua versão do R for anterior à versão 3.6.0, você não vai conseguir replicar o exercício, mas pode ficar tranquilo que ainda assim vai conseguir acompanhar a lógica das funções que iremos explorar).</p>
 <div class="layout-chunk" data-layout="l-body">
@@ -1400,7 +1403,24 @@ for(i in 1:length(dado_textual)) {
   dado_textual[i] &lt;- texto_aleatorio()
 }
 
+## baixamos uma correlacao de nomes de paises em ingles,
+## portugues e com os respectivos codigos ISOA3
+
+paises &lt;- fread(
+  &quot;https://raw.githubusercontent.com/mgcleaver/correlacoes/master/paises_isoa.txt&quot;,
+                encoding = &quot;UTF-8&quot;
+) %&gt;% 
+  slice(sample(1:249, 10, replace = FALSE)) %&gt;% # selecionamos 10 observações aleatórias
+  select(ISOA, pais_port)
+
+paises &lt;- paises %&gt;% 
+  unite(col = pais, pais_port, ISOA, sep = &quot;-&quot;) %&gt;%  # unimos os elementos de duas colunas
+  pull(pais)
+
+paises &lt;- sample(paises, 200, replace = TRUE)
+
 df &lt;- tibble(codigos = numeros,
+             pais = paises,
              descricao = dado_textual)</code></pre>
 </div>
 <h3 id="problema-n.-1-como-adicionar-caracteres-para-que-as-observações-de-uma-coluna-tenham-sempre-o-mesmo-tamanho">Problema n. 1: Como adicionar caracteres para que as observações de uma coluna tenham sempre o mesmo tamanho?</h3>
@@ -1540,29 +1560,91 @@ df_temp %&gt;%
 [190] &quot;50217*&quot; &quot;61219*&quot; &quot;56293*&quot; &quot;41648*&quot; &quot;49004*&quot; &quot;89897*&quot; &quot;44093*&quot;
 [197] &quot;44834*&quot; &quot;81689*&quot; &quot;51472*&quot; &quot;12859*&quot;</code></pre>
 </div>
-<h3 id="problema-n.-2-como-reduzir-o-numero-de-caracteres-para-um-tamanho-menor-do-que-o-existente-nos-nossos-dados">Problema n. 2: Como reduzir o numero de caracteres para um tamanho menor do que o existente nos nossos dados?</h3>
-<p>Para esse exercício, vamos usar o objeto <code>df_temp</code>, recém definido. A coluna “codigos” tem seis caracteres, mas vamos supor que também precisamos criar uma coluna que captura os três primeiros caracteres da coluna “codigos”.</p>
-<p>A função que vai nos ajudar com essa tarefa se chama <code>str_sub</code>. No nosso caso, queremos extrair os três primeiros caracteres da coluna “codigos”. É esta coluna que deve ser inserida no primeiro argumento.</p>
-<p>No segundo e no terceiro argumento inserimos, respectivamente, a posição numérica inicial e final referente aos caracteres das observações da coluna “codigos” que queremos extrair. Como queremos extrair os três primeiros caracteres, a posição inicial deve ser a posição númerica do primeiro caractere e a posição final deve ser a posição do terceiro caractere.</p>
+<h3 id="problema-n.-2-como-extrair-um-subconjunto-de-caracteres-consecutivos-de-um-texto">Problema n. 2: Como extrair um subconjunto de caracteres consecutivos de um texto?</h3>
+<p>Para esse exercício, podemos começar utilizando o objeto <code>paises</code> que criamos no início do post. Vejamos os primeiros dez elementos do objeto que criamos:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+paises[1:10]</code></pre>
+<pre><code>
+ [1] &quot;Nigéria-NGA&quot;              &quot;Svalbard e Jan Mayen-SJM&quot;
+ [3] &quot;Tailândia-THA&quot;            &quot;Macau-MAC&quot;               
+ [5] &quot;Macau-MAC&quot;                &quot;Uruguai-URY&quot;             
+ [7] &quot;Anguila-AIA&quot;              &quot;Uruguai-URY&quot;             
+ [9] &quot;Macau-MAC&quot;                &quot;Islândia-ISL&quot;            </code></pre>
+</div>
+<p>Como podemos extrair os últimos três caracteres do objeto <code>paises</code>? A função que vai nos ajudar com essa tarefa se chama <code>str_sub</code>. No primeiro argumento da função devemos inserir o objeto que desejamos manipular. No nosso caso, inserimos o objeto <code>paises</code>. No segundo e no terceiro argumento devemos inserir a posição incial e a final dos caracteres que desejamos extrair. Por exemplo, para extrair os três primeiros caracteres e os três ultimos caracteres de <code>paises</code>, podemos fazer, respectivamente, o seguinte:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+# tres primeiros caracteres
+str_sub(paises, 1, 3)</code></pre>
+<pre><code>
+  [1] &quot;Nig&quot; &quot;Sva&quot; &quot;Tai&quot; &quot;Mac&quot; &quot;Mac&quot; &quot;Uru&quot; &quot;Ang&quot; &quot;Uru&quot; &quot;Mac&quot; &quot;Isl&quot;
+ [11] &quot;Kuw&quot; &quot;Mac&quot; &quot;Isl&quot; &quot;Uru&quot; &quot;Ang&quot; &quot;Kuw&quot; &quot;Nig&quot; &quot;Uru&quot; &quot;Est&quot; &quot;Nig&quot;
+ [21] &quot;Isl&quot; &quot;Est&quot; &quot;Est&quot; &quot;Ang&quot; &quot;Kuw&quot; &quot;Uru&quot; &quot;Kuw&quot; &quot;Isl&quot; &quot;Mac&quot; &quot;Uru&quot;
+ [31] &quot;Mac&quot; &quot;Uru&quot; &quot;Isl&quot; &quot;Sva&quot; &quot;Uru&quot; &quot;Uru&quot; &quot;Nig&quot; &quot;Isl&quot; &quot;Tai&quot; &quot;Uru&quot;
+ [41] &quot;Est&quot; &quot;Est&quot; &quot;Kuw&quot; &quot;Ang&quot; &quot;Isl&quot; &quot;Tai&quot; &quot;Kuw&quot; &quot;Nig&quot; &quot;Ang&quot; &quot;Est&quot;
+ [51] &quot;Tai&quot; &quot;Nig&quot; &quot;Est&quot; &quot;Mac&quot; &quot;Ang&quot; &quot;Tai&quot; &quot;Tai&quot; &quot;Est&quot; &quot;Kuw&quot; &quot;Mac&quot;
+ [61] &quot;Sva&quot; &quot;Sva&quot; &quot;Sva&quot; &quot;Isl&quot; &quot;Tai&quot; &quot;Mac&quot; &quot;Tai&quot; &quot;Est&quot; &quot;Isl&quot; &quot;Uru&quot;
+ [71] &quot;Sva&quot; &quot;Uru&quot; &quot;Mac&quot; &quot;Nig&quot; &quot;Mac&quot; &quot;Ang&quot; &quot;Sva&quot; &quot;Uru&quot; &quot;Kuw&quot; &quot;Tai&quot;
+ [81] &quot;Isl&quot; &quot;Ang&quot; &quot;Tai&quot; &quot;Sva&quot; &quot;Tai&quot; &quot;Est&quot; &quot;Ang&quot; &quot;Est&quot; &quot;Mac&quot; &quot;Est&quot;
+ [91] &quot;Uru&quot; &quot;Isl&quot; &quot;Est&quot; &quot;Ang&quot; &quot;Sva&quot; &quot;Tai&quot; &quot;Isl&quot; &quot;Tai&quot; &quot;Kuw&quot; &quot;Kuw&quot;
+[101] &quot;Mac&quot; &quot;Sva&quot; &quot;Ang&quot; &quot;Uru&quot; &quot;Ang&quot; &quot;Isl&quot; &quot;Est&quot; &quot;Est&quot; &quot;Tai&quot; &quot;Kuw&quot;
+[111] &quot;Nig&quot; &quot;Sva&quot; &quot;Mac&quot; &quot;Sva&quot; &quot;Nig&quot; &quot;Uru&quot; &quot;Est&quot; &quot;Ang&quot; &quot;Mac&quot; &quot;Ang&quot;
+[121] &quot;Tai&quot; &quot;Tai&quot; &quot;Ang&quot; &quot;Tai&quot; &quot;Nig&quot; &quot;Ang&quot; &quot;Est&quot; &quot;Nig&quot; &quot;Uru&quot; &quot;Est&quot;
+[131] &quot;Est&quot; &quot;Uru&quot; &quot;Est&quot; &quot;Kuw&quot; &quot;Est&quot; &quot;Nig&quot; &quot;Est&quot; &quot;Ang&quot; &quot;Est&quot; &quot;Kuw&quot;
+[141] &quot;Mac&quot; &quot;Kuw&quot; &quot;Sva&quot; &quot;Est&quot; &quot;Est&quot; &quot;Tai&quot; &quot;Tai&quot; &quot;Nig&quot; &quot;Est&quot; &quot;Kuw&quot;
+[151] &quot;Mac&quot; &quot;Est&quot; &quot;Est&quot; &quot;Uru&quot; &quot;Kuw&quot; &quot;Mac&quot; &quot;Mac&quot; &quot;Sva&quot; &quot;Est&quot; &quot;Sva&quot;
+[161] &quot;Isl&quot; &quot;Tai&quot; &quot;Nig&quot; &quot;Nig&quot; &quot;Ang&quot; &quot;Isl&quot; &quot;Isl&quot; &quot;Tai&quot; &quot;Est&quot; &quot;Ang&quot;
+[171] &quot;Nig&quot; &quot;Tai&quot; &quot;Mac&quot; &quot;Mac&quot; &quot;Uru&quot; &quot;Mac&quot; &quot;Est&quot; &quot;Ang&quot; &quot;Tai&quot; &quot;Est&quot;
+[181] &quot;Isl&quot; &quot;Isl&quot; &quot;Tai&quot; &quot;Tai&quot; &quot;Ang&quot; &quot;Uru&quot; &quot;Est&quot; &quot;Ang&quot; &quot;Nig&quot; &quot;Sva&quot;
+[191] &quot;Kuw&quot; &quot;Isl&quot; &quot;Est&quot; &quot;Nig&quot; &quot;Est&quot; &quot;Uru&quot; &quot;Est&quot; &quot;Sva&quot; &quot;Isl&quot; &quot;Nig&quot;</code></pre>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+# tres ultimos caracteres
+str_sub(paises, -3, -1) # os numeros negativos indicam que contamos de trás para frente</code></pre>
+<pre><code>
+  [1] &quot;NGA&quot; &quot;SJM&quot; &quot;THA&quot; &quot;MAC&quot; &quot;MAC&quot; &quot;URY&quot; &quot;AIA&quot; &quot;URY&quot; &quot;MAC&quot; &quot;ISL&quot;
+ [11] &quot;KWT&quot; &quot;MAC&quot; &quot;ISL&quot; &quot;URY&quot; &quot;AIA&quot; &quot;KWT&quot; &quot;NGA&quot; &quot;URY&quot; &quot;FSM&quot; &quot;NGA&quot;
+ [21] &quot;ISL&quot; &quot;FSM&quot; &quot;EST&quot; &quot;AIA&quot; &quot;KWT&quot; &quot;URY&quot; &quot;KWT&quot; &quot;ISL&quot; &quot;MAC&quot; &quot;URY&quot;
+ [31] &quot;MAC&quot; &quot;URY&quot; &quot;ISL&quot; &quot;SJM&quot; &quot;URY&quot; &quot;URY&quot; &quot;NGA&quot; &quot;ISL&quot; &quot;THA&quot; &quot;URY&quot;
+ [41] &quot;EST&quot; &quot;FSM&quot; &quot;KWT&quot; &quot;AIA&quot; &quot;ISL&quot; &quot;THA&quot; &quot;KWT&quot; &quot;NGA&quot; &quot;AIA&quot; &quot;FSM&quot;
+ [51] &quot;THA&quot; &quot;NGA&quot; &quot;EST&quot; &quot;MAC&quot; &quot;AIA&quot; &quot;THA&quot; &quot;THA&quot; &quot;FSM&quot; &quot;KWT&quot; &quot;MAC&quot;
+ [61] &quot;SJM&quot; &quot;SJM&quot; &quot;SJM&quot; &quot;ISL&quot; &quot;THA&quot; &quot;MAC&quot; &quot;THA&quot; &quot;EST&quot; &quot;ISL&quot; &quot;URY&quot;
+ [71] &quot;SJM&quot; &quot;URY&quot; &quot;MAC&quot; &quot;NGA&quot; &quot;MAC&quot; &quot;AIA&quot; &quot;SJM&quot; &quot;URY&quot; &quot;KWT&quot; &quot;THA&quot;
+ [81] &quot;ISL&quot; &quot;AIA&quot; &quot;THA&quot; &quot;SJM&quot; &quot;THA&quot; &quot;FSM&quot; &quot;AIA&quot; &quot;EST&quot; &quot;MAC&quot; &quot;EST&quot;
+ [91] &quot;URY&quot; &quot;ISL&quot; &quot;FSM&quot; &quot;AIA&quot; &quot;SJM&quot; &quot;THA&quot; &quot;ISL&quot; &quot;THA&quot; &quot;KWT&quot; &quot;KWT&quot;
+[101] &quot;MAC&quot; &quot;SJM&quot; &quot;AIA&quot; &quot;URY&quot; &quot;AIA&quot; &quot;ISL&quot; &quot;FSM&quot; &quot;FSM&quot; &quot;THA&quot; &quot;KWT&quot;
+[111] &quot;NGA&quot; &quot;SJM&quot; &quot;MAC&quot; &quot;SJM&quot; &quot;NGA&quot; &quot;URY&quot; &quot;EST&quot; &quot;AIA&quot; &quot;MAC&quot; &quot;AIA&quot;
+[121] &quot;THA&quot; &quot;THA&quot; &quot;AIA&quot; &quot;THA&quot; &quot;NGA&quot; &quot;AIA&quot; &quot;EST&quot; &quot;NGA&quot; &quot;URY&quot; &quot;FSM&quot;
+[131] &quot;EST&quot; &quot;URY&quot; &quot;EST&quot; &quot;KWT&quot; &quot;FSM&quot; &quot;NGA&quot; &quot;EST&quot; &quot;AIA&quot; &quot;FSM&quot; &quot;KWT&quot;
+[141] &quot;MAC&quot; &quot;KWT&quot; &quot;SJM&quot; &quot;EST&quot; &quot;EST&quot; &quot;THA&quot; &quot;THA&quot; &quot;NGA&quot; &quot;FSM&quot; &quot;KWT&quot;
+[151] &quot;MAC&quot; &quot;EST&quot; &quot;EST&quot; &quot;URY&quot; &quot;KWT&quot; &quot;MAC&quot; &quot;MAC&quot; &quot;SJM&quot; &quot;EST&quot; &quot;SJM&quot;
+[161] &quot;ISL&quot; &quot;THA&quot; &quot;NGA&quot; &quot;NGA&quot; &quot;AIA&quot; &quot;ISL&quot; &quot;ISL&quot; &quot;THA&quot; &quot;FSM&quot; &quot;AIA&quot;
+[171] &quot;NGA&quot; &quot;THA&quot; &quot;MAC&quot; &quot;MAC&quot; &quot;URY&quot; &quot;MAC&quot; &quot;FSM&quot; &quot;AIA&quot; &quot;THA&quot; &quot;FSM&quot;
+[181] &quot;ISL&quot; &quot;ISL&quot; &quot;THA&quot; &quot;THA&quot; &quot;AIA&quot; &quot;URY&quot; &quot;FSM&quot; &quot;AIA&quot; &quot;NGA&quot; &quot;SJM&quot;
+[191] &quot;KWT&quot; &quot;ISL&quot; &quot;FSM&quot; &quot;NGA&quot; &quot;FSM&quot; &quot;URY&quot; &quot;FSM&quot; &quot;SJM&quot; &quot;ISL&quot; &quot;NGA&quot;</code></pre>
+</div>
+<p>Agora, criemos uma nova coluna chamada “isoa3” que consiste nas últimas três letras da coluna <code>pais</code> do objeto <code>df_temp</code>:</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 df_temp &lt;- df_temp %&gt;% 
-  mutate(primeiros_tres = str_sub(codigos, 1, 3))
+  mutate(isoa3 = str_sub(pais, -3, -1))
 
 df_temp %&gt;% 
   head()</code></pre>
 <pre><code>
-# A tibble: 6 x 3
-  codigos descricao                                   primeiros_tres
-  &lt;chr&gt;   &lt;chr&gt;                                       &lt;chr&gt;         
-1 76440*  mogcsxec;.;vue                              764           
-2 98909*  mjwntnzyeugcold.tf                          989           
-3 64864*  t;bahgvx;vqlpbcpipjvtmxgwaxizjzdcvheyckagmm 648           
-4 75522*  ahkgri st uagr                              755           
-5 65611*  zz,qvwyiyzholdnlgma.b                       656           
-6 95847*  t fqf,,jelhgla.cxug iybjuzy;uapui           958           </code></pre>
+# A tibble: 6 x 4
+  codigos pais                descricao                          isoa3
+  &lt;chr&gt;   &lt;chr&gt;               &lt;chr&gt;                              &lt;chr&gt;
+1 76440*  Nigéria-NGA         mogcsxec;.;vue                     NGA  
+2 98909*  Svalbard e Jan May~ mjwntnzyeugcold.tf                 SJM  
+3 64864*  Tailândia-THA       t;bahgvx;vqlpbcpipjvtmxgwaxizjzdc~ THA  
+4 75522*  Macau-MAC           ahkgri st uagr                     MAC  
+5 65611*  Macau-MAC           zz,qvwyiyzholdnlgma.b              MAC  
+6 95847*  Uruguai-URY         t fqf,,jelhgla.cxug iybjuzy;uapui  URY  </code></pre>
 </div>
-<p>Para consolidarmos o conhecimento, agora suponha que ainda temos o objetivo de criar uma nova coluna apenas com apenas o terceiro caractere da coluna “codigos”. Chamemos essa coluna de “digito3”.</p>
+<p>Para consolidarmos o conhecimento, agora suponha que ainda temos o objetivo de criar uma nova coluna com apenas o terceiro caractere da coluna “codigos”. Chamemos essa coluna de “digito3”.</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 df_temp &lt;- df_temp %&gt;% 
@@ -1570,32 +1652,54 @@ df_temp &lt;- df_temp %&gt;%
 
 head(df_temp)</code></pre>
 <pre><code>
-# A tibble: 6 x 4
-  codigos descricao                             primeiros_tres digito3
-  &lt;chr&gt;   &lt;chr&gt;                                 &lt;chr&gt;          &lt;chr&gt;  
-1 76440*  mogcsxec;.;vue                        764            4      
-2 98909*  mjwntnzyeugcold.tf                    989            9      
-3 64864*  t;bahgvx;vqlpbcpipjvtmxgwaxizjzdcvhe~ 648            8      
-4 75522*  ahkgri st uagr                        755            5      
-5 65611*  zz,qvwyiyzholdnlgma.b                 656            6      
-6 95847*  t fqf,,jelhgla.cxug iybjuzy;uapui     958            8      </code></pre>
+# A tibble: 6 x 5
+  codigos pais              descricao                    isoa3 digito3
+  &lt;chr&gt;   &lt;chr&gt;             &lt;chr&gt;                        &lt;chr&gt; &lt;chr&gt;  
+1 76440*  Nigéria-NGA       mogcsxec;.;vue               NGA   4      
+2 98909*  Svalbard e Jan M~ mjwntnzyeugcold.tf           SJM   9      
+3 64864*  Tailândia-THA     t;bahgvx;vqlpbcpipjvtmxgwax~ THA   8      
+4 75522*  Macau-MAC         ahkgri st uagr               MAC   5      
+5 65611*  Macau-MAC         zz,qvwyiyzholdnlgma.b        MAC   6      
+6 95847*  Uruguai-URY       t fqf,,jelhgla.cxug iybjuzy~ URY   8      </code></pre>
 </div>
 <h3 id="problema-n.-3-como-filtrar-dados-com-certos-padrões-no-texto">Problema n. 3: como filtrar dados com certos padrões no texto?</h3>
 <p>Para filtrar padrões de interesse em dados textuais podemos utilizar a função <code>str_detect</code>. Esta função retorna um valor lógico. Retorna TRUE para o caso do padrão ter sido detectado e retorna FALSE, caso contrário. No primeiro argumento, inserimos o vetor para o qual queremos detectar algum padrão. No segundo argumento, inserimos o padrão que desejamos detectar.</p>
-<p>Ao usar essa função em conjunto com a função <code>filter</code> conseguimos filtrar padrões de interesse, uma vez que a função <code>filter</code> usa vetores lógicos para fazer filtros. Para o problema n. 3, vamos trabalhar com a coluna “descricao” que criamos no início do post.</p>
-<p>Suponha que desejamos encontrar todas as observações que possuem o padrão de letras “mm” (o padrão “mm” pode aparecer em qualquer posição do texto). Assim, podemos fazer o seguinte:</p>
+<p>Ao usar essa função em conjunto com a função <code>filter</code> conseguimos filtrar padrões de interesse, uma vez que a função <code>filter</code> usa vetores lógicos para fazer filtros. Para o problema n. 3, vamos trabalhar com a coluna “pais”.</p>
+<p>Suponha que desejamos encontrar todas as observações que possuem o padrão “URY” na coluna pais. Assim, podemo fazer o seguinte:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+df %&gt;% 
+  filter(str_detect(pais, &quot;URY&quot;))</code></pre>
+<pre><code>
+# A tibble: 22 x 3
+   codigos pais        descricao                                      
+   &lt;chr&gt;   &lt;chr&gt;       &lt;chr&gt;                                          
+ 1 95847   Uruguai-URY t fqf,,jelhgla.cxug iybjuzy;uapui              
+ 2 62368   Uruguai-URY hhhsnc,n,evnckrwtmaeroslks.gapvptyferdaokwywpw~
+ 3 74320   Uruguai-URY idbeyblog rjmiohcjxw gaz;.tdy,nsbujjwkdxp      
+ 4 40996   Uruguai-URY c evc;m opmlqdl.vryrnslr                       
+ 5 62026   Uruguai-URY tb;ur;ccsmeika;astsorlfroht sex;.mpciuc,q;xlzc~
+ 6 9837    Uruguai-URY qqrzjwkynbcizyunh r v,tdzdrvc.eyq              
+ 7 1258    Uruguai-URY csirgkhnmudblp,cbwyiuqog,gwu dktajaoklt,       
+ 8 3975    Uruguai-URY vs.epttywzhjw jaj.g                            
+ 9 52965   Uruguai-URY yqhhqxddddxpn                                  
+10 40516   Uruguai-URY n,agahnath,gdistqyhfkwgriy;s;p                 
+# ... with 12 more rows</code></pre>
+</div>
+<p>Na coluna “pais”, somente 22 observações foram encontradas contendo o padrão “URY”.</p>
+<p>Agora suponha que desejamos encontrar todas as observações que possuem o padrão de letras “mm” na coluna <code>descricao</code>. Assim, podemos fazer o seguinte:</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 df_temp %&gt;% 
   filter(str_detect(descricao, &quot;mm&quot;))</code></pre>
 <pre><code>
-# A tibble: 4 x 4
-  codigos descricao                             primeiros_tres digito3
-  &lt;chr&gt;   &lt;chr&gt;                                 &lt;chr&gt;          &lt;chr&gt;  
-1 64864*  t;bahgvx;vqlpbcpipjvtmxgwaxizjzdcvhe~ 648            8      
-2 58069*  srjwymmolndchpoocwevj..kbx,ezbfpgnvry 580            0      
-3 21692*  inmmghv hafgrgochw                    216            6      
-4 56293*  wuqjx,qr.vz;yjxgmmbds                 562            2      </code></pre>
+# A tibble: 4 x 5
+  codigos pais              descricao                    isoa3 digito3
+  &lt;chr&gt;   &lt;chr&gt;             &lt;chr&gt;                        &lt;chr&gt; &lt;chr&gt;  
+1 64864*  Tailândia-THA     t;bahgvx;vqlpbcpipjvtmxgwax~ THA   8      
+2 58069*  Svalbard e Jan M~ srjwymmolndchpoocwevj..kbx,~ SJM   0      
+3 21692*  Anguila-AIA       inmmghv hafgrgochw           AIA   6      
+4 56293*  Islândia-ISL      wuqjx,qr.vz;yjxgmmbds        ISL   2      </code></pre>
 </div>
 <p>Apenas quatro observações de um total de 200 possuem o padrão “mm”.</p>
 <p>Agora olhemos para a quarta observação da coluna “descricao” acima. Os três primeiros caracteres são “wuq”. Será que há mais observações com esse padrão na coluna “descricao”? Vamos investigar:</p>
@@ -1604,12 +1708,13 @@ df_temp %&gt;%
 df_temp %&gt;% 
   filter(str_detect(descricao, &quot;wuq&quot;))</code></pre>
 <pre><code>
-# A tibble: 1 x 4
-  codigos descricao             primeiros_tres digito3
-  &lt;chr&gt;   &lt;chr&gt;                 &lt;chr&gt;          &lt;chr&gt;  
-1 56293*  wuqjx,qr.vz;yjxgmmbds 562            2      </code></pre>
+# A tibble: 1 x 5
+  codigos pais         descricao             isoa3 digito3
+  &lt;chr&gt;   &lt;chr&gt;        &lt;chr&gt;                 &lt;chr&gt; &lt;chr&gt;  
+1 56293*  Islândia-ISL wuqjx,qr.vz;yjxgmmbds ISL   2      </code></pre>
 </div>
-<p>Como podemos notar somente há uma observação com o padrão “wuq”.</p>
+<p>Como podemos notar somente há uma observação com o padrão “wuq” na coluna “descricao”.</p>
+<p>Como desafio tente encontrar todas as observações que possuem um ponto (“.”) ou talvez dois pontos (“..”).</p>
 <p>Bom, vamos encerrando por aqui. No próxima parte desta sequência de posts veremos um pouco mais de como identificar observações textuais, como eliminar caracteres indesejados e, também, como substitui-los por outros caracteres.</p>
 <p>Até breve!</p>
 <!--radix_placeholder_article_footer-->
