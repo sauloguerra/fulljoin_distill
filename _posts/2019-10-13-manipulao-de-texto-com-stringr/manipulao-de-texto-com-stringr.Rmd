@@ -45,22 +45,6 @@ set.seed(12345)
 numeros <- sample(1:99999, 200) %>% 
   as.character()
 
-# definimos um conjunto de letras e pontuações.
-letras <- c(letters, ".", ",", ";", " ")
-
-# criamos uma função para gerar um texto de caracteres aleatórios
-# com no minimo 10 carateres e no maximo 50 caracteres
-texto_aleatorio <- function() {
-  i <- sample(10:50, 1)
-  texto <- sample(letras, i, replace = TRUE)
-  paste0(texto, collapse = "")
-}
-
-dado_textual <- vector(mode = "character", length = 200)
-for(i in 1:length(dado_textual)) {
-  dado_textual[i] <- texto_aleatorio()
-}
-
 ## baixamos uma correlacao de nomes de paises em ingles,
 ## portugues e com os respectivos codigos ISOA3
 
@@ -78,8 +62,7 @@ paises <- paises %>%
 paises <- sample(paises, 200, replace = TRUE)
 
 df <- tibble(codigos = numeros,
-             pais = paises,
-             descricao = dado_textual)
+             pais = paises)
 ```
 
 
@@ -188,34 +171,15 @@ Para filtrar padrões de interesse em dados textuais podemos utilizar a função
 
 Ao usar essa função em conjunto com a função `filter` conseguimos filtrar padrões de interesse, uma vez que a função `filter ` usa vetores lógicos para fazer filtros. Para o problema n. 3, vamos trabalhar com a coluna "pais".
 
-Suponha que desejamos encontrar todas as observações que possuem o padrão "URY" na coluna pais. Assim, podemo fazer o seguinte:
+Suponha que desejamos encontrar todas as observações que possuem o padrão "ISR" na coluna "pais". Assim, podemo fazer o seguinte:
 
 ```{r}
 df %>% 
-  filter(str_detect(pais, "URY"))
+  filter(str_detect(pais, "ISR"))
 ```
 
-Na coluna "pais", somente 22 observações foram encontradas contendo o padrão "URY".
+Na coluna "pais", somente 21 observações foram encontradas contendo o padrão "ISR".
 
-Agora suponha que desejamos encontrar todas as observações que possuem o padrão de letras "mm" na coluna `descricao`. Assim, podemos fazer o seguinte:
-
-```{r}
-df_temp %>% 
-  filter(str_detect(descricao, "mm"))
-```
-
-Apenas quatro observações de um total de 200 possuem o padrão "mm".
-
-Agora olhemos para a quarta observação da coluna "descricao" acima. Os três primeiros caracteres  são "wuq". Será que há mais observações com esse padrão na coluna "descricao"? Vamos investigar:
-
-```{r}
-df_temp %>% 
-  filter(str_detect(descricao, "wuq"))
-```
-
-Como podemos notar somente há uma observação com o padrão "wuq" na coluna "descricao". 
-
-Como desafio tente encontrar todas as observações que possuem um ponto (".") ou talvez dois pontos (".."). 
 
 Bom, vamos encerrando por aqui. No próxima parte desta sequência de posts veremos um pouco mais de como identificar observações textuais, como eliminar caracteres indesejados e, também, como substitui-los por outros caracteres.
 
