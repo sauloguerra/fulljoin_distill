@@ -25,8 +25,8 @@
   
   
   <!--  https://schema.org/Article -->
-  <meta property="article:published" itemprop="datePublished" content="2019-09-19"/>
-  <meta property="article:created" itemprop="dateCreated" content="2019-09-19"/>
+  <meta property="article:published" itemprop="datePublished" content="2019-10-17"/>
+  <meta property="article:created" itemprop="dateCreated" content="2019-10-17"/>
   <meta name="article:author" content="Paulo Felipe Alencar"/>
   
   <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
@@ -44,7 +44,7 @@
   <!--radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-rmarkdown-metadata">
-  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","output","draft"]}},"value":[{"type":"character","attributes":{},"value":["Tidytext e Modelagem de Tópicos com o R: Analisando os Textos de Acordos Comerciais"]},{"type":"character","attributes":{},"value":["Neste post, vamos fazer uma análise de tópicos utilizando os pacotes tidytext e topicmodels. Essa análise consiste em extrair um conjunto de temas (tópicos) de um conjunto de textos. Para isso, utilizamos uma base de textos de acordos comerciais. Veremos que o método utilizado é capaz de identificar uma séria de tópicos relevantes.  \n"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name"]}},"value":[{"type":"character","attributes":{},"value":["Paulo Felipe Alencar"]}]}]},{"type":"character","attributes":{},"value":["09-19-2019"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]}]},{"type":"logical","attributes":{},"value":[true]}]}
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","output","draft"]}},"value":[{"type":"character","attributes":{},"value":["Tidytext e Modelagem de Tópicos com o R: Analisando os Textos de Acordos Comerciais"]},{"type":"character","attributes":{},"value":["Neste post, vamos fazer uma análise de tópicos utilizando os pacotes tidytext e topicmodels. Essa análise consiste em extrair um conjunto de temas (tópicos) de um conjunto de textos. Para isso, utilizamos uma base de textos de acordos comerciais. Veremos que o método utilizado é capaz de identificar uma séria de tópicos relevantes.  \n"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name"]}},"value":[{"type":"character","attributes":{},"value":["Paulo Felipe Alencar"]}]}]},{"type":"character","attributes":{},"value":["10-17-2019"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]}]},{"type":"logical","attributes":{},"value":[false]}]}
   </script>
   <!--/radix_placeholder_rmarkdown_metadata-->
   
@@ -944,7 +944,7 @@
 <!--radix_placeholder_front_matter-->
 
 <script id="distill-front-matter" type="text/json">
-{"title":"Tidytext e Modelagem de Tópicos com o R: Analisando os Textos de Acordos Comerciais","description":"Neste post, vamos fazer uma análise de tópicos utilizando os pacotes tidytext e topicmodels. Essa análise consiste em extrair um conjunto de temas (tópicos) de um conjunto de textos. Para isso, utilizamos uma base de textos de acordos comerciais. Veremos que o método utilizado é capaz de identificar uma séria de tópicos relevantes.","authors":[{"author":"Paulo Felipe Alencar","authorURL":"#","affiliation":"&nbsp;","affiliationURL":"#"}],"publishedDate":"2019-09-19T00:00:00.000-03:00","citationText":"Alencar, 2019"}
+{"title":"Tidytext e Modelagem de Tópicos com o R: Analisando os Textos de Acordos Comerciais","description":"Neste post, vamos fazer uma análise de tópicos utilizando os pacotes tidytext e topicmodels. Essa análise consiste em extrair um conjunto de temas (tópicos) de um conjunto de textos. Para isso, utilizamos uma base de textos de acordos comerciais. Veremos que o método utilizado é capaz de identificar uma séria de tópicos relevantes.","authors":[{"author":"Paulo Felipe Alencar","authorURL":"#","affiliation":"&nbsp;","affiliationURL":"#"}],"publishedDate":"2019-10-17T00:00:00.000-03:00","citationText":"Alencar, 2019"}
 </script>
 
 <!--/radix_placeholder_front_matter-->
@@ -962,13 +962,13 @@
   
   Paulo Felipe Alencar
   
-<br/>09-19-2019
+<br/>10-17-2019
 </div>
 
 <div class="d-article">
 <h1 id="introducao">Introdução</h1>
-<p>É bastante comum que uma análise de dados envolvam textos. Neste post, vamos trabalhar textos no formato <em>tidy</em> utilizando o pacote <code>tidytext</code>. Após a manipulação de dados, vamos estimar um modelo de tópicos utilizando o pacote <code>topicmodels</code>. Esta abordagem permite encontrar diversos “temas” dentro de um conjunto de textos. Este post segue o que está descrito no livro <a href="https://www.tidytextmining.com/">Tidy Text Mining with R</a> que foi escrito pelos mesmos autores do pacote <code>tidytext</code>.</p>
-<p>Como aplicação, utilizaremos textos de acordos comerciais da base <a href="http://mappinginvestmenttreaties.com/rta/"><em>Text of Trade Agreements - TOTA</em></a> desenvolvida pela UNCTAD e que abrange 451 acordos comerciais. Os acordos comerciais celebrados ao redor do mundo e que são notificados à Organização Mundial de Comércio (OMC) possuem um texto que descreve os diversos aspectos que foram negociados e acertados entre os diferentes parceiros. Os acordos comerciais cobrem desde questões tarifárias a questões de propriedade intelectual.</p>
+<p>É bastante comum que uma análise de dados envolva textos. Levando isso em conta, neste post, vamos trabalhar textos no formato <em>tidy</em> utilizando o pacote <code>tidytext</code>. Após a manipulação de dados, vamos estimar um modelo de tópicos utilizando o pacote <code>topicmodels</code>. Esta abordagem permite encontrar diversos “temas” dentro de um conjunto de textos. Este post segue o que está descrito no livro <a href="https://www.tidytextmining.com/">Tidy Text Mining with R</a> que foi escrito pelos mesmos autores do pacote <code>tidytext</code>.</p>
+<p>Como aplicação, utilizaremos textos de acordos comerciais da base <a href="http://mappinginvestmenttreaties.com/rta/"><em>Text of Trade Agreements - TOTA</em></a> desenvolvida pela UNCTAD, que abrange 451 acordos comerciais. Os acordos comerciais celebrados ao redor do mundo notificados à Organização Mundial de Comércio (OMC) possuem um texto que descreve os diversos aspectos que foram negociados e acertados entre os diferentes parceiros. Os acordos comerciais cobrem desde questões tarifárias a questões de propriedade intelectual.</p>
 <p>Vamos começar a nossa análise!</p>
 <h1 id="pacotes">Pacotes</h1>
 <p>Aqui estão listados os pacotes que utilizamos neste post.</p>
@@ -1105,15 +1105,15 @@ pta_df %&gt;%
   labs(
     title = &quot;Número de Acordos Comerciais Assinados por Ano&quot;,
     subtitle = &quot;Os acordos comerciais se proliferaram a partir da década de 90.
-A Organização Mundial de Comércio (OMC)foi criada em 1995.&quot;,
+A Organização Mundial de Comércio (OMC) foi criada em 1995.&quot;,
     x = &quot;Ano&quot;,
     y = &quot;Número de Acordos&quot;
   )</code></pre>
 <p><img src="modelagem-de-tpicos-com-o-r-analisando-os-textos-de-acordos-comerciais_files/figure-html5/unnamed-chunk-8-1.png" width="624" /></p>
 </div>
 <h1 id="convertendo-os-textos-para-o-formato-tidy-text">Convertendo os textos para o formato tidy text</h1>
-<p>Para os autores do pacote <code>tidytext</code>, o formato de dados <code>tidy</code> para textos seria aquele de uma tabela com uma linha por <em>token</em>. Aqui, <em>token</em> seria uma unidade de texto relevante (caractere, palavra, parágrafo etc.). Neste post, a nossa unidade será o de palavras. Assim, teremos um data.frame com uma linha para cada palavra de cada documento. Aqui, definimos “documento” como um capítulo de um acordo específico (coluna <code>id_capitulo</code>).</p>
-<p>Adicional, removemos as chamadas <em>stop words</em> com um <code>anti_join()</code>. Veja abaixo o que seria esse objeto <code>stop_words</code>:</p>
+<p>Para os autores do pacote <code>tidytext</code>, o formato de dados <code>tidy</code> para textos seria aquele de uma tabela com uma linha por <em>token</em>. Aqui, <em>token</em> seria uma unidade de texto relevante (caractere, palavra, parágrafo etc.). Neste post, a nossa unidade será a de palavras. Assim, teremos um data.frame com uma linha para cada palavra de cada documento. Aqui, definimos “documento” como um capítulo de um acordo específico (coluna <code>id_capitulo</code>).</p>
+<p>Adicionalmente, removemos as chamadas <em>stop words</em> com um <code>anti_join()</code>. Veja abaixo o que seria esse objeto <code>stop_words</code>:</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 head(stop_words, 10)</code></pre>
@@ -1171,7 +1171,7 @@ palavras_frequentes &lt;- textos_df %&gt;%
 <p>Com os nossos dados quase prontos, vamos falar sobre o método que será utilizado: Latent Dirichlet Allocation (LDA). O nosso objetivo é encontrar os tópicos que existiriam em uma coleção de documentos. Neste modelo, define-se um quantidade de tópicos <span class="math inline">\(k\)</span> e o algoritmo irá estimar a distribuição de termos (<span class="math inline">\(\beta\)</span>) de cada tópico. Esta distribuição traz a probabilidade de ocorrência de uma palavra em um determinado tópico.</p>
 <p>Além disso, cada documento é uma mistura de tópicos. Por exemplo, supondo 2 tópicos, o documento 1 é 60% do tópico X e 40% do tópico Y. O que o LDA faz é estimar essas distribuições a partir da frequência de palavras dentro de cada documento.</p>
 <p>Para maiores detalhes, ver o <a href="https://www.tidytextmining.com/topicmodeling.html">capítulo 6</a> e o vignette do <code>topicmodels</code> (<code>vignette(&quot;topicmodels&quot;)</code>).</p>
-<p>Para estimar o modelo, é preciso uma matriz de termos por documento. Cara linha dessa matriz é um documento e cada coluna é um termo (uma palavra). O valor em cada posição é a frequência de cada termo em cada documento. A função <code>cast_dtm()</code> converte o data.frame para uma matriz de termos por documento.</p>
+<p>Para estimar o modelo, é preciso uma matriz de termos por documento. Cada linha dessa matriz é um documento e cada coluna é um termo (uma palavra). O valor em cada posição é a frequência de um termo em um documento. A função <code>cast_dtm()</code> converte o data.frame para uma matriz de termos por documento.</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 textos_dtm &lt;- textos_df %&gt;% 
@@ -1243,7 +1243,7 @@ termos_acordos %&gt;%
   )</code></pre>
 <p><img src="modelagem-de-tpicos-com-o-r-analisando-os-textos-de-acordos-comerciais_files/figure-html5/unnamed-chunk-16-1.png" width="768" /></p>
 </div>
-<p>Também é possível extrair a proporção de cada tópico em cada documento. No nosso caso, um documento refere-se a um capítulo de um acordo. Essa base tem a grande vantagem que a maioria dos capítulos já estão rotulados. A única de dificuldade é que existem mais de 900 rótulos diferentes. Muitas vezes, trata-se do mesmo tema, mas com uma escrita diferente. De toda forma, podemos verificar para quais rótulos os nossos tópicos estão associados.</p>
+<p>Também é possível extrair a proporção de cada tópico em cada documento. No nosso caso, um documento refere-se a um capítulo de um acordo. Essa base tem a grande vantagem que a maioria dos capítulos já estão rotulados. A única dificuldade é que existem mais de 900 rótulos diferentes. Muitas vezes, trata-se do mesmo tema, mas com uma escrita diferente. De toda forma, podemos verificar para quais rótulos os nossos tópicos estão associados.</p>
 <p>Primeiro vamos extrair a proporção de cada tópico em cada documento:</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
@@ -1305,13 +1305,13 @@ capitulo_topico %&gt;%
   scale_fill_manual(values = c(&quot;#e55039&quot;, &quot;#b2bec3&quot;)) +
   scale_x_continuous(breaks = seq(1950, 2020, 10)) +
   labs(
-    title = &quot;Evolução de acordos comerciais com ou sem capítulos
-sobre propriedade intelectual&quot;,
+    title = &quot;Evolução de acordos comerciais identificados com ou
+sem tópicos sobre propriedade intelectual&quot;,
     x = &quot;Ano&quot;,
     y = &quot;Frequência&quot;,
-    fill = &quot;Acordo com Capítulo\nde Propriedade Intelectual?&quot;
+    fill = &quot;Acordo com Tópico\nde Propriedade Intelectual?&quot;
   )</code></pre>
-<p><img src="modelagem-de-tpicos-com-o-r-analisando-os-textos-de-acordos-comerciais_files/figure-html5/unnamed-chunk-20-1.png" width="624" /></p>
+<p><img src="modelagem-de-tpicos-com-o-r-analisando-os-textos-de-acordos-comerciais_files/figure-html5/unnamed-chunk-20-1.png" width="624" data-distill-preview=1 /></p>
 </div>
 <h2 id="consideracoes-finais">Considerações Finais</h2>
 <p>Neste post, trabalhamos com dados textuais no R e mostramos como é possível estimar um modelo de tópicos. Usamos uma base de dados de textos de acordos comerciais, mas a aplicação pode ser facilmente transferida para outros contextos.</p>
