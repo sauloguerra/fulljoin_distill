@@ -1,0 +1,1796 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"/>
+  <meta name="generator" content="distill" />
+
+  <style type="text/css">
+  /* Hide doc at startup (prevent jankiness while JS renders/transforms) */
+  body {
+    visibility: hidden;
+  }
+  </style>
+
+ <!--radix_placeholder_import_source-->
+ <!--/radix_placeholder_import_source-->
+
+  <!--radix_placeholder_meta_tags-->
+<title>Fulljoin: Tidytext e Modelagem de Tópicos com o R: Analisando os Textos de Acordos Comerciais</title>
+
+<meta property="description" itemprop="description" content="Neste post, vamos fazer uma análise de tópicos utilizando os pacotes tidytext e topicmodels. Essa análise consiste em extrair um conjunto de temas (tópicos) de um conjunto de textos. Para isso, utilizamos uma base de textos de acordos comerciais. Veremos que o método utilizado é capaz de identificar uma séria de tópicos relevantes."/>
+
+<link rel="canonical" href="https://www.fulljoin.com.br/posts/2019-09-19-modelagem-de-tpicos-com-o-r-analisando-os-textos-de-acordos-comerciais/"/>
+
+<!--  https://schema.org/Article -->
+<meta property="article:published" itemprop="datePublished" content="2019-10-17"/>
+<meta property="article:created" itemprop="dateCreated" content="2019-10-17"/>
+<meta name="article:author" content="Paulo Felipe Alencar"/>
+
+<!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
+<meta property="og:title" content="Fulljoin: Tidytext e Modelagem de Tópicos com o R: Analisando os Textos de Acordos Comerciais"/>
+<meta property="og:type" content="article"/>
+<meta property="og:description" content="Neste post, vamos fazer uma análise de tópicos utilizando os pacotes tidytext e topicmodels. Essa análise consiste em extrair um conjunto de temas (tópicos) de um conjunto de textos. Para isso, utilizamos uma base de textos de acordos comerciais. Veremos que o método utilizado é capaz de identificar uma séria de tópicos relevantes."/>
+<meta property="og:url" content="https://www.fulljoin.com.br/posts/2019-09-19-modelagem-de-tpicos-com-o-r-analisando-os-textos-de-acordos-comerciais/"/>
+<meta property="og:image" content="https://www.fulljoin.com.br/posts/2019-09-19-modelagem-de-tpicos-com-o-r-analisando-os-textos-de-acordos-comerciais/modelagem-de-tpicos-com-o-r-analisando-os-textos-de-acordos-comerciais_files/figure-html5/unnamed-chunk-20-1.png"/>
+<meta property="og:image:width" content="1248"/>
+<meta property="og:image:height" content="960"/>
+<meta property="og:locale" content="en_US"/>
+<meta property="og:site_name" content="Fulljoin"/>
+
+<!--  https://dev.twitter.com/cards/types/summary -->
+<meta property="twitter:card" content="summary_large_image"/>
+<meta property="twitter:title" content="Fulljoin: Tidytext e Modelagem de Tópicos com o R: Analisando os Textos de Acordos Comerciais"/>
+<meta property="twitter:description" content="Neste post, vamos fazer uma análise de tópicos utilizando os pacotes tidytext e topicmodels. Essa análise consiste em extrair um conjunto de temas (tópicos) de um conjunto de textos. Para isso, utilizamos uma base de textos de acordos comerciais. Veremos que o método utilizado é capaz de identificar uma séria de tópicos relevantes."/>
+<meta property="twitter:url" content="https://www.fulljoin.com.br/posts/2019-09-19-modelagem-de-tpicos-com-o-r-analisando-os-textos-de-acordos-comerciais/"/>
+<meta property="twitter:image" content="https://www.fulljoin.com.br/posts/2019-09-19-modelagem-de-tpicos-com-o-r-analisando-os-textos-de-acordos-comerciais/modelagem-de-tpicos-com-o-r-analisando-os-textos-de-acordos-comerciais_files/figure-html5/unnamed-chunk-20-1.png"/>
+<meta property="twitter:image:width" content="1248"/>
+<meta property="twitter:image:height" content="960"/>
+
+<!--  https://scholar.google.com/intl/en/scholar/inclusion.html#indexing -->
+<meta name="citation_title" content="Fulljoin: Tidytext e Modelagem de Tópicos com o R: Analisando os Textos de Acordos Comerciais"/>
+<meta name="citation_fulltext_html_url" content="https://www.fulljoin.com.br/posts/2019-09-19-modelagem-de-tpicos-com-o-r-analisando-os-textos-de-acordos-comerciais/"/>
+<meta name="citation_online_date" content="2019/10/17"/>
+<meta name="citation_publication_date" content="2019/10/17"/>
+<meta name="citation_author" content="Paulo Felipe Alencar"/>
+<!--/radix_placeholder_meta_tags-->
+  <!--radix_placeholder_rmarkdown_metadata-->
+
+<script type="text/json" id="radix-rmarkdown-metadata">
+{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","output","draft","citation_url","canonical_url"]}},"value":[{"type":"character","attributes":{},"value":["Tidytext e Modelagem de Tópicos com o R: Analisando os Textos de Acordos Comerciais"]},{"type":"character","attributes":{},"value":["Neste post, vamos fazer uma análise de tópicos utilizando os pacotes tidytext e topicmodels. Essa análise consiste em extrair um conjunto de temas (tópicos) de um conjunto de textos. Para isso, utilizamos uma base de textos de acordos comerciais. Veremos que o método utilizado é capaz de identificar uma séria de tópicos relevantes."]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name"]}},"value":[{"type":"character","attributes":{},"value":["Paulo Felipe Alencar"]}]}]},{"type":"character","attributes":{},"value":["10-17-2019"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]}]},{"type":"logical","attributes":{},"value":[false]},{"type":"character","attributes":{},"value":["https://www.fulljoin.com.br/posts/2019-09-19-modelagem-de-tpicos-com-o-r-analisando-os-textos-de-acordos-comerciais/"]},{"type":"character","attributes":{},"value":["https://www.fulljoin.com.br/posts/2019-09-19-modelagem-de-tpicos-com-o-r-analisando-os-textos-de-acordos-comerciais/"]}]}
+</script>
+<!--/radix_placeholder_rmarkdown_metadata-->
+  
+  <script type="text/json" id="radix-resource-manifest">
+  {"type":"character","attributes":{},"value":["exemplo_xml.png","modelagem-de-tpicos-com-o-r-analisando-os-textos-de-acordos-comerciais_files/bowser-1.9.3/bowser.min.js","modelagem-de-tpicos-com-o-r-analisando-os-textos-de-acordos-comerciais_files/distill-2.2.21/template.v2.js","modelagem-de-tpicos-com-o-r-analisando-os-textos-de-acordos-comerciais_files/figure-html5/unnamed-chunk-14-1.png","modelagem-de-tpicos-com-o-r-analisando-os-textos-de-acordos-comerciais_files/figure-html5/unnamed-chunk-15-1.png","modelagem-de-tpicos-com-o-r-analisando-os-textos-de-acordos-comerciais_files/figure-html5/unnamed-chunk-16-1.png","modelagem-de-tpicos-com-o-r-analisando-os-textos-de-acordos-comerciais_files/figure-html5/unnamed-chunk-18-1.png","modelagem-de-tpicos-com-o-r-analisando-os-textos-de-acordos-comerciais_files/figure-html5/unnamed-chunk-19-1.png","modelagem-de-tpicos-com-o-r-analisando-os-textos-de-acordos-comerciais_files/figure-html5/unnamed-chunk-20-1.png","modelagem-de-tpicos-com-o-r-analisando-os-textos-de-acordos-comerciais_files/figure-html5/unnamed-chunk-8-1.png","modelagem-de-tpicos-com-o-r-analisando-os-textos-de-acordos-comerciais_files/jquery-1.11.3/jquery.min.js","modelagem-de-tpicos-com-o-r-analisando-os-textos-de-acordos-comerciais_files/pagedtable-1.1/css/pagedtable.css","modelagem-de-tpicos-com-o-r-analisando-os-textos-de-acordos-comerciais_files/pagedtable-1.1/js/pagedtable.js","modelagem-de-tpicos-com-o-r-analisando-os-textos-de-acordos-comerciais_files/webcomponents-2.0.0/webcomponents.js","xml/pta_1.xml","xml/pta_10.xml","xml/pta_100.xml","xml/pta_101.xml","xml/pta_102.xml","xml/pta_103.xml","xml/pta_104.xml","xml/pta_105.xml","xml/pta_106.xml","xml/pta_107.xml","xml/pta_108.xml","xml/pta_109.xml","xml/pta_11.xml","xml/pta_110.xml","xml/pta_111.xml","xml/pta_112.xml","xml/pta_113.xml","xml/pta_114.xml","xml/pta_115.xml","xml/pta_116.xml","xml/pta_117.xml","xml/pta_118.xml","xml/pta_119.xml","xml/pta_12.xml","xml/pta_120.xml","xml/pta_121.xml","xml/pta_122.xml","xml/pta_123.xml","xml/pta_124.xml","xml/pta_125.xml","xml/pta_126.xml","xml/pta_127.xml","xml/pta_128.xml","xml/pta_129.xml","xml/pta_13.xml","xml/pta_130.xml","xml/pta_131.xml","xml/pta_132.xml","xml/pta_133.xml","xml/pta_134.xml","xml/pta_135.xml","xml/pta_136.xml","xml/pta_137.xml","xml/pta_138.xml","xml/pta_139.xml","xml/pta_14.xml","xml/pta_140.xml","xml/pta_141.xml","xml/pta_142.xml","xml/pta_143.xml","xml/pta_144.xml","xml/pta_145.xml","xml/pta_146.xml","xml/pta_147.xml","xml/pta_148.xml","xml/pta_149.xml","xml/pta_15.xml","xml/pta_150.xml","xml/pta_151.xml","xml/pta_152.xml","xml/pta_153.xml","xml/pta_154.xml","xml/pta_155.xml","xml/pta_156.xml","xml/pta_157.xml","xml/pta_158.xml","xml/pta_159.xml","xml/pta_16.xml","xml/pta_160.xml","xml/pta_161.xml","xml/pta_162.xml","xml/pta_163.xml","xml/pta_164.xml","xml/pta_165.xml","xml/pta_166.xml","xml/pta_167.xml","xml/pta_168.xml","xml/pta_169.xml","xml/pta_17.xml","xml/pta_170.xml","xml/pta_171.xml","xml/pta_172.xml","xml/pta_173.xml","xml/pta_174.xml","xml/pta_175.xml","xml/pta_176.xml","xml/pta_177.xml","xml/pta_178.xml","xml/pta_179.xml","xml/pta_18.xml","xml/pta_180.xml","xml/pta_181.xml","xml/pta_182.xml","xml/pta_183.xml","xml/pta_184.xml","xml/pta_185.xml","xml/pta_186.xml","xml/pta_187.xml","xml/pta_188.xml","xml/pta_189.xml","xml/pta_19.xml","xml/pta_190.xml","xml/pta_191.xml","xml/pta_192.xml","xml/pta_193.xml","xml/pta_194.xml","xml/pta_195.xml","xml/pta_196.xml","xml/pta_197.xml","xml/pta_198.xml","xml/pta_199.xml","xml/pta_2.xml","xml/pta_20.xml","xml/pta_200.xml","xml/pta_201.xml","xml/pta_202.xml","xml/pta_203.xml","xml/pta_204.xml","xml/pta_205.xml","xml/pta_206.xml","xml/pta_207.xml","xml/pta_208.xml","xml/pta_209.xml","xml/pta_21.xml","xml/pta_210.xml","xml/pta_211.xml","xml/pta_212.xml","xml/pta_213.xml","xml/pta_214.xml","xml/pta_215.xml","xml/pta_216.xml","xml/pta_217.xml","xml/pta_218.xml","xml/pta_219.xml","xml/pta_22.xml","xml/pta_220.xml","xml/pta_221.xml","xml/pta_222.xml","xml/pta_223.xml","xml/pta_224.xml","xml/pta_225.xml","xml/pta_226.xml","xml/pta_227.xml","xml/pta_228.xml","xml/pta_229.xml","xml/pta_23.xml","xml/pta_230.xml","xml/pta_231.xml","xml/pta_232.xml","xml/pta_233.xml","xml/pta_234.xml","xml/pta_235.xml","xml/pta_236.xml","xml/pta_237.xml","xml/pta_238.xml","xml/pta_239.xml","xml/pta_24.xml","xml/pta_240.xml","xml/pta_241.xml","xml/pta_242.xml","xml/pta_243.xml","xml/pta_244.xml","xml/pta_245.xml","xml/pta_246.xml","xml/pta_247.xml","xml/pta_248.xml","xml/pta_249.xml","xml/pta_25.xml","xml/pta_250.xml","xml/pta_251.xml","xml/pta_252.xml","xml/pta_253.xml","xml/pta_254.xml","xml/pta_255.xml","xml/pta_256.xml","xml/pta_257.xml","xml/pta_258.xml","xml/pta_259.xml","xml/pta_26.xml","xml/pta_260.xml","xml/pta_261.xml","xml/pta_262.xml","xml/pta_263.xml","xml/pta_264.xml","xml/pta_265.xml","xml/pta_266.xml","xml/pta_267.xml","xml/pta_268.xml","xml/pta_269.xml","xml/pta_27.xml","xml/pta_270.xml","xml/pta_271.xml","xml/pta_272.xml","xml/pta_273.xml","xml/pta_274.xml","xml/pta_275.xml","xml/pta_276.xml","xml/pta_277.xml","xml/pta_278.xml","xml/pta_279.xml","xml/pta_28.xml","xml/pta_280.xml","xml/pta_281.xml","xml/pta_282.xml","xml/pta_283.xml","xml/pta_284.xml","xml/pta_285.xml","xml/pta_286.xml","xml/pta_287.xml","xml/pta_288.xml","xml/pta_289.xml","xml/pta_29.xml","xml/pta_290.xml","xml/pta_291.xml","xml/pta_292.xml","xml/pta_293.xml","xml/pta_294.xml","xml/pta_295.xml","xml/pta_296.xml","xml/pta_297.xml","xml/pta_298.xml","xml/pta_299.xml","xml/pta_3.xml","xml/pta_30.xml","xml/pta_300.xml","xml/pta_301.xml","xml/pta_302.xml","xml/pta_303.xml","xml/pta_304.xml","xml/pta_305.xml","xml/pta_306.xml","xml/pta_307.xml","xml/pta_308.xml","xml/pta_309.xml","xml/pta_31.xml","xml/pta_310.xml","xml/pta_311.xml","xml/pta_312.xml","xml/pta_313.xml","xml/pta_314.xml","xml/pta_315.xml","xml/pta_316.xml","xml/pta_317.xml","xml/pta_318.xml","xml/pta_319.xml","xml/pta_32.xml","xml/pta_320.xml","xml/pta_321.xml","xml/pta_322.xml","xml/pta_323.xml","xml/pta_324.xml","xml/pta_325.xml","xml/pta_326.xml","xml/pta_327.xml","xml/pta_328.xml","xml/pta_329.xml","xml/pta_33.xml","xml/pta_330.xml","xml/pta_331.xml","xml/pta_332.xml","xml/pta_333.xml","xml/pta_334.xml","xml/pta_335.xml","xml/pta_336.xml","xml/pta_337.xml","xml/pta_338.xml","xml/pta_339.xml","xml/pta_34.xml","xml/pta_340.xml","xml/pta_341.xml","xml/pta_342.xml","xml/pta_343.xml","xml/pta_344.xml","xml/pta_345.xml","xml/pta_346.xml","xml/pta_347.xml","xml/pta_348.xml","xml/pta_349.xml","xml/pta_35.xml","xml/pta_350.xml","xml/pta_351.xml","xml/pta_352.xml","xml/pta_353.xml","xml/pta_354.xml","xml/pta_355.xml","xml/pta_356.xml","xml/pta_357.xml","xml/pta_358.xml","xml/pta_359.xml","xml/pta_36.xml","xml/pta_360.xml","xml/pta_361.xml","xml/pta_362.xml","xml/pta_363.xml","xml/pta_364.xml","xml/pta_365.xml","xml/pta_366.xml","xml/pta_367.xml","xml/pta_368.xml","xml/pta_369.xml","xml/pta_37.xml","xml/pta_370.xml","xml/pta_371.xml","xml/pta_372.xml","xml/pta_373.xml","xml/pta_374.xml","xml/pta_375.xml","xml/pta_376.xml","xml/pta_377.xml","xml/pta_378.xml","xml/pta_379.xml","xml/pta_38.xml","xml/pta_380.xml","xml/pta_381.xml","xml/pta_382.xml","xml/pta_383.xml","xml/pta_384.xml","xml/pta_385.xml","xml/pta_386.xml","xml/pta_387.xml","xml/pta_388.xml","xml/pta_389.xml","xml/pta_39.xml","xml/pta_390.xml","xml/pta_391.xml","xml/pta_392.xml","xml/pta_393.xml","xml/pta_394.xml","xml/pta_395.xml","xml/pta_396.xml","xml/pta_397.xml","xml/pta_398.xml","xml/pta_399.xml","xml/pta_4.xml","xml/pta_40.xml","xml/pta_400.xml","xml/pta_401.xml","xml/pta_402.xml","xml/pta_403.xml","xml/pta_404.xml","xml/pta_405.xml","xml/pta_406.xml","xml/pta_407.xml","xml/pta_408.xml","xml/pta_409.xml","xml/pta_41.xml","xml/pta_410.xml","xml/pta_411.xml","xml/pta_412.xml","xml/pta_413.xml","xml/pta_414.xml","xml/pta_415.xml","xml/pta_416.xml","xml/pta_417.xml","xml/pta_418.xml","xml/pta_419.xml","xml/pta_42.xml","xml/pta_420.xml","xml/pta_421.xml","xml/pta_422.xml","xml/pta_423.xml","xml/pta_424.xml","xml/pta_425.xml","xml/pta_426.xml","xml/pta_427.xml","xml/pta_428.xml","xml/pta_429.xml","xml/pta_43.xml","xml/pta_430.xml","xml/pta_431.xml","xml/pta_432.xml","xml/pta_433.xml","xml/pta_434.xml","xml/pta_435.xml","xml/pta_436.xml","xml/pta_437.xml","xml/pta_438.xml","xml/pta_439.xml","xml/pta_44.xml","xml/pta_440.xml","xml/pta_441.xml","xml/pta_442.xml","xml/pta_443.xml","xml/pta_444.xml","xml/pta_445.xml","xml/pta_446.xml","xml/pta_447.xml","xml/pta_448.xml","xml/pta_449.xml","xml/pta_45.xml","xml/pta_450.xml","xml/pta_46.xml","xml/pta_47.xml","xml/pta_48.xml","xml/pta_49.xml","xml/pta_5.xml","xml/pta_50.xml","xml/pta_51.xml","xml/pta_52.xml","xml/pta_53.xml","xml/pta_54.xml","xml/pta_55.xml","xml/pta_56.xml","xml/pta_57.xml","xml/pta_58.xml","xml/pta_59.xml","xml/pta_6.xml","xml/pta_60.xml","xml/pta_61.xml","xml/pta_62.xml","xml/pta_63.xml","xml/pta_64.xml","xml/pta_65.xml","xml/pta_66.xml","xml/pta_67.xml","xml/pta_68.xml","xml/pta_69.xml","xml/pta_7.xml","xml/pta_70.xml","xml/pta_71.xml","xml/pta_72.xml","xml/pta_73.xml","xml/pta_74.xml","xml/pta_75.xml","xml/pta_76.xml","xml/pta_77.xml","xml/pta_78.xml","xml/pta_79.xml","xml/pta_8.xml","xml/pta_80.xml","xml/pta_81.xml","xml/pta_82.xml","xml/pta_83.xml","xml/pta_84.xml","xml/pta_85.xml","xml/pta_86.xml","xml/pta_87.xml","xml/pta_88.xml","xml/pta_89.xml","xml/pta_9.xml","xml/pta_90.xml","xml/pta_91.xml","xml/pta_92.xml","xml/pta_93.xml","xml/pta_94.xml","xml/pta_95.xml","xml/pta_96.xml","xml/pta_97.xml","xml/pta_98.xml","xml/pta_99.xml"]}
+  </script>
+  <!--radix_placeholder_navigation_in_header-->
+
+<script type="application/javascript">
+
+  window.headroom_prevent_pin = false;
+
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+
+    // initialize headroom for banner
+    var header = $('header').get(0);
+    var headerHeight = header.offsetHeight;
+    var headroom = new Headroom(header, {
+      onPin : function() {
+        if (window.headroom_prevent_pin) {
+          window.headroom_prevent_pin = false;
+          headroom.unpin();
+        }
+      }
+    });
+    headroom.init();
+    if(window.location.hash)
+      headroom.unpin();
+    $(header).addClass('headroom--transition');
+
+    // offset scroll location for banner on hash change
+    // (see: https://github.com/WickyNilliams/headroom.js/issues/38)
+    window.addEventListener("hashchange", function(event) {
+      window.scrollTo(0, window.pageYOffset - (headerHeight + 25));
+    });
+
+    // responsive menu
+    $('.distill-site-header').each(function(i, val) {
+      var topnav = $(this);
+      var toggle = topnav.find('.nav-toggle');
+      toggle.on('click', function() {
+        topnav.toggleClass('responsive');
+      });
+    });
+
+    // nav dropdowns
+    $('.nav-dropbtn').click(function(e) {
+      $(this).next('.nav-dropdown-content').toggleClass('nav-dropdown-active');
+      $(this).parent().siblings('.nav-dropdown')
+         .children('.nav-dropdown-content').removeClass('nav-dropdown-active');
+    });
+    $("body").click(function(e){
+      $('.nav-dropdown-content').removeClass('nav-dropdown-active');
+    });
+    $(".nav-dropdown").click(function(e){
+      e.stopPropagation();
+    });
+  });
+</script>
+
+<style type="text/css">
+
+/* Theme (user-documented overrideables for nav appearance) */
+
+.distill-site-nav {
+  color: rgba(255, 255, 255, 0.8);
+  background-color: #455a64;
+  font-size: 15px;
+  font-weight: 300;
+}
+
+.distill-site-nav a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.distill-site-nav a:hover {
+  color: white;
+}
+
+@media print {
+  .distill-site-nav {
+    display: none;
+  }
+}
+
+.distill-site-header {
+
+}
+
+.distill-site-footer {
+
+}
+
+
+/* Site Header */
+
+.distill-site-header {
+  width: 100%;
+  box-sizing: border-box;
+  z-index: 3;
+}
+
+.distill-site-header .nav-left {
+  display: inline-block;
+  margin-left: 8px;
+}
+
+@media screen and (max-width: 768px) {
+  .distill-site-header .nav-left {
+    margin-left: 0;
+  }
+}
+
+
+.distill-site-header .nav-right {
+  float: right;
+  margin-right: 8px;
+}
+
+.distill-site-header a,
+.distill-site-header .title {
+  display: inline-block;
+  text-align: center;
+  padding: 14px 10px 14px 10px;
+}
+
+.distill-site-header .title {
+  font-size: 18px;
+}
+
+.distill-site-header .logo {
+  padding: 0;
+}
+
+.distill-site-header .logo img {
+  display: none;
+  max-height: 20px;
+  width: auto;
+  margin-bottom: -4px;
+}
+
+.distill-site-header .nav-image img {
+  max-height: 18px;
+  width: auto;
+  display: inline-block;
+  margin-bottom: -3px;
+}
+
+
+
+@media screen and (min-width: 1000px) {
+  .distill-site-header .logo img {
+    display: inline-block;
+  }
+  .distill-site-header .nav-left {
+    margin-left: 20px;
+  }
+  .distill-site-header .nav-right {
+    margin-right: 20px;
+  }
+  .distill-site-header .title {
+    padding-left: 12px;
+  }
+}
+
+
+.distill-site-header .nav-toggle {
+  display: none;
+}
+
+.nav-dropdown {
+  display: inline-block;
+  position: relative;
+}
+
+.nav-dropdown .nav-dropbtn {
+  border: none;
+  outline: none;
+  color: rgba(255, 255, 255, 0.8);
+  padding: 16px 10px;
+  background-color: transparent;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  margin: 0;
+  margin-top: 1px;
+  z-index: 2;
+}
+
+.nav-dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: white;
+  min-width: 200px;
+  border: 1px solid rgba(0,0,0,0.15);
+  border-radius: 4px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.1);
+  z-index: 1;
+  margin-top: 2px;
+  white-space: nowrap;
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+.nav-dropdown-content hr {
+  margin-top: 4px;
+  margin-bottom: 4px;
+  border: none;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.nav-dropdown-active {
+  display: block;
+}
+
+.nav-dropdown-content a, .nav-dropdown-content .nav-dropdown-header {
+  color: black;
+  padding: 6px 24px;
+  text-decoration: none;
+  display: block;
+  text-align: left;
+}
+
+.nav-dropdown-content .nav-dropdown-header {
+  display: block;
+  padding: 5px 24px;
+  padding-bottom: 0;
+  text-transform: uppercase;
+  font-size: 14px;
+  color: #999999;
+  white-space: nowrap;
+}
+
+.nav-dropdown:hover .nav-dropbtn {
+  color: white;
+}
+
+.nav-dropdown-content a:hover {
+  background-color: #ddd;
+  color: black;
+}
+
+.nav-right .nav-dropdown-content {
+  margin-left: -45%;
+  right: 0;
+}
+
+@media screen and (max-width: 768px) {
+  .distill-site-header a, .distill-site-header .nav-dropdown  {display: none;}
+  .distill-site-header a.nav-toggle {
+    float: right;
+    display: block;
+  }
+  .distill-site-header .title {
+    margin-left: 0;
+  }
+  .distill-site-header .nav-right {
+    margin-right: 0;
+  }
+  .distill-site-header {
+    overflow: hidden;
+  }
+  .nav-right .nav-dropdown-content {
+    margin-left: 0;
+  }
+}
+
+
+@media screen and (max-width: 768px) {
+  .distill-site-header.responsive {position: relative;}
+  .distill-site-header.responsive a.nav-toggle {
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+  .distill-site-header.responsive a,
+  .distill-site-header.responsive .nav-dropdown {
+    display: block;
+    text-align: left;
+  }
+  .distill-site-header.responsive .nav-left,
+  .distill-site-header.responsive .nav-right {
+    width: 100%;
+  }
+  .distill-site-header.responsive .nav-dropdown {float: none;}
+  .distill-site-header.responsive .nav-dropdown-content {position: relative;}
+  .distill-site-header.responsive .nav-dropdown .nav-dropbtn {
+    display: block;
+    width: 100%;
+    text-align: left;
+  }
+}
+
+/* Site Footer */
+
+.distill-site-footer {
+  width: 100%;
+  overflow: hidden;
+  box-sizing: border-box;
+  z-index: 3;
+  margin-top: 30px;
+  padding-top: 30px;
+  padding-bottom: 30px;
+  text-align: center;
+}
+
+/* Headroom */
+
+d-title {
+  padding-top: 6rem;
+}
+
+@media print {
+  d-title {
+    padding-top: 4rem;
+  }
+}
+
+.headroom {
+  z-index: 1000;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+
+.headroom--transition {
+  transition: all .4s ease-in-out;
+}
+
+.headroom--unpinned {
+  top: -100px;
+}
+
+.headroom--pinned {
+  top: 0;
+}
+
+</style>
+
+<link href="../../site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet"/>
+<link href="../../site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet"/>
+<script src="../../site_libs/headroom-0.9.4/headroom.min.js"></script>
+<!--/radix_placeholder_navigation_in_header-->
+  <!--radix_placeholder_distill-->
+
+<style type="text/css">
+
+body {
+  background-color: white;
+}
+
+.pandoc-table {
+  width: 100%;
+}
+
+.pandoc-table>caption {
+  margin-bottom: 10px;
+}
+
+.pandoc-table th:not([align]) {
+  text-align: left;
+}
+
+.pagedtable-footer {
+  font-size: 15px;
+}
+
+.html-widget {
+  margin-bottom: 2.0em;
+}
+
+.l-screen-inset {
+  padding-right: 16px;
+}
+
+.l-screen .caption {
+  margin-left: 10px;
+}
+
+.shaded {
+  background: rgb(247, 247, 247);
+  padding-top: 20px;
+  padding-bottom: 20px;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.shaded .html-widget {
+  margin-bottom: 0;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.shaded .shaded-content {
+  background: white;
+}
+
+.text-output {
+  margin-top: 0;
+  line-height: 1.5em;
+}
+
+.hidden {
+  display: none !important;
+}
+
+d-article {
+  padding-bottom: 30px;
+}
+
+d-appendix {
+  padding-top: 30px;
+}
+
+d-article>p>img {
+  width: 100%;
+}
+
+d-article iframe {
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  margin-bottom: 2.0em;
+  width: 100%;
+}
+
+figure img.external {
+  background: white;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+  padding: 18px;
+  box-sizing: border-box;
+}
+
+/* CSS for table of contents */
+
+.d-toc {
+  color: rgba(0,0,0,0.8);
+  font-size: 0.8em;
+  line-height: 1em;
+}
+
+.d-toc-header {
+  font-size: 0.6rem;
+  font-weight: 400;
+  color: rgba(0, 0, 0, 0.5);
+  text-transform: uppercase;
+  margin-top: 0;
+  margin-bottom: 1.3em;
+}
+
+.d-toc a {
+  border-bottom: none;
+}
+
+.d-toc ul {
+  padding-left: 0;
+}
+
+.d-toc li>ul {
+  padding-top: 0.8em;
+  padding-left: 16px;
+  margin-bottom: 0.6em;
+}
+
+.d-toc ul,
+.d-toc li {
+  list-style-type: none;
+}
+
+.d-toc li {
+  margin-bottom: 0.9em;
+}
+
+.d-toc-separator {
+  margin-top: 20px;
+  margin-bottom: 2em;
+}
+
+.d-article-with-toc {
+  border-top: none;
+  padding-top: 0;
+}
+
+
+
+/* Tweak code blocks (note that this CSS is repeated above in an injection
+   into the d-code shadow dom) */
+
+d-code {
+  overflow-x: auto !important;
+}
+
+pre.d-code code.d-code {
+  padding-left: 10px;
+  font-size: 12px;
+  border-left: 2px solid rgba(0,0,0,0.1);
+}
+
+pre.text-output {
+
+  font-size: 12px;
+  color: black;
+  background: none;
+  font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+  text-align: left;
+  white-space: pre;
+  word-spacing: normal;
+  word-break: normal;
+  word-wrap: normal;
+  line-height: 1.5;
+
+  -moz-tab-size: 4;
+  -o-tab-size: 4;
+  tab-size: 4;
+
+  -webkit-hyphens: none;
+  -moz-hyphens: none;
+  -ms-hyphens: none;
+  hyphens: none;
+}
+
+@media(min-width: 768px) {
+
+d-code {
+  overflow-x: visible !important;
+}
+
+pre.d-code code.d-code  {
+    padding-left: 18px;
+    font-size: 14px;
+}
+pre.text-output {
+  font-size: 14px;
+}
+}
+
+/* Figure */
+
+.figure {
+  position: relative;
+  margin-bottom: 2.5em;
+  margin-top: 1.5em;
+}
+
+.figure img {
+  width: 100%;
+}
+
+.figure .caption {
+  color: rgba(0, 0, 0, 0.6);
+  font-size: 12px;
+  line-height: 1.5em;
+}
+
+.figure img.external {
+  background: white;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+  padding: 18px;
+  box-sizing: border-box;
+}
+
+.figure .caption a {
+  color: rgba(0, 0, 0, 0.6);
+}
+
+.figure .caption b,
+.figure .caption strong, {
+  font-weight: 600;
+  color: rgba(0, 0, 0, 1.0);
+}
+
+
+
+/* Tweak 1000px media break to show more text */
+
+@media(min-width: 1000px) {
+  .base-grid,
+  distill-header,
+  d-title,
+  d-abstract,
+  d-article,
+  d-appendix,
+  distill-appendix,
+  d-byline,
+  d-footnote-list,
+  d-citation-list,
+  distill-footer {
+    grid-template-columns: [screen-start] 1fr [page-start kicker-start] 80px [middle-start] 50px [text-start kicker-end] 65px 65px 65px 65px 65px 65px 65px 65px [text-end gutter-start] 65px [middle-end] 65px [page-end gutter-end] 1fr [screen-end];
+    grid-column-gap: 16px;
+  }
+
+  .grid {
+    grid-column-gap: 16px;
+  }
+
+  d-article {
+    font-size: 1.06rem;
+    line-height: 1.7em;
+  }
+  figure .caption, .figure .caption, figure figcaption {
+    font-size: 13px;
+  }
+}
+
+@media(min-width: 1180px) {
+  .base-grid,
+  distill-header,
+  d-title,
+  d-abstract,
+  d-article,
+  d-appendix,
+  distill-appendix,
+  d-byline,
+  d-footnote-list,
+  d-citation-list,
+  distill-footer {
+    grid-template-columns: [screen-start] 1fr [page-start kicker-start] 60px [middle-start] 60px [text-start kicker-end] 60px 60px 60px 60px 60px 60px 60px 60px [text-end gutter-start] 60px [middle-end] 60px [page-end gutter-end] 1fr [screen-end];
+    grid-column-gap: 32px;
+  }
+
+  .grid {
+    grid-column-gap: 32px;
+  }
+}
+
+
+/* Get the citation styles for the appendix (not auto-injected on render since
+   we do our own rendering of the citation appendix) */
+
+d-appendix .citation-appendix,
+.d-appendix .citation-appendix {
+  font-size: 11px;
+  line-height: 15px;
+  border-left: 1px solid rgba(0, 0, 0, 0.1);
+  padding-left: 18px;
+  border: 1px solid rgba(0,0,0,0.1);
+  background: rgba(0, 0, 0, 0.02);
+  padding: 10px 18px;
+  border-radius: 3px;
+  color: rgba(150, 150, 150, 1);
+  overflow: hidden;
+  margin-top: -12px;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+
+/* Social footer */
+
+.social_footer {
+  margin-top: 30px;
+  margin-bottom: 0;
+  color: rgba(0,0,0,0.67);
+}
+
+.disqus-comments {
+  margin-right: 30px;
+}
+
+.disqus-comment-count {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+  cursor: pointer;
+}
+
+#disqus_thread {
+  margin-top: 30px;
+}
+
+.article-sharing a {
+  border-bottom: none;
+  margin-right: 8px;
+}
+
+.article-sharing a:hover {
+  border-bottom: none;
+}
+
+.sidebar-section.subscribe {
+  font-size: 12px;
+  line-height: 1.6em;
+}
+
+.subscribe p {
+  margin-bottom: 0.5em;
+}
+
+
+.article-footer .subscribe {
+  font-size: 15px;
+  margin-top: 45px;
+}
+
+
+/* Improve display for browsers without grid (IE/Edge <= 15) */
+
+.downlevel {
+  line-height: 1.6em;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
+  margin: 0;
+}
+
+.downlevel .d-title {
+  padding-top: 6rem;
+  padding-bottom: 1.5rem;
+}
+
+.downlevel .d-title h1 {
+  font-size: 50px;
+  font-weight: 700;
+  line-height: 1.1em;
+  margin: 0 0 0.5rem;
+}
+
+.downlevel .d-title p {
+  font-weight: 300;
+  font-size: 1.2rem;
+  line-height: 1.55em;
+  margin-top: 0;
+}
+
+.downlevel .d-byline {
+  padding-top: 0.8em;
+  padding-bottom: 0.8em;
+  font-size: 0.8rem;
+  line-height: 1.8em;
+}
+
+.downlevel .section-separator {
+  border: none;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.downlevel .d-article {
+  font-size: 1.06rem;
+  line-height: 1.7em;
+  padding-top: 1rem;
+  padding-bottom: 2rem;
+}
+
+
+.downlevel .d-appendix {
+  padding-left: 0;
+  padding-right: 0;
+  max-width: none;
+  font-size: 0.8em;
+  line-height: 1.7em;
+  margin-bottom: 0;
+  color: rgba(0,0,0,0.5);
+  padding-top: 40px;
+  padding-bottom: 48px;
+}
+
+.downlevel .footnotes ol {
+  padding-left: 13px;
+}
+
+.downlevel .base-grid,
+.downlevel .distill-header,
+.downlevel .d-title,
+.downlevel .d-abstract,
+.downlevel .d-article,
+.downlevel .d-appendix,
+.downlevel .distill-appendix,
+.downlevel .d-byline,
+.downlevel .d-footnote-list,
+.downlevel .d-citation-list,
+.downlevel .distill-footer,
+.downlevel .appendix-bottom,
+.downlevel .posts-container {
+  padding-left: 40px;
+  padding-right: 40px;
+}
+
+@media(min-width: 768px) {
+  .downlevel .base-grid,
+  .downlevel .distill-header,
+  .downlevel .d-title,
+  .downlevel .d-abstract,
+  .downlevel .d-article,
+  .downlevel .d-appendix,
+  .downlevel .distill-appendix,
+  .downlevel .d-byline,
+  .downlevel .d-footnote-list,
+  .downlevel .d-citation-list,
+  .downlevel .distill-footer,
+  .downlevel .appendix-bottom,
+  .downlevel .posts-container {
+  padding-left: 150px;
+  padding-right: 150px;
+  max-width: 900px;
+}
+}
+
+.downlevel pre code {
+  display: block;
+  border-left: 2px solid rgba(0, 0, 0, .1);
+  padding: 0 0 0 20px;
+  font-size: 14px;
+}
+
+.downlevel code, .downlevel pre {
+  color: black;
+  background: none;
+  font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+  text-align: left;
+  white-space: pre;
+  word-spacing: normal;
+  word-break: normal;
+  word-wrap: normal;
+  line-height: 1.5;
+
+  -moz-tab-size: 4;
+  -o-tab-size: 4;
+  tab-size: 4;
+
+  -webkit-hyphens: none;
+  -moz-hyphens: none;
+  -ms-hyphens: none;
+  hyphens: none;
+}
+
+</style>
+
+<script type="application/javascript">
+
+function is_downlevel_browser() {
+  if (bowser.isUnsupportedBrowser({ msie: "12", msedge: "16"},
+                                 window.navigator.userAgent)) {
+    return true;
+  } else {
+    return window.load_distill_framework === undefined;
+  }
+}
+
+// show body when load is complete
+function on_load_complete() {
+
+  // set body to visible
+  document.body.style.visibility = 'visible';
+
+  // force redraw for leaflet widgets
+  if (window.HTMLWidgets) {
+    var maps = window.HTMLWidgets.findAll(".leaflet");
+    $.each(maps, function(i, el) {
+      var map = this.getMap();
+      map.invalidateSize();
+      map.eachLayer(function(layer) {
+        if (layer instanceof L.TileLayer)
+          layer.redraw();
+      });
+    });
+  }
+
+  // trigger 'shown' so htmlwidgets resize
+  $('d-article').trigger('shown');
+}
+
+function init_distill() {
+
+  init_common();
+
+  // create front matter
+  var front_matter = $('<d-front-matter></d-front-matter>');
+  $('#distill-front-matter').wrap(front_matter);
+
+  // create d-title
+  $('.d-title').changeElementType('d-title');
+
+  // create d-byline
+  var byline = $('<d-byline></d-byline>');
+  $('.d-byline').replaceWith(byline);
+
+  // create d-article
+  var article = $('<d-article></d-article>');
+  $('.d-article').wrap(article).children().unwrap();
+
+  // move posts container into article
+  $('.posts-container').appendTo($('d-article'));
+
+  // create d-appendix
+  $('.d-appendix').changeElementType('d-appendix');
+
+  // create d-bibliography
+  var bibliography = $('<d-bibliography></d-bibliography>');
+  $('#distill-bibliography').wrap(bibliography);
+
+  // flag indicating that we have appendix items
+  var appendix = $('.appendix-bottom').children('h3').length > 0;
+
+  // replace citations with <d-cite>
+  $('.citation').each(function(i, val) {
+    appendix = true;
+    var cites = $(this).attr('data-cites').split(" ");
+    var dt_cite = $('<d-cite></d-cite>');
+    dt_cite.attr('key', cites.join());
+    $(this).replaceWith(dt_cite);
+  });
+  // remove refs
+  $('#refs').remove();
+
+  // replace footnotes with <d-footnote>
+  $('.footnote-ref').each(function(i, val) {
+    appendix = true;
+    var href = $(this).attr('href');
+    var id = href.replace('#', '');
+    var fn = $('#' + id);
+    var fn_p = $('#' + id + '>p');
+    fn_p.find('.footnote-back').remove();
+    var text = fn_p.html();
+    var dtfn = $('<d-footnote></d-footnote>');
+    dtfn.html(text);
+    $(this).replaceWith(dtfn);
+  });
+  // remove footnotes
+  $('.footnotes').remove();
+
+  $('h1.appendix, h2.appendix').each(function(i, val) {
+    $(this).changeElementType('h3');
+  });
+  $('h3.appendix').each(function(i, val) {
+    var id = $(this).attr('id');
+    $('.d-toc a[href="#' + id + '"]').parent().remove();
+    appendix = true;
+    $(this).nextUntil($('h1, h2, h3')).addBack().appendTo($('d-appendix'));
+  });
+
+  // show d-appendix if we have appendix content
+  $("d-appendix").css('display', appendix ? 'grid' : 'none');
+
+  // replace code blocks with d-code
+  $('pre>code').each(function(i, val) {
+    var code = $(this);
+    var pre = code.parent();
+    var clz = "";
+    var language = pre.attr('class');
+    if (language) {
+      // map unknown languages to "clike" (without this they just dissapear)
+      if ($.inArray(language, ["bash", "clike", "css", "go", "html",
+                               "javascript", "js", "julia", "lua", "markdown",
+                               "markup", "mathml", "python", "svg", "xml"]) == -1)
+        language = "clike";
+      language = ' language="' + language + '"';
+      var dt_code = $('<d-code block' + language + clz + '></d-code>');
+      dt_code.text(code.text());
+      pre.replaceWith(dt_code);
+    } else {
+      code.addClass('text-output').unwrap().changeElementType('pre');
+    }
+  });
+
+  // localize layout chunks to just output
+  $('.layout-chunk').each(function(i, val) {
+
+    // capture layout
+    var layout = $(this).attr('data-layout');
+
+    // apply layout to markdown level block elements
+    var elements = $(this).children().not('d-code, pre.text-output, script');
+    elements.each(function(i, el) {
+      var layout_div = $('<div class="' + layout + '"></div>');
+      if (layout_div.hasClass('shaded')) {
+        var shaded_content = $('<div class="shaded-content"></div>');
+        $(this).wrap(shaded_content);
+        $(this).parent().wrap(layout_div);
+      } else {
+        $(this).wrap(layout_div);
+      }
+    });
+
+
+    // unwrap the layout-chunk div
+    $(this).children().unwrap();
+  });
+
+  // load distill framework
+  load_distill_framework();
+
+  // wait for window.distillRunlevel == 4 to do post processing
+  function distill_post_process() {
+
+    if (!window.distillRunlevel || window.distillRunlevel < 4)
+      return;
+
+    // hide author/affiliations entirely if we have no authors
+    var front_matter = JSON.parse($("#distill-front-matter").html());
+    var have_authors = front_matter.authors && front_matter.authors.length > 0;
+    if (!have_authors)
+      $('d-byline').addClass('hidden');
+
+    // table of contents
+    if (have_authors) // adjust border if we are in authors
+      $('.d-toc').parent().addClass('d-article-with-toc');
+
+    // strip links that point to #
+    $('.authors-affiliations').find('a[href="#"]').removeAttr('href');
+
+    // hide elements of author/affiliations grid that have no value
+    function hide_byline_column(caption) {
+      $('d-byline').find('h3:contains("' + caption + '")').parent().css('visibility', 'hidden');
+    }
+
+    // affiliations
+    var have_affiliations = false;
+    for (var i = 0; i<front_matter.authors.length; ++i) {
+      var author = front_matter.authors[i];
+      if (author.affiliation !== "&nbsp;") {
+        have_affiliations = true;
+        break;
+      }
+    }
+    if (!have_affiliations)
+      $('d-byline').find('h3:contains("Affiliations")').css('visibility', 'hidden');
+
+    // published date
+    if (!front_matter.publishedDate)
+      hide_byline_column("Published");
+
+    // document object identifier
+    var doi = $('d-byline').find('h3:contains("DOI")');
+    var doi_p = doi.next().empty();
+    if (!front_matter.doi) {
+      // if we have a citation and valid citationText then link to that
+      if ($('#citation').length > 0 && front_matter.citationText) {
+        doi.html('Citation');
+        $('<a href="#citation"></a>')
+          .text(front_matter.citationText)
+          .appendTo(doi_p);
+      } else {
+        hide_byline_column("DOI");
+      }
+    } else {
+      $('<a></a>')
+         .attr('href', "https://doi.org/" + front_matter.doi)
+         .html(front_matter.doi)
+         .appendTo(doi_p);
+    }
+
+     // change plural form of authors/affiliations
+    if (front_matter.authors.length === 1) {
+      var grid = $('.authors-affiliations');
+      grid.children('h3:contains("Authors")').text('Author');
+      grid.children('h3:contains("Affiliations")').text('Affiliation');
+    }
+
+    // inject pre code styles (can't do this with a global stylesheet b/c a shadow root is used)
+    $('d-code').each(function(i, val) {
+      var style = document.createElement('style');
+      style.innerHTML = 'pre code { padding-left: 10px; font-size: 12px; border-left: 2px solid rgba(0,0,0,0.1); } ' +
+                        '@media(min-width: 768px) { pre code { padding-left: 18px; font-size: 14px; } }';
+      if (this.shadowRoot)
+        this.shadowRoot.appendChild(style);
+    });
+
+    // move appendix-bottom entries to the bottom
+    $('.appendix-bottom').appendTo('d-appendix').children().unwrap();
+    $('.appendix-bottom').remove();
+
+    // clear polling timer
+    clearInterval(tid);
+
+    // show body now that everything is ready
+    on_load_complete();
+  }
+
+  var tid = setInterval(distill_post_process, 50);
+  distill_post_process();
+
+}
+
+function init_downlevel() {
+
+  init_common();
+
+   // insert hr after d-title
+  $('.d-title').after($('<hr class="section-separator"/>'));
+
+  // check if we have authors
+  var front_matter = JSON.parse($("#distill-front-matter").html());
+  var have_authors = front_matter.authors && front_matter.authors.length > 0;
+
+  // manage byline/border
+  if (!have_authors)
+    $('.d-byline').remove();
+  $('.d-byline').after($('<hr class="section-separator"/>'));
+  $('.d-byline a').remove();
+
+  // remove toc
+  $('.d-toc-header').remove();
+  $('.d-toc').remove();
+  $('.d-toc-separator').remove();
+
+  // move appendix elements
+  $('h1.appendix, h2.appendix').each(function(i, val) {
+    $(this).changeElementType('h3');
+  });
+  $('h3.appendix').each(function(i, val) {
+    $(this).nextUntil($('h1, h2, h3')).addBack().appendTo($('.d-appendix'));
+  });
+
+
+  // inject headers into references and footnotes
+  var refs_header = $('<h3></h3>');
+  refs_header.text('References');
+  $('#refs').prepend(refs_header);
+
+  var footnotes_header = $('<h3></h3');
+  footnotes_header.text('Footnotes');
+  $('.footnotes').children('hr').first().replaceWith(footnotes_header);
+
+  // move appendix-bottom entries to the bottom
+  $('.appendix-bottom').appendTo('.d-appendix').children().unwrap();
+  $('.appendix-bottom').remove();
+
+  // remove appendix if it's empty
+  if ($('.d-appendix').children().length === 0)
+    $('.d-appendix').remove();
+
+  // prepend separator above appendix
+  $('.d-appendix').before($('<hr class="section-separator" style="clear: both"/>'));
+
+  // trim code
+  $('pre>code').each(function(i, val) {
+    $(this).html($.trim($(this).html()));
+  });
+
+  // move posts-container right before article
+  $('.posts-container').insertBefore($('.d-article'));
+
+  $('body').addClass('downlevel');
+
+  on_load_complete();
+}
+
+
+function init_common() {
+
+  // jquery plugin to change element types
+  (function($) {
+    $.fn.changeElementType = function(newType) {
+      var attrs = {};
+
+      $.each(this[0].attributes, function(idx, attr) {
+        attrs[attr.nodeName] = attr.nodeValue;
+      });
+
+      this.replaceWith(function() {
+        return $("<" + newType + "/>", attrs).append($(this).contents());
+      });
+    };
+  })(jQuery);
+
+  // prevent underline for linked images
+  $('a > img').parent().css({'border-bottom' : 'none'});
+
+  // mark non-body figures created by knitr chunks as 100% width
+  $('.layout-chunk').each(function(i, val) {
+    var figures = $(this).find('img, .html-widget');
+    if ($(this).attr('data-layout') !== "l-body") {
+      figures.css('width', '100%');
+    } else {
+      figures.css('max-width', '100%');
+      figures.filter("[width]").each(function(i, val) {
+        var fig = $(this);
+        fig.css('width', fig.attr('width') + 'px');
+      });
+
+    }
+  });
+
+  // auto-append index.html to post-preview links in file: protocol
+  // and in rstudio ide preview
+  $('.post-preview').each(function(i, val) {
+    if (window.location.protocol === "file:")
+      $(this).attr('href', $(this).attr('href') + "index.html");
+  });
+
+  // get rid of index.html references in header
+  if (window.location.protocol !== "file:") {
+    $('.distill-site-header a[href]').each(function(i,val) {
+      $(this).attr('href', $(this).attr('href').replace("index.html", "./"));
+    });
+  }
+
+  // add class to pandoc style tables
+  $('tr.header').parent('thead').parent('table').addClass('pandoc-table');
+  $('.kable-table').children('table').addClass('pandoc-table');
+
+  // add figcaption style to table captions
+  $('caption').parent('table').addClass("figcaption");
+
+  // initialize posts list
+  if (window.init_posts_list)
+    window.init_posts_list();
+
+  // implmement disqus comment link
+  $('.disqus-comment-count').click(function() {
+    window.headroom_prevent_pin = true;
+    $('#disqus_thread').toggleClass('hidden');
+    if (!$('#disqus_thread').hasClass('hidden')) {
+      var offset = $(this).offset();
+      $(window).resize();
+      $('html, body').animate({
+        scrollTop: offset.top - 35
+      });
+    }
+  });
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  if (is_downlevel_browser())
+    init_downlevel();
+  else
+    window.addEventListener('WebComponentsReady', init_distill);
+});
+
+</script>
+
+<!--/radix_placeholder_distill-->
+  <link href="../../site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
+  <script src="../../site_libs/pagedtable-1.1/js/pagedtable.js"></script>
+  <script src="../../site_libs/jquery-1.11.3/jquery.min.js"></script>
+  <script src="../../site_libs/bowser-1.9.3/bowser.min.js"></script>
+  <script src="../../site_libs/webcomponents-2.0.0/webcomponents.js"></script>
+  <script src="../../site_libs/distill-2.2.21/template.v2.js"></script>
+  <!--radix_placeholder_site_in_header-->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-75406624-1"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'UA-75406624-1');
+</script>
+<style type="text/css">
+d-article {
+    font-weight: 300;
+}
+
+d-code {
+    background: #f7f7f7;
+}
+
+pre.text-output {
+    color: #d2a963;
+    background: #2f2f2f;
+    padding: 10px;
+}
+
+.distill-site-nav {
+    background-color: #268bd2;
+}
+
+.distill-site-header .title {
+    font-size: 20px;
+    font-weight: bolder;
+}
+
+d-appendix {
+    display: none !important;
+}
+</style>
+<!--/radix_placeholder_site_in_header-->
+
+
+</head>
+
+<body>
+
+<!--radix_placeholder_front_matter-->
+
+<script id="distill-front-matter" type="text/json">
+{"title":"Tidytext e Modelagem de Tópicos com o R: Analisando os Textos de Acordos Comerciais","description":"Neste post, vamos fazer uma análise de tópicos utilizando os pacotes tidytext e topicmodels. Essa análise consiste em extrair um conjunto de temas (tópicos) de um conjunto de textos. Para isso, utilizamos uma base de textos de acordos comerciais. Veremos que o método utilizado é capaz de identificar uma séria de tópicos relevantes.","authors":[{"author":"Paulo Felipe Alencar","authorURL":"#","affiliation":"&nbsp;","affiliationURL":"#"}],"publishedDate":"2019-10-17T00:00:00.000-03:00","citationText":"Alencar, 2019"}
+</script>
+
+<!--/radix_placeholder_front_matter-->
+<!--radix_placeholder_navigation_before_body-->
+<header class="header header--fixed" role="banner">
+<nav class="distill-site-nav distill-site-header">
+<div class="nav-left">
+<a href="../../index.html" class="title">Fulljoin</a>
+</div>
+<div class="nav-right">
+<a href="../../index.html">Posts</a>
+<a href="../../about.html">Autores</a>
+<a href="javascript:void(0);" class="nav-toggle">&#9776;</a>
+</div>
+</nav>
+</header>
+<!--/radix_placeholder_navigation_before_body-->
+<!--radix_placeholder_site_before_body-->
+<!--/radix_placeholder_site_before_body-->
+
+<div class="d-title">
+<h1>Tidytext e Modelagem de Tópicos com o R: Analisando os Textos de Acordos Comerciais</h1>
+<p>Neste post, vamos fazer uma análise de tópicos utilizando os pacotes tidytext e topicmodels. Essa análise consiste em extrair um conjunto de temas (tópicos) de um conjunto de textos. Para isso, utilizamos uma base de textos de acordos comerciais. Veremos que o método utilizado é capaz de identificar uma séria de tópicos relevantes.<br /></p>
+</div>
+
+<div class="d-byline">
+  
+  Paulo Felipe Alencar
+  
+<br/>10-17-2019
+</div>
+
+<div class="d-article">
+<h1 id="introducao">Introdução</h1>
+<p>É bastante comum que uma análise de dados envolva textos. Levando isso em conta, neste post, vamos trabalhar textos no formato <em>tidy</em> utilizando o pacote <code>tidytext</code>. Após a manipulação de dados, vamos estimar um modelo de tópicos utilizando o pacote <code>topicmodels</code>. Esta abordagem permite encontrar diversos “temas” dentro de um conjunto de textos. Este post segue o que está descrito no livro <a href="https://www.tidytextmining.com/">Tidy Text Mining with R</a> que foi escrito pelos mesmos autores do pacote <code>tidytext</code>.</p>
+<p>Como aplicação, utilizaremos textos de acordos comerciais da base <a href="http://mappinginvestmenttreaties.com/rta/"><em>Text of Trade Agreements - TOTA</em></a> desenvolvida pela UNCTAD, que abrange 451 acordos comerciais. Os acordos comerciais celebrados ao redor do mundo notificados à Organização Mundial de Comércio (OMC) possuem um texto que descreve os diversos aspectos que foram negociados e acertados entre os diferentes parceiros. Os acordos comerciais cobrem desde questões tarifárias a questões de propriedade intelectual.</p>
+<p>Vamos começar a nossa análise!</p>
+<h1 id="pacotes">Pacotes</h1>
+<p>Aqui estão listados os pacotes que utilizamos neste post.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+library(tidyverse)
+library(tidytext)
+library(xml2)
+library(topicmodels)
+library(lubridate)
+library(hrbrthemes)</code></pre>
+</div>
+<p>A função <code>theme_set()</code> define o tema para todos os gráficos do ggplot2.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+theme_set(
+ theme_ipsum() +
+   theme(
+      legend.position = &quot;top&quot;,
+      legend.justification = &quot;left&quot;
+   )
+)</code></pre>
+</div>
+<h1 id="dados">Dados</h1>
+<p>Os dados estão disponíveis neste link: <a href="https://github.com/mappingtreaties/tota">https://github.com/mappingtreaties/tota</a>.</p>
+<p>São 451 arquivos xml com os textos de cada acordo. Por exemplo:</p>
+<p><img src="exemplo_xml.png" /></p>
+<p>Assim, precisaremos ler cada um deles e convertê-los para data.frame. Dessa forma, vamos primeiro criar um vetor com os caminhos dos arquivos:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+arquivos_pta &lt;- list.files(&#39;xml/&#39;, full.names = TRUE)
+arquivos_pta[1:3]</code></pre>
+<pre><code>
+[1] &quot;xml//pta_1.xml&quot;   &quot;xml//pta_10.xml&quot;  &quot;xml//pta_100.xml&quot;</code></pre>
+</div>
+<p>A função <code>ler_texto_acordo()</code> recebe como input o caminho de um arquivo e retorna um data.frame com os dados de um acordo. Cada linha do <code>data.frame</code> representa um capítulo do acordo. Na tabela abaixo, o leitor pode dar uma explorada nas variáveis que criamos.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+ler_texto_acordo &lt;- function(arquivo){
+  
+  pta &lt;- read_xml(arquivo)
+  
+  pta_id &lt;- pta %&gt;% 
+    xml_find_all(&quot;//wto_rta_id&quot;) %&gt;% 
+    xml_text()
+  
+  pta_nome &lt;- pta %&gt;% 
+    xml_find_all(&quot;//name&quot;) %&gt;% 
+    xml_text()
+  
+  pta_status &lt;- pta %&gt;% 
+    xml_find_all(&quot;//status&quot;) %&gt;% 
+    xml_text()
+  
+  pta_data_assinatura &lt;- pta %&gt;% 
+    xml_find_all(&quot;//date_signed&quot;) %&gt;% 
+    xml_text()
+  
+  pta_lingua &lt;- pta %&gt;% 
+    xml_find_all(&quot;//language&quot;) %&gt;% 
+    xml_text()
+  
+  capitulos &lt;- pta %&gt;% 
+    xml_find_all(&quot;//chapter&quot;) 
+  
+  texto_capitulos &lt;- capitulos %&gt;% 
+    map(xml_contents) %&gt;% 
+    map_chr(~{
+      .x %&gt;% 
+        map_chr(xml_text) %&gt;% 
+        paste0(collapse = &quot; \n &quot;)
+    }) 
+  
+  capitulos %&gt;% 
+    map(xml_attrs) %&gt;% 
+    map_df(as.list) %&gt;% 
+    mutate(
+      pta_id = pta_id,
+      pta_nome = pta_nome,
+      pta_status = pta_status,
+      pta_data_assinatura = ymd(pta_data_assinatura),
+      id_capitulo = paste0(pta_id, &quot;_&quot;, chapter_identifier),
+      ano = year(pta_data_assinatura),
+      pta_lingua = pta_lingua,
+      texto = texto_capitulos
+    ) %&gt;% 
+    select(contains(&quot;pta&quot;), everything())
+}
+
+
+ler_texto_acordo(arquivos_pta[5]) %&gt;% 
+  rmarkdown::paged_table()</code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["pta_id"],"name":[1],"type":["chr"],"align":["left"]},{"label":["pta_nome"],"name":[2],"type":["chr"],"align":["left"]},{"label":["pta_status"],"name":[3],"type":["chr"],"align":["left"]},{"label":["pta_data_assinatura"],"name":[4],"type":["date"],"align":["right"]},{"label":["pta_lingua"],"name":[5],"type":["chr"],"align":["left"]},{"label":["name"],"name":[6],"type":["chr"],"align":["left"]},{"label":["chapter_identifier"],"name":[7],"type":["chr"],"align":["left"]},{"label":["number"],"name":[8],"type":["chr"],"align":["left"]},{"label":["id_capitulo"],"name":[9],"type":["chr"],"align":["left"]},{"label":["ano"],"name":[10],"type":["dbl"],"align":["right"]},{"label":["texto"],"name":[11],"type":["chr"],"align":["left"]}],"data":[{"1":"111","2":"EU - Palestinian Authority","3":"In Force","4":"1997-02-24","5":"en","6":"Preamble","7":"1164","8":"NA","9":"111_1164","10":"1997","11":"1. An Interim Association on Trade and Cooperation is hereby\\n  established between the Community and the Palestinian Authority.\\n\\n  2. The objectives of this Agreement are:\\n\\n  - to provide an appropriate framework for a comprehensive dialogue,\\n  allowing the development of close relations between the Parties,\\n\\n  - to establish the conditions for the progressive liberalization of\\n  trade,\\n\\n  - to foster the development of balanced economic and social relations\\n  between the Parties through dialogue and cooperation,\\n\\n  - to contribute to the social and economic development of the West\\n  Bank and Gaza Strip,\\n\\n  - to encourage regional cooperation with a view to the consolidation\\n  of peaceful coexistence and economic and political stability,\\n\\n  - to promote cooperation in other areas which are of reciprocal\\n  interest. \\n Relations between the Parties, as well as all the provisions of the\\n  Agreement itself, shall be based on respect of democratic principles\\n  and fundamental human rights as set out in the universal declaration\\n  on human rights, which guides their internal and international policy\\n  and constitutes an essential element of this Agreement.\\n\\n  BASIC PRINCIPLES \\n The Community and the Palestinian Authority shall establish\\n  progressively a free trade area over a transitional period, not\\n  extending beyond 31 December 2001, according to the modalities set out\\n  in this Title and in conformity with the provisions of the General\\n  Agreement on Tariffs and Trade of 1994 and of the other multilateral\\n  agreements on trade in goods annexed to the agreement establishing the\\n  World Trade Organization (WTO), hereinafter referred to as the GATT."},{"1":"111","2":"EU - Palestinian Authority","3":"In Force","4":"1997-02-24","5":"en","6":"Industrial Products","7":"1165","8":"CHAPTER 1","9":"111_1165","10":"1997","11":"The provisions of this Chapter shall apply to products originating in\\n  the Community and in the West Bank and the Gaza Strip other than those\\n  listed in Annex II to the Treaty establishing the European Community. \\n No new customs duty on imports, or any other charge having equivalent\\n  effect, shall be introduced on trade between the Community and the\\n  West Bank and Gaza Strip. \\n Imports into the Community of products originating in the West Bank\\n  and the Gaza Strip shall be allowed free of customs duties and of any\\n  other charge having equivalent effect and free of quantitative\\n  restrictions and of any other measure having equivalent effect. \\n 1. The provisions of this Chapter do not preclude the retention by the\\n  Community of an agricultural component in respect of goods originating\\n  in the West Bank and the Gaza Strip and listed in Annex 1.\\n\\n  The provisions of Chapter 2 applicable to agricultural products shall\\n  apply mutatis mutandis to the agricultural component.\\n\\n  2. For the products listed in Annex 2 originating in the Community,\\n  the Palestinian Authority may retain for the duration of the Agreement\\n  customs duties on import and charges having equivalent effect not\\n  higher than those in force on 1 July 1996.\\n\\n  3. The Joint Committee established under Article 63 may decide on\\n  further concessions which the parties grant each other on a mutual\\n  basis. \\n 1. Customs duties and charges having equivalent effect applicable on\\n  import into the West Bank and the Gaza Strip of products originating\\n  in the Community, other than those listed in Annexes 2 and 3, shall be\\n  abolished when the Agreement enters into force.\\n\\n  2. From the entry into force of the Agreement, for the products\\n  originating in the Community listed in Annex 3 imported into the West\\n  Bank and the Gaza Strip, the Palestinian Authority may levy fiscal\\n  charges not exceeding 25 % by value. These charges shall be gradually\\n  abolished in accordance with the following schedule:\\n\\n  one year after the date of entry into force of this Agreement, each\\n  charge shall be reduced to 90 % of the basic charge;\\n\\n  two years after the date of entry into force of this Agreement, each\\n  charge shall be reduced to 80 % of the basic charge;\\n\\n  three years after the date of entry into force of this Agreement, each\\n  charge shall be reduced to 70 % of the basic charge;\\n\\n  four years after the date of entry into force of this Agreement, each\\n  charge shall be reduced to 60 % of the basic charge;\\n\\n  five years after the date of entry into force of this Agreement, each\\n  remaining charge shall be abolished.\\n\\n  3. In the event of serious difficulties for a given product, the\\n  schedule referred to in paragraph 2 may be reviewed by the Joint\\n  Committee by common accord, on the understanding that it may not be\\n  suspended beyond the maximum transitional period of five years. If the\\n  Joint Committee has not taken a decision within 30 days of its\\n  application to review the schedule, the Palestinian Authority may\\n  suspend the schedule provisionally for a period which may not exceed\\n  one year.\\n\\n  4. If the charge is reduced erga omnes, the reduced charge shall\\n  replace the basic charge described in paragraph 2 from the date on\\n  which the reduction is applied.\\n\\n  5. The Palestinian Authority shall notify the Community of its basic\\n  duties and charges. \\n The provisions concerning the abolition of customs duties on imports\\n  shall also apply to customs duties of a fiscal nature. \\n 1. By way of derogation from Articles 5 and 8, the Palestinian\\n  Authority may take exceptional measures of limited duration to\\n  introduce, increase or re-introduce customs duties.\\n\\n  2. Such measures may only apply to infant industries and to sectors\\n  undergoing restructuring or experiencing serious difficulties,\\n  particularly where those difficulties entail severe social problems.\\n\\n  3. Customs duties on imports into the West Bank and the Gaza Strip of\\n  products originating in the Community that are introduced by such\\n  exceptional measures may not exceed 25 % by value, and must retain a\\n  preferential margin for products originating in the Community. The\\n  total value of imports of the products subjected to such measures may\\n  not exceed 15 % of total imports of industrial products originating in\\n  the Community during the last year for which statistics are available.\\n\\n  4. Such measures shall be applied for no longer than five years,\\n  except where a longer duration is authorized by the Joint Committee.\\n\\n  5. The Palestinian Authority shall inform the Joint Committee of any\\n  exceptional measures it intends to adopt and, at the Community's\\n  request, consultations shall be held on the measures and sectors\\n  concerned before they are implemented. When adopting such measures,\\n  the Palestinian Authority shall provide the Committee with a schedule\\n  for the abolition of the customs duties introduced pursuant to this\\n  Article. Such schedules shall provide for the phasing out of the\\n  duties concerned by equal annual instalments, starting no later than\\n  the end of the second year following their introduction. The Joint\\n  Committee may decide on a different schedule."},{"1":"111","2":"EU - Palestinian Authority","3":"In Force","4":"1997-02-24","5":"en","6":"Agricultural And Fishery Products","7":"1166","8":"CHAPTER 2","9":"111_1166","10":"1997","11":"The provisions of this Chapter shall apply to products originating in\\n  the Community and the West Bank and the Gaza Strip and listed in Annex\\n  II to the Treaty establishing the European Community. \\n ⊥\\n\\n  The Community and the Palestinian Authority shall progressively\\n  establish a greater liberalization of their trade in agricultural and\\n  fishery products of interest to both Parties. \\n 1. Agricultural products originating in the West Bank and the Gaza\\n  Strip listed in Protocol 1 on importation into the Community shall be\\n  subject to the arrangements set out in that Protocol.\\n\\n  2. Agricultural products originating in the Community listed in\\n  Protocol 2 on importation into the West Bank and the Gaza Strip shall\\n  be subject to the arrangements set out in that Protocol. \\n 1. From 1 January 1999, the Community and the Palestinian Authority\\n  shall examine the situation in order to determine the measures to be\\n  applied by the Community and the Palestinian Authority from 1 January\\n  2000, in accordance with the objective set out in Article 12.\\n\\n  2. Without prejudice to paragraph 1 and taking account of the volume\\n  of trade in agricultural products between the Parties and of the\\n  particular sensitivity of such products, the Community and the\\n  Palestinian Authority shall examine in the Joint Committee, product by\\n  product and on an orderly and reciprocal basis, the possibility of\\n  granting each other further concessions."},{"1":"111","2":"EU - Palestinian Authority","3":"In Force","4":"1997-02-24","5":"en","6":"Common Provisions","7":"1167","8":"CHAPTER 3","9":"111_1167","10":"1997","11":"1. No new quantitative restriction on imports or measures having\\n  equivalent effect shall be introduced in trade between the Community\\n  and the West Bank and Gaza Strip.\\n\\n  2. Quantitative restrictions on imports and measures having equivalent\\n  effect in trade between the Community and the West Bank and Gaza Strip\\n  shall be abolished from the entry into force of this Agreement.\\n\\n  3. The Community and the Palestinian Authority shall not apply to\\n  exports between themselves either customs duties or charges having\\n  equivalent effect, or quantitative restrictions or measures having\\n  equivalent effect. \\n 1. Products originating in the West Bank and the Gaza Strip shall not,\\n  on importation into the Community, be accorded a treatment more\\n  favourable than that which the Member States apply among themselves.\\n\\n  2. Application of the provisions of this Agreement shall be without\\n  prejudice to Council Regulation (EEC) No 1911/91 of 26 June 1991 on\\n  the application of the provision of Community law to the Canary\\n  Islands. \\n 1. In the event of specific rules being introduced as a result of the\\n  implementation of its agricultural policy or of any alteration of the\\n  current rules or in the event of any alteration or extension of the\\n  provisions relating to the implementation of its agricultural policy,\\n  the Party concerned may amend the arrangements resulting from the\\n  Agreement in respect of the products concerned.\\n\\n  2. In such cases the Party concerned shall inform the Joint Committee.\\n  At the request of the other Party, the Joint Committee shall meet to\\n  take due account of the interests of the other Party.\\n\\n  3. If the Community or the Palestinian Authority, in applying\\n  paragraph 1, modifies the arrangements made by this Agreement for\\n  agricultural products, they shall accord imports originating in the\\n  other Party an advantage comparable to that provided for in this\\n  Agreement.\\n\\n  4. The application of this Article may be the subject of consultations\\n  in the Joint Committee. \\n 1. The Parties shall refrain from any measure or practice of an\\n  internal fiscal nature establishing, whether directly or indirectly,\\n  discrimination between the products of one Party and like products\\n  originating in the territory of the other Party.\\n\\n  2. Products exported to the territory of one of the Parties may not\\n  benefit from repayment of indirect internal taxation in excess of the\\n  amount of indirect taxation imposed on them either directly or\\n  indirectly. \\n 1. The Agreement shall not preclude the maintenance or establishment\\n  of customs unions, free trade areas or arrangements for frontier\\n  trade, except insofar as they alter the trade arrangements provided\\n  for in this Agreement.\\n\\n  2. Consultation between the Parties shall take place within the Joint\\n  Committee concerning agreements establishing customs unions or free\\n  trade areas and, where requested, on other major issues related to\\n  their respective trade policy with third countries. In particular, in\\n  the event of a third country acceding to the European Union, such\\n  consultation shall take place so as to ensure that account can be\\n  taken of the mutual interests of this Parties. \\n If one of the Parties finds that dumping is taking place in trade with\\n  the other Party within the meaning of Article VI of GATT, it may take\\n  appropriate measures against this practice in accordance with the\\n  Agreement on implementation of Article VI of the GATT and with its\\n  relevant internal legislation, under the conditions and in accordance\\n  with the procedures laid down in Article 23 of this Agreement. \\n Where any product is being imported in such increased quantities and\\n  under such conditions as to cause or threaten to cause:\\n\\n  - serious injury to domestic producers of like or directly competitive\\n  products in the territory of one of the Parties, or\\n\\n  - serious disturbances in any sector of the economy, or\\n\\n  - difficulties which could bring about serious deterioration in the\\n  economic situation of a region,\\n\\n  the Party concerned may take appropriate measures under the conditions\\n  and in accordance with the procedures laid down in Article 23. \\n Where compliance with the provisions of Article 15 (3) leads to:\\n\\n  (i) re-export towards a third country against which the exporting\\n  Party maintains, for the product concerned, quantitative export\\n  restrictions, export duties, or measures having equivalent effect, or\\n\\n  (ii) a serious shortage, or threat thereof, of a product essential to\\n  the exporting Party;\\n\\n  and where the situations referred to above give rise, or are likely to\\n  give rise to major difficulties for the exporting Party, that Party\\n  may take appropriate measures under the conditions and in accordance\\n  with the procedures laid down in Article 23. The measures shall be\\n  non-discriminatory and be eliminated when conditions no longer justify\\n  their maintenance. \\n 1. In the event of the Community or the Palestinian Authority\\n  subjecting imports of products liable to give rise to the difficulties\\n  referred to in Article 21 to an administrative procedure, the purpose\\n  of which is to provide rapid information on the trend of trade flows,\\n  it shall inform the other Party.\\n\\n  2. In the cases specified in Articles 20, 21 and 22, before taking the\\n  measures provided for therein, or, as soon as possible in cases to\\n  which paragraph 3 (d) of this Article applies, the Party in question\\n  shall supply the Joint Committee with all relevant information\\n  required for a thorough examination of the situation with a view to\\n  seeking a solution acceptable to the Parties.\\n\\n  In the selection of appropriate measures, priority must be given to\\n  those which least disturb the functioning of the Agreement.\\n\\n  The safeguard measures shall be notified immediately to the Joint\\n  Committee and shall be the subject of periodic consultations within\\n  that Committee, particularly with a view to their abolition as soon as\\n  circumstances permit.\\n\\n  3. For the implementation of paragraph 2, the following provisions\\n  shall apply:\\n\\n  (a) As regards Article 20, the exporting Party shall be informed of\\n  the dumping case as soon as the authorities of the importing Party\\n  have initiated an investigation. When no end has been put to the\\n  dumping within the meaning of Article VI of GATT or no other\\n  satisfactory solution has been reached within 30 days of the\\n  notification being made, the importing Party may adopt the appropriate\\n  measures.\\n\\n  (b) As regards Article 21, the difficulties arising from the situation\\n  referred to in that Article shall be referred for examination to the\\n  Joint Committee, which may take any decision needed to put an end to\\n  such difficulties.\\n\\n  If the Joint Committee or the exporting Party has not taken a decision\\n  putting an end to the difficulties or no other satisfactory solution\\n  has been reached within 30 days of the matter being referred, the\\n  importing Party may adopt the appropriate measures to remedy the\\n  problem. These measures shall not exceed the scope of what is\\n  necessary to remedy the difficulties which have arisen.\\n\\n  (c) As regards Article 22, the difficulties arising from the\\n  situations referred to in that Article shall be referred for\\n  examination to the Joint Committee.\\n\\n  The Committee may take any decision needed to put an end to the\\n  difficulties. If it has not taken such a decision within 30 days of\\n  the matter being referred to it, the exporting Party may apply\\n  appropriate measures on the exportation of the product concerned.\\n\\n  (d) Where exceptional circumstances requiring immediate action make\\n  prior information or examination, as the case may be, impossible, the\\n  Party concerned may, in the situations specified in Articles 20, 21\\n  and 22 apply forthwith such precautionary measures as are strictly\\n  necessary to remedy the situation, and shall inform the other Party\\n  immediately. \\n Nothing in this Agreement shall preclude prohibitions or restrictions\\n  on imports, exports or goods in transit justified on grounds of public\\n  morality, public policy or public security, of the protection of\\n  health and life of humans, animals or plants, of the protection of\\n  national treasures possessing artistic, historic or archaeological\\n  value, of the protection of intellectual, industrial and commercial\\n  property or of regulations concerning gold and silver. Such\\n  prohibitions or restrictions shall not, however, constitute a means of\\n  arbitrary discrimination or a disguised restriction on trade between\\n  the Parties. \\n The concept of 'originating products` for the application of the\\n  provisions of the present Title and the methods of administrative\\n  cooperation relating to them are set out in Protocol 3. The Joint\\n  Committee may decide to make the necessary adaptations to this\\n  Protocol with a view to the implementation of cumulation of origin as\\n  agreed in the Declaration adopted at the Barcelona Conference. \\n The combined nomenclature shall be used for the classification of\\n  goods in the trade between the Parties.\\n  PUBLIC PROCUREMENT"},{"1":"111","2":"EU - Palestinian Authority","3":"In Force","4":"1997-02-24","5":"en","6":"Current Payments And Movement Of Capital","7":"1168","8":"CHAPTER 1","9":"111_1168","10":"1997","11":"Subject to the provisions of Article 29, the Parties undertake to\\n  impose no restrictions on any current payments for current\\n  transactions. \\n 1. With regard to transactions on the capital account of balance of\\n  payments, the Parties undertake to impose no restrictions on the\\n  movement of capital relating to direct investments in the West Bank\\n  and Gaza Strip in companies formed in accordance with current laws,\\n  nor on the liquidation and repatriation of the yield from such\\n  investments, or any profit stemming therefrom.\\n\\n  2. The Parties shall consult each other with a view to facilitating\\n  the movement of capital between the Community and the West Bank and\\n  Gaza Strip. \\n Where one or more Member States of the Community, or the Palestinian\\n  Authority, is in serious balance of payments difficulties, or under\\n  threat thereof, the Community or the Palestinian Authority, as the\\n  case may be, may, in accordance with the conditions established under\\n  the GATT and Articles VIII and XIV of the Articles of Agreement of the\\n  International Monetary Fund, adopt restrictions on current\\n  transactions which shall be of limited duration and may not go beyond\\n  what is necessary to remedy the balance of payments situation. The\\n  Community or the Palestinian Authority, as the case may be, shall\\n  inform the other Party forthwith and shall submit to it as soon as\\n  possible a timetable for the elimination of the measures concerned."},{"1":"111","2":"EU - Palestinian Authority","3":"In Force","4":"1997-02-24","5":"en","6":"Competition, Intellectual Property And Public Procurement","7":"1169","8":"CHAPTER 2","9":"111_1169","10":"1997","11":"1. The following are incompatible with the proper functioning of the\\n  Agreement, insofar as they may affect trade between the Community and\\n  the Palestinian Authority:\\n\\n  (i) all agreements between undertakings, decisions by associations of\\n  undertakings and concerted practices between undertakings which have\\n  as their object or effect the prevention, restriction or distortion of\\n  competition;\\n\\n  (ii) abuse by one or more undertakings of a dominant position in the\\n  territories of the Community or the West Bank and the Gaza Strip as a\\n  whole or in a substantial part thereof;\\n\\n  (iii) any public aid which distorts or threatens to distort\\n  competition by favouring certain undertakings or the production of\\n  certain goods.\\n\\n  2. The Parties shall, as appropriate, assess any practice contrary to\\n  this Article on the basis of the criteria resulting from the\\n  application of Community competition rules.\\n\\n  3. The Joint Committee shall, before 31 December 2001, adopt by\\n  decision the necessary rules for the implementation of paragraphs 1\\n  and 2.\\n\\n  Until these rules are adopted, the provisions of the Agreement on\\n  Subsidies and Countervailing Measures shall be applied as the rules\\n  for the implementation of paragraph 1 (iii) and the relevant parts of\\n  paragraph 2.\\n\\n  4. As regards the implementation of paragraph 1 (iii), the Parties\\n  recognize that the Palestinian Authority may wish to use, during the\\n  period until 31 December 2001, public aid to undertakings as an\\n  instrument to tackle its specific development problems.\\n\\n  5. Each Party shall ensure transparency in the area of public aid,\\n  inter alia by reporting annually to the other Party on the total\\n  amount and the distribution of the aid given and by providing, upon\\n  request, information on aid schemes. Upon request by one Party, the\\n  other Party shall provide information on particular individual cases\\n  of public aid.\\n\\n  6. With regard to products referred to in Title I, Chapter 2:\\n\\n  - paragraph 1 (iii) does not apply,\\n\\n  - any practices contrary to paragraph 1 (i) shall be assessed\\n  according to the criteria established by the Community on the basis of\\n  Articles 42 and 43 of the Treaty establishing the European Community\\n  and in particular those established in Council Regulation No 26/62.\\n\\n  7. If the Community or the Palestinian Authority considers that a\\n  particular practice is incompatible with the terms of paragraph 1 of\\n  this Article, and:\\n\\n  - is not adequately dealt with under the implementing rules referred\\n  to in paragraph 3, or\\n\\n  - in the absence of such rules, and if such practice causes or\\n  threatens to cause serious prejudice to the interest of the other\\n  Party or material injury to its domestic industry, including its\\n  services industry,\\n\\n  it may take appropriate measures after consultation within the Joint\\n  Committee or after 30 working days following referral for such\\n  consultation.\\n\\n  With reference to practices incompatible with paragraph 1 (iii) of\\n  this Article, such appropriate measures, when the GATT is applicable\\n  to them, may only be adopted in accordance with the procedures and\\n  under the conditions laid down by GATT or by any other relevant\\n  instrument negotiated under its auspices and applicable between the\\n  Parties.\\n\\n  8. Notwithstanding any provisions to the contrary adopted in\\n  accordance with paragraph 3, the Parties shall exchange information\\n  taking into account the limitations imposed by the requirements of\\n  professional and business secrecy. \\n The Member States and the Palestinian Authority shall progressively\\n  adjust, without prejudice to their commitments to the GATT where\\n  appropriate, any State monopolies of a commercial character, so as to\\n  ensure that, by 31 December 2001, no discrimination regarding the\\n  conditions under which goods are procured and marketed exists between\\n  nationals of the Member States and the Palestinian people of the West\\n  Bank and Gaza Strip. The Joint Committee will be informed about the\\n  measures adopted to implement this objective. \\n With regard to public enterprises and enterprises to which special or\\n  exclusive rights have been granted, the Joint Committee shall ensure\\n  that by 31 December 2001 there is neither enacted nor maintained any\\n  measure distorting trade between the Community and the Palestinian\\n  Authority contrary to the Parties' interests. This provision should\\n  not obstruct the performance in law or in fact of the particular tasks\\n  assigned to those undertakings. \\n 1. The Parties shall grant and ensure adequate and effective\\n  protection of intellectual, industrial and commercial property rights\\n  in accordance with the highest international standards, including\\n  effective means of enforcing such rights.\\n\\n  2. The implementation of this Article shall be regularly reviewed by\\n  the Parties. If problems in the area of intellectual, industrial and\\n  commercial property affecting trading conditions occur, urgent\\n  consultations shall be undertaken within the framework of the Joint\\n  Committee, at the request of either Party, with a view to reaching\\n  mutually satisfactory solutions. \\n 1. The Parties agree on the objective of reciprocal and gradual\\n  liberalization of public procurement contracts.\\n\\n  2. The Joint Committee shall take the necessary measures to implement\\n  paragraph 1."},{"1":"111","2":"EU - Palestinian Authority","3":"In Force","4":"1997-02-24","5":"en","6":"Economic Cooperation And Social Development","7":"1170","8":"TITLE III","9":"111_1170","10":"1997","11":"1. The Parties undertake to intensify economic cooperation in their\\n  mutual interest and in accordance with the overall objectives of this\\n  Agreement.\\n\\n  2. The aim of cooperation shall be to support the Palestinian\\n  Authority's own efforts to achieve sustainable economic and social\\n  development. \\n 1. Cooperation shall focus primarily on sectors suffering from\\n  internal difficulties or affected by the overall process of\\n  liberalization of the economy of the West Bank and the Gaza Strip, and\\n  in particular by the liberalization of trade between the West Bank and\\n  the Gaza Strip and the Community.\\n\\n  2. Similarly, cooperation shall focus on areas likely to bring the\\n  economies of the Community and the West Bank and Gaza Strip closer\\n  together, particularly those which will generate sustainable growth\\n  and employment.\\n\\n  3. Cooperation shall encourage the implementation of measures designed\\n  to develop intra-regional cooperation.\\n\\n  4. Conservation of the environment and ecological balance shall be\\n  taken into account in the implementation of the various sectors of\\n  economic cooperation to which it is relevant.\\n\\n  5. The Parties may agree to extend economic cooperation to other\\n  sectors not covered by the provisions of this Title. \\n Economic cooperation shall be implemented in particular by:\\n\\n  (a) a regular economic dialogue between the Parties, which covers all\\n  areas of macro-economic policy and in particular budgetary policy, the\\n  balance of payments and monetary policy;\\n\\n  (b) regular exchange of information and ideas in every sector of\\n  cooperation including meetings of officials and experts;\\n\\n  (c) transfer of advice, expertise and training;\\n\\n  (d) implementation of joint actions such as seminars and workshops;\\n\\n  (e) technical, administrative and regulatory assistance;\\n\\n  (f) encouragement of joint ventures;\\n\\n  (g) dissemination of information on cooperation. \\n The main aim will be to:\\n\\n  - support the Palestinian Authority, in its efforts to modernize and\\n  diversify industry and, in particular, to create an environment\\n  favourable to private sector and industrial development,\\n\\n  - foster cooperation between the two Parties' economic operators,\\n\\n  - foster cooperation regarding industrial policy, competitiveness in\\n  an open economy and the modernization and development of industry,\\n\\n  - support policies to diversify production and exports and external\\n  outlets,\\n\\n  - promote research and development, innovation and technology transfer\\n  as far as they benefit industry,\\n\\n  - develop and enhance the human resources required by industry,\\n\\n  - facilitate access to venture and risk financing facilities for the\\n  benefit of Palestinian industry. \\n The objective of cooperation will be the creation of a favourable and\\n  stable environment for investment in the West Bank and Gaza Strip.\\n\\n  Cooperation will take the form of promotion of investment. This will\\n  entail the development of:\\n\\n  - harmonized and simplified administrative procedures,\\n\\n  - co-investment machinery, especially for small and medium-sized\\n  enterprises (SMEs) of both Parties,\\n\\n  - information channels and means of identifying investment\\n  opportunities,\\n\\n  - an environment conducive to investment in the West Bank and the Gaza\\n  Strip.\\n\\n  Cooperation may also extend to the conception and implementation of\\n  projects demonstrating the effective acquisition and use of basic\\n  technologies, the use of standards, the development of human resources\\n  (e.g. in technologies and management) and the creation of jobs. \\n The objective of cooperation will be to narrow the gap in standards\\n  and certification.\\n\\n  In practical terms cooperation will take the form of:\\n\\n  - the promotion of the use of Community technical regulations and\\n  European standards and conformity assessment procedures,\\n\\n  - raising the level of conformity assessment by Palestinian\\n  certification and accreditation bodies,\\n\\n  - discussing mutual recognition arrangements, where appropriate,\\n\\n  - cooperating in the field of quality management,\\n\\n  - developing structures for the protection of intellectual, individual\\n  and commercial property, for standardization and for setting quality\\n  standards. \\n The objective of cooperation will be to approximate Palestinian\\n  Council legislation to that of the Community, in the areas covered by\\n  the Agreement. \\n The objective of cooperation will be the creation of an environment\\n  propitious to the development of SMEs on local and export markets\\n  through, inter alia:\\n\\n  - promotion of contacts between enterprises, in particular through\\n  recourse to the Community's networks and instruments for the promotion\\n  of industrial cooperation and partnership,\\n\\n  - easier access to investment finance,\\n\\n  - information and support services,\\n\\n  - enhancement of human resources with the aim of stimulating\\n  innovation and the setting-up of projects and business ventures. \\n The objective of cooperation will be the improvement and development\\n  of financial services.\\n\\n  It will take the form of:\\n\\n  - encouraging the strengthening and restructuring of the Palestinian\\n  financial sector,\\n\\n  - improving Palestinian accounting, supervisory and regulatory systems\\n  of banking, insurance and other parts of the financial sector. \\n The objective of cooperation under this heading will mainly be the\\n  modernization and restructuring, where necessary, of agriculture and\\n  fisheries.\\n\\n  This includes modernization of infrastructures and of equipment; the\\n  development of packaging, storage and marketing techniques; and the\\n  improvement of distribution channels.\\n\\n  It will be geared more especially to:\\n\\n  - the development of stable markets,\\n\\n  - support for policies to diversify production and exports and\\n  external outlets,\\n\\n  - reduction of food dependency,\\n\\n  - promotion of environment-friendly agriculture and fisheries, taking\\n  particular account of the need for conservation and rational\\n  management of fisheries,\\n\\n  - closer relations on a voluntary basis between business groups and\\n  organizations representing trades and professions,\\n\\n  - technical assistance and training,\\n\\n  - harmonization of phytosanitary and veterinary standards,\\n\\n  - integrated rural development including improvement of basic services\\n  and the development of associated economic activities, and\\n\\n  - cooperation among rural regions and exchange of experience and\\n  know-how concerning rural development. \\n The Parties acknowledge the importance of social development which\\n  should go hand-in-hand with any economic development. They give\\n  particular priority to respect for basic social rights.\\n\\n  The Parties will give priority to measures aimed at:\\n\\n  - the promotion of the equality of women and a balanced participation\\n  in the decision-making process in the economic and social sphere,\\n  notably through education and the media,\\n\\n  - the development of family planning and the protection of mothers and\\n  children,\\n\\n  - improving the social protection system,\\n\\n  - improving the response to health requirements,\\n\\n  - improving the living conditions in densely populated areas in\\n  less-favoured regions,\\n\\n  - promoting respect for human rights and democracy, inter alia through\\n  socio-professional dialogue. \\n The objectives of cooperation will be:\\n\\n  - aid for restructuring and modernizing roads, ports and airports,\\n\\n  - improved passenger and freight services both at bilateral and\\n  regional level, and\\n\\n  - the establishment and enforcement of operating standards comparable\\n  to those prevailing in the Community.\\n\\n  The priority areas of cooperation will be:\\n\\n  - road transport including a gradual easing of transit requirements,\\n\\n  - management of railways, ports and airports including navigation\\n  systems and cooperation between the relevant national bodies,\\n\\n  - modernization of road, rail, port and airport infrastructure on\\n  major routes of common interest,\\n\\n  - trans-European links and routes of regional interest, and\\n\\n  - upgrading of technical equipment to bring it up to Community\\n  standards for road/rail transport, container traffic and transhipment. \\n Cooperation shall aim at stimulating economic and social development\\n  as well as developing an information society.\\n\\n  The priority areas of cooperation will be:\\n\\n  - to facilitate collaboration in the field of telecommunications\\n  policy, network development and infrastructures for an information\\n  society,\\n\\n  - to develop a dialogue on issues related to the information society\\n  and to promote the exchange of information and the organization of\\n  seminars and conferences in this area,\\n\\n  - to promote and implement joint projects aimed at the introduction of\\n  new telecommunications services and applications related to the\\n  information society,\\n\\n  - to allow for information exchange on standardization, conformance\\n  testing, and certification in information and communications\\n  technologies,\\n\\n  - interconnection and interoperability of networks and telematics\\n  services. \\n The objective of cooperation on energy will be to help the West Bank\\n  and Gaza Strip acquire the technologies and infrastructures essential\\n  to its development, particularly with a view to facilitating links\\n  between its economy and that of the Community.\\n\\n  The priority areas of cooperation will be:\\n\\n  - the promotion of renewable energies,\\n\\n  - the promotion of energy-saving and energy efficiency,\\n\\n  - support to operations designed to facilitate the transit of gas, oil\\n  and electricity, and applied research into data bank networks in the\\n  economic and social sectors linking Community and Palestinian\\n  operators in particular, and\\n\\n  - support for the modernization and development of energy networks and\\n  for their link-up to Community networks. \\n The Parties will endeavour to promote cooperation on scientific and\\n  technological development.\\n\\n  The aim of cooperation shall be to:\\n\\n  (a) encourage the establishment of permanent links between the\\n  Parties' scientific communities, notably by means of:\\n\\n  - providing Palestinian institutions with access to Community research\\n  and technological development programmes in accordance with Community\\n  rules governing non-Community countries' involvement in such\\n  programmes,\\n\\n  - Palestinian participation in networks of decentralized cooperation,\\n\\n  - promoting synergy in training and research;\\n\\n  (b) improve Palestinian research capabilities;\\n\\n  (c) stimulate technological innovation and the transfer of new\\n  technology and know-how;\\n\\n  (d) encourage all activities aimed at establishing synergy at regional\\n  level. \\n The objectives of cooperation will be to prevent deterioration of the\\n  environment, to control pollution, to protect human health and to\\n  ensure the rational use of natural resources with a view to promoting\\n  sustainable development.\\n\\n  It will place priority on matters relating to: desertification, water\\n  resource management, salinization, the impact of agriculture on soil\\n  and water quality, the appropriate use of energy, the impact of\\n  industrial development in general and the safety of industrial plant\\n  in particular, waste management, the integrated management of\\n  sensitive areas, the quality of sea water and the control and\\n  prevention of marine pollution, and environmental education and\\n  awareness.\\n\\n  Cooperation shall be fostered by the use of advanced tools of\\n  environmental management, environmental monitoring methods, and\\n  surveillance, including the use of environmental information systems\\n  (EIS) and environmental impact assessment (EIA). \\n Priorities for cooperation shall be:\\n\\n  - promoting investments in tourism,\\n\\n  - improving the knowledge of the tourist industry and ensuring greater\\n  consistency of policies affecting tourism,\\n\\n  - promoting a good seasonal spread of tourism,\\n\\n  - promoting cooperation between regions and cities of neighbouring\\n  countries,\\n\\n  - highlighting the importance of the cultural heritage for tourism,\\n\\n  - making tourism more competitive through support for increased\\n  professionalism ensuring the balanced and sustainable development of\\n  tourism. \\n Customs cooperation is intended to ensure that the provisions on trade\\n  are observed and to guarantee fair trading.\\n\\n  It could give rise to the following types of cooperation:\\n\\n  - various forms of exchange of information and training schemes,\\n\\n  - simplification of controls and procedures concerning the customs\\n  clearance of goods,\\n\\n  - introduction of the single administrative document and a system to\\n  link up the Community's and the Palestinian Authority's transit\\n  arrangements, and\\n\\n  - technical assistance provided by experts from the Community.\\n\\n  Without prejudice to other forms of cooperation provided for in this\\n  Agreement, the administrative authorities of the Parties will provide\\n  each other with mutual assistance on customs matters. \\n The main objective of cooperation in this domain should aim to ensure\\n  the comparability and usefulness of statistics on foreign trade,\\n  finance and balance of payments, population, migration, transport and\\n  communications, and generally all the fields which are covered by this\\n  Agreement and lend themselves to the establishment of statistics. \\n Cooperation is aimed at:\\n\\n  - the exchange of information on the macro-economic situation and\\n  prospects and development strategies,\\n\\n  - joint analysis of economic issues of mutual interest, and\\n\\n  - the encouragement of cooperation between economists and policy\\n  makers in the West Bank and the Gaza Strip and in the Community. \\n As part of the implementation of economic cooperation in the various\\n  spheres, the Parties will encourage operations designed to develop\\n  cooperation between the Palestinian Authority and other Mediterranean\\n  partners, through technical support.\\n\\n  This cooperation will be an important element of the Community's\\n  support for the development of the region as a whole.\\n\\n  Priority will be given to operations aimed at:\\n\\n  - promoting intra-regional trade,\\n\\n  - developing regional cooperation on the environment,\\n\\n  - encouraging the development of the communications infrastructure\\n  required for the economic development of the region,\\n\\n  - strengthening the development of youth cooperation with neighbouring\\n  countries.\\n\\n  In addition the Parties will strengthen cooperation between them on\\n  regional development and land-use planning.\\n\\n  To this end the following measures may be taken:\\n\\n  - joint action by regional and local authorities in the area of\\n  economic development, and\\n\\n  - the establishment of mechanisms for the exchange of information and\\n  experience."},{"1":"111","2":"EU - Palestinian Authority","3":"In Force","4":"1997-02-24","5":"en","6":"Cooperation On Audio-Visual And Cultural Matters, Information And Communication","7":"1171","8":"TITLE IV","9":"111_1171","10":"1997","11":"The Parties shall promote cooperation in the audio-visual sector to\\n  their mutual benefit. The Parties shall seek ways of associating the\\n  Palestinian Authority with Community initiatives in this sector, thus\\n  enabling cooperation in areas such as co-production, training,\\n  development and distribution. \\n The Parties shall promote cultural cooperation. The area of\\n  cooperation may include Community activities concerning, in\\n  particular, translation, exchange of works of art and artists,\\n  conservation and restoration of historic and cultural monuments and\\n  sites, training of persons working in the cultural field, the\\n  organization of European-oriented cultural events, raising mutual\\n  awareness and contributing to the dissemination of information on\\n  outstanding cultural events. \\n The Parties will undertake to determine how to improve significantly\\n  the education and vocational training situation. To this end, the\\n  access of women to education, including technical courses, higher\\n  education and vocational training, will receive special attention.\\n\\n  In order to develop the level of expertise of senior staff in the\\n  public and private sectors, the Parties will step up their cooperation\\n  on education and vocational training and cooperation between\\n  universities and firms.\\n\\n  Preparing young people to become active citizens in democratic civil\\n  society should be actively promoted. Youth cooperation, including\\n  training of youth workers and youth leaders, youth exchanges and\\n  voluntary service activities, could therefore be supported and\\n  developed.\\n\\n  Special attention will be paid to operations and programmes which will\\n  enable permanent links (MED-CAMPUS, for instance) to be established\\n  between specialized bodies in the Community and in the West Bank and\\n  Gaza Strip, such as will encourage the pooling and exchange of\\n  experience and technical resources. \\n The Parties shall promote activities of mutual interest in the field\\n  of information and communication. \\n Cooperation shall be implemented in particular through:\\n\\n  (a) a regular dialogue between the Parties;\\n\\n  (b) regular exchange of information and ideas in every sector of\\n  cooperation including meetings of officials and experts;\\n\\n  (c) transfer of advice and experience and training of young\\n  Palestinian graduates;\\n\\n  (d) implementation of joint actions such as seminars and workshops;\\n\\n  (e) technical, administrative and regulatory assistance;\\n\\n  (f) the dissemination of information on cooperation activities."},{"1":"111","2":"EU - Palestinian Authority","3":"In Force","4":"1997-02-24","5":"en","6":"Financial Cooperation","7":"1172","8":"TITLE V","9":"111_1172","10":"1997","11":"In order to achieve the objectives of this Agreement, a financial\\n  cooperation package shall be made available to the Palestinian\\n  Authority in accordance with the appropriate procedures and the\\n  financial resources required.\\n\\n  These procedures shall be agreed by both Parties using the most\\n  appropriate instruments after this Agreement has entered into force.\\n\\n  Financial cooperation shall focus on:\\n\\n  - responding to the economic repercussions for the West Bank and the\\n  Gaza Strip of the gradual introduction of a free trade area, notably\\n  by upgrading and restructuring industry,\\n\\n  - trade institutions which promote trading links with foreign markets,\\n\\n  - accompanying measures for policies implemented in the social sector,\\n\\n  - upgrading economic and social infrastructure,\\n\\n  - promoting private investment and job-creating activities in the\\n  productive sectors,\\n\\n  - promoting reforms designed to modernize the economy,\\n\\n  - services,\\n\\n  - urban and rural development,\\n\\n  - the environment,\\n\\n  - the setting-up and improvement of institutions necessary for the\\n  proper working of the Palestinian public administration and the\\n  advancement of democracy and human rights. \\n In order to ensure that a coordinated approach is adopted to any\\n  exceptional macro-economic and financial problems that might arise as\\n  a result of the implementation of this Agreement, the Parties shall\\n  use the regular economic dialogue provided for in Title III to give\\n  particular attention to monitoring trade and financial flows in\\n  relations between them."},{"1":"111","2":"EU - Palestinian Authority","3":"In Force","4":"1997-02-24","5":"en","6":"Institutional, General And Final Provisions","7":"1173","8":"TITLE VI","9":"111_1173","10":"1997","11":"1. A Joint Committee for European Community-Palestinian Authority\\n  trade and cooperation, referred to in this Agreement as 'the Joint\\n  Committee`, is hereby established. It shall have the power to take\\n  decisions in the cases provided for in the Agreement as well as in\\n  other cases necessary for the purpose of attaining the objectives set\\n  out in the Agreement.\\n\\n  The decisions taken shall be binding on the Parties, which shall take\\n  such measures as are required to implement them.\\n\\n  2. The Joint Committee may also formulate any resolutions,\\n  recommendations or opinions which it considers desirable for the\\n  attainment of the common objectives and the smooth functioning of the\\n  Agreement.\\n\\n  3. The Joint Committee shall adopt its own rules of procedure. \\n 1. The Joint Committee shall be composed of representatives of the\\n  Community and of the Palestinian Authority.\\n\\n  2. The Joint Committee shall act by mutual agreement between the\\n  Community and the Palestinian Authority. \\n 1. The office of Chairman of the Joint Committee shall be held\\n  alternately by the Community and the Palestinian Authority in\\n  accordance with the conditions laid down in the rules of procedure.\\n\\n  2. The Joint Committee shall meet once a year and when circumstances\\n  require, on the initiative of its Chairman. \\n 1. The Joint Committee may decide to set up any other committee that\\n  can assist it in carrying out its duties.\\n\\n  2. The Joint Committee shall determine the composition and duties of\\n  such committees and how they shall function. \\n 1. Either Party may refer to the Joint Committee any dispute relating\\n  to the application or interpretation of this Agreement.\\n\\n  2. The Joint Committee may settle the dispute by means of a decision.\\n\\n  3. Each Party shall be bound to take measures involved in carrying out\\n  the decision referred to in paragraph 2.\\n\\n  4. In the event of it not being possible to settle the dispute in\\n  accordance with paragraph 2, either Party may notify the other of the\\n  appointment of an arbitrator; the other Party must then appoint a\\n  second arbitrator within two months.\\n\\n  The Joint Committee shall appoint a third arbitrator.\\n\\n  The arbitrators' decisions shall be taken by majority vote.\\n\\n  Each Party to the dispute must take the steps required to implement\\n  the decision of the arbitrator. \\n Nothing in the Agreement shall prevent a Party from taking any\\n  measures:\\n\\n  (a) which it considers necessary to prevent the disclosure of\\n  information contrary to its essential security interests;\\n\\n  (b) which relate to the production of, or trade in, arms, munitions or\\n  war materials or to research, development or production indispensable\\n  for defence purposes, provided that such measures do not impair the\\n  conditions of competition in respect of products not intended for\\n  specifically military purposes;\\n\\n  (c) which it considers essential to its own security in the event of\\n  serious internal disturbances affecting the maintenance of law and\\n  order, in time of war or serious international tension constituting\\n  threat of war, or in order to carry out obligations it has accepted\\n  for the purpose of maintaining peace and international security. \\n In the fields covered by this Agreement and without prejudice to any\\n  special provisions contained therein:\\n\\n  - the arrangements applied by the Palestinian Authority in respect of\\n  the Community shall not give rise to any discrimination between the\\n  Member States, their nationals or their companies or firms,\\n\\n  - the arrangements applied by the Community in respect of the\\n  Palestinian Authority shall not give rise to discrimination between\\n  members of the Palestinian population, companies or firms of the West\\n  Bank and Gaza Strip. \\n 1. The Parties shall take any general or specific measures required to\\n  fulfil their obligations under the Agreement. They shall see to it\\n  that the objectives set out in the Agreement are attained.\\n\\n  2. If either Party considers that the other Party has failed to fulfil\\n  an obligation under the Agreement, it may take appropriate measures.\\n  Before so doing, except in cases of special urgency, it shall supply\\n  the Joint Committee with all relevant information required for a\\n  thorough examination of the situation with a view to seeking a\\n  solution acceptable to the Parties.\\n\\n  In the selection of measures, priority must be given to those which\\n  least disturb the functioning of the Agreement. These measures shall\\n  be notified immediately to the Joint Committee and shall be the\\n  subject of consultations within the Joint Committee if the other Party\\n  so requests. \\n Annexes 1 to 3 and Protocols 1 to 3 shall form an integral part of\\n  this Agreement.\\n\\n  Declarations shall appear in the Final Act, which shall form an\\n  integral part of this Agreement. \\n For the purpose of this Agreement the term 'Parties` shall mean the\\n  PLO for the benefit of the Palestinian Authority and the Community,\\n  which shall each act in accordance with their respective powers. \\n This Agreement shall apply, on the one hand, to the territories in\\n  which the Treaty establishing the European Community is applied and\\n  under the conditions laid down in that Treaty and, on the other hand,\\n  to the territory of the West Bank and the Gaza Strip. \\n This Agreement, drawn up in duplicate in the Danish, Dutch, English,\\n  Finnish, French, German, Greek, Italian, Portuguese, Spanish, Swedish,\\n  and Arabic languages, each of these texts being equally authentic,\\n  shall be deposited with the General Secretariat of the Council of the\\n  European Union. \\n 1. This Agreement will be approved by the Parties in accordance with\\n  their own procedures.\\n\\n  This Agreement shall enter into force on the first day of the month\\n  following the date on which the Parties notify each other that the\\n  procedures referred to in the first paragraph have been completed.\\n\\n  2. No later than 4 May 1999 negotiations shall commence with a view to\\n  concluding a Euro-Mediterranean Association Agreement. Until such an\\n  Agreement is concluded, this Agreement shall remain in force, subject\\n  to any amendments agreed between the Parties.\\n\\n  3. Each of the Parties may denounce this Agreement by notifying the\\n  other Party. The Agreement shall cease to apply six months after the\\n  date of such notification."},{"1":"111","2":"EU - Palestinian Authority","3":"In Force","4":"1997-02-24","5":"en","6":"Conclusion","7":"1174","8":"NA","9":"111_1174","10":"1997","11":"Hecho en Bruselas, el veinticuatro de febrero de mil novecientos\\n  noventa y siete.\\n\\n  Udfærdiget i Bruxelles den fireogtyvende februar nitten hundrede og\\n  syv og halvfems.\\n\\n  Geschehen zu Brüssel am vierundzwanzigsten Februar\\n  neunzehnhundertsiebenundneunzig.\\n\\n  ¸ãéíå óôéò ÂñõîÝëëåò, óôéò åßêïóé ôÝóóåñéò Öåâñïõáñßïõ ÷ßëéá\\n  åííéáêüóéá åíåíÞíôá åðôÜ.\\n\\n  Done at Brussels on the twenty-fourth day of February in the year one\\n  thousand nine hundred and ninety-seven.\\n\\n  Fait à Bruxelles, le vingt-quatre février mil neuf cent\\n  quatre-vingt-dix-sept.\\n\\n  Fatto a Bruxelles, addì ventiquattro febbraio\\n  millenovecentonovantasette.\\n\\n  Gedaan te Brussel, de vierentwintigste februari negentienhonderd\\n  zevenennegentig.\\n\\n  Feito em Bruxelas, em vinte e quatro de Fevereiro de mil novecentos e\\n  noventa e sete.\\n\\n  Tehty Brysselissä kahdentenakymmenentenäneljäntenä päivänä helmikuuta\\n  vuonna tuhatyhdeksänsataayhdeksänkymmentäseitsemän.\\n\\n  Som skedde i Bryssel den tjugofjärde februari nittonhundranittiosju.\\n\\n  Por la Comunidad Europea\\n\\n  For Det Europæiske Fællesskab\\n\\n  Für die Europäische Gemeinschaft\\n\\n  Ãéá ôçí ÅõñùðáúêÞ Êïéíüôçôá\\n\\n  For the European Community\\n\\n  Pour la Communauté européenne\\n\\n  Per la Comunità europea\\n\\n  Voor de Europese Gemeenschap\\n\\n  Pela Comunidade Europeia\\n\\n  Euroopan yhteisön puolesta\\n\\n  På Europeiska gemenskapens vägnar"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+<p>Agora, vamos usar a função <code>map_df()</code> para ler todos os arquivos e combiná-los em um único <code>data.frame</code>.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+pta_df &lt;- map_df(arquivos_pta, ler_texto_acordo)</code></pre>
+</div>
+<p>Os acordos podem estar em várias línguas:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+pta_df %&gt;% 
+  select(pta_id, pta_lingua) %&gt;% 
+  distinct() %&gt;% 
+  count(pta_lingua)</code></pre>
+<pre><code>
+# A tibble: 3 x 2
+  pta_lingua     n
+  &lt;chr&gt;      &lt;int&gt;
+1 en           424
+2 es            24
+3 fr             2</code></pre>
+</div>
+<p>Para a nossa análise, vamos nos restringir aos textos que estão em inglês:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+pta_df &lt;- pta_df %&gt;% 
+  filter(pta_lingua == &quot;en&quot;)</code></pre>
+</div>
+<p>Com a nossa base preparada, vamos checar quantos acordos foram assinados por ano:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+pta_df %&gt;% 
+  select(pta_id, ano) %&gt;%
+  distinct() %&gt;% 
+  ggplot(aes(x = ano)) +
+  geom_bar(fill = &quot;#2980b9&quot;) + 
+  scale_x_continuous(breaks = seq(1950, 2010, 10)) +
+  labs(
+    title = &quot;Número de Acordos Comerciais Assinados por Ano&quot;,
+    subtitle = &quot;Os acordos comerciais se proliferaram a partir da década de 90.
+A Organização Mundial de Comércio (OMC) foi criada em 1995.&quot;,
+    x = &quot;Ano&quot;,
+    y = &quot;Número de Acordos&quot;
+  )</code></pre>
+<p><img src="modelagem-de-tpicos-com-o-r-analisando-os-textos-de-acordos-comerciais_files/figure-html5/unnamed-chunk-8-1.png" width="624" /></p>
+</div>
+<h1 id="convertendo-os-textos-para-o-formato-tidy-text">Convertendo os textos para o formato tidy text</h1>
+<p>Para os autores do pacote <code>tidytext</code>, o formato de dados <code>tidy</code> para textos seria aquele de uma tabela com uma linha por <em>token</em>. Aqui, <em>token</em> seria uma unidade de texto relevante (caractere, palavra, parágrafo etc.). Neste post, a nossa unidade será a de palavras. Assim, teremos um data.frame com uma linha para cada palavra de cada documento. Aqui, definimos “documento” como um capítulo de um acordo específico (coluna <code>id_capitulo</code>).</p>
+<p>Adicionalmente, removemos as chamadas <em>stop words</em> com um <code>anti_join()</code>. Veja abaixo o que seria esse objeto <code>stop_words</code>:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+head(stop_words, 10)</code></pre>
+<pre><code>
+# A tibble: 10 x 2
+   word        lexicon
+   &lt;chr&gt;       &lt;chr&gt;  
+ 1 a           SMART  
+ 2 a&#39;s         SMART  
+ 3 able        SMART  
+ 4 about       SMART  
+ 5 above       SMART  
+ 6 according   SMART  
+ 7 accordingly SMART  
+ 8 across      SMART  
+ 9 actually    SMART  
+10 after       SMART  </code></pre>
+</div>
+<p>Além das <em>stop words</em>, as palavrar que possuem números também são removidas.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+textos_df &lt;- pta_df %&gt;% 
+  unnest_tokens(word, texto) %&gt;% 
+  select(id_capitulo, word) %&gt;% 
+  anti_join(stop_words) %&gt;% 
+  filter(!str_detect(word, &quot;[0-9]&quot;))
+
+dim(textos_df)</code></pre>
+<pre><code>
+[1] 2567029       2</code></pre>
+<pre class="r"><code>
+head(textos_df)</code></pre>
+<pre><code>
+# A tibble: 6 x 2
+  id_capitulo word       
+  &lt;chr&gt;       &lt;chr&gt;      
+1 1_1         preamble   
+2 1_1         japan      
+3 1_1         kingdom    
+4 1_1         thailand   
+5 1_1         hereinafter
+6 1_1         referred   </code></pre>
+</div>
+<p>A função <code>unnest_tokens()</code> irá quebrar a variável <code>texto</code> por palavras. Ao todo, temos 2567029 palavras. Veja que cada linha agora é uma palavra.</p>
+<p>Abaixo é criado um data.frame com as 2000 palavras mais frequentes. As palavras <em>party</em> e <em>parties</em> são bastante frequentes, mas não trazem nenhuma informação relevante. Dessa forma, elas são removidas da lista de palavras mais frequentes..</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+palavras_frequentes &lt;- textos_df %&gt;% 
+  filter(!word %in% c(&quot;party&quot;, &quot;parties&quot;)) %&gt;% 
+  count(word) %&gt;% 
+  top_n(2000) %&gt;% 
+  pull(word)</code></pre>
+</div>
+<h1 id="modelando-topicos">Modelando tópicos</h1>
+<p>Com os nossos dados quase prontos, vamos falar sobre o método que será utilizado: Latent Dirichlet Allocation (LDA). O nosso objetivo é encontrar os tópicos que existiriam em uma coleção de documentos. Neste modelo, define-se um quantidade de tópicos <span class="math inline">\(k\)</span> e o algoritmo irá estimar a distribuição de termos (<span class="math inline">\(\beta\)</span>) de cada tópico. Esta distribuição traz a probabilidade de ocorrência de uma palavra em um determinado tópico.</p>
+<p>Além disso, cada documento é uma mistura de tópicos. Por exemplo, supondo 2 tópicos, o documento 1 é 60% do tópico X e 40% do tópico Y. O que o LDA faz é estimar essas distribuições a partir da frequência de palavras dentro de cada documento.</p>
+<p>Para maiores detalhes, ver o <a href="https://www.tidytextmining.com/topicmodeling.html">capítulo 6</a> e o vignette do <code>topicmodels</code> (<code>vignette(&quot;topicmodels&quot;)</code>).</p>
+<p>Para estimar o modelo, é preciso uma matriz de termos por documento. Cada linha dessa matriz é um documento e cada coluna é um termo (uma palavra). O valor em cada posição é a frequência de um termo em um documento. A função <code>cast_dtm()</code> converte o data.frame para uma matriz de termos por documento.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+textos_dtm &lt;- textos_df %&gt;% 
+  filter(word %in% palavras_frequentes) %&gt;% 
+  group_by(id_capitulo, word) %&gt;% 
+  summarise(n = n()) %&gt;% 
+  cast_dtm(document = id_capitulo, term = word, value = n)</code></pre>
+</div>
+<p>A função abaixo estima o modelo. Além dos dados, definimos arbitrariamente o número de tópicos em 16 e fixamos a <em>seed</em> para possibilitar a reprodutibilidade dos resultados.</p>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+acordos_lda &lt;- LDA(textos_dtm, k = 16, control = list(seed = 9876))</code></pre>
+</div>
+<p>Com o modelo estimado, pode-se extrair o <span class="math inline">\(\beta\)</span>, que é a probabilidade estimada de cada termo dentro de um determinado tópico.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+termos_acordos &lt;- tidy(acordos_lda, type = &quot;beta&quot;)</code></pre>
+</div>
+<p>Dessa forma, podemos extrair os termos com as maiores probabilidades dentro de cada tópico. Assim, é possível checar se essas palavras indicam sobre qual assunto cada tópico está relacionado. Para quem trabalha no dia a dia com acordos comerciais, deve ser fácil indicar os tópicos. Mesmo não sendo especialista, é possível facilmente identificar que, por exemplo, o tópico 1 refere-se a compras públicas. Já o tópico 7 indica que seja algo relacionado ao tema de propriedade intelectual.</p>
+<div class="layout-chunk" data-layout="l-page">
+<pre class="r"><code>
+#https://stackoverflow.com/questions/28436855/change-the-number-of-breaks-using-facet-grid-in-ggplot2
+equal_breaks &lt;- function(n = 3, s = 0.05, ...){
+  function(x){
+    # rescaling
+    d &lt;- s * diff(range(x)) / (1+2*s)
+    seq(min(x)+d, max(x)-d, length=n)
+  }
+}
+
+termos_acordos %&gt;% 
+  group_by(topic) %&gt;% 
+  top_n(10, beta) %&gt;% 
+  ungroup() %&gt;%
+  arrange(topic, -beta) %&gt;% 
+  mutate(
+    term = reorder_within(term, beta, topic),
+    topic = paste0(&quot;Tópico: &quot;, topic),
+    topic = factor(topic, levels = paste0(&quot;Tópico: &quot;, 1:16))
+  ) %&gt;%
+  ggplot(aes(y = term, x = beta, color = topic)) +
+  geom_point(size = 2, show.legend = FALSE) +
+  geom_segment(
+    mapping = aes(yend = term),
+    xend = 0,
+    linetype = &quot;dotted&quot;,
+    show.legend = FALSE
+  ) +
+  facet_wrap(~ topic, scales = &quot;free&quot;) +
+  scale_y_reordered() +
+  scale_x_continuous(
+    breaks = equal_breaks(n = 3, s = 0.01),
+    labels = scales::number_format(big.mark = &quot;.&quot;, decimal.mark = &quot;,&quot;, accuracy = 0.01)
+  ) +
+  labs(
+    title = &quot;Principais termos de cada tópico extraído dos textos dos\nacordos comerciais&quot;,
+    subtitle = &quot;O beta é a probabilidade estimada de um determinado termo ter sido gerado em cada tópico específico.&quot;,
+    y = &quot;Termo&quot;
+  ) +
+  theme(
+    panel.grid.major.y = element_blank(),
+    panel.grid.minor.x = element_blank()
+  ) +
+  theme_ipsum(
+    axis_text_size = 8
+  )</code></pre>
+<p><img src="modelagem-de-tpicos-com-o-r-analisando-os-textos-de-acordos-comerciais_files/figure-html5/unnamed-chunk-16-1.png" width="768" /></p>
+</div>
+<p>Também é possível extrair a proporção de cada tópico em cada documento. No nosso caso, um documento refere-se a um capítulo de um acordo. Essa base tem a grande vantagem que a maioria dos capítulos já estão rotulados. A única dificuldade é que existem mais de 900 rótulos diferentes. Muitas vezes, trata-se do mesmo tema, mas com uma escrita diferente. De toda forma, podemos verificar para quais rótulos os nossos tópicos estão associados.</p>
+<p>Primeiro vamos extrair a proporção de cada tópico em cada documento:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+capitulo_topico &lt;- tidy(acordos_lda, matrix = &quot;gamma&quot;)</code></pre>
+</div>
+<p>Agora, vamos combinar o objeto <code>capitulo_topico</code> com o data.frame de acordos (<code>pta_df</code>), selecionando as colunas <code>pta_nome</code>, <code>id_capitulo</code>, <code>ano</code> e <code>name</code>.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+capitulo_topico &lt;- capitulo_topico %&gt;% 
+  left_join(
+    pta_df %&gt;% 
+      select(pta_nome, id_capitulo, ano, name),
+    by = c(&quot;document&quot; = &quot;id_capitulo&quot;)
+  )</code></pre>
+</div>
+<p>Por fim, iremos remover os capítulos que não estão rotulados e vamos extrair o documento que tem a maior proporção de cada tópico. Depois mostramos cada tópico e o rótulo que consta na base de dados dos textos de acordos. O resultado está bem alinhado com o esperaríamos olhando o gráfico anterior. Por exemplo, o tópico 10 claramente refere-se ao tópico de “Defesa Comercial”. Na base, o capítulo que tem a maior proporção deste tópico está rotulado como “Safeguard Measures”.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+capitulo_topico %&gt;% 
+  filter(!is.na(name)) %&gt;% 
+  group_by(topic) %&gt;% 
+  filter(gamma == max(gamma)) %&gt;% 
+  select(topic, name)</code></pre>
+<pre><code>
+# A tibble: 16 x 2
+# Groups:   topic [16]
+   topic name                                             
+   &lt;int&gt; &lt;chr&gt;                                            
+ 1     1 Government Procurement                           
+ 2     2 Financial Services                               
+ 3     3 National Treatment And Market Access For Goods   
+ 4     4 Rules Of Origin                                  
+ 5     5 Customs Procedures                               
+ 6     6 Investment                                       
+ 7     7 Intellectual Property Rights                     
+ 8     8 Institutional And Final Provisions               
+ 9     9 Technical Barriers To Trade                      
+10    10 Safeguard Measures                               
+11    11 General Provisions                               
+12    12 Industrial Products                              
+13    13 Preamble                                         
+14    14 The Common Market For Eastern And Southern Africa
+15    15 Telecommunications Services                      
+16    16 Dispute Settlement                               </code></pre>
+</div>
+<p>Para finalizar a nossa análise, vamos verificar a dinâmica da frequência de acordos que incluíram ou não um capítulo sobre Propriedade Intelectual. Para isso, vamos considerar que um acordo possui um capítulo sobre Propriedade Intelectual se existe algum capítulo com uma proporção desse tópico superior a 50%. Verificamos que esse tema ficou mais relevante após 2005, período que se verifica uma maior frequência de acordos que abrangem esse tema.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+capitulo_topico %&gt;% 
+  mutate(ip = topic == 7 &amp; gamma &gt; .5) %&gt;% 
+  group_by(pta_nome, ano) %&gt;% 
+  summarise(ip = max(ip)) %&gt;% 
+  ungroup() %&gt;% 
+  count(ano, ip) %&gt;% 
+  mutate(ip = ifelse(ip == 1, &quot;Sim&quot;, &quot;Não&quot;),
+         ip = factor(ip, levels = c(&quot;Sim&quot;, &quot;Não&quot;))) %&gt;% 
+  ggplot(aes(x = ano, y = n, fill = ip)) +
+  geom_col() +
+  scale_fill_manual(values = c(&quot;#e55039&quot;, &quot;#b2bec3&quot;)) +
+  scale_x_continuous(breaks = seq(1950, 2020, 10)) +
+  labs(
+    title = &quot;Evolução de acordos comerciais identificados com ou
+sem tópicos sobre propriedade intelectual&quot;,
+    x = &quot;Ano&quot;,
+    y = &quot;Frequência&quot;,
+    fill = &quot;Acordo com Tópico\nde Propriedade Intelectual?&quot;
+  )</code></pre>
+<p><img src="modelagem-de-tpicos-com-o-r-analisando-os-textos-de-acordos-comerciais_files/figure-html5/unnamed-chunk-20-1.png" width="624" data-distill-preview=1 /></p>
+</div>
+<h2 id="consideracoes-finais">Considerações Finais</h2>
+<p>Neste post, trabalhamos com dados textuais no R e mostramos como é possível estimar um modelo de tópicos. Usamos uma base de dados de textos de acordos comerciais, mas a aplicação pode ser facilmente transferida para outros contextos.</p>
+<p>Existem diversas outras aplicações relacionadas a Processamento de Linguagem Natural que poderão ser apresentadas em outros posts. Hoje, ficamos por aqui!</p>
+<!--radix_placeholder_article_footer-->
+<div class="article-footer">
+  <p class="social_footer">
+    <span class="disqus-comments">
+      <i class="fas fa-comments"></i>
+      &nbsp;
+      <span class="disqus-comment-count" data-disqus-identifier="posts/2019-09-19-modelagem-de-tpicos-com-o-r-analisando-os-textos-de-acordos-comerciais/">Comment on this article</span>
+    </span>
+    <span class="article-sharing">
+      Share: &nbsp;
+      <a href="https://twitter.com/share?text=Tidytext%20e%20Modelagem%20de%20T%C3%B3picos%20com%20o%20R%3A%20Analisando%20os%20Textos%20de%20Acordos%20Comerciais&amp;url=https%3A%2F%2Fwww.fulljoin.com.br%2Fposts%2F2019-09-19-modelagem-de-tpicos-com-o-r-analisando-os-textos-de-acordos-comerciais%2F">
+        <i class="fab fa-twitter"></i>
+      </a>
+      <a href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https%3A%2F%2Fwww.fulljoin.com.br%2Fposts%2F2019-09-19-modelagem-de-tpicos-com-o-r-analisando-os-textos-de-acordos-comerciais%2F&amp;title=Tidytext%20e%20Modelagem%20de%20T%C3%B3picos%20com%20o%20R%3A%20Analisando%20os%20Textos%20de%20Acordos%20Comerciais">
+        <i class="fab fa-linkedin"></i>
+      </a>
+      <a href="https://www.facebook.com/sharer/sharer.php?s=100&amp;p[url]=https%3A%2F%2Fwww.fulljoin.com.br%2Fposts%2F2019-09-19-modelagem-de-tpicos-com-o-r-analisando-os-textos-de-acordos-comerciais%2F">
+        <i class="fab fa-facebook"></i>
+      </a>
+    </span>
+  </p>
+  <script id="dsq-count-scr" src="https://fulljoin.disqus.com/count.js" async></script>
+  <div id="disqus_thread" class="hidden"></div>
+  <script>
+var disqus_config = function () {
+  this.page.url = 'https://www.fulljoin.com.br/posts/2019-09-19-modelagem-de-tpicos-com-o-r-analisando-os-textos-de-acordos-comerciais/';
+  this.page.identifier = 'posts/2019-09-19-modelagem-de-tpicos-com-o-r-analisando-os-textos-de-acordos-comerciais/';
+};
+(function() {
+  var d = document, s = d.createElement('script');
+  s.src = 'https://fulljoin.disqus.com/embed.js';
+  s.setAttribute('data-timestamp', +new Date());
+  (d.head || d.body).appendChild(s);
+})();
+</script>
+</div>
+<!--/radix_placeholder_article_footer-->
+</div>
+
+<div class="d-appendix">
+</div>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+<!--radix_placeholder_site_after_body-->
+<!--/radix_placeholder_site_after_body-->
+<!--radix_placeholder_appendices-->
+<div class="appendix-bottom">
+  <h3 id="citation">Citation</h3>
+  <p>For attribution, please cite this work as</p>
+  <pre class="citation-appendix short">Alencar (2019, Oct. 17). Fulljoin: Tidytext e Modelagem de Tópicos com o R: Analisando os Textos de Acordos Comerciais. Retrieved from https://www.fulljoin.com.br/posts/2019-09-19-modelagem-de-tpicos-com-o-r-analisando-os-textos-de-acordos-comerciais/</pre>
+  <p>BibTeX citation</p>
+  <pre class="citation-appendix long">@misc{alencar2019tidytext,
+  author = {Alencar, Paulo Felipe},
+  title = {Fulljoin: Tidytext e Modelagem de Tópicos com o R: Analisando os Textos de Acordos Comerciais},
+  url = {https://www.fulljoin.com.br/posts/2019-09-19-modelagem-de-tpicos-com-o-r-analisando-os-textos-de-acordos-comerciais/},
+  year = {2019}
+}</pre>
+</div>
+<!--/radix_placeholder_appendices-->
+<!--radix_placeholder_navigation_after_body-->
+<div class="distill-site-nav distill-site-footer">
+  <p>Gostou do blog? <u><a href="https://www.buymeacoffee.com/LYcEmgQ">Pague-nos um cafezinho!</a></u></p>
+</div>
+<!--/radix_placeholder_navigation_after_body-->
+
+
+</body>
+
+</html>
