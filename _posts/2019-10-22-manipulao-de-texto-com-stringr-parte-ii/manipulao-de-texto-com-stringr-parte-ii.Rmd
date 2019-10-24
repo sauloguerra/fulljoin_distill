@@ -3,11 +3,10 @@ title: "Manipulação de texto com stringr - parte II"
 description: |
   Este post continua a explorar funções úteis na manipulação de texto. Mais especificamente, iremos aprender a passar todas as letras de dados textuais para caixa baixa ou caixa alta. Também aprenderemos a capitalizar a primeira letra de cada palavra. Ademais, iremos ver algumas noções básicas de regex associadas ao uso da função str_detect.
 author: Miguel Cleaver
-date: 10-22-2019
+date: 10-23-2019
 output:
   distill::distill_article:
     self_contained: false
-draft: true
 categories:
   - Manipulação de texto
   - stringr
@@ -30,7 +29,6 @@ A seguir carregamos os pacotes que iremos precisar:
 ```{r}
 library(dplyr)
 library(stringr)
-library(tidyr)
 library(data.table)
 ```
 
@@ -42,12 +40,13 @@ paises <- fread(
                 encoding = "UTF-8"
 )
 
-head(paises)
+head(paises) %>% 
+  rmarkdown::paged_table(.)
 ```
 
 ### Problema n. 1: Como transformar todos os caracteres de um vetor de textos em letras minúsculas?
 
-O objeto `paises` possui três colunas cujos elementos apresentam pelo menos uma letras maiúscula.  Se quiséssemos que todos os caracteres tivessem letras minúsculas poderíamos usar a função `str_to_lower`. No primeiro argumento da função passamos o vetor de textos cujas letras queremos que sejam todas minúsculas. Vejamos os 10 primeiros elementos da coluna "ISOA" do objeto `paises`:
+O objeto `paises` possui três colunas cujos elementos apresentam pelo menos uma letra maiúscula.  Se quiséssemos que todos os caracteres tivessem letras minúsculas poderíamos usar a função `str_to_lower`. No primeiro argumento da função devemos passar o vetor que queremos modificar as letras para minúsculas. Vejamos os 10 primeiros elementos da coluna "ISOA" do objeto `paises`:
 
 ```{r}
 paises %>% 
@@ -64,7 +63,7 @@ paises %>%
   str_to_lower()
 ```
 
-Agora modifiquemos as três colunas do objeto `paises` para que seus elementos apenas apresentem letras minúsculas. Compare com a primeira tabela que apresentamos no início deste post.
+Depois disso, modifiquemos as três colunas do objeto `paises` para que seus elementos apresentem apenas letras minúsculas. Compare com a primeira tabela que apresentamos no início deste post.
 
 ```{r}
 # a funcao mutate_all aplica a funcao str_to_lower nas tres colunas
@@ -72,7 +71,8 @@ Agora modifiquemos as três colunas do objeto `paises` para que seus elementos a
 paises <- paises %>% 
   mutate_all(.funs = str_to_lower) 
 
-head(paises)
+head(paises) %>% 
+  rmarkdown::paged_table(.)
 ```
 
 ### Problema n. 2: Como podemos capitalizar a primeira letra de cada palavra?
@@ -83,10 +83,11 @@ Para resolver o problema proposto, podemos usar a função `str_to_title`. Vejam
 paises <- paises %>% 
   mutate(pais_ing = str_to_title(pais_ing))
 
-head(paises)
+head(paises) %>% 
+  rmarkdown::paged_table(.)
 ```
 
-Pode-se notar que a coluna "pais_ing" voltou a apresentar palavras cuja primeira letra foi capitalizada. Compare a coluna "pais_ing" do resultado de `head(paises)` do problema n. 1 com o resultado de `head(paises)` do problema n. 2.
+Pode-se notar que a coluna "pais_ing" voltou a apresentar palavras com a primeira letra em caixa alta. Compare a coluna "pais_ing" do resultado de `head(paises)` do problema n. 1 com o resultado de `head(paises)` do problema n. 2.
 
 ### Problema n. 3: Como podemos passar todas as letras para caixa alta?
 
@@ -96,7 +97,8 @@ A função que resolve esse problema se chama `str_to_upper`. Para este exercíc
 paises <- paises %>% 
   mutate(ISOA = str_to_upper(ISOA))
 
-head(paises)
+head(paises) %>% 
+  rmarkdown::paged_table(.)
 ```
 
 
@@ -104,10 +106,11 @@ head(paises)
 
 Como visto na primeira parte do final do [primeiro post](https://www.fulljoin.com.br/posts/2019-10-13-manipulao-de-texto-com-stringr/), para detectar alguns padrões de texto basta usar a função `filter` em conjunto com a função `str_detect`. No primeiro argumento da função `str_detect` inserimos o nome da coluna na qual desejamos encontrar um padrão textual. Por sua vez, no segundo argumento, inserimos o padrão que queremos encontrar. Para fins didáticos e como queremos encontrar os países que começam com a letra "c" neste problema, vamos tentar o seguinte na coluna "pais_port":
 
-```{r}
+```{r layout = "l-body-outset"}
 paises %>% 
   filter(str_detect(pais_port, "c")) %>% 
-  head(15)
+  head(15) %>% 
+  rmarkdown::paged_table(.)
 ```
 
 Ao observar os resultados acima, verificamos que somente alguns países começam com a letra "c". Mas, o que poderia estar acontecendo? Se prestarmos atenção, o nosso filtro trouxe todos os países que possuem a letra "c" em seu nome, mas não necessariamente os países que começam com a letra "c".
@@ -116,7 +119,8 @@ Para resolver nosso problema podemos digitar "^c" em vez de "c" no segundo argum
 
 ```{r}
 paises %>% 
-  filter(str_detect(pais_port, "^c"))
+  filter(str_detect(pais_port, "^c")) %>% 
+  rmarkdown::paged_table(.)
 ```
 
 Agora podemos notar que filtramos todos os países que começam pela letra "c" na coluna "pais_port". Como exercício adicional, vejamos o que acontece quando em vez de "^c" inserimos "^C":
@@ -130,7 +134,8 @@ Dessa vez, o nosso filtro não localizou nenhum país que começasse com a letra
 
 ```{r}
 paises %>% 
-  filter(str_detect(pais_port, "^C|^c"))
+  filter(str_detect(pais_port, "^C|^c")) %>% 
+  rmarkdown::paged_table(.)
 ```
 
 O que fizemos foi inserir o operador "|" (ou) no padrão regex. Assim, o padrão bate com tudo que começa com a letra "c" ou com tudo que começa com a letra "C". Para esse caso, é relativamente fácil resolver o problema dessa forma, mas existe um jeito mais interessante para ignorar a caixa das letras. Trata-se da função `regex`. No primeiro argumento inserimos o padrão que queremos localizar e no argumento chamado de `ignore_case` igualamos a `TRUE` para ignorar a caixa das letras. Vejamos:
@@ -150,7 +155,8 @@ A resposta tem a mesma lógica do problema n. 4. Já sabemos que não basta inse
 
 ```{r}
 paises %>% 
-  filter(str_detect(pais_port, "e$"))
+  filter(str_detect(pais_port, "e$")) %>% 
+  rmarkdown::paged_table(.)
 ```
 
 Você consegue identificar se existe algum país que termina com a letra "h"? E será que também consegue identificar todos os países que começam e terminam com a letra "a"? 
