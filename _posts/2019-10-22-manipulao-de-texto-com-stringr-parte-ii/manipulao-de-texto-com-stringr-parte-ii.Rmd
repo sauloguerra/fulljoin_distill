@@ -1,0 +1,164 @@
+---
+title: "Manipulação de texto com stringr - parte II"
+description: |
+  Este post continua a explorar funções úteis na manipulação de texto. Mais especificamente, iremos aprender a passar todas as letras de dados textuais para caixa baixa ou caixa alta. Também aprenderemos a capitalizar a primeira letra de cada palavra. Ademais, iremos ver algumas noções básicas de regex associadas ao uso da função str_detect.
+author: Miguel Cleaver
+date: 10-23-2019
+output:
+  distill::distill_article:
+    self_contained: false
+categories:
+  - Manipulação de texto
+  - stringr
+preview: ../../images/logo_stringr.png
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+<!-- More -->
+
+[No post anterior](https://www.fulljoin.com.br/posts/2019-10-13-manipulao-de-texto-com-stringr/) sobre manipulação de texto, exploramos três funções do pacote `stringr`: `str_pad`, `str_sub` e `str_detect`. Neste post, continuaremos utilizando o `str_detect`, mas, dessa vez, envolveremos noções de **regex**. Além dessa função, também veremos outras funções úteis para a manipulação de texto. Da mesma forma que no post anterior, também iremos criar problemas e resolvê-los. 
+
+### Configuração de pacotes e carregamento dos dados
+
+A seguir carregamos os pacotes que iremos precisar:
+
+```{r}
+library(dplyr)
+library(stringr)
+library(rmarkdown)
+```
+
+Em seguida baixamos os dados que iremos utilizar e os escrevemos no objeto `paises`. Este objeto possui três colunas: ISOA, pais_ing, pais_port. A coluna "ISOA" traz o código ISO dos países; a coluna "pais_ing" traz o nome do país em inglês; e, a coluna "pais_port" traz o nome do país em português.
+
+```{r}
+paises <- data.table::fread(
+  "https://raw.githubusercontent.com/mgcleaver/correlacoes/master/paises_isoa.txt",
+                encoding = "UTF-8"
+)
+
+head(paises) %>% 
+  paged_table(.)
+```
+
+### Problema n. 1: Como transformar todos os caracteres de um vetor de textos em letras minúsculas?
+
+O objeto `paises` possui três colunas cujos elementos apresentam pelo menos uma letra maiúscula.  Se quiséssemos que todos os caracteres tivessem letras minúsculas poderíamos usar a função `str_to_lower`. No primeiro argumento da função devemos passar o vetor que queremos modificar as letras para minúsculas. Vejamos os 10 primeiros elementos da coluna "ISOA" do objeto `paises`:
+
+```{r}
+paises %>% 
+  pull(ISOA) %>% 
+  .[1:10]
+```
+
+As letras dos elementos textuais acima são todas maiúsculas. Agora utilizemos a função `str_to_lower` para ver como todas as letras passam a ser minúsculas:
+
+```{r}
+paises %>% 
+  pull(ISOA) %>% 
+  .[1:10] %>% 
+  str_to_lower()
+```
+
+Depois disso, modifiquemos as três colunas do objeto `paises` para que seus elementos apresentem apenas letras minúsculas. Compare com a primeira tabela que apresentamos no início deste post.
+
+```{r}
+# a funcao mutate_all aplica a funcao str_to_lower nas tres colunas
+# do objeto paises
+paises <- paises %>% 
+  mutate_all(.funs = str_to_lower) 
+
+head(paises) %>% 
+  paged_table(.)
+```
+
+### Problema n. 2: Como podemos capitalizar a primeira letra de cada palavra?
+
+Para resolver o problema proposto, podemos usar a função `str_to_title`. Vejamos como a função funciona:
+
+```{r}
+paises <- paises %>% 
+  mutate(pais_ing = str_to_title(pais_ing))
+
+head(paises) %>% 
+  paged_table(.)
+```
+
+Pode-se notar que a coluna "pais_ing" voltou a apresentar palavras com a primeira letra em caixa alta. Compare a coluna "pais_ing" do resultado de `head(paises)` do problema n. 1 com o resultado de `head(paises)` do problema n. 2.
+
+### Problema n. 3: Como podemos passar todas as letras para caixa alta?
+
+A função que resolve esse problema se chama `str_to_upper`. Para este exercício vamos fazer com que a coluna "ISOA" volte para seu estado original, isto é, vamos passar todas as letras para caixa alta. Vejamos:
+
+```{r}
+paises <- paises %>% 
+  mutate(ISOA = str_to_upper(ISOA))
+
+head(paises) %>% 
+  paged_table(.)
+```
+
+
+### Problema n. 4: Como posso filtrar todos os países que começam com a letra "c"?
+
+Como visto na primeira parte do final do [primeiro post](https://www.fulljoin.com.br/posts/2019-10-13-manipulao-de-texto-com-stringr/), para detectar alguns padrões de texto basta usar a função `filter` em conjunto com a função `str_detect`. No primeiro argumento da função `str_detect` inserimos o nome da coluna na qual desejamos encontrar um padrão textual. Por sua vez, no segundo argumento, inserimos o padrão que queremos encontrar. Para fins didáticos e como queremos encontrar os países que começam com a letra "c" neste problema, vamos tentar o seguinte na coluna "pais_port":
+
+```{r layout = "l-body-outset"}
+paises %>% 
+  filter(str_detect(pais_port, "c")) %>% 
+  head(15) %>% 
+  paged_table()
+```
+
+Ao observar os resultados acima, verificamos que somente alguns países começam com a letra "c". Mas, o que poderia estar acontecendo? Se prestarmos atenção, o nosso filtro trouxe todos os países que possuem a letra "c" em seu nome, mas não necessariamente os países que começam com a letra "c".
+
+Para resolver nosso problema podemos digitar "^c" em vez de "c" no segundo argumento da função `str_detect`. Em **regex**, o "^" seguido da letra "c", indica que desejamos detectar um padrão de texto que começa com a letra "c". 
+
+```{r}
+paises %>% 
+  filter(str_detect(pais_port, "^c")) %>% 
+  paged_table()
+```
+
+Agora podemos notar que filtramos todos os países que começam pela letra "c" na coluna "pais_port". Como exercício adicional, vejamos o que acontece quando em vez de "^c" inserimos "^C":
+
+```{r}
+paises %>% 
+  filter(str_detect(pais_port, "^C"))
+```
+
+Dessa vez, o nosso filtro não localizou nenhum país que começasse com a letra "C". Por construção, sabemos que a coluna "pais_port" somente apresenta nomes de países cujas letras são todas minúsculas. Acontece que o padrão textual baseado em regex é sensível a caixa alta ou caixa baixa. Por isso, se não estamos interessados na caixa das letras, podemos resolver o problema da seguinte forma: 
+
+```{r}
+paises %>% 
+  filter(str_detect(pais_port, "^C|^c")) %>% 
+  paged_table()
+```
+
+O que fizemos foi inserir o operador "|" (ou) no padrão regex. Assim, o padrão bate com tudo que começa com a letra "c" ou com tudo que começa com a letra "C". Para esse caso, é relativamente fácil resolver o problema dessa forma, mas existe um jeito mais interessante para ignorar a caixa das letras. Trata-se da função `regex`. No primeiro argumento inserimos o padrão que queremos localizar e no argumento chamado de `ignore_case` igualamos a `TRUE` para ignorar a caixa das letras. Vejamos:
+
+```{r}
+padrao_isoa <- regex("can", ignore_case = TRUE)
+paises %>% 
+  filter(str_detect(ISOA, padrao_isoa))
+
+```
+
+Acima observamos que mesmo tendo inserido o padrão "can" (tudo minúsculo) foi possível encontrar a mesma sequência de letras, ainda que elas fossem todas maiúsculas. Perceba que se `ignore_case = FALSE`, o padrão "can" não detectaria o padrão textual "CAN" na coluna "ISOA".
+
+### Problema n. 5: Como posso filtrar todos os países que terminam com a letra "e"?
+
+A resposta tem a mesma lógica do problema n. 4. Já sabemos que não basta inserir "e" no padrão que desejamos detectar. Precisamos de um elemento regex que indique que o padrão termina com a letra "e". Esse elemento é o $ (cifrão). Vejamos como fazer o filtro:
+
+```{r}
+paises %>% 
+  filter(str_detect(pais_port, "e$")) %>% 
+  paged_table()
+```
+
+Você consegue identificar se existe algum país que termina com a letra "h"? E será que também consegue identificar todos os países que **começam e terminam** com a letra "a"? 
+
+É importante que você pegue a lógica de como se trabalha com a função `str_detect`, uma vez que ela é essencial na exploração e investigação de dados textuais.
+
+Por hoje é isso. No próximo post continuaremos a explorar funções do pacote `stringr` e alguns outros detalhes importantes do regex. Até breve!

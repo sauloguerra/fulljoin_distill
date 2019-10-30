@@ -1387,22 +1387,6 @@ set.seed(12345)
 numeros &lt;- sample(1:99999, 200) %&gt;% 
   as.character()
 
-# definimos um conjunto de letras e pontuações.
-letras &lt;- c(letters, &quot;.&quot;, &quot;,&quot;, &quot;;&quot;, &quot; &quot;)
-
-# criamos uma função para gerar um texto de caracteres aleatórios
-# com no minimo 10 carateres e no maximo 50 caracteres
-texto_aleatorio &lt;- function() {
-  i &lt;- sample(10:50, 1)
-  texto &lt;- sample(letras, i, replace = TRUE)
-  paste0(texto, collapse = &quot;&quot;)
-}
-
-dado_textual &lt;- vector(mode = &quot;character&quot;, length = 200)
-for(i in 1:length(dado_textual)) {
-  dado_textual[i] &lt;- texto_aleatorio()
-}
-
 ## baixamos uma correlacao de nomes de paises em ingles,
 ## portugues e com os respectivos codigos ISOA3
 
@@ -1420,8 +1404,7 @@ paises &lt;- paises %&gt;%
 paises &lt;- sample(paises, 200, replace = TRUE)
 
 df &lt;- tibble(codigos = numeros,
-             pais = paises,
-             descricao = dado_textual)</code></pre>
+             pais = paises)</code></pre>
 </div>
 <h3 id="problema-n.-1-como-adicionar-caracteres-para-que-as-observações-de-uma-coluna-tenham-sempre-o-mesmo-tamanho">Problema n. 1: Como adicionar caracteres para que as observações de uma coluna tenham sempre o mesmo tamanho?</h3>
 <p>Suponhamos que você precisa padronizar a primeira coluna de forma que ela tenha sempre seis dígitos. Assim, para uma observação com o número “10”, a qual tem dois dígitos, precisaríamos adicionar mais quatro dígitos para que a observação tenha no total seis dígitos.</p>
@@ -1566,11 +1549,10 @@ df_temp %&gt;%
 <pre class="r"><code>
 paises[1:10]</code></pre>
 <pre><code>
- [1] &quot;Nigéria-NGA&quot;              &quot;Svalbard e Jan Mayen-SJM&quot;
- [3] &quot;Tailândia-THA&quot;            &quot;Macau-MAC&quot;               
- [5] &quot;Macau-MAC&quot;                &quot;Uruguai-URY&quot;             
- [7] &quot;Anguila-AIA&quot;              &quot;Uruguai-URY&quot;             
- [9] &quot;Macau-MAC&quot;                &quot;Islândia-ISL&quot;            </code></pre>
+ [1] &quot;Israel-ISR&quot;       &quot;Tonga-TON&quot;        &quot;Ilha Norfolk-NFK&quot;
+ [4] &quot;Ilha Norfolk-NFK&quot; &quot;Dinamarca-DNK&quot;    &quot;Camboja-KHM&quot;     
+ [7] &quot;Ilha Bouvet-BVT&quot;  &quot;Gana-GHA&quot;         &quot;Letônia-LVA&quot;     
+[10] &quot;Ilha Bouvet-BVT&quot; </code></pre>
 </div>
 <p>Como podemos extrair os últimos três caracteres do objeto <code>paises</code>? A função que vai nos ajudar com essa tarefa se chama <code>str_sub</code>. No primeiro argumento da função devemos inserir o objeto que desejamos manipular. No nosso caso, inserimos o objeto <code>paises</code>. No segundo e no terceiro argumento devemos inserir a posição incial e a final dos caracteres que desejamos extrair. Por exemplo, para extrair os três primeiros caracteres e os três ultimos caracteres de <code>paises</code>, podemos fazer, respectivamente, o seguinte:</p>
 <div class="layout-chunk" data-layout="l-body">
@@ -1578,52 +1560,52 @@ paises[1:10]</code></pre>
 # tres primeiros caracteres
 str_sub(paises, 1, 3)</code></pre>
 <pre><code>
-  [1] &quot;Nig&quot; &quot;Sva&quot; &quot;Tai&quot; &quot;Mac&quot; &quot;Mac&quot; &quot;Uru&quot; &quot;Ang&quot; &quot;Uru&quot; &quot;Mac&quot; &quot;Isl&quot;
- [11] &quot;Kuw&quot; &quot;Mac&quot; &quot;Isl&quot; &quot;Uru&quot; &quot;Ang&quot; &quot;Kuw&quot; &quot;Nig&quot; &quot;Uru&quot; &quot;Est&quot; &quot;Nig&quot;
- [21] &quot;Isl&quot; &quot;Est&quot; &quot;Est&quot; &quot;Ang&quot; &quot;Kuw&quot; &quot;Uru&quot; &quot;Kuw&quot; &quot;Isl&quot; &quot;Mac&quot; &quot;Uru&quot;
- [31] &quot;Mac&quot; &quot;Uru&quot; &quot;Isl&quot; &quot;Sva&quot; &quot;Uru&quot; &quot;Uru&quot; &quot;Nig&quot; &quot;Isl&quot; &quot;Tai&quot; &quot;Uru&quot;
- [41] &quot;Est&quot; &quot;Est&quot; &quot;Kuw&quot; &quot;Ang&quot; &quot;Isl&quot; &quot;Tai&quot; &quot;Kuw&quot; &quot;Nig&quot; &quot;Ang&quot; &quot;Est&quot;
- [51] &quot;Tai&quot; &quot;Nig&quot; &quot;Est&quot; &quot;Mac&quot; &quot;Ang&quot; &quot;Tai&quot; &quot;Tai&quot; &quot;Est&quot; &quot;Kuw&quot; &quot;Mac&quot;
- [61] &quot;Sva&quot; &quot;Sva&quot; &quot;Sva&quot; &quot;Isl&quot; &quot;Tai&quot; &quot;Mac&quot; &quot;Tai&quot; &quot;Est&quot; &quot;Isl&quot; &quot;Uru&quot;
- [71] &quot;Sva&quot; &quot;Uru&quot; &quot;Mac&quot; &quot;Nig&quot; &quot;Mac&quot; &quot;Ang&quot; &quot;Sva&quot; &quot;Uru&quot; &quot;Kuw&quot; &quot;Tai&quot;
- [81] &quot;Isl&quot; &quot;Ang&quot; &quot;Tai&quot; &quot;Sva&quot; &quot;Tai&quot; &quot;Est&quot; &quot;Ang&quot; &quot;Est&quot; &quot;Mac&quot; &quot;Est&quot;
- [91] &quot;Uru&quot; &quot;Isl&quot; &quot;Est&quot; &quot;Ang&quot; &quot;Sva&quot; &quot;Tai&quot; &quot;Isl&quot; &quot;Tai&quot; &quot;Kuw&quot; &quot;Kuw&quot;
-[101] &quot;Mac&quot; &quot;Sva&quot; &quot;Ang&quot; &quot;Uru&quot; &quot;Ang&quot; &quot;Isl&quot; &quot;Est&quot; &quot;Est&quot; &quot;Tai&quot; &quot;Kuw&quot;
-[111] &quot;Nig&quot; &quot;Sva&quot; &quot;Mac&quot; &quot;Sva&quot; &quot;Nig&quot; &quot;Uru&quot; &quot;Est&quot; &quot;Ang&quot; &quot;Mac&quot; &quot;Ang&quot;
-[121] &quot;Tai&quot; &quot;Tai&quot; &quot;Ang&quot; &quot;Tai&quot; &quot;Nig&quot; &quot;Ang&quot; &quot;Est&quot; &quot;Nig&quot; &quot;Uru&quot; &quot;Est&quot;
-[131] &quot;Est&quot; &quot;Uru&quot; &quot;Est&quot; &quot;Kuw&quot; &quot;Est&quot; &quot;Nig&quot; &quot;Est&quot; &quot;Ang&quot; &quot;Est&quot; &quot;Kuw&quot;
-[141] &quot;Mac&quot; &quot;Kuw&quot; &quot;Sva&quot; &quot;Est&quot; &quot;Est&quot; &quot;Tai&quot; &quot;Tai&quot; &quot;Nig&quot; &quot;Est&quot; &quot;Kuw&quot;
-[151] &quot;Mac&quot; &quot;Est&quot; &quot;Est&quot; &quot;Uru&quot; &quot;Kuw&quot; &quot;Mac&quot; &quot;Mac&quot; &quot;Sva&quot; &quot;Est&quot; &quot;Sva&quot;
-[161] &quot;Isl&quot; &quot;Tai&quot; &quot;Nig&quot; &quot;Nig&quot; &quot;Ang&quot; &quot;Isl&quot; &quot;Isl&quot; &quot;Tai&quot; &quot;Est&quot; &quot;Ang&quot;
-[171] &quot;Nig&quot; &quot;Tai&quot; &quot;Mac&quot; &quot;Mac&quot; &quot;Uru&quot; &quot;Mac&quot; &quot;Est&quot; &quot;Ang&quot; &quot;Tai&quot; &quot;Est&quot;
-[181] &quot;Isl&quot; &quot;Isl&quot; &quot;Tai&quot; &quot;Tai&quot; &quot;Ang&quot; &quot;Uru&quot; &quot;Est&quot; &quot;Ang&quot; &quot;Nig&quot; &quot;Sva&quot;
-[191] &quot;Kuw&quot; &quot;Isl&quot; &quot;Est&quot; &quot;Nig&quot; &quot;Est&quot; &quot;Uru&quot; &quot;Est&quot; &quot;Sva&quot; &quot;Isl&quot; &quot;Nig&quot;</code></pre>
+  [1] &quot;Isr&quot; &quot;Ton&quot; &quot;Ilh&quot; &quot;Ilh&quot; &quot;Din&quot; &quot;Cam&quot; &quot;Ilh&quot; &quot;Gan&quot; &quot;Let&quot; &quot;Ilh&quot;
+ [11] &quot;Cam&quot; &quot;Ilh&quot; &quot;Ilh&quot; &quot;Gan&quot; &quot;Isr&quot; &quot;Let&quot; &quot;Let&quot; &quot;Ton&quot; &quot;Ira&quot; &quot;Let&quot;
+ [21] &quot;Ira&quot; &quot;San&quot; &quot;Din&quot; &quot;Gan&quot; &quot;Ton&quot; &quot;Din&quot; &quot;Ton&quot; &quot;San&quot; &quot;Ira&quot; &quot;Isr&quot;
+ [31] &quot;Cam&quot; &quot;Ilh&quot; &quot;Ton&quot; &quot;Let&quot; &quot;Din&quot; &quot;Gan&quot; &quot;Gan&quot; &quot;San&quot; &quot;Din&quot; &quot;Cam&quot;
+ [41] &quot;Ilh&quot; &quot;Ilh&quot; &quot;Ilh&quot; &quot;Let&quot; &quot;Isr&quot; &quot;Ton&quot; &quot;Din&quot; &quot;Ilh&quot; &quot;Cam&quot; &quot;Isr&quot;
+ [51] &quot;San&quot; &quot;Gan&quot; &quot;Ilh&quot; &quot;San&quot; &quot;Din&quot; &quot;Gan&quot; &quot;Ira&quot; &quot;Cam&quot; &quot;Isr&quot; &quot;Let&quot;
+ [61] &quot;Ilh&quot; &quot;San&quot; &quot;Gan&quot; &quot;Ira&quot; &quot;Ilh&quot; &quot;Ilh&quot; &quot;San&quot; &quot;Ton&quot; &quot;Gan&quot; &quot;Cam&quot;
+ [71] &quot;Cam&quot; &quot;Cam&quot; &quot;Ilh&quot; &quot;Din&quot; &quot;Let&quot; &quot;Gan&quot; &quot;San&quot; &quot;Ira&quot; &quot;Din&quot; &quot;Let&quot;
+ [81] &quot;Ton&quot; &quot;San&quot; &quot;Ton&quot; &quot;Ilh&quot; &quot;Ilh&quot; &quot;Din&quot; &quot;Gan&quot; &quot;San&quot; &quot;Isr&quot; &quot;Din&quot;
+ [91] &quot;Ilh&quot; &quot;Gan&quot; &quot;Cam&quot; &quot;Cam&quot; &quot;Ira&quot; &quot;Ilh&quot; &quot;Ilh&quot; &quot;Ilh&quot; &quot;Cam&quot; &quot;Ilh&quot;
+[101] &quot;San&quot; &quot;Ilh&quot; &quot;Cam&quot; &quot;Ton&quot; &quot;Ira&quot; &quot;Ira&quot; &quot;Ira&quot; &quot;Let&quot; &quot;Ira&quot; &quot;Gan&quot;
+[111] &quot;Din&quot; &quot;Ton&quot; &quot;Isr&quot; &quot;Din&quot; &quot;Din&quot; &quot;Din&quot; &quot;Din&quot; &quot;Isr&quot; &quot;Isr&quot; &quot;Ilh&quot;
+[121] &quot;Ton&quot; &quot;Isr&quot; &quot;Ira&quot; &quot;Gan&quot; &quot;Let&quot; &quot;San&quot; &quot;Ilh&quot; &quot;Ira&quot; &quot;Isr&quot; &quot;Isr&quot;
+[131] &quot;Gan&quot; &quot;San&quot; &quot;Ton&quot; &quot;Let&quot; &quot;Cam&quot; &quot;Ton&quot; &quot;Ilh&quot; &quot;Ira&quot; &quot;Let&quot; &quot;San&quot;
+[141] &quot;Gan&quot; &quot;Cam&quot; &quot;Gan&quot; &quot;Gan&quot; &quot;San&quot; &quot;Ilh&quot; &quot;Ilh&quot; &quot;Cam&quot; &quot;Let&quot; &quot;San&quot;
+[151] &quot;Isr&quot; &quot;Ilh&quot; &quot;Ira&quot; &quot;Isr&quot; &quot;San&quot; &quot;Let&quot; &quot;Ilh&quot; &quot;Let&quot; &quot;Isr&quot; &quot;Cam&quot;
+[161] &quot;Ira&quot; &quot;Isr&quot; &quot;Ilh&quot; &quot;Ilh&quot; &quot;San&quot; &quot;Isr&quot; &quot;Isr&quot; &quot;Ilh&quot; &quot;Gan&quot; &quot;Ilh&quot;
+[171] &quot;San&quot; &quot;Cam&quot; &quot;Din&quot; &quot;Cam&quot; &quot;Cam&quot; &quot;Din&quot; &quot;Cam&quot; &quot;Cam&quot; &quot;Ton&quot; &quot;Ira&quot;
+[181] &quot;Ilh&quot; &quot;Cam&quot; &quot;Ton&quot; &quot;Ilh&quot; &quot;San&quot; &quot;Gan&quot; &quot;San&quot; &quot;Din&quot; &quot;Gan&quot; &quot;Cam&quot;
+[191] &quot;Ilh&quot; &quot;Cam&quot; &quot;Isr&quot; &quot;Gan&quot; &quot;Isr&quot; &quot;Din&quot; &quot;Ton&quot; &quot;Cam&quot; &quot;Din&quot; &quot;Let&quot;</code></pre>
 </div>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 # tres ultimos caracteres
 str_sub(paises, -3, -1) # os numeros negativos indicam que contamos de trás para frente</code></pre>
 <pre><code>
-  [1] &quot;NGA&quot; &quot;SJM&quot; &quot;THA&quot; &quot;MAC&quot; &quot;MAC&quot; &quot;URY&quot; &quot;AIA&quot; &quot;URY&quot; &quot;MAC&quot; &quot;ISL&quot;
- [11] &quot;KWT&quot; &quot;MAC&quot; &quot;ISL&quot; &quot;URY&quot; &quot;AIA&quot; &quot;KWT&quot; &quot;NGA&quot; &quot;URY&quot; &quot;FSM&quot; &quot;NGA&quot;
- [21] &quot;ISL&quot; &quot;FSM&quot; &quot;EST&quot; &quot;AIA&quot; &quot;KWT&quot; &quot;URY&quot; &quot;KWT&quot; &quot;ISL&quot; &quot;MAC&quot; &quot;URY&quot;
- [31] &quot;MAC&quot; &quot;URY&quot; &quot;ISL&quot; &quot;SJM&quot; &quot;URY&quot; &quot;URY&quot; &quot;NGA&quot; &quot;ISL&quot; &quot;THA&quot; &quot;URY&quot;
- [41] &quot;EST&quot; &quot;FSM&quot; &quot;KWT&quot; &quot;AIA&quot; &quot;ISL&quot; &quot;THA&quot; &quot;KWT&quot; &quot;NGA&quot; &quot;AIA&quot; &quot;FSM&quot;
- [51] &quot;THA&quot; &quot;NGA&quot; &quot;EST&quot; &quot;MAC&quot; &quot;AIA&quot; &quot;THA&quot; &quot;THA&quot; &quot;FSM&quot; &quot;KWT&quot; &quot;MAC&quot;
- [61] &quot;SJM&quot; &quot;SJM&quot; &quot;SJM&quot; &quot;ISL&quot; &quot;THA&quot; &quot;MAC&quot; &quot;THA&quot; &quot;EST&quot; &quot;ISL&quot; &quot;URY&quot;
- [71] &quot;SJM&quot; &quot;URY&quot; &quot;MAC&quot; &quot;NGA&quot; &quot;MAC&quot; &quot;AIA&quot; &quot;SJM&quot; &quot;URY&quot; &quot;KWT&quot; &quot;THA&quot;
- [81] &quot;ISL&quot; &quot;AIA&quot; &quot;THA&quot; &quot;SJM&quot; &quot;THA&quot; &quot;FSM&quot; &quot;AIA&quot; &quot;EST&quot; &quot;MAC&quot; &quot;EST&quot;
- [91] &quot;URY&quot; &quot;ISL&quot; &quot;FSM&quot; &quot;AIA&quot; &quot;SJM&quot; &quot;THA&quot; &quot;ISL&quot; &quot;THA&quot; &quot;KWT&quot; &quot;KWT&quot;
-[101] &quot;MAC&quot; &quot;SJM&quot; &quot;AIA&quot; &quot;URY&quot; &quot;AIA&quot; &quot;ISL&quot; &quot;FSM&quot; &quot;FSM&quot; &quot;THA&quot; &quot;KWT&quot;
-[111] &quot;NGA&quot; &quot;SJM&quot; &quot;MAC&quot; &quot;SJM&quot; &quot;NGA&quot; &quot;URY&quot; &quot;EST&quot; &quot;AIA&quot; &quot;MAC&quot; &quot;AIA&quot;
-[121] &quot;THA&quot; &quot;THA&quot; &quot;AIA&quot; &quot;THA&quot; &quot;NGA&quot; &quot;AIA&quot; &quot;EST&quot; &quot;NGA&quot; &quot;URY&quot; &quot;FSM&quot;
-[131] &quot;EST&quot; &quot;URY&quot; &quot;EST&quot; &quot;KWT&quot; &quot;FSM&quot; &quot;NGA&quot; &quot;EST&quot; &quot;AIA&quot; &quot;FSM&quot; &quot;KWT&quot;
-[141] &quot;MAC&quot; &quot;KWT&quot; &quot;SJM&quot; &quot;EST&quot; &quot;EST&quot; &quot;THA&quot; &quot;THA&quot; &quot;NGA&quot; &quot;FSM&quot; &quot;KWT&quot;
-[151] &quot;MAC&quot; &quot;EST&quot; &quot;EST&quot; &quot;URY&quot; &quot;KWT&quot; &quot;MAC&quot; &quot;MAC&quot; &quot;SJM&quot; &quot;EST&quot; &quot;SJM&quot;
-[161] &quot;ISL&quot; &quot;THA&quot; &quot;NGA&quot; &quot;NGA&quot; &quot;AIA&quot; &quot;ISL&quot; &quot;ISL&quot; &quot;THA&quot; &quot;FSM&quot; &quot;AIA&quot;
-[171] &quot;NGA&quot; &quot;THA&quot; &quot;MAC&quot; &quot;MAC&quot; &quot;URY&quot; &quot;MAC&quot; &quot;FSM&quot; &quot;AIA&quot; &quot;THA&quot; &quot;FSM&quot;
-[181] &quot;ISL&quot; &quot;ISL&quot; &quot;THA&quot; &quot;THA&quot; &quot;AIA&quot; &quot;URY&quot; &quot;FSM&quot; &quot;AIA&quot; &quot;NGA&quot; &quot;SJM&quot;
-[191] &quot;KWT&quot; &quot;ISL&quot; &quot;FSM&quot; &quot;NGA&quot; &quot;FSM&quot; &quot;URY&quot; &quot;FSM&quot; &quot;SJM&quot; &quot;ISL&quot; &quot;NGA&quot;</code></pre>
+  [1] &quot;ISR&quot; &quot;TON&quot; &quot;NFK&quot; &quot;NFK&quot; &quot;DNK&quot; &quot;KHM&quot; &quot;BVT&quot; &quot;GHA&quot; &quot;LVA&quot; &quot;BVT&quot;
+ [11] &quot;KHM&quot; &quot;NFK&quot; &quot;NFK&quot; &quot;GHA&quot; &quot;ISR&quot; &quot;LVA&quot; &quot;LVA&quot; &quot;TON&quot; &quot;IRQ&quot; &quot;LVA&quot;
+ [21] &quot;IRQ&quot; &quot;SHN&quot; &quot;DNK&quot; &quot;GHA&quot; &quot;TON&quot; &quot;DNK&quot; &quot;TON&quot; &quot;SHN&quot; &quot;IRQ&quot; &quot;ISR&quot;
+ [31] &quot;KHM&quot; &quot;BVT&quot; &quot;TON&quot; &quot;LVA&quot; &quot;DNK&quot; &quot;GHA&quot; &quot;GHA&quot; &quot;SHN&quot; &quot;DNK&quot; &quot;KHM&quot;
+ [41] &quot;BVT&quot; &quot;BVT&quot; &quot;BVT&quot; &quot;LVA&quot; &quot;ISR&quot; &quot;TON&quot; &quot;DNK&quot; &quot;NFK&quot; &quot;KHM&quot; &quot;ISR&quot;
+ [51] &quot;SHN&quot; &quot;GHA&quot; &quot;NFK&quot; &quot;SHN&quot; &quot;DNK&quot; &quot;GHA&quot; &quot;IRQ&quot; &quot;KHM&quot; &quot;ISR&quot; &quot;LVA&quot;
+ [61] &quot;NFK&quot; &quot;SHN&quot; &quot;GHA&quot; &quot;IRQ&quot; &quot;BVT&quot; &quot;BVT&quot; &quot;SHN&quot; &quot;TON&quot; &quot;GHA&quot; &quot;KHM&quot;
+ [71] &quot;KHM&quot; &quot;KHM&quot; &quot;BVT&quot; &quot;DNK&quot; &quot;LVA&quot; &quot;GHA&quot; &quot;SHN&quot; &quot;IRQ&quot; &quot;DNK&quot; &quot;LVA&quot;
+ [81] &quot;TON&quot; &quot;SHN&quot; &quot;TON&quot; &quot;BVT&quot; &quot;NFK&quot; &quot;DNK&quot; &quot;GHA&quot; &quot;SHN&quot; &quot;ISR&quot; &quot;DNK&quot;
+ [91] &quot;NFK&quot; &quot;GHA&quot; &quot;KHM&quot; &quot;KHM&quot; &quot;IRQ&quot; &quot;BVT&quot; &quot;NFK&quot; &quot;BVT&quot; &quot;KHM&quot; &quot;NFK&quot;
+[101] &quot;SHN&quot; &quot;NFK&quot; &quot;KHM&quot; &quot;TON&quot; &quot;IRQ&quot; &quot;IRQ&quot; &quot;IRQ&quot; &quot;LVA&quot; &quot;IRQ&quot; &quot;GHA&quot;
+[111] &quot;DNK&quot; &quot;TON&quot; &quot;ISR&quot; &quot;DNK&quot; &quot;DNK&quot; &quot;DNK&quot; &quot;DNK&quot; &quot;ISR&quot; &quot;ISR&quot; &quot;NFK&quot;
+[121] &quot;TON&quot; &quot;ISR&quot; &quot;IRQ&quot; &quot;GHA&quot; &quot;LVA&quot; &quot;SHN&quot; &quot;NFK&quot; &quot;IRQ&quot; &quot;ISR&quot; &quot;ISR&quot;
+[131] &quot;GHA&quot; &quot;SHN&quot; &quot;TON&quot; &quot;LVA&quot; &quot;KHM&quot; &quot;TON&quot; &quot;NFK&quot; &quot;IRQ&quot; &quot;LVA&quot; &quot;SHN&quot;
+[141] &quot;GHA&quot; &quot;KHM&quot; &quot;GHA&quot; &quot;GHA&quot; &quot;SHN&quot; &quot;NFK&quot; &quot;NFK&quot; &quot;KHM&quot; &quot;LVA&quot; &quot;SHN&quot;
+[151] &quot;ISR&quot; &quot;NFK&quot; &quot;IRQ&quot; &quot;ISR&quot; &quot;SHN&quot; &quot;LVA&quot; &quot;NFK&quot; &quot;LVA&quot; &quot;ISR&quot; &quot;KHM&quot;
+[161] &quot;IRQ&quot; &quot;ISR&quot; &quot;BVT&quot; &quot;BVT&quot; &quot;SHN&quot; &quot;ISR&quot; &quot;ISR&quot; &quot;BVT&quot; &quot;GHA&quot; &quot;BVT&quot;
+[171] &quot;SHN&quot; &quot;KHM&quot; &quot;DNK&quot; &quot;KHM&quot; &quot;KHM&quot; &quot;DNK&quot; &quot;KHM&quot; &quot;KHM&quot; &quot;TON&quot; &quot;IRQ&quot;
+[181] &quot;NFK&quot; &quot;KHM&quot; &quot;TON&quot; &quot;BVT&quot; &quot;SHN&quot; &quot;GHA&quot; &quot;SHN&quot; &quot;DNK&quot; &quot;GHA&quot; &quot;KHM&quot;
+[191] &quot;NFK&quot; &quot;KHM&quot; &quot;ISR&quot; &quot;GHA&quot; &quot;ISR&quot; &quot;DNK&quot; &quot;TON&quot; &quot;KHM&quot; &quot;DNK&quot; &quot;LVA&quot;</code></pre>
 </div>
 <p>Agora, criemos uma nova coluna chamada “isoa3” que consiste nas últimas três letras da coluna <code>pais</code> do objeto <code>df_temp</code>:</p>
 <div class="layout-chunk" data-layout="l-body">
@@ -1634,15 +1616,15 @@ df_temp &lt;- df_temp %&gt;%
 df_temp %&gt;% 
   head()</code></pre>
 <pre><code>
-# A tibble: 6 x 4
-  codigos pais                descricao                          isoa3
-  &lt;chr&gt;   &lt;chr&gt;               &lt;chr&gt;                              &lt;chr&gt;
-1 76440*  Nigéria-NGA         mogcsxec;.;vue                     NGA  
-2 98909*  Svalbard e Jan May~ mjwntnzyeugcold.tf                 SJM  
-3 64864*  Tailândia-THA       t;bahgvx;vqlpbcpipjvtmxgwaxizjzdc~ THA  
-4 75522*  Macau-MAC           ahkgri st uagr                     MAC  
-5 65611*  Macau-MAC           zz,qvwyiyzholdnlgma.b              MAC  
-6 95847*  Uruguai-URY         t fqf,,jelhgla.cxug iybjuzy;uapui  URY  </code></pre>
+# A tibble: 6 x 3
+  codigos pais             isoa3
+  &lt;chr&gt;   &lt;chr&gt;            &lt;chr&gt;
+1 76440*  Israel-ISR       ISR  
+2 98909*  Tonga-TON        TON  
+3 64864*  Ilha Norfolk-NFK NFK  
+4 75522*  Ilha Norfolk-NFK NFK  
+5 65611*  Dinamarca-DNK    DNK  
+6 95847*  Camboja-KHM      KHM  </code></pre>
 </div>
 <p>Para consolidarmos o conhecimento, agora suponha que ainda temos o objetivo de criar uma nova coluna com apenas o terceiro caractere da coluna “codigos”. Chamemos essa coluna de “digito3”.</p>
 <div class="layout-chunk" data-layout="l-body">
@@ -1652,69 +1634,41 @@ df_temp &lt;- df_temp %&gt;%
 
 head(df_temp)</code></pre>
 <pre><code>
-# A tibble: 6 x 5
-  codigos pais              descricao                    isoa3 digito3
-  &lt;chr&gt;   &lt;chr&gt;             &lt;chr&gt;                        &lt;chr&gt; &lt;chr&gt;  
-1 76440*  Nigéria-NGA       mogcsxec;.;vue               NGA   4      
-2 98909*  Svalbard e Jan M~ mjwntnzyeugcold.tf           SJM   9      
-3 64864*  Tailândia-THA     t;bahgvx;vqlpbcpipjvtmxgwax~ THA   8      
-4 75522*  Macau-MAC         ahkgri st uagr               MAC   5      
-5 65611*  Macau-MAC         zz,qvwyiyzholdnlgma.b        MAC   6      
-6 95847*  Uruguai-URY       t fqf,,jelhgla.cxug iybjuzy~ URY   8      </code></pre>
+# A tibble: 6 x 4
+  codigos pais             isoa3 digito3
+  &lt;chr&gt;   &lt;chr&gt;            &lt;chr&gt; &lt;chr&gt;  
+1 76440*  Israel-ISR       ISR   4      
+2 98909*  Tonga-TON        TON   9      
+3 64864*  Ilha Norfolk-NFK NFK   8      
+4 75522*  Ilha Norfolk-NFK NFK   5      
+5 65611*  Dinamarca-DNK    DNK   6      
+6 95847*  Camboja-KHM      KHM   8      </code></pre>
 </div>
 <h3 id="problema-n.-3-como-filtrar-dados-com-certos-padrões-no-texto">Problema n. 3: como filtrar dados com certos padrões no texto?</h3>
 <p>Para filtrar padrões de interesse em dados textuais podemos utilizar a função <code>str_detect</code>. Esta função retorna um valor lógico. Retorna TRUE para o caso do padrão ter sido detectado e retorna FALSE, caso contrário. No primeiro argumento, inserimos o vetor para o qual queremos detectar algum padrão. No segundo argumento, inserimos o padrão que desejamos detectar.</p>
 <p>Ao usar essa função em conjunto com a função <code>filter</code> conseguimos filtrar padrões de interesse, uma vez que a função <code>filter</code> usa vetores lógicos para fazer filtros. Para o problema n. 3, vamos trabalhar com a coluna “pais”.</p>
-<p>Suponha que desejamos encontrar todas as observações que possuem o padrão “URY” na coluna pais. Assim, podemo fazer o seguinte:</p>
+<p>Suponha que desejamos encontrar todas as observações que possuem o padrão “ISR” na coluna “pais”. Assim, podemo fazer o seguinte:</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 df %&gt;% 
-  filter(str_detect(pais, &quot;URY&quot;))</code></pre>
+  filter(str_detect(pais, &quot;ISR&quot;))</code></pre>
 <pre><code>
-# A tibble: 22 x 3
-   codigos pais        descricao                                      
-   &lt;chr&gt;   &lt;chr&gt;       &lt;chr&gt;                                          
- 1 95847   Uruguai-URY t fqf,,jelhgla.cxug iybjuzy;uapui              
- 2 62368   Uruguai-URY hhhsnc,n,evnckrwtmaeroslks.gapvptyferdaokwywpw~
- 3 74320   Uruguai-URY idbeyblog rjmiohcjxw gaz;.tdy,nsbujjwkdxp      
- 4 40996   Uruguai-URY c evc;m opmlqdl.vryrnslr                       
- 5 62026   Uruguai-URY tb;ur;ccsmeika;astsorlfroht sex;.mpciuc,q;xlzc~
- 6 9837    Uruguai-URY qqrzjwkynbcizyunh r v,tdzdrvc.eyq              
- 7 1258    Uruguai-URY csirgkhnmudblp,cbwyiuqog,gwu dktajaoklt,       
- 8 3975    Uruguai-URY vs.epttywzhjw jaj.g                            
- 9 52965   Uruguai-URY yqhhqxddddxpn                                  
-10 40516   Uruguai-URY n,agahnath,gdistqyhfkwgriy;s;p                 
-# ... with 12 more rows</code></pre>
+# A tibble: 21 x 2
+   codigos pais      
+   &lt;chr&gt;   &lt;chr&gt;     
+ 1 76440   Israel-ISR
+ 2 93664   Israel-ISR
+ 3 9837    Israel-ISR
+ 4 90423   Israel-ISR
+ 5 44035   Israel-ISR
+ 6 28313   Israel-ISR
+ 7 35031   Israel-ISR
+ 8 87829   Israel-ISR
+ 9 44097   Israel-ISR
+10 26446   Israel-ISR
+# ... with 11 more rows</code></pre>
 </div>
-<p>Na coluna “pais”, somente 22 observações foram encontradas contendo o padrão “URY”.</p>
-<p>Agora suponha que desejamos encontrar todas as observações que possuem o padrão de letras “mm” na coluna <code>descricao</code>. Assim, podemos fazer o seguinte:</p>
-<div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-df_temp %&gt;% 
-  filter(str_detect(descricao, &quot;mm&quot;))</code></pre>
-<pre><code>
-# A tibble: 4 x 5
-  codigos pais              descricao                    isoa3 digito3
-  &lt;chr&gt;   &lt;chr&gt;             &lt;chr&gt;                        &lt;chr&gt; &lt;chr&gt;  
-1 64864*  Tailândia-THA     t;bahgvx;vqlpbcpipjvtmxgwax~ THA   8      
-2 58069*  Svalbard e Jan M~ srjwymmolndchpoocwevj..kbx,~ SJM   0      
-3 21692*  Anguila-AIA       inmmghv hafgrgochw           AIA   6      
-4 56293*  Islândia-ISL      wuqjx,qr.vz;yjxgmmbds        ISL   2      </code></pre>
-</div>
-<p>Apenas quatro observações de um total de 200 possuem o padrão “mm”.</p>
-<p>Agora olhemos para a quarta observação da coluna “descricao” acima. Os três primeiros caracteres são “wuq”. Será que há mais observações com esse padrão na coluna “descricao”? Vamos investigar:</p>
-<div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-df_temp %&gt;% 
-  filter(str_detect(descricao, &quot;wuq&quot;))</code></pre>
-<pre><code>
-# A tibble: 1 x 5
-  codigos pais         descricao             isoa3 digito3
-  &lt;chr&gt;   &lt;chr&gt;        &lt;chr&gt;                 &lt;chr&gt; &lt;chr&gt;  
-1 56293*  Islândia-ISL wuqjx,qr.vz;yjxgmmbds ISL   2      </code></pre>
-</div>
-<p>Como podemos notar somente há uma observação com o padrão “wuq” na coluna “descricao”.</p>
-<p>Como desafio tente encontrar todas as observações que possuem um ponto (“.”) ou talvez dois pontos (“..”).</p>
+<p>Na coluna “pais”, somente 21 observações foram encontradas contendo o padrão “ISR”.</p>
 <p>Bom, vamos encerrando por aqui. No próxima parte desta sequência de posts veremos um pouco mais de como identificar observações textuais, como eliminar caracteres indesejados e, também, como substitui-los por outros caracteres.</p>
 <p>Até breve!</p>
 <!--radix_placeholder_article_footer-->

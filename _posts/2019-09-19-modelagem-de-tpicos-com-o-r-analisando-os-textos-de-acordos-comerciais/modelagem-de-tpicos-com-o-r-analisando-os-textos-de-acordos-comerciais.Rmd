@@ -3,11 +3,11 @@ title: "Tidytext e Modelagem de Tópicos com o R: Analisando os Textos de Acordo
 description: |
   Neste post, vamos fazer uma análise de tópicos utilizando os pacotes tidytext e topicmodels. Essa análise consiste em extrair um conjunto de temas (tópicos) de um conjunto de textos. Para isso, utilizamos uma base de textos de acordos comerciais. Veremos que o método utilizado é capaz de identificar uma séria de tópicos relevantes.  
 author: Paulo Felipe Alencar
-date: 09-19-2019
+date: 10-17-2019
 output:
   distill::distill_article:
     self_contained: false
-draft: true
+draft: false
 ---
 
 ```{r setup, include=FALSE}
@@ -16,9 +16,9 @@ knitr::opts_chunk$set(echo = TRUE, fig.height = 5)
 
 # Introdução
 
-É bastante comum que uma análise de dados envolvam textos. Neste post, vamos trabalhar textos no formato *tidy* utilizando o pacote `tidytext`. Após a manipulação de dados, vamos estimar um modelo de tópicos utilizando o pacote `topicmodels`. Esta abordagem permite encontrar diversos "temas" dentro de um conjunto de textos. Este post segue o que está descrito no livro [Tidy Text Mining with R](https://www.tidytextmining.com/) que foi escrito pelos mesmos autores do pacote `tidytext`.
+É bastante comum que uma análise de dados envolva textos. Levando isso em conta, neste post, vamos trabalhar textos no formato *tidy* utilizando o pacote `tidytext`. Após a manipulação de dados, vamos estimar um modelo de tópicos utilizando o pacote `topicmodels`. Esta abordagem permite encontrar diversos "temas" dentro de um conjunto de textos. Este post segue o que está descrito no livro [Tidy Text Mining with R](https://www.tidytextmining.com/) que foi escrito pelos mesmos autores do pacote `tidytext`.
 
-Como aplicação, utilizaremos textos de acordos comerciais da base [*Text of Trade Agreements - TOTA*](http://mappinginvestmenttreaties.com/rta/) desenvolvida pela UNCTAD e que abrange 451 acordos comerciais. Os acordos comerciais celebrados ao redor do mundo e que são notificados à Organização Mundial de Comércio (OMC) possuem um texto que descreve os diversos aspectos que foram negociados e acertados entre os diferentes parceiros. Os acordos comerciais cobrem desde questões tarifárias a questões de propriedade intelectual.
+Como aplicação, utilizaremos textos de acordos comerciais da base [*Text of Trade Agreements - TOTA*](http://mappinginvestmenttreaties.com/rta/) desenvolvida pela UNCTAD, que abrange 451 acordos comerciais. Os acordos comerciais celebrados ao redor do mundo notificados à Organização Mundial de Comércio (OMC) possuem um texto que descreve os diversos aspectos que foram negociados e acertados entre os diferentes parceiros. Os acordos comerciais cobrem desde questões tarifárias a questões de propriedade intelectual.
 
 Vamos começar a nossa análise!
 
@@ -157,7 +157,7 @@ pta_df %>%
   labs(
     title = "Número de Acordos Comerciais Assinados por Ano",
     subtitle = "Os acordos comerciais se proliferaram a partir da década de 90.
-A Organização Mundial de Comércio (OMC)foi criada em 1995.",
+A Organização Mundial de Comércio (OMC) foi criada em 1995.",
     x = "Ano",
     y = "Número de Acordos"
   )
@@ -165,9 +165,9 @@ A Organização Mundial de Comércio (OMC)foi criada em 1995.",
 
 # Convertendo os textos para o formato tidy text
 
-Para os autores do pacote `tidytext`, o formato de dados `tidy` para textos seria aquele de uma tabela com uma linha por *token*. Aqui, *token* seria uma unidade de texto relevante (caractere, palavra, parágrafo etc.). Neste post, a nossa unidade será o de palavras. Assim, teremos um data.frame com uma linha para cada palavra de cada documento. Aqui, definimos "documento" como um capítulo de um acordo específico (coluna `id_capitulo`).
+Para os autores do pacote `tidytext`, o formato de dados `tidy` para textos seria aquele de uma tabela com uma linha por *token*. Aqui, *token* seria uma unidade de texto relevante (caractere, palavra, parágrafo etc.). Neste post, a nossa unidade será a de palavras. Assim, teremos um data.frame com uma linha para cada palavra de cada documento. Aqui, definimos "documento" como um capítulo de um acordo específico (coluna `id_capitulo`).
 
-Adicional, removemos as chamadas *stop words* com um `anti_join()`. Veja abaixo o que seria esse objeto `stop_words`:
+Adicionalmente, removemos as chamadas *stop words* com um `anti_join()`. Veja abaixo o que seria esse objeto `stop_words`:
 
 ```{r}
 head(stop_words, 10)
@@ -207,7 +207,7 @@ Além disso, cada documento é uma mistura de tópicos. Por exemplo, supondo 2 t
 
 Para maiores detalhes, ver o [capítulo 6](https://www.tidytextmining.com/topicmodeling.html) e o vignette do `topicmodels` (`vignette("topicmodels")`). 
 
-Para estimar o modelo, é preciso uma matriz de termos por documento. Cara linha dessa matriz é um documento e cada coluna é um termo (uma palavra). O valor em cada posição é a frequência de cada termo em cada documento. A função `cast_dtm()` converte o data.frame para uma matriz de termos por documento.
+Para estimar o modelo, é preciso uma matriz de termos por documento. Cada linha dessa matriz é um documento e cada coluna é um termo (uma palavra). O valor em cada posição é a frequência de um termo em um documento. A função `cast_dtm()` converte o data.frame para uma matriz de termos por documento.
 
 ```{r}
 textos_dtm <- textos_df %>% 
@@ -285,7 +285,7 @@ termos_acordos %>%
   )
 ```
 
-Também é possível extrair a proporção de cada tópico em cada documento. No nosso caso, um documento refere-se a um capítulo de um acordo. Essa base tem a grande vantagem que a maioria dos capítulos já estão rotulados. A única de dificuldade é que existem mais de 900 rótulos diferentes. Muitas vezes, trata-se do mesmo tema, mas com uma escrita diferente. De toda forma, podemos verificar para quais rótulos os nossos tópicos estão associados.
+Também é possível extrair a proporção de cada tópico em cada documento. No nosso caso, um documento refere-se a um capítulo de um acordo. Essa base tem a grande vantagem que a maioria dos capítulos já estão rotulados. A única dificuldade é que existem mais de 900 rótulos diferentes. Muitas vezes, trata-se do mesmo tema, mas com uma escrita diferente. De toda forma, podemos verificar para quais rótulos os nossos tópicos estão associados.
 
 Primeiro vamos extrair a proporção de cada tópico em cada documento:
 
@@ -316,7 +316,7 @@ capitulo_topico %>%
 
 Para finalizar a nossa análise, vamos verificar a dinâmica da frequência de acordos que incluíram ou não um capítulo sobre Propriedade Intelectual. Para isso, vamos considerar que um acordo possui um capítulo sobre Propriedade Intelectual se existe algum capítulo com uma proporção desse tópico superior a 50%. Verificamos que esse tema ficou mais relevante após 2005, período que se verifica uma maior frequência de acordos que abrangem esse tema.
 
-```{r}
+```{r, preview=TRUE}
 capitulo_topico %>% 
   mutate(ip = topic == 7 & gamma > .5) %>% 
   group_by(pta_nome, ano) %>% 
@@ -330,11 +330,11 @@ capitulo_topico %>%
   scale_fill_manual(values = c("#e55039", "#b2bec3")) +
   scale_x_continuous(breaks = seq(1950, 2020, 10)) +
   labs(
-    title = "Evolução de acordos comerciais com ou sem capítulos
-sobre propriedade intelectual",
+    title = "Evolução de acordos comerciais identificados com ou
+sem tópicos sobre propriedade intelectual",
     x = "Ano",
     y = "Frequência",
-    fill = "Acordo com Capítulo\nde Propriedade Intelectual?"
+    fill = "Acordo com Tópico\nde Propriedade Intelectual?"
   )
 ```
 

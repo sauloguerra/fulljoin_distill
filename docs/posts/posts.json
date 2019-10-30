@@ -1,5 +1,40 @@
 [
   {
+    "path": "posts/2019-10-22-manipulao-de-texto-com-stringr-parte-ii/",
+    "title": "Manipulação de texto com stringr - parte II",
+    "description": "Este post continua a explorar funções úteis na manipulação de texto. Mais especificamente, iremos aprender a passar todas as letras de dados textuais para caixa baixa ou caixa alta. Também aprenderemos a capitalizar a primeira letra de cada palavra. Ademais, iremos ver algumas noções básicas de regex associadas ao uso da função str_detect.",
+    "author": [
+      {
+        "name": "Miguel Cleaver",
+        "url": {}
+      }
+    ],
+    "date": "2019-10-23",
+    "categories": [
+      "Manipulação de texto",
+      "stringr"
+    ],
+    "preview": "posts/2019-10-22-manipulao-de-texto-com-stringr-parte-ii/../../images/logo_stringr.png",
+    "last_modified": "2019-10-24T07:47:50-03:00",
+    "preview_width": 439,
+    "preview_height": 419
+  },
+  {
+    "path": "posts/2019-09-19-modelagem-de-tpicos-com-o-r-analisando-os-textos-de-acordos-comerciais/",
+    "title": "Tidytext e Modelagem de Tópicos com o R: Analisando os Textos de Acordos Comerciais",
+    "description": "Neste post, vamos fazer uma análise de tópicos utilizando os pacotes tidytext e topicmodels. Essa análise consiste em extrair um conjunto de temas (tópicos) de um conjunto de textos. Para isso, utilizamos uma base de textos de acordos comerciais. Veremos que o método utilizado é capaz de identificar uma séria de tópicos relevantes.",
+    "author": [
+      {
+        "name": "Paulo Felipe Alencar",
+        "url": {}
+      }
+    ],
+    "date": "2019-10-17",
+    "categories": [],
+    "preview": {},
+    "last_modified": "2019-10-20T22:07:28-03:00"
+  },
+  {
     "path": "posts/2019-10-13-manipulao-de-texto-com-stringr/",
     "title": "Manipulação de texto com stringr",
     "description": "Este é o post inicial de uma série de posts que faremos sobre manipulações de texto com o pacote stringr. Iremos criar alguns problemas e mostrar quais funções do pacote devemos utilizar para solucionar esses problemas. Aprenderemos a limpar os dados e a padronizá-los. Se você tem dificuldade com manipulação de texto, esse post é para você.",
@@ -15,7 +50,7 @@
       "stringr"
     ],
     "preview": "posts/2019-10-13-manipulao-de-texto-com-stringr/../../images/logo_stringr.png",
-    "last_modified": "2019-10-14T22:37:35-03:00",
+    "last_modified": "2019-10-23T23:27:58-03:00",
     "preview_width": 439,
     "preview_height": 419
   },
