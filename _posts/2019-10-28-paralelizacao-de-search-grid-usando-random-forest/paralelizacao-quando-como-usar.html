@@ -25,8 +25,8 @@
   
   
   <!--  https://schema.org/Article -->
-  <meta property="article:published" itemprop="datePublished" content="2019-10-30"/>
-  <meta property="article:created" itemprop="dateCreated" content="2019-10-30"/>
+  <meta property="article:published" itemprop="datePublished" content="2019-10-31"/>
+  <meta property="article:created" itemprop="dateCreated" content="2019-10-31"/>
   <meta name="article:author" content="Diego Castro"/>
   
   <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
@@ -44,7 +44,7 @@
   <!--radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-rmarkdown-metadata">
-  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","output","draft","preview"]}},"value":[{"type":"character","attributes":{},"value":["Entendendo os benefícios da paralelização usando Random Forest"]},{"type":"character","attributes":{},"value":["O objetivo principal deste post é apresentar como utilizar a paralelização no R e os ganhos de eficiência ao utilizá-la. Para mostrar este processo, um problema de classificação usando o modelo *Random Forest* (em português, Floresta Aleatória) é utilizado. Portanto, o objetivo secundário deste post é introduzir o modelo Random Forest.\n"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name"]}},"value":[{"type":"character","attributes":{},"value":["Diego Castro"]}]}]},{"type":"character","attributes":{},"value":["2019-10-30"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]}]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["../../images/paralelizacao.jpg"]}]}
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","output","draft","preview"]}},"value":[{"type":"character","attributes":{},"value":["Entendendo os benefícios da paralelização usando Random Forest"]},{"type":"character","attributes":{},"value":["O objetivo principal deste post é apresentar como utilizar a paralelização no R e os ganhos de eficiência ao utilizá-la. Para mostrar este processo, um problema de classificação usando o modelo *Random Forest* (em português, Floresta Aleatória) é utilizado. Portanto, o objetivo secundário deste post é introduzir o modelo Random Forest.\n"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name"]}},"value":[{"type":"character","attributes":{},"value":["Diego Castro"]}]}]},{"type":"character","attributes":{},"value":["2019-10-31"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]}]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["../../images/paralelizacao.jpg"]}]}
   </script>
   <!--/radix_placeholder_rmarkdown_metadata-->
   
@@ -942,7 +942,7 @@
 <!--radix_placeholder_front_matter-->
 
 <script id="distill-front-matter" type="text/json">
-{"title":"Entendendo os benefícios da paralelização usando Random Forest","description":"O objetivo principal deste post é apresentar como utilizar a paralelização no R e os ganhos de eficiência ao utilizá-la. Para mostrar este processo, um problema de classificação usando o modelo *Random Forest* (em português, Floresta Aleatória) é utilizado. Portanto, o objetivo secundário deste post é introduzir o modelo Random Forest.","authors":[{"author":"Diego Castro","authorURL":"#","affiliation":"&nbsp;","affiliationURL":"#"}],"publishedDate":"2019-10-30T00:00:00.000-03:00","citationText":"Castro, 2019"}
+{"title":"Entendendo os benefícios da paralelização usando Random Forest","description":"O objetivo principal deste post é apresentar como utilizar a paralelização no R e os ganhos de eficiência ao utilizá-la. Para mostrar este processo, um problema de classificação usando o modelo *Random Forest* (em português, Floresta Aleatória) é utilizado. Portanto, o objetivo secundário deste post é introduzir o modelo Random Forest.","authors":[{"author":"Diego Castro","authorURL":"#","affiliation":"&nbsp;","affiliationURL":"#"}],"publishedDate":"2019-10-31T00:00:00.000-03:00","citationText":"Castro, 2019"}
 </script>
 
 <!--/radix_placeholder_front_matter-->
@@ -960,7 +960,7 @@
   
   Diego Castro
   
-<br/>2019-10-30
+<br/>2019-10-31
 </div>
 
 <div class="d-article">
@@ -1096,7 +1096,7 @@ rf_cv &lt;- function(mtry_val, ntree_val, nodesize_val) {
 }</code></pre>
 </div>
 <h2 id="finalmente-a-paralelizacao">Finalmente a paralelização</h2>
-<p>Vamos voltar para o objetivo principal deste post. Queremos verificar se a paralelização realmente traz ganhos de desempenho. Como o <em>grid</em> que construímos possui 27 diferentes combinações de parâmentros, precisamos testar cada uma delas no modelo definido acima. Podemos fazer isso de forma sequencial ou paralelizada. Sequencialmente, uma combinação só começa a ser testada após o término da anterior. Usando a abordagem paralelizada, vários núcleos do computador trabalham simultaneamente, ou seja, cada um dele fica responsável por um conjunto de combinações. Vamos aos testes!</p>
+<p>Vamos voltar para o objetivo principal deste post. Queremos verificar se a paralelização realmente traz ganhos de desempenho. Como o <em>grid</em> que construímos possui 27 diferentes combinações de parâmentros, precisamos testar cada uma delas no modelo definido acima. Podemos fazer isso de forma sequencial ou paralelizada. Sequencialmente, uma combinação só começa a ser testada após o término da anterior. Usando a abordagem paralelizada, vários núcleos do computador trabalham simultaneamente, ou seja, cada um deles fica responsável por um conjunto de combinações. Vamos aos testes!</p>
 <p>Como mostrado no post <a href="https://www.fulljoin.com.br/posts/2019-09-19-loop-vs-alternativas/">Por que evitar for loops em R?</a>, é sempre bom evitarmos <em>for loops</em> em R. Seguindo essa boa prática, aqui usaremos o pacote <code>purrr</code> e a família <code>apply</code> e suas versões paralelizadas (pacote <code>furrr</code> e <code>future.apply</code>). Primeiramente, vamos carregar os pacotes necessários.</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
@@ -1105,9 +1105,10 @@ library(purrr)
 library(furrr)
 library(caret)
 
-plan(multiprocess, workers = 3) # número de núcleos que serão usados</code></pre>
+plan(multiprocess)</code></pre>
 </div>
-<p>Agora, rodar nosso modelo <em>Random Forest</em> usando as quatro formas que serão testadas.</p>
+<p>Vale uma atenção especial para a função <code>plan()</code>. Ela é uma função do pacote <code>future</code> que é responsável por planejar como as tarefas serão executadas. Quando queremos paralelizar, duas estratégias são possíveis. Uma é a chamada <em>multicore</em>, que usa mais de um núcleo do computador para realizar a tarefa. A outra estratégia é utilizar mais de uma sessão de R para realizar a tarefa de forma paralelizada, que é chamada de <em>multisession</em>. Nem todos os sistemas operacionais suportam o <em>multicore</em>, como o Windows por exemplo. Para não precisarmos saber todos os casos, uma alternativa é usar a estratégia <em>multiprocess</em>, já que ela utiliza o <em>multicore</em>, se suportado; caso contrário, ela usa o <em>multisession</em>.</p>
+<p>Agora, podemos rodar nosso modelo <em>Random Forest</em> usando as quatro formas que serão testadas.</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 # PURRR 
@@ -1205,28 +1206,87 @@ future_apply_df %&gt;% arrange(-Accuracy) %&gt;% head()</code></pre>
 purrr_tempo</code></pre>
 <pre><code>
    user  system elapsed 
-  26.45    1.25   28.63 </code></pre>
+  22.71    1.04   23.90 </code></pre>
 <pre class="r"><code>
 furrr_tempo</code></pre>
 <pre><code>
    user  system elapsed 
-   0.06    0.00   17.74 </code></pre>
+   0.03    0.00   16.32 </code></pre>
 <pre class="r"><code>
 apply_tempo</code></pre>
 <pre><code>
    user  system elapsed 
-  23.67    1.15   24.92 </code></pre>
+  22.17    1.06   23.26 </code></pre>
 <pre class="r"><code>
 future_apply_tempo</code></pre>
 <pre><code>
    user  system elapsed 
-   0.01    0.00   12.39 </code></pre>
+   0.03    0.00    9.58 </code></pre>
 </div>
-<p>Realmente neste caso a paralelização foi significativamente mais rápida. Para os pacotes <code>purrr</code> e <code>furrr</code>, houve uma redução de tempo de 38 %. Já para a família <code>apply</code> o ganho de desempenho foi ainda maior: redução de 50.3 %.</p>
+<p>Realmente neste caso a paralelização foi significativamente mais rápida. Para os pacotes <code>purrr</code> e <code>furrr</code>, houve uma redução de tempo de 31.7%. Já para a família <code>apply</code> o ganho de desempenho foi ainda maior: redução de 58.8%.</p>
 <h2 id="mas-afinal-o-quao-preciso-e-nosso-modelo">Mas afinal, o quão preciso é nosso modelo?</h2>
-<p>TESTAR NOS DADOS PARA TESTE….</p>
+<p>Como dissemos anteriormente, precisamos verificar o quão precisas são as previsões de nosso modelo aplicando-o a dados não vistos anteriormente. Vamos, então, usar nosso modelo e prever as observações contidas no conjunto de dados separado para teste.</p>
+<p>Primeiramente, vamos treinar novamente nosso modelo usando os valores dos parâmetros que geraram os melhores resultados.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+# Selecionar combinação com melhores resultados
+
+parametros_max &lt;- future_apply_df %&gt;% arrange(-Accuracy) %&gt;% slice(1)
+
+
+# Utilizar parâmetros para treinar Random Forest
+
+set.seed(123)
+
+rf_fit_final &lt;- train(x = treinamento[, -5], 
+                      y = treinamento[, 5] %&gt;% pull(),
+                      method = &quot;rf&quot;,
+                      trControl = trainControl(&quot;none&quot;),
+                      tuneGrid = data.frame(.mtry = parametros_max[[1]]),
+                      ntree = parametros_max[[2]],
+                      nodesize = parametros_max[[3]])</code></pre>
+</div>
+<p>Agora vamos utilizar o modelo treinado para prever as espécies das flores dos dados separados para teste. Para isso, usamos a função <code>predict()</code>, que a partir das variáveis explicativas prevê para cada observação uma das três possíveis espécies. Em seguida usamos a função <code>confusionMatrix()</code> para verifcar as métricas de avaliação.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+previsoes &lt;- predict(rf_fit_final, teste[, -5])
+
+confusionMatrix(previsoes, teste[, 5])</code></pre>
+<pre><code>
+Confusion Matrix and Statistics
+
+            Reference
+Prediction   setosa versicolor virginica
+  setosa          5          0         0
+  versicolor      0          5         0
+  virginica       0          0         5
+
+Overall Statistics
+                                    
+               Accuracy : 1         
+                 95% CI : (0.782, 1)
+    No Information Rate : 0.3333    
+    P-Value [Acc &gt; NIR] : 6.969e-08 
+                                    
+                  Kappa : 1         
+                                    
+ Mcnemar&#39;s Test P-Value : NA        
+
+Statistics by Class:
+
+                     Class: setosa Class: versicolor Class: virginica
+Sensitivity                 1.0000            1.0000           1.0000
+Specificity                 1.0000            1.0000           1.0000
+Pos Pred Value              1.0000            1.0000           1.0000
+Neg Pred Value              1.0000            1.0000           1.0000
+Prevalence                  0.3333            0.3333           0.3333
+Detection Rate              0.3333            0.3333           0.3333
+Detection Prevalence        0.3333            0.3333           0.3333
+Balanced Accuracy           1.0000            1.0000           1.0000</code></pre>
+</div>
+<p>Excelente! Nosso modelo foi capaz de prever todas as flores do conjunto de teste corretamente.</p>
 <h2 id="conclusao">CONCLUSÃO</h2>
-<p>BLA BLA BLA…</p>
+<p>Neste post, fomos capazes de mostrar um aumento de desempenho ao utilizarmos abordagens paralelizadas para classificar espécies de flores a partir de um modelo <em>Random Forest</em>. A paralelização se torna ainda mais importante quando precisamos realizar uma tarefa rotineira que nos demanda muito tempo ou quando criamos algum tipo de interface que precisa gerar respostas rápidas. Aproveitamos o nosso teste sobre paralelização para entender e testar o modelo de classificação <em>Random Forest</em> utilizando o pacote <code>caret</code>. Nosso modelo foi capaz de realizar previsões excelentes.</p>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>

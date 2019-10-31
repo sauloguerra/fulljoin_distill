@@ -213,7 +213,7 @@ possui 27 diferentes combinações de parâmentros, precisamos testar cada uma d
 no modelo definido acima. Podemos fazer isso de forma sequencial ou paralelizada. 
 Sequencialmente, uma combinação só começa a ser testada após o término da anterior.
 Usando a abordagem paralelizada, vários núcleos do computador trabalham
-simultaneamente, ou seja, cada um dele fica responsável por um conjunto de 
+simultaneamente, ou seja, cada um deles fica responsável por um conjunto de 
 combinações. Vamos aos testes!
 
 Como mostrado no post [Por que evitar for loops em R?](https://www.fulljoin.com.br/posts/2019-09-19-loop-vs-alternativas/), é sempre
@@ -227,11 +227,20 @@ library(purrr)
 library(furrr)
 library(caret)
 
-plan(multiprocess, workers = 3) # número de núcleos que serão usados
+plan(multiprocess)
 
 ```
 
-Agora, rodar nosso modelo *Random Forest* usando as quatro formas que serão testadas.
+Vale uma atenção especial para a função `plan()`. Ela é uma função do pacote
+`future` que é responsável por planejar como as tarefas serão executadas. Quando
+queremos paralelizar, duas estratégias são possíveis. Uma é a chamada *multicore*,
+que usa mais de um núcleo do computador para realizar a tarefa. A outra estratégia
+é utilizar mais de uma sessão de R para realizar a tarefa de forma
+paralelizada, que é chamada de *multisession*. Nem todos os sistemas operacionais 
+suportam o *multicore*, como o Windows por exemplo. Para não precisarmos saber
+todos os casos, uma alternativa é usar a estratégia *multiprocess*, já que ela utiliza o *multicore*, se suportado; caso contrário, ela usa o *multisession*. 
+
+Agora, podemos rodar nosso modelo *Random Forest* usando as quatro formas que serão testadas.
 
 ```{r}
 
@@ -298,8 +307,7 @@ future_apply_tempo <- system.time({
 ```
 
 Antes de verificarmos o tempo levado por cada uma das diferentes abordagens, vamos
-checar se os data frames de resultados gerados são os mesmos e visualizar as primeiras
-linhas de um deles.
+checar se os data frames de resultados gerados são os mesmos e visualizar as primeiras linhas de um deles.
 
 ```{r}
 
@@ -333,15 +341,63 @@ future_apply_tempo
 ```
 
 Realmente neste caso a paralelização foi significativamente mais rápida. Para
-os pacotes `purrr` e `furrr`, houve uma redução de tempo de `r round((1-(furrr_tempo[[3]]/purrr_tempo[[3]]))*100, 1)` \%. Já para a família `apply` o ganho
-de desempenho foi ainda maior: redução de `r round((1-(future_apply_tempo[[3]]/apply_tempo[[3]]))*100, 1)` \%.
+os pacotes `purrr` e `furrr`, houve uma redução de tempo de `r round((1-(furrr_tempo[[3]]/purrr_tempo[[3]]))*100, 1)`%. Já para a família `apply` 
+o ganho de desempenho foi ainda maior: redução de `r round((1-(future_apply_tempo[[3]]/apply_tempo[[3]]))*100, 1)`%.
 
 
 ## Mas afinal, o quão preciso é nosso modelo?
 
-TESTAR NOS DADOS PARA TESTE....
+Como dissemos anteriormente, precisamos verificar o quão precisas são as previsões
+de nosso modelo aplicando-o a dados não vistos anteriormente. Vamos, então, usar
+nosso modelo e prever as observações contidas no conjunto de dados separado para
+teste.
 
+Primeiramente, vamos treinar novamente nosso modelo usando os valores dos parâmetros
+que geraram os melhores resultados.
+
+```{r}
+
+# Selecionar combinação com melhores resultados
+
+parametros_max <- future_apply_df %>% arrange(-Accuracy) %>% slice(1)
+
+
+# Utilizar parâmetros para treinar Random Forest
+
+set.seed(123)
+
+rf_fit_final <- train(x = treinamento[, -5], 
+                      y = treinamento[, 5] %>% pull(),
+                      method = "rf",
+                      trControl = trainControl("none"),
+                      tuneGrid = data.frame(.mtry = parametros_max[[1]]),
+                      ntree = parametros_max[[2]],
+                      nodesize = parametros_max[[3]])
+
+```
+
+Agora vamos utilizar o modelo treinado para prever as espécies das flores dos
+dados separados para teste. Para isso, usamos a função `predict()`, que a partir
+das variáveis explicativas prevê para cada observação uma das três possíveis 
+espécies. Em seguida usamos a função `confusionMatrix()` para verifcar as métricas
+de avaliação.
+
+```{r}
+
+previsoes <- predict(rf_fit_final, teste[, -5])
+
+confusionMatrix(previsoes, teste[, 5])
+
+```
+
+Excelente! Nosso modelo foi capaz de prever todas as flores do conjunto de teste
+corretamente.
 
 ## CONCLUSÃO
 
-BLA BLA BLA...
+Neste post, fomos capazes de mostrar um aumento de desempenho ao utilizarmos abordagens paralelizadas para classificar espécies de flores a partir de um modelo
+*Random Forest*. A paralelização se torna ainda mais importante quando precisamos
+realizar uma tarefa rotineira que nos demanda muito tempo ou quando criamos algum 
+tipo de interface que precisa gerar respostas rápidas. Aproveitamos o nosso teste 
+sobre paralelização para entender e testar o modelo de classificação *Random Forest*
+utilizando o pacote `caret`. Nosso modelo foi capaz de realizar previsões excelentes.
