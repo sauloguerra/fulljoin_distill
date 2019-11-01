@@ -19,47 +19,49 @@
  <!--/radix_placeholder_import_source-->
 
   <!--radix_placeholder_meta_tags-->
-<title>Fulljoin: Hello World</title>
+<title>Fulljoin: Entendendo os benefícios da paralelização usando Random Forest</title>
 
-<meta property="description" itemprop="description" content="E nasce hoje o Full Join! &#10;Um blog sobre data science e tudo mais que envolve a arte de trabalhar com dados. &#10;A ideia Ã© postar sobre programaÃ§Ã£o, estatÃ­stica, machine learning e anÃ¡lise de dados, buscando consolidar nosso conhecimento e ajudar quem estÃ¡ comeÃ§ando (ou evoluindo!) na carreira de Cientista de Dados."/>
+<meta property="description" itemprop="description" content="O objetivo principal deste post é apresentar como utilizar a paralelização no R e os ganhos de eficiência ao utilizá-la. Para mostrar este processo, um problema de classificação usando o modelo Random Forest (em português, Floresta Aleatória) é utilizado."/>
 
-<link rel="canonical" href="https://www.fulljoin.com.br/posts/2016-03-09-hello-world/"/>
+<link rel="canonical" href="https://www.fulljoin.com.br/posts/2019-10-28-paralelizacao-de-search-grid-usando-random-forest/"/>
 
 <!--  https://schema.org/Article -->
-<meta property="article:published" itemprop="datePublished" content="2016-03-09"/>
-<meta property="article:created" itemprop="dateCreated" content="2016-03-09"/>
-<meta name="article:author" content="Saulo Guerra"/>
+<meta property="article:published" itemprop="datePublished" content="2019-11-01"/>
+<meta property="article:created" itemprop="dateCreated" content="2019-11-01"/>
+<meta name="article:author" content="Diego Castro"/>
 
 <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
-<meta property="og:title" content="Fulljoin: Hello World"/>
+<meta property="og:title" content="Fulljoin: Entendendo os benefícios da paralelização usando Random Forest"/>
 <meta property="og:type" content="article"/>
-<meta property="og:description" content="E nasce hoje o Full Join! &#10;Um blog sobre data science e tudo mais que envolve a arte de trabalhar com dados. &#10;A ideia Ã© postar sobre programaÃ§Ã£o, estatÃ­stica, machine learning e anÃ¡lise de dados, buscando consolidar nosso conhecimento e ajudar quem estÃ¡ comeÃ§ando (ou evoluindo!) na carreira de Cientista de Dados."/>
-<meta property="og:url" content="https://www.fulljoin.com.br/posts/2016-03-09-hello-world/"/>
+<meta property="og:description" content="O objetivo principal deste post é apresentar como utilizar a paralelização no R e os ganhos de eficiência ao utilizá-la. Para mostrar este processo, um problema de classificação usando o modelo Random Forest (em português, Floresta Aleatória) é utilizado."/>
+<meta property="og:url" content="https://www.fulljoin.com.br/posts/2019-10-28-paralelizacao-de-search-grid-usando-random-forest/"/>
+<meta property="og:image" content="https://www.fulljoin.com.br/posts/2019-10-28-paralelizacao-de-search-grid-usando-random-forest/../../images/paralelizacao.jpg"/>
 <meta property="og:locale" content="en_US"/>
 <meta property="og:site_name" content="Fulljoin"/>
 
 <!--  https://dev.twitter.com/cards/types/summary -->
-<meta property="twitter:card" content="summary"/>
-<meta property="twitter:title" content="Fulljoin: Hello World"/>
-<meta property="twitter:description" content="E nasce hoje o Full Join! &#10;Um blog sobre data science e tudo mais que envolve a arte de trabalhar com dados. &#10;A ideia Ã© postar sobre programaÃ§Ã£o, estatÃ­stica, machine learning e anÃ¡lise de dados, buscando consolidar nosso conhecimento e ajudar quem estÃ¡ comeÃ§ando (ou evoluindo!) na carreira de Cientista de Dados."/>
-<meta property="twitter:url" content="https://www.fulljoin.com.br/posts/2016-03-09-hello-world/"/>
+<meta property="twitter:card" content="summary_large_image"/>
+<meta property="twitter:title" content="Fulljoin: Entendendo os benefícios da paralelização usando Random Forest"/>
+<meta property="twitter:description" content="O objetivo principal deste post é apresentar como utilizar a paralelização no R e os ganhos de eficiência ao utilizá-la. Para mostrar este processo, um problema de classificação usando o modelo Random Forest (em português, Floresta Aleatória) é utilizado."/>
+<meta property="twitter:url" content="https://www.fulljoin.com.br/posts/2019-10-28-paralelizacao-de-search-grid-usando-random-forest/"/>
+<meta property="twitter:image" content="https://www.fulljoin.com.br/posts/2019-10-28-paralelizacao-de-search-grid-usando-random-forest/../../images/paralelizacao.jpg"/>
 
 <!--  https://scholar.google.com/intl/en/scholar/inclusion.html#indexing -->
-<meta name="citation_title" content="Fulljoin: Hello World"/>
-<meta name="citation_fulltext_html_url" content="https://www.fulljoin.com.br/posts/2016-03-09-hello-world/"/>
-<meta name="citation_online_date" content="2016/03/09"/>
-<meta name="citation_publication_date" content="2016/03/09"/>
-<meta name="citation_author" content="Saulo Guerra"/>
+<meta name="citation_title" content="Fulljoin: Entendendo os benefícios da paralelização usando Random Forest"/>
+<meta name="citation_fulltext_html_url" content="https://www.fulljoin.com.br/posts/2019-10-28-paralelizacao-de-search-grid-usando-random-forest/"/>
+<meta name="citation_online_date" content="2019/11/01"/>
+<meta name="citation_publication_date" content="2019/11/01"/>
+<meta name="citation_author" content="Diego Castro"/>
 <!--/radix_placeholder_meta_tags-->
   <!--radix_placeholder_rmarkdown_metadata-->
 
 <script type="text/json" id="radix-rmarkdown-metadata">
-{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","output","citation_url","canonical_url"]}},"value":[{"type":"character","attributes":{},"value":["Hello World"]},{"type":"character","attributes":{},"value":["E nasce hoje o Full Join! \nUm blog sobre data science e tudo mais que envolve a arte de trabalhar com dados. \nA ideia é postar sobre programação, estatística, machine learning e análise de dados, buscando consolidar nosso conhecimento e ajudar quem está começando (ou evoluindo!) na carreira de Cientista de Dados."]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name"]}},"value":[{"type":"character","attributes":{},"value":["Saulo Guerra"]}]}]},{"type":"character","attributes":{},"value":["2016-03-09"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]}]},{"type":"character","attributes":{},"value":["https://www.fulljoin.com.br/posts/2016-03-09-hello-world/"]},{"type":"character","attributes":{},"value":["https://www.fulljoin.com.br/posts/2016-03-09-hello-world/"]}]}
+{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","output","draft","preview","citation_url","canonical_url"]}},"value":[{"type":"character","attributes":{},"value":["Entendendo os benefícios da paralelização usando Random Forest"]},{"type":"character","attributes":{},"value":["O objetivo principal deste post é apresentar como utilizar a paralelização no R e os ganhos de eficiência ao utilizá-la. Para mostrar este processo, um problema de classificação usando o modelo Random Forest (em português, Floresta Aleatória) é utilizado."]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name"]}},"value":[{"type":"character","attributes":{},"value":["Diego Castro"]}]}]},{"type":"character","attributes":{},"value":["2019-11-01"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]}]},{"type":"logical","attributes":{},"value":[false]},{"type":"character","attributes":{},"value":["../../images/paralelizacao.jpg"]},{"type":"character","attributes":{},"value":["https://www.fulljoin.com.br/posts/2019-10-28-paralelizacao-de-search-grid-usando-random-forest/"]},{"type":"character","attributes":{},"value":["https://www.fulljoin.com.br/posts/2019-10-28-paralelizacao-de-search-grid-usando-random-forest/"]}]}
 </script>
 <!--/radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-resource-manifest">
-  {"type":"character","attributes":{},"value":["hello-world_files/bowser-1.9.3/bowser.min.js","hello-world_files/distill-2.2.21/template.v2.js","hello-world_files/jquery-1.11.3/jquery.min.js","hello-world_files/webcomponents-2.0.0/webcomponents.js"]}
+  {"type":"character","attributes":{},"value":["paralelizacao-quando-como-usar_files/bowser-1.9.3/bowser.min.js","paralelizacao-quando-como-usar_files/distill-2.2.21/template.v2.js","paralelizacao-quando-como-usar_files/jquery-1.11.3/jquery.min.js","paralelizacao-quando-como-usar_files/webcomponents-2.0.0/webcomponents.js"]}
   </script>
   <!--radix_placeholder_navigation_in_header-->
 
@@ -1324,7 +1326,7 @@ d-appendix {
 <!--radix_placeholder_front_matter-->
 
 <script id="distill-front-matter" type="text/json">
-{"title":"Hello World","description":"E nasce hoje o Full Join! \nUm blog sobre data science e tudo mais que envolve a arte de trabalhar com dados. \nA ideia é postar sobre programação, estatística, machine learning e análise de dados, buscando consolidar nosso conhecimento e ajudar quem está começando (ou evoluindo!) na carreira de Cientista de Dados.","authors":[{"author":"Saulo Guerra","authorURL":"#","affiliation":"&nbsp;","affiliationURL":"#"}],"publishedDate":"2016-03-09T00:00:00.000-03:00","citationText":"Guerra, 2016"}
+{"title":"Entendendo os benefícios da paralelização usando Random Forest","description":"O objetivo principal deste post é apresentar como utilizar a paralelização no R e os ganhos de eficiência ao utilizá-la. Para mostrar este processo, um problema de classificação usando o modelo Random Forest (em português, Floresta Aleatória) é utilizado.","authors":[{"author":"Diego Castro","authorURL":"#","affiliation":"&nbsp;","affiliationURL":"#"}],"publishedDate":"2019-11-01T00:00:00.000-03:00","citationText":"Castro, 2019"}
 </script>
 
 <!--/radix_placeholder_front_matter-->
@@ -1346,60 +1348,358 @@ d-appendix {
 <!--/radix_placeholder_site_before_body-->
 
 <div class="d-title">
-<h1>Hello World</h1>
-<p>E nasce hoje o Full Join! Um blog sobre data science e tudo mais que envolve a arte de trabalhar com dados. A ideia é postar sobre programação, estatística, machine learning e análise de dados, buscando consolidar nosso conhecimento e ajudar quem está começando (ou evoluindo!) na carreira de Cientista de Dados.</p>
+<h1>Entendendo os benefícios da paralelização usando Random Forest</h1>
+<p>O objetivo principal deste post é apresentar como utilizar a paralelização no R e os ganhos de eficiência ao utilizá-la. Para mostrar este processo, um problema de classificação usando o modelo Random Forest (em português, Floresta Aleatória) é utilizado.</p>
 </div>
 
 <div class="d-byline">
-  Saulo Guerra  
   
-<br/>2016-03-09
+  Diego Castro
+  
+<br/>2019-11-01
 </div>
 
 <div class="d-article">
-<p>Sempre que possível os posts serão em formatos de tutoriais, com exemplos práticos, explicações teóricas e links de referência.</p>
-<h2 id="mas-afinal-o-que-e-data-science">Mas, afinal, o que é data science?</h2>
-<p>Apesar de ser um termo que vem ganhando bastante relevância, não se trata de uma atividade completamente nova. Basicamente todas as áreas do conhecimento já praticavam a tão famosa ciência dos dados muito antes do termo ganhar popularidade.</p>
-<p>Sendo bem simplista, data science nada mais é do que extrair algum tipo de conhecimento, interpretar informações ou realizar descobertas, tudo isso utilizando massas de dados. Normalmente essa atividade é multidisciplinar e envolve matemática, estatística, computação, e, principalmente, capacidade de entender e explorar os dados com os quais se vai trabalhar.</p>
-<h2 id="se-nao-e-novidade-por-que-o-tema-esta-tao-relevante">Se não é novidade, por que o tema está tão relevante?</h2>
-<p>É inquestionável que a capacidade de produção de dados e a capacidade de processamento de dados aumentou muito nas últimas décadas (internet!).</p>
-<p>Aplicar ciência dos dados em um arquivo com 2 toneladas de papel é bem menos viável do que aplicar em 2 peta bytes de dados em um servidor. O aumento da capacidade computacional e a quantidade de dados eletrônicos sendo produzidos proporcionou o cenário perfeito para o desenvolvimento de técnicas computacionais para explorar os dados, descobrir coisas, explicar e até prever situações.</p>
-<blockquote>
-<p>Data Science is an interdisciplinary field about processes and systems to extract knowledge or insights from data in various forms, either structured or unstructured, which is a continuation of some of the data analysis fields such as statistics, data mining, and predictive analytics, similar to Knowledge Discovery in Databases (KDD). Wikipedia <a href="https://en.wikipedia.org/wiki/Data_science" class="uri">https://en.wikipedia.org/wiki/Data_science</a></p>
-</blockquote>
-<h2 id="o-cientista-de-dados">O Cientista de Dados</h2>
-<p>Talvez o aspecto mais intrigante sobre a popularização da ciência dos dados tenha sido a expectativa criada em torno do Cientista de Dados (ou Analista de Dados, como preferirem), o profissional chave da tal ciência dos dados.</p>
-<p>Muito se fala hoje de um Cientista de Dados ideal: um expert em estatística, com habilidades hackers, conhecedor de infraestrutura e banco de dados, poliglota em linguagens de programação e com capacidade de explicar com clareza todas as conclusões de uma análise bem sucedida.</p>
-<p>Dominar essa quantidade de habilidades certamente não é fácil, e sequer é requisito mínimo para trabalhar na área, já que é mais fácil e eficiente montar uma equipe de 3 ou 4 pessoas que reúnam, juntas, todo esse conhecimento. Porém, um profissional que busca se aprimorar em todas essas habilidades sem dúvidas se tornará um Cientista de Dados melhor!</p>
-<p>Esse é o objetivo dos autores desse blog, aprofundar cada vez mais na busca desses conhecimentos e repassar tais conhecimentos para quem também deseja trilhar esse caminho !</p>
-<p>Para o primeiro post não passar batido, aqui vão alguns links bastante úteis para quem deseja começar, praticar e se manter atualizado sobre ciência de dados:</p>
-<ul>
-<li><a href="https://www.datacamp.com/">Datacamp</a></li>
-<li><a href="https://www.kaggle.com">Kaggle</a></li>
-<li><a href="http://www.kdnuggets.com/">KDnuggets</a></li>
-<li><a href="http://www.r-bloggers.com/">R-Bloggers</a></li>
-<li><a href="http://pca.st/dataskeptic">Data Skpetic Podcast</a></li>
-<li><a href="https://www.reddit.com/r/datascience/">/r/datascience (Reddit)</a></li>
-<li><a href="https://www.coursera.org/specializations/jhu-data-science">Data Science Specialization</a></li>
-</ul>
-<p>O <strong>Full Join</strong> será mantido por dois entusiastas da ciência dos dados, Saulo Guerra e Paulo Felipe.</p>
+<p>No post <a href="https://www.fulljoin.com.br/posts/2019-09-19-loop-vs-alternativas/">Por que evitar for loops em R?</a> mostramos que <em>for loops</em> são ineficientes em R. Para isso, tal abordagem foi comparada a outras alternativas (funções do <code>purrr</code> e da família <code>apply</code>), dentre elas opções que usam paralelização. No entanto, no exemplo utilizado, havia um número grande de iterações muito simples, o que não gerou ganho de eficiência nos casos paralelizados.</p>
+<p>Neste post, vamos apresentar um caso em que a paralelização apresenta ganhos de eficiência significativos. Para isso, vamos treinar um modelo <em>Random Forest</em> (Floresta Aleatória) de classificação para prever as espécies de flores baseando-se em quatro características: largura e comprimento das pétalas e sépalas.</p>
+<h2 id="os-dados">Os dados</h2>
+<p>Primeiramente, vamos carregar os dados. Não é necessário o uso de nenhum pacote para isso. Basta utilizar o código abaixo.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+data(iris)</code></pre>
+</div>
+<p>Explorando os dados, vemos que existem 150 observações na base de dados. Também, notamos que cada uma das espécies aparece a mesma quantidade de vezes, 50 vezes cada. A largura e o comprimento das pétalas e sépalas estão em centímetro. O código abaixo apresenta o resumo dos dados.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+summary(iris)</code></pre>
+<pre><code>
+  Sepal.Length    Sepal.Width     Petal.Length    Petal.Width   
+ Min.   :4.300   Min.   :2.000   Min.   :1.000   Min.   :0.100  
+ 1st Qu.:5.100   1st Qu.:2.800   1st Qu.:1.600   1st Qu.:0.300  
+ Median :5.800   Median :3.000   Median :4.350   Median :1.300  
+ Mean   :5.843   Mean   :3.057   Mean   :3.758   Mean   :1.199  
+ 3rd Qu.:6.400   3rd Qu.:3.300   3rd Qu.:5.100   3rd Qu.:1.800  
+ Max.   :7.900   Max.   :4.400   Max.   :6.900   Max.   :2.500  
+       Species  
+ setosa    :50  
+ versicolor:50  
+ virginica :50  
+                
+                
+                </code></pre>
+</div>
+<h2 id="fundamentos-introdutorios-do-random-forest">Fundamentos introdutórios do <em>Random Forest</em></h2>
+<p>Como dissemos anteriormente, treinar um modelo de classificação é apenas o meio utilizado para mostrar a utilidade da paralelização. No entanto, já que vamos utilizar o <em>Random Forest</em> para isso, vale a pena uma breve introdução.</p>
+<p>O <em>Random Forest</em> é um tipo de modelo usado tanto para classificação quanto para regressão, que é baseado no que chamamos de árvores de decisão (em inglês, decision trees). Árvores de decisão nada mais são do que um processo sequencial de seleções binárias (ou seja, verdadeiro ou falso, sim ou não…) no qual cada nó da árvore representa uma “pergunta” relacionada a uma das variáveis explicativas. Ao seguir todo o caminho da árvore, atingimos uma de suas folhas a qual indica a classificação prevista pelo modelo. A ordem das variáveis para a realização das “perguntas” considera o quão informativa essa variável é, ou seja, o quanto os valores dessa variável divide a base de dados em conjuntos homogêneos.</p>
+<p>Confuso? Vamos entender melhor com exemplos. Vocês se lembram de um jogo de criança chamado “Cara a Cara”? Deem uma olhada abaixo que provavelmente se lembrarão.</p>
+<figure>
+<img src="../../images/cara_a_cara.jpg" alt="Cara a Cara" /><figcaption>Cara a Cara</figcaption>
+</figure>
+<p>O jogo consistem em tentar adivinhar qual personagem o seu adversário tirou da pilha de cartas. Para isso, fazemos perguntas relacionadas às características dos personagens e, caso a resposta seja “sim”, eliminamos todos os personagens que não possuem aquele característica (e vice-versa). Suponha, então, que eu tenha tirado o personagem João. Meu adversário pergunta se o meu personagem usa chapéu. Como eu irei responder “não”, ele eliminará todos os personagens que usam chapéu (o Beto, a Clara, o Henrique e a Maria). Esse processo será repetido até um dos jogadores conseguir identificar a carta do oponente.</p>
+<p>Vamos sair da analogia e ir para o exemplo dos dados das flores que já carregamos em nosso computador. Após treinarmos o modelo, uma árvore foi construída com “perguntas” específicas em seus nós relacionadas às características das flores. Uma das perguntas pode ser: o comprimento da pétala é maior do que 3,3 cm? Ou então: a largura da sépala é menor do que 2,8 cm? Vejamos a imagem abaixo para termos uma ideia mais clara (os valores são apenas ilustrativos).</p>
+<figure>
+<img src="../../images/decision_tree.png" alt="Exemplo de árvore de decisão" /><figcaption>Exemplo de árvore de decisão</figcaption>
+</figure>
+<p>Agora que entendemos como uma árvore de decisão funciona, fica mais fácil patirmos para o <em>Random Forest</em>. <em>Random Forest</em> nada mais é um conjunto de árvores de decisão. Mais especificamente, este modelo combina várias árvores de decisão, treinando cada uma delas com um conjunto diferente de observações definido de forma aleatória. Além disso, cada árvore utiliza um número limitado de características (variáveis) também escolhidas aleatoriamente. No fim, as previsões são feitas considerando uma média das previsões de cada árvore individualmente.</p>
+<h2 id="o-random-forest-utilizando-o-pacote-caret">O Random forest utilizando o pacote <code>caret</code></h2>
+<p>O pacote <code>caret</code> funciona como uma interface para diversos outros pacotes muito utilizados em trabalhos de aprendizado de máquina (machine learning) e estatística. Duas de suas principais funções são: <code>train()</code> e <code>trainControl()</code>. A função <code>train()</code>, como o nome diz, é responsável por treinar o modelo. Nela, indicamos os dados que vamos usar, a variável dependente e as variáveis independentes, o método a ser utilizado (no nosso caso o método é “rf” de <em>Random Forest</em>), e os parâmentros do método que iremos testar.</p>
+<p>A função <code>trainControl()</code>, por sua vez, indica se usaremos validação cruzada (<em>cross validation</em>), quantos subconjuntos (<em>folds</em>) serão utilizados, quantos repetições da validação cruzada serão realizadas (se for o caso), entre outros aspectos.</p>
+<p>Nest post, para avaliar a eficiência da paralelização, vamos testar diferentes combinações de parâmentros do modelo para descobrir qual especificação gera melhores resultados, o que em ciência de dados é chamado de <em>grid search</em>. Os parâmetros para os quais diferentes valores são testados são o número de variáveis independentes usadas em cada uma das árvores, a quantidade total de árvores no modelo e o número mínimo de observações classificadas em cada uma das folhas das árvores durante o treinamento. É importante frisar que o <code>caret</code> nos permite realizar o <em>grid search</em> e a paralelização de forma direta, como argumentos de suas funções. No entanto, para fins didáticos, faremos o processo “manualmente”.</p>
+<h2 id="quebrando-os-dados-em-amostra-para-treinamento-e-para-teste">Quebrando os dados em amostra para treinamento e para teste</h2>
+<p>Após treinarmos um modelo, precisamos testá-lo para saber o quão boas são suas previsões. Se usarmos o mesmo conjunto de dados para treinar e para testar estaremos trapaceando. O teste precisa ser feito em um conjunto de dados que não foi visto previamente pelo modelo. Como fazemos isso? Simples, separamos parte dos dados para servirem como teste e utilizamos o restante para treinar o modelo. Como pode ser visto no código abaixo, usaremos 90% dos dados para treinamento e 10% para teste. Outro detalhe importante é o uso de uma amostra estratificada, ou seja, os dados utilizados para teste possuem a mesma (ou bem similar) proporção de observações de cada classe (espécie).</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+# Carregar dplyr para manipulação dos dados
+
+library(dplyr)
+
+
+# Definir seed para reprodutibilidade
+
+set.seed(123)
+
+
+# Definir dados de treinamento e teste usando amostra estratificada
+
+iris &lt;- iris %&gt;% 
+  mutate(indice_linha = row_number())
+
+treinamento &lt;- iris %&gt;% 
+  group_by(Species) %&gt;% 
+  sample_frac(., size = 0.9)
+
+teste &lt;- iris %&gt;% 
+  filter(!indice_linha %in% treinamento$indice_linha)
+
+treinamento &lt;- treinamento %&gt;% select(-indice_linha)
+
+teste &lt;- teste %&gt;% select(-indice_linha)</code></pre>
+</div>
+<h2 id="definindo-a-funcao-para-selecionar-a-melhor-combinacao-de-parametros">Definindo a função para selecionar a “melhor” combinação de parâmetros</h2>
+<p>Agora que temos nossa base para treinamento, vamos criar uma função para treinar o nosso <em>Random Forest</em> e encontrar a combinação de parâmentros que faz com que a acurácia das previsões seja a maior possível. Primeiramente, iremos criar uma lista de <em>seeds</em> que são usadas em cada uma das iterações da validação cruzada de forma a possibilitar que os resultados de todos que rodem o mesmo código sejam iguais mesmo considerando a aleatoriedade que existe em diferentes momentos do processo de treinamento.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+# Carregar caret
+
+library(caret)
+
+
+# Definir seeds
+
+seeds &lt;- lapply(c(1:30), function(i){sample.int(1000, 27)})
+
+seeds[[31]] &lt;- sample.int(1000, 1)</code></pre>
+</div>
+<p>Como queremos investigar qual é a combinação de parâmetros que leva a melhores resultados, precisamos definir todas as combinações que queremos verificar. Fazemos isso usando a função <code>expand.grid()</code> e incluindo todos os valores de cada parâmetro que nos interessa. No nosso caso, testaremos os valores 1, 2 e 3 para o número de variáveis explicativas usadas em cada uma das árvores; 300, 400 e 500 para a quantidade total de árvores no modelo; e 5, 10 e 15 para o número mínimo de observações classificadas em cada uma das folhas das árvores durante o treinamento.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+grid_completo &lt;- expand.grid(mtry = c(1, 2, 3),
+                             ntree = c(300, 400, 500),
+                             nodesize = c(5, 10, 15))</code></pre>
+</div>
+<p>Podemos, então, definir a função <code>trainControl()</code>. Nela, indicamos que vamos realizar uma validação cruzada com repetições (<em>repeatedcv</em>), na qual serão considerados 10 subconjuntos em cada uma das três validações cruzadas. O uso do <code>repeatedcv</code> é interessante quando não há muitos dados para treinamento.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+fit_control &lt;- trainControl(method = &quot;repeatedcv&quot;,
+                            number = 10,
+                            repeats = 3,
+                            seeds = seeds)</code></pre>
+</div>
+<p>Finalmente, definimos a função que efetivamente treina o modelo testando as combinações de parâmentros definidas. Essa função recebe como o argumento cada um dos parâmetros do <em>grid</em> e gera um data frame com a acurácia para cada uma das combinações.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+rf_cv &lt;- function(mtry_val, ntree_val, nodesize_val) {
+
+  mtry_temp &lt;- data.frame(.mtry = mtry_val)
+  
+  set.seed(123)
+
+  rf_fit &lt;- train(Species ~ ., 
+                  data = treinamento,
+                  method = &quot;rf&quot;,
+                  trControl = fit_control,
+                  tuneGrid = mtry_temp,
+                  ntree = ntree_val,
+                  nodesize = nodesize_val)
+
+  resultados &lt;- rf_fit$results %&gt;% 
+    mutate(ntree = ntree_val,
+           nodesize = nodesize_val) %&gt;% 
+    select(mtry, ntree, nodesize, Accuracy)
+  
+  return(resultados)
+  
+}</code></pre>
+</div>
+<h2 id="finalmente-a-paralelizacao">Finalmente a paralelização</h2>
+<p>Vamos voltar para o objetivo principal deste post. Queremos verificar se a paralelização realmente traz ganhos de desempenho. Como o <em>grid</em> que construímos possui 27 diferentes combinações de parâmentros, precisamos testar cada uma delas no modelo definido acima. Podemos fazer isso de forma sequencial ou paralelizada. Sequencialmente, uma combinação só começa a ser testada após o término da anterior. Usando a abordagem paralelizada, vários núcleos do computador trabalham simultaneamente, ou seja, cada um deles fica responsável por um conjunto de combinações. Vamos aos testes!</p>
+<p>Como mostrado no post <a href="https://www.fulljoin.com.br/posts/2019-09-19-loop-vs-alternativas/">Por que evitar for loops em R?</a>, é sempre bom evitarmos <em>for loops</em> em R. Seguindo essa boa prática, aqui usaremos o pacote <code>purrr</code> e a família <code>apply</code> e suas versões paralelizadas (pacote <code>furrr</code> e <code>future.apply</code>). Primeiramente, vamos carregar os pacotes necessários.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+library(future.apply)
+library(purrr)
+library(furrr)
+library(caret)
+
+plan(multiprocess)</code></pre>
+</div>
+<p>Vale uma atenção especial para a função <code>plan()</code>. Ela é uma função do pacote <code>future</code> que é responsável por planejar como as tarefas serão executadas. Quando queremos paralelizar, duas estratégias são possíveis. Uma é a chamada <em>multicore</em>, que usa mais de um núcleo do computador para realizar a tarefa. A outra estratégia é utilizar mais de uma sessão de R para realizar a tarefa de forma paralelizada, que é chamada de <em>multisession</em>. Nem todos os sistemas operacionais suportam o <em>multicore</em>, como o Windows por exemplo. Para não precisarmos saber todos os casos, uma alternativa é usar a estratégia <em>multiprocess</em>, já que ela utiliza o <em>multicore</em>, se suportado; caso contrário, ela usa o <em>multisession</em>.</p>
+<p>Agora, podemos rodar nosso modelo <em>Random Forest</em> usando as quatro formas que serão testadas.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+# PURRR 
+
+purrr_tempo &lt;- system.time({
+  
+  purrr_df &lt;- pmap_df(grid_completo, rf_cv)
+  
+})
+
+
+# FURRR 
+
+furrr_tempo &lt;- system.time({
+
+  furrr_df &lt;- future_pmap_dfr(grid_completo, rf_cv)
+  
+})
+
+
+# APPLY 
+
+apply_tempo &lt;- system.time({
+  
+  apply_df &lt;- mapply(
+    rf_cv, 
+    mtry_val = grid_completo$mtry, 
+    ntree_val = grid_completo$ntree,
+    nodesize_val = grid_completo$nodesize
+  )
+  
+  mtry_val &lt;- unlist(apply_df)[c(seq(from = 1, to = 108, by = 4))]
+  ntree_val &lt;- unlist(apply_df)[c(seq(from = 2, to = 108, by = 4))]
+  nodesize_val &lt;- unlist(apply_df)[c(seq(from = 3, to = 108, by = 4))]
+  accuracies &lt;- unlist(apply_df)[c(seq(from = 4, to = 108, by = 4))]
+  
+  apply_df  &lt;-  data.frame(mtry = mtry_val, ntree = ntree_val, 
+                           nodesize = nodesize_val, Accuracy = accuracies)
+})
+
+
+# FUTURE APPLY 
+
+future_apply_tempo &lt;- system.time({
+  
+  future_apply_df &lt;- future_mapply(
+    rf_cv, 
+    mtry_val = grid_completo$mtry, 
+    ntree_val = grid_completo$ntree,
+    nodesize_val = grid_completo$nodesize
+  )
+  
+  mtry_val &lt;- unlist(future_apply_df)[c(seq(from = 1, to = 108, by = 4))]
+  ntree_val &lt;- unlist(future_apply_df)[c(seq(from = 2, to = 108, by = 4))]
+  nodesize_val &lt;- unlist(future_apply_df)[c(seq(from = 3, to = 108, by = 4))]
+  accuracies &lt;- unlist(future_apply_df)[c(seq(from = 4, to = 108, by = 4))]
+  
+  future_apply_df  &lt;-  data.frame(mtry = mtry_val, ntree = ntree_val, 
+                                  nodesize = nodesize_val, Accuracy = accuracies)
+})</code></pre>
+</div>
+<p>Antes de verificarmos o tempo levado por cada uma das diferentes abordagens, vamos checar se os data frames de resultados gerados são os mesmos e visualizar as primeiras linhas de um deles.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+# Checar se data frames são iguais
+
+all_equal(purrr_df, furrr_df)</code></pre>
+<pre><code>
+[1] TRUE</code></pre>
+<pre class="r"><code>
+all_equal(furrr_df, apply_df)</code></pre>
+<pre><code>
+[1] TRUE</code></pre>
+<pre class="r"><code>
+all_equal(apply_df, future_apply_df)</code></pre>
+<pre><code>
+[1] TRUE</code></pre>
+<pre class="r"><code>
+# Ver primeiras linhas de um data frame de resultados
+
+future_apply_df %&gt;% arrange(-Accuracy) %&gt;% head()</code></pre>
+<pre><code>
+  mtry ntree nodesize  Accuracy
+1    2   300       15 0.9478755
+2    2   400       15 0.9478755
+3    2   500       15 0.9478755
+4    2   300        5 0.9476923
+5    3   300        5 0.9476923
+6    3   400        5 0.9476923</code></pre>
+</div>
+<p>Vemos que as combinações que geraram previsões mais precisas são as que usam duas variáveis explicativas escolhidas aleatoriamente e no mínimo 15 observações classificadas em cada uma das folhas das árvores durante o treinamento. Além disso, vimos também que todas as abordagens geraram os mesmos resultados.</p>
+<p>E, então, qual dos métodos utilizados foram mais eficientes em relação ao tempo gasto?</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+purrr_tempo</code></pre>
+<pre><code>
+   user  system elapsed 
+  23.46    1.10   25.13 </code></pre>
+<pre class="r"><code>
+furrr_tempo</code></pre>
+<pre><code>
+   user  system elapsed 
+   0.08    0.00   23.63 </code></pre>
+<pre class="r"><code>
+apply_tempo</code></pre>
+<pre><code>
+   user  system elapsed 
+  23.95    0.81   25.78 </code></pre>
+<pre class="r"><code>
+future_apply_tempo</code></pre>
+<pre><code>
+   user  system elapsed 
+   0.04    0.00   10.42 </code></pre>
+</div>
+<p>Realmente neste caso a paralelização foi significativamente mais rápida. Para os pacotes <code>purrr</code> e <code>furrr</code>, houve uma redução de tempo de 6%. Já para a família <code>apply</code> o ganho de desempenho foi ainda maior: redução de 59.6%.</p>
+<h2 id="mas-afinal-o-quao-preciso-e-nosso-modelo">Mas afinal, o quão preciso é nosso modelo?</h2>
+<p>Como dissemos anteriormente, precisamos verificar o quão precisas são as previsões de nosso modelo aplicando-o a dados não vistos anteriormente. Vamos, então, usar nosso modelo e prever as observações contidas no conjunto de dados separado para teste.</p>
+<p>Primeiramente, vamos treinar novamente nosso modelo usando os valores dos parâmetros que geraram os melhores resultados.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+# Selecionar combinação com melhores resultados
+
+parametros_max &lt;- future_apply_df %&gt;% arrange(-Accuracy) %&gt;% slice(1)
+
+
+# Utilizar parâmetros para treinar Random Forest
+
+set.seed(123)
+
+rf_fit_final &lt;- train(x = treinamento[, -5], 
+                      y = treinamento[, 5] %&gt;% pull(),
+                      method = &quot;rf&quot;,
+                      trControl = trainControl(&quot;none&quot;),
+                      tuneGrid = data.frame(.mtry = parametros_max[[1]]),
+                      ntree = parametros_max[[2]],
+                      nodesize = parametros_max[[3]])</code></pre>
+</div>
+<p>Agora vamos utilizar o modelo treinado para prever as espécies das flores dos dados separados para teste. Para isso, usamos a função <code>predict()</code>, que a partir das variáveis explicativas prevê para cada observação uma das três possíveis espécies. Em seguida usamos a função <code>confusionMatrix()</code> para verifcar as métricas de avaliação.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+previsoes &lt;- predict(rf_fit_final, teste[, -5])
+
+confusionMatrix(previsoes, teste[, 5])</code></pre>
+<pre><code>
+Confusion Matrix and Statistics
+
+            Reference
+Prediction   setosa versicolor virginica
+  setosa          5          0         0
+  versicolor      0          5         0
+  virginica       0          0         5
+
+Overall Statistics
+                                    
+               Accuracy : 1         
+                 95% CI : (0.782, 1)
+    No Information Rate : 0.3333    
+    P-Value [Acc &gt; NIR] : 6.969e-08 
+                                    
+                  Kappa : 1         
+                                    
+ Mcnemar&#39;s Test P-Value : NA        
+
+Statistics by Class:
+
+                     Class: setosa Class: versicolor Class: virginica
+Sensitivity                 1.0000            1.0000           1.0000
+Specificity                 1.0000            1.0000           1.0000
+Pos Pred Value              1.0000            1.0000           1.0000
+Neg Pred Value              1.0000            1.0000           1.0000
+Prevalence                  0.3333            0.3333           0.3333
+Detection Rate              0.3333            0.3333           0.3333
+Detection Prevalence        0.3333            0.3333           0.3333
+Balanced Accuracy           1.0000            1.0000           1.0000</code></pre>
+</div>
+<p>Excelente! Nosso modelo foi capaz de prever todas as flores do conjunto de teste corretamente.</p>
+<h2 id="conclusao">Conclusão</h2>
+<p>Neste post, fomos capazes de mostrar um aumento de desempenho ao utilizarmos abordagens paralelizadas para classificar espécies de flores a partir de um modelo <em>Random Forest</em>. A paralelização se torna ainda mais importante quando precisamos realizar uma tarefa rotineira que nos demanda muito tempo ou quando criamos algum tipo de interface que precisa gerar respostas rápidas. Aproveitamos o nosso teste sobre paralelização para entender e testar o modelo de classificação <em>Random Forest</em> utilizando o pacote <code>caret</code>. Nosso modelo foi capaz de realizar previsões excelentes.</p>
 <!--radix_placeholder_article_footer-->
 <div class="article-footer">
   <p class="social_footer">
     <span class="disqus-comments">
       <i class="fas fa-comments"></i>
       &nbsp;
-      <span class="disqus-comment-count" data-disqus-identifier="posts/2016-03-09-hello-world/">Comment on this article</span>
+      <span class="disqus-comment-count" data-disqus-identifier="posts/2019-10-28-paralelizacao-de-search-grid-usando-random-forest/">Comment on this article</span>
     </span>
     <span class="article-sharing">
       Share: &nbsp;
-      <a href="https://twitter.com/share?text=Hello%20World&amp;url=https%3A%2F%2Fwww.fulljoin.com.br%2Fposts%2F2016-03-09-hello-world%2F">
+      <a href="https://twitter.com/share?text=Entendendo%20os%20benef%C3%ADcios%20da%20paraleliza%C3%A7%C3%A3o%20usando%20Random%20Forest&amp;url=https%3A%2F%2Fwww.fulljoin.com.br%2Fposts%2F2019-10-28-paralelizacao-de-search-grid-usando-random-forest%2F">
         <i class="fab fa-twitter"></i>
       </a>
-      <a href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https%3A%2F%2Fwww.fulljoin.com.br%2Fposts%2F2016-03-09-hello-world%2F&amp;title=Hello%20World">
+      <a href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https%3A%2F%2Fwww.fulljoin.com.br%2Fposts%2F2019-10-28-paralelizacao-de-search-grid-usando-random-forest%2F&amp;title=Entendendo%20os%20benef%C3%ADcios%20da%20paraleliza%C3%A7%C3%A3o%20usando%20Random%20Forest">
         <i class="fab fa-linkedin"></i>
       </a>
-      <a href="https://www.facebook.com/sharer/sharer.php?s=100&amp;p[url]=https%3A%2F%2Fwww.fulljoin.com.br%2Fposts%2F2016-03-09-hello-world%2F">
+      <a href="https://www.facebook.com/sharer/sharer.php?s=100&amp;p[url]=https%3A%2F%2Fwww.fulljoin.com.br%2Fposts%2F2019-10-28-paralelizacao-de-search-grid-usando-random-forest%2F">
         <i class="fab fa-facebook"></i>
       </a>
     </span>
@@ -1408,8 +1708,8 @@ d-appendix {
   <div id="disqus_thread" class="hidden"></div>
   <script>
 var disqus_config = function () {
-  this.page.url = 'https://www.fulljoin.com.br/posts/2016-03-09-hello-world/';
-  this.page.identifier = 'posts/2016-03-09-hello-world/';
+  this.page.url = 'https://www.fulljoin.com.br/posts/2019-10-28-paralelizacao-de-search-grid-usando-random-forest/';
+  this.page.identifier = 'posts/2019-10-28-paralelizacao-de-search-grid-usando-random-forest/';
 };
 (function() {
   var d = document, s = d.createElement('script');
@@ -1432,13 +1732,13 @@ var disqus_config = function () {
 <div class="appendix-bottom">
   <h3 id="citation">Citation</h3>
   <p>For attribution, please cite this work as</p>
-  <pre class="citation-appendix short">Guerra (2016, March 9). Fulljoin: Hello World. Retrieved from https://www.fulljoin.com.br/posts/2016-03-09-hello-world/</pre>
+  <pre class="citation-appendix short">Castro (2019, Nov. 1). Fulljoin: Entendendo os benefícios da paralelização usando Random Forest. Retrieved from https://www.fulljoin.com.br/posts/2019-10-28-paralelizacao-de-search-grid-usando-random-forest/</pre>
   <p>BibTeX citation</p>
-  <pre class="citation-appendix long">@misc{guerra2016hello,
-  author = {Guerra, Saulo},
-  title = {Fulljoin: Hello World},
-  url = {https://www.fulljoin.com.br/posts/2016-03-09-hello-world/},
-  year = {2016}
+  <pre class="citation-appendix long">@misc{castro2019entendendo,
+  author = {Castro, Diego},
+  title = {Fulljoin: Entendendo os benefícios da paralelização usando Random Forest},
+  url = {https://www.fulljoin.com.br/posts/2019-10-28-paralelizacao-de-search-grid-usando-random-forest/},
+  year = {2019}
 }</pre>
 </div>
 <!--/radix_placeholder_appendices-->

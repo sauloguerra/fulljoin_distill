@@ -143,6 +143,7 @@ future_apply_tempo <- system.time({
 
 
 
+
 all_equal(a, b)
 all_equal(b, d)
 all_equal(d, e)

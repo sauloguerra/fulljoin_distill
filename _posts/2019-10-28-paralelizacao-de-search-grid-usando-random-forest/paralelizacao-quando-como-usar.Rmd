@@ -1,13 +1,13 @@
 ---
 title: "Entendendo os benefícios da paralelização usando Random Forest"
 description: |
-  O objetivo principal deste post é apresentar como utilizar a paralelização no R e os ganhos de eficiência ao utilizá-la. Para mostrar este processo, um problema de classificação usando o modelo *Random Forest* (em português, Floresta Aleatória) é utilizado. Portanto, o objetivo secundário deste post é introduzir o modelo Random Forest.
+  O objetivo principal deste post é apresentar como utilizar a paralelização no R e os ganhos de eficiência ao utilizá-la. Para mostrar este processo, um problema de classificação usando o modelo Random Forest (em português, Floresta Aleatória) é utilizado.
 author: Diego Castro
 date: "`r Sys.Date()`"
 output: 
   distill::distill_article:
     self_contained: FALSE
-draft: TRUE
+draft: FALSE
 preview: ../../images/paralelizacao.jpg
 ---
 
@@ -15,7 +15,7 @@ preview: ../../images/paralelizacao.jpg
 knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
 ```
 
-No post [Por que evitar for loops em R?](https://www.fulljoin.com.br/posts/2019-09-19-loop-vs-alternativas/) mostramos que for loops são ineficientes em R. Para isso, tal abordagem foi comparada a outras alternativas (funções do `purrr` e da família `apply`), dentre elas opções que usam paralelização. No entanto, no exemplo utilizado, havia um número grande de iterações muito simples, o que não gerou ganho de eficiência nos casos paralelizados. 
+No post [Por que evitar for loops em R?](https://www.fulljoin.com.br/posts/2019-09-19-loop-vs-alternativas/) mostramos que *for loops* são ineficientes em R. Para isso, tal abordagem foi comparada a outras alternativas (funções do `purrr` e da família `apply`), dentre elas opções que usam paralelização. No entanto, no exemplo utilizado, havia um número grande de iterações muito simples, o que não gerou ganho de eficiência nos casos paralelizados. 
 
 Neste post, vamos apresentar um caso em que a paralelização apresenta ganhos de eficiência significativos. Para isso, vamos treinar um modelo *Random Forest* (Floresta Aleatória) de classificação para prever as espécies de flores baseando-se em quatro características: largura e comprimento das pétalas e sépalas. 
 
@@ -46,7 +46,7 @@ Como dissemos anteriormente, treinar um modelo de classificação é apenas o me
 
 O *Random Forest* é um tipo de modelo usado tanto para classificação quanto para regressão, que é baseado no que chamamos de árvores de decisão (em inglês, decision trees). Árvores de decisão nada mais são do que um processo sequencial de seleções binárias (ou seja, verdadeiro ou falso, sim ou não...) no qual cada nó da árvore representa uma "pergunta" relacionada a uma das variáveis explicativas. Ao seguir todo o caminho da árvore, atingimos uma de suas folhas a qual indica a classificação prevista pelo modelo. A ordem das variáveis para a realização das "perguntas" considera o quão informativa essa variável é, ou seja, o quanto os valores dessa variável divide a base de dados em conjuntos homogêneos. 
 
-Confuso? Vamos entender melhor com exemplos. Vocês se lembrar de um jogo de criança chamado "Cara a Cara"? Deem uma olhada abaixo que provavelmente se lembrarão.
+Confuso? Vamos entender melhor com exemplos. Vocês se lembram de um jogo de criança chamado "Cara a Cara"? Deem uma olhada abaixo que provavelmente se lembrarão.
 
 ![Cara a Cara](../../images/cara_a_cara.jpg)
 
@@ -61,7 +61,7 @@ para o *Random Forest*. *Random Forest* nada mais é um conjunto de árvores de 
 Mais especificamente, este modelo combina várias árvores de decisão, treinando cada
 uma delas com um conjunto diferente de observações definido de forma aleatória. 
 Além disso, cada árvore utiliza um número limitado de características (variáveis) também escolhidas aleatoriamente. 
-No fim, as previsões são feitas considerando um média das previsões de cada árvore individualmente.
+No fim, as previsões são feitas considerando uma média das previsões de cada árvore individualmente.
 
 
 ## O Random forest utilizando o pacote `caret`
@@ -95,7 +95,7 @@ cada classe (espécie).
 library(dplyr)
 
 
-# Definir seed para reproducibilidade
+# Definir seed para reprodutibilidade
 
 set.seed(123)
 
@@ -393,7 +393,7 @@ confusionMatrix(previsoes, teste[, 5])
 Excelente! Nosso modelo foi capaz de prever todas as flores do conjunto de teste
 corretamente.
 
-## CONCLUSÃO
+## Conclusão
 
 Neste post, fomos capazes de mostrar um aumento de desempenho ao utilizarmos abordagens paralelizadas para classificar espécies de flores a partir de um modelo
 *Random Forest*. A paralelização se torna ainda mais importante quando precisamos
