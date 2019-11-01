@@ -1,0 +1,1308 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"/>
+  <meta name="generator" content="distill" />
+
+  <style type="text/css">
+  /* Hide doc at startup (prevent jankiness while JS renders/transforms) */
+  body {
+    visibility: hidden;
+  }
+  </style>
+
+ <!--radix_placeholder_import_source-->
+ <!--/radix_placeholder_import_source-->
+
+  <!--radix_placeholder_meta_tags-->
+  <title>Entendendo os benefícios da paralelização usando Random Forest</title>
+  
+  <meta property="description" itemprop="description" content="O objetivo principal deste post é apresentar como utilizar a paralelização no R e os ganhos de eficiência ao utilizá-la. Para mostrar este processo, um problema de classificação usando o modelo Random Forest (em português, Floresta Aleatória) é utilizado."/>
+  
+  
+  <!--  https://schema.org/Article -->
+  <meta property="article:published" itemprop="datePublished" content="2019-11-01"/>
+  <meta property="article:created" itemprop="dateCreated" content="2019-11-01"/>
+  <meta name="article:author" content="Diego Castro"/>
+  
+  <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
+  <meta property="og:title" content="Entendendo os benefícios da paralelização usando Random Forest"/>
+  <meta property="og:type" content="article"/>
+  <meta property="og:description" content="O objetivo principal deste post é apresentar como utilizar a paralelização no R e os ganhos de eficiência ao utilizá-la. Para mostrar este processo, um problema de classificação usando o modelo Random Forest (em português, Floresta Aleatória) é utilizado."/>
+  <meta property="og:locale" content="en_US"/>
+  
+  <!--  https://dev.twitter.com/cards/types/summary -->
+  <meta property="twitter:card" content="summary"/>
+  <meta property="twitter:title" content="Entendendo os benefícios da paralelização usando Random Forest"/>
+  <meta property="twitter:description" content="O objetivo principal deste post é apresentar como utilizar a paralelização no R e os ganhos de eficiência ao utilizá-la. Para mostrar este processo, um problema de classificação usando o modelo Random Forest (em português, Floresta Aleatória) é utilizado."/>
+  
+  <!--/radix_placeholder_meta_tags-->
+  <!--radix_placeholder_rmarkdown_metadata-->
+  
+  <script type="text/json" id="radix-rmarkdown-metadata">
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","output","draft","preview"]}},"value":[{"type":"character","attributes":{},"value":["Entendendo os benefícios da paralelização usando Random Forest"]},{"type":"character","attributes":{},"value":["O objetivo principal deste post é apresentar como utilizar a paralelização no R e os ganhos de eficiência ao utilizá-la. Para mostrar este processo, um problema de classificação usando o modelo Random Forest (em português, Floresta Aleatória) é utilizado.\n"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name"]}},"value":[{"type":"character","attributes":{},"value":["Diego Castro"]}]}]},{"type":"character","attributes":{},"value":["2019-11-01"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]}]},{"type":"logical","attributes":{},"value":[false]},{"type":"character","attributes":{},"value":["../../images/paralelizacao.jpg"]}]}
+  </script>
+  <!--/radix_placeholder_rmarkdown_metadata-->
+  
+  <script type="text/json" id="radix-resource-manifest">
+  {"type":"character","attributes":{},"value":["paralelizacao-quando-como-usar_files/bowser-1.9.3/bowser.min.js","paralelizacao-quando-como-usar_files/distill-2.2.21/template.v2.js","paralelizacao-quando-como-usar_files/jquery-1.11.3/jquery.min.js","paralelizacao-quando-como-usar_files/webcomponents-2.0.0/webcomponents.js"]}
+  </script>
+  <!--radix_placeholder_navigation_in_header-->
+  <!--/radix_placeholder_navigation_in_header-->
+  <!--radix_placeholder_distill-->
+  
+  <style type="text/css">
+  
+  body {
+    background-color: white;
+  }
+  
+  .pandoc-table {
+    width: 100%;
+  }
+  
+  .pandoc-table>caption {
+    margin-bottom: 10px;
+  }
+  
+  .pandoc-table th:not([align]) {
+    text-align: left;
+  }
+  
+  .pagedtable-footer {
+    font-size: 15px;
+  }
+  
+  .html-widget {
+    margin-bottom: 2.0em;
+  }
+  
+  .l-screen-inset {
+    padding-right: 16px;
+  }
+  
+  .l-screen .caption {
+    margin-left: 10px;
+  }
+  
+  .shaded {
+    background: rgb(247, 247, 247);
+    padding-top: 20px;
+    padding-bottom: 20px;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  }
+  
+  .shaded .html-widget {
+    margin-bottom: 0;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+  }
+  
+  .shaded .shaded-content {
+    background: white;
+  }
+  
+  .text-output {
+    margin-top: 0;
+    line-height: 1.5em;
+  }
+  
+  .hidden {
+    display: none !important;
+  }
+  
+  d-article {
+    padding-bottom: 30px;
+  }
+  
+  d-appendix {
+    padding-top: 30px;
+  }
+  
+  d-article>p>img {
+    width: 100%;
+  }
+  
+  d-article iframe {
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    margin-bottom: 2.0em;
+    width: 100%;
+  }
+  
+  figure img.external {
+    background: white;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+    padding: 18px;
+    box-sizing: border-box;
+  }
+  
+  /* CSS for table of contents */
+  
+  .d-toc {
+    color: rgba(0,0,0,0.8);
+    font-size: 0.8em;
+    line-height: 1em;
+  }
+  
+  .d-toc-header {
+    font-size: 0.6rem;
+    font-weight: 400;
+    color: rgba(0, 0, 0, 0.5);
+    text-transform: uppercase;
+    margin-top: 0;
+    margin-bottom: 1.3em;
+  }
+  
+  .d-toc a {
+    border-bottom: none;
+  }
+  
+  .d-toc ul {
+    padding-left: 0;
+  }
+  
+  .d-toc li>ul {
+    padding-top: 0.8em;
+    padding-left: 16px;
+    margin-bottom: 0.6em;
+  }
+  
+  .d-toc ul,
+  .d-toc li {
+    list-style-type: none;
+  }
+  
+  .d-toc li {
+    margin-bottom: 0.9em;
+  }
+  
+  .d-toc-separator {
+    margin-top: 20px;
+    margin-bottom: 2em;
+  }
+  
+  .d-article-with-toc {
+    border-top: none;
+    padding-top: 0;
+  }
+  
+  
+  
+  /* Tweak code blocks (note that this CSS is repeated above in an injection
+     into the d-code shadow dom) */
+  
+  d-code {
+    overflow-x: auto !important;
+  }
+  
+  pre.d-code code.d-code {
+    padding-left: 10px;
+    font-size: 12px;
+    border-left: 2px solid rgba(0,0,0,0.1);
+  }
+  
+  pre.text-output {
+  
+    font-size: 12px;
+    color: black;
+    background: none;
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+    text-align: left;
+    white-space: pre;
+    word-spacing: normal;
+    word-break: normal;
+    word-wrap: normal;
+    line-height: 1.5;
+  
+    -moz-tab-size: 4;
+    -o-tab-size: 4;
+    tab-size: 4;
+  
+    -webkit-hyphens: none;
+    -moz-hyphens: none;
+    -ms-hyphens: none;
+    hyphens: none;
+  }
+  
+  @media(min-width: 768px) {
+  
+  d-code {
+    overflow-x: visible !important;
+  }
+  
+  pre.d-code code.d-code  {
+      padding-left: 18px;
+      font-size: 14px;
+  }
+  pre.text-output {
+    font-size: 14px;
+  }
+  }
+  
+  /* Figure */
+  
+  .figure {
+    position: relative;
+    margin-bottom: 2.5em;
+    margin-top: 1.5em;
+  }
+  
+  .figure img {
+    width: 100%;
+  }
+  
+  .figure .caption {
+    color: rgba(0, 0, 0, 0.6);
+    font-size: 12px;
+    line-height: 1.5em;
+  }
+  
+  .figure img.external {
+    background: white;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+    padding: 18px;
+    box-sizing: border-box;
+  }
+  
+  .figure .caption a {
+    color: rgba(0, 0, 0, 0.6);
+  }
+  
+  .figure .caption b,
+  .figure .caption strong, {
+    font-weight: 600;
+    color: rgba(0, 0, 0, 1.0);
+  }
+  
+  
+  
+  /* Tweak 1000px media break to show more text */
+  
+  @media(min-width: 1000px) {
+    .base-grid,
+    distill-header,
+    d-title,
+    d-abstract,
+    d-article,
+    d-appendix,
+    distill-appendix,
+    d-byline,
+    d-footnote-list,
+    d-citation-list,
+    distill-footer {
+      grid-template-columns: [screen-start] 1fr [page-start kicker-start] 80px [middle-start] 50px [text-start kicker-end] 65px 65px 65px 65px 65px 65px 65px 65px [text-end gutter-start] 65px [middle-end] 65px [page-end gutter-end] 1fr [screen-end];
+      grid-column-gap: 16px;
+    }
+  
+    .grid {
+      grid-column-gap: 16px;
+    }
+  
+    d-article {
+      font-size: 1.06rem;
+      line-height: 1.7em;
+    }
+    figure .caption, .figure .caption, figure figcaption {
+      font-size: 13px;
+    }
+  }
+  
+  @media(min-width: 1180px) {
+    .base-grid,
+    distill-header,
+    d-title,
+    d-abstract,
+    d-article,
+    d-appendix,
+    distill-appendix,
+    d-byline,
+    d-footnote-list,
+    d-citation-list,
+    distill-footer {
+      grid-template-columns: [screen-start] 1fr [page-start kicker-start] 60px [middle-start] 60px [text-start kicker-end] 60px 60px 60px 60px 60px 60px 60px 60px [text-end gutter-start] 60px [middle-end] 60px [page-end gutter-end] 1fr [screen-end];
+      grid-column-gap: 32px;
+    }
+  
+    .grid {
+      grid-column-gap: 32px;
+    }
+  }
+  
+  
+  /* Get the citation styles for the appendix (not auto-injected on render since
+     we do our own rendering of the citation appendix) */
+  
+  d-appendix .citation-appendix,
+  .d-appendix .citation-appendix {
+    font-size: 11px;
+    line-height: 15px;
+    border-left: 1px solid rgba(0, 0, 0, 0.1);
+    padding-left: 18px;
+    border: 1px solid rgba(0,0,0,0.1);
+    background: rgba(0, 0, 0, 0.02);
+    padding: 10px 18px;
+    border-radius: 3px;
+    color: rgba(150, 150, 150, 1);
+    overflow: hidden;
+    margin-top: -12px;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+  }
+  
+  
+  /* Social footer */
+  
+  .social_footer {
+    margin-top: 30px;
+    margin-bottom: 0;
+    color: rgba(0,0,0,0.67);
+  }
+  
+  .disqus-comments {
+    margin-right: 30px;
+  }
+  
+  .disqus-comment-count {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+    cursor: pointer;
+  }
+  
+  #disqus_thread {
+    margin-top: 30px;
+  }
+  
+  .article-sharing a {
+    border-bottom: none;
+    margin-right: 8px;
+  }
+  
+  .article-sharing a:hover {
+    border-bottom: none;
+  }
+  
+  .sidebar-section.subscribe {
+    font-size: 12px;
+    line-height: 1.6em;
+  }
+  
+  .subscribe p {
+    margin-bottom: 0.5em;
+  }
+  
+  
+  .article-footer .subscribe {
+    font-size: 15px;
+    margin-top: 45px;
+  }
+  
+  
+  /* Improve display for browsers without grid (IE/Edge <= 15) */
+  
+  .downlevel {
+    line-height: 1.6em;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
+    margin: 0;
+  }
+  
+  .downlevel .d-title {
+    padding-top: 6rem;
+    padding-bottom: 1.5rem;
+  }
+  
+  .downlevel .d-title h1 {
+    font-size: 50px;
+    font-weight: 700;
+    line-height: 1.1em;
+    margin: 0 0 0.5rem;
+  }
+  
+  .downlevel .d-title p {
+    font-weight: 300;
+    font-size: 1.2rem;
+    line-height: 1.55em;
+    margin-top: 0;
+  }
+  
+  .downlevel .d-byline {
+    padding-top: 0.8em;
+    padding-bottom: 0.8em;
+    font-size: 0.8rem;
+    line-height: 1.8em;
+  }
+  
+  .downlevel .section-separator {
+    border: none;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+  }
+  
+  .downlevel .d-article {
+    font-size: 1.06rem;
+    line-height: 1.7em;
+    padding-top: 1rem;
+    padding-bottom: 2rem;
+  }
+  
+  
+  .downlevel .d-appendix {
+    padding-left: 0;
+    padding-right: 0;
+    max-width: none;
+    font-size: 0.8em;
+    line-height: 1.7em;
+    margin-bottom: 0;
+    color: rgba(0,0,0,0.5);
+    padding-top: 40px;
+    padding-bottom: 48px;
+  }
+  
+  .downlevel .footnotes ol {
+    padding-left: 13px;
+  }
+  
+  .downlevel .base-grid,
+  .downlevel .distill-header,
+  .downlevel .d-title,
+  .downlevel .d-abstract,
+  .downlevel .d-article,
+  .downlevel .d-appendix,
+  .downlevel .distill-appendix,
+  .downlevel .d-byline,
+  .downlevel .d-footnote-list,
+  .downlevel .d-citation-list,
+  .downlevel .distill-footer,
+  .downlevel .appendix-bottom,
+  .downlevel .posts-container {
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+  
+  @media(min-width: 768px) {
+    .downlevel .base-grid,
+    .downlevel .distill-header,
+    .downlevel .d-title,
+    .downlevel .d-abstract,
+    .downlevel .d-article,
+    .downlevel .d-appendix,
+    .downlevel .distill-appendix,
+    .downlevel .d-byline,
+    .downlevel .d-footnote-list,
+    .downlevel .d-citation-list,
+    .downlevel .distill-footer,
+    .downlevel .appendix-bottom,
+    .downlevel .posts-container {
+    padding-left: 150px;
+    padding-right: 150px;
+    max-width: 900px;
+  }
+  }
+  
+  .downlevel pre code {
+    display: block;
+    border-left: 2px solid rgba(0, 0, 0, .1);
+    padding: 0 0 0 20px;
+    font-size: 14px;
+  }
+  
+  .downlevel code, .downlevel pre {
+    color: black;
+    background: none;
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+    text-align: left;
+    white-space: pre;
+    word-spacing: normal;
+    word-break: normal;
+    word-wrap: normal;
+    line-height: 1.5;
+  
+    -moz-tab-size: 4;
+    -o-tab-size: 4;
+    tab-size: 4;
+  
+    -webkit-hyphens: none;
+    -moz-hyphens: none;
+    -ms-hyphens: none;
+    hyphens: none;
+  }
+  
+  </style>
+  
+  <script type="application/javascript">
+  
+  function is_downlevel_browser() {
+    if (bowser.isUnsupportedBrowser({ msie: "12", msedge: "16"},
+                                   window.navigator.userAgent)) {
+      return true;
+    } else {
+      return window.load_distill_framework === undefined;
+    }
+  }
+  
+  // show body when load is complete
+  function on_load_complete() {
+  
+    // set body to visible
+    document.body.style.visibility = 'visible';
+  
+    // force redraw for leaflet widgets
+    if (window.HTMLWidgets) {
+      var maps = window.HTMLWidgets.findAll(".leaflet");
+      $.each(maps, function(i, el) {
+        var map = this.getMap();
+        map.invalidateSize();
+        map.eachLayer(function(layer) {
+          if (layer instanceof L.TileLayer)
+            layer.redraw();
+        });
+      });
+    }
+  
+    // trigger 'shown' so htmlwidgets resize
+    $('d-article').trigger('shown');
+  }
+  
+  function init_distill() {
+  
+    init_common();
+  
+    // create front matter
+    var front_matter = $('<d-front-matter></d-front-matter>');
+    $('#distill-front-matter').wrap(front_matter);
+  
+    // create d-title
+    $('.d-title').changeElementType('d-title');
+  
+    // create d-byline
+    var byline = $('<d-byline></d-byline>');
+    $('.d-byline').replaceWith(byline);
+  
+    // create d-article
+    var article = $('<d-article></d-article>');
+    $('.d-article').wrap(article).children().unwrap();
+  
+    // move posts container into article
+    $('.posts-container').appendTo($('d-article'));
+  
+    // create d-appendix
+    $('.d-appendix').changeElementType('d-appendix');
+  
+    // create d-bibliography
+    var bibliography = $('<d-bibliography></d-bibliography>');
+    $('#distill-bibliography').wrap(bibliography);
+  
+    // flag indicating that we have appendix items
+    var appendix = $('.appendix-bottom').children('h3').length > 0;
+  
+    // replace citations with <d-cite>
+    $('.citation').each(function(i, val) {
+      appendix = true;
+      var cites = $(this).attr('data-cites').split(" ");
+      var dt_cite = $('<d-cite></d-cite>');
+      dt_cite.attr('key', cites.join());
+      $(this).replaceWith(dt_cite);
+    });
+    // remove refs
+    $('#refs').remove();
+  
+    // replace footnotes with <d-footnote>
+    $('.footnote-ref').each(function(i, val) {
+      appendix = true;
+      var href = $(this).attr('href');
+      var id = href.replace('#', '');
+      var fn = $('#' + id);
+      var fn_p = $('#' + id + '>p');
+      fn_p.find('.footnote-back').remove();
+      var text = fn_p.html();
+      var dtfn = $('<d-footnote></d-footnote>');
+      dtfn.html(text);
+      $(this).replaceWith(dtfn);
+    });
+    // remove footnotes
+    $('.footnotes').remove();
+  
+    $('h1.appendix, h2.appendix').each(function(i, val) {
+      $(this).changeElementType('h3');
+    });
+    $('h3.appendix').each(function(i, val) {
+      var id = $(this).attr('id');
+      $('.d-toc a[href="#' + id + '"]').parent().remove();
+      appendix = true;
+      $(this).nextUntil($('h1, h2, h3')).addBack().appendTo($('d-appendix'));
+    });
+  
+    // show d-appendix if we have appendix content
+    $("d-appendix").css('display', appendix ? 'grid' : 'none');
+  
+    // replace code blocks with d-code
+    $('pre>code').each(function(i, val) {
+      var code = $(this);
+      var pre = code.parent();
+      var clz = "";
+      var language = pre.attr('class');
+      if (language) {
+        // map unknown languages to "clike" (without this they just dissapear)
+        if ($.inArray(language, ["bash", "clike", "css", "go", "html",
+                                 "javascript", "js", "julia", "lua", "markdown",
+                                 "markup", "mathml", "python", "svg", "xml"]) == -1)
+          language = "clike";
+        language = ' language="' + language + '"';
+        var dt_code = $('<d-code block' + language + clz + '></d-code>');
+        dt_code.text(code.text());
+        pre.replaceWith(dt_code);
+      } else {
+        code.addClass('text-output').unwrap().changeElementType('pre');
+      }
+    });
+  
+    // localize layout chunks to just output
+    $('.layout-chunk').each(function(i, val) {
+  
+      // capture layout
+      var layout = $(this).attr('data-layout');
+  
+      // apply layout to markdown level block elements
+      var elements = $(this).children().not('d-code, pre.text-output, script');
+      elements.each(function(i, el) {
+        var layout_div = $('<div class="' + layout + '"></div>');
+        if (layout_div.hasClass('shaded')) {
+          var shaded_content = $('<div class="shaded-content"></div>');
+          $(this).wrap(shaded_content);
+          $(this).parent().wrap(layout_div);
+        } else {
+          $(this).wrap(layout_div);
+        }
+      });
+  
+  
+      // unwrap the layout-chunk div
+      $(this).children().unwrap();
+    });
+  
+    // load distill framework
+    load_distill_framework();
+  
+    // wait for window.distillRunlevel == 4 to do post processing
+    function distill_post_process() {
+  
+      if (!window.distillRunlevel || window.distillRunlevel < 4)
+        return;
+  
+      // hide author/affiliations entirely if we have no authors
+      var front_matter = JSON.parse($("#distill-front-matter").html());
+      var have_authors = front_matter.authors && front_matter.authors.length > 0;
+      if (!have_authors)
+        $('d-byline').addClass('hidden');
+  
+      // table of contents
+      if (have_authors) // adjust border if we are in authors
+        $('.d-toc').parent().addClass('d-article-with-toc');
+  
+      // strip links that point to #
+      $('.authors-affiliations').find('a[href="#"]').removeAttr('href');
+  
+      // hide elements of author/affiliations grid that have no value
+      function hide_byline_column(caption) {
+        $('d-byline').find('h3:contains("' + caption + '")').parent().css('visibility', 'hidden');
+      }
+  
+      // affiliations
+      var have_affiliations = false;
+      for (var i = 0; i<front_matter.authors.length; ++i) {
+        var author = front_matter.authors[i];
+        if (author.affiliation !== "&nbsp;") {
+          have_affiliations = true;
+          break;
+        }
+      }
+      if (!have_affiliations)
+        $('d-byline').find('h3:contains("Affiliations")').css('visibility', 'hidden');
+  
+      // published date
+      if (!front_matter.publishedDate)
+        hide_byline_column("Published");
+  
+      // document object identifier
+      var doi = $('d-byline').find('h3:contains("DOI")');
+      var doi_p = doi.next().empty();
+      if (!front_matter.doi) {
+        // if we have a citation and valid citationText then link to that
+        if ($('#citation').length > 0 && front_matter.citationText) {
+          doi.html('Citation');
+          $('<a href="#citation"></a>')
+            .text(front_matter.citationText)
+            .appendTo(doi_p);
+        } else {
+          hide_byline_column("DOI");
+        }
+      } else {
+        $('<a></a>')
+           .attr('href', "https://doi.org/" + front_matter.doi)
+           .html(front_matter.doi)
+           .appendTo(doi_p);
+      }
+  
+       // change plural form of authors/affiliations
+      if (front_matter.authors.length === 1) {
+        var grid = $('.authors-affiliations');
+        grid.children('h3:contains("Authors")').text('Author');
+        grid.children('h3:contains("Affiliations")').text('Affiliation');
+      }
+  
+      // inject pre code styles (can't do this with a global stylesheet b/c a shadow root is used)
+      $('d-code').each(function(i, val) {
+        var style = document.createElement('style');
+        style.innerHTML = 'pre code { padding-left: 10px; font-size: 12px; border-left: 2px solid rgba(0,0,0,0.1); } ' +
+                          '@media(min-width: 768px) { pre code { padding-left: 18px; font-size: 14px; } }';
+        if (this.shadowRoot)
+          this.shadowRoot.appendChild(style);
+      });
+  
+      // move appendix-bottom entries to the bottom
+      $('.appendix-bottom').appendTo('d-appendix').children().unwrap();
+      $('.appendix-bottom').remove();
+  
+      // clear polling timer
+      clearInterval(tid);
+  
+      // show body now that everything is ready
+      on_load_complete();
+    }
+  
+    var tid = setInterval(distill_post_process, 50);
+    distill_post_process();
+  
+  }
+  
+  function init_downlevel() {
+  
+    init_common();
+  
+     // insert hr after d-title
+    $('.d-title').after($('<hr class="section-separator"/>'));
+  
+    // check if we have authors
+    var front_matter = JSON.parse($("#distill-front-matter").html());
+    var have_authors = front_matter.authors && front_matter.authors.length > 0;
+  
+    // manage byline/border
+    if (!have_authors)
+      $('.d-byline').remove();
+    $('.d-byline').after($('<hr class="section-separator"/>'));
+    $('.d-byline a').remove();
+  
+    // remove toc
+    $('.d-toc-header').remove();
+    $('.d-toc').remove();
+    $('.d-toc-separator').remove();
+  
+    // move appendix elements
+    $('h1.appendix, h2.appendix').each(function(i, val) {
+      $(this).changeElementType('h3');
+    });
+    $('h3.appendix').each(function(i, val) {
+      $(this).nextUntil($('h1, h2, h3')).addBack().appendTo($('.d-appendix'));
+    });
+  
+  
+    // inject headers into references and footnotes
+    var refs_header = $('<h3></h3>');
+    refs_header.text('References');
+    $('#refs').prepend(refs_header);
+  
+    var footnotes_header = $('<h3></h3');
+    footnotes_header.text('Footnotes');
+    $('.footnotes').children('hr').first().replaceWith(footnotes_header);
+  
+    // move appendix-bottom entries to the bottom
+    $('.appendix-bottom').appendTo('.d-appendix').children().unwrap();
+    $('.appendix-bottom').remove();
+  
+    // remove appendix if it's empty
+    if ($('.d-appendix').children().length === 0)
+      $('.d-appendix').remove();
+  
+    // prepend separator above appendix
+    $('.d-appendix').before($('<hr class="section-separator" style="clear: both"/>'));
+  
+    // trim code
+    $('pre>code').each(function(i, val) {
+      $(this).html($.trim($(this).html()));
+    });
+  
+    // move posts-container right before article
+    $('.posts-container').insertBefore($('.d-article'));
+  
+    $('body').addClass('downlevel');
+  
+    on_load_complete();
+  }
+  
+  
+  function init_common() {
+  
+    // jquery plugin to change element types
+    (function($) {
+      $.fn.changeElementType = function(newType) {
+        var attrs = {};
+  
+        $.each(this[0].attributes, function(idx, attr) {
+          attrs[attr.nodeName] = attr.nodeValue;
+        });
+  
+        this.replaceWith(function() {
+          return $("<" + newType + "/>", attrs).append($(this).contents());
+        });
+      };
+    })(jQuery);
+  
+    // prevent underline for linked images
+    $('a > img').parent().css({'border-bottom' : 'none'});
+  
+    // mark non-body figures created by knitr chunks as 100% width
+    $('.layout-chunk').each(function(i, val) {
+      var figures = $(this).find('img, .html-widget');
+      if ($(this).attr('data-layout') !== "l-body") {
+        figures.css('width', '100%');
+      } else {
+        figures.css('max-width', '100%');
+        figures.filter("[width]").each(function(i, val) {
+          var fig = $(this);
+          fig.css('width', fig.attr('width') + 'px');
+        });
+  
+      }
+    });
+  
+    // auto-append index.html to post-preview links in file: protocol
+    // and in rstudio ide preview
+    $('.post-preview').each(function(i, val) {
+      if (window.location.protocol === "file:")
+        $(this).attr('href', $(this).attr('href') + "index.html");
+    });
+  
+    // get rid of index.html references in header
+    if (window.location.protocol !== "file:") {
+      $('.distill-site-header a[href]').each(function(i,val) {
+        $(this).attr('href', $(this).attr('href').replace("index.html", "./"));
+      });
+    }
+  
+    // add class to pandoc style tables
+    $('tr.header').parent('thead').parent('table').addClass('pandoc-table');
+    $('.kable-table').children('table').addClass('pandoc-table');
+  
+    // add figcaption style to table captions
+    $('caption').parent('table').addClass("figcaption");
+  
+    // initialize posts list
+    if (window.init_posts_list)
+      window.init_posts_list();
+  
+    // implmement disqus comment link
+    $('.disqus-comment-count').click(function() {
+      window.headroom_prevent_pin = true;
+      $('#disqus_thread').toggleClass('hidden');
+      if (!$('#disqus_thread').hasClass('hidden')) {
+        var offset = $(this).offset();
+        $(window).resize();
+        $('html, body').animate({
+          scrollTop: offset.top - 35
+        });
+      }
+    });
+  }
+  
+  document.addEventListener('DOMContentLoaded', function() {
+    if (is_downlevel_browser())
+      init_downlevel();
+    else
+      window.addEventListener('WebComponentsReady', init_distill);
+  });
+  
+  </script>
+  
+  <!--/radix_placeholder_distill-->
+  <script src="paralelizacao-quando-como-usar_files/jquery-1.11.3/jquery.min.js"></script>
+  <script src="paralelizacao-quando-como-usar_files/bowser-1.9.3/bowser.min.js"></script>
+  <script src="paralelizacao-quando-como-usar_files/webcomponents-2.0.0/webcomponents.js"></script>
+  <script src="paralelizacao-quando-como-usar_files/distill-2.2.21/template.v2.js"></script>
+  <!--radix_placeholder_site_in_header-->
+  <!--/radix_placeholder_site_in_header-->
+
+
+</head>
+
+<body>
+
+<!--radix_placeholder_front_matter-->
+
+<script id="distill-front-matter" type="text/json">
+{"title":"Entendendo os benefícios da paralelização usando Random Forest","description":"O objetivo principal deste post é apresentar como utilizar a paralelização no R e os ganhos de eficiência ao utilizá-la. Para mostrar este processo, um problema de classificação usando o modelo Random Forest (em português, Floresta Aleatória) é utilizado.","authors":[{"author":"Diego Castro","authorURL":"#","affiliation":"&nbsp;","affiliationURL":"#"}],"publishedDate":"2019-11-01T00:00:00.000-03:00","citationText":"Castro, 2019"}
+</script>
+
+<!--/radix_placeholder_front_matter-->
+<!--radix_placeholder_navigation_before_body-->
+<!--/radix_placeholder_navigation_before_body-->
+<!--radix_placeholder_site_before_body-->
+<!--/radix_placeholder_site_before_body-->
+
+<div class="d-title">
+<h1>Entendendo os benefícios da paralelização usando Random Forest</h1>
+<p>O objetivo principal deste post é apresentar como utilizar a paralelização no R e os ganhos de eficiência ao utilizá-la. Para mostrar este processo, um problema de classificação usando o modelo Random Forest (em português, Floresta Aleatória) é utilizado.</p>
+</div>
+
+<div class="d-byline">
+  
+  Diego Castro
+  
+<br/>2019-11-01
+</div>
+
+<div class="d-article">
+<p>No post <a href="https://www.fulljoin.com.br/posts/2019-09-19-loop-vs-alternativas/">Por que evitar for loops em R?</a> mostramos que <em>for loops</em> são ineficientes em R. Para isso, tal abordagem foi comparada a outras alternativas (funções do <code>purrr</code> e da família <code>apply</code>), dentre elas opções que usam paralelização. No entanto, no exemplo utilizado, havia um número grande de iterações muito simples, o que não gerou ganho de eficiência nos casos paralelizados.</p>
+<p>Neste post, vamos apresentar um caso em que a paralelização apresenta ganhos de eficiência significativos. Para isso, vamos treinar um modelo <em>Random Forest</em> (Floresta Aleatória) de classificação para prever as espécies de flores baseando-se em quatro características: largura e comprimento das pétalas e sépalas.</p>
+<h2 id="os-dados">Os dados</h2>
+<p>Primeiramente, vamos carregar os dados. Não é necessário o uso de nenhum pacote para isso. Basta utilizar o código abaixo.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+data(iris)</code></pre>
+</div>
+<p>Explorando os dados, vemos que existem 150 observações na base de dados. Também, notamos que cada uma das espécies aparece a mesma quantidade de vezes, 50 vezes cada. A largura e o comprimento das pétalas e sépalas estão em centímetro. O código abaixo apresenta o resumo dos dados.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+summary(iris)</code></pre>
+<pre><code>
+  Sepal.Length    Sepal.Width     Petal.Length    Petal.Width   
+ Min.   :4.300   Min.   :2.000   Min.   :1.000   Min.   :0.100  
+ 1st Qu.:5.100   1st Qu.:2.800   1st Qu.:1.600   1st Qu.:0.300  
+ Median :5.800   Median :3.000   Median :4.350   Median :1.300  
+ Mean   :5.843   Mean   :3.057   Mean   :3.758   Mean   :1.199  
+ 3rd Qu.:6.400   3rd Qu.:3.300   3rd Qu.:5.100   3rd Qu.:1.800  
+ Max.   :7.900   Max.   :4.400   Max.   :6.900   Max.   :2.500  
+       Species  
+ setosa    :50  
+ versicolor:50  
+ virginica :50  
+                
+                
+                </code></pre>
+</div>
+<h2 id="fundamentos-introdutorios-do-random-forest">Fundamentos introdutórios do <em>Random Forest</em></h2>
+<p>Como dissemos anteriormente, treinar um modelo de classificação é apenas o meio utilizado para mostrar a utilidade da paralelização. No entanto, já que vamos utilizar o <em>Random Forest</em> para isso, vale a pena uma breve introdução.</p>
+<p>O <em>Random Forest</em> é um tipo de modelo usado tanto para classificação quanto para regressão, que é baseado no que chamamos de árvores de decisão (em inglês, decision trees). Árvores de decisão nada mais são do que um processo sequencial de seleções binárias (ou seja, verdadeiro ou falso, sim ou não…) no qual cada nó da árvore representa uma “pergunta” relacionada a uma das variáveis explicativas. Ao seguir todo o caminho da árvore, atingimos uma de suas folhas a qual indica a classificação prevista pelo modelo. A ordem das variáveis para a realização das “perguntas” considera o quão informativa essa variável é, ou seja, o quanto os valores dessa variável divide a base de dados em conjuntos homogêneos.</p>
+<p>Confuso? Vamos entender melhor com exemplos. Vocês se lembram de um jogo de criança chamado “Cara a Cara”? Deem uma olhada abaixo que provavelmente se lembrarão.</p>
+<figure>
+<img src="../../images/cara_a_cara.jpg" alt="Cara a Cara" /><figcaption>Cara a Cara</figcaption>
+</figure>
+<p>O jogo consistem em tentar adivinhar qual personagem o seu adversário tirou da pilha de cartas. Para isso, fazemos perguntas relacionadas às características dos personagens e, caso a resposta seja “sim”, eliminamos todos os personagens que não possuem aquele característica (e vice-versa). Suponha, então, que eu tenha tirado o personagem João. Meu adversário pergunta se o meu personagem usa chapéu. Como eu irei responder “não”, ele eliminará todos os personagens que usam chapéu (o Beto, a Clara, o Henrique e a Maria). Esse processo será repetido até um dos jogadores conseguir identificar a carta do oponente.</p>
+<p>Vamos sair da analogia e ir para o exemplo dos dados das flores que já carregamos em nosso computador. Após treinarmos o modelo, uma árvore foi construída com “perguntas” específicas em seus nós relacionadas às características das flores. Uma das perguntas pode ser: o comprimento da pétala é maior do que 3,3 cm? Ou então: a largura da sépala é menor do que 2,8 cm? Vejamos a imagem abaixo para termos uma ideia mais clara (os valores são apenas ilustrativos).</p>
+<figure>
+<img src="../../images/decision_tree.png" alt="Exemplo de árvore de decisão" /><figcaption>Exemplo de árvore de decisão</figcaption>
+</figure>
+<p>Agora que entendemos como uma árvore de decisão funciona, fica mais fácil patirmos para o <em>Random Forest</em>. <em>Random Forest</em> nada mais é um conjunto de árvores de decisão. Mais especificamente, este modelo combina várias árvores de decisão, treinando cada uma delas com um conjunto diferente de observações definido de forma aleatória. Além disso, cada árvore utiliza um número limitado de características (variáveis) também escolhidas aleatoriamente. No fim, as previsões são feitas considerando uma média das previsões de cada árvore individualmente.</p>
+<h2 id="o-random-forest-utilizando-o-pacote-caret">O Random forest utilizando o pacote <code>caret</code></h2>
+<p>O pacote <code>caret</code> funciona como uma interface para diversos outros pacotes muito utilizados em trabalhos de aprendizado de máquina (machine learning) e estatística. Duas de suas principais funções são: <code>train()</code> e <code>trainControl()</code>. A função <code>train()</code>, como o nome diz, é responsável por treinar o modelo. Nela, indicamos os dados que vamos usar, a variável dependente e as variáveis independentes, o método a ser utilizado (no nosso caso o método é “rf” de <em>Random Forest</em>), e os parâmentros do método que iremos testar.</p>
+<p>A função <code>trainControl()</code>, por sua vez, indica se usaremos validação cruzada (<em>cross validation</em>), quantos subconjuntos (<em>folds</em>) serão utilizados, quantos repetições da validação cruzada serão realizadas (se for o caso), entre outros aspectos.</p>
+<p>Nest post, para avaliar a eficiência da paralelização, vamos testar diferentes combinações de parâmentros do modelo para descobrir qual especificação gera melhores resultados, o que em ciência de dados é chamado de <em>grid search</em>. Os parâmetros para os quais diferentes valores são testados são o número de variáveis independentes usadas em cada uma das árvores, a quantidade total de árvores no modelo e o número mínimo de observações classificadas em cada uma das folhas das árvores durante o treinamento. É importante frisar que o <code>caret</code> nos permite realizar o <em>grid search</em> e a paralelização de forma direta, como argumentos de suas funções. No entanto, para fins didáticos, faremos o processo “manualmente”.</p>
+<h2 id="quebrando-os-dados-em-amostra-para-treinamento-e-para-teste">Quebrando os dados em amostra para treinamento e para teste</h2>
+<p>Após treinarmos um modelo, precisamos testá-lo para saber o quão boas são suas previsões. Se usarmos o mesmo conjunto de dados para treinar e para testar estaremos trapaceando. O teste precisa ser feito em um conjunto de dados que não foi visto previamente pelo modelo. Como fazemos isso? Simples, separamos parte dos dados para servirem como teste e utilizamos o restante para treinar o modelo. Como pode ser visto no código abaixo, usaremos 90% dos dados para treinamento e 10% para teste. Outro detalhe importante é o uso de uma amostra estratificada, ou seja, os dados utilizados para teste possuem a mesma (ou bem similar) proporção de observações de cada classe (espécie).</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+# Carregar dplyr para manipulação dos dados
+
+library(dplyr)
+
+
+# Definir seed para reprodutibilidade
+
+set.seed(123)
+
+
+# Definir dados de treinamento e teste usando amostra estratificada
+
+iris &lt;- iris %&gt;% 
+  mutate(indice_linha = row_number())
+
+treinamento &lt;- iris %&gt;% 
+  group_by(Species) %&gt;% 
+  sample_frac(., size = 0.9)
+
+teste &lt;- iris %&gt;% 
+  filter(!indice_linha %in% treinamento$indice_linha)
+
+treinamento &lt;- treinamento %&gt;% select(-indice_linha)
+
+teste &lt;- teste %&gt;% select(-indice_linha)</code></pre>
+</div>
+<h2 id="definindo-a-funcao-para-selecionar-a-melhor-combinacao-de-parametros">Definindo a função para selecionar a “melhor” combinação de parâmetros</h2>
+<p>Agora que temos nossa base para treinamento, vamos criar uma função para treinar o nosso <em>Random Forest</em> e encontrar a combinação de parâmentros que faz com que a acurácia das previsões seja a maior possível. Primeiramente, iremos criar uma lista de <em>seeds</em> que são usadas em cada uma das iterações da validação cruzada de forma a possibilitar que os resultados de todos que rodem o mesmo código sejam iguais mesmo considerando a aleatoriedade que existe em diferentes momentos do processo de treinamento.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+# Carregar caret
+
+library(caret)
+
+
+# Definir seeds
+
+seeds &lt;- lapply(c(1:30), function(i){sample.int(1000, 27)})
+
+seeds[[31]] &lt;- sample.int(1000, 1)</code></pre>
+</div>
+<p>Como queremos investigar qual é a combinação de parâmetros que leva a melhores resultados, precisamos definir todas as combinações que queremos verificar. Fazemos isso usando a função <code>expand.grid()</code> e incluindo todos os valores de cada parâmetro que nos interessa. No nosso caso, testaremos os valores 1, 2 e 3 para o número de variáveis explicativas usadas em cada uma das árvores; 300, 400 e 500 para a quantidade total de árvores no modelo; e 5, 10 e 15 para o número mínimo de observações classificadas em cada uma das folhas das árvores durante o treinamento.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+grid_completo &lt;- expand.grid(mtry = c(1, 2, 3),
+                             ntree = c(300, 400, 500),
+                             nodesize = c(5, 10, 15))</code></pre>
+</div>
+<p>Podemos, então, definir a função <code>trainControl()</code>. Nela, indicamos que vamos realizar uma validação cruzada com repetições (<em>repeatedcv</em>), na qual serão considerados 10 subconjuntos em cada uma das três validações cruzadas. O uso do <code>repeatedcv</code> é interessante quando não há muitos dados para treinamento.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+fit_control &lt;- trainControl(method = &quot;repeatedcv&quot;,
+                            number = 10,
+                            repeats = 3,
+                            seeds = seeds)</code></pre>
+</div>
+<p>Finalmente, definimos a função que efetivamente treina o modelo testando as combinações de parâmentros definidas. Essa função recebe como o argumento cada um dos parâmetros do <em>grid</em> e gera um data frame com a acurácia para cada uma das combinações.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+rf_cv &lt;- function(mtry_val, ntree_val, nodesize_val) {
+
+  mtry_temp &lt;- data.frame(.mtry = mtry_val)
+  
+  set.seed(123)
+
+  rf_fit &lt;- train(Species ~ ., 
+                  data = treinamento,
+                  method = &quot;rf&quot;,
+                  trControl = fit_control,
+                  tuneGrid = mtry_temp,
+                  ntree = ntree_val,
+                  nodesize = nodesize_val)
+
+  resultados &lt;- rf_fit$results %&gt;% 
+    mutate(ntree = ntree_val,
+           nodesize = nodesize_val) %&gt;% 
+    select(mtry, ntree, nodesize, Accuracy)
+  
+  return(resultados)
+  
+}</code></pre>
+</div>
+<h2 id="finalmente-a-paralelizacao">Finalmente a paralelização</h2>
+<p>Vamos voltar para o objetivo principal deste post. Queremos verificar se a paralelização realmente traz ganhos de desempenho. Como o <em>grid</em> que construímos possui 27 diferentes combinações de parâmentros, precisamos testar cada uma delas no modelo definido acima. Podemos fazer isso de forma sequencial ou paralelizada. Sequencialmente, uma combinação só começa a ser testada após o término da anterior. Usando a abordagem paralelizada, vários núcleos do computador trabalham simultaneamente, ou seja, cada um deles fica responsável por um conjunto de combinações. Vamos aos testes!</p>
+<p>Como mostrado no post <a href="https://www.fulljoin.com.br/posts/2019-09-19-loop-vs-alternativas/">Por que evitar for loops em R?</a>, é sempre bom evitarmos <em>for loops</em> em R. Seguindo essa boa prática, aqui usaremos o pacote <code>purrr</code> e a família <code>apply</code> e suas versões paralelizadas (pacote <code>furrr</code> e <code>future.apply</code>). Primeiramente, vamos carregar os pacotes necessários.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+library(future.apply)
+library(purrr)
+library(furrr)
+library(caret)
+
+plan(multiprocess)</code></pre>
+</div>
+<p>Vale uma atenção especial para a função <code>plan()</code>. Ela é uma função do pacote <code>future</code> que é responsável por planejar como as tarefas serão executadas. Quando queremos paralelizar, duas estratégias são possíveis. Uma é a chamada <em>multicore</em>, que usa mais de um núcleo do computador para realizar a tarefa. A outra estratégia é utilizar mais de uma sessão de R para realizar a tarefa de forma paralelizada, que é chamada de <em>multisession</em>. Nem todos os sistemas operacionais suportam o <em>multicore</em>, como o Windows por exemplo. Para não precisarmos saber todos os casos, uma alternativa é usar a estratégia <em>multiprocess</em>, já que ela utiliza o <em>multicore</em>, se suportado; caso contrário, ela usa o <em>multisession</em>.</p>
+<p>Agora, podemos rodar nosso modelo <em>Random Forest</em> usando as quatro formas que serão testadas.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+# PURRR 
+
+purrr_tempo &lt;- system.time({
+  
+  purrr_df &lt;- pmap_df(grid_completo, rf_cv)
+  
+})
+
+
+# FURRR 
+
+furrr_tempo &lt;- system.time({
+
+  furrr_df &lt;- future_pmap_dfr(grid_completo, rf_cv)
+  
+})
+
+
+# APPLY 
+
+apply_tempo &lt;- system.time({
+  
+  apply_df &lt;- mapply(
+    rf_cv, 
+    mtry_val = grid_completo$mtry, 
+    ntree_val = grid_completo$ntree,
+    nodesize_val = grid_completo$nodesize
+  )
+  
+  mtry_val &lt;- unlist(apply_df)[c(seq(from = 1, to = 108, by = 4))]
+  ntree_val &lt;- unlist(apply_df)[c(seq(from = 2, to = 108, by = 4))]
+  nodesize_val &lt;- unlist(apply_df)[c(seq(from = 3, to = 108, by = 4))]
+  accuracies &lt;- unlist(apply_df)[c(seq(from = 4, to = 108, by = 4))]
+  
+  apply_df  &lt;-  data.frame(mtry = mtry_val, ntree = ntree_val, 
+                           nodesize = nodesize_val, Accuracy = accuracies)
+})
+
+
+# FUTURE APPLY 
+
+future_apply_tempo &lt;- system.time({
+  
+  future_apply_df &lt;- future_mapply(
+    rf_cv, 
+    mtry_val = grid_completo$mtry, 
+    ntree_val = grid_completo$ntree,
+    nodesize_val = grid_completo$nodesize
+  )
+  
+  mtry_val &lt;- unlist(future_apply_df)[c(seq(from = 1, to = 108, by = 4))]
+  ntree_val &lt;- unlist(future_apply_df)[c(seq(from = 2, to = 108, by = 4))]
+  nodesize_val &lt;- unlist(future_apply_df)[c(seq(from = 3, to = 108, by = 4))]
+  accuracies &lt;- unlist(future_apply_df)[c(seq(from = 4, to = 108, by = 4))]
+  
+  future_apply_df  &lt;-  data.frame(mtry = mtry_val, ntree = ntree_val, 
+                                  nodesize = nodesize_val, Accuracy = accuracies)
+})</code></pre>
+</div>
+<p>Antes de verificarmos o tempo levado por cada uma das diferentes abordagens, vamos checar se os data frames de resultados gerados são os mesmos e visualizar as primeiras linhas de um deles.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+# Checar se data frames são iguais
+
+all_equal(purrr_df, furrr_df)</code></pre>
+<pre><code>
+[1] TRUE</code></pre>
+<pre class="r"><code>
+all_equal(furrr_df, apply_df)</code></pre>
+<pre><code>
+[1] TRUE</code></pre>
+<pre class="r"><code>
+all_equal(apply_df, future_apply_df)</code></pre>
+<pre><code>
+[1] TRUE</code></pre>
+<pre class="r"><code>
+# Ver primeiras linhas de um data frame de resultados
+
+future_apply_df %&gt;% arrange(-Accuracy) %&gt;% head()</code></pre>
+<pre><code>
+  mtry ntree nodesize  Accuracy
+1    2   300       15 0.9478755
+2    2   400       15 0.9478755
+3    2   500       15 0.9478755
+4    2   300        5 0.9476923
+5    3   300        5 0.9476923
+6    3   400        5 0.9476923</code></pre>
+</div>
+<p>Vemos que as combinações que geraram previsões mais precisas são as que usam duas variáveis explicativas escolhidas aleatoriamente e no mínimo 15 observações classificadas em cada uma das folhas das árvores durante o treinamento. Além disso, vimos também que todas as abordagens geraram os mesmos resultados.</p>
+<p>E, então, qual dos métodos utilizados foram mais eficientes em relação ao tempo gasto?</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+purrr_tempo</code></pre>
+<pre><code>
+   user  system elapsed 
+  23.46    1.10   25.13 </code></pre>
+<pre class="r"><code>
+furrr_tempo</code></pre>
+<pre><code>
+   user  system elapsed 
+   0.08    0.00   23.63 </code></pre>
+<pre class="r"><code>
+apply_tempo</code></pre>
+<pre><code>
+   user  system elapsed 
+  23.95    0.81   25.78 </code></pre>
+<pre class="r"><code>
+future_apply_tempo</code></pre>
+<pre><code>
+   user  system elapsed 
+   0.04    0.00   10.42 </code></pre>
+</div>
+<p>Realmente neste caso a paralelização foi significativamente mais rápida. Para os pacotes <code>purrr</code> e <code>furrr</code>, houve uma redução de tempo de 6%. Já para a família <code>apply</code> o ganho de desempenho foi ainda maior: redução de 59.6%.</p>
+<h2 id="mas-afinal-o-quao-preciso-e-nosso-modelo">Mas afinal, o quão preciso é nosso modelo?</h2>
+<p>Como dissemos anteriormente, precisamos verificar o quão precisas são as previsões de nosso modelo aplicando-o a dados não vistos anteriormente. Vamos, então, usar nosso modelo e prever as observações contidas no conjunto de dados separado para teste.</p>
+<p>Primeiramente, vamos treinar novamente nosso modelo usando os valores dos parâmetros que geraram os melhores resultados.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+# Selecionar combinação com melhores resultados
+
+parametros_max &lt;- future_apply_df %&gt;% arrange(-Accuracy) %&gt;% slice(1)
+
+
+# Utilizar parâmetros para treinar Random Forest
+
+set.seed(123)
+
+rf_fit_final &lt;- train(x = treinamento[, -5], 
+                      y = treinamento[, 5] %&gt;% pull(),
+                      method = &quot;rf&quot;,
+                      trControl = trainControl(&quot;none&quot;),
+                      tuneGrid = data.frame(.mtry = parametros_max[[1]]),
+                      ntree = parametros_max[[2]],
+                      nodesize = parametros_max[[3]])</code></pre>
+</div>
+<p>Agora vamos utilizar o modelo treinado para prever as espécies das flores dos dados separados para teste. Para isso, usamos a função <code>predict()</code>, que a partir das variáveis explicativas prevê para cada observação uma das três possíveis espécies. Em seguida usamos a função <code>confusionMatrix()</code> para verifcar as métricas de avaliação.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+previsoes &lt;- predict(rf_fit_final, teste[, -5])
+
+confusionMatrix(previsoes, teste[, 5])</code></pre>
+<pre><code>
+Confusion Matrix and Statistics
+
+            Reference
+Prediction   setosa versicolor virginica
+  setosa          5          0         0
+  versicolor      0          5         0
+  virginica       0          0         5
+
+Overall Statistics
+                                    
+               Accuracy : 1         
+                 95% CI : (0.782, 1)
+    No Information Rate : 0.3333    
+    P-Value [Acc &gt; NIR] : 6.969e-08 
+                                    
+                  Kappa : 1         
+                                    
+ Mcnemar&#39;s Test P-Value : NA        
+
+Statistics by Class:
+
+                     Class: setosa Class: versicolor Class: virginica
+Sensitivity                 1.0000            1.0000           1.0000
+Specificity                 1.0000            1.0000           1.0000
+Pos Pred Value              1.0000            1.0000           1.0000
+Neg Pred Value              1.0000            1.0000           1.0000
+Prevalence                  0.3333            0.3333           0.3333
+Detection Rate              0.3333            0.3333           0.3333
+Detection Prevalence        0.3333            0.3333           0.3333
+Balanced Accuracy           1.0000            1.0000           1.0000</code></pre>
+</div>
+<p>Excelente! Nosso modelo foi capaz de prever todas as flores do conjunto de teste corretamente.</p>
+<h2 id="conclusao">Conclusão</h2>
+<p>Neste post, fomos capazes de mostrar um aumento de desempenho ao utilizarmos abordagens paralelizadas para classificar espécies de flores a partir de um modelo <em>Random Forest</em>. A paralelização se torna ainda mais importante quando precisamos realizar uma tarefa rotineira que nos demanda muito tempo ou quando criamos algum tipo de interface que precisa gerar respostas rápidas. Aproveitamos o nosso teste sobre paralelização para entender e testar o modelo de classificação <em>Random Forest</em> utilizando o pacote <code>caret</code>. Nosso modelo foi capaz de realizar previsões excelentes.</p>
+<!--radix_placeholder_article_footer-->
+<!--/radix_placeholder_article_footer-->
+</div>
+
+<div class="d-appendix">
+</div>
+
+
+<!--radix_placeholder_site_after_body-->
+<!--/radix_placeholder_site_after_body-->
+<!--radix_placeholder_appendices-->
+<div class="appendix-bottom"></div>
+<!--/radix_placeholder_appendices-->
+<!--radix_placeholder_navigation_after_body-->
+<!--/radix_placeholder_navigation_after_body-->
+
+</body>
+
+</html>

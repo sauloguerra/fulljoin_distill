@@ -967,26 +967,25 @@
 
 <div class="d-article">
 <!-- More -->
-<p><a href="https://www.fulljoin.com.br/posts/2019-10-13-manipulao-de-texto-com-stringr/">No post anterior</a> sobre manipulação de texto, exploramos três funções do pacote <code>stringr</code>: <code>str_pad</code>, <code>str_sub</code> e <code>str_detect</code>.</p>
-<p>Neste post, continuaremos utilizando o <code>str_detect</code>, mas, dessa vez, envolveremos noções de <strong>regex</strong>. Além dessa função, também veremos outras funções úteis para a manipulação de texto. Da mesma forma que no post anterior, também iremos criar problemas e resolvê-los.</p>
+<p><a href="https://www.fulljoin.com.br/posts/2019-10-13-manipulao-de-texto-com-stringr/">No post anterior</a> sobre manipulação de texto, exploramos três funções do pacote <code>stringr</code>: <code>str_pad</code>, <code>str_sub</code> e <code>str_detect</code>. Neste post, continuaremos utilizando o <code>str_detect</code>, mas, dessa vez, envolveremos noções de <strong>regex</strong>. Além dessa função, também veremos outras funções úteis para a manipulação de texto. Da mesma forma que no post anterior, também iremos criar problemas e resolvê-los.</p>
 <h3 id="configuração-de-pacotes-e-carregamento-dos-dados">Configuração de pacotes e carregamento dos dados</h3>
 <p>A seguir carregamos os pacotes que iremos precisar:</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 library(dplyr)
 library(stringr)
-library(data.table)</code></pre>
+library(rmarkdown)</code></pre>
 </div>
 <p>Em seguida baixamos os dados que iremos utilizar e os escrevemos no objeto <code>paises</code>. Este objeto possui três colunas: ISOA, pais_ing, pais_port. A coluna “ISOA” traz o código ISO dos países; a coluna “pais_ing” traz o nome do país em inglês; e, a coluna “pais_port” traz o nome do país em português.</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
-paises &lt;- fread(
+paises &lt;- data.table::fread(
   &quot;https://raw.githubusercontent.com/mgcleaver/correlacoes/master/paises_isoa.txt&quot;,
                 encoding = &quot;UTF-8&quot;
 )
 
 head(paises) %&gt;% 
-  rmarkdown::paged_table(.)</code></pre>
+  paged_table(.)</code></pre>
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
 {"columns":[{"label":["ISOA"],"name":[1],"type":["chr"],"align":["left"]},{"label":["pais_ing"],"name":[2],"type":["chr"],"align":["left"]},{"label":["pais_port"],"name":[3],"type":["chr"],"align":["left"]}],"data":[{"1":"ABW","2":"Aruba","3":"Aruba"},{"1":"AFG","2":"Afghanistan","3":"Afeganistão"},{"1":"AGO","2":"Angola","3":"Angola"},{"1":"AIA","2":"Anguilla","3":"Anguila"},{"1":"ALA","2":"Åland Islands","3":"Ilhas Aland"},{"1":"ALB","2":"Albania","3":"Albânia"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
@@ -1022,7 +1021,7 @@ paises &lt;- paises %&gt;%
   mutate_all(.funs = str_to_lower) 
 
 head(paises) %&gt;% 
-  rmarkdown::paged_table(.)</code></pre>
+  paged_table(.)</code></pre>
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
 {"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["ISOA"],"name":[1],"type":["chr"],"align":["left"]},{"label":["pais_ing"],"name":[2],"type":["chr"],"align":["left"]},{"label":["pais_port"],"name":[3],"type":["chr"],"align":["left"]}],"data":[{"1":"abw","2":"aruba","3":"aruba","_rn_":"1"},{"1":"afg","2":"afghanistan","3":"afeganistão","_rn_":"2"},{"1":"ago","2":"angola","3":"angola","_rn_":"3"},{"1":"aia","2":"anguilla","3":"anguila","_rn_":"4"},{"1":"ala","2":"åland islands","3":"ilhas aland","_rn_":"5"},{"1":"alb","2":"albania","3":"albânia","_rn_":"6"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
@@ -1037,7 +1036,7 @@ paises &lt;- paises %&gt;%
   mutate(pais_ing = str_to_title(pais_ing))
 
 head(paises) %&gt;% 
-  rmarkdown::paged_table(.)</code></pre>
+  paged_table(.)</code></pre>
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
 {"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["ISOA"],"name":[1],"type":["chr"],"align":["left"]},{"label":["pais_ing"],"name":[2],"type":["chr"],"align":["left"]},{"label":["pais_port"],"name":[3],"type":["chr"],"align":["left"]}],"data":[{"1":"abw","2":"Aruba","3":"aruba","_rn_":"1"},{"1":"afg","2":"Afghanistan","3":"afeganistão","_rn_":"2"},{"1":"ago","2":"Angola","3":"angola","_rn_":"3"},{"1":"aia","2":"Anguilla","3":"anguila","_rn_":"4"},{"1":"ala","2":"Åland Islands","3":"ilhas aland","_rn_":"5"},{"1":"alb","2":"Albania","3":"albânia","_rn_":"6"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
@@ -1053,7 +1052,7 @@ paises &lt;- paises %&gt;%
   mutate(ISOA = str_to_upper(ISOA))
 
 head(paises) %&gt;% 
-  rmarkdown::paged_table(.)</code></pre>
+  paged_table(.)</code></pre>
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
 {"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["ISOA"],"name":[1],"type":["chr"],"align":["left"]},{"label":["pais_ing"],"name":[2],"type":["chr"],"align":["left"]},{"label":["pais_port"],"name":[3],"type":["chr"],"align":["left"]}],"data":[{"1":"ABW","2":"Aruba","3":"aruba","_rn_":"1"},{"1":"AFG","2":"Afghanistan","3":"afeganistão","_rn_":"2"},{"1":"AGO","2":"Angola","3":"angola","_rn_":"3"},{"1":"AIA","2":"Anguilla","3":"anguila","_rn_":"4"},{"1":"ALA","2":"Åland Islands","3":"ilhas aland","_rn_":"5"},{"1":"ALB","2":"Albania","3":"albânia","_rn_":"6"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
@@ -1067,7 +1066,7 @@ head(paises) %&gt;%
 paises %&gt;% 
   filter(str_detect(pais_port, &quot;c&quot;)) %&gt;% 
   head(15) %&gt;% 
-  rmarkdown::paged_table(.)</code></pre>
+  paged_table()</code></pre>
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
 {"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["ISOA"],"name":[1],"type":["chr"],"align":["left"]},{"label":["pais_ing"],"name":[2],"type":["chr"],"align":["left"]},{"label":["pais_port"],"name":[3],"type":["chr"],"align":["left"]}],"data":[{"1":"ASM","2":"American Samoa","3":"samoa americana","_rn_":"1"},{"1":"ATA","2":"Antarctica","3":"antártica","_rn_":"2"},{"1":"ATF","2":"French Southern And Antarctic Lands","3":"terras austrais e antárticas francesas","_rn_":"3"},{"1":"BEL","2":"Belgium","3":"bélgica","_rn_":"4"},{"1":"BES","2":"Caribbean Netherlands","3":"países baixos caribenhos","_rn_":"5"},{"1":"CAF","2":"Central African Republic","3":"república centro-africana","_rn_":"6"},{"1":"CAN","2":"Canada","3":"canadá","_rn_":"7"},{"1":"CCK","2":"Cocos (Keeling) Islands","3":"ilhas cocos (keeling)","_rn_":"8"},{"1":"CHL","2":"Chile","3":"chile","_rn_":"9"},{"1":"CHN","2":"China","3":"china","_rn_":"10"},{"1":"CIV","2":"Ivory Coast","3":"costa do marfim","_rn_":"11"},{"1":"CMR","2":"Cameroon","3":"camarões","_rn_":"12"},{"1":"COD","2":"Democratic Republic Of The Congo","3":"república democrática do congo","_rn_":"13"},{"1":"COG","2":"Republic Of The Congo","3":"república do congo","_rn_":"14"},{"1":"COK","2":"Cook Islands","3":"ilhas cook","_rn_":"15"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
@@ -1080,7 +1079,7 @@ paises %&gt;%
 <pre class="r"><code>
 paises %&gt;% 
   filter(str_detect(pais_port, &quot;^c&quot;)) %&gt;% 
-  rmarkdown::paged_table(.)</code></pre>
+  paged_table()</code></pre>
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
 {"columns":[{"label":["ISOA"],"name":[1],"type":["chr"],"align":["left"]},{"label":["pais_ing"],"name":[2],"type":["chr"],"align":["left"]},{"label":["pais_port"],"name":[3],"type":["chr"],"align":["left"]}],"data":[{"1":"CAN","2":"Canada","3":"canadá"},{"1":"CHL","2":"Chile","3":"chile"},{"1":"CHN","2":"China","3":"china"},{"1":"CIV","2":"Ivory Coast","3":"costa do marfim"},{"1":"CMR","2":"Cameroon","3":"camarões"},{"1":"COL","2":"Colombia","3":"colômbia"},{"1":"COM","2":"Comoros","3":"comores"},{"1":"CPV","2":"Cabo Verde","3":"cabo verde"},{"1":"CRI","2":"Costa Rica","3":"costa rica"},{"1":"CUB","2":"Cuba","3":"cuba"},{"1":"CUW","2":"Curaçao","3":"curaçao"},{"1":"CYP","2":"Cyprus","3":"chipre"},{"1":"HRV","2":"Croatia","3":"croácia"},{"1":"KAZ","2":"Kazakhstan","3":"cazaquistão"},{"1":"KHM","2":"Cambodia","3":"camboja"},{"1":"KOR","2":"South Korea","3":"coreia do sul"},{"1":"MAF","2":"Collectivity Of Saint Martin","3":"coletividade de são martinho"},{"1":"PRK","2":"North Korea","3":"coreia do norte"},{"1":"QAT","2":"Qatar","3":"catar"},{"1":"SGP","2":"Singapore","3":"cingapura"},{"1":"TCD","2":"Chad","3":"chade"},{"1":"VAT","2":"Vatican City","3":"cidade do vaticano"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
@@ -1101,7 +1100,7 @@ paises %&gt;%
 <pre class="r"><code>
 paises %&gt;% 
   filter(str_detect(pais_port, &quot;^C|^c&quot;)) %&gt;% 
-  rmarkdown::paged_table(.)</code></pre>
+  paged_table()</code></pre>
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
 {"columns":[{"label":["ISOA"],"name":[1],"type":["chr"],"align":["left"]},{"label":["pais_ing"],"name":[2],"type":["chr"],"align":["left"]},{"label":["pais_port"],"name":[3],"type":["chr"],"align":["left"]}],"data":[{"1":"CAN","2":"Canada","3":"canadá"},{"1":"CHL","2":"Chile","3":"chile"},{"1":"CHN","2":"China","3":"china"},{"1":"CIV","2":"Ivory Coast","3":"costa do marfim"},{"1":"CMR","2":"Cameroon","3":"camarões"},{"1":"COL","2":"Colombia","3":"colômbia"},{"1":"COM","2":"Comoros","3":"comores"},{"1":"CPV","2":"Cabo Verde","3":"cabo verde"},{"1":"CRI","2":"Costa Rica","3":"costa rica"},{"1":"CUB","2":"Cuba","3":"cuba"},{"1":"CUW","2":"Curaçao","3":"curaçao"},{"1":"CYP","2":"Cyprus","3":"chipre"},{"1":"HRV","2":"Croatia","3":"croácia"},{"1":"KAZ","2":"Kazakhstan","3":"cazaquistão"},{"1":"KHM","2":"Cambodia","3":"camboja"},{"1":"KOR","2":"South Korea","3":"coreia do sul"},{"1":"MAF","2":"Collectivity Of Saint Martin","3":"coletividade de são martinho"},{"1":"PRK","2":"North Korea","3":"coreia do norte"},{"1":"QAT","2":"Qatar","3":"catar"},{"1":"SGP","2":"Singapore","3":"cingapura"},{"1":"TCD","2":"Chad","3":"chade"},{"1":"VAT","2":"Vatican City","3":"cidade do vaticano"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
@@ -1118,21 +1117,21 @@ paises %&gt;%
   ISOA pais_ing pais_port
 1  CAN   Canada    canadá</code></pre>
 </div>
-<p>Acima observamos que mesmo tendo inserido o padrão “can” (tudo minúsculo) foi possível encontrar a mesma sequência de letras, ainda que elas fossem todas maiúsculas. Perceba que se <code>ignore_case = FALSE</code>, a padrão “can” não detectaria o padrão textual “CAN” na coluna “ISOA”.</p>
+<p>Acima observamos que mesmo tendo inserido o padrão “can” (tudo minúsculo) foi possível encontrar a mesma sequência de letras, ainda que elas fossem todas maiúsculas. Perceba que se <code>ignore_case = FALSE</code>, o padrão “can” não detectaria o padrão textual “CAN” na coluna “ISOA”.</p>
 <h3 id="problema-n.-5-como-posso-filtrar-todos-os-países-que-terminam-com-a-letra-e">Problema n. 5: Como posso filtrar todos os países que terminam com a letra “e”?</h3>
 <p>A resposta tem a mesma lógica do problema n. 4. Já sabemos que não basta inserir “e” no padrão que desejamos detectar. Precisamos de um elemento regex que indique que o padrão termina com a letra “e”. Esse elemento é o $ (cifrão). Vejamos como fazer o filtro:</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 paises %&gt;% 
   filter(str_detect(pais_port, &quot;e$&quot;)) %&gt;% 
-  rmarkdown::paged_table(.)</code></pre>
+  paged_table()</code></pre>
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
 {"columns":[{"label":["ISOA"],"name":[1],"type":["chr"],"align":["left"]},{"label":["pais_ing"],"name":[2],"type":["chr"],"align":["left"]},{"label":["pais_port"],"name":[3],"type":["chr"],"align":["left"]}],"data":[{"1":"BLZ","2":"Belize","3":"belize"},{"1":"CHL","2":"Chile","3":"chile"},{"1":"CPV","2":"Cabo Verde","3":"cabo verde"},{"1":"CYP","2":"Cyprus","3":"chipre"},{"1":"FRO","2":"Faroe Islands","3":"ilhas faroe"},{"1":"GLP","2":"Guadeloupe","3":"guadalupe"},{"1":"IRQ","2":"Iraq","3":"iraque"},{"1":"MKD","2":"North Macedonia","3":"macedônia do norte"},{"1":"MNP","2":"Northern Mariana Islands","3":"ilhas marianas do norte"},{"1":"MOZ","2":"Mozambique","3":"moçambique"},{"1":"MYT","2":"Mayotte","3":"mayotte"},{"1":"NIU","2":"Niue","3":"niue"},{"1":"PRK","2":"North Korea","3":"coreia do norte"},{"1":"STP","2":"São Tomé And Príncipe","3":"são tomé e príncipe"},{"1":"SUR","2":"Suriname","3":"suriname"},{"1":"TCD","2":"Chad","3":"chade"},{"1":"TLS","2":"East Timor","3":"timor leste"},{"1":"ZWE","2":"Zimbabwe","3":"zimbábue"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
 </div>
-<p>Você consegue identificar se existe algum país que termina com a letra “h”? E será que também consegue identificar todos os países que começam e terminam com a letra “a”?</p>
+<p>Você consegue identificar se existe algum país que termina com a letra “h”? E será que também consegue identificar todos os países que <strong>começam e terminam</strong> com a letra “a”?</p>
 <p>É importante que você pegue a lógica de como se trabalha com a função <code>str_detect</code>, uma vez que ela é essencial na exploração e investigação de dados textuais.</p>
 <p>Por hoje é isso. No próximo post continuaremos a explorar funções do pacote <code>stringr</code> e alguns outros detalhes importantes do regex. Até breve!</p>
 <!--radix_placeholder_article_footer-->
