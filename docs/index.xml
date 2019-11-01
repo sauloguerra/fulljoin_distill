@@ -24,6 +24,7 @@
       <description>Neste post, vamos fazer uma análise de tópicos utilizando os pacotes tidytext e topicmodels. Essa análise consiste em extrair um conjunto de temas (tópicos) de um conjunto de textos. Para isso, utilizamos uma base de textos de acordos comerciais. Veremos que o método utilizado é capaz de identificar uma séria de tópicos relevantes.</description>
       <guid>https://www.fulljoin.com.br/posts/2019-09-19-modelagem-de-tpicos-com-o-r-analisando-os-textos-de-acordos-comerciais</guid>
       <pubDate>qui, 17 out 2019 00:00:00 +0000</pubDate>
+      <media:content url="https://www.fulljoin.com.br/posts/2019-09-19-modelagem-de-tpicos-com-o-r-analisando-os-textos-de-acordos-comerciais/modelagem-de-tpicos-com-o-r-analisando-os-textos-de-acordos-comerciais_files/figure-html5/unnamed-chunk-20-1.png" medium="image" type="image/png" width="1248" height="960"/>
     </item>
     <item>
       <title>Manipulação de texto com stringr</title>
@@ -49,7 +50,7 @@
       <link>https://www.fulljoin.com.br/posts/2019-09-19-loop-vs-alternativas</link>
       <description>A partir de um simples exemplo, vamos testar o desempenho de for loops comparando-o com a performance de outras alternativas como apply, funções do purrr e estratégias paralelizadas.</description>
       <guid>https://www.fulljoin.com.br/posts/2019-09-19-loop-vs-alternativas</guid>
-      <pubDate>s�b, 21 set 2019 00:00:00 +0000</pubDate>
+      <pubDate>sáb, 21 set 2019 00:00:00 +0000</pubDate>
       <media:content url="https://www.fulljoin.com.br/posts/2019-09-19-loop-vs-alternativas/../../images/capa_loop.png" medium="image" type="image/png" width="875" height="420"/>
     </item>
     <item>
@@ -94,7 +95,7 @@
       <link>https://www.fulljoin.com.br/posts/2019-07-30-analisando-dados-da-guerra-comercial-parte-2</link>
       <description>Nesta segunda parte, vamos aprofundar um pouco a nossa análise inicial. Realmente as sobretaxas impostas pelos Estados Unidos a produtos chineses não tiverem efeitos prático? Utilizando dados mensais que compreendem o período de janeiro de 2012 até maio de 2019, encontramos evidências dos seus efeitos. As estimativas indicam um nível de importação, em média, 20% menor para os produtos chineses sujeitos a sobretaxas.</description>
       <guid>https://www.fulljoin.com.br/posts/2019-07-30-analisando-dados-da-guerra-comercial-parte-2</guid>
-      <pubDate>s�b, 10 ago 2019 00:00:00 +0000</pubDate>
+      <pubDate>sáb, 10 ago 2019 00:00:00 +0000</pubDate>
       <media:content url="https://www.fulljoin.com.br/posts/2019-07-30-analisando-dados-da-guerra-comercial-parte-2/analisando-dados-da-guerra-comercial-parte-2_files/figure-html5/unnamed-chunk-7-1.png" medium="image" type="image/png" width="1152" height="768"/>
     </item>
   </channel>
