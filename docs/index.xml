@@ -7,7 +7,16 @@
     <description>Fulljoin
 </description>
     <generator>Distill</generator>
-    <lastBuildDate>qua, 23 out 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>sex, 01 nov 2019 00:00:00 +0000</lastBuildDate>
+    <item>
+      <title>Entendendo os benefícios da paralelização usando Random Forest</title>
+      <dc:creator>Diego Castro</dc:creator>
+      <link>https://www.fulljoin.com.br/posts/2019-10-28-paralelizacao-de-search-grid-usando-random-forest</link>
+      <description>O objetivo principal deste post é apresentar como utilizar a paralelização no R e os ganhos de eficiência ao utilizá-la. Para mostrar este processo, um problema de classificação usando o modelo Random Forest (em português, Floresta Aleatória) é utilizado.</description>
+      <guid>https://www.fulljoin.com.br/posts/2019-10-28-paralelizacao-de-search-grid-usando-random-forest</guid>
+      <pubDate>sex, 01 nov 2019 00:00:00 +0000</pubDate>
+      <media:content url="https://www.fulljoin.com.br/posts/2019-10-28-paralelizacao-de-search-grid-usando-random-forest/../../images/paralelizacao.jpg" medium="image" type="image/jpeg"/>
+    </item>
     <item>
       <title>Manipulação de texto com stringr - parte II</title>
       <dc:creator>Miguel Cleaver</dc:creator>
@@ -88,15 +97,6 @@
       <guid>https://www.fulljoin.com.br/posts/2019-07-18-b3-rvest-explorando-dados-financeiros-com-r</guid>
       <pubDate>ter, 27 ago 2019 00:00:00 +0000</pubDate>
       <media:content url="https://www.fulljoin.com.br/posts/2019-07-18-b3-rvest-explorando-dados-financeiros-com-r/../../images/b3_rvest.png" medium="image" type="image/png" width="501" height="218"/>
-    </item>
-    <item>
-      <title>Analisando dados da guerra comercial - Parte 2</title>
-      <dc:creator>Paulo Felipe Alencar</dc:creator>
-      <link>https://www.fulljoin.com.br/posts/2019-07-30-analisando-dados-da-guerra-comercial-parte-2</link>
-      <description>Nesta segunda parte, vamos aprofundar um pouco a nossa análise inicial. Realmente as sobretaxas impostas pelos Estados Unidos a produtos chineses não tiverem efeitos prático? Utilizando dados mensais que compreendem o período de janeiro de 2012 até maio de 2019, encontramos evidências dos seus efeitos. As estimativas indicam um nível de importação, em média, 20% menor para os produtos chineses sujeitos a sobretaxas.</description>
-      <guid>https://www.fulljoin.com.br/posts/2019-07-30-analisando-dados-da-guerra-comercial-parte-2</guid>
-      <pubDate>sáb, 10 ago 2019 00:00:00 +0000</pubDate>
-      <media:content url="https://www.fulljoin.com.br/posts/2019-07-30-analisando-dados-da-guerra-comercial-parte-2/analisando-dados-da-guerra-comercial-parte-2_files/figure-html5/unnamed-chunk-7-1.png" medium="image" type="image/png" width="1152" height="768"/>
     </item>
   </channel>
 </rss>
