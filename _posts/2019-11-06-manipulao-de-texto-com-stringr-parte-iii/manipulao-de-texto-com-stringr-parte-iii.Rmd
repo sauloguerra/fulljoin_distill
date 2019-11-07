@@ -1,0 +1,294 @@
+---
+title: "Manipulação de texto com stringr - parte III"
+description: |
+  A short description of the post.
+author:
+  - name: Miguel Cleaver
+date: 11-06-2019
+output:
+  distill::distill_article:
+    self_contained: false
+categories:
+  - Manipulação de texto
+  - stringr
+preview: ../../images/logo_stringr.png
+draft: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+<!-- More -->
+
+Na terceira parte sobre manipulação de texto com stringr, manteremos a lógica anterior dos posts da série, isto é, continuaremos a propor problemas e mostrar como os podemos resolver.
+
+Antes de continuar será necessário "sujar" um pouco nossos dados. Para isso, carregamos os dados que já vinhamos usando anteriormente e inserimos aleatoriamente pontuações e espaços desnecessários na coluna "pais_port". A ideia desse procedimento consiste em "sujar" os dados e simular uma base de dados bruta. A "sujeira" que fizemos é relativamente simples e, na vida real, você poderá encontrar bases de dados es estado muito pior, mas a ideia é que você consiga generalizar o conhecimento a partir dos exemplos mais didáticos que elaboramos.
+
+### Pacotes que iremos utilizar
+
+```{r}
+library(dplyr)
+library(stringr)
+library(data.table)
+```
+
+### Carregamento de dados
+
+Abaixo carregamos os dados que iremos utilizar. Em seguida, "sujamos" a coluna "pais_port:
+
+```{r}
+paises <- fread(
+  "https://raw.githubusercontent.com/mgcleaver/correlacoes/master/paises_isoa.txt",
+                encoding = "UTF-8"
+)
+
+# para reprodutibilidade o seu R precisa ser uma versão > 3.6.0.
+set.seed(1)
+
+indice1 <- sample(1:nrow(paises), floor(nrow(paises)/2)) %>% 
+  sort()
+indice2 <- setdiff(1:nrow(paises), indice1)
+
+paises$pais_port[indice1] <- paste0(" ", paises$pais_port[indice1], ".")
+paises$pais_port[indice2] <- paste0(paises$pais_port[indice2], "   ; ")
+
+indice_espaco <- sample(1:nrow(paises), 10)
+paises$pais_port[indice_espaco] <- paste0(" ", paises$pais_port[indice_espaco], " ")
+
+indice_interrogacao <- sample(1:nrow(paises), 10)
+paises$pais_port[indice_interrogacao] <- paste0(paises$pais_port[indice_espaco], "?")
+
+head(paises)
+```
+
+### Problema n. 1: Como elimino os pontos que estão presentes na coluna pais_port?
+
+Primeiramente, vejamos quais das nossas observações possuem ponto.
+
+Como um primeiro exercício, tentemos identificar as 10 primeiras observações que possuem um ponto na coluna "pais_port":
+
+```{r}
+paises %>% 
+  filter(str_detect(pais_port, ".")) %>% 
+  head(10)
+```
+
+Podemos observar que nosso filtro não foi capaz de identificar quais observações tinham o ponto na coluna "pais_port". **O problema é que em regex o ponto é usado como uma espécie de coringa, pois pode igualar qualquer letra e número, além de outros símbolos de pontuação**. Como as observações da coluna "pais_port" tem pelo menos um caractere, o filtro traz todas as observações, uma vez que todas elas atendem o requisito. 
+
+Para que identifiquemos quais observações possuem literalmente um ponto, devemos escapar a função regex atribuída ao ponto com duas contrabarras (`\\`), isto é, devemos inserir o seguinte padrão na função `str_detect`, no argumento correspondente: "`\\.`". Vejamos:
+
+```{r}
+pontos <- paises %>% 
+  filter(str_detect(pais_port, "\\.")) %>% 
+  pull(pais_port) %>% 
+  .[1:10]
+
+# ver as 10 primeiras observações da coluna pais_port com pontos
+pontos
+```
+
+Agora que conseguimos ver quais observações tem o ponto, como eliminamos o ponto das observações? Devemos utilizar a função `str_remove`. No primeiro argumento dessa função inserimos o vetor que desejamos modificar. No segundo argumento inserimos o padrão que desejamos remover. Vejamos, então, como aplicar a função:
+
+```{r}
+str_remove(pontos, "\\.")
+```
+
+Comparando o resultado acima com o anterior, verificamos que não há mais pontos em nossos dados. Alteremos o objeto `paises` para incorporar a modificação proposta.
+
+```{r}
+paises <- paises %>% 
+  mutate(pais_port = str_remove(pais_port, "\\."))
+```
+
+Agora quando buscamos pelo ponto na coluna "pais_port" não mais o encontramos em nossas observações:
+
+```{r}
+paises %>% 
+  filter(str_detect(pais_port, "\\."))
+```
+
+Problema resolvido. Mas, note o seguinte: a função `str_remove` apenas elimina a primeira ocorrência do padrão encontrado. Se houvesse dois pontos em uma observação, a função `str_remove` apenas removeria o ponto que encontrasse primeiro, deixando ainda um ponto remanescente no meio do texto. Se precisássemos remover todos os pontos, utilizaríamos a função `str_remove_all`. Em essência ela faz a mesma coisa que a função `str_remove`, mas em vez de remover apenas a primeira ocorrência, ela remove todas.
+
+### Problema n. 2: Como eliminamos os espaços anteriores e posteriores ao texto?
+
+Primeiramente, verifiquemos se existem observações com espaços antes do início do texto na coluna "pais_port". Se você não entende porque o padrão "^ " detecta observações que se iniciam com espaço, veja a [a parte II](https://www.fulljoin.com.br/posts/2019-10-22-manipulao-de-texto-com-stringr-parte-ii/) desse post.
+
+```{r}
+espaco1 <- paises %>% 
+  filter(str_detect(pais_port, "^ ")) %>% 
+  pull(pais_port) %>% 
+  .[1:10]
+
+espaco1
+```
+
+Ok. Agora verifiquemos se também existem espaços após o fim do texto na coluna "pais_port":
+
+```{r}
+espaco2 <- paises %>% 
+  filter(str_detect(pais_port, " $")) %>% 
+  pull(pais_port) %>% 
+  .[1:10]
+
+espaco2
+```
+
+Após investigar os dados encontramos que há espaços antes do texto começar bem como depois do texto terminar. Para resolver nosso problema devemos utilizar a função `str_trim`. Essa função elimina espaços que ficam do lado esquerdo ou do lado direito do dado textual. No primeiro argumento inserimos o vetor que queremos modificar. No segundo argumento escolhemos o lado dos espaços que queremos eliminar. Para eliminar espaços que ficam **apenas** do lado esquerdo do texto devemos utilizar o argumento "left". Para eliminar espaços que ficam **apenas** do lado direito devemos utilizar o argumento "right". Se quisermos eliminar espaços tanto do lado esquerdo como do lado direito devemos utilizar o argumento "both" (é justamente isso que queremos neste problema). Vejamos como ficam os objetos `espaco1`e `espaco2`:
+
+```{r}
+str_trim(espaco1, "both")
+```
+
+```{r}
+str_trim(espaco2, "both")
+```
+
+Agora vemos que não há mais espaços do lado esquerdo nem do lado direito do texto. Contudo, após aplicar a função no objeto `espaco2`, observamos que existem espaços excessivos entre a última letra do nome do país e o `ponto e vírgula`. 
+
+Será que também conseguimos transformar mais de um espaço para um único espaço? Já já veremos como resolver isso, mas antes modifiquemos o objeto `paises` com intuito de modificá-lo conforme a proposta deste problema:
+
+```{r}
+paises <- paises %>% 
+  mutate(pais_port = str_trim(pais_port, "both"))
+```
+
+## Problema n. 3: Como transformar mais de um espaço entre palavras ou sinais de pontuação em um único espaço?
+
+A função que poderá nos ajudar com essa tarefa se chama `str_squish`. Note que essa função, além de eliminar espaços duplos, também cumpre a função de eliminar espaços à direita e espaços à esquerda do texto. Diferentemente, da função `str_trim`, a função `str_squish` não nos permite escolher um lado específico para eliminar espaços. Trata-se de uma função extremamente útil para padronizar dados textuais. No caso da coluna "pais_port", nós já eliminamos espaços à direita e espaços à esquerda. Portanto a função somente eliminará os espaços duplos contidos na coluna. A função também elimina quebras de linha e outros tipos de espaço. Vejamos primeiro como estão os dez primeiros elementos com mais de um espaço:
+
+```{r}
+mais_espacos <- paises %>% 
+  filter(str_detect(pais_port, " {2,}")) %>% 
+  pull(pais_port) %>% 
+  .[1:10]
+
+mais_espacos
+```
+
+Vamos primeiro interpretar o padrão que inserimos no segundo argumento na função `str_detect`. O primeiro termo é um espaço (" "). O termo que segue o espaço é o "{2,}". Em regex, este último termo significa que procuramos padrões textuais que tenham 2 elementos ou mais iguais ao caractere imediatamente anterior. Por exemplo, se tivéssemos inserido o termo " {2,4}", a nossa busca encontraria todas as observações com dois, três ou quatro espaços.
+
+Observemos nossa função `str_squish` em ação:
+
+```{r}
+str_squish(mais_espacos)
+```
+
+Compare o resultado acima com o resultado imediatamente anterior. 
+
+Vejamos um outro exemplo só para fixar o entendimento:
+
+```{r}
+teste <- c(" isso     é    um \nteste para   ver como \ta função str_squish   funciona   ")
+teste
+```
+
+Para que você veja o que os `\n` e `\t` significam na prática utilizemos a função `cat`. Vejamos:
+
+```{r}
+cat(teste)
+```
+
+Como podemos ver, o primeiro termo (`\n`) representa uma quebra de linha; o segundo (`\t`), representa um espaço do tipo "tab".
+
+De novo, vejamos mais uma vez `str_squish` em ação:
+
+```{r}
+str_squish(teste)
+```
+
+Agora alteremos o objeto `paises` com intuito de eliminar os espaços excedentes:
+
+```{r}
+paises <- paises %>% 
+  mutate(pais_port = str_squish(pais_port))
+```
+
+
+## Problema n. 4: Como substituir padrões encontrados no texto por outros padrões?
+
+Para este exercício suponhamos que queremos substituir a pontuação ponto e vírgula e ponto de interrogação (?), respectivamente, pelos termos "- observação1" e "- observação2". Trata-se de um exercício apenas para fins didáticos. 
+
+Abaixo identificamos as observações com os padrões ";" e "?" na coluna "pais_port":
+
+```{r}
+padrao1 <- paises %>%
+  filter(str_detect(pais_port, ";")) %>%
+  pull(pais_port) %>% 
+  .[1:10]
+
+padrao1
+```
+
+Devemos escapar a interrogação com duas contrabarras, uma vez que esse sinal de pontuação também é, como o ponto, uma expressão do regex.
+
+```{r}
+padrao2 <- paises %>%
+  filter(str_detect(pais_port, "\\?")) %>%
+  pull(pais_port) %>% 
+  .[1:10]
+
+padrao2
+```
+
+Agora vejamos a função que nos poderá ajudar com este exercício. Ela se chama `str_replace`. No primeiro argumento da função inserimos o vetor que desejamos modificar. No segundo argumento inserimos o padrão que queremos localizar e substituir. Por fim, no terceiro argumento inserimos o padrão de substituição.
+
+```{r}
+str_replace(padrao1, ";", "- observação1")
+```
+
+Como no objeto `padrao2` existem dois termos, devemos fazer duas substituições por meio da função `str_replace`.
+
+```{r}
+str_replace(padrao2, "\\?", "- observação2") %>% 
+  str_replace(";", "- observacao1")
+```
+
+A função `str_replace` apenas substitui o primeiro padrão encontrado. Se houvesse mais padrões do mesmo tipo, a função não faria a substituição dos termos excedentes. Para substituir todos os padrões que tivessem a especificação inserida seria necessário utilizar a função `str_replace_all` (de forma semelhante à função `str_remove_all`)
+
+Alteremos o objeto `paises` para incorporar as mudanças propostas neste exercício e vejamos como ficaram os dados da coluna pais_port.
+
+```{r}
+paises <- paises %>% 
+  mutate(pais_port = str_replace(pais_port, ";", "- observação1") %>% 
+           str_replace("\\?", "- observação2"))
+
+paises %>% 
+  select(ISOA, pais_port) %>% 
+  rmarkdown::paged_table()
+```
+
+### Para encerrar
+
+Para encerrar, utilizemos um pouco mais de regex para deixar apenas os nomes dos países na coluna "pais_port". Como podemos fazer isso? Uma solução, dentre várias, é fazer o seguinte:
+
+```{r}
+paises %>% 
+  mutate(pais_port = str_remove(pais_port, " -.+")) %>% 
+  rmarkdown::paged_table()
+```
+
+Explicando o padrão regex acima: o termo " -" localiza um espaço e um hífen. Por construção, sabemos que esses termos separam o fim do nome do país dos termos "observação1" e "observação2". Como visto anteriormente o "." pode representar letras e espaços, além de outros caracteres, e o "+" significa que queremos que o termo imediatamente anterior esteja presente uma ou mais vezes. Assim, " -.+" captura toda a parte do texto que queremos eliminar.
+
+### Dica útil
+
+>> Uma função útil para ver o que uma construção regex captura a partir de um padrão inserido é a função `str_view`. Para usar essa função você precisa instalar o pacote `htmlwidgets`.
+
+Vejamos:
+
+```{r}
+paises %>% 
+  pull(pais_port) %>% 
+  .[1:10] %>% 
+  str_view(" -.")
+```
+
+Como podemos observar, o padrão acima apenas captura " - ". E o padrão abaixo captura tudo após o fim do nome do país como já havíamos explicado.
+
+```{r}
+paises %>% 
+  pull(pais_port) %>% 
+  .[1:10] %>% 
+  str_view(" -.+")
+```
+
+

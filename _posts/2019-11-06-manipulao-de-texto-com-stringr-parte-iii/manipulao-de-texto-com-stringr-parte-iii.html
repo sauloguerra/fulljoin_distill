@@ -1,0 +1,1363 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"/>
+  <meta name="generator" content="distill" />
+
+  <style type="text/css">
+  /* Hide doc at startup (prevent jankiness while JS renders/transforms) */
+  body {
+    visibility: hidden;
+  }
+  </style>
+
+ <!--radix_placeholder_import_source-->
+ <!--/radix_placeholder_import_source-->
+
+  <!--radix_placeholder_meta_tags-->
+  <title>Manipulação de texto com stringr - parte III</title>
+  
+  <meta property="description" itemprop="description" content="A short description of the post."/>
+  
+  
+  <!--  https://schema.org/Article -->
+  <meta property="article:published" itemprop="datePublished" content="2019-11-06"/>
+  <meta property="article:created" itemprop="dateCreated" content="2019-11-06"/>
+  <meta name="article:author" content="Miguel Cleaver"/>
+  
+  <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
+  <meta property="og:title" content="Manipulação de texto com stringr - parte III"/>
+  <meta property="og:type" content="article"/>
+  <meta property="og:description" content="A short description of the post."/>
+  <meta property="og:locale" content="en_US"/>
+  
+  <!--  https://dev.twitter.com/cards/types/summary -->
+  <meta property="twitter:card" content="summary"/>
+  <meta property="twitter:title" content="Manipulação de texto com stringr - parte III"/>
+  <meta property="twitter:description" content="A short description of the post."/>
+  
+  <!--/radix_placeholder_meta_tags-->
+  <!--radix_placeholder_rmarkdown_metadata-->
+  
+  <script type="text/json" id="radix-rmarkdown-metadata">
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","output","categories","preview","draft"]}},"value":[{"type":"character","attributes":{},"value":["Manipulação de texto com stringr - parte III"]},{"type":"character","attributes":{},"value":["A short description of the post.\n"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name"]}},"value":[{"type":"character","attributes":{},"value":["Miguel Cleaver"]}]}]},{"type":"character","attributes":{},"value":["11-06-2019"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]}]},{"type":"character","attributes":{},"value":["Manipulação de texto","stringr"]},{"type":"character","attributes":{},"value":["../../images/logo_stringr.png"]},{"type":"logical","attributes":{},"value":[true]}]}
+  </script>
+  <!--/radix_placeholder_rmarkdown_metadata-->
+  
+  <script type="text/json" id="radix-resource-manifest">
+  {"type":"character","attributes":{},"value":["manipulao-de-texto-com-stringr-parte-iii_files/bowser-1.9.3/bowser.min.js","manipulao-de-texto-com-stringr-parte-iii_files/distill-2.2.21/template.v2.js","manipulao-de-texto-com-stringr-parte-iii_files/htmlwidgets-1.5.1/htmlwidgets.js","manipulao-de-texto-com-stringr-parte-iii_files/jquery-1.11.3/jquery.min.js","manipulao-de-texto-com-stringr-parte-iii_files/pagedtable-1.1/css/pagedtable.css","manipulao-de-texto-com-stringr-parte-iii_files/pagedtable-1.1/js/pagedtable.js","manipulao-de-texto-com-stringr-parte-iii_files/str_view-0.1.0/str_view.css","manipulao-de-texto-com-stringr-parte-iii_files/str_view-binding-1.4.0/str_view.js","manipulao-de-texto-com-stringr-parte-iii_files/webcomponents-2.0.0/webcomponents.js"]}
+  </script>
+  <!--radix_placeholder_navigation_in_header-->
+  <!--/radix_placeholder_navigation_in_header-->
+  <!--radix_placeholder_distill-->
+  
+  <style type="text/css">
+  
+  body {
+    background-color: white;
+  }
+  
+  .pandoc-table {
+    width: 100%;
+  }
+  
+  .pandoc-table>caption {
+    margin-bottom: 10px;
+  }
+  
+  .pandoc-table th:not([align]) {
+    text-align: left;
+  }
+  
+  .pagedtable-footer {
+    font-size: 15px;
+  }
+  
+  .html-widget {
+    margin-bottom: 2.0em;
+  }
+  
+  .l-screen-inset {
+    padding-right: 16px;
+  }
+  
+  .l-screen .caption {
+    margin-left: 10px;
+  }
+  
+  .shaded {
+    background: rgb(247, 247, 247);
+    padding-top: 20px;
+    padding-bottom: 20px;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  }
+  
+  .shaded .html-widget {
+    margin-bottom: 0;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+  }
+  
+  .shaded .shaded-content {
+    background: white;
+  }
+  
+  .text-output {
+    margin-top: 0;
+    line-height: 1.5em;
+  }
+  
+  .hidden {
+    display: none !important;
+  }
+  
+  d-article {
+    padding-bottom: 30px;
+  }
+  
+  d-appendix {
+    padding-top: 30px;
+  }
+  
+  d-article>p>img {
+    width: 100%;
+  }
+  
+  d-article iframe {
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    margin-bottom: 2.0em;
+    width: 100%;
+  }
+  
+  figure img.external {
+    background: white;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+    padding: 18px;
+    box-sizing: border-box;
+  }
+  
+  /* CSS for table of contents */
+  
+  .d-toc {
+    color: rgba(0,0,0,0.8);
+    font-size: 0.8em;
+    line-height: 1em;
+  }
+  
+  .d-toc-header {
+    font-size: 0.6rem;
+    font-weight: 400;
+    color: rgba(0, 0, 0, 0.5);
+    text-transform: uppercase;
+    margin-top: 0;
+    margin-bottom: 1.3em;
+  }
+  
+  .d-toc a {
+    border-bottom: none;
+  }
+  
+  .d-toc ul {
+    padding-left: 0;
+  }
+  
+  .d-toc li>ul {
+    padding-top: 0.8em;
+    padding-left: 16px;
+    margin-bottom: 0.6em;
+  }
+  
+  .d-toc ul,
+  .d-toc li {
+    list-style-type: none;
+  }
+  
+  .d-toc li {
+    margin-bottom: 0.9em;
+  }
+  
+  .d-toc-separator {
+    margin-top: 20px;
+    margin-bottom: 2em;
+  }
+  
+  .d-article-with-toc {
+    border-top: none;
+    padding-top: 0;
+  }
+  
+  
+  
+  /* Tweak code blocks (note that this CSS is repeated above in an injection
+     into the d-code shadow dom) */
+  
+  d-code {
+    overflow-x: auto !important;
+  }
+  
+  pre.d-code code.d-code {
+    padding-left: 10px;
+    font-size: 12px;
+    border-left: 2px solid rgba(0,0,0,0.1);
+  }
+  
+  pre.text-output {
+  
+    font-size: 12px;
+    color: black;
+    background: none;
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+    text-align: left;
+    white-space: pre;
+    word-spacing: normal;
+    word-break: normal;
+    word-wrap: normal;
+    line-height: 1.5;
+  
+    -moz-tab-size: 4;
+    -o-tab-size: 4;
+    tab-size: 4;
+  
+    -webkit-hyphens: none;
+    -moz-hyphens: none;
+    -ms-hyphens: none;
+    hyphens: none;
+  }
+  
+  @media(min-width: 768px) {
+  
+  d-code {
+    overflow-x: visible !important;
+  }
+  
+  pre.d-code code.d-code  {
+      padding-left: 18px;
+      font-size: 14px;
+  }
+  pre.text-output {
+    font-size: 14px;
+  }
+  }
+  
+  /* Figure */
+  
+  .figure {
+    position: relative;
+    margin-bottom: 2.5em;
+    margin-top: 1.5em;
+  }
+  
+  .figure img {
+    width: 100%;
+  }
+  
+  .figure .caption {
+    color: rgba(0, 0, 0, 0.6);
+    font-size: 12px;
+    line-height: 1.5em;
+  }
+  
+  .figure img.external {
+    background: white;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+    padding: 18px;
+    box-sizing: border-box;
+  }
+  
+  .figure .caption a {
+    color: rgba(0, 0, 0, 0.6);
+  }
+  
+  .figure .caption b,
+  .figure .caption strong, {
+    font-weight: 600;
+    color: rgba(0, 0, 0, 1.0);
+  }
+  
+  
+  
+  /* Tweak 1000px media break to show more text */
+  
+  @media(min-width: 1000px) {
+    .base-grid,
+    distill-header,
+    d-title,
+    d-abstract,
+    d-article,
+    d-appendix,
+    distill-appendix,
+    d-byline,
+    d-footnote-list,
+    d-citation-list,
+    distill-footer {
+      grid-template-columns: [screen-start] 1fr [page-start kicker-start] 80px [middle-start] 50px [text-start kicker-end] 65px 65px 65px 65px 65px 65px 65px 65px [text-end gutter-start] 65px [middle-end] 65px [page-end gutter-end] 1fr [screen-end];
+      grid-column-gap: 16px;
+    }
+  
+    .grid {
+      grid-column-gap: 16px;
+    }
+  
+    d-article {
+      font-size: 1.06rem;
+      line-height: 1.7em;
+    }
+    figure .caption, .figure .caption, figure figcaption {
+      font-size: 13px;
+    }
+  }
+  
+  @media(min-width: 1180px) {
+    .base-grid,
+    distill-header,
+    d-title,
+    d-abstract,
+    d-article,
+    d-appendix,
+    distill-appendix,
+    d-byline,
+    d-footnote-list,
+    d-citation-list,
+    distill-footer {
+      grid-template-columns: [screen-start] 1fr [page-start kicker-start] 60px [middle-start] 60px [text-start kicker-end] 60px 60px 60px 60px 60px 60px 60px 60px [text-end gutter-start] 60px [middle-end] 60px [page-end gutter-end] 1fr [screen-end];
+      grid-column-gap: 32px;
+    }
+  
+    .grid {
+      grid-column-gap: 32px;
+    }
+  }
+  
+  
+  /* Get the citation styles for the appendix (not auto-injected on render since
+     we do our own rendering of the citation appendix) */
+  
+  d-appendix .citation-appendix,
+  .d-appendix .citation-appendix {
+    font-size: 11px;
+    line-height: 15px;
+    border-left: 1px solid rgba(0, 0, 0, 0.1);
+    padding-left: 18px;
+    border: 1px solid rgba(0,0,0,0.1);
+    background: rgba(0, 0, 0, 0.02);
+    padding: 10px 18px;
+    border-radius: 3px;
+    color: rgba(150, 150, 150, 1);
+    overflow: hidden;
+    margin-top: -12px;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+  }
+  
+  
+  /* Social footer */
+  
+  .social_footer {
+    margin-top: 30px;
+    margin-bottom: 0;
+    color: rgba(0,0,0,0.67);
+  }
+  
+  .disqus-comments {
+    margin-right: 30px;
+  }
+  
+  .disqus-comment-count {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+    cursor: pointer;
+  }
+  
+  #disqus_thread {
+    margin-top: 30px;
+  }
+  
+  .article-sharing a {
+    border-bottom: none;
+    margin-right: 8px;
+  }
+  
+  .article-sharing a:hover {
+    border-bottom: none;
+  }
+  
+  .sidebar-section.subscribe {
+    font-size: 12px;
+    line-height: 1.6em;
+  }
+  
+  .subscribe p {
+    margin-bottom: 0.5em;
+  }
+  
+  
+  .article-footer .subscribe {
+    font-size: 15px;
+    margin-top: 45px;
+  }
+  
+  
+  /* Improve display for browsers without grid (IE/Edge <= 15) */
+  
+  .downlevel {
+    line-height: 1.6em;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
+    margin: 0;
+  }
+  
+  .downlevel .d-title {
+    padding-top: 6rem;
+    padding-bottom: 1.5rem;
+  }
+  
+  .downlevel .d-title h1 {
+    font-size: 50px;
+    font-weight: 700;
+    line-height: 1.1em;
+    margin: 0 0 0.5rem;
+  }
+  
+  .downlevel .d-title p {
+    font-weight: 300;
+    font-size: 1.2rem;
+    line-height: 1.55em;
+    margin-top: 0;
+  }
+  
+  .downlevel .d-byline {
+    padding-top: 0.8em;
+    padding-bottom: 0.8em;
+    font-size: 0.8rem;
+    line-height: 1.8em;
+  }
+  
+  .downlevel .section-separator {
+    border: none;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+  }
+  
+  .downlevel .d-article {
+    font-size: 1.06rem;
+    line-height: 1.7em;
+    padding-top: 1rem;
+    padding-bottom: 2rem;
+  }
+  
+  
+  .downlevel .d-appendix {
+    padding-left: 0;
+    padding-right: 0;
+    max-width: none;
+    font-size: 0.8em;
+    line-height: 1.7em;
+    margin-bottom: 0;
+    color: rgba(0,0,0,0.5);
+    padding-top: 40px;
+    padding-bottom: 48px;
+  }
+  
+  .downlevel .footnotes ol {
+    padding-left: 13px;
+  }
+  
+  .downlevel .base-grid,
+  .downlevel .distill-header,
+  .downlevel .d-title,
+  .downlevel .d-abstract,
+  .downlevel .d-article,
+  .downlevel .d-appendix,
+  .downlevel .distill-appendix,
+  .downlevel .d-byline,
+  .downlevel .d-footnote-list,
+  .downlevel .d-citation-list,
+  .downlevel .distill-footer,
+  .downlevel .appendix-bottom,
+  .downlevel .posts-container {
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+  
+  @media(min-width: 768px) {
+    .downlevel .base-grid,
+    .downlevel .distill-header,
+    .downlevel .d-title,
+    .downlevel .d-abstract,
+    .downlevel .d-article,
+    .downlevel .d-appendix,
+    .downlevel .distill-appendix,
+    .downlevel .d-byline,
+    .downlevel .d-footnote-list,
+    .downlevel .d-citation-list,
+    .downlevel .distill-footer,
+    .downlevel .appendix-bottom,
+    .downlevel .posts-container {
+    padding-left: 150px;
+    padding-right: 150px;
+    max-width: 900px;
+  }
+  }
+  
+  .downlevel pre code {
+    display: block;
+    border-left: 2px solid rgba(0, 0, 0, .1);
+    padding: 0 0 0 20px;
+    font-size: 14px;
+  }
+  
+  .downlevel code, .downlevel pre {
+    color: black;
+    background: none;
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+    text-align: left;
+    white-space: pre;
+    word-spacing: normal;
+    word-break: normal;
+    word-wrap: normal;
+    line-height: 1.5;
+  
+    -moz-tab-size: 4;
+    -o-tab-size: 4;
+    tab-size: 4;
+  
+    -webkit-hyphens: none;
+    -moz-hyphens: none;
+    -ms-hyphens: none;
+    hyphens: none;
+  }
+  
+  </style>
+  
+  <script type="application/javascript">
+  
+  function is_downlevel_browser() {
+    if (bowser.isUnsupportedBrowser({ msie: "12", msedge: "16"},
+                                   window.navigator.userAgent)) {
+      return true;
+    } else {
+      return window.load_distill_framework === undefined;
+    }
+  }
+  
+  // show body when load is complete
+  function on_load_complete() {
+  
+    // set body to visible
+    document.body.style.visibility = 'visible';
+  
+    // force redraw for leaflet widgets
+    if (window.HTMLWidgets) {
+      var maps = window.HTMLWidgets.findAll(".leaflet");
+      $.each(maps, function(i, el) {
+        var map = this.getMap();
+        map.invalidateSize();
+        map.eachLayer(function(layer) {
+          if (layer instanceof L.TileLayer)
+            layer.redraw();
+        });
+      });
+    }
+  
+    // trigger 'shown' so htmlwidgets resize
+    $('d-article').trigger('shown');
+  }
+  
+  function init_distill() {
+  
+    init_common();
+  
+    // create front matter
+    var front_matter = $('<d-front-matter></d-front-matter>');
+    $('#distill-front-matter').wrap(front_matter);
+  
+    // create d-title
+    $('.d-title').changeElementType('d-title');
+  
+    // create d-byline
+    var byline = $('<d-byline></d-byline>');
+    $('.d-byline').replaceWith(byline);
+  
+    // create d-article
+    var article = $('<d-article></d-article>');
+    $('.d-article').wrap(article).children().unwrap();
+  
+    // move posts container into article
+    $('.posts-container').appendTo($('d-article'));
+  
+    // create d-appendix
+    $('.d-appendix').changeElementType('d-appendix');
+  
+    // create d-bibliography
+    var bibliography = $('<d-bibliography></d-bibliography>');
+    $('#distill-bibliography').wrap(bibliography);
+  
+    // flag indicating that we have appendix items
+    var appendix = $('.appendix-bottom').children('h3').length > 0;
+  
+    // replace citations with <d-cite>
+    $('.citation').each(function(i, val) {
+      appendix = true;
+      var cites = $(this).attr('data-cites').split(" ");
+      var dt_cite = $('<d-cite></d-cite>');
+      dt_cite.attr('key', cites.join());
+      $(this).replaceWith(dt_cite);
+    });
+    // remove refs
+    $('#refs').remove();
+  
+    // replace footnotes with <d-footnote>
+    $('.footnote-ref').each(function(i, val) {
+      appendix = true;
+      var href = $(this).attr('href');
+      var id = href.replace('#', '');
+      var fn = $('#' + id);
+      var fn_p = $('#' + id + '>p');
+      fn_p.find('.footnote-back').remove();
+      var text = fn_p.html();
+      var dtfn = $('<d-footnote></d-footnote>');
+      dtfn.html(text);
+      $(this).replaceWith(dtfn);
+    });
+    // remove footnotes
+    $('.footnotes').remove();
+  
+    $('h1.appendix, h2.appendix').each(function(i, val) {
+      $(this).changeElementType('h3');
+    });
+    $('h3.appendix').each(function(i, val) {
+      var id = $(this).attr('id');
+      $('.d-toc a[href="#' + id + '"]').parent().remove();
+      appendix = true;
+      $(this).nextUntil($('h1, h2, h3')).addBack().appendTo($('d-appendix'));
+    });
+  
+    // show d-appendix if we have appendix content
+    $("d-appendix").css('display', appendix ? 'grid' : 'none');
+  
+    // replace code blocks with d-code
+    $('pre>code').each(function(i, val) {
+      var code = $(this);
+      var pre = code.parent();
+      var clz = "";
+      var language = pre.attr('class');
+      if (language) {
+        // map unknown languages to "clike" (without this they just dissapear)
+        if ($.inArray(language, ["bash", "clike", "css", "go", "html",
+                                 "javascript", "js", "julia", "lua", "markdown",
+                                 "markup", "mathml", "python", "svg", "xml"]) == -1)
+          language = "clike";
+        language = ' language="' + language + '"';
+        var dt_code = $('<d-code block' + language + clz + '></d-code>');
+        dt_code.text(code.text());
+        pre.replaceWith(dt_code);
+      } else {
+        code.addClass('text-output').unwrap().changeElementType('pre');
+      }
+    });
+  
+    // localize layout chunks to just output
+    $('.layout-chunk').each(function(i, val) {
+  
+      // capture layout
+      var layout = $(this).attr('data-layout');
+  
+      // apply layout to markdown level block elements
+      var elements = $(this).children().not('d-code, pre.text-output, script');
+      elements.each(function(i, el) {
+        var layout_div = $('<div class="' + layout + '"></div>');
+        if (layout_div.hasClass('shaded')) {
+          var shaded_content = $('<div class="shaded-content"></div>');
+          $(this).wrap(shaded_content);
+          $(this).parent().wrap(layout_div);
+        } else {
+          $(this).wrap(layout_div);
+        }
+      });
+  
+  
+      // unwrap the layout-chunk div
+      $(this).children().unwrap();
+    });
+  
+    // load distill framework
+    load_distill_framework();
+  
+    // wait for window.distillRunlevel == 4 to do post processing
+    function distill_post_process() {
+  
+      if (!window.distillRunlevel || window.distillRunlevel < 4)
+        return;
+  
+      // hide author/affiliations entirely if we have no authors
+      var front_matter = JSON.parse($("#distill-front-matter").html());
+      var have_authors = front_matter.authors && front_matter.authors.length > 0;
+      if (!have_authors)
+        $('d-byline').addClass('hidden');
+  
+      // table of contents
+      if (have_authors) // adjust border if we are in authors
+        $('.d-toc').parent().addClass('d-article-with-toc');
+  
+      // strip links that point to #
+      $('.authors-affiliations').find('a[href="#"]').removeAttr('href');
+  
+      // hide elements of author/affiliations grid that have no value
+      function hide_byline_column(caption) {
+        $('d-byline').find('h3:contains("' + caption + '")').parent().css('visibility', 'hidden');
+      }
+  
+      // affiliations
+      var have_affiliations = false;
+      for (var i = 0; i<front_matter.authors.length; ++i) {
+        var author = front_matter.authors[i];
+        if (author.affiliation !== "&nbsp;") {
+          have_affiliations = true;
+          break;
+        }
+      }
+      if (!have_affiliations)
+        $('d-byline').find('h3:contains("Affiliations")').css('visibility', 'hidden');
+  
+      // published date
+      if (!front_matter.publishedDate)
+        hide_byline_column("Published");
+  
+      // document object identifier
+      var doi = $('d-byline').find('h3:contains("DOI")');
+      var doi_p = doi.next().empty();
+      if (!front_matter.doi) {
+        // if we have a citation and valid citationText then link to that
+        if ($('#citation').length > 0 && front_matter.citationText) {
+          doi.html('Citation');
+          $('<a href="#citation"></a>')
+            .text(front_matter.citationText)
+            .appendTo(doi_p);
+        } else {
+          hide_byline_column("DOI");
+        }
+      } else {
+        $('<a></a>')
+           .attr('href', "https://doi.org/" + front_matter.doi)
+           .html(front_matter.doi)
+           .appendTo(doi_p);
+      }
+  
+       // change plural form of authors/affiliations
+      if (front_matter.authors.length === 1) {
+        var grid = $('.authors-affiliations');
+        grid.children('h3:contains("Authors")').text('Author');
+        grid.children('h3:contains("Affiliations")').text('Affiliation');
+      }
+  
+      // inject pre code styles (can't do this with a global stylesheet b/c a shadow root is used)
+      $('d-code').each(function(i, val) {
+        var style = document.createElement('style');
+        style.innerHTML = 'pre code { padding-left: 10px; font-size: 12px; border-left: 2px solid rgba(0,0,0,0.1); } ' +
+                          '@media(min-width: 768px) { pre code { padding-left: 18px; font-size: 14px; } }';
+        if (this.shadowRoot)
+          this.shadowRoot.appendChild(style);
+      });
+  
+      // move appendix-bottom entries to the bottom
+      $('.appendix-bottom').appendTo('d-appendix').children().unwrap();
+      $('.appendix-bottom').remove();
+  
+      // clear polling timer
+      clearInterval(tid);
+  
+      // show body now that everything is ready
+      on_load_complete();
+    }
+  
+    var tid = setInterval(distill_post_process, 50);
+    distill_post_process();
+  
+  }
+  
+  function init_downlevel() {
+  
+    init_common();
+  
+     // insert hr after d-title
+    $('.d-title').after($('<hr class="section-separator"/>'));
+  
+    // check if we have authors
+    var front_matter = JSON.parse($("#distill-front-matter").html());
+    var have_authors = front_matter.authors && front_matter.authors.length > 0;
+  
+    // manage byline/border
+    if (!have_authors)
+      $('.d-byline').remove();
+    $('.d-byline').after($('<hr class="section-separator"/>'));
+    $('.d-byline a').remove();
+  
+    // remove toc
+    $('.d-toc-header').remove();
+    $('.d-toc').remove();
+    $('.d-toc-separator').remove();
+  
+    // move appendix elements
+    $('h1.appendix, h2.appendix').each(function(i, val) {
+      $(this).changeElementType('h3');
+    });
+    $('h3.appendix').each(function(i, val) {
+      $(this).nextUntil($('h1, h2, h3')).addBack().appendTo($('.d-appendix'));
+    });
+  
+  
+    // inject headers into references and footnotes
+    var refs_header = $('<h3></h3>');
+    refs_header.text('References');
+    $('#refs').prepend(refs_header);
+  
+    var footnotes_header = $('<h3></h3');
+    footnotes_header.text('Footnotes');
+    $('.footnotes').children('hr').first().replaceWith(footnotes_header);
+  
+    // move appendix-bottom entries to the bottom
+    $('.appendix-bottom').appendTo('.d-appendix').children().unwrap();
+    $('.appendix-bottom').remove();
+  
+    // remove appendix if it's empty
+    if ($('.d-appendix').children().length === 0)
+      $('.d-appendix').remove();
+  
+    // prepend separator above appendix
+    $('.d-appendix').before($('<hr class="section-separator" style="clear: both"/>'));
+  
+    // trim code
+    $('pre>code').each(function(i, val) {
+      $(this).html($.trim($(this).html()));
+    });
+  
+    // move posts-container right before article
+    $('.posts-container').insertBefore($('.d-article'));
+  
+    $('body').addClass('downlevel');
+  
+    on_load_complete();
+  }
+  
+  
+  function init_common() {
+  
+    // jquery plugin to change element types
+    (function($) {
+      $.fn.changeElementType = function(newType) {
+        var attrs = {};
+  
+        $.each(this[0].attributes, function(idx, attr) {
+          attrs[attr.nodeName] = attr.nodeValue;
+        });
+  
+        this.replaceWith(function() {
+          return $("<" + newType + "/>", attrs).append($(this).contents());
+        });
+      };
+    })(jQuery);
+  
+    // prevent underline for linked images
+    $('a > img').parent().css({'border-bottom' : 'none'});
+  
+    // mark non-body figures created by knitr chunks as 100% width
+    $('.layout-chunk').each(function(i, val) {
+      var figures = $(this).find('img, .html-widget');
+      if ($(this).attr('data-layout') !== "l-body") {
+        figures.css('width', '100%');
+      } else {
+        figures.css('max-width', '100%');
+        figures.filter("[width]").each(function(i, val) {
+          var fig = $(this);
+          fig.css('width', fig.attr('width') + 'px');
+        });
+  
+      }
+    });
+  
+    // auto-append index.html to post-preview links in file: protocol
+    // and in rstudio ide preview
+    $('.post-preview').each(function(i, val) {
+      if (window.location.protocol === "file:")
+        $(this).attr('href', $(this).attr('href') + "index.html");
+    });
+  
+    // get rid of index.html references in header
+    if (window.location.protocol !== "file:") {
+      $('.distill-site-header a[href]').each(function(i,val) {
+        $(this).attr('href', $(this).attr('href').replace("index.html", "./"));
+      });
+    }
+  
+    // add class to pandoc style tables
+    $('tr.header').parent('thead').parent('table').addClass('pandoc-table');
+    $('.kable-table').children('table').addClass('pandoc-table');
+  
+    // add figcaption style to table captions
+    $('caption').parent('table').addClass("figcaption");
+  
+    // initialize posts list
+    if (window.init_posts_list)
+      window.init_posts_list();
+  
+    // implmement disqus comment link
+    $('.disqus-comment-count').click(function() {
+      window.headroom_prevent_pin = true;
+      $('#disqus_thread').toggleClass('hidden');
+      if (!$('#disqus_thread').hasClass('hidden')) {
+        var offset = $(this).offset();
+        $(window).resize();
+        $('html, body').animate({
+          scrollTop: offset.top - 35
+        });
+      }
+    });
+  }
+  
+  document.addEventListener('DOMContentLoaded', function() {
+    if (is_downlevel_browser())
+      init_downlevel();
+    else
+      window.addEventListener('WebComponentsReady', init_distill);
+  });
+  
+  </script>
+  
+  <!--/radix_placeholder_distill-->
+  <link href="manipulao-de-texto-com-stringr-parte-iii_files/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
+  <script src="manipulao-de-texto-com-stringr-parte-iii_files/pagedtable-1.1/js/pagedtable.js"></script>
+  <script src="manipulao-de-texto-com-stringr-parte-iii_files/htmlwidgets-1.5.1/htmlwidgets.js"></script>
+  <link href="manipulao-de-texto-com-stringr-parte-iii_files/str_view-0.1.0/str_view.css" rel="stylesheet" />
+  <script src="manipulao-de-texto-com-stringr-parte-iii_files/str_view-binding-1.4.0/str_view.js"></script>
+  <script src="manipulao-de-texto-com-stringr-parte-iii_files/jquery-1.11.3/jquery.min.js"></script>
+  <script src="manipulao-de-texto-com-stringr-parte-iii_files/bowser-1.9.3/bowser.min.js"></script>
+  <script src="manipulao-de-texto-com-stringr-parte-iii_files/webcomponents-2.0.0/webcomponents.js"></script>
+  <script src="manipulao-de-texto-com-stringr-parte-iii_files/distill-2.2.21/template.v2.js"></script>
+  <!--radix_placeholder_site_in_header-->
+  <!--/radix_placeholder_site_in_header-->
+
+
+</head>
+
+<body>
+
+<!--radix_placeholder_front_matter-->
+
+<script id="distill-front-matter" type="text/json">
+{"title":"Manipulação de texto com stringr - parte III","description":"A short description of the post.","authors":[{"author":"Miguel Cleaver","authorURL":"#","affiliation":"&nbsp;","affiliationURL":"#"}],"publishedDate":"2019-11-06T00:00:00.000-02:00","citationText":"Cleaver, 2019"}
+</script>
+
+<!--/radix_placeholder_front_matter-->
+<!--radix_placeholder_navigation_before_body-->
+<!--/radix_placeholder_navigation_before_body-->
+<!--radix_placeholder_site_before_body-->
+<!--/radix_placeholder_site_before_body-->
+
+<div class="d-title">
+<h1>Manipulação de texto com stringr - parte III</h1>
+<p>A short description of the post.</p>
+</div>
+
+<div class="d-byline">
+  Miguel Cleaver  
+  
+<br/>11-06-2019
+</div>
+
+<div class="d-article">
+<!-- More -->
+<p>Na terceira parte sobre manipulação de texto com stringr, manteremos a lógica anterior dos posts da série, isto é, continuaremos a propor problemas e mostrar como os podemos resolver.</p>
+<p>Antes de continuar será necessário “sujar” um pouco nossos dados. Para isso, carregamos os dados que já vinhamos usando anteriormente e inserimos aleatoriamente pontuações e espaços desnecessários na coluna “pais_port”. A ideia desse procedimento consiste em “sujar” os dados e simular uma base de dados bruta. A “sujeira” que fizemos é relativamente simples e, na vida real, você poderá encontrar bases de dados es estado muito pior, mas a ideia é que você consiga generalizar o conhecimento a partir dos exemplos mais didáticos que elaboramos.</p>
+<h3 id="pacotes-que-iremos-utilizar">Pacotes que iremos utilizar</h3>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+library(dplyr)
+library(stringr)
+library(data.table)</code></pre>
+</div>
+<h3 id="carregamento-de-dados">Carregamento de dados</h3>
+<p>Abaixo carregamos os dados que iremos utilizar. Em seguida, “sujamos” a coluna "pais_port:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+paises &lt;- fread(
+  &quot;https://raw.githubusercontent.com/mgcleaver/correlacoes/master/paises_isoa.txt&quot;,
+                encoding = &quot;UTF-8&quot;
+)
+
+# para reprodutibilidade o seu R precisa ser uma versão &gt; 3.6.0.
+set.seed(1)
+
+indice1 &lt;- sample(1:nrow(paises), floor(nrow(paises)/2)) %&gt;% 
+  sort()
+indice2 &lt;- setdiff(1:nrow(paises), indice1)
+
+paises$pais_port[indice1] &lt;- paste0(&quot; &quot;, paises$pais_port[indice1], &quot;.&quot;)
+paises$pais_port[indice2] &lt;- paste0(paises$pais_port[indice2], &quot;   ; &quot;)
+
+indice_espaco &lt;- sample(1:nrow(paises), 10)
+paises$pais_port[indice_espaco] &lt;- paste0(&quot; &quot;, paises$pais_port[indice_espaco], &quot; &quot;)
+
+indice_interrogacao &lt;- sample(1:nrow(paises), 10)
+paises$pais_port[indice_interrogacao] &lt;- paste0(paises$pais_port[indice_espaco], &quot;?&quot;)
+
+head(paises)</code></pre>
+<pre><code>
+   ISOA      pais_ing        pais_port
+1:  ABW         Aruba           Aruba.
+2:  AFG   Afghanistan Afeganistão   ; 
+3:  AGO        Angola      Angola   ; 
+4:  AIA      Anguilla     Anguila   ; 
+5:  ALA Åland Islands Ilhas Aland   ; 
+6:  ALB       Albania     Albânia   ; </code></pre>
+</div>
+<h3 id="problema-n.-1-como-elimino-os-pontos-que-estão-presentes-na-coluna-pais_port">Problema n. 1: Como elimino os pontos que estão presentes na coluna pais_port?</h3>
+<p>Primeiramente, vejamos quais das nossas observações possuem ponto.</p>
+<p>Como um primeiro exercício, tentemos identificar as 10 primeiras observações que possuem um ponto na coluna “pais_port”:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+paises %&gt;% 
+  filter(str_detect(pais_port, &quot;.&quot;)) %&gt;% 
+  head(10)</code></pre>
+<pre><code>
+   ISOA             pais_ing                   pais_port
+1   ABW                Aruba                      Aruba.
+2   AFG          Afghanistan            Afeganistão   ; 
+3   AGO               Angola                 Angola   ; 
+4   AIA             Anguilla                Anguila   ; 
+5   ALA        Åland Islands            Ilhas Aland   ; 
+6   ALB              Albania                Albânia   ; 
+7   AND              Andorra                    Andorra.
+8   ARE United Arab Emirates Emirados Árabes Unidos   ; 
+9   ARG            Argentina              Argentina   ; 
+10  ARM              Armenia                Armênia   ; </code></pre>
+</div>
+<p>Podemos observar que nosso filtro não foi capaz de identificar quais observações tinham o ponto na coluna “pais_port”. <strong>O problema é que em regex o ponto é usado como uma espécie de coringa, pois pode igualar qualquer letra e número, além de outros símbolos de pontuação</strong>. Como as observações da coluna “pais_port” tem pelo menos um caractere, o filtro traz todas as observações, uma vez que todas elas atendem o requisito.</p>
+<p>Para que identifiquemos quais observações possuem literalmente um ponto, devemos escapar a função regex atribuída ao ponto com duas contrabarras (<code>\\</code>), isto é, devemos inserir o seguinte padrão na função <code>str_detect</code>, no argumento correspondente: “<code>\\.</code>”. Vejamos:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+pontos &lt;- paises %&gt;% 
+  filter(str_detect(pais_port, &quot;\\.&quot;)) %&gt;% 
+  pull(pais_port) %&gt;% 
+  .[1:10]
+
+# ver as 10 primeiras observações da coluna pais_port com pontos
+pontos</code></pre>
+<pre><code>
+ [1] &quot; Aruba.&quot;                                 
+ [2] &quot; Andorra.&quot;                               
+ [3] &quot; Terras Austrais e Antárticas Francesas.&quot;
+ [4] &quot; Antígua e Barbuda.&quot;                     
+ [5] &quot; Benin.&quot;                                 
+ [6] &quot; Países Baixos Caribenhos.&quot;              
+ [7] &quot; Burkina Faso.&quot;                          
+ [8] &quot; Bangladesh.&quot;                            
+ [9] &quot; Bulgária.&quot;                              
+[10] &quot; Barém.&quot;                                 </code></pre>
+</div>
+<p>Agora que conseguimos ver quais observações tem o ponto, como eliminamos o ponto das observações? Devemos utilizar a função <code>str_remove</code>. No primeiro argumento dessa função inserimos o vetor que desejamos modificar. No segundo argumento inserimos o padrão que desejamos remover. Vejamos, então, como aplicar a função:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+str_remove(pontos, &quot;\\.&quot;)</code></pre>
+<pre><code>
+ [1] &quot; Aruba&quot;                                 
+ [2] &quot; Andorra&quot;                               
+ [3] &quot; Terras Austrais e Antárticas Francesas&quot;
+ [4] &quot; Antígua e Barbuda&quot;                     
+ [5] &quot; Benin&quot;                                 
+ [6] &quot; Países Baixos Caribenhos&quot;              
+ [7] &quot; Burkina Faso&quot;                          
+ [8] &quot; Bangladesh&quot;                            
+ [9] &quot; Bulgária&quot;                              
+[10] &quot; Barém&quot;                                 </code></pre>
+</div>
+<p>Comparando o resultado acima com o anterior, verificamos que não há mais pontos em nossos dados. Alteremos o objeto <code>paises</code> para incorporar a modificação proposta.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+paises &lt;- paises %&gt;% 
+  mutate(pais_port = str_remove(pais_port, &quot;\\.&quot;))</code></pre>
+</div>
+<p>Agora quando buscamos pelo ponto na coluna “pais_port” não mais o encontramos em nossas observações:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+paises %&gt;% 
+  filter(str_detect(pais_port, &quot;\\.&quot;))</code></pre>
+<pre><code>
+[1] ISOA      pais_ing  pais_port
+&lt;0 rows&gt; (or 0-length row.names)</code></pre>
+</div>
+<p>Problema resolvido. Mas, note o seguinte: a função <code>str_remove</code> apenas elimina a primeira ocorrência do padrão encontrado. Se houvesse dois pontos em uma observação, a função <code>str_remove</code> apenas removeria o ponto que encontrasse primeiro, deixando ainda um ponto remanescente no meio do texto. Se precisássemos remover todos os pontos, utilizaríamos a função <code>str_remove_all</code>. Em essência ela faz a mesma coisa que a função <code>str_remove</code>, mas em vez de remover apenas a primeira ocorrência, ela remove todas.</p>
+<h3 id="problema-n.-2-como-eliminamos-os-espaços-anteriores-e-posteriores-ao-texto">Problema n. 2: Como eliminamos os espaços anteriores e posteriores ao texto?</h3>
+<p>Primeiramente, verifiquemos se existem observações com espaços antes do início do texto na coluna “pais_port”. Se você não entende porque o padrão “^” detecta observações que se iniciam com espaço, veja a <a href="https://www.fulljoin.com.br/posts/2019-10-22-manipulao-de-texto-com-stringr-parte-ii/">a parte II</a> desse post.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+espaco1 &lt;- paises %&gt;% 
+  filter(str_detect(pais_port, &quot;^ &quot;)) %&gt;% 
+  pull(pais_port) %&gt;% 
+  .[1:10]
+
+espaco1</code></pre>
+<pre><code>
+ [1] &quot; Aruba&quot;                                 
+ [2] &quot; Andorra&quot;                               
+ [3] &quot; Terras Austrais e Antárticas Francesas&quot;
+ [4] &quot; Antígua e Barbuda&quot;                     
+ [5] &quot; Benin&quot;                                 
+ [6] &quot; Países Baixos Caribenhos&quot;              
+ [7] &quot; Burkina Faso&quot;                          
+ [8] &quot; Bangladesh&quot;                            
+ [9] &quot; Bulgária&quot;                              
+[10] &quot; Barém&quot;                                 </code></pre>
+</div>
+<p>Ok. Agora verifiquemos se também existem espaços após o fim do texto na coluna “pais_port”:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+espaco2 &lt;- paises %&gt;% 
+  filter(str_detect(pais_port, &quot; $&quot;)) %&gt;% 
+  pull(pais_port) %&gt;% 
+  .[1:10]
+
+espaco2</code></pre>
+<pre><code>
+ [1] &quot;Afeganistão   ; &quot;            &quot;Angola   ; &quot;                
+ [3] &quot;Anguila   ; &quot;                &quot;Ilhas Aland   ; &quot;           
+ [5] &quot;Albânia   ; &quot;                &quot;Emirados Árabes Unidos   ; &quot;
+ [7] &quot;Argentina   ; &quot;              &quot;Armênia   ; &quot;               
+ [9] &quot;Samoa Americana   ; &quot;        &quot;Antártica   ; &quot;             </code></pre>
+</div>
+<p>Após investigar os dados encontramos que há espaços antes do texto começar bem como depois do texto terminar. Para resolver nosso problema devemos utilizar a função <code>str_trim</code>. Essa função elimina espaços que ficam do lado esquerdo ou do lado direito do dado textual. No primeiro argumento inserimos o vetor que queremos modificar. No segundo argumento escolhemos o lado dos espaços que queremos eliminar. Para eliminar espaços que ficam <strong>apenas</strong> do lado esquerdo do texto devemos utilizar o argumento “left”. Para eliminar espaços que ficam <strong>apenas</strong> do lado direito devemos utilizar o argumento “right”. Se quisermos eliminar espaços tanto do lado esquerdo como do lado direito devemos utilizar o argumento “both” (é justamente isso que queremos neste problema). Vejamos como ficam os objetos <code>espaco1</code>e <code>espaco2</code>:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+str_trim(espaco1, &quot;both&quot;)</code></pre>
+<pre><code>
+ [1] &quot;Aruba&quot;                                 
+ [2] &quot;Andorra&quot;                               
+ [3] &quot;Terras Austrais e Antárticas Francesas&quot;
+ [4] &quot;Antígua e Barbuda&quot;                     
+ [5] &quot;Benin&quot;                                 
+ [6] &quot;Países Baixos Caribenhos&quot;              
+ [7] &quot;Burkina Faso&quot;                          
+ [8] &quot;Bangladesh&quot;                            
+ [9] &quot;Bulgária&quot;                              
+[10] &quot;Barém&quot;                                 </code></pre>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+str_trim(espaco2, &quot;both&quot;)</code></pre>
+<pre><code>
+ [1] &quot;Afeganistão   ;&quot;            &quot;Angola   ;&quot;                
+ [3] &quot;Anguila   ;&quot;                &quot;Ilhas Aland   ;&quot;           
+ [5] &quot;Albânia   ;&quot;                &quot;Emirados Árabes Unidos   ;&quot;
+ [7] &quot;Argentina   ;&quot;              &quot;Armênia   ;&quot;               
+ [9] &quot;Samoa Americana   ;&quot;        &quot;Antártica   ;&quot;             </code></pre>
+</div>
+<p>Agora vemos que não há mais espaços do lado esquerdo nem do lado direito do texto. Contudo, após aplicar a função no objeto <code>espaco2</code>, observamos que existem espaços excessivos entre a última letra do nome do país e o <code>ponto e vírgula</code>.</p>
+<p>Será que também conseguimos transformar mais de um espaço para um único espaço? Já já veremos como resolver isso, mas antes modifiquemos o objeto <code>paises</code> com intuito de modificá-lo conforme a proposta deste problema:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+paises &lt;- paises %&gt;% 
+  mutate(pais_port = str_trim(pais_port, &quot;both&quot;))</code></pre>
+</div>
+<h2 id="problema-n.-3-como-transformar-mais-de-um-espaço-entre-palavras-ou-sinais-de-pontuação-em-um-único-espaço">Problema n. 3: Como transformar mais de um espaço entre palavras ou sinais de pontuação em um único espaço?</h2>
+<p>A função que poderá nos ajudar com essa tarefa se chama <code>str_squish</code>. Note que essa função, além de eliminar espaços duplos, também cumpre a função de eliminar espaços à direita e espaços à esquerda do texto. Diferentemente, da função <code>str_trim</code>, a função <code>str_squish</code> não nos permite escolher um lado específico para eliminar espaços. Trata-se de uma função extremamente útil para padronizar dados textuais. No caso da coluna “pais_port”, nós já eliminamos espaços à direita e espaços à esquerda. Portanto a função somente eliminará os espaços duplos contidos na coluna. A função também elimina quebras de linha e outros tipos de espaço. Vejamos primeiro como estão os dez primeiros elementos com mais de um espaço:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+mais_espacos &lt;- paises %&gt;% 
+  filter(str_detect(pais_port, &quot; {2,}&quot;)) %&gt;% 
+  pull(pais_port) %&gt;% 
+  .[1:10]
+
+mais_espacos</code></pre>
+<pre><code>
+ [1] &quot;Afeganistão   ;&quot;            &quot;Angola   ;&quot;                
+ [3] &quot;Anguila   ;&quot;                &quot;Ilhas Aland   ;&quot;           
+ [5] &quot;Albânia   ;&quot;                &quot;Emirados Árabes Unidos   ;&quot;
+ [7] &quot;Argentina   ;&quot;              &quot;Armênia   ;&quot;               
+ [9] &quot;Samoa Americana   ;&quot;        &quot;Antártica   ;&quot;             </code></pre>
+</div>
+<p>Vamos primeiro interpretar o padrão que inserimos no segundo argumento na função <code>str_detect</code>. O primeiro termo é um espaço (" “). O termo que segue o espaço é o”{2,}“. Em regex, este último termo significa que procuramos padrões textuais que tenham 2 elementos ou mais iguais ao caractere imediatamente anterior. Por exemplo, se tivéssemos inserido o termo” {2,4}", a nossa busca encontraria todas as observações com dois, três ou quatro espaços.</p>
+<p>Observemos nossa função <code>str_squish</code> em ação:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+str_squish(mais_espacos)</code></pre>
+<pre><code>
+ [1] &quot;Afeganistão ;&quot;            &quot;Angola ;&quot;                
+ [3] &quot;Anguila ;&quot;                &quot;Ilhas Aland ;&quot;           
+ [5] &quot;Albânia ;&quot;                &quot;Emirados Árabes Unidos ;&quot;
+ [7] &quot;Argentina ;&quot;              &quot;Armênia ;&quot;               
+ [9] &quot;Samoa Americana ;&quot;        &quot;Antártica ;&quot;             </code></pre>
+</div>
+<p>Compare o resultado acima com o resultado imediatamente anterior.</p>
+<p>Vejamos um outro exemplo só para fixar o entendimento:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+teste &lt;- c(&quot; isso     é    um \nteste para   ver como \ta função str_squish   funciona   &quot;)
+teste</code></pre>
+<pre><code>
+[1] &quot; isso     é    um \nteste para   ver como \ta função str_squish   funciona   &quot;</code></pre>
+</div>
+<p>Para que você veja o que os <code>\n</code> e <code>\t</code> significam na prática utilizemos a função <code>cat</code>. Vejamos:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+cat(teste)</code></pre>
+<pre><code>
+ isso     é    um 
+teste para   ver como   a função str_squish   funciona   </code></pre>
+</div>
+<p>Como podemos ver, o primeiro termo (<code>\n</code>) representa uma quebra de linha; o segundo (<code>\t</code>), representa um espaço do tipo “tab”.</p>
+<p>De novo, vejamos mais uma vez <code>str_squish</code> em ação:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+str_squish(teste)</code></pre>
+<pre><code>
+[1] &quot;isso é um teste para ver como a função str_squish funciona&quot;</code></pre>
+</div>
+<p>Agora alteremos o objeto <code>paises</code> com intuito de eliminar os espaços excedentes:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+paises &lt;- paises %&gt;% 
+  mutate(pais_port = str_squish(pais_port))</code></pre>
+</div>
+<h2 id="problema-n.-4-como-substituir-padrões-encontrados-no-texto-por-outros-padrões">Problema n. 4: Como substituir padrões encontrados no texto por outros padrões?</h2>
+<p>Para este exercício suponhamos que queremos substituir a pontuação ponto e vírgula e ponto de interrogação (?), respectivamente, pelos termos “- observação1” e “- observação2”. Trata-se de um exercício apenas para fins didáticos.</p>
+<p>Abaixo identificamos as observações com os padrões “;” e “?” na coluna “pais_port”:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+padrao1 &lt;- paises %&gt;%
+  filter(str_detect(pais_port, &quot;;&quot;)) %&gt;%
+  pull(pais_port) %&gt;% 
+  .[1:10]
+
+padrao1</code></pre>
+<pre><code>
+ [1] &quot;Afeganistão ;&quot;            &quot;Angola ;&quot;                
+ [3] &quot;Anguila ;&quot;                &quot;Ilhas Aland ;&quot;           
+ [5] &quot;Albânia ;&quot;                &quot;Emirados Árabes Unidos ;&quot;
+ [7] &quot;Argentina ;&quot;              &quot;Armênia ;&quot;               
+ [9] &quot;Samoa Americana ;&quot;        &quot;Antártica ;&quot;             </code></pre>
+</div>
+<p>Devemos escapar a interrogação com duas contrabarras, uma vez que esse sinal de pontuação também é, como o ponto, uma expressão do regex.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+padrao2 &lt;- paises %&gt;%
+  filter(str_detect(pais_port, &quot;\\?&quot;)) %&gt;%
+  pull(pais_port) %&gt;% 
+  .[1:10]
+
+padrao2</code></pre>
+<pre><code>
+ [1] &quot;Panamá ; ?&quot;    &quot;Islândia ?&quot;    &quot;Cingapura ; ?&quot; &quot;Jamaica ; ?&quot;  
+ [5] &quot;China ?&quot;       &quot;Turquia ?&quot;     &quot;Comores ?&quot;     &quot;Honduras ; ?&quot; 
+ [9] &quot;Guadalupe ; ?&quot; &quot;Estônia ; ?&quot;  </code></pre>
+</div>
+<p>Agora vejamos a função que nos poderá ajudar com este exercício. Ela se chama <code>str_replace</code>. No primeiro argumento da função inserimos o vetor que desejamos modificar. No segundo argumento inserimos o padrão que queremos localizar e substituir. Por fim, no terceiro argumento inserimos o padrão de substituição.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+str_replace(padrao1, &quot;;&quot;, &quot;- observação1&quot;)</code></pre>
+<pre><code>
+ [1] &quot;Afeganistão - observação1&quot;           
+ [2] &quot;Angola - observação1&quot;                
+ [3] &quot;Anguila - observação1&quot;               
+ [4] &quot;Ilhas Aland - observação1&quot;           
+ [5] &quot;Albânia - observação1&quot;               
+ [6] &quot;Emirados Árabes Unidos - observação1&quot;
+ [7] &quot;Argentina - observação1&quot;             
+ [8] &quot;Armênia - observação1&quot;               
+ [9] &quot;Samoa Americana - observação1&quot;       
+[10] &quot;Antártica - observação1&quot;             </code></pre>
+</div>
+<p>Como no objeto <code>padrao2</code> existem dois termos, devemos fazer duas substituições por meio da função <code>str_replace</code>.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+str_replace(padrao2, &quot;\\?&quot;, &quot;- observação2&quot;) %&gt;% 
+  str_replace(&quot;;&quot;, &quot;- observacao1&quot;)</code></pre>
+<pre><code>
+ [1] &quot;Panamá - observacao1 - observação2&quot;   
+ [2] &quot;Islândia - observação2&quot;               
+ [3] &quot;Cingapura - observacao1 - observação2&quot;
+ [4] &quot;Jamaica - observacao1 - observação2&quot;  
+ [5] &quot;China - observação2&quot;                  
+ [6] &quot;Turquia - observação2&quot;                
+ [7] &quot;Comores - observação2&quot;                
+ [8] &quot;Honduras - observacao1 - observação2&quot; 
+ [9] &quot;Guadalupe - observacao1 - observação2&quot;
+[10] &quot;Estônia - observacao1 - observação2&quot;  </code></pre>
+</div>
+<p>A função <code>str_replace</code> apenas substitui o primeiro padrão encontrado. Se houvesse mais padrões do mesmo tipo, a função não faria a substituição dos termos excedentes. Para substituir todos os padrões que tivessem a especificação inserida seria necessário utilizar a função <code>str_replace_all</code> (de forma semelhante à função <code>str_remove_all</code>)</p>
+<p>Alteremos o objeto <code>paises</code> para incorporar as mudanças propostas neste exercício e vejamos como ficaram os dados da coluna pais_port.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+paises &lt;- paises %&gt;% 
+  mutate(pais_port = str_replace(pais_port, &quot;;&quot;, &quot;- observação1&quot;) %&gt;% 
+           str_replace(&quot;\\?&quot;, &quot;- observação2&quot;))
+
+paises %&gt;% 
+  select(ISOA, pais_port) %&gt;% 
+  rmarkdown::paged_table()</code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["ISOA"],"name":[1],"type":["chr"],"align":["left"]},{"label":["pais_port"],"name":[2],"type":["chr"],"align":["left"]}],"data":[{"1":"ABW","2":"Aruba"},{"1":"AFG","2":"Afeganistão - observação1"},{"1":"AGO","2":"Angola - observação1"},{"1":"AIA","2":"Anguila - observação1"},{"1":"ALA","2":"Ilhas Aland - observação1"},{"1":"ALB","2":"Albânia - observação1"},{"1":"AND","2":"Andorra"},{"1":"ARE","2":"Emirados Árabes Unidos - observação1"},{"1":"ARG","2":"Argentina - observação1"},{"1":"ARM","2":"Armênia - observação1"},{"1":"ASM","2":"Samoa Americana - observação1"},{"1":"ATA","2":"Antártica - observação1"},{"1":"ATF","2":"Terras Austrais e Antárticas Francesas"},{"1":"ATG","2":"Antígua e Barbuda"},{"1":"AUS","2":"Austrália - observação1"},{"1":"AUT","2":"Áustria - observação1"},{"1":"AZE","2":"Azerbaijão - observação1"},{"1":"BDI","2":"Burundi - observação1"},{"1":"BEL","2":"Bélgica - observação1"},{"1":"BEN","2":"Benin"},{"1":"BES","2":"Países Baixos Caribenhos"},{"1":"BFA","2":"Burkina Faso"},{"1":"BGD","2":"Bangladesh"},{"1":"BGR","2":"Bulgária"},{"1":"BHR","2":"Barém"},{"1":"BHS","2":"As Bahamas"},{"1":"BIH","2":"Bósnia e Herzegovina - observação1"},{"1":"BLM","2":"São Bartolomeu"},{"1":"BLR","2":"Belarus"},{"1":"BLZ","2":"Belize - observação1"},{"1":"BMU","2":"Bermudas"},{"1":"BOL","2":"Bolívia - observação1"},{"1":"BRA","2":"Brasil"},{"1":"BRB","2":"Barbados"},{"1":"BRN","2":"Brunei - observação1"},{"1":"BTN","2":"Butão - observação1"},{"1":"BVT","2":"Ilha Bouvet"},{"1":"BWA","2":"Botsuana - observação1"},{"1":"CAF","2":"República Centro-Africana"},{"1":"CAN","2":"Canadá"},{"1":"CCK","2":"Ilhas Cocos (Keeling) - observação1"},{"1":"CHE","2":"Suíça"},{"1":"CHL","2":"Chile"},{"1":"CHN","2":"China"},{"1":"CIV","2":"Costa do Marfim"},{"1":"CMR","2":"Camarões - observação1"},{"1":"COD","2":"República Democrática do Congo - observação1"},{"1":"COG","2":"República do Congo"},{"1":"COK","2":"Panamá - observação1 - observação2"},{"1":"COL","2":"Islândia - observação2"},{"1":"COM","2":"Comores"},{"1":"CPV","2":"Cabo Verde - observação1"},{"1":"CRI","2":"Costa Rica - observação1"},{"1":"CUB","2":"Cuba - observação1"},{"1":"CUW","2":"Curaçao - observação1"},{"1":"CXR","2":"Ilha do Natal - observação1"},{"1":"CYM","2":"Ilhas Cayman - observação1"},{"1":"CYP","2":"Chipre - observação1"},{"1":"CZE","2":"República Checa - observação1"},{"1":"DEU","2":"Cingapura - observação1 - observação2"},{"1":"DJI","2":"Djibuti"},{"1":"DMA","2":"Dominica - observação1"},{"1":"DNK","2":"Dinamarca - observação1"},{"1":"DOM","2":"República Dominicana"},{"1":"DZA","2":"Argélia - observação1"},{"1":"ECU","2":"Equador - observação1"},{"1":"EGY","2":"Egito - observação1"},{"1":"ERI","2":"Eritréia"},{"1":"ESH","2":"Saara Ocidental - observação1"},{"1":"ESP","2":"Espanha"},{"1":"EST","2":"Estônia - observação1"},{"1":"ETH","2":"Etiópia - observação1"},{"1":"FIN","2":"Finlândia"},{"1":"FJI","2":"Fiji"},{"1":"FLK","2":"Ilhas Falkland"},{"1":"FRA","2":"França - observação1"},{"1":"FRO","2":"ilhas Faroe - observação1"},{"1":"FSM","2":"Estados Federados da Micronésia"},{"1":"GAB","2":"Gabão"},{"1":"GBR","2":"Reino Unido - observação1"},{"1":"GEO","2":"Geórgia (país) - observação1"},{"1":"GGY","2":"Guernsey - observação1"},{"1":"GHA","2":"Gana"},{"1":"GIB","2":"Gibraltar"},{"1":"GIN","2":"Guiné"},{"1":"GLP","2":"Guadalupe - observação1"},{"1":"GMB","2":"Gâmbia"},{"1":"GNB","2":"Guiné-Bissau - observação1"},{"1":"GNQ","2":"Guiné Equatorial"},{"1":"GRC","2":"Grécia"},{"1":"GRD","2":"Granada - observação1"},{"1":"GRL","2":"Gronelândia - observação1"},{"1":"GTM","2":"Guatemala - observação1"},{"1":"GUF","2":"Guiana Francesa - observação1"},{"1":"GUM","2":"Guam - observação1"},{"1":"GUY","2":"Guiana - observação1"},{"1":"HKG","2":"Hong Kong - observação1"},{"1":"HMD","2":"Ilha Heard e Ilhas McDonald - observação1"},{"1":"HND","2":"Honduras - observação1"},{"1":"HRV","2":"Croácia - observação1"},{"1":"HTI","2":"Haiti - observação1"},{"1":"HUN","2":"Hungria"},{"1":"IDN","2":"Indonésia"},{"1":"IMN","2":"Ilha de Man"},{"1":"IND","2":"Jamaica - observação1 - observação2"},{"1":"IOT","2":"Território Britânico do Oceano Índico"},{"1":"IRL","2":"República da Irlanda"},{"1":"IRN","2":"Irã"},{"1":"IRQ","2":"Iraque - observação1"},{"1":"ISL","2":"Islândia"},{"1":"ISR","2":"Israel"},{"1":"ITA","2":"Itália - observação1"},{"1":"JAM","2":"Jamaica - observação1"},{"1":"JEY","2":"Jersey - observação1"},{"1":"JOR","2":"Jordânia"},{"1":"JPN","2":"Japão"},{"1":"KAZ","2":"Cazaquistão - observação1"},{"1":"KEN","2":"Quênia"},{"1":"KGZ","2":"Quirguistão"},{"1":"KHM","2":"Camboja - observação1"},{"1":"KIR","2":"Kiribati"},{"1":"KNA","2":"São Cristóvão e Névis"},{"1":"KOR","2":"Coreia do Sul - observação1"},{"1":"KWT","2":"Kuwait - observação1"},{"1":"LAO","2":"Laos - observação1"},{"1":"LBN","2":"Líbano"},{"1":"LBR","2":"Libéria - observação1"},{"1":"LBY","2":"Líbia - observação1"},{"1":"LCA","2":"Santa Lúcia"},{"1":"LIE","2":"Liechtenstein"},{"1":"LKA","2":"Sri Lanka - observação1"},{"1":"LSO","2":"Lesoto - observação1"},{"1":"LTU","2":"Lituânia - observação1"},{"1":"LUX","2":"Luxemburgo"},{"1":"LVA","2":"China - observação2"},{"1":"MAC","2":"Macau - observação1"},{"1":"MAF","2":"Coletividade de São Martinho - observação1"},{"1":"MAR","2":"Marrocos"},{"1":"MCO","2":"Mônaco - observação1"},{"1":"MDA","2":"Moldávia - observação1"},{"1":"MDG","2":"Madagáscar"},{"1":"MDV","2":"Maldivas"},{"1":"MEX","2":"México - observação1"},{"1":"MHL","2":"Ilhas Marshall"},{"1":"MKD","2":"Macedônia do Norte"},{"1":"MLI","2":"Mali"},{"1":"MLT","2":"Malta - observação1"},{"1":"MMR","2":"Myanmar"},{"1":"MNE","2":"Montenegro"},{"1":"MNG","2":"Mongólia"},{"1":"MNP","2":"Ilhas Marianas do Norte - observação1"},{"1":"MOZ","2":"Moçambique - observação1"},{"1":"MRT","2":"Mauritânia"},{"1":"MSR","2":"Montserrat"},{"1":"MTQ","2":"Martinica - observação1"},{"1":"MUS","2":"Maurício"},{"1":"MWI","2":"Malawi - observação1"},{"1":"MYS","2":"Malásia - observação1"},{"1":"MYT","2":"Mayotte - observação1"},{"1":"NAM","2":"Namíbia"},{"1":"NCL","2":"Nova Caledônia - observação1"},{"1":"NER","2":"Níger"},{"1":"NFK","2":"Ilha Norfolk"},{"1":"NGA","2":"Nigéria - observação1"},{"1":"NIC","2":"Nicarágua"},{"1":"NIU","2":"Niue"},{"1":"NLD","2":"Países Baixos"},{"1":"NOR","2":"Noruega - observação1"},{"1":"NPL","2":"Nepal - observação1"},{"1":"NRU","2":"Nauru"},{"1":"NZL","2":"Nova Zelândia"},{"1":"OMN","2":"Omã"},{"1":"PAK","2":"Paquistão - observação1"},{"1":"PAN","2":"Panamá - observação1"},{"1":"PCN","2":"Ilhas Pitcairn - observação1"},{"1":"PER","2":"Peru"},{"1":"PHL","2":"Filipinas"},{"1":"PLW","2":"Palau - observação1"},{"1":"PNG","2":"Papua Nova Guiné"},{"1":"POL","2":"Polônia"},{"1":"PRI","2":"Porto Rico - observação1"},{"1":"PRK","2":"Coreia do Norte"},{"1":"PRT","2":"Portugal"},{"1":"PRY","2":"Turquia - observação2"},{"1":"PSE","2":"Estado da Palestina - observação1"},{"1":"PYF","2":"Polinésia Francesa - observação1"},{"1":"QAT","2":"Catar"},{"1":"REU","2":"Reunião"},{"1":"ROU","2":"Roménia - observação1"},{"1":"RUS","2":"Rússia - observação1"},{"1":"RWA","2":"Ruanda - observação1"},{"1":"SAU","2":"Arábia Saudita"},{"1":"SDN","2":"Sudão - observação1"},{"1":"SEN","2":"Senegal - observação1"},{"1":"SGP","2":"Cingapura - observação1"},{"1":"SGS","2":"Geórgia do Sul e Ilhas Sandwich do Sul"},{"1":"SHN","2":"Santa Helena, Ascensão e Tristão da Cunha - observação1"},{"1":"SJM","2":"Svalbard e Jan Mayen - observação1"},{"1":"SLB","2":"Ilhas Salomão - observação1"},{"1":"SLE","2":"Serra Leoa - observação1"},{"1":"SLV","2":"El Salvador"},{"1":"SMR","2":"San Marino - observação1"},{"1":"SOM","2":"Somália"},{"1":"SPM","2":"São Pedro e Miquelon"},{"1":"SRB","2":"Sérvia"},{"1":"SSD","2":"Sudão do Sul - observação1"},{"1":"STP","2":"São Tomé e Príncipe"},{"1":"SUR","2":"Suriname"},{"1":"SVK","2":"Eslováquia - observação1"},{"1":"SVN","2":"Eslovênia"},{"1":"SWE","2":"Suécia - observação1"},{"1":"SWZ","2":"Eswatini"},{"1":"SXM","2":"São Martinho"},{"1":"SYC","2":"Seychelles"},{"1":"SYR","2":"Síria"},{"1":"TCA","2":"Ilhas Turks e Caicos"},{"1":"TCD","2":"Chade"},{"1":"TGO","2":"Togo - observação1"},{"1":"THA","2":"Comores - observação2"},{"1":"TJK","2":"Tajiquistão"},{"1":"TKL","2":"Tokelau - observação1"},{"1":"TKM","2":"Turcomenistão - observação1"},{"1":"TLS","2":"Timor Leste"},{"1":"TON","2":"Tonga"},{"1":"TTO","2":"Trinidad e Tobago"},{"1":"TUN","2":"Tunísia"},{"1":"TUR","2":"Turquia"},{"1":"TUV","2":"Tuvalu"},{"1":"TWN","2":"Taiwan - observação1"},{"1":"TZA","2":"Tanzânia - observação1"},{"1":"UGA","2":"Uganda"},{"1":"UKR","2":"Ucrânia - observação1"},{"1":"UMI","2":"Ilhas Menores Distantes dos Estados Unidos"},{"1":"URY","2":"Uruguai"},{"1":"USA","2":"Estados Unidos"},{"1":"UZB","2":"Uzbequistão - observação1"},{"1":"VAT","2":"Cidade do Vaticano - observação1"},{"1":"VCT","2":"São Vicente e Granadinas"},{"1":"VEN","2":"Honduras - observação1 - observação2"},{"1":"VGB","2":"Ilhas Virgens Britânicas - observação1"},{"1":"VIR","2":"Ilhas Virgens dos Estados Unidos - observação1"},{"1":"VNM","2":"Guadalupe - observação1 - observação2"},{"1":"VUT","2":"Vanuatu"},{"1":"WLF","2":"Wallis e Futuna - observação1"},{"1":"WSM","2":"Samoa - observação1"},{"1":"YEM","2":"Iémen"},{"1":"ZAF","2":"África do Sul"},{"1":"ZMB","2":"Zâmbia - observação1"},{"1":"ZWE","2":"Estônia - observação1 - observação2"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+<h3 id="para-encerrar">Para encerrar</h3>
+<p>Para encerrar, utilizemos um pouco mais de regex para deixar apenas os nomes dos países na coluna “pais_port”. Como podemos fazer isso? Uma solução, dentre várias, é fazer o seguinte:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+paises %&gt;% 
+  mutate(pais_port = str_remove(pais_port, &quot; -.+&quot;)) %&gt;% 
+  rmarkdown::paged_table()</code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["ISOA"],"name":[1],"type":["chr"],"align":["left"]},{"label":["pais_ing"],"name":[2],"type":["chr"],"align":["left"]},{"label":["pais_port"],"name":[3],"type":["chr"],"align":["left"]}],"data":[{"1":"ABW","2":"Aruba","3":"Aruba"},{"1":"AFG","2":"Afghanistan","3":"Afeganistão"},{"1":"AGO","2":"Angola","3":"Angola"},{"1":"AIA","2":"Anguilla","3":"Anguila"},{"1":"ALA","2":"Åland Islands","3":"Ilhas Aland"},{"1":"ALB","2":"Albania","3":"Albânia"},{"1":"AND","2":"Andorra","3":"Andorra"},{"1":"ARE","2":"United Arab Emirates","3":"Emirados Árabes Unidos"},{"1":"ARG","2":"Argentina","3":"Argentina"},{"1":"ARM","2":"Armenia","3":"Armênia"},{"1":"ASM","2":"American Samoa","3":"Samoa Americana"},{"1":"ATA","2":"Antarctica","3":"Antártica"},{"1":"ATF","2":"French Southern and Antarctic Lands","3":"Terras Austrais e Antárticas Francesas"},{"1":"ATG","2":"Antigua and Barbuda","3":"Antígua e Barbuda"},{"1":"AUS","2":"Australia","3":"Austrália"},{"1":"AUT","2":"Austria","3":"Áustria"},{"1":"AZE","2":"Azerbaijan","3":"Azerbaijão"},{"1":"BDI","2":"Burundi","3":"Burundi"},{"1":"BEL","2":"Belgium","3":"Bélgica"},{"1":"BEN","2":"Benin","3":"Benin"},{"1":"BES","2":"Caribbean Netherlands","3":"Países Baixos Caribenhos"},{"1":"BFA","2":"Burkina Faso","3":"Burkina Faso"},{"1":"BGD","2":"Bangladesh","3":"Bangladesh"},{"1":"BGR","2":"Bulgaria","3":"Bulgária"},{"1":"BHR","2":"Bahrain","3":"Barém"},{"1":"BHS","2":"The Bahamas","3":"As Bahamas"},{"1":"BIH","2":"Bosnia and Herzegovina","3":"Bósnia e Herzegovina"},{"1":"BLM","2":"Saint Barthélemy","3":"São Bartolomeu"},{"1":"BLR","2":"Belarus","3":"Belarus"},{"1":"BLZ","2":"Belize","3":"Belize"},{"1":"BMU","2":"Bermuda","3":"Bermudas"},{"1":"BOL","2":"Bolivia","3":"Bolívia"},{"1":"BRA","2":"Brazil","3":"Brasil"},{"1":"BRB","2":"Barbados","3":"Barbados"},{"1":"BRN","2":"Brunei","3":"Brunei"},{"1":"BTN","2":"Bhutan","3":"Butão"},{"1":"BVT","2":"Bouvet Island","3":"Ilha Bouvet"},{"1":"BWA","2":"Botswana","3":"Botsuana"},{"1":"CAF","2":"Central African Republic","3":"República Centro-Africana"},{"1":"CAN","2":"Canada","3":"Canadá"},{"1":"CCK","2":"Cocos (Keeling) Islands","3":"Ilhas Cocos (Keeling)"},{"1":"CHE","2":"Switzerland","3":"Suíça"},{"1":"CHL","2":"Chile","3":"Chile"},{"1":"CHN","2":"China","3":"China"},{"1":"CIV","2":"Ivory Coast","3":"Costa do Marfim"},{"1":"CMR","2":"Cameroon","3":"Camarões"},{"1":"COD","2":"Democratic Republic of the Congo","3":"República Democrática do Congo"},{"1":"COG","2":"Republic of the Congo","3":"República do Congo"},{"1":"COK","2":"Cook Islands","3":"Panamá"},{"1":"COL","2":"Colombia","3":"Islândia"},{"1":"COM","2":"Comoros","3":"Comores"},{"1":"CPV","2":"Cabo Verde","3":"Cabo Verde"},{"1":"CRI","2":"Costa Rica","3":"Costa Rica"},{"1":"CUB","2":"Cuba","3":"Cuba"},{"1":"CUW","2":"Curaçao","3":"Curaçao"},{"1":"CXR","2":"Christmas Island","3":"Ilha do Natal"},{"1":"CYM","2":"Cayman Islands","3":"Ilhas Cayman"},{"1":"CYP","2":"Cyprus","3":"Chipre"},{"1":"CZE","2":"Czech Republic","3":"República Checa"},{"1":"DEU","2":"Germany","3":"Cingapura"},{"1":"DJI","2":"Djibouti","3":"Djibuti"},{"1":"DMA","2":"Dominica","3":"Dominica"},{"1":"DNK","2":"Denmark","3":"Dinamarca"},{"1":"DOM","2":"Dominican Republic","3":"República Dominicana"},{"1":"DZA","2":"Algeria","3":"Argélia"},{"1":"ECU","2":"Ecuador","3":"Equador"},{"1":"EGY","2":"Egypt","3":"Egito"},{"1":"ERI","2":"Eritrea","3":"Eritréia"},{"1":"ESH","2":"Western Sahara","3":"Saara Ocidental"},{"1":"ESP","2":"Spain","3":"Espanha"},{"1":"EST","2":"Estonia","3":"Estônia"},{"1":"ETH","2":"Ethiopia","3":"Etiópia"},{"1":"FIN","2":"Finland","3":"Finlândia"},{"1":"FJI","2":"Fiji","3":"Fiji"},{"1":"FLK","2":"Falkland Islands","3":"Ilhas Falkland"},{"1":"FRA","2":"France","3":"França"},{"1":"FRO","2":"Faroe Islands","3":"ilhas Faroe"},{"1":"FSM","2":"Federated States of Micronesia","3":"Estados Federados da Micronésia"},{"1":"GAB","2":"Gabon","3":"Gabão"},{"1":"GBR","2":"United Kingdom","3":"Reino Unido"},{"1":"GEO","2":"Georgia (country)","3":"Geórgia (país)"},{"1":"GGY","2":"Guernsey","3":"Guernsey"},{"1":"GHA","2":"Ghana","3":"Gana"},{"1":"GIB","2":"Gibraltar","3":"Gibraltar"},{"1":"GIN","2":"Guinea","3":"Guiné"},{"1":"GLP","2":"Guadeloupe","3":"Guadalupe"},{"1":"GMB","2":"The Gambia","3":"Gâmbia"},{"1":"GNB","2":"Guinea-Bissau","3":"Guiné-Bissau"},{"1":"GNQ","2":"Equatorial Guinea","3":"Guiné Equatorial"},{"1":"GRC","2":"Greece","3":"Grécia"},{"1":"GRD","2":"Grenada","3":"Granada"},{"1":"GRL","2":"Greenland","3":"Gronelândia"},{"1":"GTM","2":"Guatemala","3":"Guatemala"},{"1":"GUF","2":"French Guiana","3":"Guiana Francesa"},{"1":"GUM","2":"Guam","3":"Guam"},{"1":"GUY","2":"Guyana","3":"Guiana"},{"1":"HKG","2":"Hong Kong","3":"Hong Kong"},{"1":"HMD","2":"Heard Island and McDonald Islands","3":"Ilha Heard e Ilhas McDonald"},{"1":"HND","2":"Honduras","3":"Honduras"},{"1":"HRV","2":"Croatia","3":"Croácia"},{"1":"HTI","2":"Haiti","3":"Haiti"},{"1":"HUN","2":"Hungary","3":"Hungria"},{"1":"IDN","2":"Indonesia","3":"Indonésia"},{"1":"IMN","2":"Isle of Man","3":"Ilha de Man"},{"1":"IND","2":"India","3":"Jamaica"},{"1":"IOT","2":"British Indian Ocean Territory","3":"Território Britânico do Oceano Índico"},{"1":"IRL","2":"Republic of Ireland","3":"República da Irlanda"},{"1":"IRN","2":"Iran","3":"Irã"},{"1":"IRQ","2":"Iraq","3":"Iraque"},{"1":"ISL","2":"Iceland","3":"Islândia"},{"1":"ISR","2":"Israel","3":"Israel"},{"1":"ITA","2":"Italy","3":"Itália"},{"1":"JAM","2":"Jamaica","3":"Jamaica"},{"1":"JEY","2":"Jersey","3":"Jersey"},{"1":"JOR","2":"Jordan","3":"Jordânia"},{"1":"JPN","2":"Japan","3":"Japão"},{"1":"KAZ","2":"Kazakhstan","3":"Cazaquistão"},{"1":"KEN","2":"Kenya","3":"Quênia"},{"1":"KGZ","2":"Kyrgyzstan","3":"Quirguistão"},{"1":"KHM","2":"Cambodia","3":"Camboja"},{"1":"KIR","2":"Kiribati","3":"Kiribati"},{"1":"KNA","2":"Saint Kitts and Nevis","3":"São Cristóvão e Névis"},{"1":"KOR","2":"South Korea","3":"Coreia do Sul"},{"1":"KWT","2":"Kuwait","3":"Kuwait"},{"1":"LAO","2":"Laos","3":"Laos"},{"1":"LBN","2":"Lebanon","3":"Líbano"},{"1":"LBR","2":"Liberia","3":"Libéria"},{"1":"LBY","2":"Libya","3":"Líbia"},{"1":"LCA","2":"Saint Lucia","3":"Santa Lúcia"},{"1":"LIE","2":"Liechtenstein","3":"Liechtenstein"},{"1":"LKA","2":"Sri Lanka","3":"Sri Lanka"},{"1":"LSO","2":"Lesotho","3":"Lesoto"},{"1":"LTU","2":"Lithuania","3":"Lituânia"},{"1":"LUX","2":"Luxembourg","3":"Luxemburgo"},{"1":"LVA","2":"Latvia","3":"China"},{"1":"MAC","2":"Macau","3":"Macau"},{"1":"MAF","2":"Collectivity of Saint Martin","3":"Coletividade de São Martinho"},{"1":"MAR","2":"Morocco","3":"Marrocos"},{"1":"MCO","2":"Monaco","3":"Mônaco"},{"1":"MDA","2":"Moldova","3":"Moldávia"},{"1":"MDG","2":"Madagascar","3":"Madagáscar"},{"1":"MDV","2":"Maldives","3":"Maldivas"},{"1":"MEX","2":"Mexico","3":"México"},{"1":"MHL","2":"Marshall Islands","3":"Ilhas Marshall"},{"1":"MKD","2":"North Macedonia","3":"Macedônia do Norte"},{"1":"MLI","2":"Mali","3":"Mali"},{"1":"MLT","2":"Malta","3":"Malta"},{"1":"MMR","2":"Myanmar","3":"Myanmar"},{"1":"MNE","2":"Montenegro","3":"Montenegro"},{"1":"MNG","2":"Mongolia","3":"Mongólia"},{"1":"MNP","2":"Northern Mariana Islands","3":"Ilhas Marianas do Norte"},{"1":"MOZ","2":"Mozambique","3":"Moçambique"},{"1":"MRT","2":"Mauritania","3":"Mauritânia"},{"1":"MSR","2":"Montserrat","3":"Montserrat"},{"1":"MTQ","2":"Martinique","3":"Martinica"},{"1":"MUS","2":"Mauritius","3":"Maurício"},{"1":"MWI","2":"Malawi","3":"Malawi"},{"1":"MYS","2":"Malaysia","3":"Malásia"},{"1":"MYT","2":"Mayotte","3":"Mayotte"},{"1":"NAM","2":"Namibia","3":"Namíbia"},{"1":"NCL","2":"New Caledonia","3":"Nova Caledônia"},{"1":"NER","2":"Niger","3":"Níger"},{"1":"NFK","2":"Norfolk Island","3":"Ilha Norfolk"},{"1":"NGA","2":"Nigeria","3":"Nigéria"},{"1":"NIC","2":"Nicaragua","3":"Nicarágua"},{"1":"NIU","2":"Niue","3":"Niue"},{"1":"NLD","2":"Netherlands","3":"Países Baixos"},{"1":"NOR","2":"Norway","3":"Noruega"},{"1":"NPL","2":"Nepal","3":"Nepal"},{"1":"NRU","2":"Nauru","3":"Nauru"},{"1":"NZL","2":"New Zealand","3":"Nova Zelândia"},{"1":"OMN","2":"Oman","3":"Omã"},{"1":"PAK","2":"Pakistan","3":"Paquistão"},{"1":"PAN","2":"Panama","3":"Panamá"},{"1":"PCN","2":"Pitcairn Islands","3":"Ilhas Pitcairn"},{"1":"PER","2":"Peru","3":"Peru"},{"1":"PHL","2":"Philippines","3":"Filipinas"},{"1":"PLW","2":"Palau","3":"Palau"},{"1":"PNG","2":"Papua New Guinea","3":"Papua Nova Guiné"},{"1":"POL","2":"Poland","3":"Polônia"},{"1":"PRI","2":"Puerto Rico","3":"Porto Rico"},{"1":"PRK","2":"North Korea","3":"Coreia do Norte"},{"1":"PRT","2":"Portugal","3":"Portugal"},{"1":"PRY","2":"Paraguay","3":"Turquia"},{"1":"PSE","2":"State of Palestine","3":"Estado da Palestina"},{"1":"PYF","2":"French Polynesia","3":"Polinésia Francesa"},{"1":"QAT","2":"Qatar","3":"Catar"},{"1":"REU","2":"Réunion","3":"Reunião"},{"1":"ROU","2":"Romania","3":"Roménia"},{"1":"RUS","2":"Russia","3":"Rússia"},{"1":"RWA","2":"Rwanda","3":"Ruanda"},{"1":"SAU","2":"Saudi Arabia","3":"Arábia Saudita"},{"1":"SDN","2":"Sudan","3":"Sudão"},{"1":"SEN","2":"Senegal","3":"Senegal"},{"1":"SGP","2":"Singapore","3":"Cingapura"},{"1":"SGS","2":"South Georgia and the South Sandwich Islands","3":"Geórgia do Sul e Ilhas Sandwich do Sul"},{"1":"SHN","2":"Saint Helena, Ascension and Tristan da Cunha","3":"Santa Helena, Ascensão e Tristão da Cunha"},{"1":"SJM","2":"Svalbard and Jan Mayen","3":"Svalbard e Jan Mayen"},{"1":"SLB","2":"Solomon Islands","3":"Ilhas Salomão"},{"1":"SLE","2":"Sierra Leone","3":"Serra Leoa"},{"1":"SLV","2":"El Salvador","3":"El Salvador"},{"1":"SMR","2":"San Marino","3":"San Marino"},{"1":"SOM","2":"Somalia","3":"Somália"},{"1":"SPM","2":"Saint Pierre and Miquelon","3":"São Pedro e Miquelon"},{"1":"SRB","2":"Serbia","3":"Sérvia"},{"1":"SSD","2":"South Sudan","3":"Sudão do Sul"},{"1":"STP","2":"São Tomé and Príncipe","3":"São Tomé e Príncipe"},{"1":"SUR","2":"Suriname","3":"Suriname"},{"1":"SVK","2":"Slovakia","3":"Eslováquia"},{"1":"SVN","2":"Slovenia","3":"Eslovênia"},{"1":"SWE","2":"Sweden","3":"Suécia"},{"1":"SWZ","2":"Eswatini","3":"Eswatini"},{"1":"SXM","2":"Sint Maarten","3":"São Martinho"},{"1":"SYC","2":"Seychelles","3":"Seychelles"},{"1":"SYR","2":"Syria","3":"Síria"},{"1":"TCA","2":"Turks and Caicos Islands","3":"Ilhas Turks e Caicos"},{"1":"TCD","2":"Chad","3":"Chade"},{"1":"TGO","2":"Togo","3":"Togo"},{"1":"THA","2":"Thailand","3":"Comores"},{"1":"TJK","2":"Tajikistan","3":"Tajiquistão"},{"1":"TKL","2":"Tokelau","3":"Tokelau"},{"1":"TKM","2":"Turkmenistan","3":"Turcomenistão"},{"1":"TLS","2":"East Timor","3":"Timor Leste"},{"1":"TON","2":"Tonga","3":"Tonga"},{"1":"TTO","2":"Trinidad and Tobago","3":"Trinidad e Tobago"},{"1":"TUN","2":"Tunisia","3":"Tunísia"},{"1":"TUR","2":"Turkey","3":"Turquia"},{"1":"TUV","2":"Tuvalu","3":"Tuvalu"},{"1":"TWN","2":"Taiwan","3":"Taiwan"},{"1":"TZA","2":"Tanzania","3":"Tanzânia"},{"1":"UGA","2":"Uganda","3":"Uganda"},{"1":"UKR","2":"Ukraine","3":"Ucrânia"},{"1":"UMI","2":"United States Minor Outlying Islands","3":"Ilhas Menores Distantes dos Estados Unidos"},{"1":"URY","2":"Uruguay","3":"Uruguai"},{"1":"USA","2":"United States","3":"Estados Unidos"},{"1":"UZB","2":"Uzbekistan","3":"Uzbequistão"},{"1":"VAT","2":"Vatican City","3":"Cidade do Vaticano"},{"1":"VCT","2":"Saint Vincent and the Grenadines","3":"São Vicente e Granadinas"},{"1":"VEN","2":"Venezuela","3":"Honduras"},{"1":"VGB","2":"British Virgin Islands","3":"Ilhas Virgens Britânicas"},{"1":"VIR","2":"United States Virgin Islands","3":"Ilhas Virgens dos Estados Unidos"},{"1":"VNM","2":"Vietnam","3":"Guadalupe"},{"1":"VUT","2":"Vanuatu","3":"Vanuatu"},{"1":"WLF","2":"Wallis and Futuna","3":"Wallis e Futuna"},{"1":"WSM","2":"Samoa","3":"Samoa"},{"1":"YEM","2":"Yemen","3":"Iémen"},{"1":"ZAF","2":"South Africa","3":"África do Sul"},{"1":"ZMB","2":"Zambia","3":"Zâmbia"},{"1":"ZWE","2":"Zimbabwe","3":"Estônia"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+<p>Explicando o padrão regex acima: o termo " -" localiza um espaço e um hífen. Por construção, sabemos que esses termos separam o fim do nome do país dos termos “observação1” e “observação2”. Como visto anteriormente o “.” pode representar letras e espaços, além de outros caracteres, e o “+” significa que queremos que o termo imediatamente anterior esteja presente uma ou mais vezes. Assim, " -.+" captura toda a parte do texto que queremos eliminar.</p>
+<h3 id="dica-útil">Dica útil</h3>
+<blockquote>
+<blockquote>
+<p>Uma função útil para ver o que uma construção regex captura a partir de um padrão inserido é a função <code>str_view</code>. Para usar essa função você precisa instalar o pacote <code>htmlwidgets</code>.</p>
+</blockquote>
+</blockquote>
+<p>Vejamos:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+paises %&gt;% 
+  pull(pais_port) %&gt;% 
+  .[1:10] %&gt;% 
+  str_view(&quot; -.&quot;)</code></pre>
+<div id="htmlwidget-6e13789732348fd26381" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-6e13789732348fd26381">{"x":{"html":"<ul>\n  <li>Aruba<\/li>\n  <li>Afeganistão<span class='match'> - <\/span>observação1<\/li>\n  <li>Angola<span class='match'> - <\/span>observação1<\/li>\n  <li>Anguila<span class='match'> - <\/span>observação1<\/li>\n  <li>Ilhas Aland<span class='match'> - <\/span>observação1<\/li>\n  <li>Albânia<span class='match'> - <\/span>observação1<\/li>\n  <li>Andorra<\/li>\n  <li>Emirados Árabes Unidos<span class='match'> - <\/span>observação1<\/li>\n  <li>Argentina<span class='match'> - <\/span>observação1<\/li>\n  <li>Armênia<span class='match'> - <\/span>observação1<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
+</div>
+<p>Como podemos observar, o padrão acima apenas captura " - ". E o padrão abaixo captura tudo após o fim do nome do país como já havíamos explicado.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+paises %&gt;% 
+  pull(pais_port) %&gt;% 
+  .[1:10] %&gt;% 
+  str_view(&quot; -.+&quot;)</code></pre>
+<div id="htmlwidget-2f402b66687bf94cd961" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-2f402b66687bf94cd961">{"x":{"html":"<ul>\n  <li>Aruba<\/li>\n  <li>Afeganistão<span class='match'> - observação1<\/span><\/li>\n  <li>Angola<span class='match'> - observação1<\/span><\/li>\n  <li>Anguila<span class='match'> - observação1<\/span><\/li>\n  <li>Ilhas Aland<span class='match'> - observação1<\/span><\/li>\n  <li>Albânia<span class='match'> - observação1<\/span><\/li>\n  <li>Andorra<\/li>\n  <li>Emirados Árabes Unidos<span class='match'> - observação1<\/span><\/li>\n  <li>Argentina<span class='match'> - observação1<\/span><\/li>\n  <li>Armênia<span class='match'> - observação1<\/span><\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
+</div>
+<!--radix_placeholder_article_footer-->
+<!--/radix_placeholder_article_footer-->
+</div>
+
+<div class="d-appendix">
+</div>
+
+
+<!--radix_placeholder_site_after_body-->
+<!--/radix_placeholder_site_after_body-->
+<!--radix_placeholder_appendices-->
+<div class="appendix-bottom"></div>
+<!--/radix_placeholder_appendices-->
+<!--radix_placeholder_navigation_after_body-->
+<!--/radix_placeholder_navigation_after_body-->
+
+</body>
+
+</html>
