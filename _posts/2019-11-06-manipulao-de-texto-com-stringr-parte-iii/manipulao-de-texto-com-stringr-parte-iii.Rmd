@@ -21,7 +21,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 Na terceira parte sobre manipulação de texto com stringr, manteremos a lógica anterior dos posts da série, isto é, continuaremos a propor problemas e mostrar como os podemos resolver.
 
-Antes de continuar será necessário "sujar" um pouco nossos dados. Para isso, carregamos os dados que já vinhamos usando anteriormente e inserimos aleatoriamente pontuações e espaços desnecessários na coluna "pais_port". A ideia desse procedimento consiste em "sujar" os dados e simular uma base de dados bruta. A "sujeira" que fizemos é relativamente simples e, na vida real, você poderá encontrar bases de dados es estado muito pior, mas a ideia é que você consiga generalizar o conhecimento a partir dos exemplos mais didáticos que elaboramos.
+Antes de continuar será necessário "sujar" um pouco nossos dados. Para isso, carregamos os dados que já vinhamos usando anteriormente e inserimos aleatoriamente pontuações e espaços desnecessários na coluna "pais_port". A ideia desse procedimento consiste em "sujar" os dados e simular uma base de dados bruta. A "sujeira" que fizemos é relativamente simples e, na vida real, você poderá encontrar bases de dados em estado muito pior, mas a ideia é que você consiga generalizar o conhecimento a partir dos exemplos mais didáticos que elaboramos.
 
 ### Pacotes que iremos utilizar
 
@@ -132,7 +132,7 @@ espaco2 <- paises %>%
 espaco2
 ```
 
-Após investigar os dados encontramos que há espaços antes do texto começar bem como depois do texto terminar. Para resolver nosso problema devemos utilizar a função `str_trim`. Essa função elimina espaços que ficam do lado esquerdo ou do lado direito do dado textual. No primeiro argumento inserimos o vetor que queremos modificar. No segundo argumento escolhemos o lado dos espaços que queremos eliminar. Para eliminar espaços que ficam **apenas** do lado esquerdo do texto devemos utilizar o argumento "left". Para eliminar espaços que ficam **apenas** do lado direito devemos utilizar o argumento "right". Se quisermos eliminar espaços tanto do lado esquerdo como do lado direito devemos utilizar o argumento "both" (é justamente isso que queremos neste problema). Vejamos como ficam os objetos `espaco1`e `espaco2`:
+Após investigar os dados encontramos que há espaços antes do texto começar bem como depois do texto terminar. Para resolver nosso problema devemos utilizar a função `str_trim`. Essa função elimina espaços que ficam do lado esquerdo ou do lado direito do dado textual. No primeiro argumento inserimos o vetor que queremos modificar. No segundo argumento escolhemos o lado dos espaços que queremos eliminar. Para eliminar espaços que ficam **apenas** do lado esquerdo do texto devemos utilizar o argumento "left". Para eliminar espaços que ficam **apenas** do lado direito devemos utilizar o argumento "right". Se quisermos eliminar espaços tanto do lado esquerdo como do lado direito devemos utilizar o argumento "both" (é justamente isso que queremos neste problema). Vejamos como ficam os objetos `espaco1` e `espaco2`:
 
 ```{r}
 str_trim(espaco1, "both")
@@ -202,7 +202,6 @@ paises <- paises %>%
   mutate(pais_port = str_squish(pais_port))
 ```
 
-
 ## Problema n. 4: Como substituir padrões encontrados no texto por outros padrões?
 
 Para este exercício suponhamos que queremos substituir a pontuação ponto e vírgula e ponto de interrogação (?), respectivamente, pelos termos "- observação1" e "- observação2". Trata-se de um exercício apenas para fins didáticos. 
@@ -258,17 +257,18 @@ paises %>%
 
 ### Para encerrar
 
-Para encerrar, utilizemos um pouco mais de regex para deixar apenas os nomes dos países na coluna "pais_port". Como podemos fazer isso? Uma solução, dentre várias, é fazer o seguinte:
+Utilizemos um pouco mais de regex para deixar apenas os nomes dos países na coluna "pais_port". Como podemos fazer isso? Uma solução, dentre várias, é fazer o seguinte:
 
 ```{r}
 paises %>% 
   mutate(pais_port = str_remove(pais_port, " -.+")) %>% 
+  select(ISOA, pais_port) %>% 
   rmarkdown::paged_table()
 ```
 
 Explicando o padrão regex acima: o termo " -" localiza um espaço e um hífen. Por construção, sabemos que esses termos separam o fim do nome do país dos termos "observação1" e "observação2". Como visto anteriormente o "." pode representar letras e espaços, além de outros caracteres, e o "+" significa que queremos que o termo imediatamente anterior esteja presente uma ou mais vezes. Assim, " -.+" captura toda a parte do texto que queremos eliminar.
 
-### Dica útil
+**Dica:**
 
 >> Uma função útil para ver o que uma construção regex captura a partir de um padrão inserido é a função `str_view`. Para usar essa função você precisa instalar o pacote `htmlwidgets`.
 
