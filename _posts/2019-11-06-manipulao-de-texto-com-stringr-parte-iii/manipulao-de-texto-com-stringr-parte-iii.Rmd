@@ -1,7 +1,7 @@
 ---
 title: "Manipulação de texto com stringr - parte III"
 description: |
-  A short description of the post.
+  Na terceira parte da série de posts sobre manipulação de texto com stringr veremos como usar funções que removem padrões encontrados no texto, que substituem padrões por outros e que eliminam espaços de formas diferentes. Também aprofundaremos com um pouco mais de regex.
 author:
   - name: Miguel Cleaver
 date: 11-06-2019
@@ -12,7 +12,6 @@ categories:
   - Manipulação de texto
   - stringr
 preview: ../../images/logo_stringr.png
-draft: true
 ---
 
 ```{r setup, include=FALSE}

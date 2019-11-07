@@ -7,7 +7,16 @@
     <description>Fulljoin
 </description>
     <generator>Distill</generator>
-    <lastBuildDate>sex, 01 nov 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>qua, 06 nov 2019 00:00:00 +0000</lastBuildDate>
+    <item>
+      <title>Manipulação de texto com stringr - parte III</title>
+      <dc:creator>Miguel Cleaver</dc:creator>
+      <link>https://www.fulljoin.com.br/posts/2019-11-06-manipulao-de-texto-com-stringr-parte-iii</link>
+      <description>Na terceira parte da série de posts sobre manipulação de texto com stringr veremos como usar funções que removem padrões encontrados no texto, que substituem padrões por outros e que eliminam espaços de formas diferentes. Também aprofundaremos com um pouco mais de regex.</description>
+      <guid>https://www.fulljoin.com.br/posts/2019-11-06-manipulao-de-texto-com-stringr-parte-iii</guid>
+      <pubDate>qua, 06 nov 2019 00:00:00 +0000</pubDate>
+      <media:content url="https://www.fulljoin.com.br/posts/2019-11-06-manipulao-de-texto-com-stringr-parte-iii/../../images/logo_stringr.png" medium="image" type="image/png" width="439" height="419"/>
+    </item>
     <item>
       <title>Entendendo os benefícios da paralelização usando Random Forest</title>
       <dc:creator>Diego Castro</dc:creator>
@@ -33,7 +42,6 @@
       <description>Neste post, vamos fazer uma análise de tópicos utilizando os pacotes tidytext e topicmodels. Essa análise consiste em extrair um conjunto de temas (tópicos) de um conjunto de textos. Para isso, utilizamos uma base de textos de acordos comerciais. Veremos que o método utilizado é capaz de identificar uma séria de tópicos relevantes.</description>
       <guid>https://www.fulljoin.com.br/posts/2019-09-19-modelagem-de-tpicos-com-o-r-analisando-os-textos-de-acordos-comerciais</guid>
       <pubDate>qui, 17 out 2019 00:00:00 +0000</pubDate>
-      <media:content url="https://www.fulljoin.com.br/posts/2019-09-19-modelagem-de-tpicos-com-o-r-analisando-os-textos-de-acordos-comerciais/modelagem-de-tpicos-com-o-r-analisando-os-textos-de-acordos-comerciais_files/figure-html5/unnamed-chunk-20-1.png" medium="image" type="image/png" width="1248" height="960"/>
     </item>
     <item>
       <title>Manipulação de texto com stringr</title>
@@ -59,7 +67,7 @@
       <link>https://www.fulljoin.com.br/posts/2019-09-19-loop-vs-alternativas</link>
       <description>A partir de um simples exemplo, vamos testar o desempenho de for loops comparando-o com a performance de outras alternativas como apply, funções do purrr e estratégias paralelizadas.</description>
       <guid>https://www.fulljoin.com.br/posts/2019-09-19-loop-vs-alternativas</guid>
-      <pubDate>sáb, 21 set 2019 00:00:00 +0000</pubDate>
+      <pubDate>s�b, 21 set 2019 00:00:00 +0000</pubDate>
       <media:content url="https://www.fulljoin.com.br/posts/2019-09-19-loop-vs-alternativas/../../images/capa_loop.png" medium="image" type="image/png" width="875" height="420"/>
     </item>
     <item>
@@ -88,15 +96,6 @@
       <guid>https://www.fulljoin.com.br/posts/2019-08-27-hello-world-tensorflow-v2</guid>
       <pubDate>qui, 05 set 2019 00:00:00 +0000</pubDate>
       <media:content url="https://www.fulljoin.com.br/posts/2019-08-27-hello-world-tensorflow-v2/hello-world-tensorflow-v2_files/figure-html5/unnamed-chunk-7-1.png" medium="image" type="image/png" width="1248" height="768"/>
-    </item>
-    <item>
-      <title>B3 + rvest: Explorando dados financeiros com R - parte 1</title>
-      <dc:creator>Saulo Guerra</dc:creator>
-      <link>https://www.fulljoin.com.br/posts/2019-07-18-b3-rvest-explorando-dados-financeiros-com-r</link>
-      <description>Primeiro de uma sequência de posts onde vamos utilizar o R para explorar dados financeiros disponíveis na internet. Aprofundaremos bastante em web scraping e manipulação de dados.</description>
-      <guid>https://www.fulljoin.com.br/posts/2019-07-18-b3-rvest-explorando-dados-financeiros-com-r</guid>
-      <pubDate>ter, 27 ago 2019 00:00:00 +0000</pubDate>
-      <media:content url="https://www.fulljoin.com.br/posts/2019-07-18-b3-rvest-explorando-dados-financeiros-com-r/../../images/b3_rvest.png" medium="image" type="image/png" width="501" height="218"/>
     </item>
   </channel>
 </rss>
