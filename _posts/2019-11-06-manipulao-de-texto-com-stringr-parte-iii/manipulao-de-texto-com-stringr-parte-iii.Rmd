@@ -151,7 +151,7 @@ paises <- paises %>%
   mutate(pais_port = str_trim(pais_port, "both"))
 ```
 
-## Problema n. 3: Como transformar mais de um espaço entre palavras ou sinais de pontuação em um único espaço?
+### Problema n. 3: Como transformar mais de um espaço entre palavras ou sinais de pontuação em um único espaço?
 
 A função que poderá nos ajudar com essa tarefa se chama `str_squish`. Note que essa função, além de eliminar espaços duplos, também cumpre a função de eliminar espaços à direita e espaços à esquerda do texto. Diferentemente, da função `str_trim`, a função `str_squish` não nos permite escolher um lado específico para eliminar espaços. Trata-se de uma função extremamente útil para padronizar dados textuais. No caso da coluna "pais_port", nós já eliminamos espaços à direita e espaços à esquerda. Portanto a função somente eliminará os espaços duplos contidos na coluna. A função também elimina quebras de linha e outros tipos de espaço. Vejamos primeiro como estão os dez primeiros elementos com mais de um espaço:
 
@@ -202,7 +202,7 @@ paises <- paises %>%
   mutate(pais_port = str_squish(pais_port))
 ```
 
-## Problema n. 4: Como substituir padrões encontrados no texto por outros padrões?
+### Problema n. 4: Como substituir padrões encontrados no texto por outros padrões?
 
 Para este exercício suponhamos que queremos substituir a pontuação ponto e vírgula e ponto de interrogação (?), respectivamente, pelos termos "- observação1" e "- observação2". Trata-se de um exercício apenas para fins didáticos. 
 

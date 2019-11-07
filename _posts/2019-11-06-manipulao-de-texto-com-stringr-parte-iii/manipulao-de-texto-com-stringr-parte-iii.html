@@ -1160,7 +1160,7 @@ str_trim(espaco2, &quot;both&quot;)</code></pre>
 paises &lt;- paises %&gt;% 
   mutate(pais_port = str_trim(pais_port, &quot;both&quot;))</code></pre>
 </div>
-<h2 id="problema-n.-3-como-transformar-mais-de-um-espaço-entre-palavras-ou-sinais-de-pontuação-em-um-único-espaço">Problema n. 3: Como transformar mais de um espaço entre palavras ou sinais de pontuação em um único espaço?</h2>
+<h3 id="problema-n.-3-como-transformar-mais-de-um-espaço-entre-palavras-ou-sinais-de-pontuação-em-um-único-espaço">Problema n. 3: Como transformar mais de um espaço entre palavras ou sinais de pontuação em um único espaço?</h3>
 <p>A função que poderá nos ajudar com essa tarefa se chama <code>str_squish</code>. Note que essa função, além de eliminar espaços duplos, também cumpre a função de eliminar espaços à direita e espaços à esquerda do texto. Diferentemente, da função <code>str_trim</code>, a função <code>str_squish</code> não nos permite escolher um lado específico para eliminar espaços. Trata-se de uma função extremamente útil para padronizar dados textuais. No caso da coluna “pais_port”, nós já eliminamos espaços à direita e espaços à esquerda. Portanto a função somente eliminará os espaços duplos contidos na coluna. A função também elimina quebras de linha e outros tipos de espaço. Vejamos primeiro como estão os dez primeiros elementos com mais de um espaço:</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
@@ -1220,7 +1220,7 @@ str_squish(teste)</code></pre>
 paises &lt;- paises %&gt;% 
   mutate(pais_port = str_squish(pais_port))</code></pre>
 </div>
-<h2 id="problema-n.-4-como-substituir-padrões-encontrados-no-texto-por-outros-padrões">Problema n. 4: Como substituir padrões encontrados no texto por outros padrões?</h2>
+<h3 id="problema-n.-4-como-substituir-padrões-encontrados-no-texto-por-outros-padrões">Problema n. 4: Como substituir padrões encontrados no texto por outros padrões?</h3>
 <p>Para este exercício suponhamos que queremos substituir a pontuação ponto e vírgula e ponto de interrogação (?), respectivamente, pelos termos “- observação1” e “- observação2”. Trata-se de um exercício apenas para fins didáticos.</p>
 <p>Abaixo identificamos as observações com os padrões “;” e “?” na coluna “pais_port”:</p>
 <div class="layout-chunk" data-layout="l-body">
