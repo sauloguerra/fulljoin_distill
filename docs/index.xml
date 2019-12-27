@@ -7,14 +7,14 @@
     <description>Fulljoin
 </description>
     <generator>Distill</generator>
-    <lastBuildDate>Sáb, 23 Nov 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sex, 27 Dez 2019 00:00:00 +0000</lastBuildDate>
     <item>
       <title>Diferentes sintaxes para manipulação de dados em R - parte 1</title>
       <dc:creator>Saulo Guerra</dc:creator>
       <link>https://www.fulljoin.com.br/posts/2019-11-14-diferentes-sintaxes-de-pacotes</link>
       <description>Nesse post vamos comparar diferentes pacotes com diferentes sintaxes e performances para explorar uma das principais tarefas sempre presentes na manipulação de dados: cruzamento de dados ou joins</description>
       <guid>https://www.fulljoin.com.br/posts/2019-11-14-diferentes-sintaxes-de-pacotes</guid>
-      <pubDate>Sáb, 23 Nov 2019 00:00:00 +0000</pubDate>
+      <pubDate>Sex, 27 Dez 2019 00:00:00 +0000</pubDate>
       <media:content url="https://www.fulljoin.com.br/posts/2019-11-14-diferentes-sintaxes-de-pacotes/tudo-sobre-joins-parte-2_files/figure-html5/unnamed-chunk-10-1.png" medium="image" type="image/png" width="1248" height="768"/>
     </item>
     <item>

@@ -1,0 +1,184 @@
+---
+title: "Diferentes sintaxes para manipulação de dados em R - parte 1"
+description: |
+  Nesse post vamos comparar diferentes pacotes com diferentes sintaxes e performances para explorar uma das principais tarefas sempre presentes na manipulação de dados: cruzamento de dados ou joins
+author:
+  - name: Saulo Guerra
+    url: {}
+date: 12-27-2019
+output:
+  distill::distill_article:
+    self_contained: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, cache.lazy = FALSE)
+```
+
+Um dos grandes benefícios do R é a diversidade de pacotes disponíveis. Pode até parecer redundância ter um monte de pacote para chegar no mesmo resultado, mas poder escolher entre diferentes pacotes com diferentes sintaxes e performances cria uma flexibilidade enorme para dar o tom que você quiser ao seu projeto. Nessa sequência de posts vamos tentar explorar esses diferentes pacotes que te permitem realizar as principais tarefas da manipulação de dados de diferentes formas.
+
+Vamos começar explorando algumas abordagens para realizar o clássico **JOIN.** Iremos comparar a sintaxe e performance do join feito com o _sqldf_, _dplyr_,  _data.table_ e o próprio _rbase_.
+
+Se tem dúvidas sobre o que exatamente a operação de join faz ou quiser saber mais sobre join, recomendo a leitura do nosso post [Sobre Joins em R](https://www.fulljoin.com.br/posts/2016-05-12-tudo-sobre-joins/).
+
+```{r message=FALSE, warnings = FALSE}
+library(tidyverse)
+library(tictoc)
+library(sqldf)
+library(data.table)
+library(glue)
+```
+
+## Obtendo os dados
+
+Vamos exercitar diferentes pacotes para fazer joins com os dados de comércio exterior disponíveis no portal das estatísticas de comércio exterior. Baixamos os dados de toda a série histórica de importação [nesse link](http://www.mdic.gov.br/index.php/comercio-exterior/estatisticas-de-comercio-exterior/base-de-dados-do-comercio-exterior-brasileiro-arquivos-para-download). Esses dados apresentam todas as importações, de 1997 a 2019 detalhadado por produto, país e outras dimensões relevantes para comércio exterior.
+
+Os produtos são sempre registrados em [NCM - Nomenclatura Comum do Mercosul](http://receita.economia.gov.br/orientacao/aduaneira/classificacao-fiscal-de-mercadorias/ncm), que é um código de 8 dígitos especificando o tipo de produto importado. 
+
+O join que iremos realizar nada mais é do que o cruzamento da série histórica com uma tabela de referência com a descrição detalhada de cada código 8 dígitos ao longo da série, dessa forma saberemos o nome de cada produto.
+
+Apos obter os dados, faremos a leitura da seguinte forma.
+
+```{r message=FALSE, cache=TRUE}
+dados <- read_csv2('../../dados/IMP_COMPLETA.csv',
+                    col_types = 'ccccccccnnn')
+
+produtos <- read_csv2('../../dados/NCM.csv',
+                       col_types = 'cccccccccccccc')
+```
+
+```{r}
+glimpse(dados)
+glimpse(produtos)
+
+dim(dados)
+```
+
+Como podemos ver, o arquivo principal tem mais de 32 milhões de linhas. Vamos fazer os testes apenas com os dados de 2015 até 2019 e retirar algumas colunas desnecessárias para o cruzamento, mas caso queira reproduzir, recomendo deixar todas as linhas para que as diferenças fiquem mais evidentes. Deixaremos apenas o ano, código da NCM (código de produto) e valor do produto importado.
+
+```{r, cache=TRUE}
+dados <- dados %>%
+  select(CO_ANO, CO_NCM, VL_FOB) %>%
+  filter(CO_ANO >= 2015)
+
+glimpse(dados)
+
+produtos <- produtos %>%
+  select(CO_NCM, NO_NCM_POR)
+```
+
+Antes de começar os testes, vamos criar uma pequena função para avaliar o tempo médio entre as rodadas de join. Realizaremos mais de uma rodada para gerar um tempo médio de duração do processo de join. A função pega o log do _tictoc_ contendo todas as execuções e subtrai o tempo final do tempo inicial, extraindo uma média simples entre as diferenças.
+
+```{r}
+tempo_medio <- function(output.tictoc) {
+  mean(unlist(map(output.tictoc, function(x) x$toc - x$tic)))
+}
+```
+
+### Join com dplyr
+
+```{r}
+for(i in 1:5) {
+  round <- glue('join dplyr rodada {i}')
+  tic(round)
+  dados.dplyr <- dados %>% 
+    inner_join(produtos, by = 'CO_NCM')
+  toc(log = TRUE)
+}
+
+(media.dplyr <- tempo_medio(tic.log(format = FALSE)))
+tic.clearlog()
+dim(dados.dplyr)
+head(dados.dplyr)
+rm(dados.dplyr)
+```
+
+O _dplyr_ oferece uma sintaxe simples e concisa com o tidyverse, o join é feito com a função _inner_join_ com nome bem explícito ao seu propósito, parâmetros também óbvios e entrega uma boa performance.
+
+### Join com o data.table
+
+```{r}
+dados.datatable <- as.data.table(dados)
+dados.produtos <- as.data.table(produtos)
+
+for(i in 1:5) {
+  round <- glue('join data.table rodada {i}')
+  tic(round)
+  dados.datatable.final <- dados.datatable[dados.produtos, nomatch=0, on='CO_NCM']
+  toc(log = TRUE)
+}
+
+(media.data.table <- tempo_medio(tic.log(format = FALSE)))
+tic.clearlog()
+dim(dados.datatable.final)
+head(dados.datatable.final)
+rm(dados.datatable, dados.produtos, dados.datatable.final)
+```
+
+O pacote _data.table_ é famoso por entregar uma sintaxe um pouco menos intuitiva mas uma performance altíssima. Depois que você se acostuma com a sintaxe e ela deixa de ser uma barreira provavelmente você alcançará tempos de resposta impressionantes no R. Eu particularmente até hoje não me acostumei com a sintaxe e me dou por satisfeito com o equilíbrio do dplyr.
+
+### Join com o sqldf
+
+```{r cache=TRUE}
+for(i in 1:5) {
+  round <- glue('join sqldf rodada {i}')
+  tic(round)
+  dados.sqldf <- sqldf('SELECT dados.*, produtos.*
+  FROM dados
+  INNER JOIN produtos
+  ON dados.CO_NCM = produtos.CO_NCM')
+  toc(log = TRUE)
+}
+
+(media.sqldf <- tempo_medio(tic.log(format = FALSE)))
+tic.clearlog()
+dim(dados.sqldf)
+head(dados.sqldf)
+rm(dados.sqldf)
+```
+
+Já o _sqldf_ é um pacote que, a meu ver, não é tão popular quanto os dois anteriores, mas ele entrega algo bem interessante: sintaxe perfeita de SQL. É como se os dataframes fossem tabelas e você pudesse usar SQL ANSI tal como uma consulta a banco. Excelente para quem é fluente e em SQL e quer fazer uma migração rápida para o R. O custo disso é a performance, que fica bem aquém dos dois pacotes mais famosos para manipulação.
+
+Há uma pequena diferença de resultado pois o _sqldf_ deixa as colunas de chave de join duplicada, ao contrário dos pacotes anteriores que já sintetizam a chave em apenas uma coluna, sem duplicação.
+
+### Join com o rbase
+
+```{r, cache=TRUE}
+for(i in 1:5) {
+  round <- glue('join rbase rodada {i}')
+  tic(round)
+  dados.rbase <- merge(dados, produtos, by = 'CO_NCM')
+  toc(log = TRUE)
+}
+
+(media.rbase <- tempo_medio(tic.log(format = FALSE)))
+tic.clearlog()
+dim(dados.rbase)
+head(dados.rbase)
+rm(dados.rbase)
+```
+
+Temos como _rbase_ uma sintaxe razoavelmente simples de join com a função merge, sem necessidade de carregar nenhum pacote, porém, temos uma performance desanimadora, inviabilizando o uso do join com rbase para manipulação de grandes volumes de dados.
+
+## Conclusão
+
+Vamos a uma rápida comparação visual para entender os resultados.
+
+```{r}
+resultado <- data.frame(pacote = c('dplyr','data.table','sqldf','rbase'),
+                        tempo.medio = c(media.dplyr, media.data.table, media.sqldf,media.rbase),
+                        stringsAsFactors = FALSE)
+
+ggplot(data = resultado, 
+       aes(x = reorder(pacote, -tempo.medio), y = tempo.medio)) +
+  geom_bar(stat = "identity", width = 0.95, fill = "blue") + 
+  geom_text(data = resultado, 
+            aes(y = tempo.medio, label = round(tempo.medio, 2)), nudge_y = 6) + 
+  coord_flip() +
+  labs(title = "Tempo médio de inner join por pacotes", 
+       subtitle = glue("Teste de 5 rounds com {round(nrow(dados)/10e5,2)} milhões de linhas"),
+       y = "Tempo médio em segundos",
+       x = "Pacotes")
+```
+
+O pacote que oferece a possibilidade de join mais rápido é o _data.table_. Caso você se depare com cruzamento de centenas de milhões de linhas, aprenda a sintaxe do data.table e usufrua da sua alta performance. Se já estiver familiarizado com o _dplyr_ e seus dados são grandes mas nem tanto, vale a pena ficar com ele pelo bom equilíbrio entre sintaxe e performance. O _sqldf_ só vale a pena se você realmente é fluente em SQL (ou está treinando para aprender) e deseja lidar com dados de tamanho "normal", não se importando tanto com performance. Já o _rbase_ oferece uma velocidade ruim para cruzamento de dados, não vejo motivos para utilizá-lo frente aos outros pacotes apresentados.

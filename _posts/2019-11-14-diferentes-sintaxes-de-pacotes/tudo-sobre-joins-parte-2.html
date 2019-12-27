@@ -1,0 +1,1271 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"/>
+  <meta name="generator" content="distill" />
+
+  <style type="text/css">
+  /* Hide doc at startup (prevent jankiness while JS renders/transforms) */
+  body {
+    visibility: hidden;
+  }
+  </style>
+
+ <!--radix_placeholder_import_source-->
+ <!--/radix_placeholder_import_source-->
+
+  <!--radix_placeholder_meta_tags-->
+  <title>Diferentes sintaxes para manipulação de dados em R - parte 1</title>
+  
+  <meta property="description" itemprop="description" content="Nesse post vamos comparar diferentes pacotes com diferentes sintaxes e performances para explorar uma das principais tarefas sempre presentes na manipulação de dados: cruzamento de dados ou joins"/>
+  
+  
+  <!--  https://schema.org/Article -->
+  <meta property="article:published" itemprop="datePublished" content="2019-12-27"/>
+  <meta property="article:created" itemprop="dateCreated" content="2019-12-27"/>
+  <meta name="article:author" content="Saulo Guerra"/>
+  
+  <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
+  <meta property="og:title" content="Diferentes sintaxes para manipulação de dados em R - parte 1"/>
+  <meta property="og:type" content="article"/>
+  <meta property="og:description" content="Nesse post vamos comparar diferentes pacotes com diferentes sintaxes e performances para explorar uma das principais tarefas sempre presentes na manipulação de dados: cruzamento de dados ou joins"/>
+  <meta property="og:locale" content="en_US"/>
+  
+  <!--  https://dev.twitter.com/cards/types/summary -->
+  <meta property="twitter:card" content="summary"/>
+  <meta property="twitter:title" content="Diferentes sintaxes para manipulação de dados em R - parte 1"/>
+  <meta property="twitter:description" content="Nesse post vamos comparar diferentes pacotes com diferentes sintaxes e performances para explorar uma das principais tarefas sempre presentes na manipulação de dados: cruzamento de dados ou joins"/>
+  
+  <!--/radix_placeholder_meta_tags-->
+  <!--radix_placeholder_rmarkdown_metadata-->
+  
+  <script type="text/json" id="radix-rmarkdown-metadata">
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","output"]}},"value":[{"type":"character","attributes":{},"value":["Diferentes sintaxes para manipulação de dados em R - parte 1"]},{"type":"character","attributes":{},"value":["Nesse post vamos comparar diferentes pacotes com diferentes sintaxes e performances para explorar uma das principais tarefas sempre presentes na manipulação de dados: cruzamento de dados ou joins\n"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url"]}},"value":[{"type":"character","attributes":{},"value":["Saulo Guerra"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":[]}},"value":[]}]}]},{"type":"character","attributes":{},"value":["12-27-2019"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]}]}]}
+  </script>
+  <!--/radix_placeholder_rmarkdown_metadata-->
+  
+  <script type="text/json" id="radix-resource-manifest">
+  {"type":"character","attributes":{},"value":["tudo-sobre-joins-parte-2_files/bowser-1.9.3/bowser.min.js","tudo-sobre-joins-parte-2_files/distill-2.2.21/template.v2.js","tudo-sobre-joins-parte-2_files/figure-html5/unnamed-chunk-10-1.png","tudo-sobre-joins-parte-2_files/jquery-1.11.3/jquery.min.js","tudo-sobre-joins-parte-2_files/webcomponents-2.0.0/webcomponents.js"]}
+  </script>
+  <!--radix_placeholder_navigation_in_header-->
+  <!--/radix_placeholder_navigation_in_header-->
+  <!--radix_placeholder_distill-->
+  
+  <style type="text/css">
+  
+  body {
+    background-color: white;
+  }
+  
+  .pandoc-table {
+    width: 100%;
+  }
+  
+  .pandoc-table>caption {
+    margin-bottom: 10px;
+  }
+  
+  .pandoc-table th:not([align]) {
+    text-align: left;
+  }
+  
+  .pagedtable-footer {
+    font-size: 15px;
+  }
+  
+  .html-widget {
+    margin-bottom: 2.0em;
+  }
+  
+  .l-screen-inset {
+    padding-right: 16px;
+  }
+  
+  .l-screen .caption {
+    margin-left: 10px;
+  }
+  
+  .shaded {
+    background: rgb(247, 247, 247);
+    padding-top: 20px;
+    padding-bottom: 20px;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  }
+  
+  .shaded .html-widget {
+    margin-bottom: 0;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+  }
+  
+  .shaded .shaded-content {
+    background: white;
+  }
+  
+  .text-output {
+    margin-top: 0;
+    line-height: 1.5em;
+  }
+  
+  .hidden {
+    display: none !important;
+  }
+  
+  d-article {
+    padding-bottom: 30px;
+  }
+  
+  d-appendix {
+    padding-top: 30px;
+  }
+  
+  d-article>p>img {
+    width: 100%;
+  }
+  
+  d-article iframe {
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    margin-bottom: 2.0em;
+    width: 100%;
+  }
+  
+  figure img.external {
+    background: white;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+    padding: 18px;
+    box-sizing: border-box;
+  }
+  
+  /* CSS for table of contents */
+  
+  .d-toc {
+    color: rgba(0,0,0,0.8);
+    font-size: 0.8em;
+    line-height: 1em;
+  }
+  
+  .d-toc-header {
+    font-size: 0.6rem;
+    font-weight: 400;
+    color: rgba(0, 0, 0, 0.5);
+    text-transform: uppercase;
+    margin-top: 0;
+    margin-bottom: 1.3em;
+  }
+  
+  .d-toc a {
+    border-bottom: none;
+  }
+  
+  .d-toc ul {
+    padding-left: 0;
+  }
+  
+  .d-toc li>ul {
+    padding-top: 0.8em;
+    padding-left: 16px;
+    margin-bottom: 0.6em;
+  }
+  
+  .d-toc ul,
+  .d-toc li {
+    list-style-type: none;
+  }
+  
+  .d-toc li {
+    margin-bottom: 0.9em;
+  }
+  
+  .d-toc-separator {
+    margin-top: 20px;
+    margin-bottom: 2em;
+  }
+  
+  .d-article-with-toc {
+    border-top: none;
+    padding-top: 0;
+  }
+  
+  
+  
+  /* Tweak code blocks (note that this CSS is repeated above in an injection
+     into the d-code shadow dom) */
+  
+  d-code {
+    overflow-x: auto !important;
+  }
+  
+  pre.d-code code.d-code {
+    padding-left: 10px;
+    font-size: 12px;
+    border-left: 2px solid rgba(0,0,0,0.1);
+  }
+  
+  pre.text-output {
+  
+    font-size: 12px;
+    color: black;
+    background: none;
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+    text-align: left;
+    white-space: pre;
+    word-spacing: normal;
+    word-break: normal;
+    word-wrap: normal;
+    line-height: 1.5;
+  
+    -moz-tab-size: 4;
+    -o-tab-size: 4;
+    tab-size: 4;
+  
+    -webkit-hyphens: none;
+    -moz-hyphens: none;
+    -ms-hyphens: none;
+    hyphens: none;
+  }
+  
+  @media(min-width: 768px) {
+  
+  d-code {
+    overflow-x: visible !important;
+  }
+  
+  pre.d-code code.d-code  {
+      padding-left: 18px;
+      font-size: 14px;
+  }
+  pre.text-output {
+    font-size: 14px;
+  }
+  }
+  
+  /* Figure */
+  
+  .figure {
+    position: relative;
+    margin-bottom: 2.5em;
+    margin-top: 1.5em;
+  }
+  
+  .figure img {
+    width: 100%;
+  }
+  
+  .figure .caption {
+    color: rgba(0, 0, 0, 0.6);
+    font-size: 12px;
+    line-height: 1.5em;
+  }
+  
+  .figure img.external {
+    background: white;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+    padding: 18px;
+    box-sizing: border-box;
+  }
+  
+  .figure .caption a {
+    color: rgba(0, 0, 0, 0.6);
+  }
+  
+  .figure .caption b,
+  .figure .caption strong, {
+    font-weight: 600;
+    color: rgba(0, 0, 0, 1.0);
+  }
+  
+  
+  
+  /* Tweak 1000px media break to show more text */
+  
+  @media(min-width: 1000px) {
+    .base-grid,
+    distill-header,
+    d-title,
+    d-abstract,
+    d-article,
+    d-appendix,
+    distill-appendix,
+    d-byline,
+    d-footnote-list,
+    d-citation-list,
+    distill-footer {
+      grid-template-columns: [screen-start] 1fr [page-start kicker-start] 80px [middle-start] 50px [text-start kicker-end] 65px 65px 65px 65px 65px 65px 65px 65px [text-end gutter-start] 65px [middle-end] 65px [page-end gutter-end] 1fr [screen-end];
+      grid-column-gap: 16px;
+    }
+  
+    .grid {
+      grid-column-gap: 16px;
+    }
+  
+    d-article {
+      font-size: 1.06rem;
+      line-height: 1.7em;
+    }
+    figure .caption, .figure .caption, figure figcaption {
+      font-size: 13px;
+    }
+  }
+  
+  @media(min-width: 1180px) {
+    .base-grid,
+    distill-header,
+    d-title,
+    d-abstract,
+    d-article,
+    d-appendix,
+    distill-appendix,
+    d-byline,
+    d-footnote-list,
+    d-citation-list,
+    distill-footer {
+      grid-template-columns: [screen-start] 1fr [page-start kicker-start] 60px [middle-start] 60px [text-start kicker-end] 60px 60px 60px 60px 60px 60px 60px 60px [text-end gutter-start] 60px [middle-end] 60px [page-end gutter-end] 1fr [screen-end];
+      grid-column-gap: 32px;
+    }
+  
+    .grid {
+      grid-column-gap: 32px;
+    }
+  }
+  
+  
+  /* Get the citation styles for the appendix (not auto-injected on render since
+     we do our own rendering of the citation appendix) */
+  
+  d-appendix .citation-appendix,
+  .d-appendix .citation-appendix {
+    font-size: 11px;
+    line-height: 15px;
+    border-left: 1px solid rgba(0, 0, 0, 0.1);
+    padding-left: 18px;
+    border: 1px solid rgba(0,0,0,0.1);
+    background: rgba(0, 0, 0, 0.02);
+    padding: 10px 18px;
+    border-radius: 3px;
+    color: rgba(150, 150, 150, 1);
+    overflow: hidden;
+    margin-top: -12px;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+  }
+  
+  
+  /* Social footer */
+  
+  .social_footer {
+    margin-top: 30px;
+    margin-bottom: 0;
+    color: rgba(0,0,0,0.67);
+  }
+  
+  .disqus-comments {
+    margin-right: 30px;
+  }
+  
+  .disqus-comment-count {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+    cursor: pointer;
+  }
+  
+  #disqus_thread {
+    margin-top: 30px;
+  }
+  
+  .article-sharing a {
+    border-bottom: none;
+    margin-right: 8px;
+  }
+  
+  .article-sharing a:hover {
+    border-bottom: none;
+  }
+  
+  .sidebar-section.subscribe {
+    font-size: 12px;
+    line-height: 1.6em;
+  }
+  
+  .subscribe p {
+    margin-bottom: 0.5em;
+  }
+  
+  
+  .article-footer .subscribe {
+    font-size: 15px;
+    margin-top: 45px;
+  }
+  
+  
+  /* Improve display for browsers without grid (IE/Edge <= 15) */
+  
+  .downlevel {
+    line-height: 1.6em;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
+    margin: 0;
+  }
+  
+  .downlevel .d-title {
+    padding-top: 6rem;
+    padding-bottom: 1.5rem;
+  }
+  
+  .downlevel .d-title h1 {
+    font-size: 50px;
+    font-weight: 700;
+    line-height: 1.1em;
+    margin: 0 0 0.5rem;
+  }
+  
+  .downlevel .d-title p {
+    font-weight: 300;
+    font-size: 1.2rem;
+    line-height: 1.55em;
+    margin-top: 0;
+  }
+  
+  .downlevel .d-byline {
+    padding-top: 0.8em;
+    padding-bottom: 0.8em;
+    font-size: 0.8rem;
+    line-height: 1.8em;
+  }
+  
+  .downlevel .section-separator {
+    border: none;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+  }
+  
+  .downlevel .d-article {
+    font-size: 1.06rem;
+    line-height: 1.7em;
+    padding-top: 1rem;
+    padding-bottom: 2rem;
+  }
+  
+  
+  .downlevel .d-appendix {
+    padding-left: 0;
+    padding-right: 0;
+    max-width: none;
+    font-size: 0.8em;
+    line-height: 1.7em;
+    margin-bottom: 0;
+    color: rgba(0,0,0,0.5);
+    padding-top: 40px;
+    padding-bottom: 48px;
+  }
+  
+  .downlevel .footnotes ol {
+    padding-left: 13px;
+  }
+  
+  .downlevel .base-grid,
+  .downlevel .distill-header,
+  .downlevel .d-title,
+  .downlevel .d-abstract,
+  .downlevel .d-article,
+  .downlevel .d-appendix,
+  .downlevel .distill-appendix,
+  .downlevel .d-byline,
+  .downlevel .d-footnote-list,
+  .downlevel .d-citation-list,
+  .downlevel .distill-footer,
+  .downlevel .appendix-bottom,
+  .downlevel .posts-container {
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+  
+  @media(min-width: 768px) {
+    .downlevel .base-grid,
+    .downlevel .distill-header,
+    .downlevel .d-title,
+    .downlevel .d-abstract,
+    .downlevel .d-article,
+    .downlevel .d-appendix,
+    .downlevel .distill-appendix,
+    .downlevel .d-byline,
+    .downlevel .d-footnote-list,
+    .downlevel .d-citation-list,
+    .downlevel .distill-footer,
+    .downlevel .appendix-bottom,
+    .downlevel .posts-container {
+    padding-left: 150px;
+    padding-right: 150px;
+    max-width: 900px;
+  }
+  }
+  
+  .downlevel pre code {
+    display: block;
+    border-left: 2px solid rgba(0, 0, 0, .1);
+    padding: 0 0 0 20px;
+    font-size: 14px;
+  }
+  
+  .downlevel code, .downlevel pre {
+    color: black;
+    background: none;
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+    text-align: left;
+    white-space: pre;
+    word-spacing: normal;
+    word-break: normal;
+    word-wrap: normal;
+    line-height: 1.5;
+  
+    -moz-tab-size: 4;
+    -o-tab-size: 4;
+    tab-size: 4;
+  
+    -webkit-hyphens: none;
+    -moz-hyphens: none;
+    -ms-hyphens: none;
+    hyphens: none;
+  }
+  
+  </style>
+  
+  <script type="application/javascript">
+  
+  function is_downlevel_browser() {
+    if (bowser.isUnsupportedBrowser({ msie: "12", msedge: "16"},
+                                   window.navigator.userAgent)) {
+      return true;
+    } else {
+      return window.load_distill_framework === undefined;
+    }
+  }
+  
+  // show body when load is complete
+  function on_load_complete() {
+  
+    // set body to visible
+    document.body.style.visibility = 'visible';
+  
+    // force redraw for leaflet widgets
+    if (window.HTMLWidgets) {
+      var maps = window.HTMLWidgets.findAll(".leaflet");
+      $.each(maps, function(i, el) {
+        var map = this.getMap();
+        map.invalidateSize();
+        map.eachLayer(function(layer) {
+          if (layer instanceof L.TileLayer)
+            layer.redraw();
+        });
+      });
+    }
+  
+    // trigger 'shown' so htmlwidgets resize
+    $('d-article').trigger('shown');
+  }
+  
+  function init_distill() {
+  
+    init_common();
+  
+    // create front matter
+    var front_matter = $('<d-front-matter></d-front-matter>');
+    $('#distill-front-matter').wrap(front_matter);
+  
+    // create d-title
+    $('.d-title').changeElementType('d-title');
+  
+    // create d-byline
+    var byline = $('<d-byline></d-byline>');
+    $('.d-byline').replaceWith(byline);
+  
+    // create d-article
+    var article = $('<d-article></d-article>');
+    $('.d-article').wrap(article).children().unwrap();
+  
+    // move posts container into article
+    $('.posts-container').appendTo($('d-article'));
+  
+    // create d-appendix
+    $('.d-appendix').changeElementType('d-appendix');
+  
+    // create d-bibliography
+    var bibliography = $('<d-bibliography></d-bibliography>');
+    $('#distill-bibliography').wrap(bibliography);
+  
+    // flag indicating that we have appendix items
+    var appendix = $('.appendix-bottom').children('h3').length > 0;
+  
+    // replace citations with <d-cite>
+    $('.citation').each(function(i, val) {
+      appendix = true;
+      var cites = $(this).attr('data-cites').split(" ");
+      var dt_cite = $('<d-cite></d-cite>');
+      dt_cite.attr('key', cites.join());
+      $(this).replaceWith(dt_cite);
+    });
+    // remove refs
+    $('#refs').remove();
+  
+    // replace footnotes with <d-footnote>
+    $('.footnote-ref').each(function(i, val) {
+      appendix = true;
+      var href = $(this).attr('href');
+      var id = href.replace('#', '');
+      var fn = $('#' + id);
+      var fn_p = $('#' + id + '>p');
+      fn_p.find('.footnote-back').remove();
+      var text = fn_p.html();
+      var dtfn = $('<d-footnote></d-footnote>');
+      dtfn.html(text);
+      $(this).replaceWith(dtfn);
+    });
+    // remove footnotes
+    $('.footnotes').remove();
+  
+    $('h1.appendix, h2.appendix').each(function(i, val) {
+      $(this).changeElementType('h3');
+    });
+    $('h3.appendix').each(function(i, val) {
+      var id = $(this).attr('id');
+      $('.d-toc a[href="#' + id + '"]').parent().remove();
+      appendix = true;
+      $(this).nextUntil($('h1, h2, h3')).addBack().appendTo($('d-appendix'));
+    });
+  
+    // show d-appendix if we have appendix content
+    $("d-appendix").css('display', appendix ? 'grid' : 'none');
+  
+    // replace code blocks with d-code
+    $('pre>code').each(function(i, val) {
+      var code = $(this);
+      var pre = code.parent();
+      var clz = "";
+      var language = pre.attr('class');
+      if (language) {
+        // map unknown languages to "clike" (without this they just dissapear)
+        if ($.inArray(language, ["bash", "clike", "css", "go", "html",
+                                 "javascript", "js", "julia", "lua", "markdown",
+                                 "markup", "mathml", "python", "svg", "xml"]) == -1)
+          language = "clike";
+        language = ' language="' + language + '"';
+        var dt_code = $('<d-code block' + language + clz + '></d-code>');
+        dt_code.text(code.text());
+        pre.replaceWith(dt_code);
+      } else {
+        code.addClass('text-output').unwrap().changeElementType('pre');
+      }
+    });
+  
+    // localize layout chunks to just output
+    $('.layout-chunk').each(function(i, val) {
+  
+      // capture layout
+      var layout = $(this).attr('data-layout');
+  
+      // apply layout to markdown level block elements
+      var elements = $(this).children().not('d-code, pre.text-output, script');
+      elements.each(function(i, el) {
+        var layout_div = $('<div class="' + layout + '"></div>');
+        if (layout_div.hasClass('shaded')) {
+          var shaded_content = $('<div class="shaded-content"></div>');
+          $(this).wrap(shaded_content);
+          $(this).parent().wrap(layout_div);
+        } else {
+          $(this).wrap(layout_div);
+        }
+      });
+  
+  
+      // unwrap the layout-chunk div
+      $(this).children().unwrap();
+    });
+  
+    // load distill framework
+    load_distill_framework();
+  
+    // wait for window.distillRunlevel == 4 to do post processing
+    function distill_post_process() {
+  
+      if (!window.distillRunlevel || window.distillRunlevel < 4)
+        return;
+  
+      // hide author/affiliations entirely if we have no authors
+      var front_matter = JSON.parse($("#distill-front-matter").html());
+      var have_authors = front_matter.authors && front_matter.authors.length > 0;
+      if (!have_authors)
+        $('d-byline').addClass('hidden');
+  
+      // table of contents
+      if (have_authors) // adjust border if we are in authors
+        $('.d-toc').parent().addClass('d-article-with-toc');
+  
+      // strip links that point to #
+      $('.authors-affiliations').find('a[href="#"]').removeAttr('href');
+  
+      // hide elements of author/affiliations grid that have no value
+      function hide_byline_column(caption) {
+        $('d-byline').find('h3:contains("' + caption + '")').parent().css('visibility', 'hidden');
+      }
+  
+      // affiliations
+      var have_affiliations = false;
+      for (var i = 0; i<front_matter.authors.length; ++i) {
+        var author = front_matter.authors[i];
+        if (author.affiliation !== "&nbsp;") {
+          have_affiliations = true;
+          break;
+        }
+      }
+      if (!have_affiliations)
+        $('d-byline').find('h3:contains("Affiliations")').css('visibility', 'hidden');
+  
+      // published date
+      if (!front_matter.publishedDate)
+        hide_byline_column("Published");
+  
+      // document object identifier
+      var doi = $('d-byline').find('h3:contains("DOI")');
+      var doi_p = doi.next().empty();
+      if (!front_matter.doi) {
+        // if we have a citation and valid citationText then link to that
+        if ($('#citation').length > 0 && front_matter.citationText) {
+          doi.html('Citation');
+          $('<a href="#citation"></a>')
+            .text(front_matter.citationText)
+            .appendTo(doi_p);
+        } else {
+          hide_byline_column("DOI");
+        }
+      } else {
+        $('<a></a>')
+           .attr('href', "https://doi.org/" + front_matter.doi)
+           .html(front_matter.doi)
+           .appendTo(doi_p);
+      }
+  
+       // change plural form of authors/affiliations
+      if (front_matter.authors.length === 1) {
+        var grid = $('.authors-affiliations');
+        grid.children('h3:contains("Authors")').text('Author');
+        grid.children('h3:contains("Affiliations")').text('Affiliation');
+      }
+  
+      // inject pre code styles (can't do this with a global stylesheet b/c a shadow root is used)
+      $('d-code').each(function(i, val) {
+        var style = document.createElement('style');
+        style.innerHTML = 'pre code { padding-left: 10px; font-size: 12px; border-left: 2px solid rgba(0,0,0,0.1); } ' +
+                          '@media(min-width: 768px) { pre code { padding-left: 18px; font-size: 14px; } }';
+        if (this.shadowRoot)
+          this.shadowRoot.appendChild(style);
+      });
+  
+      // move appendix-bottom entries to the bottom
+      $('.appendix-bottom').appendTo('d-appendix').children().unwrap();
+      $('.appendix-bottom').remove();
+  
+      // clear polling timer
+      clearInterval(tid);
+  
+      // show body now that everything is ready
+      on_load_complete();
+    }
+  
+    var tid = setInterval(distill_post_process, 50);
+    distill_post_process();
+  
+  }
+  
+  function init_downlevel() {
+  
+    init_common();
+  
+     // insert hr after d-title
+    $('.d-title').after($('<hr class="section-separator"/>'));
+  
+    // check if we have authors
+    var front_matter = JSON.parse($("#distill-front-matter").html());
+    var have_authors = front_matter.authors && front_matter.authors.length > 0;
+  
+    // manage byline/border
+    if (!have_authors)
+      $('.d-byline').remove();
+    $('.d-byline').after($('<hr class="section-separator"/>'));
+    $('.d-byline a').remove();
+  
+    // remove toc
+    $('.d-toc-header').remove();
+    $('.d-toc').remove();
+    $('.d-toc-separator').remove();
+  
+    // move appendix elements
+    $('h1.appendix, h2.appendix').each(function(i, val) {
+      $(this).changeElementType('h3');
+    });
+    $('h3.appendix').each(function(i, val) {
+      $(this).nextUntil($('h1, h2, h3')).addBack().appendTo($('.d-appendix'));
+    });
+  
+  
+    // inject headers into references and footnotes
+    var refs_header = $('<h3></h3>');
+    refs_header.text('References');
+    $('#refs').prepend(refs_header);
+  
+    var footnotes_header = $('<h3></h3');
+    footnotes_header.text('Footnotes');
+    $('.footnotes').children('hr').first().replaceWith(footnotes_header);
+  
+    // move appendix-bottom entries to the bottom
+    $('.appendix-bottom').appendTo('.d-appendix').children().unwrap();
+    $('.appendix-bottom').remove();
+  
+    // remove appendix if it's empty
+    if ($('.d-appendix').children().length === 0)
+      $('.d-appendix').remove();
+  
+    // prepend separator above appendix
+    $('.d-appendix').before($('<hr class="section-separator" style="clear: both"/>'));
+  
+    // trim code
+    $('pre>code').each(function(i, val) {
+      $(this).html($.trim($(this).html()));
+    });
+  
+    // move posts-container right before article
+    $('.posts-container').insertBefore($('.d-article'));
+  
+    $('body').addClass('downlevel');
+  
+    on_load_complete();
+  }
+  
+  
+  function init_common() {
+  
+    // jquery plugin to change element types
+    (function($) {
+      $.fn.changeElementType = function(newType) {
+        var attrs = {};
+  
+        $.each(this[0].attributes, function(idx, attr) {
+          attrs[attr.nodeName] = attr.nodeValue;
+        });
+  
+        this.replaceWith(function() {
+          return $("<" + newType + "/>", attrs).append($(this).contents());
+        });
+      };
+    })(jQuery);
+  
+    // prevent underline for linked images
+    $('a > img').parent().css({'border-bottom' : 'none'});
+  
+    // mark non-body figures created by knitr chunks as 100% width
+    $('.layout-chunk').each(function(i, val) {
+      var figures = $(this).find('img, .html-widget');
+      if ($(this).attr('data-layout') !== "l-body") {
+        figures.css('width', '100%');
+      } else {
+        figures.css('max-width', '100%');
+        figures.filter("[width]").each(function(i, val) {
+          var fig = $(this);
+          fig.css('width', fig.attr('width') + 'px');
+        });
+  
+      }
+    });
+  
+    // auto-append index.html to post-preview links in file: protocol
+    // and in rstudio ide preview
+    $('.post-preview').each(function(i, val) {
+      if (window.location.protocol === "file:")
+        $(this).attr('href', $(this).attr('href') + "index.html");
+    });
+  
+    // get rid of index.html references in header
+    if (window.location.protocol !== "file:") {
+      $('.distill-site-header a[href]').each(function(i,val) {
+        $(this).attr('href', $(this).attr('href').replace("index.html", "./"));
+      });
+    }
+  
+    // add class to pandoc style tables
+    $('tr.header').parent('thead').parent('table').addClass('pandoc-table');
+    $('.kable-table').children('table').addClass('pandoc-table');
+  
+    // add figcaption style to table captions
+    $('caption').parent('table').addClass("figcaption");
+  
+    // initialize posts list
+    if (window.init_posts_list)
+      window.init_posts_list();
+  
+    // implmement disqus comment link
+    $('.disqus-comment-count').click(function() {
+      window.headroom_prevent_pin = true;
+      $('#disqus_thread').toggleClass('hidden');
+      if (!$('#disqus_thread').hasClass('hidden')) {
+        var offset = $(this).offset();
+        $(window).resize();
+        $('html, body').animate({
+          scrollTop: offset.top - 35
+        });
+      }
+    });
+  }
+  
+  document.addEventListener('DOMContentLoaded', function() {
+    if (is_downlevel_browser())
+      init_downlevel();
+    else
+      window.addEventListener('WebComponentsReady', init_distill);
+  });
+  
+  </script>
+  
+  <!--/radix_placeholder_distill-->
+  <script src="tudo-sobre-joins-parte-2_files/jquery-1.11.3/jquery.min.js"></script>
+  <script src="tudo-sobre-joins-parte-2_files/bowser-1.9.3/bowser.min.js"></script>
+  <script src="tudo-sobre-joins-parte-2_files/webcomponents-2.0.0/webcomponents.js"></script>
+  <script src="tudo-sobre-joins-parte-2_files/distill-2.2.21/template.v2.js"></script>
+  <!--radix_placeholder_site_in_header-->
+  <!--/radix_placeholder_site_in_header-->
+
+
+</head>
+
+<body>
+
+<!--radix_placeholder_front_matter-->
+
+<script id="distill-front-matter" type="text/json">
+{"title":"Diferentes sintaxes para manipulação de dados em R - parte 1","description":"Nesse post vamos comparar diferentes pacotes com diferentes sintaxes e performances para explorar uma das principais tarefas sempre presentes na manipulação de dados: cruzamento de dados ou joins","authors":[{"author":"Saulo Guerra","authorURL":{},"affiliation":"&nbsp;","affiliationURL":"#"}],"publishedDate":"2019-12-27T00:00:00.000-02:00","citationText":"Guerra, 2019"}
+</script>
+
+<!--/radix_placeholder_front_matter-->
+<!--radix_placeholder_navigation_before_body-->
+<!--/radix_placeholder_navigation_before_body-->
+<!--radix_placeholder_site_before_body-->
+<!--/radix_placeholder_site_before_body-->
+
+<div class="d-title">
+<h1>Diferentes sintaxes para manipulação de dados em R - parte 1</h1>
+<p>Nesse post vamos comparar diferentes pacotes com diferentes sintaxes e performances para explorar uma das principais tarefas sempre presentes na manipulação de dados: cruzamento de dados ou joins</p>
+</div>
+
+<div class="d-byline">
+  Saulo Guerra true 
+  
+<br/>12-27-2019
+</div>
+
+<div class="d-article">
+<p>Um dos grandes benefícios do R é a diversidade de pacotes disponíveis. Pode até parecer redundância ter um monte de pacote para chegar no mesmo resultado, mas poder escolher entre diferentes pacotes com diferentes sintaxes e performances cria uma flexibilidade enorme para dar o tom que você quiser ao seu projeto. Nessa sequência de posts vamos tentar explorar esses diferentes pacotes que te permitem realizar as principais tarefas da manipulação de dados de diferentes formas.</p>
+<p>Vamos começar explorando algumas abordagens para realizar o clássico <strong>JOIN.</strong> Iremos comparar a sintaxe e performance do join feito com o <em>sqldf</em>, <em>dplyr</em>, <em>data.table</em> e o próprio <em>rbase</em>.</p>
+<p>Se tem dúvidas sobre o que exatamente a operação de join faz ou quiser saber mais sobre join, recomendo a leitura do nosso post <a href="https://www.fulljoin.com.br/posts/2016-05-12-tudo-sobre-joins/">Sobre Joins em R</a>.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+library(tidyverse)
+library(tictoc)
+library(sqldf)
+library(data.table)
+library(glue)</code></pre>
+</div>
+<h2 id="obtendo-os-dados">Obtendo os dados</h2>
+<p>Vamos exercitar diferentes pacotes para fazer joins com os dados de comércio exterior disponíveis no portal das estatísticas de comércio exterior. Baixamos os dados de toda a série histórica de importação <a href="http://www.mdic.gov.br/index.php/comercio-exterior/estatisticas-de-comercio-exterior/base-de-dados-do-comercio-exterior-brasileiro-arquivos-para-download">nesse link</a>. Esses dados apresentam todas as importações, de 1997 a 2019 detalhadado por produto, país e outras dimensões relevantes para comércio exterior.</p>
+<p>Os produtos são sempre registrados em <a href="http://receita.economia.gov.br/orientacao/aduaneira/classificacao-fiscal-de-mercadorias/ncm">NCM - Nomenclatura Comum do Mercosul</a>, que é um código de 8 dígitos especificando o tipo de produto importado.</p>
+<p>O join que iremos realizar nada mais é do que o cruzamento da série histórica com uma tabela de referência com a descrição detalhada de cada código 8 dígitos ao longo da série, dessa forma saberemos o nome de cada produto.</p>
+<p>Apos obter os dados, faremos a leitura da seguinte forma.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+dados &lt;- read_csv2(&#39;../../dados/IMP_COMPLETA.csv&#39;,
+                    col_types = &#39;ccccccccnnn&#39;)
+
+produtos &lt;- read_csv2(&#39;../../dados/NCM.csv&#39;,
+                       col_types = &#39;cccccccccccccc&#39;)</code></pre>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+glimpse(dados)</code></pre>
+<pre><code>
+Observations: 32,199,492
+Variables: 11
+$ CO_ANO     &lt;chr&gt; &quot;1997&quot;, &quot;1997&quot;, &quot;1997&quot;, &quot;1997&quot;, &quot;1997&quot;, &quot;1997&quot;, …
+$ CO_MES     &lt;chr&gt; &quot;12&quot;, &quot;12&quot;, &quot;12&quot;, &quot;12&quot;, &quot;12&quot;, &quot;12&quot;, &quot;12&quot;, &quot;12&quot;, …
+$ CO_NCM     &lt;chr&gt; &quot;02012090&quot;, &quot;85366990&quot;, &quot;74191000&quot;, &quot;45049000&quot;, …
+$ CO_UNID    &lt;chr&gt; &quot;10&quot;, &quot;11&quot;, &quot;10&quot;, &quot;10&quot;, &quot;10&quot;, &quot;11&quot;, &quot;10&quot;, &quot;11&quot;, …
+$ CO_PAIS    &lt;chr&gt; &quot;845&quot;, &quot;386&quot;, &quot;190&quot;, &quot;244&quot;, &quot;245&quot;, &quot;249&quot;, &quot;063&quot;,…
+$ SG_UF_NCM  &lt;chr&gt; &quot;RS&quot;, &quot;SP&quot;, &quot;SP&quot;, &quot;CE&quot;, &quot;SC&quot;, &quot;SP&quot;, &quot;SP&quot;, &quot;PR&quot;, …
+$ CO_VIA     &lt;chr&gt; &quot;07&quot;, &quot;04&quot;, &quot;04&quot;, &quot;04&quot;, &quot;01&quot;, &quot;01&quot;, &quot;07&quot;, &quot;01&quot;, …
+$ CO_URF     &lt;chr&gt; &quot;1011000&quot;, &quot;0817600&quot;, &quot;0817600&quot;, &quot;0717700&quot;, &quot;092…
+$ QT_ESTAT   &lt;dbl&gt; 416342, 66673, 2131, 26, 10000, 13247, 44735, 24…
+$ KG_LIQUIDO &lt;dbl&gt; 416342, 448, 2131, 26, 10000, 39599, 44735, 139,…
+$ VL_FOB     &lt;dbl&gt; 606408, 20528, 12212, 28, 2016, 145960, 184726, …</code></pre>
+<pre class="r"><code>
+glimpse(produtos)</code></pre>
+<pre><code>
+Observations: 13,069
+Variables: 14
+$ CO_NCM        &lt;chr&gt; &quot;44031100&quot;, &quot;44031200&quot;, &quot;44032100&quot;, &quot;44032200…
+$ CO_UNID       &lt;chr&gt; &quot;16&quot;, &quot;16&quot;, &quot;16&quot;, &quot;16&quot;, &quot;16&quot;, &quot;16&quot;, &quot;16&quot;, &quot;16…
+$ CO_SH6        &lt;chr&gt; &quot;440311&quot;, &quot;440312&quot;, &quot;440321&quot;, &quot;440322&quot;, &quot;4403…
+$ CO_PPE        &lt;chr&gt; &quot;1253&quot;, &quot;1253&quot;, &quot;1253&quot;, &quot;1253&quot;, &quot;1253&quot;, &quot;1253…
+$ CO_PPI        &lt;chr&gt; &quot;1990&quot;, &quot;1990&quot;, &quot;1990&quot;, &quot;1990&quot;, &quot;1990&quot;, &quot;1990…
+$ CO_FAT_AGREG  &lt;chr&gt; &quot;01&quot;, &quot;01&quot;, &quot;01&quot;, &quot;01&quot;, &quot;01&quot;, &quot;01&quot;, &quot;01&quot;, &quot;01…
+$ CO_CUCI_ITEM  &lt;chr&gt; &quot;2473&quot;, &quot;2473&quot;, &quot;2474&quot;, &quot;2474&quot;, &quot;2474&quot;, &quot;2474…
+$ CO_CGCE_N3    &lt;chr&gt; &quot;230&quot;, &quot;230&quot;, &quot;230&quot;, &quot;230&quot;, &quot;230&quot;, &quot;230&quot;, &quot;23…
+$ CO_SIIT       &lt;chr&gt; &quot;4000&quot;, &quot;4000&quot;, &quot;9000&quot;, &quot;9000&quot;, &quot;9000&quot;, &quot;9000…
+$ CO_ISIC4      &lt;chr&gt; &quot;16&quot;, &quot;16&quot;, &quot;02&quot;, &quot;02&quot;, &quot;02&quot;, &quot;02&quot;, &quot;02&quot;, &quot;02…
+$ CO_EXP_SUBSET &lt;chr&gt; &quot;0899&quot;, &quot;0899&quot;, &quot;0899&quot;, &quot;0899&quot;, &quot;0899&quot;, &quot;0899…
+$ NO_NCM_POR    &lt;chr&gt; &quot;Madeira em bruto, mesmo descascada, desalbur…
+$ NO_NCM_ESP    &lt;chr&gt; &quot;Madera en bruto, incluso pelados, o simpleme…
+$ NO_NCM_ING    &lt;chr&gt; &quot;Wood in the rough, even peeled, or roughly s…</code></pre>
+<pre class="r"><code>
+dim(dados)</code></pre>
+<pre><code>
+[1] 32199492       11</code></pre>
+</div>
+<p>Como podemos ver, o arquivo principal tem mais de 32 milhões de linhas. Vamos fazer os testes apenas com os dados de 2015 até 2019 e retirar algumas colunas desnecessárias para o cruzamento, mas caso queira reproduzir, recomendo deixar todas as linhas para que as diferenças fiquem mais evidentes. Deixaremos apenas o ano, código da NCM (código de produto) e valor do produto importado.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+dados &lt;- dados %&gt;%
+  select(CO_ANO, CO_NCM, VL_FOB) %&gt;%
+  filter(CO_ANO &gt;= 2015)
+
+glimpse(dados)</code></pre>
+<pre><code>
+Observations: 8,782,363
+Variables: 3
+$ CO_ANO &lt;chr&gt; &quot;2015&quot;, &quot;2015&quot;, &quot;2015&quot;, &quot;2015&quot;, &quot;2015&quot;, &quot;2015&quot;, &quot;201…
+$ CO_NCM &lt;chr&gt; &quot;84133090&quot;, &quot;84212300&quot;, &quot;39269090&quot;, &quot;87082992&quot;, &quot;292…
+$ VL_FOB &lt;dbl&gt; 11908, 965236, 2, 134580, 111, 13152, 79396, 223, 13…</code></pre>
+<pre class="r"><code>
+produtos &lt;- produtos %&gt;%
+  select(CO_NCM, NO_NCM_POR)</code></pre>
+</div>
+<p>Antes de começar os testes, vamos criar uma pequena função para avaliar o tempo médio entre as rodadas de join. Realizaremos mais de uma rodada para gerar um tempo médio de duração do processo de join. A função pega o log do <em>tictoc</em> contendo todas as execuções e subtrai o tempo final do tempo inicial, extraindo uma média simples entre as diferenças.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+tempo_medio &lt;- function(output.tictoc) {
+  mean(unlist(map(output.tictoc, function(x) x$toc - x$tic)))
+}</code></pre>
+</div>
+<h3 id="join-com-dplyr">Join com dplyr</h3>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+for(i in 1:5) {
+  round &lt;- glue(&#39;join dplyr rodada {i}&#39;)
+  tic(round)
+  dados.dplyr &lt;- dados %&gt;% 
+    inner_join(produtos, by = &#39;CO_NCM&#39;)
+  toc(log = TRUE)
+}</code></pre>
+<pre><code>
+join dplyr rodada 1: 1.847 sec elapsed
+join dplyr rodada 2: 2.522 sec elapsed
+join dplyr rodada 3: 1.81 sec elapsed
+join dplyr rodada 4: 1.805 sec elapsed
+join dplyr rodada 5: 1.836 sec elapsed</code></pre>
+<pre class="r"><code>
+(media.dplyr &lt;- tempo_medio(tic.log(format = FALSE)))</code></pre>
+<pre><code>
+[1] 1.964</code></pre>
+<pre class="r"><code>
+tic.clearlog()
+dim(dados.dplyr)</code></pre>
+<pre><code>
+[1] 8782363       4</code></pre>
+<pre class="r"><code>
+head(dados.dplyr)</code></pre>
+<pre><code>
+# A tibble: 6 x 4
+  CO_ANO CO_NCM   VL_FOB NO_NCM_POR                                   
+  &lt;chr&gt;  &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt;                                        
+1 2015   84133090  11908 &quot;Outras bombas para combust\xedveis, etc, pa…
+2 2015   84212300 965236 &quot;Aparelhos para filtrar \xf3leos minerais no…
+3 2015   39269090      2 &quot;Outras obras de pl\xe1sticos&quot;               
+4 2015   87082992 134580 &quot;Grades de radiadores para ve\xedculos autom…
+5 2015   29269019    111 Outros sais de verapamil                     
+6 2015   85109090  13152 &quot;Partes de m\xe1quinas para cortar cabelo/to…</code></pre>
+<pre class="r"><code>
+rm(dados.dplyr)</code></pre>
+</div>
+<p>O <em>dplyr</em> oferece uma sintaxe simples e concisa com o tidyverse, o join é feito com a função <em>inner_join</em> com nome bem explícito ao seu propósito, parâmetros também óbvios e entrega uma boa performance.</p>
+<h3 id="join-com-o-data.table">Join com o data.table</h3>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+dados.datatable &lt;- as.data.table(dados)
+dados.produtos &lt;- as.data.table(produtos)
+
+for(i in 1:5) {
+  round &lt;- glue(&#39;join data.table rodada {i}&#39;)
+  tic(round)
+  dados.datatable.final &lt;- dados.datatable[dados.produtos, nomatch=0, on=&#39;CO_NCM&#39;]
+  toc(log = TRUE)
+}</code></pre>
+<pre><code>
+join data.table rodada 1: 1.436 sec elapsed
+join data.table rodada 2: 1.696 sec elapsed
+join data.table rodada 3: 1.442 sec elapsed
+join data.table rodada 4: 1.442 sec elapsed
+join data.table rodada 5: 1.576 sec elapsed</code></pre>
+<pre class="r"><code>
+(media.data.table &lt;- tempo_medio(tic.log(format = FALSE)))</code></pre>
+<pre><code>
+[1] 1.5184</code></pre>
+<pre class="r"><code>
+tic.clearlog()
+dim(dados.datatable.final)</code></pre>
+<pre><code>
+[1] 8782363       4</code></pre>
+<pre class="r"><code>
+head(dados.datatable.final)</code></pre>
+<pre><code>
+   CO_ANO   CO_NCM VL_FOB
+1:   2017 44031200    317
+2:   2017 44032600   4957
+3:   2019 44032600    438
+4:   2017 44061200  15000
+5:   2017 44061200  90000
+6:   2017 44061200   9503
+                                                                                                                                                    NO_NCM_POR
+1: Madeira em bruto, mesmo descascada, desalburnada ou esquadriada, tratada com tinta, creosoto ou outros agentes de conserva\xe7\xe3o, de n\xe3o con\xedferas
+2:                                                                    Outras madeiras em bruto, mesmo descascada, desalburnada ou esquadriada, de con\xedferas
+3:                                                                    Outras madeiras em bruto, mesmo descascada, desalburnada ou esquadriada, de con\xedferas
+4:                                                        Dormentes de madeira para vias f\xe9rreas ou semelhantes, n\xe3o impregnados, de n\xe3o con\xedferas
+5:                                                        Dormentes de madeira para vias f\xe9rreas ou semelhantes, n\xe3o impregnados, de n\xe3o con\xedferas
+6:                                                        Dormentes de madeira para vias f\xe9rreas ou semelhantes, n\xe3o impregnados, de n\xe3o con\xedferas</code></pre>
+<pre class="r"><code>
+rm(dados.datatable, dados.produtos, dados.datatable.final)</code></pre>
+</div>
+<p>O pacote <em>data.table</em> é famoso por entregar uma sintaxe um pouco menos intuitiva mas uma performance altíssima. Depois que você se acostuma com a sintaxe e ela deixa de ser uma barreira provavelmente você alcançará tempos de resposta impressionantes no R. Eu particularmente até hoje não me acostumei com a sintaxe e me dou por satisfeito com o equilíbrio do dplyr.</p>
+<h3 id="join-com-o-sqldf">Join com o sqldf</h3>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+for(i in 1:5) {
+  round &lt;- glue(&#39;join sqldf rodada {i}&#39;)
+  tic(round)
+  dados.sqldf &lt;- sqldf(&#39;SELECT dados.*, produtos.*
+  FROM dados
+  INNER JOIN produtos
+  ON dados.CO_NCM = produtos.CO_NCM&#39;)
+  toc(log = TRUE)
+}</code></pre>
+<pre><code>
+join sqldf rodada 1: 44.98 sec elapsed
+join sqldf rodada 2: 43.522 sec elapsed
+join sqldf rodada 3: 44.21 sec elapsed
+join sqldf rodada 4: 43.68 sec elapsed
+join sqldf rodada 5: 44.619 sec elapsed</code></pre>
+<pre class="r"><code>
+(media.sqldf &lt;- tempo_medio(tic.log(format = FALSE)))</code></pre>
+<pre><code>
+[1] 44.2022</code></pre>
+<pre class="r"><code>
+tic.clearlog()
+dim(dados.sqldf)</code></pre>
+<pre><code>
+[1] 8782363       5</code></pre>
+<pre class="r"><code>
+head(dados.sqldf)</code></pre>
+<pre><code>
+  CO_ANO   CO_NCM VL_FOB CO_NCM..4
+1   2015 84133090  11908  84133090
+2   2015 84212300 965236  84212300
+3   2015 39269090      2  39269090
+4   2015 87082992 134580  87082992
+5   2015 29269019    111  29269019
+6   2015 85109090  13152  85109090
+                                                                                               NO_NCM_POR
+1                                Outras bombas para combust\xedveis, etc, para motor a explos\xe3o/diesel
+2 Aparelhos para filtrar \xf3leos minerais nos motores de igni\xe7\xe3o por centelha ou por compress\xe3o
+3                                                                            Outras obras de pl\xe1sticos
+4                                                     Grades de radiadores para ve\xedculos autom\xf3veis
+5                                                                                Outros sais de verapamil
+6                                Partes de m\xe1quinas para cortar cabelo/tosquiar, com motor el\xe9trico</code></pre>
+<pre class="r"><code>
+rm(dados.sqldf)</code></pre>
+</div>
+<p>Já o <em>sqldf</em> é um pacote que, a meu ver, não é tão popular quanto os dois anteriores, mas ele entrega algo bem interessante: sintaxe perfeita de SQL. É como se os dataframes fossem tabelas e você pudesse usar SQL ANSI tal como uma consulta a banco. Excelente para quem é fluente e em SQL e quer fazer uma migração rápida para o R. O custo disso é a performance, que fica bem aquém dos dois pacotes mais famosos para manipulação.</p>
+<p>Há uma pequena diferença de resultado pois o <em>sqldf</em> deixa as colunas de chave de join duplicada, ao contrário dos pacotes anteriores que já sintetizam a chave em apenas uma coluna, sem duplicação.</p>
+<h3 id="join-com-o-rbase">Join com o rbase</h3>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+for(i in 1:5) {
+  round &lt;- glue(&#39;join rbase rodada {i}&#39;)
+  tic(round)
+  dados.rbase &lt;- merge(dados, produtos, by = &#39;CO_NCM&#39;)
+  toc(log = TRUE)
+}</code></pre>
+<pre><code>
+join rbase rodada 1: 372.836 sec elapsed
+join rbase rodada 2: 168.665 sec elapsed
+join rbase rodada 3: 153.381 sec elapsed
+join rbase rodada 4: 159.296 sec elapsed
+join rbase rodada 5: 163.635 sec elapsed</code></pre>
+<pre class="r"><code>
+(media.rbase &lt;- tempo_medio(tic.log(format = FALSE)))</code></pre>
+<pre><code>
+[1] 203.5626</code></pre>
+<pre class="r"><code>
+tic.clearlog()
+dim(dados.rbase)</code></pre>
+<pre><code>
+[1] 8782363       4</code></pre>
+<pre class="r"><code>
+head(dados.rbase)</code></pre>
+<pre><code>
+    CO_NCM CO_ANO VL_FOB                           NO_NCM_POR
+1 01012100   2016  19700 Cavalos reprodutores de ra\xe7a pura
+2 01012100   2015   4395 Cavalos reprodutores de ra\xe7a pura
+3 01012100   2019 571632 Cavalos reprodutores de ra\xe7a pura
+4 01012100   2015 107500 Cavalos reprodutores de ra\xe7a pura
+5 01012100   2016  15002 Cavalos reprodutores de ra\xe7a pura
+6 01012100   2015   5000 Cavalos reprodutores de ra\xe7a pura</code></pre>
+<pre class="r"><code>
+rm(dados.rbase)</code></pre>
+</div>
+<p>Temos como <em>rbase</em> uma sintaxe razoavelmente simples de join com a função merge, sem necessidade de carregar nenhum pacote, porém, temos uma performance desanimadora, inviabilizando o uso do join com rbase para manipulação de grandes volumes de dados.</p>
+<h2 id="conclusao">Conclusão</h2>
+<p>Vamos a uma rápida comparação visual para entender os resultados.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+resultado &lt;- data.frame(pacote = c(&#39;dplyr&#39;,&#39;data.table&#39;,&#39;sqldf&#39;,&#39;rbase&#39;),
+                        tempo.medio = c(media.dplyr, media.data.table, media.sqldf,media.rbase),
+                        stringsAsFactors = FALSE)
+
+ggplot(data = resultado, 
+       aes(x = reorder(pacote, -tempo.medio), y = tempo.medio)) +
+  geom_bar(stat = &quot;identity&quot;, width = 0.95, fill = &quot;blue&quot;) + 
+  geom_text(data = resultado, 
+            aes(y = tempo.medio, label = round(tempo.medio, 2)), nudge_y = 6) + 
+  coord_flip() +
+  labs(title = &quot;Tempo médio de inner join por pacotes&quot;, 
+       subtitle = glue(&quot;Teste de 5 rounds com {round(nrow(dados)/10e5,2)} milhões de linhas&quot;),
+       y = &quot;Tempo médio em segundos&quot;,
+       x = &quot;Pacotes&quot;)</code></pre>
+<p><img src="tudo-sobre-joins-parte-2_files/figure-html5/unnamed-chunk-10-1.png" width="624" /></p>
+</div>
+<p>O pacote que oferece a possibilidade de join mais rápido é o <em>data.table</em>. Caso você se depare com cruzamento de centenas de milhões de linhas, aprenda a sintaxe do data.table e usufrua da sua alta performance. Se já estiver familiarizado com o <em>dplyr</em> e seus dados são grandes mas nem tanto, vale a pena ficar com ele pelo bom equilíbrio entre sintaxe e performance. O <em>sqldf</em> só vale a pena se você realmente é fluente em SQL (ou está treinando para aprender) e deseja lidar com dados de tamanho “normal”, não se importando tanto com performance. Já o <em>rbase</em> oferece uma velocidade ruim para cruzamento de dados, não vejo motivos para utilizá-lo frente aos outros pacotes apresentados.</p>
+<!--radix_placeholder_article_footer-->
+<!--/radix_placeholder_article_footer-->
+</div>
+
+<div class="d-appendix">
+</div>
+
+
+<!--radix_placeholder_site_after_body-->
+<!--/radix_placeholder_site_after_body-->
+<!--radix_placeholder_appendices-->
+<div class="appendix-bottom"></div>
+<!--/radix_placeholder_appendices-->
+<!--radix_placeholder_navigation_after_body-->
+<!--/radix_placeholder_navigation_after_body-->
+
+</body>
+
+</html>
