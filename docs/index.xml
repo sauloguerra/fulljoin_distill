@@ -7,14 +7,14 @@
     <description>Fulljoin
 </description>
     <generator>Distill</generator>
-    <lastBuildDate>Sex, 27 Dez 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>sex, 27 dez 2019 00:00:00 +0000</lastBuildDate>
     <item>
       <title>Diferentes sintaxes para manipulação de dados em R - parte 1</title>
       <dc:creator>Saulo Guerra</dc:creator>
       <link>https://www.fulljoin.com.br/posts/2019-11-14-diferentes-sintaxes-de-pacotes</link>
       <description>Nesse post vamos comparar diferentes pacotes com diferentes sintaxes e performances para explorar uma das principais tarefas sempre presentes na manipulação de dados: cruzamento de dados ou joins</description>
       <guid>https://www.fulljoin.com.br/posts/2019-11-14-diferentes-sintaxes-de-pacotes</guid>
-      <pubDate>Sex, 27 Dez 2019 00:00:00 +0000</pubDate>
+      <pubDate>sex, 27 dez 2019 00:00:00 +0000</pubDate>
       <media:content url="https://www.fulljoin.com.br/posts/2019-11-14-diferentes-sintaxes-de-pacotes/tudo-sobre-joins-parte-2_files/figure-html5/unnamed-chunk-10-1.png" medium="image" type="image/png" width="1248" height="768"/>
     </item>
     <item>
@@ -23,7 +23,7 @@
       <link>https://www.fulljoin.com.br/posts/2019-11-06-manipulao-de-texto-com-stringr-parte-iii</link>
       <description>Na terceira parte da série de posts sobre manipulação de texto com stringr veremos como usar funções que removem padrões encontrados no texto, que substituem padrões por outros e que eliminam espaços de formas diferentes. Também aprofundaremos com um pouco mais de regex.</description>
       <guid>https://www.fulljoin.com.br/posts/2019-11-06-manipulao-de-texto-com-stringr-parte-iii</guid>
-      <pubDate>Qua, 06 Nov 2019 00:00:00 +0000</pubDate>
+      <pubDate>qua, 06 nov 2019 00:00:00 +0000</pubDate>
       <media:content url="https://www.fulljoin.com.br/posts/2019-11-06-manipulao-de-texto-com-stringr-parte-iii/../../images/logo_stringr.png" medium="image" type="image/png" width="439" height="419"/>
     </item>
     <item>
@@ -32,7 +32,7 @@
       <link>https://www.fulljoin.com.br/posts/2019-10-28-paralelizacao-de-search-grid-usando-random-forest</link>
       <description>O objetivo principal deste post é apresentar como utilizar a paralelização no R e os ganhos de eficiência ao utilizá-la. Para mostrar este processo, um problema de classificação usando o modelo Random Forest (em português, Floresta Aleatória) é utilizado.</description>
       <guid>https://www.fulljoin.com.br/posts/2019-10-28-paralelizacao-de-search-grid-usando-random-forest</guid>
-      <pubDate>Sex, 01 Nov 2019 00:00:00 +0000</pubDate>
+      <pubDate>sex, 01 nov 2019 00:00:00 +0000</pubDate>
       <media:content url="https://www.fulljoin.com.br/posts/2019-10-28-paralelizacao-de-search-grid-usando-random-forest/../../images/paralelizacao.jpg" medium="image" type="image/jpeg"/>
     </item>
     <item>
@@ -41,7 +41,7 @@
       <link>https://www.fulljoin.com.br/posts/2019-10-22-manipulao-de-texto-com-stringr-parte-ii</link>
       <description>Este post continua a explorar funções úteis na manipulação de texto. Mais especificamente, iremos aprender a passar todas as letras de dados textuais para caixa baixa ou caixa alta. Também aprenderemos a capitalizar a primeira letra de cada palavra. Ademais, iremos ver algumas noções básicas de regex associadas ao uso da função str_detect.</description>
       <guid>https://www.fulljoin.com.br/posts/2019-10-22-manipulao-de-texto-com-stringr-parte-ii</guid>
-      <pubDate>Qua, 23 Out 2019 00:00:00 +0000</pubDate>
+      <pubDate>qua, 23 out 2019 00:00:00 +0000</pubDate>
       <media:content url="https://www.fulljoin.com.br/posts/2019-10-22-manipulao-de-texto-com-stringr-parte-ii/../../images/logo_stringr.png" medium="image" type="image/png" width="439" height="419"/>
     </item>
     <item>
@@ -50,7 +50,7 @@
       <link>https://www.fulljoin.com.br/posts/2019-09-19-modelagem-de-tpicos-com-o-r-analisando-os-textos-de-acordos-comerciais</link>
       <description>Neste post, vamos fazer uma análise de tópicos utilizando os pacotes tidytext e topicmodels. Essa análise consiste em extrair um conjunto de temas (tópicos) de um conjunto de textos. Para isso, utilizamos uma base de textos de acordos comerciais. Veremos que o método utilizado é capaz de identificar uma séria de tópicos relevantes.</description>
       <guid>https://www.fulljoin.com.br/posts/2019-09-19-modelagem-de-tpicos-com-o-r-analisando-os-textos-de-acordos-comerciais</guid>
-      <pubDate>Qui, 17 Out 2019 00:00:00 +0000</pubDate>
+      <pubDate>qui, 17 out 2019 00:00:00 +0000</pubDate>
       <media:content url="https://www.fulljoin.com.br/posts/2019-09-19-modelagem-de-tpicos-com-o-r-analisando-os-textos-de-acordos-comerciais/modelagem-de-tpicos-com-o-r-analisando-os-textos-de-acordos-comerciais_files/figure-html5/unnamed-chunk-20-1.png" medium="image" type="image/png" width="1248" height="960"/>
     </item>
     <item>
@@ -59,7 +59,7 @@
       <link>https://www.fulljoin.com.br/posts/2019-10-13-manipulao-de-texto-com-stringr</link>
       <description>Este é o post inicial de uma série de posts que faremos sobre manipulações de texto com o pacote stringr. Iremos criar alguns problemas e mostrar quais funções do pacote devemos utilizar para solucionar esses problemas. Aprenderemos a limpar os dados e a padronizá-los. Se você tem dificuldade com manipulação de texto, esse post é para você.</description>
       <guid>https://www.fulljoin.com.br/posts/2019-10-13-manipulao-de-texto-com-stringr</guid>
-      <pubDate>Dom, 13 Out 2019 00:00:00 +0000</pubDate>
+      <pubDate>dom, 13 out 2019 00:00:00 +0000</pubDate>
       <media:content url="https://www.fulljoin.com.br/posts/2019-10-13-manipulao-de-texto-com-stringr/../../images/logo_stringr.png" medium="image" type="image/png" width="439" height="419"/>
     </item>
     <item>
@@ -68,7 +68,7 @@
       <link>https://www.fulljoin.com.br/posts/2019-10-01-b3-rvest-cei-parte-3</link>
       <description>Nesse poste vamos baixar nossa carteira do CEI, baixar as cotações históricas e testar um método de comparação do rendimento diário acumulado com um benchmark.</description>
       <guid>https://www.fulljoin.com.br/posts/2019-10-01-b3-rvest-cei-parte-3</guid>
-      <pubDate>Ter, 01 Out 2019 00:00:00 +0000</pubDate>
+      <pubDate>ter, 01 out 2019 00:00:00 +0000</pubDate>
       <media:content url="https://www.fulljoin.com.br/posts/2019-10-01-b3-rvest-cei-parte-3/../../images/cei_retorno_carteira.png" medium="image" type="image/png" width="506" height="290"/>
     </item>
     <item>
@@ -77,7 +77,7 @@
       <link>https://www.fulljoin.com.br/posts/2019-09-19-loop-vs-alternativas</link>
       <description>A partir de um simples exemplo, vamos testar o desempenho de for loops comparando-o com a performance de outras alternativas como apply, funções do purrr e estratégias paralelizadas.</description>
       <guid>https://www.fulljoin.com.br/posts/2019-09-19-loop-vs-alternativas</guid>
-      <pubDate>Sáb, 21 Set 2019 00:00:00 +0000</pubDate>
+      <pubDate>sáb, 21 set 2019 00:00:00 +0000</pubDate>
       <media:content url="https://www.fulljoin.com.br/posts/2019-09-19-loop-vs-alternativas/../../images/capa_loop.png" medium="image" type="image/png" width="875" height="420"/>
     </item>
     <item>
@@ -86,7 +86,7 @@
       <link>https://www.fulljoin.com.br/posts/2019-09-04-integrando-o-r-com-excel</link>
       <description>Neste post mostramos como criar arquivos Excel a partir do R.</description>
       <guid>https://www.fulljoin.com.br/posts/2019-09-04-integrando-o-r-com-excel</guid>
-      <pubDate>Seg, 16 Set 2019 00:00:00 +0000</pubDate>
+      <pubDate>seg, 16 set 2019 00:00:00 +0000</pubDate>
       <media:content url="https://www.fulljoin.com.br/posts/2019-09-04-integrando-o-r-com-excel/../../images/excel_mtcars.PNG" medium="image" type="image/png" width="1920" height="987"/>
     </item>
     <item>
@@ -95,7 +95,7 @@
       <link>https://www.fulljoin.com.br/posts/2019-09-03-b3-rvest-cei</link>
       <description>Com o pacote rvest você pode baixar todo seu histórico de compra e venda de ações diretamente do CEI e passar a gerenciar sua carteira pelo R</description>
       <guid>https://www.fulljoin.com.br/posts/2019-09-03-b3-rvest-cei</guid>
-      <pubDate>Ter, 10 Set 2019 00:00:00 +0000</pubDate>
+      <pubDate>ter, 10 set 2019 00:00:00 +0000</pubDate>
       <media:content url="https://www.fulljoin.com.br/posts/2019-09-03-b3-rvest-cei/../../images/cei_rvest.png" medium="image" type="image/png" width="322" height="88"/>
     </item>
   </channel>
