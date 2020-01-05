@@ -1,5 +1,22 @@
 [
   {
+    "path": "posts/2019-12-30-dashboards-no-r-com-o-pacote-flexdashboard/",
+    "title": "Dashboards no R com o pacote flexdashboard",
+    "description": "Dashboards podem ser uma ferramenta eficiente para a fase de comunicação de uma análise de dados. No R, pode-se utilizar o pacote `flexdashboard` para a criação de dashboards de maneira rápida. Neste post, vamos falar sobre como funciona esse pacote e criaremos um exemplo com os dados da PNAD contínua e com o pacote `D3plusR` para elaboração das visualizações.",
+    "author": [
+      {
+        "name": "Paulo Felipe Alencar",
+        "url": {}
+      }
+    ],
+    "date": "2020-01-05",
+    "categories": [],
+    "preview": "posts/2019-12-30-dashboards-no-r-com-o-pacote-flexdashboard/dashboard.png",
+    "last_modified": "2020-01-05T12:37:16-03:00",
+    "preview_width": 2140,
+    "preview_height": 1224
+  },
+  {
     "path": "posts/2019-11-14-diferentes-sintaxes-de-pacotes/",
     "title": "Diferentes sintaxes para manipulação de dados em R - parte 1",
     "description": "Nesse post vamos comparar diferentes pacotes com diferentes sintaxes e performances para explorar uma das principais tarefas sempre presentes na manipulação de dados: cruzamento de dados ou joins",
