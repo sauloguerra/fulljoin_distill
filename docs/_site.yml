@@ -7,6 +7,10 @@ base_url: https://www.fulljoin.com.br/
 google_analytics: "UA-75406624-1"
 navbar:
   right:
+    - text: "Labs!"
+      menu:
+        - text: "Dashboard PNAD contínua"
+          href: dashboard_pnad.html
     - text: "Posts"
       href: index.html
     - text: "Autores"

@@ -1,0 +1,23 @@
+---
+title: "Dashboard PNAD Contínua"
+description: |
+  Dashboard PNAD Contínua com D3plusR
+collections:
+  posts:
+    disqus: 
+      shortname: dashboard-pnad
+      hidden: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+<style>
+d-article {
+  display: contents !important;
+}
+</style>
+
+<iframe src="https://paulofelipe.github.io/dashboard_pnad/" 
+align = "center" width = "100%" height = "1000" frameborder="0"></iframe>
