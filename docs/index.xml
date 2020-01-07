@@ -7,7 +7,16 @@
     <description>Fulljoin
 </description>
     <generator>Distill</generator>
-    <lastBuildDate>sex, 27 dez 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>dom, 05 jan 2020 00:00:00 +0000</lastBuildDate>
+    <item>
+      <title>Dashboards no R com o pacote flexdashboard</title>
+      <dc:creator>Paulo Felipe Alencar</dc:creator>
+      <link>https://www.fulljoin.com.br/posts/2019-12-30-dashboards-no-r-com-o-pacote-flexdashboard</link>
+      <description>Dashboards podem ser uma ferramenta eficiente para a fase de comunicação de uma análise de dados. No R, pode-se utilizar o pacote `flexdashboard` para a criação de dashboards de maneira rápida. Neste post, vamos falar sobre como funciona esse pacote e criaremos um exemplo com os dados da PNAD contínua e com o pacote `D3plusR` para elaboração das visualizações.</description>
+      <guid>https://www.fulljoin.com.br/posts/2019-12-30-dashboards-no-r-com-o-pacote-flexdashboard</guid>
+      <pubDate>dom, 05 jan 2020 00:00:00 +0000</pubDate>
+      <media:content url="https://www.fulljoin.com.br/posts/2019-12-30-dashboards-no-r-com-o-pacote-flexdashboard/dashboard.png" medium="image" type="image/png" width="2140" height="1224"/>
+    </item>
     <item>
       <title>Diferentes sintaxes para manipulação de dados em R - parte 1</title>
       <dc:creator>Saulo Guerra</dc:creator>
@@ -88,15 +97,6 @@
       <guid>https://www.fulljoin.com.br/posts/2019-09-04-integrando-o-r-com-excel</guid>
       <pubDate>seg, 16 set 2019 00:00:00 +0000</pubDate>
       <media:content url="https://www.fulljoin.com.br/posts/2019-09-04-integrando-o-r-com-excel/../../images/excel_mtcars.PNG" medium="image" type="image/png" width="1920" height="987"/>
-    </item>
-    <item>
-      <title>CEI + rvest: Explorando dados financeiros com R - parte 2</title>
-      <dc:creator>Saulo Guerra</dc:creator>
-      <link>https://www.fulljoin.com.br/posts/2019-09-03-b3-rvest-cei</link>
-      <description>Com o pacote rvest você pode baixar todo seu histórico de compra e venda de ações diretamente do CEI e passar a gerenciar sua carteira pelo R</description>
-      <guid>https://www.fulljoin.com.br/posts/2019-09-03-b3-rvest-cei</guid>
-      <pubDate>ter, 10 set 2019 00:00:00 +0000</pubDate>
-      <media:content url="https://www.fulljoin.com.br/posts/2019-09-03-b3-rvest-cei/../../images/cei_rvest.png" medium="image" type="image/png" width="322" height="88"/>
     </item>
   </channel>
 </rss>
