@@ -1,0 +1,282 @@
+---
+title: "Problemas com memória ou tempo de execução no dplyr? Use o data.table"
+description: |
+  O objetivo deste post é apresentar como utilizar o pacote data.table por meio de uma "tradução" das operações realizadas com o dplyr. Para um entendimento completo deste post, é importante que o leitor tenha uma boa noção de como o dplyr funciona.
+author: Diego Castro
+date: "`r Sys.Date()`"
+output: 
+  distill::distill_article:
+    self_contained: FALSE
+draft: TRUE
+preview: ../../images/r-datatable.png
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
+```
+
+Muitas vezes, ao trabalhar com dados muito pesados usando `dplyr`, tive problemas relacionados à memória do computador (o uso da memória era tão grande que o computador travava) e à velocidade de execução das operações. A alternativa que encontrei foi aprender o pacote `data.table`. 
+
+Você deve estar se perguntado: quais as vantagens e desvantagens desse pacote? Em geral, ele é mais eficiente em uso de memória e mais rápido do que o `dplyr` Por outro lado, a sintaxe do `dplyr` é mais amigável e ele possui funções pra realização de operações mais complexas, como o `pivot_longer()` e o `pivot_longer()` por exemplo.
+
+Vale comentar que existe um pacote recentemente lançado no CRAN chamado `dtplyr`. A ideia desse pacote é usar a sintaxe do `dplyr` pra realizar operações com o `data.table`. No entanto, eu prefiro usar diretamente o `data.table` por já estar acostumado com a sintaxe e por não precisar de um intermediário, o que pode diminuir a eficiência do pacote.
+
+Vamos então ao que interessa...
+
+
+## Os dados
+
+Vamos usar os dados de exportações brasileiras no ano de 2019. Para baixar, basta acessar este [link](http://www.mdic.gov.br/index.php/comercio-exterior/estatisticas-de-comercio-exterior/base-de-dados-do-comercio-exterior-brasileiro-arquivos-para-download) e baixar os dados de exportações de 2019. Outra alternativa é fazer isso via R da seguinte forma:
+
+
+```{r, eval = FALSE}
+
+download.file(
+  url = "http://www.mdic.gov.br/balanca/bd/comexstat-bd/ncm/EXP_2019.csv",
+  destfile = "../../dados/EXP_2019.csv"
+)
+
+```
+
+Após o download dos dados, vamos carregá-los. Para isso, iremos usar a nossa primeira função do pacote `data.table` chamada `fread()`. Essa função é bastante eficiente na leitura dos dados e os converte para duas classes: *data.table* e *data.frame* (que são as classes que precisamos para usar o `data.table` e `dplyr` respectivamente).
+
+```{r}
+
+# Carregar pacotes
+
+library(dplyr)
+library(data.table)
+
+# Carregar dados
+
+dados <- fread(
+  file = "../../dados/EXP_2019.csv",
+  colClasses = c(rep("character", 8), rep("integer", 3))
+)
+
+# Verificar a classe do objeto dados
+
+class(dados)
+
+```
+
+Com os dados carregados, vamos entender um pouco de sua estrutura. Existem 11 variáveis, sendo 8 delas códigos ou siglas que representam, por exemplo, o produto exportado, Unidade da Federação (UF) exportadora, país de destino, e as outras 3 são a quantidade exportada, peso exportado e valor de exportação. Além disso, os dados possuem mais de 1 milhão e 400 mil linhas. Para observamos sua estrutura, basta usar o código abaixo.
+
+```{r}
+
+glimpse(dados)
+
+```
+
+
+
+## Estrutura da sintaxe do *data.table*
+
+
+$$data\_table[i, j, \text{by}]$$
+
+Como apresentado acima, para usarmos o `data.table` precisamos primeiro identificar os dados em formato "data.table" que vamos manipular e em seguida abrir colchetes. Dentro dos colchetes, existem 3 partes. A primeira, antes da primeira vígula (na estrutura acima representada pela letra *i*), apresenta operações realizadas nas linhas. A segunda parte, representada pela letra *j*, são operações nas colunas. Por fim, a última parte identifica eventuais agrupamentos nos dados para realizar operações em *i* ou *j*. Como vamos ver mais a frente, nem sempre todas as partes precisar estar explícitas em nossos códigos. Se vamos fazer apenas operações nas linhas, por exemplo, as partes *j* e *by* não precisar ser incluídas. 
+
+No `data.table`, muitas vezes a mesma operação poder ser feita usando notações diferentes. Como será mostrado a diante, as seleção de colunas, por exemplo, pode ser feita usando o símbolo **.()** ou diretamente com um vetor de nomes de colunas. Do mesmo modo, a criação de nova coluna pode ser realizada assim **':=' (col = valores)** ou diretamente assim **col := valores**. Neste post, irei apresentar apenas uma das formas para não tornar a leitura muito longa. De todo mundo, inserindo os termos "data.table" e "cheat sheet" no google você encontrará diversos resumos de como utilizar esse pacote.
+
+Vamos à tradução do `dplyr` para o `data.table`.
+
+## *Filter()*
+
+Vamos usar nossos dados para aprender filtrar informações usando o `data.table`. Imagine, então, que queiramos observar apenas as operações realizadas em agosto de 2019. No `dplyr`, fazemos os seguinte:
+
+```{r}
+
+dados_dplyr <- dados %>% 
+  filter(CO_MES == "08") 
+
+head(dados_dplyr)
+
+```
+
+
+Em `data.table`, temos que realizar operações na parte *i* da estrutura apresentada acima. Basta fazermos o seguinte:
+
+```{r}
+
+dados_dt <- dados[CO_MES == "08"]
+
+head(dados_dt)
+
+```
+
+Repare que neste caso não há nenhuma vírgula dentro dos colchetes, ou seja, não incluímos operações nas colunas e não agrupamos os dados.
+
+## *select()*
+
+Para selecionar colunas no `dplyr`, basta usar a função `select()`. Vamos selecionar, então, a coluna de produtos, país e UF, além das colunas de valores.
+
+
+```{r}
+
+dados_dplyr <- dados_dplyr %>% 
+  select(CO_NCM, CO_PAIS, SG_UF_NCM, QT_ESTAT, KG_LIQUIDO, VL_FOB)  
+
+head(dados_dplyr)
+
+```
+
+A mesma operação no `data.table` é feita usando a parte *j* da estrutura apresentada. Repare, que neste caso, precisamos incluir uma vírgula antes da seleção de colunas para sinalizar que estamos realizando operações na parte *j*, mesmo deixando a parte *i* em branco. A parte do agrupamento (*by*) não é necessária neste caso. No código abaixo, usamos a notação do `data.table` **`.()`** para não precisarmos escrever os nomes das colunas em um vetor, o que faria com que tivéssemos que incluir aspas em todos os nomes. Se preferir, também é possível usar um vetor para selecionar as colunas.
+
+```{r}
+
+dados_dt <- dados_dt[, .(CO_NCM, CO_PAIS, SG_UF_NCM, QT_ESTAT, KG_LIQUIDO, VL_FOB)]
+
+head(dados_dt)
+
+```
+
+## *mutate()*
+
+A função `mutate()` do `dplyr` é usada para alterar colunas ou criar novas colunas. Vamos, em nosso exemplo, criar duas colunas, uma que transforme o valor exportado para milhões e uma coluna que receba um dos valor do vetor `c("0", "1", NA)` (essa coluna é criada apenas para fins didáticos, sem significado específico). No `dplyr`, isso é feito da seguinte forma:
+
+```{r}
+
+set.seed(123)
+
+dados_dplyr <- dados_dplyr %>% 
+  mutate(
+    VL_FOB_MILHAO = VL_FOB/1e6, 
+    LABEL = sample(c("0", "1", NA), nrow(dados_dplyr), replace = TRUE)
+  )
+
+head(dados_dplyr)
+
+```
+
+No `data.table` faremos uso de uma outra notação especial: **`':='`**. Esse símbolo é usado justamente para fazer operações de criação e alterações de colunas. Como no casa anterior, a parte *i* é deixada em branco e a última parte não é incluída. Estamos, portanto, utilizando a parte *j* para a operação.
+
+```{r}
+
+set.seed(123)
+
+dados_dt <- dados_dt[
+  , 
+  ':=' (VL_FOB_MILHAO = VL_FOB/1e6, 
+        LABEL = sample(c("0", "1", NA), nrow(dados_dplyr), replace = TRUE))
+]
+
+head(dados_dt)
+
+```
+
+Note que novamente não utilizamos a última parte da estrutura por não estarmos fazendo nenhum tipo de agrupamento nos dados.
+
+## Subtituir *NAs* de uma coluna específica
+
+Existem algumas maneiras de substituir NAs de colunas específicas usando o `dplyr`. Uma delas é usar a função `mutate()` em conjunto com a função `ifelse()`. Neste caso, alteraremos uma coluna a partir de uma condição em que, caso o elemento seja *NA*, nós o substituiremos por "2".
+
+```{r}
+
+dados_dplyr <- dados_dplyr %>% 
+  mutate(LABEL = ifelse(is.na(LABEL), "2", LABEL))
+
+head(dados_dplyr)
+
+```
+
+No `data.table`, usando o que aprendemos anteriormente, poderíamos fazer a substituição dos *NAs* usando a mesma condição acima na operação análoga ao mutate. No entanto, gostaria de mostrar uma outra forma de fazer tal operação que utiliza operações em linhas e em colunas ao mesmo tempo. Veja abaixo.
+
+```{r}
+
+dados_dt <- dados_dt[is.na(LABEL), LABEL := "2"]
+
+head(dados_dt)
+
+```
+
+Neste caso, estamos dizendo ao `data.table` para "filtrar" as linhas nas quais a coluna *LABEL* é *NA* e inserir o caracter "2" em seu lugar. Escrevi "filtrar" entre aspas porque aqui há apenas um filtro temporário. Ao final da operação, nossos dados continuam com o mesmo número de linhas, diferentemente do filtro que apresentamos anteriormente.
+
+## Exluir colunas
+
+No `dplyr`, para "dropar" colunas, basta usar a função `select()` e incluir o sinal negativo antes do nome das colunas, como abaixo.
+
+```{r}
+
+dados_dplyr <- dados_dplyr %>% 
+  select(-VL_FOB_MILHAO, -LABEL)
+
+head(dados_dplyr)
+
+```
+
+No `data.table` temos que utilizar a notação análoga ao `mutate()` e atribuir *NULL* aos elementos das colunas que queremos exculir.
+
+```{r}
+
+dados_dt <- dados_dt[, ':=' (VL_FOB_MILHAO = NULL, LABEL = NULL)]
+
+head(dados_dt)
+
+```
+
+## *group_by()* + *mutate()*
+
+Imagine que queiramos criar uma coluna que conte quantas vezes cada país aparece nos nossos dados, mas sem perder nenhuma informação ao final da operação, ou seja, mantendo o mesmo número de linhas de antes da contagem. Neste caso, podemos usar no `dplyr` um *group_by()* em conjunto com o *mutate()*, como a seguir.
+
+```{r}
+
+dados_dplyr <- dados_dplyr %>% 
+  group_by(CO_PAIS) %>% 
+  mutate(N_pais = n()) %>% 
+  ungroup()
+
+head(dados_dplyr)
+
+```
+
+Finalmente iremos utilizar a terceira parte da nossa estrutura do `data.table`. Com esse pacote, vamos criar uma coluna como aprendemos anteriormente usando a notação especial **.N** para a contagem de linhas em conjunto com a parte *by* da estrutura do `data.table`.
+
+```{r}
+
+dados_dt <- dados_dt[, ':=' (N_pais = .N), by = .(CO_PAIS)]
+
+head(dados_dt)
+
+```
+
+Se não quiséssemos definir o nome da nova coluna, bastaria escrever **.N** na parte *j* da estrutura e uma coluna chamada *N* seria criada com a contagem de linhas de acordo com o agrupamento definido.
+
+## *group_by()* + *summarise()*
+
+Vamos agora descobrir qual valor o Brasil exportou para cada país por UF. Para isso, precisamos agrupar os dados por país e UF e agregar o valor exportado somando todas as linhas que apresentam o mesmo CO_PAIS e SG_UF_NCM. Fazemos isso no `dplyr` da seguinte maneira.
+
+```{r}
+
+dados_dplyr <- dados_dplyr %>% 
+  group_by(CO_PAIS, SG_UF_NCM) %>% 
+  summarise(VL_FOB = sum(VL_FOB)) %>% 
+  ungroup()
+
+head(dados_dplyr)
+
+```
+
+No `data.table` novamente vamos utilizar a última parte da sintaxe, mas desta vez em conjunto com o símbolo **.()**. Segue o código.
+
+```{r}
+
+dados_dt <- dados_dt[, .(VL_FOB = sum(VL_FOB)), by = .(CO_PAIS, SG_UF_NCM)]
+
+head(dados_dt)
+
+```
+
+Repare que a ordem dos nossos dados não é a mesma da apresentada pelo `dplyr`. Vamos reordená-los para verificar que nossa tabelas continuam iguais.
+
+```{r}
+
+dados_dt <- dados_dt[order(CO_PAIS, SG_UF_NCM)]
+
+head(dados_dt)
+
+```
+
+Tudo igual, não é mesmo?
+
+## inner_join()
