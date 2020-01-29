@@ -21,7 +21,7 @@
   <!--radix_placeholder_meta_tags-->
   <title>Problemas com memória ou tempo de execução no dplyr? Use o data.table</title>
   
-  <meta property="description" itemprop="description" content="O objetivo deste post Ã© apresentar como utilizar o pacote data.table por meio de uma &quot;traduÃ§Ã£o&quot; das operaÃ§Ãµes realizadas com o dplyr. Para um entendimento completo deste post, Ã© importante que o leitor tenha uma boa noÃ§Ã£o de como o dplyr funciona."/>
+  <meta property="description" itemprop="description" content="O objetivo deste post é apresentar como utilizar o pacote data.table por meio de uma &quot;tradução&quot; das operações realizadas com o dplyr. Para um entendimento completo deste post, é importante que o leitor tenha uma boa noção de como o dplyr funciona."/>
   
   
   <!--  https://schema.org/Article -->
@@ -32,13 +32,13 @@
   <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
   <meta property="og:title" content="Problemas com memória ou tempo de execução no dplyr? Use o data.table"/>
   <meta property="og:type" content="article"/>
-  <meta property="og:description" content="O objetivo deste post Ã© apresentar como utilizar o pacote data.table por meio de uma &quot;traduÃ§Ã£o&quot; das operaÃ§Ãµes realizadas com o dplyr. Para um entendimento completo deste post, Ã© importante que o leitor tenha uma boa noÃ§Ã£o de como o dplyr funciona."/>
+  <meta property="og:description" content="O objetivo deste post é apresentar como utilizar o pacote data.table por meio de uma &quot;tradução&quot; das operações realizadas com o dplyr. Para um entendimento completo deste post, é importante que o leitor tenha uma boa noção de como o dplyr funciona."/>
   <meta property="og:locale" content="en_US"/>
   
   <!--  https://dev.twitter.com/cards/types/summary -->
   <meta property="twitter:card" content="summary"/>
   <meta property="twitter:title" content="Problemas com memória ou tempo de execução no dplyr? Use o data.table"/>
-  <meta property="twitter:description" content="O objetivo deste post Ã© apresentar como utilizar o pacote data.table por meio de uma &quot;traduÃ§Ã£o&quot; das operaÃ§Ãµes realizadas com o dplyr. Para um entendimento completo deste post, Ã© importante que o leitor tenha uma boa noÃ§Ã£o de como o dplyr funciona."/>
+  <meta property="twitter:description" content="O objetivo deste post é apresentar como utilizar o pacote data.table por meio de uma &quot;tradução&quot; das operações realizadas com o dplyr. Para um entendimento completo deste post, é importante que o leitor tenha uma boa noção de como o dplyr funciona."/>
   
   <!--/radix_placeholder_meta_tags-->
   <!--radix_placeholder_rmarkdown_metadata-->
@@ -953,7 +953,7 @@
 
 <div class="d-title">
 <h1>Problemas com memória ou tempo de execução no dplyr? Use o data.table</h1>
-<p>O objetivo deste post é apresentar como utilizar o pacote data.table por meio de uma “tradução” das operações realizadas com o dplyr. Para um entendimento completo deste post, é importante que o leitor tenha uma boa noção de como o dplyr funciona.</p>
+<p><p>O objetivo deste post é apresentar como utilizar o pacote data.table por meio de uma “tradução” das operações realizadas com o dplyr. Para um entendimento completo deste post, é importante que o leitor tenha uma boa noção de como o dplyr funciona.</p></p>
 </div>
 
 <div class="d-byline">
@@ -965,8 +965,8 @@
 
 <div class="d-article">
 <p>Muitas vezes, ao trabalhar com dados muito pesados usando <code>dplyr</code>, tive problemas relacionados à memória do computador (o uso da memória era tão grande que o computador travava) e à velocidade de execução das operações. A alternativa que encontrei foi aprender o pacote <code>data.table</code>.</p>
-<p>Você deve estar se perguntado: quais as vantagens e desvantagens desse pacote? Em geral, ele é mais eficiente em uso de memória e mais rápido do que o <code>dplyr</code> Por outro lado, a sintaxe do <code>dplyr</code> é mais amigável e ele possui funções pra realização de operações mais complexas, como o <code>pivot_longer()</code> e o <code>pivot_longer()</code> por exemplo.</p>
-<p>Vale comentar que existe um pacote recentemente lançado no CRAN chamado <code>dtplyr</code>. A ideia desse pacote é usar a sintaxe do <code>dplyr</code> pra realizar operações com o <code>data.table</code>. No entanto, eu prefiro usar diretamente o <code>data.table</code> por já estar acostumado com a sintaxe e por não precisar de um intermediário, o que pode diminuir a eficiência do pacote.</p>
+<p>Você deve estar se perguntado: quais as vantagens e desvantagens desse pacote? Em geral, ele é mais eficiente em uso de memória e mais rápido do que o <code>dplyr</code>. Por outro lado, a sintaxe do <code>dplyr</code> é mais amigável e ele possui funções pra realização de operações mais complexas, como o <code>pivot_longer()</code> e o <code>pivot_wider()</code> por exemplo.</p>
+<p>Vale comentar que existe um pacote recentemente lançado no CRAN chamado <code>dtplyr</code>. A ideia desse pacote é usar a sintaxe do <code>dplyr</code> para realizar operações com o <code>data.table</code>. No entanto, eu prefiro usar diretamente o <code>data.table</code> por já estar acostumado com a sintaxe e por não precisar de um intermediário, o que pode diminuir a eficiência do pacote.</p>
 <p>Vamos então ao que interessa…</p>
 <h2 id="os-dados">Os dados</h2>
 <p>Vamos usar os dados de exportações brasileiras no ano de 2019. Para baixar, basta acessar este <a href="http://www.mdic.gov.br/index.php/comercio-exterior/estatisticas-de-comercio-exterior/base-de-dados-do-comercio-exterior-brasileiro-arquivos-para-download">link</a> e baixar os dados de exportações de 2019. Uma alternativa é fazer isso via R da seguinte forma:</p>
@@ -1019,7 +1019,7 @@ $ VL_FOB     &lt;int&gt; 180, 154, 68, 30805, 5695, 109073, 321274, 139...</code
 </div>
 <h2 id="estrutura-da-sintaxe-do-data.table">Estrutura da sintaxe do <em>data.table</em></h2>
 <p><span class="math display">\[data\_table[i, j, \text{by}]\]</span></p>
-<p>Como apresentado acima, para usarmos o <code>data.table</code> precisamos primeiro identificar os dados em formato “data.table” que vamos manipular e em seguida abrir colchetes. Dentro dos colchetes, existem 3 partes. A primeira, antes da primeira vírgula (na estrutura acima representada pela letra <em>i</em>), apresenta operações realizadas nas linhas. A segunda parte, representada pela letra <em>j</em>, são operações nas colunas. Por fim, a última parte identifica eventuais agrupamentos nos dados para realizar operações em <em>i</em> ou <em>j</em>. Como vamos ver mais a frente, nem sempre todas as partes precisar estar explícitas em nossos códigos. Se vamos fazer apenas operações nas linhas, por exemplo, as partes <em>j</em> e <em>by</em> não precisar ser incluídas.</p>
+<p>Como apresentado acima, para usarmos o <code>data.table</code> precisamos primeiro identificar os dados em formato “data.table” que vamos manipular e em seguida abrir colchetes. Dentro dos colchetes, existem 3 partes. A primeira, antes da primeira vírgula (na estrutura acima representada pela letra <em>i</em>), apresenta operações realizadas nas linhas. A segunda parte, representada pela letra <em>j</em>, são operações nas colunas. Por fim, a última parte identifica eventuais agrupamentos nos dados para realizar operações em <em>i</em> ou <em>j</em>. Como vamos ver mais a frente, nem sempre todas as partes precisam estar explícitas em nossos códigos. Se vamos fazer apenas operações nas linhas, por exemplo, as partes <em>j</em> e <em>by</em> não precisar ser incluídas.</p>
 <p>No <code>data.table</code>, muitas vezes a mesma operação poder ser feita usando notações diferentes. Como será mostrado a diante, as seleção de colunas, por exemplo, pode ser feita usando o símbolo <strong>.()</strong> ou diretamente com um vetor de nomes de colunas. Do mesmo modo, a criação de nova coluna pode ser realizada assim <strong>‘:=’ (col = valores)</strong> ou diretamente assim <strong>col := valores</strong>. Neste post, irei apresentar apenas uma das formas para não tornar a leitura muito longa. De todo mundo, inserindo os termos “data.table” e “cheat sheet” no google você encontrará diversos resumos de como utilizar esse pacote.</p>
 <p>Vamos à tradução do <code>dplyr</code> para o <code>data.table</code>.</p>
 <h2 id="filter"><em>Filter()</em></h2>
@@ -1102,7 +1102,7 @@ head(dados_dt)</code></pre>
 6: 72104910     741        SP       40         40    420</code></pre>
 </div>
 <h2 id="mutate"><em>mutate()</em></h2>
-<p>A função <code>mutate()</code> do <code>dplyr</code> é usada para alterar colunas ou criar novas colunas. Vamos, em nosso exemplo, criar duas colunas, uma que transforme o valor exportado para milhões e uma coluna que receba um dos valor do vetor <code>c("0", "1", NA)</code> (essa coluna é criada apenas para fins didáticos, sem significado específico). No <code>dplyr</code>, isso é feito da seguinte forma:</p>
+<p>A função <code>mutate()</code> do <code>dplyr</code> é usada para alterar colunas ou criar novas colunas. Vamos, em nosso exemplo, criar duas colunas, uma que transforme o valor exportado para milhões e uma coluna que receba um dos valores do vetor <code>c("0", "1", NA)</code> (essa coluna é criada apenas para fins didáticos, sem significado específico). No <code>dplyr</code>, isso é feito da seguinte forma:</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 set.seed(123)
@@ -1159,7 +1159,7 @@ head(dados_dt)</code></pre>
 6:      0.000420     1</code></pre>
 </div>
 <p>Note que novamente não utilizamos a última parte da estrutura por não estarmos fazendo nenhum tipo de agrupamento nos dados.</p>
-<h2 id="subtituir-nas-de-uma-coluna-especifica">Subtituir <em>NAs</em> de uma coluna específica</h2>
+<h2 id="subtituir-nas-de-uma-coluna-específica">Subtituir <em>NAs</em> de uma coluna específica</h2>
 <p>Existem algumas maneiras de substituir NAs de colunas específicas usando o <code>dplyr</code>. Uma delas é usar a função <code>mutate()</code> em conjunto com a função <code>ifelse()</code>. Neste caso, alteraremos uma coluna a partir de uma condição em que, caso o elemento seja <em>NA</em>, nós o substituiremos por “2”.</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
@@ -1386,7 +1386,7 @@ head(dados_dt)</code></pre>
 6:        MT     013   5861             &lt;NA&gt;</code></pre>
 </div>
 <p>Um detalhe importante da função <code>merge.data.table()</code> é saber com usar os argumentos <em>all</em>, <em>all.x</em> e <em>all.y</em>. Definindo <em>all = TRUE</em> estamos realizando um <em>full join</em>, ou seja, todas as linhas de ambos os dados serão trazidas para o dado final. Se <em>all.x = TRUE</em>, realizamos o <em>left joint</em>. Analogamente, <em>all.y = TRUE</em> refere-se ao <em>right join</em>. Finalmente, se definirmos <em>all = FALSE</em> estamos realizando um <em>inner join</em>, ou seja, apenas as linhas em que houve <em>match</em> nas chaves definidas permanecerão nos dados finais.</p>
-<h2 id="conclusoes">Conclusões</h2>
+<h2 id="conclusões">Conclusões</h2>
 <p>Vimos que as operações básicas do <code>dplyr</code> podem ser realizadas de maneira fácil com o <code>data.table</code> e na maioria das vezes utilizando menos linhas de código. Além disso, o <code>data.table</code> possui a vantagem de ser mais rápido e eficiente em relação ao uso de memória (não foi o objetivo deste post mostrar isso, mas você poderá encontrar facilmente comparações na internet). No entanto, pessoalmente eu prefiro na maior parte das vezes usar o <code>dplyr</code> por ser bastante prático e intuitivo. Costumo usar o <code>data.table</code> quando tenho que fazer operações pesadas como <em>joins</em> usando dados com milhões de linhas. De qualquer modo, vale a pena conhecer e aprender o <code>data.table</code>.</p>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->

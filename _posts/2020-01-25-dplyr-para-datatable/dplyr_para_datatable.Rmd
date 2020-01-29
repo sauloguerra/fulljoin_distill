@@ -17,9 +17,9 @@ knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
 
 Muitas vezes, ao trabalhar com dados muito pesados usando `dplyr`, tive problemas relacionados à memória do computador (o uso da memória era tão grande que o computador travava) e à velocidade de execução das operações. A alternativa que encontrei foi aprender o pacote `data.table`. 
 
-Você deve estar se perguntado: quais as vantagens e desvantagens desse pacote? Em geral, ele é mais eficiente em uso de memória e mais rápido do que o `dplyr` Por outro lado, a sintaxe do `dplyr` é mais amigável e ele possui funções pra realização de operações mais complexas, como o `pivot_longer()` e o `pivot_longer()` por exemplo.
+Você deve estar se perguntado: quais as vantagens e desvantagens desse pacote? Em geral, ele é mais eficiente em uso de memória e mais rápido do que o `dplyr`. Por outro lado, a sintaxe do `dplyr` é mais amigável e ele possui funções pra realização de operações mais complexas, como o `pivot_longer()` e o `pivot_wider()` por exemplo.
 
-Vale comentar que existe um pacote recentemente lançado no CRAN chamado `dtplyr`. A ideia desse pacote é usar a sintaxe do `dplyr` pra realizar operações com o `data.table`. No entanto, eu prefiro usar diretamente o `data.table` por já estar acostumado com a sintaxe e por não precisar de um intermediário, o que pode diminuir a eficiência do pacote.
+Vale comentar que existe um pacote recentemente lançado no CRAN chamado `dtplyr`. A ideia desse pacote é usar a sintaxe do `dplyr` para realizar operações com o `data.table`. No entanto, eu prefiro usar diretamente o `data.table` por já estar acostumado com a sintaxe e por não precisar de um intermediário, o que pode diminuir a eficiência do pacote.
 
 Vamos então ao que interessa...
 
@@ -75,7 +75,7 @@ glimpse(dados)
 
 $$data\_table[i, j, \text{by}]$$
 
-Como apresentado acima, para usarmos o `data.table` precisamos primeiro identificar os dados em formato "data.table" que vamos manipular e em seguida abrir colchetes. Dentro dos colchetes, existem 3 partes. A primeira, antes da primeira vírgula (na estrutura acima representada pela letra *i*), apresenta operações realizadas nas linhas. A segunda parte, representada pela letra *j*, são operações nas colunas. Por fim, a última parte identifica eventuais agrupamentos nos dados para realizar operações em *i* ou *j*. Como vamos ver mais a frente, nem sempre todas as partes precisar estar explícitas em nossos códigos. Se vamos fazer apenas operações nas linhas, por exemplo, as partes *j* e *by* não precisar ser incluídas. 
+Como apresentado acima, para usarmos o `data.table` precisamos primeiro identificar os dados em formato "data.table" que vamos manipular e em seguida abrir colchetes. Dentro dos colchetes, existem 3 partes. A primeira, antes da primeira vírgula (na estrutura acima representada pela letra *i*), apresenta operações realizadas nas linhas. A segunda parte, representada pela letra *j*, são operações nas colunas. Por fim, a última parte identifica eventuais agrupamentos nos dados para realizar operações em *i* ou *j*. Como vamos ver mais a frente, nem sempre todas as partes precisam estar explícitas em nossos códigos. Se vamos fazer apenas operações nas linhas, por exemplo, as partes *j* e *by* não precisar ser incluídas. 
 
 No `data.table`, muitas vezes a mesma operação poder ser feita usando notações diferentes. Como será mostrado a diante, as seleção de colunas, por exemplo, pode ser feita usando o símbolo **.()** ou diretamente com um vetor de nomes de colunas. Do mesmo modo, a criação de nova coluna pode ser realizada assim **':=' (col = valores)** ou diretamente assim **col := valores**. Neste post, irei apresentar apenas uma das formas para não tornar a leitura muito longa. De todo mundo, inserindo os termos "data.table" e "cheat sheet" no google você encontrará diversos resumos de como utilizar esse pacote.
 
@@ -133,7 +133,7 @@ head(dados_dt)
 
 ## *mutate()*
 
-A função `mutate()` do `dplyr` é usada para alterar colunas ou criar novas colunas. Vamos, em nosso exemplo, criar duas colunas, uma que transforme o valor exportado para milhões e uma coluna que receba um dos valor do vetor `c("0", "1", NA)` (essa coluna é criada apenas para fins didáticos, sem significado específico). No `dplyr`, isso é feito da seguinte forma:
+A função `mutate()` do `dplyr` é usada para alterar colunas ou criar novas colunas. Vamos, em nosso exemplo, criar duas colunas, uma que transforme o valor exportado para milhões e uma coluna que receba um dos valores do vetor `c("0", "1", NA)` (essa coluna é criada apenas para fins didáticos, sem significado específico). No `dplyr`, isso é feito da seguinte forma:
 
 ```{r}
 
