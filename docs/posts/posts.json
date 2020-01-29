@@ -1,5 +1,22 @@
 [
   {
+    "path": "posts/2020-01-25-dplyr-para-datatable/",
+    "title": "Problemas com memória ou tempo de execução no dplyr? Use o data.table",
+    "description": "O objetivo deste post é apresentar como utilizar o pacote data.table por meio de uma \"tradução\" das operações realizadas com o dplyr. Para um entendimento completo deste post, é importante que o leitor tenha uma boa noção de como o dplyr funciona.",
+    "author": [
+      {
+        "name": "Diego Castro",
+        "url": {}
+      }
+    ],
+    "date": "2020-01-29",
+    "categories": [],
+    "preview": "posts/2020-01-25-dplyr-para-datatable/../../images/r-datatable.png",
+    "last_modified": "2020-01-29T00:46:58-02:00",
+    "preview_width": 181,
+    "preview_height": 209
+  },
+  {
     "path": "posts/2019-12-30-dashboards-no-r-com-o-pacote-flexdashboard/",
     "title": "Dashboards no R com o pacote flexdashboard",
     "description": "Dashboards podem ser uma ferramenta eficiente para a fase de comunicação de uma análise de dados. No R, pode-se utilizar o pacote `flexdashboard` para a criação de dashboards de maneira rápida. Neste post, vamos falar sobre como funciona esse pacote e criaremos um exemplo com os dados da PNAD contínua e com o pacote `D3plusR` para elaboração das visualizações.",

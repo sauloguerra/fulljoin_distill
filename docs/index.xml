@@ -7,7 +7,16 @@
     <description>Fulljoin
 </description>
     <generator>Distill</generator>
-    <lastBuildDate>dom, 05 jan 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>qua, 29 jan 2020 00:00:00 +0000</lastBuildDate>
+    <item>
+      <title>Problemas com memória ou tempo de execução no dplyr? Use o data.table</title>
+      <dc:creator>Diego Castro</dc:creator>
+      <link>https://www.fulljoin.com.br/posts/2020-01-25-dplyr-para-datatable</link>
+      <description>O objetivo deste post é apresentar como utilizar o pacote data.table por meio de uma "tradução" das operações realizadas com o dplyr. Para um entendimento completo deste post, é importante que o leitor tenha uma boa noção de como o dplyr funciona.</description>
+      <guid>https://www.fulljoin.com.br/posts/2020-01-25-dplyr-para-datatable</guid>
+      <pubDate>qua, 29 jan 2020 00:00:00 +0000</pubDate>
+      <media:content url="https://www.fulljoin.com.br/posts/2020-01-25-dplyr-para-datatable/../../images/r-datatable.png" medium="image" type="image/png" width="181" height="209"/>
+    </item>
     <item>
       <title>Dashboards no R com o pacote flexdashboard</title>
       <dc:creator>Paulo Felipe Alencar</dc:creator>
@@ -86,17 +95,8 @@
       <link>https://www.fulljoin.com.br/posts/2019-09-19-loop-vs-alternativas</link>
       <description>A partir de um simples exemplo, vamos testar o desempenho de for loops comparando-o com a performance de outras alternativas como apply, funções do purrr e estratégias paralelizadas.</description>
       <guid>https://www.fulljoin.com.br/posts/2019-09-19-loop-vs-alternativas</guid>
-      <pubDate>sáb, 21 set 2019 00:00:00 +0000</pubDate>
+      <pubDate>s�b, 21 set 2019 00:00:00 +0000</pubDate>
       <media:content url="https://www.fulljoin.com.br/posts/2019-09-19-loop-vs-alternativas/../../images/capa_loop.png" medium="image" type="image/png" width="875" height="420"/>
-    </item>
-    <item>
-      <title>R com Excel</title>
-      <dc:creator>Miguel Cleaver</dc:creator>
-      <link>https://www.fulljoin.com.br/posts/2019-09-04-integrando-o-r-com-excel</link>
-      <description>Neste post mostramos como criar arquivos Excel a partir do R.</description>
-      <guid>https://www.fulljoin.com.br/posts/2019-09-04-integrando-o-r-com-excel</guid>
-      <pubDate>seg, 16 set 2019 00:00:00 +0000</pubDate>
-      <media:content url="https://www.fulljoin.com.br/posts/2019-09-04-integrando-o-r-com-excel/../../images/excel_mtcars.PNG" medium="image" type="image/png" width="1920" height="987"/>
     </item>
   </channel>
 </rss>

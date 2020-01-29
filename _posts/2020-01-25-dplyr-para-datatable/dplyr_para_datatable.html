@@ -44,7 +44,7 @@
   <!--radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-rmarkdown-metadata">
-  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","output","draft","preview"]}},"value":[{"type":"character","attributes":{},"value":["Problemas com memória ou tempo de execução no dplyr? Use o data.table"]},{"type":"character","attributes":{},"value":["O objetivo deste post é apresentar como utilizar o pacote data.table por meio de uma \"tradução\" das operações realizadas com o dplyr. Para um entendimento completo deste post, é importante que o leitor tenha uma boa noção de como o dplyr funciona.\n"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name"]}},"value":[{"type":"character","attributes":{},"value":["Diego Castro"]}]}]},{"type":"character","attributes":{},"value":["2020-01-29"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]}]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["../../images/r-datatable.png"]}]}
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","output","draft","preview"]}},"value":[{"type":"character","attributes":{},"value":["Problemas com memória ou tempo de execução no dplyr? Use o data.table"]},{"type":"character","attributes":{},"value":["O objetivo deste post é apresentar como utilizar o pacote data.table por meio de uma \"tradução\" das operações realizadas com o dplyr. Para um entendimento completo deste post, é importante que o leitor tenha uma boa noção de como o dplyr funciona.\n"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name"]}},"value":[{"type":"character","attributes":{},"value":["Diego Castro"]}]}]},{"type":"character","attributes":{},"value":["2020-01-29"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]}]},{"type":"logical","attributes":{},"value":[false]},{"type":"character","attributes":{},"value":["../../images/r-datatable.png"]}]}
   </script>
   <!--/radix_placeholder_rmarkdown_metadata-->
   
@@ -969,7 +969,7 @@
 <p>Vale comentar que existe um pacote recentemente lançado no CRAN chamado <code>dtplyr</code>. A ideia desse pacote é usar a sintaxe do <code>dplyr</code> pra realizar operações com o <code>data.table</code>. No entanto, eu prefiro usar diretamente o <code>data.table</code> por já estar acostumado com a sintaxe e por não precisar de um intermediário, o que pode diminuir a eficiência do pacote.</p>
 <p>Vamos então ao que interessa…</p>
 <h2 id="os-dados">Os dados</h2>
-<p>Vamos usar os dados de exportações brasileiras no ano de 2019. Para baixar, basta acessar este <a href="http://www.mdic.gov.br/index.php/comercio-exterior/estatisticas-de-comercio-exterior/base-de-dados-do-comercio-exterior-brasileiro-arquivos-para-download">link</a> e baixar os dados de exportações de 2019. Outra alternativa é fazer isso via R da seguinte forma:</p>
+<p>Vamos usar os dados de exportações brasileiras no ano de 2019. Para baixar, basta acessar este <a href="http://www.mdic.gov.br/index.php/comercio-exterior/estatisticas-de-comercio-exterior/base-de-dados-do-comercio-exterior-brasileiro-arquivos-para-download">link</a> e baixar os dados de exportações de 2019. Uma alternativa é fazer isso via R da seguinte forma:</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 download.file(
@@ -1019,11 +1019,11 @@ $ VL_FOB     &lt;int&gt; 180, 154, 68, 30805, 5695, 109073, 321274, 139...</code
 </div>
 <h2 id="estrutura-da-sintaxe-do-data.table">Estrutura da sintaxe do <em>data.table</em></h2>
 <p><span class="math display">\[data\_table[i, j, \text{by}]\]</span></p>
-<p>Como apresentado acima, para usarmos o <code>data.table</code> precisamos primeiro identificar os dados em formato “data.table” que vamos manipular e em seguida abrir colchetes. Dentro dos colchetes, existem 3 partes. A primeira, antes da primeira vígula (na estrutura acima representada pela letra <em>i</em>), apresenta operações realizadas nas linhas. A segunda parte, representada pela letra <em>j</em>, são operações nas colunas. Por fim, a última parte identifica eventuais agrupamentos nos dados para realizar operações em <em>i</em> ou <em>j</em>. Como vamos ver mais a frente, nem sempre todas as partes precisar estar explícitas em nossos códigos. Se vamos fazer apenas operações nas linhas, por exemplo, as partes <em>j</em> e <em>by</em> não precisar ser incluídas.</p>
+<p>Como apresentado acima, para usarmos o <code>data.table</code> precisamos primeiro identificar os dados em formato “data.table” que vamos manipular e em seguida abrir colchetes. Dentro dos colchetes, existem 3 partes. A primeira, antes da primeira vírgula (na estrutura acima representada pela letra <em>i</em>), apresenta operações realizadas nas linhas. A segunda parte, representada pela letra <em>j</em>, são operações nas colunas. Por fim, a última parte identifica eventuais agrupamentos nos dados para realizar operações em <em>i</em> ou <em>j</em>. Como vamos ver mais a frente, nem sempre todas as partes precisar estar explícitas em nossos códigos. Se vamos fazer apenas operações nas linhas, por exemplo, as partes <em>j</em> e <em>by</em> não precisar ser incluídas.</p>
 <p>No <code>data.table</code>, muitas vezes a mesma operação poder ser feita usando notações diferentes. Como será mostrado a diante, as seleção de colunas, por exemplo, pode ser feita usando o símbolo <strong>.()</strong> ou diretamente com um vetor de nomes de colunas. Do mesmo modo, a criação de nova coluna pode ser realizada assim <strong>‘:=’ (col = valores)</strong> ou diretamente assim <strong>col := valores</strong>. Neste post, irei apresentar apenas uma das formas para não tornar a leitura muito longa. De todo mundo, inserindo os termos “data.table” e “cheat sheet” no google você encontrará diversos resumos de como utilizar esse pacote.</p>
 <p>Vamos à tradução do <code>dplyr</code> para o <code>data.table</code>.</p>
 <h2 id="filter"><em>Filter()</em></h2>
-<p>Vamos usar nossos dados para aprender filtrar informações usando o <code>data.table</code>. Imagine, então, que queiramos observar apenas as operações realizadas em agosto de 2019. No <code>dplyr</code>, fazemos os seguinte:</p>
+<p>Vamos usar nossos dados para aprender filtrar informações usando o <code>data.table</code>. Imagine, então, que queiramos observar apenas as operações realizadas em agosto de 2019. No <code>dplyr</code>, fazemos o seguinte:</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 dados_dplyr &lt;- dados %&gt;% 
@@ -1130,7 +1130,7 @@ head(dados_dplyr)</code></pre>
 5  &lt;NA&gt;
 6     1</code></pre>
 </div>
-<p>No <code>data.table</code> faremos uso de uma outra notação especial: <strong><code>':='</code></strong>. Esse símbolo é usado justamente para fazer operações de criação e alterações de colunas. Como no casa anterior, a parte <em>i</em> é deixada em branco e a última parte não é incluída. Estamos, portanto, utilizando a parte <em>j</em> para a operação.</p>
+<p>No <code>data.table</code> faremos uso de uma outra notação especial: <strong><code>':='</code></strong>. Esse símbolo é usado justamente para fazer operações de criação e alterações de colunas. Como no caso anterior, a parte <em>i</em> é deixada em branco e a última parte não é incluída. Estamos, portanto, utilizando a parte <em>j</em> para a operação.</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 set.seed(123)
@@ -1183,7 +1183,7 @@ head(dados_dplyr)</code></pre>
 5     2
 6     1</code></pre>
 </div>
-<p>No <code>data.table</code>, usando o que aprendemos anteriormente, poderíamos fazer a substituição dos <em>NAs</em> usando a mesma condição acima na operação análoga ao mutate. No entanto, gostaria de mostrar uma outra forma de fazer tal operação que utiliza operações em linhas e em colunas ao mesmo tempo. Veja abaixo.</p>
+<p>No <code>data.table</code>, usando o que aprendemos anteriormente, poderíamos fazer a substituição dos <em>NAs</em> usando a mesma condição acima na operação análoga ao <code>mutate()</code>. No entanto, gostaria de mostrar uma outra forma de fazer tal operação que utiliza operações em linhas e em colunas ao mesmo tempo. Veja abaixo.</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 dados_dt &lt;- dados_dt[is.na(LABEL), LABEL := &quot;2&quot;]
@@ -1205,7 +1205,7 @@ head(dados_dt)</code></pre>
 5:      0.000084     2
 6:      0.000420     1</code></pre>
 </div>
-<p>Neste caso, estamos dizendo ao <code>data.table</code> para “filtrar” as linhas nas quais a coluna <em>LABEL</em> é <em>NA</em> e inserir o caracter “2” em seu lugar. Escrevi “filtrar” entre aspas porque aqui há apenas um filtro temporário. Ao final da operação, nossos dados continuam com o mesmo número de linhas, diferentemente do filtro que apresentamos anteriormente.</p>
+<p>Neste caso, estamos dizendo ao <code>data.table</code> para “filtrar” as linhas nas quais a coluna <em>LABEL</em> é <em>NA</em> e inserir o caractere “2” em seu lugar. Escrevi “filtrar” entre aspas porque aqui há apenas um filtro temporário. Ao final da operação, nossos dados continuam com o mesmo número de linhas, diferentemente do filtro que apresentamos anteriormente.</p>
 <h2 id="exluir-colunas">Exluir colunas</h2>
 <p>No <code>dplyr</code>, para “dropar” colunas, basta usar a função <code>select()</code> e incluir o sinal negativo antes do nome das colunas, como abaixo.</p>
 <div class="layout-chunk" data-layout="l-body">
@@ -1223,7 +1223,7 @@ head(dados_dplyr)</code></pre>
 5 76069200     232        SP        1          1     84
 6 72104910     741        SP       40         40    420</code></pre>
 </div>
-<p>No <code>data.table</code> temos que utilizar a notação análoga ao <code>mutate()</code> e atribuir <em>NULL</em> aos elementos das colunas que queremos exculir.</p>
+<p>No <code>data.table</code> temos que utilizar a notação análoga ao <code>mutate()</code> e atribuir <em>NULL</em> aos elementos das colunas que queremos excluir.</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 dados_dt &lt;- dados_dt[, &#39;:=&#39; (VL_FOB_MILHAO = NULL, LABEL = NULL)]
@@ -1239,7 +1239,7 @@ head(dados_dt)</code></pre>
 6: 72104910     741        SP       40         40    420</code></pre>
 </div>
 <h2 id="group_by-mutate"><em>group_by()</em> + <em>mutate()</em></h2>
-<p>Imagine que queiramos criar uma coluna que conte quantas vezes cada país aparece nos nossos dados, mas sem perder nenhuma informação ao final da operação, ou seja, mantendo o mesmo número de linhas de antes da contagem. Neste caso, podemos usar no <code>dplyr</code> um <em>group_by()</em> em conjunto com o <em>mutate()</em>, como a seguir.</p>
+<p>Imagine que queiramos criar uma coluna que conte quantas vezes cada país aparece nos nossos dados, mas sem perder nenhuma informação ao final da operação, ou seja, mantendo o número de linhas de antes da contagem. Neste caso, podemos usar no <code>dplyr</code> um <em>group_by()</em> em conjunto com o <em>mutate()</em>, como a seguir.</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 dados_dplyr &lt;- dados_dplyr %&gt;% 
@@ -1311,7 +1311,7 @@ head(dados_dt)</code></pre>
 5:     232        SP  2929105
 6:     741        SP 38035742</code></pre>
 </div>
-<p>Repare que a ordem dos nossos dados não é a mesma da apresentada pelo <code>dplyr</code>. Vamos reordená-los para verificar que nossa tabelas continuam iguais.</p>
+<p>Repare que a ordem dos nossos dados não é a mesma da apresentada pelo <code>dplyr</code>. Vamos reordená-los para verificar que nossas tabelas continuam iguais.</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 dados_dt &lt;- dados_dt[order(CO_PAIS, SG_UF_NCM)]
@@ -1328,7 +1328,7 @@ head(dados_dt)</code></pre>
 </div>
 <p>Tudo igual, não é mesmo?</p>
 <h2 id="left_join">left_join()</h2>
-<p>Para finalizar, vamos realizar uma operação de <em>join</em>. Como sabemos, existem alguns tipos diferentes de <em>joins</em>. Vamos aqui como exemplo realizar um <em>left join</em>, ou seja, juntaremos dois conjutos de dados por meio de chaves mantendo todas as linhas dos dados da esquerda. Primeiramente vamos criar um <em>data frame</em> com as siglas de alguns estados e seus respectivos nomes.</p>
+<p>Para finalizar, vamos realizar uma operação de <em>join</em>. Como sabemos, existem alguns tipos diferentes de <em>joins</em>. Vamos aqui como exemplo realizar um <em>left join</em>, ou seja, juntaremos dois conjuntos de dados por meio de chaves mantendo todas as linhas dos dados da esquerda. Primeiramente vamos criar um <em>data frame</em> com as siglas de alguns estados e seus respectivos nomes.</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 estados &lt;- data.frame(
@@ -1336,7 +1336,7 @@ estados &lt;- data.frame(
   NO_UF_NCM = c(&quot;Distrito Federal&quot;, &quot;Espirito Santo&quot;, &quot;Goias&quot;, &quot;Minas Gerais&quot;)
 )</code></pre>
 </div>
-<p>No <code>dplyr</code> realizamos tal operação usando a função <code>left_join()</code>. Observe que no <em>data frame</em> estados criado acima existem apenas 4 estados. Portanto, ao realizarmos o <em>left join</em>, as linhas de todas estados que não estão no data frame criado receberão <em>NA</em> na coluna <em>NO_UF_NCM</em>.</p>
+<p>No <code>dplyr</code> realizamos tal operação usando a função <code>left_join()</code>. Observe que no <em>data frame</em> estados criado acima existem apenas 4 estados. Portanto, ao realizarmos o <em>left join</em>, as linhas de todos os estados que não estão no <em>data frame</em> criado receberão <em>NA</em> na coluna <em>NO_UF_NCM</em>.</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 dados_dplyr &lt;- dados_dplyr %&gt;% 
@@ -1387,7 +1387,7 @@ head(dados_dt)</code></pre>
 </div>
 <p>Um detalhe importante da função <code>merge.data.table()</code> é saber com usar os argumentos <em>all</em>, <em>all.x</em> e <em>all.y</em>. Definindo <em>all = TRUE</em> estamos realizando um <em>full join</em>, ou seja, todas as linhas de ambos os dados serão trazidas para o dado final. Se <em>all.x = TRUE</em>, realizamos o <em>left joint</em>. Analogamente, <em>all.y = TRUE</em> refere-se ao <em>right join</em>. Finalmente, se definirmos <em>all = FALSE</em> estamos realizando um <em>inner join</em>, ou seja, apenas as linhas em que houve <em>match</em> nas chaves definidas permanecerão nos dados finais.</p>
 <h2 id="conclusoes">Conclusões</h2>
-<p>Vimos que as operações básicas do <code>dplyr</code> podem ser realizadas de maneira fácil com o <code>data.table</code> e na maioria das vezes utilizando menos linhas de código. Além disso, o <code>data.table</code> possui a vantagem de ser mais rápido e eficiência em relação ao uso de memória (não foi o objetivo deste post mostrar isso, mas você poderá encontrar facilmente comparações na internet). No entando, pessoalmente eu prefiro na maior parte das vezes usar o <code>dplyr</code> por ser bastante prático e intuitivo. Costumo usar o <code>data.table</code> quando tenho que fazer operações pesadas como <em>joins</em> usando dados com milhões de linhas. De qualquer modo, vale a pena conhecer e aprender o <code>data.table</code>.</p>
+<p>Vimos que as operações básicas do <code>dplyr</code> podem ser realizadas de maneira fácil com o <code>data.table</code> e na maioria das vezes utilizando menos linhas de código. Além disso, o <code>data.table</code> possui a vantagem de ser mais rápido e eficiente em relação ao uso de memória (não foi o objetivo deste post mostrar isso, mas você poderá encontrar facilmente comparações na internet). No entanto, pessoalmente eu prefiro na maior parte das vezes usar o <code>dplyr</code> por ser bastante prático e intuitivo. Costumo usar o <code>data.table</code> quando tenho que fazer operações pesadas como <em>joins</em> usando dados com milhões de linhas. De qualquer modo, vale a pena conhecer e aprender o <code>data.table</code>.</p>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>
