@@ -2,170 +2,170 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" version="1.0">
   <url>
     <loc>https://www.fulljoin.com.br/about.html</loc>
-    <lastmod>2019-12-29T11:06:11-02:00</lastmod>
+    <lastmod>2019-12-28T17:57:23-03:00</lastmod>
   </url>
   <url>
     <loc>https://www.fulljoin.com.br/consultoria.html</loc>
-    <lastmod>2019-08-27T20:59:44-03:00</lastmod>
+    <lastmod>2019-09-22T11:41:24-03:00</lastmod>
   </url>
   <url>
     <loc>https://www.fulljoin.com.br/dashboard_pnad.html</loc>
-    <lastmod>2020-01-06T23:47:28-02:00</lastmod>
+    <lastmod>2020-01-10T22:46:52-03:00</lastmod>
   </url>
   <url>
     <loc>https://www.fulljoin.com.br/</loc>
-    <lastmod>2019-08-26T21:28:06-03:00</lastmod>
+    <lastmod>2019-09-22T11:41:25-03:00</lastmod>
   </url>
   <url>
     <loc>https://www.fulljoin.com.br/posts/2019-12-30-dashboards-no-r-com-o-pacote-flexdashboard/</loc>
-    <lastmod>2020-01-06T22:34:31-02:00</lastmod>
+    <lastmod>2020-01-10T22:45:57-03:00</lastmod>
   </url>
   <url>
     <loc>https://www.fulljoin.com.br/posts/2019-11-14-diferentes-sintaxes-de-pacotes/</loc>
-    <lastmod>2019-12-27T10:17:11-02:00</lastmod>
+    <lastmod>2019-12-28T17:52:17-03:00</lastmod>
   </url>
   <url>
     <loc>https://www.fulljoin.com.br/posts/2019-11-06-manipulao-de-texto-com-stringr-parte-iii/</loc>
-    <lastmod>2019-11-09T17:46:27-02:00</lastmod>
+    <lastmod>2019-12-28T17:52:17-03:00</lastmod>
   </url>
   <url>
     <loc>https://www.fulljoin.com.br/posts/2019-10-28-paralelizacao-de-search-grid-usando-random-forest/</loc>
-    <lastmod>2019-11-09T17:46:27-02:00</lastmod>
+    <lastmod>2019-11-01T01:01:08-03:00</lastmod>
   </url>
   <url>
     <loc>https://www.fulljoin.com.br/posts/2019-10-22-manipulao-de-texto-com-stringr-parte-ii/</loc>
-    <lastmod>2019-11-09T17:46:27-02:00</lastmod>
+    <lastmod>2019-11-01T01:01:08-03:00</lastmod>
   </url>
   <url>
     <loc>https://www.fulljoin.com.br/posts/2019-09-19-modelagem-de-tpicos-com-o-r-analisando-os-textos-de-acordos-comerciais/</loc>
-    <lastmod>2019-11-09T17:46:27-02:00</lastmod>
+    <lastmod>2019-10-17T20:59:28-03:00</lastmod>
   </url>
   <url>
     <loc>https://www.fulljoin.com.br/posts/2019-10-13-manipulao-de-texto-com-stringr/</loc>
-    <lastmod>2019-11-09T17:46:27-02:00</lastmod>
+    <lastmod>2019-10-17T20:51:10-03:00</lastmod>
   </url>
   <url>
     <loc>https://www.fulljoin.com.br/posts/2019-10-01-b3-rvest-cei-parte-3/</loc>
-    <lastmod>2019-10-06T23:17:15-03:00</lastmod>
+    <lastmod>2019-10-14T20:16:52-03:00</lastmod>
   </url>
   <url>
     <loc>https://www.fulljoin.com.br/posts/2019-09-19-loop-vs-alternativas/</loc>
-    <lastmod>2019-10-01T21:05:42-03:00</lastmod>
+    <lastmod>2019-09-22T11:41:30-03:00</lastmod>
   </url>
   <url>
     <loc>https://www.fulljoin.com.br/posts/2019-09-04-integrando-o-r-com-excel/</loc>
-    <lastmod>2019-09-19T20:46:02-03:00</lastmod>
+    <lastmod>2019-09-22T11:41:24-03:00</lastmod>
   </url>
   <url>
     <loc>https://www.fulljoin.com.br/posts/2019-09-03-b3-rvest-cei/</loc>
-    <lastmod>2019-09-10T20:45:19-03:00</lastmod>
+    <lastmod>2019-09-22T11:41:24-03:00</lastmod>
   </url>
   <url>
     <loc>https://www.fulljoin.com.br/posts/2019-08-27-hello-world-tensorflow-v2/</loc>
-    <lastmod>2019-10-01T21:05:42-03:00</lastmod>
+    <lastmod>2019-09-22T13:50:15-03:00</lastmod>
   </url>
   <url>
     <loc>https://www.fulljoin.com.br/posts/2019-07-18-b3-rvest-explorando-dados-financeiros-com-r/</loc>
-    <lastmod>2019-08-27T21:02:04-03:00</lastmod>
+    <lastmod>2019-09-22T11:41:24-03:00</lastmod>
   </url>
   <url>
     <loc>https://www.fulljoin.com.br/posts/2019-07-30-analisando-dados-da-guerra-comercial-parte-2/</loc>
-    <lastmod>2019-08-26T21:28:03-03:00</lastmod>
+    <lastmod>2019-09-22T11:41:24-03:00</lastmod>
   </url>
   <url>
     <loc>https://www.fulljoin.com.br/posts/2019-07-31-traduo-de-dados-textuais-com-googlelanguager/</loc>
-    <lastmod>2019-08-26T21:28:03-03:00</lastmod>
+    <lastmod>2019-09-22T11:41:24-03:00</lastmod>
   </url>
   <url>
     <loc>https://www.fulljoin.com.br/posts/2019-07-24-analisando-dados-da-guerra-comercial-com-o-comtradr/</loc>
-    <lastmod>2019-08-26T21:28:03-03:00</lastmod>
+    <lastmod>2019-09-22T11:41:24-03:00</lastmod>
   </url>
   <url>
     <loc>https://www.fulljoin.com.br/posts/2019-07-23-rstudio-dicas/</loc>
-    <lastmod>2019-08-26T21:28:03-03:00</lastmod>
+    <lastmod>2019-09-22T11:41:24-03:00</lastmod>
   </url>
   <url>
     <loc>https://www.fulljoin.com.br/posts/2019-07-16-web-scraping-com-r/</loc>
-    <lastmod>2019-08-26T21:28:03-03:00</lastmod>
+    <lastmod>2019-09-22T11:41:24-03:00</lastmod>
   </url>
   <url>
     <loc>https://www.fulljoin.com.br/posts/2019-07-15-estamos-de-volta/</loc>
-    <lastmod>2019-08-26T21:28:03-03:00</lastmod>
+    <lastmod>2019-09-22T11:41:24-03:00</lastmod>
   </url>
   <url>
     <loc>https://www.fulljoin.com.br/posts/2018-12-21-training-a-dog-breeds-image-classifier-using-keras-in-pre-trained-models/</loc>
-    <lastmod>2019-08-26T21:28:03-03:00</lastmod>
+    <lastmod>2019-09-22T11:41:24-03:00</lastmod>
   </url>
   <url>
     <loc>https://www.fulljoin.com.br/posts/2018-10-24-classificando-comentrios-txicos/</loc>
-    <lastmod>2019-08-26T21:28:01-03:00</lastmod>
+    <lastmod>2019-09-22T11:41:23-03:00</lastmod>
   </url>
   <url>
     <loc>https://www.fulljoin.com.br/posts/2017-03-12-introducao-d3plusr/</loc>
-    <lastmod>2019-08-26T21:28:01-03:00</lastmod>
+    <lastmod>2019-09-22T11:41:23-03:00</lastmod>
   </url>
   <url>
     <loc>https://www.fulljoin.com.br/posts/2017-01-28-bases-de-dados-kaggle/</loc>
-    <lastmod>2019-08-26T21:28:01-03:00</lastmod>
+    <lastmod>2019-09-22T11:41:23-03:00</lastmod>
   </url>
   <url>
     <loc>https://www.fulljoin.com.br/posts/2016-08-26-visualizacao-de-dados-parte-1/</loc>
-    <lastmod>2019-08-26T21:28:01-03:00</lastmod>
+    <lastmod>2019-09-22T11:41:23-03:00</lastmod>
   </url>
   <url>
     <loc>https://www.fulljoin.com.br/posts/2016-08-01-manipulacao-de-dados-parte-1/</loc>
-    <lastmod>2019-08-26T21:28:01-03:00</lastmod>
+    <lastmod>2019-09-22T11:41:23-03:00</lastmod>
   </url>
   <url>
     <loc>https://www.fulljoin.com.br/posts/2016-07-30-comex-vis/</loc>
-    <lastmod>2019-08-26T21:28:01-03:00</lastmod>
+    <lastmod>2019-09-22T11:41:23-03:00</lastmod>
   </url>
   <url>
     <loc>https://www.fulljoin.com.br/posts/2016-06-06-intro-modelos-r/</loc>
-    <lastmod>2019-08-26T21:28:01-03:00</lastmod>
+    <lastmod>2019-09-22T11:41:23-03:00</lastmod>
   </url>
   <url>
     <loc>https://www.fulljoin.com.br/posts/2016-05-12-tudo-sobre-joins/</loc>
-    <lastmod>2019-08-26T21:28:01-03:00</lastmod>
+    <lastmod>2019-09-22T11:41:23-03:00</lastmod>
   </url>
   <url>
     <loc>https://www.fulljoin.com.br/posts/2016-05-09-kit-de-sobrevivencia-em-r-parte-7/</loc>
-    <lastmod>2019-08-26T21:28:01-03:00</lastmod>
+    <lastmod>2019-09-22T11:41:23-03:00</lastmod>
   </url>
   <url>
     <loc>https://www.fulljoin.com.br/posts/2016-05-01-kit-de-sobrevivencia-em-r-parte-6/</loc>
-    <lastmod>2019-08-26T21:28:01-03:00</lastmod>
+    <lastmod>2019-09-22T11:41:23-03:00</lastmod>
   </url>
   <url>
     <loc>https://www.fulljoin.com.br/posts/2016-04-21-kit-de-sobrevivencia-em-r-parte-5/</loc>
-    <lastmod>2019-08-26T21:28:01-03:00</lastmod>
+    <lastmod>2019-09-22T11:41:23-03:00</lastmod>
   </url>
   <url>
     <loc>https://www.fulljoin.com.br/posts/2016-04-07-kit-de-sobrevivencia-em-r-parte-4/</loc>
-    <lastmod>2019-08-26T21:28:01-03:00</lastmod>
+    <lastmod>2019-09-22T11:41:23-03:00</lastmod>
   </url>
   <url>
     <loc>https://www.fulljoin.com.br/posts/2016-03-28-kit-de-sobrevivencia-em-r-parte-3/</loc>
-    <lastmod>2019-08-26T21:28:01-03:00</lastmod>
+    <lastmod>2019-09-22T11:41:23-03:00</lastmod>
   </url>
   <url>
     <loc>https://www.fulljoin.com.br/posts/2016-03-25-kit-de-sobrevivencia-em-r-parte-2/</loc>
-    <lastmod>2019-08-26T21:28:01-03:00</lastmod>
+    <lastmod>2019-09-22T11:41:23-03:00</lastmod>
   </url>
   <url>
     <loc>https://www.fulljoin.com.br/posts/2016-03-20-kit-de-sobrevivencia-em-r-parte-1/</loc>
-    <lastmod>2019-08-26T21:28:01-03:00</lastmod>
+    <lastmod>2019-09-22T11:41:23-03:00</lastmod>
   </url>
   <url>
     <loc>https://www.fulljoin.com.br/posts/2016-03-20-aplicando-ciencia-de-dados-parte-2-equipe/</loc>
-    <lastmod>2019-08-26T21:28:01-03:00</lastmod>
+    <lastmod>2019-09-22T11:41:23-03:00</lastmod>
   </url>
   <url>
     <loc>https://www.fulljoin.com.br/posts/2016-03-14-como-aplicar-ciencia-de-dados/</loc>
-    <lastmod>2019-08-26T21:28:01-03:00</lastmod>
+    <lastmod>2019-09-22T11:41:23-03:00</lastmod>
   </url>
   <url>
     <loc>https://www.fulljoin.com.br/posts/2016-03-09-hello-world/</loc>
-    <lastmod>2019-08-26T21:28:01-03:00</lastmod>
+    <lastmod>2019-09-22T11:41:23-03:00</lastmod>
   </url>
 </urlset>
