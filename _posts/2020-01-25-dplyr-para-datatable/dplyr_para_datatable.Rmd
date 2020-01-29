@@ -7,7 +7,7 @@ date: "`r Sys.Date()`"
 output: 
   distill::distill_article:
     self_contained: FALSE
-draft: TRUE
+draft: FALSE
 preview: ../../images/r-datatable.png
 ---
 
@@ -26,7 +26,7 @@ Vamos então ao que interessa...
 
 ## Os dados
 
-Vamos usar os dados de exportações brasileiras no ano de 2019. Para baixar, basta acessar este [link](http://www.mdic.gov.br/index.php/comercio-exterior/estatisticas-de-comercio-exterior/base-de-dados-do-comercio-exterior-brasileiro-arquivos-para-download) e baixar os dados de exportações de 2019. Outra alternativa é fazer isso via R da seguinte forma:
+Vamos usar os dados de exportações brasileiras no ano de 2019. Para baixar, basta acessar este [link](http://www.mdic.gov.br/index.php/comercio-exterior/estatisticas-de-comercio-exterior/base-de-dados-do-comercio-exterior-brasileiro-arquivos-para-download) e baixar os dados de exportações de 2019. Uma alternativa é fazer isso via R da seguinte forma:
 
 
 ```{r, eval = FALSE}
@@ -75,7 +75,7 @@ glimpse(dados)
 
 $$data\_table[i, j, \text{by}]$$
 
-Como apresentado acima, para usarmos o `data.table` precisamos primeiro identificar os dados em formato "data.table" que vamos manipular e em seguida abrir colchetes. Dentro dos colchetes, existem 3 partes. A primeira, antes da primeira vígula (na estrutura acima representada pela letra *i*), apresenta operações realizadas nas linhas. A segunda parte, representada pela letra *j*, são operações nas colunas. Por fim, a última parte identifica eventuais agrupamentos nos dados para realizar operações em *i* ou *j*. Como vamos ver mais a frente, nem sempre todas as partes precisar estar explícitas em nossos códigos. Se vamos fazer apenas operações nas linhas, por exemplo, as partes *j* e *by* não precisar ser incluídas. 
+Como apresentado acima, para usarmos o `data.table` precisamos primeiro identificar os dados em formato "data.table" que vamos manipular e em seguida abrir colchetes. Dentro dos colchetes, existem 3 partes. A primeira, antes da primeira vírgula (na estrutura acima representada pela letra *i*), apresenta operações realizadas nas linhas. A segunda parte, representada pela letra *j*, são operações nas colunas. Por fim, a última parte identifica eventuais agrupamentos nos dados para realizar operações em *i* ou *j*. Como vamos ver mais a frente, nem sempre todas as partes precisar estar explícitas em nossos códigos. Se vamos fazer apenas operações nas linhas, por exemplo, as partes *j* e *by* não precisar ser incluídas. 
 
 No `data.table`, muitas vezes a mesma operação poder ser feita usando notações diferentes. Como será mostrado a diante, as seleção de colunas, por exemplo, pode ser feita usando o símbolo **.()** ou diretamente com um vetor de nomes de colunas. Do mesmo modo, a criação de nova coluna pode ser realizada assim **':=' (col = valores)** ou diretamente assim **col := valores**. Neste post, irei apresentar apenas uma das formas para não tornar a leitura muito longa. De todo mundo, inserindo os termos "data.table" e "cheat sheet" no google você encontrará diversos resumos de como utilizar esse pacote.
 
@@ -83,7 +83,7 @@ Vamos à tradução do `dplyr` para o `data.table`.
 
 ## *Filter()*
 
-Vamos usar nossos dados para aprender filtrar informações usando o `data.table`. Imagine, então, que queiramos observar apenas as operações realizadas em agosto de 2019. No `dplyr`, fazemos os seguinte:
+Vamos usar nossos dados para aprender filtrar informações usando o `data.table`. Imagine, então, que queiramos observar apenas as operações realizadas em agosto de 2019. No `dplyr`, fazemos o seguinte:
 
 ```{r}
 
@@ -149,7 +149,7 @@ head(dados_dplyr)
 
 ```
 
-No `data.table` faremos uso de uma outra notação especial: **`':='`**. Esse símbolo é usado justamente para fazer operações de criação e alterações de colunas. Como no casa anterior, a parte *i* é deixada em branco e a última parte não é incluída. Estamos, portanto, utilizando a parte *j* para a operação.
+No `data.table` faremos uso de uma outra notação especial: **`':='`**. Esse símbolo é usado justamente para fazer operações de criação e alterações de colunas. Como no caso anterior, a parte *i* é deixada em branco e a última parte não é incluída. Estamos, portanto, utilizando a parte *j* para a operação.
 
 ```{r}
 
@@ -180,7 +180,7 @@ head(dados_dplyr)
 
 ```
 
-No `data.table`, usando o que aprendemos anteriormente, poderíamos fazer a substituição dos *NAs* usando a mesma condição acima na operação análoga ao mutate. No entanto, gostaria de mostrar uma outra forma de fazer tal operação que utiliza operações em linhas e em colunas ao mesmo tempo. Veja abaixo.
+No `data.table`, usando o que aprendemos anteriormente, poderíamos fazer a substituição dos *NAs* usando a mesma condição acima na operação análoga ao `mutate()`. No entanto, gostaria de mostrar uma outra forma de fazer tal operação que utiliza operações em linhas e em colunas ao mesmo tempo. Veja abaixo.
 
 ```{r}
 
@@ -190,7 +190,7 @@ head(dados_dt)
 
 ```
 
-Neste caso, estamos dizendo ao `data.table` para "filtrar" as linhas nas quais a coluna *LABEL* é *NA* e inserir o caracter "2" em seu lugar. Escrevi "filtrar" entre aspas porque aqui há apenas um filtro temporário. Ao final da operação, nossos dados continuam com o mesmo número de linhas, diferentemente do filtro que apresentamos anteriormente.
+Neste caso, estamos dizendo ao `data.table` para "filtrar" as linhas nas quais a coluna *LABEL* é *NA* e inserir o caractere "2" em seu lugar. Escrevi "filtrar" entre aspas porque aqui há apenas um filtro temporário. Ao final da operação, nossos dados continuam com o mesmo número de linhas, diferentemente do filtro que apresentamos anteriormente.
 
 ## Exluir colunas
 
@@ -205,7 +205,7 @@ head(dados_dplyr)
 
 ```
 
-No `data.table` temos que utilizar a notação análoga ao `mutate()` e atribuir *NULL* aos elementos das colunas que queremos exculir.
+No `data.table` temos que utilizar a notação análoga ao `mutate()` e atribuir *NULL* aos elementos das colunas que queremos excluir.
 
 ```{r}
 
@@ -217,7 +217,7 @@ head(dados_dt)
 
 ## *group_by()* + *mutate()*
 
-Imagine que queiramos criar uma coluna que conte quantas vezes cada país aparece nos nossos dados, mas sem perder nenhuma informação ao final da operação, ou seja, mantendo o mesmo número de linhas de antes da contagem. Neste caso, podemos usar no `dplyr` um *group_by()* em conjunto com o *mutate()*, como a seguir.
+Imagine que queiramos criar uma coluna que conte quantas vezes cada país aparece nos nossos dados, mas sem perder nenhuma informação ao final da operação, ou seja, mantendo o número de linhas de antes da contagem. Neste caso, podemos usar no `dplyr` um *group_by()* em conjunto com o *mutate()*, como a seguir.
 
 ```{r}
 
@@ -267,7 +267,7 @@ head(dados_dt)
 
 ```
 
-Repare que a ordem dos nossos dados não é a mesma da apresentada pelo `dplyr`. Vamos reordená-los para verificar que nossa tabelas continuam iguais.
+Repare que a ordem dos nossos dados não é a mesma da apresentada pelo `dplyr`. Vamos reordená-los para verificar que nossas tabelas continuam iguais.
 
 ```{r}
 
@@ -279,4 +279,63 @@ head(dados_dt)
 
 Tudo igual, não é mesmo?
 
-## inner_join()
+## left_join()
+
+Para finalizar, vamos realizar uma operação de *join*. Como sabemos, existem alguns tipos diferentes de *joins*. Vamos aqui como exemplo realizar um *left join*, ou seja, juntaremos dois conjuntos de dados por meio de chaves mantendo todas as linhas dos dados da esquerda. Primeiramente vamos criar um *data frame* com as siglas de alguns estados e seus respectivos nomes.
+
+```{r}
+
+estados <- data.frame(
+  SG_UF_NCM = c("DF", "ES", "GO", "MG"),
+  NO_UF_NCM = c("Distrito Federal", "Espirito Santo", "Goias", "Minas Gerais")
+)
+
+```
+
+No `dplyr` realizamos tal operação usando a função `left_join()`. Observe que no *data frame* estados criado acima existem apenas 4 estados. Portanto, ao realizarmos o *left join*, as linhas de todos os estados que não estão no *data frame* criado receberão *NA* na coluna *NO_UF_NCM*.
+
+```{r}
+
+dados_dplyr <- dados_dplyr %>% 
+  left_join(
+    x = ., 
+    y = estados, 
+    by = "SG_UF_NCM"
+  )
+
+head(dados_dplyr)
+
+```
+
+Como dito anteriormente, no `data.table` a mesma operações podem ser realizadas de diferentes formas. Aqui, o *left join* será feito usando a função `merge.data.table()`. Antes de fazer isso, precisamos lembrar de transformar o *data frame* como os nomes dos estados na classe *data table*. Para fazer isso, basta:
+
+```{r}
+
+estados <- as.data.table(estados)
+
+```
+
+Agora podemos realizar o *left join*.
+
+```{r}
+
+dados_dt <- merge.data.table(
+  x = dados_dt,
+  y = estados,
+  by = "SG_UF_NCM",
+  all.x = TRUE
+)
+
+dados_dt <- dados_dt[order(CO_PAIS, SG_UF_NCM)]
+
+head(dados_dt)
+
+```
+
+Um detalhe importante da função `merge.data.table()` é saber com usar os argumentos *all*, *all.x* e *all.y*. Definindo *all = TRUE* estamos realizando um *full join*, ou seja, todas as linhas de ambos os dados serão trazidas para o dado final. Se *all.x = TRUE*, realizamos o *left joint*. Analogamente, *all.y = TRUE* refere-se ao *right join*. Finalmente, se definirmos *all = FALSE* estamos realizando um *inner join*, ou seja, apenas as linhas em que houve *match* nas chaves definidas permanecerão nos dados finais.
+
+## Conclusões
+
+Vimos que as operações básicas do `dplyr` podem ser realizadas de maneira fácil com o `data.table` e na maioria das vezes utilizando menos linhas de código. Além disso, o `data.table` possui a vantagem de ser mais rápido e eficiente em relação ao uso de memória (não foi o objetivo deste post mostrar isso, mas você poderá encontrar facilmente comparações na internet). No entanto, pessoalmente eu prefiro na maior parte das vezes usar o `dplyr` por ser bastante prático e intuitivo. Costumo usar o `data.table` quando tenho que fazer operações pesadas como *joins* usando dados com milhões de linhas. De qualquer modo, vale a pena conhecer e aprender o `data.table`. 
+
+
