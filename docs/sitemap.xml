@@ -2,23 +2,23 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" version="1.0">
   <url>
     <loc>https://www.fulljoin.com.br/about.html</loc>
-    <lastmod>2020-01-14T01:08:35-02:00</lastmod>
+    <lastmod>2019-12-28T17:57:23-03:00</lastmod>
   </url>
   <url>
     <loc>https://www.fulljoin.com.br/consultoria.html</loc>
-    <lastmod>2019-12-25T22:05:13-02:00</lastmod>
+    <lastmod>2019-09-22T11:41:24-03:00</lastmod>
   </url>
   <url>
     <loc>https://www.fulljoin.com.br/dashboard_pnad.html</loc>
-    <lastmod>2020-01-14T01:08:35-02:00</lastmod>
+    <lastmod>2020-01-10T22:46:52-03:00</lastmod>
   </url>
   <url>
     <loc>https://www.fulljoin.com.br/</loc>
-    <lastmod>2019-12-25T22:05:15-02:00</lastmod>
+    <lastmod>2019-09-22T11:41:25-03:00</lastmod>
   </url>
   <url>
     <loc>https://www.fulljoin.com.br/posts/2020-01-25-dplyr-para-datatable/</loc>
-    <lastmod>2020-01-29T00:46:58-02:00</lastmod>
+    <lastmod>2020-01-29T00:08:40-03:00</lastmod>
   </url>
   <url>
     <loc>https://www.fulljoin.com.br/posts/2019-12-30-dashboards-no-r-com-o-pacote-flexdashboard/</loc>
