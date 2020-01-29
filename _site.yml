@@ -1,4 +1,4 @@
-name: "Fulljoin_distill"
+﻿name: "Fulljoin_distill"
 title: "Fulljoin"
 description: |
   Fulljoin
@@ -9,7 +9,7 @@ navbar:
   right:
     - text: "Labs!"
       menu:
-        - text: "Dashboard PNAD contínua"
+        - text: "Dashboard PNAD continua"
           href: dashboard_pnad.html
     - text: "Posts"
       href: index.html
