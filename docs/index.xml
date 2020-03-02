@@ -7,7 +7,16 @@
     <description>Fulljoin
 </description>
     <generator>Distill</generator>
-    <lastBuildDate>qua, 29 jan 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>dom, 01 mar 2020 00:00:00 +0000</lastBuildDate>
+    <item>
+      <title>NBSVM com o Keras no R: Classificando Análises de Filmes (IMBd)</title>
+      <dc:creator>Paulo Felipe Alencar</dc:creator>
+      <link>https://www.fulljoin.com.br/posts/2020-03-01-nbsvm-com-o-keras-no-r-classificando-anlises-de-filmes-imbd</link>
+      <description>Neste post será mostrado como um classificador de sentimentos pode ser treinado utilizando o Keras no R. A nossa aplicação é baseada no modelo que ficou conhecido por NBSVM. Apesar de simples e de rápido treinamento, o nosso modelo atingiu uma acurácio de mais de 92% na base de teste. O estado da arte para esse problema é de 97,4%.</description>
+      <guid>https://www.fulljoin.com.br/posts/2020-03-01-nbsvm-com-o-keras-no-r-classificando-anlises-de-filmes-imbd</guid>
+      <pubDate>dom, 01 mar 2020 00:00:00 +0000</pubDate>
+      <media:content url="https://www.fulljoin.com.br/posts/2020-03-01-nbsvm-com-o-keras-no-r-classificando-anlises-de-filmes-imbd/../../images/keras.png" medium="image" type="image/png" width="200" height="200"/>
+    </item>
     <item>
       <title>Problemas com memória ou tempo de execução no dplyr? Use o data.table</title>
       <dc:creator>Diego Castro</dc:creator>
@@ -69,6 +78,7 @@
       <description>Neste post, vamos fazer uma análise de tópicos utilizando os pacotes tidytext e topicmodels. Essa análise consiste em extrair um conjunto de temas (tópicos) de um conjunto de textos. Para isso, utilizamos uma base de textos de acordos comerciais. Veremos que o método utilizado é capaz de identificar uma séria de tópicos relevantes.</description>
       <guid>https://www.fulljoin.com.br/posts/2019-09-19-modelagem-de-tpicos-com-o-r-analisando-os-textos-de-acordos-comerciais</guid>
       <pubDate>qui, 17 out 2019 00:00:00 +0000</pubDate>
+      <media:content url="https://www.fulljoin.com.br/posts/2019-09-19-modelagem-de-tpicos-com-o-r-analisando-os-textos-de-acordos-comerciais/modelagem-de-tpicos-com-o-r-analisando-os-textos-de-acordos-comerciais_files/figure-html5/unnamed-chunk-20-1.png" medium="image" type="image/png" width="1248" height="960"/>
     </item>
     <item>
       <title>Manipulação de texto com stringr</title>
@@ -87,15 +97,6 @@
       <guid>https://www.fulljoin.com.br/posts/2019-10-01-b3-rvest-cei-parte-3</guid>
       <pubDate>ter, 01 out 2019 00:00:00 +0000</pubDate>
       <media:content url="https://www.fulljoin.com.br/posts/2019-10-01-b3-rvest-cei-parte-3/../../images/cei_retorno_carteira.png" medium="image" type="image/png" width="506" height="290"/>
-    </item>
-    <item>
-      <title>Por que evitar for loops em R?</title>
-      <dc:creator>Diego Afonso de Castro</dc:creator>
-      <link>https://www.fulljoin.com.br/posts/2019-09-19-loop-vs-alternativas</link>
-      <description>A partir de um simples exemplo, vamos testar o desempenho de for loops comparando-o com a performance de outras alternativas como apply, funções do purrr e estratégias paralelizadas.</description>
-      <guid>https://www.fulljoin.com.br/posts/2019-09-19-loop-vs-alternativas</guid>
-      <pubDate>s�b, 21 set 2019 00:00:00 +0000</pubDate>
-      <media:content url="https://www.fulljoin.com.br/posts/2019-09-19-loop-vs-alternativas/../../images/capa_loop.png" medium="image" type="image/png" width="875" height="420"/>
     </item>
   </channel>
 </rss>
