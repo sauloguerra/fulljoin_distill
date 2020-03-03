@@ -1,0 +1,141 @@
+---
+title: "Manipulação de texto com stringr - parte IV"
+description: |
+  Na quarta parte da série de posts sobre manipulação de texto com stringr veremos como usar funções um pouco mais técnicas. Também discutimos o caso da função case_when do dplyr que pode ser bastante útil ao se trabalhar com texto.
+author:
+  - name: Miguel Cleaver
+date: 03-02-2020
+output:
+  distill::distill_article:
+    self_contained: false
+categories:
+  - Manipulação de texto
+  - stringr
+preview: ../../images/logo_stringr.png
+draft: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+<!-- More -->
+
+Este é o quarto post da série de manipulação de texto com stringr. Já vimos as principais funções de manipulação de texto, então neste post aproveitaremos para abordar algumas funções do pacote um pouco mais técnicas com a função `word` e a função `str_count` que associada a função `boundary` pode te ajudar a contar palavras em um texto (string). Ainda falaremos da função `fixed` e por fim vamos falar da função case_when do dplyr que pode vir a ser bastante útil na manipulação de texto. 
+
+## pacotes que iremos utilizar
+
+```{r}
+library(microbenchmark)
+library(dplyr)
+library(stringr)
+```
+
+## carregamento de dados
+
+Neste caso vamos trabalhar com o objeto `sentences`, disponível no pacote stringr. A partir do objeto `sentences` aproveitamos para criar uma tabela simples de duas colunas com a função `tibble`. 
+
+```{r}
+data(sentences)
+df <- tibble(id = 1:length(sentences), sentences = sentences)
+head(df)
+```
+
+Você já aprendeu como fazer que uma coluna tenha um tamanho fixo de caracteres (você pode fazer isso com `str_pad` ou `str_sub`, por exemplo, a depender da situação), mas e se você quisesse que sua coluna tivesse sempre as três primeiras palavras? O número de caracteres seria variável e essas funções que vimos não mais te ajudariam.
+
+### Problem n. 1: como obter as primeiras tres palavras de uma coluna de texto?
+
+A solução é simples e podemos usar a função `word` do stringr:
+
+```{r}
+df %>% 
+  mutate(tres_palavras = word(sentences, 1 , 3))
+```
+
+Se quiséssemos as últimas 3 palavras poderíamos usar a função word da seguinte forma:
+
+```{r}
+df %>% 
+  mutate(ultimas_tres = word(sentences, -3, -1)) %>% 
+  select(id, ultimas_tres)
+```
+
+### Problema n. 2: Como contar o número de palavras de um texto?
+
+Para isso você vai precisar utilizar duas funções: `str_count` e `boundary`.
+
+```{r}
+df %>% 
+  mutate(n_palavras = str_count(sentences, boundary(type = "word")))
+```
+
+A função `str_count` detecta um padrão específico e conta quantas vezes esse padrão aparece em um fio de texto. Já a função `boundary(type = "word")` imputa um padrão de fronteira para palavras, o que permite que a função `str_count` conte palavras de um texto.
+
+### Existe alguma forma para fazer operações de manipulação de texto baseadas em regex de uma maneira mais rápida?
+
+Sim, por exemplo, a função `fixed` nos ajuda a fazer operações mais rápidas de manipulação de texto. Ao comparar os bytes de um texto, é possível encontrar correspondências de forma veloz, mas isso somente pode ser usado para um conjunto literal de caracteres ASCII. Em outras palavras, nós não poderíamos fazer uma busca regex do tipo "[0-9]{1,2}" para localizar o padrão "90" ou "22", por exemplo. Ao utilizar a função fixed com esse padrão, somente haveria correspondência se literalmente houvesse o texto "[0-9]{1,2}".
+
+Para mostrar que a função `fixed` é realmente mais rápida, iremos fazer uma operação de filtro simples para obter frases com o padrão "the" e usaremos o pacote microbenchmark para medir a velocidade do filtro com e sem a função `fixed` (a unidade de tempo abaixo está em microsegundos).
+
+```{r}
+microbenchmark(sem_fixed = df %>% 
+                 filter(str_detect(sentences, "the")),
+               com_fixed = df %>% 
+                 filter(str_detect(sentences, fixed("the"))))
+
+```
+
+Com efeito, podemos observar que a utilização da função `fixed` torna o filtro simples mais rápido. Para o exemplo trabalhado, não há diferença prática, pois há poucas observações e a diferença de tempo em microsegundos é imperceptível para nós, mas à medida que o tamanho de observações cresce, a função pode ter grande utilidade ao aumentar a velocidade da localização de correspondências.
+
+### As função case_when
+
+A função `case_when` do dplyr permite que você edite o texto das observações de uma coluna sempre que uma condição for atendida. Para exemplificar o uso da função `case_when` vamos trabalhar com os dados do objeto `starwars`, disponíveis no pacote do dplyr.
+
+```{r}
+data(starwars)
+
+sw <- starwars %>% 
+  select(name, eye_color)
+
+sw
+```
+
+Vamos supor que nós desejamos traduzir as observações da coluna eye_color para o português da seguinte forma: "blue" para "azul", "yellow" para "amarelo", "brown" para "marrom" e as demais cores que aparecem em inglês para um grupo geral chamado "outras cores". Com algumas linhas de código é possível alterar o nome da coluna eye_color de forma imediata:
+
+```{r}
+sw %>% 
+  mutate(eye_traducao = case_when(
+    eye_color == "blue" ~ "azul",
+    eye_color == "yellow" ~ "amarelo",
+    eye_color == "brown" ~ "marrom",
+    TRUE ~ "outras cores"
+  ))
+```
+
+Trata-se de uma forma elegante de editar ou modificar colunas de texto. Note que a função `case_when` acima testa diversas condições e quando elas são verdadeiras alteram o texto para o termo após ~. 
+
+No caso das observações cujas condições não resultem no resultado lógico `TRUE` (verdadeiro), é preciso adicionar uma linha adicional com resultado `TRUE` e, após o termo ~, selecionar o termo de substituição padrão. Se isso não for feito, as observações que não resultam em condições verdadeiras serão transformadas em NA. 
+
+No nosso caso, indicamos que as cores em inglês que não sejam nem "blue", nem "yellow" e nem "brown" deverão ser chamadas de "outras cores". Isso se dá com a introdução do termo `TRUE ~ "outras cores"`. Se quiséssemos manter os nomes originais com exceção de "blue", "yellow" e "brown", poderíamos usar `TRUE ~ eye_color`:
+
+```{r}
+sw %>% 
+  mutate(eye_traducao_parcial = case_when(
+    eye_color == "blue" ~ "azul",
+    eye_color == "yellow" ~ "amarelo",
+    eye_color == "brown" ~ "marrom",
+    TRUE ~ eye_color
+  ))
+```
+
+
+### Palavras finais sobre manipulação de texto
+
+Nestas quatro partes sobre `stringr` tentamos apresentar as principais funções do pacote. Ainda há diversas outras funções de manipulação de texto (ver pacote `stringi`) e algumas outras que não comentamos do pacote `stringr`. Apesar disso, estamos certos de que as funções que abordamos resolvem grande parte dos problemas de organização e limpeza textual. Além dessas funções, também é importante dominar o uso de expressões regulares (regex), pois grande parte do que é possível fazer com o `stringr` reside na captura e manipulação de padrões textuais.
+
+Uma dica valiosa para quem está começando a trabalhar com texto é a seguinte: antes de iniciar um trabalho extenso de manipulação de texto, planeje a forma mais adequada de fazer um tratamento inicial nos seus dados textuais. O tratamento ao qual nos referimos visa simplificar os padrões de regex que você terá que escrever e aumentar o controle sobre a previsibilidade dos diversos padrões que possam surgir.
+
+Em regra, recomendaríamos passar o texto inteiro para caixa baixa ou caixa alta, assim como eliminar espaços desnecessários. Além disso, também recomendaríamos eliminar os diversos acentos da língua portuguesa (ou de outras línguas, se for o caso), passando por exemplo, o "ã" para "a" e o "ó" para "o". Ao trabalhar com dados textuais, erros de acentuação são comuns (em especial em campos de texto livre) e podem dificultar sua vida na extração de padrões que você procura.
+
+Mas não existe um conjunto de regras que funcione como uma paneceia. Há casos, por exemplo, em que os diferentes espaçamentos contidos no texto irão funcionar como pontos de demarcação para extrair padrões. O mesmo pode ocorrer com a caixa original das letras. É preciso conhecer seu texto, investigar e fazer experimentos antes de planejar a abordagem de tratamento inicial a ser adotada.
+
+
