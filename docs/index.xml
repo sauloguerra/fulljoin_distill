@@ -12,10 +12,10 @@
       <title>NBSVM com o Keras no R: Classificando Análises de Filmes (IMBd)</title>
       <dc:creator>Paulo Felipe Alencar</dc:creator>
       <link>https://www.fulljoin.com.br/posts/2020-03-01-nbsvm-com-o-keras-no-r-classificando-anlises-de-filmes-imbd</link>
-      <description>Neste post será mostrado como um classificador de sentimentos pode ser treinado utilizando o Keras no R. A nossa aplicação é baseada no modelo que ficou conhecido por NBSVM. Apesar de simples e de rápido treinamento, o nosso modelo atingiu uma acurácio de mais de 92% na base de teste. O estado da arte para esse problema é de 97,4%.</description>
+      <description>Neste post será mostrado como um classificador de sentimentos pode ser treinado utilizando o Keras no R. A nossa aplicação é baseada no modelo que ficou conhecido por NBSVM. Apesar de simples e de rápido treinamento, o nosso modelo atingiu uma acurácia de mais de 92% na base de teste. O estado da arte para esse problema é de 97,4%.</description>
       <guid>https://www.fulljoin.com.br/posts/2020-03-01-nbsvm-com-o-keras-no-r-classificando-anlises-de-filmes-imbd</guid>
       <pubDate>dom, 01 mar 2020 00:00:00 +0000</pubDate>
-      <media:content url="https://www.fulljoin.com.br/posts/2020-03-01-nbsvm-com-o-keras-no-r-classificando-anlises-de-filmes-imbd/../../images/keras.png" medium="image" type="image/png" width="200" height="200"/>
+      <media:content url="https://www.fulljoin.com.br/posts/2020-03-01-nbsvm-com-o-keras-no-r-classificando-anlises-de-filmes-imbd/../../images/keras2.png" medium="image" type="image/png" width="569" height="264"/>
     </item>
     <item>
       <title>Problemas com memória ou tempo de execução no dplyr? Use o data.table</title>

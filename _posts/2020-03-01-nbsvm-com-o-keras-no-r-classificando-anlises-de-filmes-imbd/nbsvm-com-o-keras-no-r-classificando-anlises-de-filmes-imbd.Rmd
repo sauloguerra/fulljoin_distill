@@ -1,28 +1,24 @@
 ---
 title: "NBSVM com o Keras no R: Classificando Análises de Filmes (IMBd)"
-description: Neste post será mostrado como um classificador de sentimentos pode ser treinado utilizando o Keras no R. A nossa aplicação é baseada no modelo que ficou conhecido por NBSVM. Apesar de simples e de rápido treinamento, o nosso modelo atingiu uma acurácio de mais de 92% na base de teste. O estado da arte para esse problema é de 97,4%.
+description: Neste post será mostrado como um classificador de sentimentos pode ser treinado utilizando o Keras no R. A nossa aplicação é baseada no modelo que ficou conhecido por NBSVM. Apesar de simples e de rápido treinamento, o nosso modelo atingiu uma acurácia de mais de 92% na base de teste. O estado da arte para esse problema é de 97,4%.
 author: Paulo Felipe Alencar
 date: 03-01-2020
 output:
   distill::distill_article:
     self_contained: false
 draft: false
-preview: ../../images/keras.png
+preview: ../../images/keras2.png
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-Distill is a publication format for scientific and technical writing, native to the web.
-
-Learn more about using Distill at <https://rstudio.github.io/distill>.
-
 ## Disclaimer
 
 Este post é uma implementação em R do código já desenvolvido em Python e apresentado neste post: [A Neural Implementation of NBSVM in Keras](https://medium.com/@asmaiya/a-neural-implementation-of-nbsvm-in-keras-d4ef8c96cb7c) - Escrito por: Arun Maya.
 
-Apesar do nome NBSVM, não trabalharemos com o SVM (*support vector machines*) neste post. O nome do modelo faz referência ao paper ["Baselines and Bigrams: Simple, Good Sentiment and Topic Classification"](https://nlp.stanford.edu/pubs/sidaw12_simple_sentiment.pdf) escrito por Sida Wang e Christopher Manning. Os autores testam o modelo SVM com Naive Bayers features que são criadas utilizando o log das razões de contagem. Contudo, costuma-se também usar o modelo de regressão logística no lugar do SVM. Por exemplo: [NB-SVM strong linear baseline](https://www.kaggle.com/jhoward/nb-svm-strong-linear-baseline). 
+Apesar do nome NBSVM, não trabalharemos com o SVM (*support vector machines*) neste post. O nome do modelo faz referência ao paper ["Baselines and Bigrams: Simple, Good Sentiment and Topic Classification"](https://nlp.stanford.edu/pubs/sidaw12_simple_sentiment.pdf) escrito por Sida Wang e Christopher Manning. Os autores testam o modelo SVM com Naive Bayes features que são criadas utilizando o log das razões de contagem. Contudo, costuma-se também usar o modelo de regressão logística no lugar do SVM. Por exemplo: [NB-SVM strong linear baseline](https://www.kaggle.com/jhoward/nb-svm-strong-linear-baseline). 
 
 ## Pacotes
 
@@ -90,7 +86,7 @@ dim(test)
 
 ## Definindo o vocabulário
 
-O código abaixo cria o nosso vocabulário. Isto é, o conjunto de termos que serão considerados pelo modelo. As stopwords não foram removidas (de propósito) e consideramos unigragramas, bigramas e trigramas. O vocabulário foi limitado a 800.000 termos.
+O código abaixo cria o nosso vocabulário. Isto é, o conjunto de termos que serão considerados pelo modelo. As stopwords, que são palavras que não possuem um significado direto, não foram removidas (de propósito) e consideramos unigramas, bigramas e trigramas. O vocabulário foi limitado a 800.000 termos.
 
 ```{r}
 vocabulario <- itoken(
