@@ -19,7 +19,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 <!-- More -->
   
-Este é o quarto post da série de manipulação de texto com stringr. Já vimos as principais funções de manipulação de texto, então neste post aproveitaremos para abordar algumas funções do pacote um pouco mais técnicas como a função `word` e a função `str_count`, que associada a função `boundary` pode nos ajudar a contar o número de palavras em um texto. Ainda falaremos da função `fixed` e, por fim, falaremos da função `case_when` do dplyr que pode vir a ser bastante útil na tarefa de manipular texto. 
+Este é o quarto post da série de manipulação de texto com stringr. Já vimos as principais funções de manipulação de texto, então neste post aproveitaremos para abordar algumas funções do pacote um pouco mais técnicas como a função `word` e a função `str_count`, que associada à função `boundary` pode nos ajudar a contar o número de palavras em um texto. Ainda falaremos da função `fixed` e, por fim, falaremos da função `case_when` do dplyr que pode vir a ser bastante útil na tarefa de manipular texto. 
 
 Este post segue a mesma estrutura dos posts anteriores sobre manipulação de texto, isto é, está organizado na forma de perguntas e respostas.
 
