@@ -7,14 +7,23 @@
     <description>Fulljoin
 </description>
     <generator>Distill</generator>
-    <lastBuildDate>Tue, 17 Mar 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>seg, 27 abr 2020 00:00:00 +0000</lastBuildDate>
+    <item>
+      <title>Usando o Pytorch no R: Treinando o Seefood</title>
+      <dc:creator>Paulo Felipe Alencar</dc:creator>
+      <link>https://www.fulljoin.com.br/posts/2020-04-27-usando-o-pytorch-no-r-treinando-o-seefood</link>
+      <description>Neste post iremos testar o uso do Pytorch no R com o auxílio do pacote reticulate, que permite a utilização de bibliotecas do Python diretamente no R. Isso ajuda a evitar (em parte) aquela disputa entre o R e o Python, uma vez que você pode usar o melhor de cada. Como exemplo, iremos treinar uma classificador de imagens que é a base do aplicativo Seefood que fez fama no seriado Silicon Valley da HBO.</description>
+      <guid>https://www.fulljoin.com.br/posts/2020-04-27-usando-o-pytorch-no-r-treinando-o-seefood</guid>
+      <pubDate>seg, 27 abr 2020 00:00:00 +0000</pubDate>
+      <media:content url="https://www.fulljoin.com.br/posts/2020-04-27-usando-o-pytorch-no-r-treinando-o-seefood/usando-o-pytorch-no-r-treinando-o-seefood_files/figure-html5/unnamed-chunk-5-1.png" medium="image" type="image/png" width="1248" height="1344"/>
+    </item>
     <item>
       <title>Manipulação de texto com stringr - parte IV</title>
       <dc:creator>Miguel Cleaver</dc:creator>
       <link>https://www.fulljoin.com.br/posts/2020-03-02-manipulao-de-texto-com-stringr-parte-iv</link>
       <description>Na quarta parte da série de posts sobre manipulação de texto com stringr veremos como usar funções um pouco mais técnicas. Também discutimos o caso da função case_when do dplyr que pode ser bastante útil ao se trabalhar com texto.</description>
       <guid>https://www.fulljoin.com.br/posts/2020-03-02-manipulao-de-texto-com-stringr-parte-iv</guid>
-      <pubDate>Tue, 17 Mar 2020 00:00:00 +0000</pubDate>
+      <pubDate>ter, 17 mar 2020 00:00:00 +0000</pubDate>
       <media:content url="https://www.fulljoin.com.br/posts/2020-03-02-manipulao-de-texto-com-stringr-parte-iv/../../images/logo_stringr.png" medium="image" type="image/png" width="439" height="419"/>
     </item>
     <item>
@@ -23,7 +32,7 @@
       <link>https://www.fulljoin.com.br/posts/2020-03-01-nbsvm-com-o-keras-no-r-classificando-anlises-de-filmes-imbd</link>
       <description>Neste post será mostrado como um classificador de sentimentos pode ser treinado utilizando o Keras no R. A nossa aplicação é baseada no modelo que ficou conhecido por NBSVM. Apesar de simples e de rápido treinamento, o nosso modelo atingiu uma acurácia de mais de 92% na base de teste. O estado da arte para esse problema é de 97,4%.</description>
       <guid>https://www.fulljoin.com.br/posts/2020-03-01-nbsvm-com-o-keras-no-r-classificando-anlises-de-filmes-imbd</guid>
-      <pubDate>Sun, 01 Mar 2020 00:00:00 +0000</pubDate>
+      <pubDate>dom, 01 mar 2020 00:00:00 +0000</pubDate>
       <media:content url="https://www.fulljoin.com.br/posts/2020-03-01-nbsvm-com-o-keras-no-r-classificando-anlises-de-filmes-imbd/../../images/keras2.png" medium="image" type="image/png" width="569" height="264"/>
     </item>
     <item>
@@ -32,7 +41,7 @@
       <link>https://www.fulljoin.com.br/posts/2020-01-25-dplyr-para-datatable</link>
       <description>O objetivo deste post é apresentar como utilizar o pacote data.table por meio de uma "tradução" das operações realizadas com o dplyr. Para um entendimento completo deste post, é importante que o leitor tenha uma boa noção de como o dplyr funciona.</description>
       <guid>https://www.fulljoin.com.br/posts/2020-01-25-dplyr-para-datatable</guid>
-      <pubDate>Wed, 29 Jan 2020 00:00:00 +0000</pubDate>
+      <pubDate>qua, 29 jan 2020 00:00:00 +0000</pubDate>
       <media:content url="https://www.fulljoin.com.br/posts/2020-01-25-dplyr-para-datatable/../../images/r-datatable.png" medium="image" type="image/png" width="441" height="256"/>
     </item>
     <item>
@@ -41,7 +50,7 @@
       <link>https://www.fulljoin.com.br/posts/2019-12-30-dashboards-no-r-com-o-pacote-flexdashboard</link>
       <description>Dashboards podem ser uma ferramenta eficiente para a fase de comunicação de uma análise de dados. No R, pode-se utilizar o pacote `flexdashboard` para a criação de dashboards de maneira rápida. Neste post, vamos falar sobre como funciona esse pacote e criaremos um exemplo com os dados da PNAD contínua e com o pacote `D3plusR` para elaboração das visualizações.</description>
       <guid>https://www.fulljoin.com.br/posts/2019-12-30-dashboards-no-r-com-o-pacote-flexdashboard</guid>
-      <pubDate>Sun, 05 Jan 2020 00:00:00 +0000</pubDate>
+      <pubDate>dom, 05 jan 2020 00:00:00 +0000</pubDate>
       <media:content url="https://www.fulljoin.com.br/posts/2019-12-30-dashboards-no-r-com-o-pacote-flexdashboard/dashboard.png" medium="image" type="image/png" width="2140" height="1224"/>
     </item>
     <item>
@@ -50,7 +59,7 @@
       <link>https://www.fulljoin.com.br/posts/2019-11-14-diferentes-sintaxes-de-pacotes</link>
       <description>Nesse post vamos comparar diferentes pacotes com diferentes sintaxes e performances para explorar uma das principais tarefas sempre presentes na manipulação de dados: cruzamento de dados ou joins</description>
       <guid>https://www.fulljoin.com.br/posts/2019-11-14-diferentes-sintaxes-de-pacotes</guid>
-      <pubDate>Fri, 27 Dec 2019 00:00:00 +0000</pubDate>
+      <pubDate>sex, 27 dez 2019 00:00:00 +0000</pubDate>
       <media:content url="https://www.fulljoin.com.br/posts/2019-11-14-diferentes-sintaxes-de-pacotes/tudo-sobre-joins-parte-2_files/figure-html5/unnamed-chunk-10-1.png" medium="image" type="image/png" width="1248" height="768"/>
     </item>
     <item>
@@ -59,7 +68,7 @@
       <link>https://www.fulljoin.com.br/posts/2019-11-06-manipulao-de-texto-com-stringr-parte-iii</link>
       <description>Na terceira parte da série de posts sobre manipulação de texto com stringr veremos como usar funções que removem padrões encontrados no texto, que substituem padrões por outros e que eliminam espaços de formas diferentes. Também aprofundaremos com um pouco mais de regex.</description>
       <guid>https://www.fulljoin.com.br/posts/2019-11-06-manipulao-de-texto-com-stringr-parte-iii</guid>
-      <pubDate>Wed, 06 Nov 2019 00:00:00 +0000</pubDate>
+      <pubDate>qua, 06 nov 2019 00:00:00 +0000</pubDate>
       <media:content url="https://www.fulljoin.com.br/posts/2019-11-06-manipulao-de-texto-com-stringr-parte-iii/../../images/logo_stringr.png" medium="image" type="image/png" width="439" height="419"/>
     </item>
     <item>
@@ -68,7 +77,7 @@
       <link>https://www.fulljoin.com.br/posts/2019-10-28-paralelizacao-de-search-grid-usando-random-forest</link>
       <description>O objetivo principal deste post é apresentar como utilizar a paralelização no R e os ganhos de eficiência ao utilizá-la. Para mostrar este processo, um problema de classificação usando o modelo Random Forest (em português, Floresta Aleatória) é utilizado.</description>
       <guid>https://www.fulljoin.com.br/posts/2019-10-28-paralelizacao-de-search-grid-usando-random-forest</guid>
-      <pubDate>Fri, 01 Nov 2019 00:00:00 +0000</pubDate>
+      <pubDate>sex, 01 nov 2019 00:00:00 +0000</pubDate>
       <media:content url="https://www.fulljoin.com.br/posts/2019-10-28-paralelizacao-de-search-grid-usando-random-forest/../../images/paralelizacao.jpg" medium="image" type="image/jpeg"/>
     </item>
     <item>
@@ -77,7 +86,7 @@
       <link>https://www.fulljoin.com.br/posts/2019-10-22-manipulao-de-texto-com-stringr-parte-ii</link>
       <description>Este post continua a explorar funções úteis na manipulação de texto. Mais especificamente, iremos aprender a passar todas as letras de dados textuais para caixa baixa ou caixa alta. Também aprenderemos a capitalizar a primeira letra de cada palavra. Ademais, iremos ver algumas noções básicas de regex associadas ao uso da função str_detect.</description>
       <guid>https://www.fulljoin.com.br/posts/2019-10-22-manipulao-de-texto-com-stringr-parte-ii</guid>
-      <pubDate>Wed, 23 Oct 2019 00:00:00 +0000</pubDate>
+      <pubDate>qua, 23 out 2019 00:00:00 +0000</pubDate>
       <media:content url="https://www.fulljoin.com.br/posts/2019-10-22-manipulao-de-texto-com-stringr-parte-ii/../../images/logo_stringr.png" medium="image" type="image/png" width="439" height="419"/>
     </item>
     <item>
@@ -86,16 +95,8 @@
       <link>https://www.fulljoin.com.br/posts/2019-09-19-modelagem-de-tpicos-com-o-r-analisando-os-textos-de-acordos-comerciais</link>
       <description>Neste post, vamos fazer uma análise de tópicos utilizando os pacotes tidytext e topicmodels. Essa análise consiste em extrair um conjunto de temas (tópicos) de um conjunto de textos. Para isso, utilizamos uma base de textos de acordos comerciais. Veremos que o método utilizado é capaz de identificar uma séria de tópicos relevantes.</description>
       <guid>https://www.fulljoin.com.br/posts/2019-09-19-modelagem-de-tpicos-com-o-r-analisando-os-textos-de-acordos-comerciais</guid>
-      <pubDate>Thu, 17 Oct 2019 00:00:00 +0000</pubDate>
-    </item>
-    <item>
-      <title>Manipulação de texto com stringr</title>
-      <dc:creator>Miguel Cleaver</dc:creator>
-      <link>https://www.fulljoin.com.br/posts/2019-10-13-manipulao-de-texto-com-stringr</link>
-      <description>Este é o post inicial de uma série de posts que faremos sobre manipulações de texto com o pacote stringr. Iremos criar alguns problemas e mostrar quais funções do pacote devemos utilizar para solucionar esses problemas. Aprenderemos a limpar os dados e a padronizá-los. Se você tem dificuldade com manipulação de texto, esse post é para você.</description>
-      <guid>https://www.fulljoin.com.br/posts/2019-10-13-manipulao-de-texto-com-stringr</guid>
-      <pubDate>Sun, 13 Oct 2019 00:00:00 +0000</pubDate>
-      <media:content url="https://www.fulljoin.com.br/posts/2019-10-13-manipulao-de-texto-com-stringr/../../images/logo_stringr.png" medium="image" type="image/png" width="439" height="419"/>
+      <pubDate>qui, 17 out 2019 00:00:00 +0000</pubDate>
+      <media:content url="https://www.fulljoin.com.br/posts/2019-09-19-modelagem-de-tpicos-com-o-r-analisando-os-textos-de-acordos-comerciais/modelagem-de-tpicos-com-o-r-analisando-os-textos-de-acordos-comerciais_files/figure-html5/unnamed-chunk-20-1.png" medium="image" type="image/png" width="1248" height="960"/>
     </item>
   </channel>
 </rss>

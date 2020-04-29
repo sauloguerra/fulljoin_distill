@@ -19,369 +19,39 @@
  <!--/radix_placeholder_import_source-->
 
   <!--radix_placeholder_meta_tags-->
-  <title>Fulljoin: Autores</title>
+  <title>Usando o Pytorch no R: Treinando o Seefood</title>
   
-  <meta property="description" itemprop="description" content="O blog será mantido por Saulo Guerra, Paulo Felipe, Miguel Cleaver e Diego Castro. A nossa ideia é que mais pessoas possam colaborar no futuro para que o blog fique bastante rico e diversificado em informações."/>
+  <meta property="description" itemprop="description" content="Neste post iremos testar o uso do Pytorch no R com o auxílio do pacote reticulate, que permite a utilização de bibliotecas do Python diretamente no R. Isso ajuda a evitar (em parte) aquela disputa entre o R e o Python, uma vez que você pode usar o melhor de cada. Como exemplo, iremos treinar uma classificador de imagens que é a base do aplicativo Seefood que fez fama no seriado Silicon Valley da HBO."/>
   
   
+  <!--  https://schema.org/Article -->
+  <meta property="article:published" itemprop="datePublished" content="2020-04-27"/>
+  <meta property="article:created" itemprop="dateCreated" content="2020-04-27"/>
+  <meta name="article:author" content="Paulo Felipe Alencar"/>
   
   <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
-  <meta property="og:title" content="Fulljoin: Autores"/>
+  <meta property="og:title" content="Usando o Pytorch no R: Treinando o Seefood"/>
   <meta property="og:type" content="article"/>
-  <meta property="og:description" content="O blog será mantido por Saulo Guerra, Paulo Felipe, Miguel Cleaver e Diego Castro. A nossa ideia é que mais pessoas possam colaborar no futuro para que o blog fique bastante rico e diversificado em informações."/>
+  <meta property="og:description" content="Neste post iremos testar o uso do Pytorch no R com o auxílio do pacote reticulate, que permite a utilização de bibliotecas do Python diretamente no R. Isso ajuda a evitar (em parte) aquela disputa entre o R e o Python, uma vez que você pode usar o melhor de cada. Como exemplo, iremos treinar uma classificador de imagens que é a base do aplicativo Seefood que fez fama no seriado Silicon Valley da HBO."/>
   <meta property="og:locale" content="en_US"/>
-  <meta property="og:site_name" content="Fulljoin"/>
   
   <!--  https://dev.twitter.com/cards/types/summary -->
   <meta property="twitter:card" content="summary"/>
-  <meta property="twitter:title" content="Fulljoin: Autores"/>
-  <meta property="twitter:description" content="O blog será mantido por Saulo Guerra, Paulo Felipe, Miguel Cleaver e Diego Castro. A nossa ideia é que mais pessoas possam colaborar no futuro para que o blog fique bastante rico e diversificado em informações."/>
+  <meta property="twitter:title" content="Usando o Pytorch no R: Treinando o Seefood"/>
+  <meta property="twitter:description" content="Neste post iremos testar o uso do Pytorch no R com o auxílio do pacote reticulate, que permite a utilização de bibliotecas do Python diretamente no R. Isso ajuda a evitar (em parte) aquela disputa entre o R e o Python, uma vez que você pode usar o melhor de cada. Como exemplo, iremos treinar uma classificador de imagens que é a base do aplicativo Seefood que fez fama no seriado Silicon Valley da HBO."/>
   
   <!--/radix_placeholder_meta_tags-->
   <!--radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-rmarkdown-metadata">
-  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description"]}},"value":[{"type":"character","attributes":{},"value":["Autores"]},{"type":"character","attributes":{},"value":["O blog será mantido por Saulo Guerra, Paulo Felipe, Miguel Cleaver e Diego Castro. A nossa ideia é que mais pessoas possam colaborar no futuro para que o blog fique bastante rico e diversificado em informações."]}]}
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","output","draft"]}},"value":[{"type":"character","attributes":{},"value":["Usando o Pytorch no R: Treinando o Seefood"]},{"type":"character","attributes":{},"value":["Neste post iremos testar o uso do Pytorch no R com o auxílio do pacote reticulate, que permite a utilização de bibliotecas do Python diretamente no R. Isso ajuda a evitar (em parte) aquela disputa entre o R e o Python, uma vez que você pode usar o melhor de cada. Como exemplo, iremos treinar uma classificador de imagens que é a base do aplicativo Seefood que fez fama no seriado Silicon Valley da HBO."]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name"]}},"value":[{"type":"character","attributes":{},"value":["Paulo Felipe Alencar"]}]}]},{"type":"character","attributes":{},"value":["04-27-2020"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]}]},{"type":"logical","attributes":{},"value":[false]}]}
   </script>
   <!--/radix_placeholder_rmarkdown_metadata-->
-  <!--radix_placeholder_navigation_in_header-->
   
-  <script type="application/javascript">
-  
-    window.headroom_prevent_pin = false;
-  
-    window.document.addEventListener("DOMContentLoaded", function (event) {
-  
-      // initialize headroom for banner
-      var header = $('header').get(0);
-      var headerHeight = header.offsetHeight;
-      var headroom = new Headroom(header, {
-        onPin : function() {
-          if (window.headroom_prevent_pin) {
-            window.headroom_prevent_pin = false;
-            headroom.unpin();
-          }
-        }
-      });
-      headroom.init();
-      if(window.location.hash)
-        headroom.unpin();
-      $(header).addClass('headroom--transition');
-  
-      // offset scroll location for banner on hash change
-      // (see: https://github.com/WickyNilliams/headroom.js/issues/38)
-      window.addEventListener("hashchange", function(event) {
-        window.scrollTo(0, window.pageYOffset - (headerHeight + 25));
-      });
-  
-      // responsive menu
-      $('.distill-site-header').each(function(i, val) {
-        var topnav = $(this);
-        var toggle = topnav.find('.nav-toggle');
-        toggle.on('click', function() {
-          topnav.toggleClass('responsive');
-        });
-      });
-  
-      // nav dropdowns
-      $('.nav-dropbtn').click(function(e) {
-        $(this).next('.nav-dropdown-content').toggleClass('nav-dropdown-active');
-        $(this).parent().siblings('.nav-dropdown')
-           .children('.nav-dropdown-content').removeClass('nav-dropdown-active');
-      });
-      $("body").click(function(e){
-        $('.nav-dropdown-content').removeClass('nav-dropdown-active');
-      });
-      $(".nav-dropdown").click(function(e){
-        e.stopPropagation();
-      });
-    });
+  <script type="text/json" id="radix-resource-manifest">
+  {"type":"character","attributes":{},"value":["usando-o-pytorch-no-r-treinando-o-seefood_files/bowser-1.9.3/bowser.min.js","usando-o-pytorch-no-r-treinando-o-seefood_files/distill-2.2.21/template.v2.js","usando-o-pytorch-no-r-treinando-o-seefood_files/figure-html5/unnamed-chunk-3-1.png","usando-o-pytorch-no-r-treinando-o-seefood_files/figure-html5/unnamed-chunk-5-1.png","usando-o-pytorch-no-r-treinando-o-seefood_files/figure-html5/unnamed-chunk-8-1.png","usando-o-pytorch-no-r-treinando-o-seefood_files/jquery-1.11.3/jquery.min.js","usando-o-pytorch-no-r-treinando-o-seefood_files/webcomponents-2.0.0/webcomponents.js"]}
   </script>
-  
-  <style type="text/css">
-  
-  /* Theme (user-documented overrideables for nav appearance) */
-  
-  .distill-site-nav {
-    color: rgba(255, 255, 255, 0.8);
-    background-color: #455a64;
-    font-size: 15px;
-    font-weight: 300;
-  }
-  
-  .distill-site-nav a {
-    color: inherit;
-    text-decoration: none;
-  }
-  
-  .distill-site-nav a:hover {
-    color: white;
-  }
-  
-  @media print {
-    .distill-site-nav {
-      display: none;
-    }
-  }
-  
-  .distill-site-header {
-  
-  }
-  
-  .distill-site-footer {
-  
-  }
-  
-  
-  /* Site Header */
-  
-  .distill-site-header {
-    width: 100%;
-    box-sizing: border-box;
-    z-index: 3;
-  }
-  
-  .distill-site-header .nav-left {
-    display: inline-block;
-    margin-left: 8px;
-  }
-  
-  @media screen and (max-width: 768px) {
-    .distill-site-header .nav-left {
-      margin-left: 0;
-    }
-  }
-  
-  
-  .distill-site-header .nav-right {
-    float: right;
-    margin-right: 8px;
-  }
-  
-  .distill-site-header a,
-  .distill-site-header .title {
-    display: inline-block;
-    text-align: center;
-    padding: 14px 10px 14px 10px;
-  }
-  
-  .distill-site-header .title {
-    font-size: 18px;
-  }
-  
-  .distill-site-header .logo {
-    padding: 0;
-  }
-  
-  .distill-site-header .logo img {
-    display: none;
-    max-height: 20px;
-    width: auto;
-    margin-bottom: -4px;
-  }
-  
-  .distill-site-header .nav-image img {
-    max-height: 18px;
-    width: auto;
-    display: inline-block;
-    margin-bottom: -3px;
-  }
-  
-  
-  
-  @media screen and (min-width: 1000px) {
-    .distill-site-header .logo img {
-      display: inline-block;
-    }
-    .distill-site-header .nav-left {
-      margin-left: 20px;
-    }
-    .distill-site-header .nav-right {
-      margin-right: 20px;
-    }
-    .distill-site-header .title {
-      padding-left: 12px;
-    }
-  }
-  
-  
-  .distill-site-header .nav-toggle {
-    display: none;
-  }
-  
-  .nav-dropdown {
-    display: inline-block;
-    position: relative;
-  }
-  
-  .nav-dropdown .nav-dropbtn {
-    border: none;
-    outline: none;
-    color: rgba(255, 255, 255, 0.8);
-    padding: 16px 10px;
-    background-color: transparent;
-    font-family: inherit;
-    font-size: inherit;
-    font-weight: inherit;
-    margin: 0;
-    margin-top: 1px;
-    z-index: 2;
-  }
-  
-  .nav-dropdown-content {
-    display: none;
-    position: absolute;
-    background-color: white;
-    min-width: 200px;
-    border: 1px solid rgba(0,0,0,0.15);
-    border-radius: 4px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.1);
-    z-index: 1;
-    margin-top: 2px;
-    white-space: nowrap;
-    padding-top: 4px;
-    padding-bottom: 4px;
-  }
-  
-  .nav-dropdown-content hr {
-    margin-top: 4px;
-    margin-bottom: 4px;
-    border: none;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-  }
-  
-  .nav-dropdown-active {
-    display: block;
-  }
-  
-  .nav-dropdown-content a, .nav-dropdown-content .nav-dropdown-header {
-    color: black;
-    padding: 6px 24px;
-    text-decoration: none;
-    display: block;
-    text-align: left;
-  }
-  
-  .nav-dropdown-content .nav-dropdown-header {
-    display: block;
-    padding: 5px 24px;
-    padding-bottom: 0;
-    text-transform: uppercase;
-    font-size: 14px;
-    color: #999999;
-    white-space: nowrap;
-  }
-  
-  .nav-dropdown:hover .nav-dropbtn {
-    color: white;
-  }
-  
-  .nav-dropdown-content a:hover {
-    background-color: #ddd;
-    color: black;
-  }
-  
-  .nav-right .nav-dropdown-content {
-    margin-left: -45%;
-    right: 0;
-  }
-  
-  @media screen and (max-width: 768px) {
-    .distill-site-header a, .distill-site-header .nav-dropdown  {display: none;}
-    .distill-site-header a.nav-toggle {
-      float: right;
-      display: block;
-    }
-    .distill-site-header .title {
-      margin-left: 0;
-    }
-    .distill-site-header .nav-right {
-      margin-right: 0;
-    }
-    .distill-site-header {
-      overflow: hidden;
-    }
-    .nav-right .nav-dropdown-content {
-      margin-left: 0;
-    }
-  }
-  
-  
-  @media screen and (max-width: 768px) {
-    .distill-site-header.responsive {position: relative;}
-    .distill-site-header.responsive a.nav-toggle {
-      position: absolute;
-      right: 0;
-      top: 0;
-    }
-    .distill-site-header.responsive a,
-    .distill-site-header.responsive .nav-dropdown {
-      display: block;
-      text-align: left;
-    }
-    .distill-site-header.responsive .nav-left,
-    .distill-site-header.responsive .nav-right {
-      width: 100%;
-    }
-    .distill-site-header.responsive .nav-dropdown {float: none;}
-    .distill-site-header.responsive .nav-dropdown-content {position: relative;}
-    .distill-site-header.responsive .nav-dropdown .nav-dropbtn {
-      display: block;
-      width: 100%;
-      text-align: left;
-    }
-  }
-  
-  /* Site Footer */
-  
-  .distill-site-footer {
-    width: 100%;
-    overflow: hidden;
-    box-sizing: border-box;
-    z-index: 3;
-    margin-top: 30px;
-    padding-top: 30px;
-    padding-bottom: 30px;
-    text-align: center;
-  }
-  
-  /* Headroom */
-  
-  d-title {
-    padding-top: 6rem;
-  }
-  
-  @media print {
-    d-title {
-      padding-top: 4rem;
-    }
-  }
-  
-  .headroom {
-    z-index: 1000;
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-  }
-  
-  .headroom--transition {
-    transition: all .4s ease-in-out;
-  }
-  
-  .headroom--unpinned {
-    top: -100px;
-  }
-  
-  .headroom--pinned {
-    top: 0;
-  }
-  
-  </style>
-  
-  <link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet"/>
-  <link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet"/>
-  <script src="site_libs/headroom-0.9.4/headroom.min.js"></script>
+  <!--radix_placeholder_navigation_in_header-->
   <!--/radix_placeholder_navigation_in_header-->
   <!--radix_placeholder_distill-->
   
@@ -1257,49 +927,13 @@
   </script>
   
   <!--/radix_placeholder_distill-->
-  <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
-  <script src="site_libs/bowser-1.9.3/bowser.min.js"></script>
-  <script src="site_libs/webcomponents-2.0.0/webcomponents.js"></script>
-  <script src="site_libs/distill-2.2.21/template.v2.js"></script>
+  <script src="usando-o-pytorch-no-r-treinando-o-seefood_files/jquery-1.11.3/jquery.min.js"></script>
+  <script src="usando-o-pytorch-no-r-treinando-o-seefood_files/bowser-1.9.3/bowser.min.js"></script>
+  <script src="usando-o-pytorch-no-r-treinando-o-seefood_files/webcomponents-2.0.0/webcomponents.js"></script>
+  <script src="usando-o-pytorch-no-r-treinando-o-seefood_files/distill-2.2.21/template.v2.js"></script>
   <!--radix_placeholder_site_in_header-->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-75406624-1"></script>
-  <script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'UA-75406624-1');
-  </script>
-  <style type="text/css">
-  d-article {
-      font-weight: 300;
-  }
-  
-  d-code {
-      background: #f7f7f7;
-  }
-  
-  pre.text-output {
-      color: #d2a963;
-      background: #2f2f2f;
-      padding: 10px;
-  }
-  
-  .distill-site-nav {
-      background-color: #268bd2;
-  }
-  
-  .distill-site-header .title {
-      font-size: 20px;
-      font-weight: bolder;
-  }
-  
-  d-appendix {
-      display: none !important;
-  }
-  </style>
   <!--/radix_placeholder_site_in_header-->
 
-  <link rel="stylesheet" href="styles.css" type="text/css"/>
 
 </head>
 
@@ -1308,52 +942,451 @@
 <!--radix_placeholder_front_matter-->
 
 <script id="distill-front-matter" type="text/json">
-{"title":"Autores","description":"O blog será mantido por Saulo Guerra, Paulo Felipe, Miguel Cleaver e Diego Castro. A nossa ideia é que mais pessoas possam colaborar no futuro para que o blog fique bastante rico e diversificado em informações.","authors":[]}
+{"title":"Usando o Pytorch no R: Treinando o Seefood","description":"Neste post iremos testar o uso do Pytorch no R com o auxílio do pacote reticulate, que permite a utilização de bibliotecas do Python diretamente no R. Isso ajuda a evitar (em parte) aquela disputa entre o R e o Python, uma vez que você pode usar o melhor de cada. Como exemplo, iremos treinar uma classificador de imagens que é a base do aplicativo Seefood que fez fama no seriado Silicon Valley da HBO.","authors":[{"author":"Paulo Felipe Alencar","authorURL":"#","affiliation":"&nbsp;","affiliationURL":"#"}],"publishedDate":"2020-04-27T00:00:00.000-03:00","citationText":"Alencar, 2020"}
 </script>
 
 <!--/radix_placeholder_front_matter-->
 <!--radix_placeholder_navigation_before_body-->
-<header class="header header--fixed" role="banner">
-<nav class="distill-site-nav distill-site-header">
-<div class="nav-left">
-<a href="index.html" class="title">Fulljoin</a>
-</div>
-<div class="nav-right">
-<div class="nav-dropdown">
-<button class="nav-dropbtn">
-Labs!
- 
-<span class="down-arrow">&#x25BE;</span>
-</button>
-<div class="nav-dropdown-content">
-<a href="dashboard_pnad.html">Dashboard PNAD continua</a>
-</div>
-</div>
-<a href="index.html">Posts</a>
-<a href="about.html">Autores</a>
-<a href="javascript:void(0);" class="nav-toggle">&#9776;</a>
-</div>
-</nav>
-</header>
 <!--/radix_placeholder_navigation_before_body-->
 <!--radix_placeholder_site_before_body-->
 <!--/radix_placeholder_site_before_body-->
 
 <div class="d-title">
-<h1>Autores</h1>
-<p>O blog será mantido por Saulo Guerra, Paulo Felipe, Miguel Cleaver e Diego Castro. A nossa ideia é que mais pessoas possam colaborar no futuro para que o blog fique bastante rico e diversificado em informações.</p>
+<h1>Usando o Pytorch no R: Treinando o Seefood</h1>
+<p>Neste post iremos testar o uso do Pytorch no R com o auxílio do pacote reticulate, que permite a utilização de bibliotecas do Python diretamente no R. Isso ajuda a evitar (em parte) aquela disputa entre o R e o Python, uma vez que você pode usar o melhor de cada. Como exemplo, iremos treinar uma classificador de imagens que é a base do aplicativo Seefood que fez fama no seriado Silicon Valley da HBO.</p>
 </div>
 
+<div class="d-byline">
+  
+  Paulo Felipe Alencar
+  
+<br/>04-27-2020
+</div>
 
 <div class="d-article">
-<h2 id="saulo-guerra">Saulo Guerra <a href="https://twitter.com/sauloguerra"><svg style="height:0.8em;top:.04em;position:relative;fill:steelblue;" viewBox="0 0 512 512"><path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"/></svg></a></h2>
-<p>Sou Formado em Ciência da Computação pela Universidade de Brasília (UnB). Trabalho no Ministério da Economia (ME) como Analista de Comércio Exterior. Possuo boa experiência com bancos de dados, SQL, programação mobile e programação web, principalmente web scraping. Adotei o R como principal linguagem de programação e venho aprofundando cada vez mais estudos e práticas na área de ciência de dados.</p>
-<h2 id="paulo-felipe">Paulo Felipe <a href="https://twitter.com/paulofelipeao"><svg style="height:0.8em;top:.04em;position:relative;fill:steelblue;" viewBox="0 0 512 512"><path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"/></svg></a></h2>
-<p>Sou economista com graduação e mestrado na Universidade Federal do Ceará - UFC. Atualmente, trabalho no Ministério da Economia - ME como Analista de Comércio Exterior. Tenho experiência com modelos microeconométricos e séries temporais. Além disso, venho estudando outras abordagens de análise de dados, como aprendizado de máquina e visualizações. Apesar de ter trabalhado com outros softwares estatísticos, o R tornou-se meu principal foco em relação a software/linguagem.</p>
-<h2 id="miguel-cleaver">Miguel Cleaver <a href="https://twitter.com/miguelcleaver"><svg style="height:0.8em;top:.04em;position:relative;fill:steelblue;" viewBox="0 0 512 512"><path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"/></svg></a></h2>
-<p>Tenho graduação e mestrado em economia pela Universidade de Brasília (UnB). Trabalho no Ministério da Economia como Analista de Comércio Exterior. A maior parte do meu trabalho como Analista tem sido na área de limpeza, estruturação, análise e visualização de dados. Recentemente, tenho buscado me especializar em algoritmos preditivos supervisionados e não supervisionados. O R é minha principal linguagem de programação.</p>
-<h2 id="diego-castro">Diego Castro <a href="https://twitter.com/DiegoAfonsodeC1"><svg style="height:0.8em;top:.04em;position:relative;fill:steelblue;" viewBox="0 0 512 512"><path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"/></svg></a></h2>
-<p>Tenho graduação e mestrado em economia pela Universidade de Brasília (UnB) e mestrado em Análise de Dados pela Universidade de Sheffield (Reino Unido). Trabalho no Ministério da Economia como Analista de Comércio Exterior. Minha principal linguagem de programação é o R, mas também possuo experiência em Python. Me dediquei recentemente a estudar a utilização de imagens de satélite para previsão de renda em cidades brasileiras usando, para tanto, redes neurais convolucionais e modelos de regressão e classificação.</p>
+<h2 id="introducao">Introdução</h2>
+<p>O Python é a principal linguagem hoje para machine learning, e isso, infelizmente, não tem discussão. Contudo, com o pacote <code>reticulate</code>, é possível utilizar diretamente as biliotecas do Python no R sem grandes problemas. Isto é, uma vez que você tenha instalado tudo que é necessário. A função <code>install_miniconda()</code> ajuda no processo. No entanto, é preciso também instalar o Pytorch no ambiente que será utilizado pelo reticulate. Na minha máquina (e o padrão é assim), utilizo o ambiente <code>r-reticulate</code>.</p>
+<p>Para exemplificar o uso do Pytorch, neste post será treinado um modelo que dá origem a aplicação Seefood que ficou famosa no seriado Silicon Valley da HBO. Esse modelo consiste em classificar uma imagem de comida em “hot dog” ou “not hot dog”. Em resumo, conforme <a href="https://silicon-valley.fandom.com/wiki/SeeFood">essa wiki</a>, a história pode ser resumida da seguinte forma:</p>
+<blockquote>
+<p>SeeFood was a pitch made up in the conference room by Erlich. It was supposed to be Shazam for food, but development stopped after the algorithm could only detect hot dogs. Erlich sold his equity before SeeFood was bought by Periscope for 30 million dollars making Jian-Yang “a very rich man”.</p>
+</blockquote>
+<p>O código desse post segue em grande parte o <a href="https://pytorch.org/tutorials/beginner/transfer_learning_tutorial.html">tutorial</a> disponível no portal do Pytorch.</p>
+<h2 id="pacotes-e-modulos">Pacotes e Módulos</h2>
+<p>Aqui estão listados os pacotes do R e bibliotecas do Python que iremos utilizar neste post. As biblotecas do Python que serão utilizadas são: <code>torch</code>, <code>torchvision</code>, <code>numpy</code> e <code>copy</code>.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+library(reticulate)
+library(imager)
+library(glue)
+library(tidyverse)
+library(zeallot)
+
+# Bibliotecas e módulos do python
+py &lt;- import_builtins()
+torch &lt;- import(&quot;torch&quot;)
+torchvision &lt;- import(&quot;torchvision&quot;)
+np &lt;- import(&quot;numpy&quot;)
+copy &lt;- import(&quot;copy&quot;)
+
+transforms &lt;- torchvision$transforms
+datasets &lt;- torchvision$datasets
+models &lt;- torchvision$models
+optim &lt;- torch$optim
+nn &lt;- torch$nn
+F &lt;- torch$nn$functional</code></pre>
+</div>
+<h2 id="dados">Dados</h2>
+<p>Os dados para esse post estão disponívels no Kaggle <a href="https://www.kaggle.com/dansbecker/hot-dog-not-hot-dog/data">neste link</a>. Foram utilizadas as imagens da pasta <code>seefood</code>. As imagens estão incialmente separadas apenas em treino e teste. Iremos, adicionalmente, criar a pasta validação e copiar algumas imagens da pasta de teste para essa nova pasta.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+data_dir &lt;- &quot;../../dados/seefood&quot;
+
+if(!dir.exists(file.path(data_dir, &quot;valid&quot;))){
+  dir.create(file.path(data_dir, &quot;valid&quot;))
+  dir.create(file.path(data_dir, &quot;valid/hot_dog&quot;))
+  dir.create(file.path(data_dir, &quot;valid/not_hot_dog&quot;))
+
+  classes &lt;- c(&quot;hot_dog&quot;, &quot;not_hot_dog&quot;)
+  for(classe in classes){
+    images &lt;- list.files(file.path(data_dir, &quot;test&quot;, classe))
+    set.seed(39031)
+    images &lt;- sample(images, 75)
+    for(image in images){
+      file.copy(
+        from = file.path(file.path(data_dir, &quot;test&quot;, classe, image)),
+        to = file.path(file.path(data_dir, &quot;valid&quot;, classe, image))
+      )
+      file.remove(file.path(file.path(data_dir, &quot;test&quot;, classe, image)))
+    }
+  }
+}</code></pre>
+</div>
+<h2 id="dataloaders">Dataloaders</h2>
+<p>Antes de definir propriamente os dataloaders, o código abaixo crias os “transforms” que na prática consistem em pré-processamentos das imagens. Apesar de existir uma enorme variedade de possibilidades, no código abaixo apenas redimensionamos as imagens e normalizamos os pixels para que eles assumam valores entre -1 e 1.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+data_trasnforms &lt;- list(
+  train = transforms$Compose(
+    list(
+      transforms$Resize(c(256L, 256L)),
+      transforms$ToTensor(),
+      transforms$Normalize(c(0.5, 0.5, 0.5), c(0.5, 0.5, 0.5))
+    )
+  ),
+  valid = transforms$Compose(
+    list(      
+      transforms$Resize(c(256L, 256L)),
+      transforms$ToTensor(),
+      transforms$Normalize(c(0.5, 0.5, 0.5), c(0.5, 0.5, 0.5))
+    )
+  ),
+  test = transforms$Compose(
+    list(
+      transforms$Resize(c(256L, 256L)),
+      transforms$ToTensor(),
+      transforms$Normalize(c(0.5, 0.5, 0.5), c(0.5, 0.5, 0.5))
+    )
+  )
+)</code></pre>
+</div>
+<p>O código abaixo cria os dataloaders, que são os objetos que fornecerão os dados ao modelo que será treinado.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+# Dataloaders ---------------------------------------------------------------
+sets &lt;- c(&quot;train&quot;, &quot;valid&quot;, &quot;test&quot;)
+
+image_datasets &lt;- map(sets, ~ {
+  datasets$ImageFolder(
+    file.path(data_dir, .x),
+    data_trasnforms[[.x]]
+  )
+}) %&gt;%
+  setNames(sets)
+
+dataloaders &lt;- map(sets, ~{
+  torch$utils$data$DataLoader(
+    image_datasets[[.x]],
+    batch_size = 8L,
+    shuffle = TRUE,
+    num_workers = 4L
+  )
+}) %&gt;%
+  setNames(sets)
+
+dataset_sizes &lt;- map_dbl(sets, ~ {
+  py$len(image_datasets[[.x]])
+}) %&gt;%
+  setNames(sets)
+
+print(dataset_sizes)</code></pre>
+<pre><code>
+train valid  test 
+  498   150   350 </code></pre>
+</div>
+<p>Abaixo mostramos uma amostra das imagens que formam esse dataset.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+class_names &lt;- image_datasets[[&#39;train&#39;]]$classes
+
+# Visualizando algumas imagens -----------------------------------------------
+iter_train &lt;- py$iter(dataloaders[[&quot;train&quot;]])
+c(images, labels) %&lt;-% iter_next(iter_train)
+images &lt;- images$numpy()
+labels &lt;- labels$numpy()
+labels &lt;- class_names[labels + 1]
+
+layout(matrix(1:4, 2, 2))
+for(i in 1:4){
+  images[i, , , , drop = FALSE] %&gt;%
+    aperm(c(3, 4, 1, 2)) %&gt;%
+    as.cimg() %&gt;% 
+    plot(main = labels[i])
+}</code></pre>
+<p><img src="usando-o-pytorch-no-r-treinando-o-seefood_files/figure-html5/unnamed-chunk-5-1.png" width="624" /></p>
+</div>
+<h2 id="funcao-para-treinamento-do-modelo">Função para Treinamento do Modelo</h2>
+<p>O processo de treinamento é customizado. Isto é, define-se cada passo do processo na função de treinamento (<code>train_model</code>). Apesar de ser a minha primeira experiência com o Pytorch, achei o processo bem intuitivo e de fácil definição, sendo similar ao processo de treinamento customizado do tensorflow. Basicamente, o processo é o seguinte:</p>
+<ul>
+<li>Fase de treinamento:
+<ul>
+<li>Para um batch de imagens, são computadas as predições do modelo.</li>
+<li>As predições são comparadas com os rótulos observados (reais) e é a função de perda (loss) é computada</li>
+<li>Com o valor da função perda calculado, os gradientes são calculados e aplicados para atualização dos pesos (parâmetros) do modelo.</li>
+</ul></li>
+<li>Fase de validação:
+<ul>
+<li>Para um batch de imagens, são computadas as predições do modelo.</li>
+<li>Nessa fase, os gradientes não são computados</li>
+</ul></li>
+</ul>
+<p>Ao final de cada “epoch”, são computados os valores finais da função de perda e da acurácia para os dados de treino e de validação.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+train_model &lt;- function(model, criterion, optimizer, scheduler, num_epochs = 25){
+
+  # Guarda os valores dos pesos e da acurácia para a &quot;melhor&quot; epoch
+  best_model_wts = copy$deepcopy(model$state_dict())
+  best_acc = 0
+
+  for (epoch in 1:num_epochs) {
+    cat(glue(&quot;Epoch {epoch}/{num_epochs}&quot;), &quot;\n&quot;)
+    cat(&quot;-----------------------------\n&quot;)
+    
+    for (phase in c(&quot;train&quot;, &quot;valid&quot;)) {
+      if (phase == &quot;train&quot;) {
+        model$train()
+      } else {
+        model$eval()
+      }
+
+      running_loss &lt;- 0
+      running_corrects &lt;- 0
+
+      iter_data &lt;- py$iter(dataloaders[[phase]])
+      
+      while (TRUE) {
+        data &lt;- iter_next(iter_data)
+        if (is.null(data)) {          
+          break
+        }
+      
+        inputs &lt;- data[[1]]
+        inputs &lt;- inputs$to(device)
+        labels &lt;- data[[2]]
+        labels &lt;- labels$to(device)
+
+        optimizer$zero_grad()
+      
+        with(torch$set_grad_enabled(phase == &quot;train&quot;), {
+          outputs &lt;- model(inputs)
+          preds &lt;- torch$max(outputs, 1L)$indices
+          loss &lt;- criterion(outputs, labels)
+      
+          # backward + optimize only if in training phase
+          if (phase == &quot;train&quot;) {
+            loss$backward()
+            optimizer$step()
+          }
+        })
+      
+        running_loss &lt;- running_loss + loss$item() * inputs$size(0L)
+        running_corrects &lt;- running_corrects + sum(preds$cpu()$numpy() == labels$cpu()$numpy())
+      }
+      
+      if (phase == &quot;train&quot;) {
+        scheduler$step()
+      }
+
+      epoch_loss &lt;- running_loss / dataset_sizes[[phase]]
+      epoch_acc &lt;- running_corrects / dataset_sizes[[phase]]
+
+      cat(glue(&quot;{phase} Loss: {round(epoch_loss,4)} Acc.: {round(epoch_acc, 4)}&quot;), &quot;\n&quot;)
+
+      if (phase == &quot;valid&quot; &amp; epoch_acc &gt; best_acc) {
+        best_acc &lt;- epoch_acc
+        best_model_wts &lt;- copy$deepcopy(model$state_dict())
+      }      
+    }   
+  }
+
+  model$load_state_dict(best_model_wts)
+
+  cat(&quot;-----------------------------\n&quot;)
+  cat(glue(&quot;Best val Acc: {round(best_acc, 4)}&quot;), &quot;\n&quot;)
+
+  return(model)
+
+}</code></pre>
+</div>
+<h2 id="defining-o-modelo">Defining o modelo</h2>
+<p>Aqui utilizamos uma técnica conhecida como Transfer Learning. Isto é, utilizamos um modelo que foi pré-treinado em uma base maior e que já “aprendeu” a extrair features das imagens para auxiliar no treinamento do nosso modelo. Na prática iremos só redimensionar a última camada para que o output seja de dimensão 2 (número de classes da nossa base) e treinar o modelo mais um pouco para que ele se ajuste melhor à nossa tarefa.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+model_ft &lt;- models$resnet34(pretrained = TRUE)
+num_ftrs &lt;- model_ft$fc$in_features
+model_ft$fc &lt;- nn$Linear(num_ftrs, 2L)
+
+device &lt;- torch$device(&quot;cuda:0&quot;)
+model_ft &lt;- model_ft$to(device)
+criterion &lt;- nn$CrossEntropyLoss()
+optimizer_ft = optim$AdamW(model_ft$parameters(), lr = 5e-5)
+lr_scheduler &lt;- optim$lr_scheduler
+exp_lr_scheduler = lr_scheduler$StepLR(optimizer_ft, step_size = 5L, gamma = 0.1)
+
+model_ft &lt;- train_model(
+  model_ft,
+  criterion,
+  optimizer_ft,
+  exp_lr_scheduler,
+  num_epochs = 25L
+)</code></pre>
+<pre><code>
+Epoch 1/25 
+-----------------------------
+train Loss: 0.4035 Acc.: 0.8173 
+valid Loss: 0.2337 Acc.: 0.9133 
+Epoch 2/25 
+-----------------------------
+train Loss: 0.1059 Acc.: 0.9659 
+valid Loss: 0.2374 Acc.: 0.9133 
+Epoch 3/25 
+-----------------------------
+train Loss: 0.1241 Acc.: 0.9518 
+valid Loss: 0.3299 Acc.: 0.8867 
+Epoch 4/25 
+-----------------------------
+train Loss: 0.1034 Acc.: 0.9618 
+valid Loss: 0.3381 Acc.: 0.8867 
+Epoch 5/25 
+-----------------------------
+train Loss: 0.1147 Acc.: 0.9659 
+valid Loss: 0.27 Acc.: 0.9067 
+Epoch 6/25 
+-----------------------------
+train Loss: 0.0848 Acc.: 0.9598 
+valid Loss: 0.2389 Acc.: 0.9133 
+Epoch 7/25 
+-----------------------------
+train Loss: 0.0744 Acc.: 0.9719 
+valid Loss: 0.2367 Acc.: 0.9067 
+Epoch 8/25 
+-----------------------------
+train Loss: 0.0636 Acc.: 0.9819 
+valid Loss: 0.2176 Acc.: 0.9267 
+Epoch 9/25 
+-----------------------------
+train Loss: 0.0528 Acc.: 0.988 
+valid Loss: 0.2287 Acc.: 0.9133 
+Epoch 10/25 
+-----------------------------
+train Loss: 0.0298 Acc.: 0.99 
+valid Loss: 0.2217 Acc.: 0.92 
+Epoch 11/25 
+-----------------------------
+train Loss: 0.0408 Acc.: 0.9859 
+valid Loss: 0.2257 Acc.: 0.9133 
+Epoch 12/25 
+-----------------------------
+train Loss: 0.0974 Acc.: 0.9679 
+valid Loss: 0.2261 Acc.: 0.92 
+Epoch 13/25 
+-----------------------------
+train Loss: 0.0506 Acc.: 0.9859 
+valid Loss: 0.2233 Acc.: 0.92 
+Epoch 14/25 
+-----------------------------
+train Loss: 0.0674 Acc.: 0.9739 
+valid Loss: 0.2281 Acc.: 0.92 
+Epoch 15/25 
+-----------------------------
+train Loss: 0.0396 Acc.: 0.988 
+valid Loss: 0.2207 Acc.: 0.9133 
+Epoch 16/25 
+-----------------------------
+train Loss: 0.0513 Acc.: 0.988 
+valid Loss: 0.2126 Acc.: 0.9267 
+Epoch 17/25 
+-----------------------------
+train Loss: 0.0468 Acc.: 0.9859 
+valid Loss: 0.2252 Acc.: 0.9133 
+Epoch 18/25 
+-----------------------------
+train Loss: 0.0724 Acc.: 0.9699 
+valid Loss: 0.2303 Acc.: 0.9133 
+Epoch 19/25 
+-----------------------------
+train Loss: 0.0806 Acc.: 0.9679 
+valid Loss: 0.2234 Acc.: 0.92 
+Epoch 20/25 
+-----------------------------
+train Loss: 0.0859 Acc.: 0.9679 
+valid Loss: 0.2175 Acc.: 0.9133 
+Epoch 21/25 
+-----------------------------
+train Loss: 0.0492 Acc.: 0.9839 
+valid Loss: 0.2034 Acc.: 0.9333 
+Epoch 22/25 
+-----------------------------
+train Loss: 0.063 Acc.: 0.9779 
+valid Loss: 0.2182 Acc.: 0.9267 
+Epoch 23/25 
+-----------------------------
+train Loss: 0.0321 Acc.: 0.992 
+valid Loss: 0.2305 Acc.: 0.9067 
+Epoch 24/25 
+-----------------------------
+train Loss: 0.0453 Acc.: 0.99 
+valid Loss: 0.2087 Acc.: 0.9267 
+Epoch 25/25 
+-----------------------------
+train Loss: 0.0421 Acc.: 0.99 
+valid Loss: 0.2194 Acc.: 0.9133 
+-----------------------------
+Best val Acc: 0.9333 </code></pre>
+</div>
+<h2 id="plotando-predicoes">Plotando predições</h2>
+<p>Agora vamos ver como o nosso classificador se sai:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+iter_test &lt;- py$iter(dataloaders[[&quot;test&quot;]])
+c(images, labels) %&lt;-% iter_next(iter_test)
+images &lt;- images$to(device)
+preds &lt;- model_ft(images)
+preds &lt;- torch$max(preds, 1L)$indices
+preds &lt;- preds$cpu()$numpy()
+preds &lt;- class_names[preds + 1]
+images &lt;- images$cpu()$numpy()
+
+layout(matrix(1:4, 2, 2))
+for(i in 1:4){
+  images[i, , , , drop = FALSE] %&gt;%
+    aperm(c(3, 4, 1, 2)) %&gt;%
+    as.cimg() %&gt;%
+    plot(main = glue(&quot;Predição: {preds[i]}&quot;))
+}</code></pre>
+<p><img src="usando-o-pytorch-no-r-treinando-o-seefood_files/figure-html5/unnamed-chunk-8-1.png" width="624" /></p>
+</div>
+<h2 id="resultado-na-base-de-teste">Resultado na base de teste</h2>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+test_acc &lt;- 0
+running_corrects &lt;- 0
+invisible(model_ft$eval())
+N &lt;- dataset_sizes[[&quot;test&quot;]]
+iter_data &lt;- py$iter(dataloaders[[&quot;test&quot;]])
+with(torch$no_grad(), {
+  while (TRUE) {
+    data &lt;- iter_next(iter_data)
+    if (is.null(data)) {
+      break
+    }
+
+    inputs &lt;- data[[1]]
+    inputs &lt;- inputs$to(device)
+    labels &lt;- data[[2]]
+    labels &lt;- labels$to(device)
+    outputs &lt;- model_ft(inputs)
+    preds &lt;- torch$max(outputs, 1L)$indices
+
+    running_corrects &lt;- running_corrects + sum(preds$cpu()$numpy() == labels$cpu()$numpy())
+
+  }
+  cat(&quot;-----------------------------\n&quot;)
+  cat(glue(&quot;Test Acc: {round(running_corrects/N, 4)}&quot;), &quot;\n&quot;)
+})</code></pre>
+<pre><code>
+-----------------------------
+Test Acc: 0.94 </code></pre>
+</div>
+<p>Nosso modelo conseguiu atingir a acurácia de 94,0%!</p>
+<p>Com isso, fechamos esse post! A ideia era mostrar que pode-se usar facilmente uma biblioteca em Python no R com a ajuda do reticulate. Dessa forma, não precisamos nos limitar a uma linguagem única e aproveitar o melhor de cada!</p>
+<div style="width:100%;height:0;padding-bottom:75%;position:relative;">
+<iframe src="https://giphy.com/embed/MuE0xWbEohUrxbm77r" width="100%" height="100%" style="position:absolute" frameBorder="0" class="giphy-embed" allowFullScreen>
+</iframe>
+</div>
+<p>
+<a href="https://giphy.com/gifs/hello-hi-waving-MuE0xWbEohUrxbm77r">via GIPHY</a>
+</p>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>
@@ -1368,9 +1401,6 @@ Labs!
 <div class="appendix-bottom"></div>
 <!--/radix_placeholder_appendices-->
 <!--radix_placeholder_navigation_after_body-->
-<div class="distill-site-nav distill-site-footer">
-<p>Gostou do blog? <u><a href='https://www.buymeacoffee.com/LYcEmgQ'>Pague-nos um cafezinho!</a></u></p>
-</div>
 <!--/radix_placeholder_navigation_after_body-->
 
 </body>

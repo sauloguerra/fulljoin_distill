@@ -1,0 +1,339 @@
+---
+title: "Usando o Pytorch no R: Treinando o Seefood"
+description: Neste post iremos testar o uso do Pytorch no R com o auxílio do pacote reticulate, que permite a utilização de bibliotecas do Python diretamente no R. Isso ajuda a evitar (em parte) aquela disputa entre o R e o Python, uma vez que você pode usar o melhor de cada. Como exemplo, iremos treinar uma classificador de imagens que é a base do aplicativo Seefood que fez fama no seriado Silicon Valley da HBO.
+author: Paulo Felipe Alencar
+date: 04-27-2020
+output:
+  distill::distill_article:
+    self_contained: false
+draft: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Introdução
+
+O Python é a principal linguagem hoje para machine learning, e isso, infelizmente, não tem discussão. Contudo, com o pacote `reticulate`, é possível utilizar diretamente as biliotecas do Python no R sem grandes problemas. Isto é, uma vez que você tenha instalado tudo que é necessário. A função `install_miniconda()` ajuda no processo. No entanto, é preciso também instalar o Pytorch no ambiente que será utilizado pelo reticulate. Na minha máquina (e o padrão é assim), utilizo o ambiente `r-reticulate`.
+
+Para exemplificar o uso do Pytorch, neste post será treinado um modelo que dá origem a aplicação Seefood que ficou famosa no seriado Silicon Valley da HBO. Esse modelo consiste em classificar uma imagem de comida em "hot dog" ou "not hot dog". Em resumo, conforme [essa wiki](https://silicon-valley.fandom.com/wiki/SeeFood), a história pode ser resumida da seguinte forma:
+
+> SeeFood was a pitch made up in the conference room by Erlich. It was supposed to be Shazam for food, but development stopped after the algorithm could only detect hot dogs. Erlich sold his equity before SeeFood was bought by Periscope for 30 million dollars making Jian-Yang "a very rich man".
+
+O código desse post segue em grande parte o [tutorial](https://pytorch.org/tutorials/beginner/transfer_learning_tutorial.html) disponível no portal do Pytorch.
+
+## Pacotes e Módulos
+
+Aqui estão listados os pacotes do R e bibliotecas do Python que iremos utilizar neste post. As biblotecas do Python que serão utilizadas são: `torch`, `torchvision`, `numpy` e `copy`.
+
+```{r}
+library(reticulate)
+library(imager)
+library(glue)
+library(tidyverse)
+library(zeallot)
+
+# Bibliotecas e módulos do python
+py <- import_builtins()
+torch <- import("torch")
+torchvision <- import("torchvision")
+np <- import("numpy")
+copy <- import("copy")
+
+transforms <- torchvision$transforms
+datasets <- torchvision$datasets
+models <- torchvision$models
+optim <- torch$optim
+nn <- torch$nn
+F <- torch$nn$functional
+```
+
+## Dados
+
+Os dados para esse post estão disponívels no Kaggle [neste link](https://www.kaggle.com/dansbecker/hot-dog-not-hot-dog/data). Foram utilizadas as imagens da pasta `seefood`. As imagens estão incialmente separadas apenas em treino e teste. Iremos, adicionalmente, criar a pasta validação e copiar algumas imagens da pasta de teste para essa nova pasta.
+
+```{r}
+data_dir <- "../../dados/seefood"
+
+if(!dir.exists(file.path(data_dir, "valid"))){
+  dir.create(file.path(data_dir, "valid"))
+  dir.create(file.path(data_dir, "valid/hot_dog"))
+  dir.create(file.path(data_dir, "valid/not_hot_dog"))
+
+  classes <- c("hot_dog", "not_hot_dog")
+  for(classe in classes){
+    images <- list.files(file.path(data_dir, "test", classe))
+    set.seed(39031)
+    images <- sample(images, 75)
+    for(image in images){
+      file.copy(
+        from = file.path(file.path(data_dir, "test", classe, image)),
+        to = file.path(file.path(data_dir, "valid", classe, image))
+      )
+      file.remove(file.path(file.path(data_dir, "test", classe, image)))
+    }
+  }
+}
+``` 
+
+## Dataloaders
+
+Antes de definir propriamente os dataloaders, o código abaixo crias os "transforms" que na prática consistem em pré-processamentos das imagens. Apesar de existir uma enorme variedade de possibilidades, no código abaixo apenas redimensionamos as imagens e normalizamos os pixels para que eles assumam valores entre -1 e 1.
+
+```{r, fig.height = 7}
+
+data_trasnforms <- list(
+  train = transforms$Compose(
+    list(
+      transforms$Resize(c(256L, 256L)),
+      transforms$ToTensor(),
+      transforms$Normalize(c(0.5, 0.5, 0.5), c(0.5, 0.5, 0.5))
+    )
+  ),
+  valid = transforms$Compose(
+    list(      
+      transforms$Resize(c(256L, 256L)),
+      transforms$ToTensor(),
+      transforms$Normalize(c(0.5, 0.5, 0.5), c(0.5, 0.5, 0.5))
+    )
+  ),
+  test = transforms$Compose(
+    list(
+      transforms$Resize(c(256L, 256L)),
+      transforms$ToTensor(),
+      transforms$Normalize(c(0.5, 0.5, 0.5), c(0.5, 0.5, 0.5))
+    )
+  )
+)
+```
+
+O código abaixo cria os dataloaders, que são os objetos que fornecerão os dados ao modelo que será treinado.
+
+```{r, fig.height = 7}
+# Dataloaders ---------------------------------------------------------------
+sets <- c("train", "valid", "test")
+
+image_datasets <- map(sets, ~ {
+  datasets$ImageFolder(
+    file.path(data_dir, .x),
+    data_trasnforms[[.x]]
+  )
+}) %>%
+  setNames(sets)
+
+dataloaders <- map(sets, ~{
+  torch$utils$data$DataLoader(
+    image_datasets[[.x]],
+    batch_size = 8L,
+    shuffle = TRUE,
+    num_workers = 4L
+  )
+}) %>%
+  setNames(sets)
+
+dataset_sizes <- map_dbl(sets, ~ {
+  py$len(image_datasets[[.x]])
+}) %>%
+  setNames(sets)
+
+print(dataset_sizes)
+```
+
+Abaixo mostramos uma amostra das imagens que formam esse dataset.
+
+```{r, fig.height = 7}
+class_names <- image_datasets[['train']]$classes
+
+# Visualizando algumas imagens -----------------------------------------------
+iter_train <- py$iter(dataloaders[["train"]])
+c(images, labels) %<-% iter_next(iter_train)
+images <- images$numpy()
+labels <- labels$numpy()
+labels <- class_names[labels + 1]
+
+layout(matrix(1:4, 2, 2))
+for(i in 1:4){
+  images[i, , , , drop = FALSE] %>%
+    aperm(c(3, 4, 1, 2)) %>%
+    as.cimg() %>% 
+    plot(main = labels[i])
+}
+```
+
+## Função para Treinamento do Modelo
+
+O processo de treinamento é customizado. Isto é, define-se cada passo do processo na função de treinamento (`train_model`). Apesar de ser a minha primeira experiência com o Pytorch, achei o processo bem intuitivo e de fácil definição, sendo similar ao processo de treinamento customizado do tensorflow. Basicamente, o processo é o seguinte:
+
+* Fase de treinamento:
+  - Para um batch de imagens, são computadas as predições do modelo.
+  - As predições são comparadas com os rótulos observados (reais) e é a função de perda (loss) é computada
+  - Com o valor da função perda calculado, os gradientes são calculados e aplicados para atualização dos pesos (parâmetros) do modelo.
+* Fase de validação:
+  - Para um batch de imagens, são computadas as predições do modelo.
+  - Nessa fase, os gradientes não são computados
+
+Ao final de cada "epoch", são computados os valores finais da função de perda e da acurácia para os dados de treino e de validação.
+
+```{r}
+train_model <- function(model, criterion, optimizer, scheduler, num_epochs = 25){
+
+  # Guarda os valores dos pesos e da acurácia para a "melhor" epoch
+  best_model_wts = copy$deepcopy(model$state_dict())
+  best_acc = 0
+
+  for (epoch in 1:num_epochs) {
+    cat(glue("Epoch {epoch}/{num_epochs}"), "\n")
+    cat("-----------------------------\n")
+    
+    for (phase in c("train", "valid")) {
+      if (phase == "train") {
+        model$train()
+      } else {
+        model$eval()
+      }
+
+      running_loss <- 0
+      running_corrects <- 0
+
+      iter_data <- py$iter(dataloaders[[phase]])
+      
+      while (TRUE) {
+        data <- iter_next(iter_data)
+        if (is.null(data)) {          
+          break
+        }
+      
+        inputs <- data[[1]]
+        inputs <- inputs$to(device)
+        labels <- data[[2]]
+        labels <- labels$to(device)
+
+        optimizer$zero_grad()
+      
+        with(torch$set_grad_enabled(phase == "train"), {
+          outputs <- model(inputs)
+          preds <- torch$max(outputs, 1L)$indices
+          loss <- criterion(outputs, labels)
+      
+          # backward + optimize only if in training phase
+          if (phase == "train") {
+            loss$backward()
+            optimizer$step()
+          }
+        })
+      
+        running_loss <- running_loss + loss$item() * inputs$size(0L)
+        running_corrects <- running_corrects + sum(preds$cpu()$numpy() == labels$cpu()$numpy())
+      }
+      
+      if (phase == "train") {
+        scheduler$step()
+      }
+
+      epoch_loss <- running_loss / dataset_sizes[[phase]]
+      epoch_acc <- running_corrects / dataset_sizes[[phase]]
+
+      cat(glue("{phase} Loss: {round(epoch_loss,4)} Acc.: {round(epoch_acc, 4)}"), "\n")
+
+      if (phase == "valid" & epoch_acc > best_acc) {
+        best_acc <- epoch_acc
+        best_model_wts <- copy$deepcopy(model$state_dict())
+      }      
+    }   
+  }
+
+  model$load_state_dict(best_model_wts)
+
+  cat("-----------------------------\n")
+  cat(glue("Best val Acc: {round(best_acc, 4)}"), "\n")
+
+  return(model)
+
+}
+```
+
+## Defining o modelo
+
+Aqui utilizamos uma técnica conhecida como Transfer Learning. Isto é, utilizamos um modelo que foi pré-treinado em uma base maior e que já "aprendeu" a extrair features das imagens para auxiliar no treinamento do nosso modelo. Na prática iremos só redimensionar a última camada para que o output seja de dimensão 2 (número de classes da nossa base) e treinar o modelo mais um pouco para que ele se ajuste melhor à nossa tarefa.
+
+```{r}
+model_ft <- models$resnet34(pretrained = TRUE)
+num_ftrs <- model_ft$fc$in_features
+model_ft$fc <- nn$Linear(num_ftrs, 2L)
+
+device <- torch$device("cuda:0")
+model_ft <- model_ft$to(device)
+criterion <- nn$CrossEntropyLoss()
+optimizer_ft = optim$AdamW(model_ft$parameters(), lr = 5e-5)
+lr_scheduler <- optim$lr_scheduler
+exp_lr_scheduler = lr_scheduler$StepLR(optimizer_ft, step_size = 5L, gamma = 0.1)
+
+model_ft <- train_model(
+  model_ft,
+  criterion,
+  optimizer_ft,
+  exp_lr_scheduler,
+  num_epochs = 25L
+)
+```
+
+## Plotando predições
+
+Agora vamos ver como o nosso classificador se sai:
+
+```{r, fig.height = 7}
+iter_test <- py$iter(dataloaders[["test"]])
+c(images, labels) %<-% iter_next(iter_test)
+images <- images$to(device)
+preds <- model_ft(images)
+preds <- torch$max(preds, 1L)$indices
+preds <- preds$cpu()$numpy()
+preds <- class_names[preds + 1]
+images <- images$cpu()$numpy()
+
+layout(matrix(1:4, 2, 2))
+for(i in 1:4){
+  images[i, , , , drop = FALSE] %>%
+    aperm(c(3, 4, 1, 2)) %>%
+    as.cimg() %>%
+    plot(main = glue("Predição: {preds[i]}"))
+}
+```
+
+## Resultado na base de teste
+
+```{r}
+test_acc <- 0
+running_corrects <- 0
+invisible(model_ft$eval())
+N <- dataset_sizes[["test"]]
+iter_data <- py$iter(dataloaders[["test"]])
+with(torch$no_grad(), {
+  while (TRUE) {
+    data <- iter_next(iter_data)
+    if (is.null(data)) {
+      break
+    }
+
+    inputs <- data[[1]]
+    inputs <- inputs$to(device)
+    labels <- data[[2]]
+    labels <- labels$to(device)
+    outputs <- model_ft(inputs)
+    preds <- torch$max(outputs, 1L)$indices
+
+    running_corrects <- running_corrects + sum(preds$cpu()$numpy() == labels$cpu()$numpy())
+
+  }
+  cat("-----------------------------\n")
+  cat(glue("Test Acc: {round(running_corrects/N, 4)}"), "\n")
+})
+
+```
+
+Nosso modelo conseguiu atingir a acurácia de `r scales::percent(running_corrects/N, accuracy = 0.1, big.mark = ".", decimal.mark = ",")`! 
+
+Com isso, fechamos esse post! A ideia era mostrar que pode-se usar facilmente uma biblioteca em Python no R com a ajuda do reticulate. Dessa forma, não precisamos nos limitar a uma linguagem única e aproveitar o melhor de cada!
+
+<div style="width:100%;height:0;padding-bottom:75%;position:relative;"><iframe src="https://giphy.com/embed/MuE0xWbEohUrxbm77r" width="100%" height="100%" style="position:absolute" frameBorder="0" class="giphy-embed" allowFullScreen></iframe></div><p><a href="https://giphy.com/gifs/hello-hi-waving-MuE0xWbEohUrxbm77r">via GIPHY</a></p>
