@@ -21,7 +21,7 @@ Para exemplificar o uso do Pytorch, neste post será treinado um modelo que dá 
 
 > SeeFood was a pitch made up in the conference room by Erlich. It was supposed to be Shazam for food, but development stopped after the algorithm could only detect hot dogs. Erlich sold his equity before SeeFood was bought by Periscope for 30 million dollars making Jian-Yang "a very rich man".
 
-O código desse post segue em grande parte o [tutorial](https://pytorch.org/tutorials/beginner/transfer_learning_tutorial.html) disponível no portal do Pytorch.
+O código desse post segue em grande parte o [tutorial](https://pytorch.org/tutorials/beginner/transfer_learning_tutorial.html) disponível no portal do Pytorch. É bom lembrar que a escolha do Pytorch para esse post envolve apenas um interesse meu em conhecer esse framework. Obviamente, o mesmo modelo poderia ser treinado no tensorflow sem nenhum problema. Este post é apenas um experimento e o blog está servindo de arquivo. `r emo::ji("nerd_face")`
 
 ## Pacotes e Módulos
 
@@ -253,7 +253,7 @@ train_model <- function(model, criterion, optimizer, scheduler, num_epochs = 25)
 }
 ```
 
-## Defining o modelo
+## Definindo o modelo
 
 Aqui utilizamos uma técnica conhecida como Transfer Learning. Isto é, utilizamos um modelo que foi pré-treinado em uma base maior e que já "aprendeu" a extrair features das imagens para auxiliar no treinamento do nosso modelo. Na prática iremos só redimensionar a última camada para que o output seja de dimensão 2 (número de classes da nossa base) e treinar o modelo mais um pouco para que ele se ajuste melhor à nossa tarefa.
 
@@ -337,3 +337,4 @@ Nosso modelo conseguiu atingir a acurácia de `r scales::percent(running_correct
 Com isso, fechamos esse post! A ideia era mostrar que pode-se usar facilmente uma biblioteca em Python no R com a ajuda do reticulate. Dessa forma, não precisamos nos limitar a uma linguagem única e aproveitar o melhor de cada!
 
 <div style="width:100%;height:0;padding-bottom:75%;position:relative;"><iframe src="https://giphy.com/embed/MuE0xWbEohUrxbm77r" width="100%" height="100%" style="position:absolute" frameBorder="0" class="giphy-embed" allowFullScreen></iframe></div><p><a href="https://giphy.com/gifs/hello-hi-waving-MuE0xWbEohUrxbm77r">via GIPHY</a></p>
+

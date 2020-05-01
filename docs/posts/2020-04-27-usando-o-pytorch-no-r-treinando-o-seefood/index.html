@@ -1380,7 +1380,7 @@ Labs!
 <blockquote>
 <p>SeeFood was a pitch made up in the conference room by Erlich. It was supposed to be Shazam for food, but development stopped after the algorithm could only detect hot dogs. Erlich sold his equity before SeeFood was bought by Periscope for 30 million dollars making Jian-Yang “a very rich man”.</p>
 </blockquote>
-<p>O código desse post segue em grande parte o <a href="https://pytorch.org/tutorials/beginner/transfer_learning_tutorial.html">tutorial</a> disponível no portal do Pytorch.</p>
+<p>O código desse post segue em grande parte o <a href="https://pytorch.org/tutorials/beginner/transfer_learning_tutorial.html">tutorial</a> disponível no portal do Pytorch. É bom lembrar que a escolha do Pytorch para esse post envolve apenas um interesse meu em conhecer esse framework. Obviamente, o mesmo modelo poderia ser treinado no tensorflow sem nenhum problema. Este post é apenas um experimento e o blog está servindo de arquivo. 🤓</p>
 <h2 id="pacotes-e-modulos">Pacotes e Módulos</h2>
 <p>Aqui estão listados os pacotes do R e bibliotecas do Python que iremos utilizar neste post. As biblotecas do Python que serão utilizadas são: <code>torch</code>, <code>torchvision</code>, <code>numpy</code> e <code>copy</code>.</p>
 <div class="layout-chunk" data-layout="l-body">
@@ -1608,7 +1608,7 @@ train_model &lt;- function(model, criterion, optimizer, scheduler, num_epochs = 
 
 }</code></pre>
 </div>
-<h2 id="defining-o-modelo">Defining o modelo</h2>
+<h2 id="definindo-o-modelo">Definindo o modelo</h2>
 <p>Aqui utilizamos uma técnica conhecida como Transfer Learning. Isto é, utilizamos um modelo que foi pré-treinado em uma base maior e que já “aprendeu” a extrair features das imagens para auxiliar no treinamento do nosso modelo. Na prática iremos só redimensionar a última camada para que o output seja de dimensão 2 (número de classes da nossa base) e treinar o modelo mais um pouco para que ele se ajuste melhor à nossa tarefa.</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
@@ -1633,106 +1633,106 @@ model_ft &lt;- train_model(
 <pre><code>
 Epoch 1/25 
 -----------------------------
-train Loss: 0.4035 Acc.: 0.8173 
-valid Loss: 0.2337 Acc.: 0.9133 
+train Loss: 0.4002 Acc.: 0.7932 
+valid Loss: 0.2828 Acc.: 0.86 
 Epoch 2/25 
 -----------------------------
-train Loss: 0.1059 Acc.: 0.9659 
-valid Loss: 0.2374 Acc.: 0.9133 
+train Loss: 0.1436 Acc.: 0.9558 
+valid Loss: 0.3005 Acc.: 0.8867 
 Epoch 3/25 
 -----------------------------
-train Loss: 0.1241 Acc.: 0.9518 
-valid Loss: 0.3299 Acc.: 0.8867 
+train Loss: 0.1241 Acc.: 0.9618 
+valid Loss: 0.3138 Acc.: 0.8667 
 Epoch 4/25 
 -----------------------------
-train Loss: 0.1034 Acc.: 0.9618 
-valid Loss: 0.3381 Acc.: 0.8867 
+train Loss: 0.1205 Acc.: 0.9598 
+valid Loss: 0.3448 Acc.: 0.86 
 Epoch 5/25 
 -----------------------------
-train Loss: 0.1147 Acc.: 0.9659 
-valid Loss: 0.27 Acc.: 0.9067 
+train Loss: 0.0914 Acc.: 0.9699 
+valid Loss: 0.2506 Acc.: 0.8933 
 Epoch 6/25 
 -----------------------------
-train Loss: 0.0848 Acc.: 0.9598 
-valid Loss: 0.2389 Acc.: 0.9133 
+train Loss: 0.0604 Acc.: 0.9799 
+valid Loss: 0.2536 Acc.: 0.9 
 Epoch 7/25 
 -----------------------------
-train Loss: 0.0744 Acc.: 0.9719 
-valid Loss: 0.2367 Acc.: 0.9067 
+train Loss: 0.0623 Acc.: 0.9839 
+valid Loss: 0.2673 Acc.: 0.8933 
 Epoch 8/25 
 -----------------------------
-train Loss: 0.0636 Acc.: 0.9819 
-valid Loss: 0.2176 Acc.: 0.9267 
+train Loss: 0.0548 Acc.: 0.9819 
+valid Loss: 0.2907 Acc.: 0.8867 
 Epoch 9/25 
 -----------------------------
-train Loss: 0.0528 Acc.: 0.988 
-valid Loss: 0.2287 Acc.: 0.9133 
+train Loss: 0.06 Acc.: 0.9759 
+valid Loss: 0.278 Acc.: 0.8533 
 Epoch 10/25 
 -----------------------------
-train Loss: 0.0298 Acc.: 0.99 
-valid Loss: 0.2217 Acc.: 0.92 
+train Loss: 0.067 Acc.: 0.9739 
+valid Loss: 0.2771 Acc.: 0.8733 
 Epoch 11/25 
 -----------------------------
-train Loss: 0.0408 Acc.: 0.9859 
-valid Loss: 0.2257 Acc.: 0.9133 
+train Loss: 0.1217 Acc.: 0.9558 
+valid Loss: 0.3453 Acc.: 0.8867 
 Epoch 12/25 
 -----------------------------
-train Loss: 0.0974 Acc.: 0.9679 
-valid Loss: 0.2261 Acc.: 0.92 
+train Loss: 0.0601 Acc.: 0.9779 
+valid Loss: 0.2908 Acc.: 0.88 
 Epoch 13/25 
 -----------------------------
-train Loss: 0.0506 Acc.: 0.9859 
-valid Loss: 0.2233 Acc.: 0.92 
+train Loss: 0.0468 Acc.: 0.99 
+valid Loss: 0.2877 Acc.: 0.8867 
 Epoch 14/25 
 -----------------------------
-train Loss: 0.0674 Acc.: 0.9739 
-valid Loss: 0.2281 Acc.: 0.92 
+train Loss: 0.0645 Acc.: 0.9759 
+valid Loss: 0.2972 Acc.: 0.8733 
 Epoch 15/25 
 -----------------------------
-train Loss: 0.0396 Acc.: 0.988 
-valid Loss: 0.2207 Acc.: 0.9133 
+train Loss: 0.0267 Acc.: 0.996 
+valid Loss: 0.2699 Acc.: 0.88 
 Epoch 16/25 
 -----------------------------
-train Loss: 0.0513 Acc.: 0.988 
-valid Loss: 0.2126 Acc.: 0.9267 
+train Loss: 0.0352 Acc.: 0.988 
+valid Loss: 0.3234 Acc.: 0.88 
 Epoch 17/25 
 -----------------------------
-train Loss: 0.0468 Acc.: 0.9859 
-valid Loss: 0.2252 Acc.: 0.9133 
+train Loss: 0.0627 Acc.: 0.9819 
+valid Loss: 0.2829 Acc.: 0.8733 
 Epoch 18/25 
 -----------------------------
-train Loss: 0.0724 Acc.: 0.9699 
-valid Loss: 0.2303 Acc.: 0.9133 
+train Loss: 0.0221 Acc.: 0.996 
+valid Loss: 0.2721 Acc.: 0.88 
 Epoch 19/25 
 -----------------------------
-train Loss: 0.0806 Acc.: 0.9679 
-valid Loss: 0.2234 Acc.: 0.92 
+train Loss: 0.0882 Acc.: 0.9639 
+valid Loss: 0.3033 Acc.: 0.8867 
 Epoch 20/25 
 -----------------------------
-train Loss: 0.0859 Acc.: 0.9679 
-valid Loss: 0.2175 Acc.: 0.9133 
+train Loss: 0.0319 Acc.: 0.992 
+valid Loss: 0.2923 Acc.: 0.8733 
 Epoch 21/25 
 -----------------------------
-train Loss: 0.0492 Acc.: 0.9839 
-valid Loss: 0.2034 Acc.: 0.9333 
+train Loss: 0.1071 Acc.: 0.9639 
+valid Loss: 0.2818 Acc.: 0.88 
 Epoch 22/25 
 -----------------------------
-train Loss: 0.063 Acc.: 0.9779 
-valid Loss: 0.2182 Acc.: 0.9267 
+train Loss: 0.0351 Acc.: 0.99 
+valid Loss: 0.2751 Acc.: 0.8667 
 Epoch 23/25 
 -----------------------------
-train Loss: 0.0321 Acc.: 0.992 
-valid Loss: 0.2305 Acc.: 0.9067 
+train Loss: 0.0231 Acc.: 0.996 
+valid Loss: 0.2821 Acc.: 0.8667 
 Epoch 24/25 
 -----------------------------
-train Loss: 0.0453 Acc.: 0.99 
-valid Loss: 0.2087 Acc.: 0.9267 
+train Loss: 0.0456 Acc.: 0.9859 
+valid Loss: 0.2783 Acc.: 0.8733 
 Epoch 25/25 
 -----------------------------
-train Loss: 0.0421 Acc.: 0.99 
-valid Loss: 0.2194 Acc.: 0.9133 
+train Loss: 0.0571 Acc.: 0.9819 
+valid Loss: 0.2866 Acc.: 0.8867 
 -----------------------------
-Best val Acc: 0.9333 </code></pre>
+Best val Acc: 0.9 </code></pre>
 </div>
 <h2 id="plotando-predicoes">Plotando predições</h2>
 <p>Agora vamos ver como o nosso classificador se sai:</p>
@@ -1786,9 +1786,9 @@ with(torch$no_grad(), {
 })</code></pre>
 <pre><code>
 -----------------------------
-Test Acc: 0.94 </code></pre>
+Test Acc: 0.9171 </code></pre>
 </div>
-<p>Nosso modelo conseguiu atingir a acurácia de 94,0%!</p>
+<p>Nosso modelo conseguiu atingir a acurácia de 91,7%!</p>
 <p>Com isso, fechamos esse post! A ideia era mostrar que pode-se usar facilmente uma biblioteca em Python no R com a ajuda do reticulate. Dessa forma, não precisamos nos limitar a uma linguagem única e aproveitar o melhor de cada!</p>
 <div style="width:100%;height:0;padding-bottom:75%;position:relative;">
 <iframe src="https://giphy.com/embed/MuE0xWbEohUrxbm77r" width="100%" height="100%" style="position:absolute" frameBorder="0" class="giphy-embed" allowFullScreen>
