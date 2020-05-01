@@ -1211,119 +1211,68 @@ model_ft &lt;- model_ft$to(device)
 criterion &lt;- nn$CrossEntropyLoss()
 optimizer_ft = optim$AdamW(model_ft$parameters(), lr = 5e-5)
 lr_scheduler &lt;- optim$lr_scheduler
-exp_lr_scheduler = lr_scheduler$StepLR(optimizer_ft, step_size = 5L, gamma = 0.1)
+exp_lr_scheduler = lr_scheduler$StepLR(optimizer_ft, step_size = 4L, gamma = 0.1)
 
 model_ft &lt;- train_model(
   model_ft,
   criterion,
   optimizer_ft,
   exp_lr_scheduler,
-  num_epochs = 25L
+  num_epochs = 12L
 )</code></pre>
 <pre><code>
-Epoch 1/25 
+Epoch 1/12 
 -----------------------------
-train Loss: 0.4002 Acc.: 0.7932 
-valid Loss: 0.2828 Acc.: 0.86 
-Epoch 2/25 
+train Loss: 0.4157 Acc.: 0.8032 
+valid Loss: 0.2799 Acc.: 0.8533 
+Epoch 2/12 
 -----------------------------
-train Loss: 0.1436 Acc.: 0.9558 
-valid Loss: 0.3005 Acc.: 0.8867 
-Epoch 3/25 
+train Loss: 0.174 Acc.: 0.9378 
+valid Loss: 0.2975 Acc.: 0.88 
+Epoch 3/12 
 -----------------------------
-train Loss: 0.1241 Acc.: 0.9618 
-valid Loss: 0.3138 Acc.: 0.8667 
-Epoch 4/25 
+train Loss: 0.0842 Acc.: 0.9699 
+valid Loss: 0.246 Acc.: 0.8867 
+Epoch 4/12 
 -----------------------------
-train Loss: 0.1205 Acc.: 0.9598 
-valid Loss: 0.3448 Acc.: 0.86 
-Epoch 5/25 
+train Loss: 0.112 Acc.: 0.9659 
+valid Loss: 0.2861 Acc.: 0.9067 
+Epoch 5/12 
 -----------------------------
-train Loss: 0.0914 Acc.: 0.9699 
-valid Loss: 0.2506 Acc.: 0.8933 
-Epoch 6/25 
+train Loss: 0.127 Acc.: 0.9478 
+valid Loss: 0.2874 Acc.: 0.8933 
+Epoch 6/12 
 -----------------------------
-train Loss: 0.0604 Acc.: 0.9799 
-valid Loss: 0.2536 Acc.: 0.9 
-Epoch 7/25 
+train Loss: 0.0981 Acc.: 0.9538 
+valid Loss: 0.325 Acc.: 0.8467 
+Epoch 7/12 
 -----------------------------
-train Loss: 0.0623 Acc.: 0.9839 
-valid Loss: 0.2673 Acc.: 0.8933 
-Epoch 8/25 
+train Loss: 0.0759 Acc.: 0.9739 
+valid Loss: 0.2787 Acc.: 0.8933 
+Epoch 8/12 
 -----------------------------
-train Loss: 0.0548 Acc.: 0.9819 
-valid Loss: 0.2907 Acc.: 0.8867 
-Epoch 9/25 
+train Loss: 0.0365 Acc.: 0.992 
+valid Loss: 0.2737 Acc.: 0.9 
+Epoch 9/12 
 -----------------------------
-train Loss: 0.06 Acc.: 0.9759 
-valid Loss: 0.278 Acc.: 0.8533 
-Epoch 10/25 
+train Loss: 0.0678 Acc.: 0.9719 
+valid Loss: 0.3268 Acc.: 0.8467 
+Epoch 10/12 
 -----------------------------
-train Loss: 0.067 Acc.: 0.9739 
-valid Loss: 0.2771 Acc.: 0.8733 
-Epoch 11/25 
+train Loss: 0.0372 Acc.: 0.994 
+valid Loss: 0.4178 Acc.: 0.8133 
+Epoch 11/12 
 -----------------------------
-train Loss: 0.1217 Acc.: 0.9558 
-valid Loss: 0.3453 Acc.: 0.8867 
-Epoch 12/25 
+train Loss: 0.0293 Acc.: 0.988 
+valid Loss: 0.2825 Acc.: 0.8867 
+Epoch 12/12 
 -----------------------------
-train Loss: 0.0601 Acc.: 0.9779 
-valid Loss: 0.2908 Acc.: 0.88 
-Epoch 13/25 
+train Loss: 0.0563 Acc.: 0.9819 
+valid Loss: 0.279 Acc.: 0.8933 
 -----------------------------
-train Loss: 0.0468 Acc.: 0.99 
-valid Loss: 0.2877 Acc.: 0.8867 
-Epoch 14/25 
------------------------------
-train Loss: 0.0645 Acc.: 0.9759 
-valid Loss: 0.2972 Acc.: 0.8733 
-Epoch 15/25 
------------------------------
-train Loss: 0.0267 Acc.: 0.996 
-valid Loss: 0.2699 Acc.: 0.88 
-Epoch 16/25 
------------------------------
-train Loss: 0.0352 Acc.: 0.988 
-valid Loss: 0.3234 Acc.: 0.88 
-Epoch 17/25 
------------------------------
-train Loss: 0.0627 Acc.: 0.9819 
-valid Loss: 0.2829 Acc.: 0.8733 
-Epoch 18/25 
------------------------------
-train Loss: 0.0221 Acc.: 0.996 
-valid Loss: 0.2721 Acc.: 0.88 
-Epoch 19/25 
------------------------------
-train Loss: 0.0882 Acc.: 0.9639 
-valid Loss: 0.3033 Acc.: 0.8867 
-Epoch 20/25 
------------------------------
-train Loss: 0.0319 Acc.: 0.992 
-valid Loss: 0.2923 Acc.: 0.8733 
-Epoch 21/25 
------------------------------
-train Loss: 0.1071 Acc.: 0.9639 
-valid Loss: 0.2818 Acc.: 0.88 
-Epoch 22/25 
------------------------------
-train Loss: 0.0351 Acc.: 0.99 
-valid Loss: 0.2751 Acc.: 0.8667 
-Epoch 23/25 
------------------------------
-train Loss: 0.0231 Acc.: 0.996 
-valid Loss: 0.2821 Acc.: 0.8667 
-Epoch 24/25 
------------------------------
-train Loss: 0.0456 Acc.: 0.9859 
-valid Loss: 0.2783 Acc.: 0.8733 
-Epoch 25/25 
------------------------------
-train Loss: 0.0571 Acc.: 0.9819 
-valid Loss: 0.2866 Acc.: 0.8867 
------------------------------
-Best val Acc: 0.9 </code></pre>
+Best val Acc: 0.9067 </code></pre>
 </div>
+<p>Olhando os resultados, fica claro que seria necessário adotar alguma estratégia para diminuir o overfitting. Poderíamos ter escrito um modelo mais customizado e adicionado camadas de <em>dropout</em>.</p>
 <h2 id="plotando-predicoes">Plotando predições</h2>
 <p>Agora vamos ver como o nosso classificador se sai:</p>
 <div class="layout-chunk" data-layout="l-body">
@@ -1376,9 +1325,9 @@ with(torch$no_grad(), {
 })</code></pre>
 <pre><code>
 -----------------------------
-Test Acc: 0.9171 </code></pre>
+Test Acc: 0.92 </code></pre>
 </div>
-<p>Nosso modelo conseguiu atingir a acurácia de 91,7%!</p>
+<p>Nosso modelo conseguiu atingir a acurácia de 92,0%!</p>
 <p>Com isso, fechamos esse post! A ideia era mostrar que pode-se usar facilmente uma biblioteca em Python no R com a ajuda do reticulate. Dessa forma, não precisamos nos limitar a uma linguagem única e aproveitar o melhor de cada!</p>
 <div style="width:100%;height:0;padding-bottom:75%;position:relative;">
 <iframe src="https://giphy.com/embed/MuE0xWbEohUrxbm77r" width="100%" height="100%" style="position:absolute" frameBorder="0" class="giphy-embed" allowFullScreen>

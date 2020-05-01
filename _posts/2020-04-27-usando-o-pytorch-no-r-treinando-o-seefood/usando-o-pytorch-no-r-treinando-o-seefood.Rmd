@@ -267,16 +267,18 @@ model_ft <- model_ft$to(device)
 criterion <- nn$CrossEntropyLoss()
 optimizer_ft = optim$AdamW(model_ft$parameters(), lr = 5e-5)
 lr_scheduler <- optim$lr_scheduler
-exp_lr_scheduler = lr_scheduler$StepLR(optimizer_ft, step_size = 5L, gamma = 0.1)
+exp_lr_scheduler = lr_scheduler$StepLR(optimizer_ft, step_size = 4L, gamma = 0.1)
 
 model_ft <- train_model(
   model_ft,
   criterion,
   optimizer_ft,
   exp_lr_scheduler,
-  num_epochs = 25L
+  num_epochs = 12L
 )
 ```
+
+Olhando os resultados, fica claro que seria necessário adotar alguma estratégia para diminuir o overfitting. Poderíamos ter escrito um modelo mais customizado e adicionado camadas de *dropout*.
 
 ## Plotando predições
 
