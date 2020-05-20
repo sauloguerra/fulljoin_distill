@@ -12,10 +12,10 @@
       <title>Prevendo a qualidade de vinhos com o tidymodels</title>
       <dc:creator>Diego Castro</dc:creator>
       <link>https://www.fulljoin.com.br/posts/2020-05-18-qualidade-de-vinhos-com-tidymodels</link>
-      <description>O objetivo principal deste post é apresentar o *tidymodels*, que é uma coleção de pacotes para modelagem e aprendizado de máquina o qual utiliza os princípios do *tidyverse*. Para isso, iremos utilizar uma base de dados de qualidade de vinhos e implementar modelos de classificação.</description>
+      <description>O objetivo principal deste post é apresentar o tidymodels, que é uma coleção de pacotes para modelagem e aprendizado de máquina o qual utiliza os princípios do tidyverse. Para isso, iremos utilizar uma base de dados de qualidade de vinhos e implementar modelos de classificação.</description>
       <guid>https://www.fulljoin.com.br/posts/2020-05-18-qualidade-de-vinhos-com-tidymodels</guid>
       <pubDate>ter, 19 mai 2020 00:00:00 +0000</pubDate>
-      <media:content url="https://www.fulljoin.com.br/posts/2020-05-18-qualidade-de-vinhos-com-tidymodels/vinhos_com_tidymodels_files/figure-html5/unnamed-chunk-2-1.png" medium="image" type="image/png" width="1248" height="768"/>
+      <media:content url="https://www.fulljoin.com.br/posts/2020-05-18-qualidade-de-vinhos-com-tidymodels/../../images/tidymodels_sticker.png" medium="image" type="image/png" width="738" height="852"/>
     </item>
     <item>
       <title>Usando o Pytorch no R: Treinando o Seefood</title>

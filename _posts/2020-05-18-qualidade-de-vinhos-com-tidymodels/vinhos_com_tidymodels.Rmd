@@ -1,14 +1,14 @@
 ---
 title: "Prevendo a qualidade de vinhos com o tidymodels"
 description: |
-  O objetivo principal deste post é apresentar o *tidymodels*, que é uma coleção de pacotes para modelagem e aprendizado de máquina o qual utiliza os princípios do *tidyverse*. Para isso, iremos utilizar uma base de dados de qualidade de vinhos e implementar modelos de classificação.
+  O objetivo principal deste post é apresentar o tidymodels, que é uma coleção de pacotes para modelagem e aprendizado de máquina o qual utiliza os princípios do tidyverse. Para isso, iremos utilizar uma base de dados de qualidade de vinhos e implementar modelos de classificação.
 author: "Diego Castro"
 date: "`r Sys.Date()`"
 output: 
   distill::distill_article:
-    self_contained: FALSE
-draft: FALSE
-preview: ../../images/tidyverse_sticker.png
+    self_contained: false
+draft: false
+preview: ../../images/tidymodels_sticker.png
 ---
 
 ```{r setup, include=FALSE}
