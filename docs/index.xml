@@ -7,7 +7,16 @@
     <description>Fulljoin
 </description>
     <generator>Distill</generator>
-    <lastBuildDate>seg, 27 abr 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>ter, 19 mai 2020 00:00:00 +0000</lastBuildDate>
+    <item>
+      <title>Prevendo a qualidade de vinhos com o tidymodels</title>
+      <dc:creator>Diego Castro</dc:creator>
+      <link>https://www.fulljoin.com.br/posts/2020-05-18-qualidade-de-vinhos-com-tidymodels</link>
+      <description>O objetivo principal deste post é apresentar o *tidymodels*, que é uma coleção de pacotes para modelagem e aprendizado de máquina o qual utiliza os princípios do *tidyverse*. Para isso, iremos utilizar uma base de dados de qualidade de vinhos e implementar modelos de classificação.</description>
+      <guid>https://www.fulljoin.com.br/posts/2020-05-18-qualidade-de-vinhos-com-tidymodels</guid>
+      <pubDate>ter, 19 mai 2020 00:00:00 +0000</pubDate>
+      <media:content url="https://www.fulljoin.com.br/posts/2020-05-18-qualidade-de-vinhos-com-tidymodels/vinhos_com_tidymodels_files/figure-html5/unnamed-chunk-2-1.png" medium="image" type="image/png" width="1248" height="768"/>
+    </item>
     <item>
       <title>Usando o Pytorch no R: Treinando o Seefood</title>
       <dc:creator>Paulo Felipe Alencar</dc:creator>
@@ -15,7 +24,6 @@
       <description>Neste post iremos testar o uso do Pytorch no R com o auxílio do pacote reticulate, que permite a utilização de bibliotecas do Python diretamente no R. Isso ajuda a evitar (em parte) aquela disputa entre o R e o Python, uma vez que você pode usar o melhor de cada. Como exemplo, iremos treinar uma classificador de imagens que é a base do aplicativo Seefood que fez fama no seriado Silicon Valley da HBO.</description>
       <guid>https://www.fulljoin.com.br/posts/2020-04-27-usando-o-pytorch-no-r-treinando-o-seefood</guid>
       <pubDate>seg, 27 abr 2020 00:00:00 +0000</pubDate>
-      <media:content url="https://www.fulljoin.com.br/posts/2020-04-27-usando-o-pytorch-no-r-treinando-o-seefood/usando-o-pytorch-no-r-treinando-o-seefood_files/figure-html5/unnamed-chunk-5-1.png" medium="image" type="image/png" width="1248" height="1344"/>
     </item>
     <item>
       <title>Manipulação de texto com stringr - parte IV</title>
@@ -88,15 +96,6 @@
       <guid>https://www.fulljoin.com.br/posts/2019-10-22-manipulao-de-texto-com-stringr-parte-ii</guid>
       <pubDate>qua, 23 out 2019 00:00:00 +0000</pubDate>
       <media:content url="https://www.fulljoin.com.br/posts/2019-10-22-manipulao-de-texto-com-stringr-parte-ii/../../images/logo_stringr.png" medium="image" type="image/png" width="439" height="419"/>
-    </item>
-    <item>
-      <title>Tidytext e Modelagem de Tópicos com o R: Analisando os Textos de Acordos Comerciais</title>
-      <dc:creator>Paulo Felipe Alencar</dc:creator>
-      <link>https://www.fulljoin.com.br/posts/2019-09-19-modelagem-de-tpicos-com-o-r-analisando-os-textos-de-acordos-comerciais</link>
-      <description>Neste post, vamos fazer uma análise de tópicos utilizando os pacotes tidytext e topicmodels. Essa análise consiste em extrair um conjunto de temas (tópicos) de um conjunto de textos. Para isso, utilizamos uma base de textos de acordos comerciais. Veremos que o método utilizado é capaz de identificar uma séria de tópicos relevantes.</description>
-      <guid>https://www.fulljoin.com.br/posts/2019-09-19-modelagem-de-tpicos-com-o-r-analisando-os-textos-de-acordos-comerciais</guid>
-      <pubDate>qui, 17 out 2019 00:00:00 +0000</pubDate>
-      <media:content url="https://www.fulljoin.com.br/posts/2019-09-19-modelagem-de-tpicos-com-o-r-analisando-os-textos-de-acordos-comerciais/modelagem-de-tpicos-com-o-r-analisando-os-textos-de-acordos-comerciais_files/figure-html5/unnamed-chunk-20-1.png" medium="image" type="image/png" width="1248" height="960"/>
     </item>
   </channel>
 </rss>

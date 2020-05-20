@@ -19,47 +19,53 @@
  <!--/radix_placeholder_import_source-->
 
   <!--radix_placeholder_meta_tags-->
-<title>Fulljoin: Usando o Pytorch no R: Treinando o Seefood</title>
+<title>Fulljoin: Prevendo a qualidade de vinhos com o tidymodels</title>
 
-<meta property="description" itemprop="description" content="Neste post iremos testar o uso do Pytorch no R com o auxílio do pacote reticulate, que permite a utilização de bibliotecas do Python diretamente no R. Isso ajuda a evitar (em parte) aquela disputa entre o R e o Python, uma vez que você pode usar o melhor de cada. Como exemplo, iremos treinar uma classificador de imagens que é a base do aplicativo Seefood que fez fama no seriado Silicon Valley da HBO."/>
+<meta property="description" itemprop="description" content="O objetivo principal deste post é apresentar o *tidymodels*, que é uma coleção de pacotes para modelagem e aprendizado de máquina o qual utiliza os princípios do *tidyverse*. Para isso, iremos utilizar uma base de dados de qualidade de vinhos e implementar modelos de classificação."/>
 
-<link rel="canonical" href="https://www.fulljoin.com.br/posts/2020-04-27-usando-o-pytorch-no-r-treinando-o-seefood/"/>
+<link rel="canonical" href="https://www.fulljoin.com.br/posts/2020-05-18-qualidade-de-vinhos-com-tidymodels/"/>
 
 <!--  https://schema.org/Article -->
-<meta property="article:published" itemprop="datePublished" content="2020-04-27"/>
-<meta property="article:created" itemprop="dateCreated" content="2020-04-27"/>
-<meta name="article:author" content="Paulo Felipe Alencar"/>
+<meta property="article:published" itemprop="datePublished" content="2020-05-19"/>
+<meta property="article:created" itemprop="dateCreated" content="2020-05-19"/>
+<meta name="article:author" content="Diego Castro"/>
 
 <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
-<meta property="og:title" content="Fulljoin: Usando o Pytorch no R: Treinando o Seefood"/>
+<meta property="og:title" content="Fulljoin: Prevendo a qualidade de vinhos com o tidymodels"/>
 <meta property="og:type" content="article"/>
-<meta property="og:description" content="Neste post iremos testar o uso do Pytorch no R com o auxílio do pacote reticulate, que permite a utilização de bibliotecas do Python diretamente no R. Isso ajuda a evitar (em parte) aquela disputa entre o R e o Python, uma vez que você pode usar o melhor de cada. Como exemplo, iremos treinar uma classificador de imagens que é a base do aplicativo Seefood que fez fama no seriado Silicon Valley da HBO."/>
-<meta property="og:url" content="https://www.fulljoin.com.br/posts/2020-04-27-usando-o-pytorch-no-r-treinando-o-seefood/"/>
+<meta property="og:description" content="O objetivo principal deste post é apresentar o *tidymodels*, que é uma coleção de pacotes para modelagem e aprendizado de máquina o qual utiliza os princípios do *tidyverse*. Para isso, iremos utilizar uma base de dados de qualidade de vinhos e implementar modelos de classificação."/>
+<meta property="og:url" content="https://www.fulljoin.com.br/posts/2020-05-18-qualidade-de-vinhos-com-tidymodels/"/>
+<meta property="og:image" content="https://www.fulljoin.com.br/posts/2020-05-18-qualidade-de-vinhos-com-tidymodels/vinhos_com_tidymodels_files/figure-html5/unnamed-chunk-2-1.png"/>
+<meta property="og:image:width" content="1248"/>
+<meta property="og:image:height" content="768"/>
 <meta property="og:locale" content="en_US"/>
 <meta property="og:site_name" content="Fulljoin"/>
 
 <!--  https://dev.twitter.com/cards/types/summary -->
-<meta property="twitter:card" content="summary"/>
-<meta property="twitter:title" content="Fulljoin: Usando o Pytorch no R: Treinando o Seefood"/>
-<meta property="twitter:description" content="Neste post iremos testar o uso do Pytorch no R com o auxílio do pacote reticulate, que permite a utilização de bibliotecas do Python diretamente no R. Isso ajuda a evitar (em parte) aquela disputa entre o R e o Python, uma vez que você pode usar o melhor de cada. Como exemplo, iremos treinar uma classificador de imagens que é a base do aplicativo Seefood que fez fama no seriado Silicon Valley da HBO."/>
-<meta property="twitter:url" content="https://www.fulljoin.com.br/posts/2020-04-27-usando-o-pytorch-no-r-treinando-o-seefood/"/>
+<meta property="twitter:card" content="summary_large_image"/>
+<meta property="twitter:title" content="Fulljoin: Prevendo a qualidade de vinhos com o tidymodels"/>
+<meta property="twitter:description" content="O objetivo principal deste post é apresentar o *tidymodels*, que é uma coleção de pacotes para modelagem e aprendizado de máquina o qual utiliza os princípios do *tidyverse*. Para isso, iremos utilizar uma base de dados de qualidade de vinhos e implementar modelos de classificação."/>
+<meta property="twitter:url" content="https://www.fulljoin.com.br/posts/2020-05-18-qualidade-de-vinhos-com-tidymodels/"/>
+<meta property="twitter:image" content="https://www.fulljoin.com.br/posts/2020-05-18-qualidade-de-vinhos-com-tidymodels/vinhos_com_tidymodels_files/figure-html5/unnamed-chunk-2-1.png"/>
+<meta property="twitter:image:width" content="1248"/>
+<meta property="twitter:image:height" content="768"/>
 
 <!--  https://scholar.google.com/intl/en/scholar/inclusion.html#indexing -->
-<meta name="citation_title" content="Fulljoin: Usando o Pytorch no R: Treinando o Seefood"/>
-<meta name="citation_fulltext_html_url" content="https://www.fulljoin.com.br/posts/2020-04-27-usando-o-pytorch-no-r-treinando-o-seefood/"/>
-<meta name="citation_online_date" content="2020/04/27"/>
-<meta name="citation_publication_date" content="2020/04/27"/>
-<meta name="citation_author" content="Paulo Felipe Alencar"/>
+<meta name="citation_title" content="Fulljoin: Prevendo a qualidade de vinhos com o tidymodels"/>
+<meta name="citation_fulltext_html_url" content="https://www.fulljoin.com.br/posts/2020-05-18-qualidade-de-vinhos-com-tidymodels/"/>
+<meta name="citation_online_date" content="2020/05/19"/>
+<meta name="citation_publication_date" content="2020/05/19"/>
+<meta name="citation_author" content="Diego Castro"/>
 <!--/radix_placeholder_meta_tags-->
   <!--radix_placeholder_rmarkdown_metadata-->
 
 <script type="text/json" id="radix-rmarkdown-metadata">
-{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","output","draft","citation_url","canonical_url"]}},"value":[{"type":"character","attributes":{},"value":["Usando o Pytorch no R: Treinando o Seefood"]},{"type":"character","attributes":{},"value":["Neste post iremos testar o uso do Pytorch no R com o auxílio do pacote reticulate, que permite a utilização de bibliotecas do Python diretamente no R. Isso ajuda a evitar (em parte) aquela disputa entre o R e o Python, uma vez que você pode usar o melhor de cada. Como exemplo, iremos treinar uma classificador de imagens que é a base do aplicativo Seefood que fez fama no seriado Silicon Valley da HBO."]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name"]}},"value":[{"type":"character","attributes":{},"value":["Paulo Felipe Alencar"]}]}]},{"type":"character","attributes":{},"value":["04-27-2020"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]}]},{"type":"logical","attributes":{},"value":[false]},{"type":"character","attributes":{},"value":["https://www.fulljoin.com.br/posts/2020-04-27-usando-o-pytorch-no-r-treinando-o-seefood/"]},{"type":"character","attributes":{},"value":["https://www.fulljoin.com.br/posts/2020-04-27-usando-o-pytorch-no-r-treinando-o-seefood/"]}]}
+{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","output","draft","preview","citation_url","canonical_url"]}},"value":[{"type":"character","attributes":{},"value":["Prevendo a qualidade de vinhos com o tidymodels"]},{"type":"character","attributes":{},"value":["O objetivo principal deste post é apresentar o *tidymodels*, que é uma coleção de pacotes para modelagem e aprendizado de máquina o qual utiliza os princípios do *tidyverse*. Para isso, iremos utilizar uma base de dados de qualidade de vinhos e implementar modelos de classificação."]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name"]}},"value":[{"type":"character","attributes":{},"value":["Diego Castro"]}]}]},{"type":"character","attributes":{},"value":["2020-05-19"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]}]},{"type":"logical","attributes":{},"value":[false]},{"type":"character","attributes":{},"value":["../../images/tidyverse_sticker.png"]},{"type":"character","attributes":{},"value":["https://www.fulljoin.com.br/posts/2020-05-18-qualidade-de-vinhos-com-tidymodels/"]},{"type":"character","attributes":{},"value":["https://www.fulljoin.com.br/posts/2020-05-18-qualidade-de-vinhos-com-tidymodels/"]}]}
 </script>
 <!--/radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-resource-manifest">
-  {"type":"character","attributes":{},"value":["usando-o-pytorch-no-r-treinando-o-seefood_files/bowser-1.9.3/bowser.min.js","usando-o-pytorch-no-r-treinando-o-seefood_files/distill-2.2.21/template.v2.js","usando-o-pytorch-no-r-treinando-o-seefood_files/figure-html5/unnamed-chunk-3-1.png","usando-o-pytorch-no-r-treinando-o-seefood_files/figure-html5/unnamed-chunk-5-1.png","usando-o-pytorch-no-r-treinando-o-seefood_files/figure-html5/unnamed-chunk-8-1.png","usando-o-pytorch-no-r-treinando-o-seefood_files/jquery-1.11.3/jquery.min.js","usando-o-pytorch-no-r-treinando-o-seefood_files/webcomponents-2.0.0/webcomponents.js"]}
+  {"type":"character","attributes":{},"value":["vinhos_com_tidymodels_files/bowser-1.9.3/bowser.min.js","vinhos_com_tidymodels_files/distill-2.2.21/template.v2.js","vinhos_com_tidymodels_files/figure-html5/unnamed-chunk-13-1.png","vinhos_com_tidymodels_files/figure-html5/unnamed-chunk-2-1.png","vinhos_com_tidymodels_files/figure-html5/unnamed-chunk-3-1.png","vinhos_com_tidymodels_files/jquery-1.11.3/jquery.min.js","vinhos_com_tidymodels_files/webcomponents-2.0.0/webcomponents.js"]}
   </script>
   <!--radix_placeholder_navigation_in_header-->
 
@@ -1324,7 +1330,7 @@ d-appendix {
 <!--radix_placeholder_front_matter-->
 
 <script id="distill-front-matter" type="text/json">
-{"title":"Usando o Pytorch no R: Treinando o Seefood","description":"Neste post iremos testar o uso do Pytorch no R com o auxílio do pacote reticulate, que permite a utilização de bibliotecas do Python diretamente no R. Isso ajuda a evitar (em parte) aquela disputa entre o R e o Python, uma vez que você pode usar o melhor de cada. Como exemplo, iremos treinar uma classificador de imagens que é a base do aplicativo Seefood que fez fama no seriado Silicon Valley da HBO.","authors":[{"author":"Paulo Felipe Alencar","authorURL":"#","affiliation":"&nbsp;","affiliationURL":"#"}],"publishedDate":"2020-04-27T00:00:00.000-03:00","citationText":"Alencar, 2020"}
+{"title":"Prevendo a qualidade de vinhos com o tidymodels","description":"O objetivo principal deste post é apresentar o *tidymodels*, que é uma coleção de pacotes para modelagem e aprendizado de máquina o qual utiliza os princípios do *tidyverse*. Para isso, iremos utilizar uma base de dados de qualidade de vinhos e implementar modelos de classificação.","authors":[{"author":"Diego Castro","authorURL":"#","affiliation":"&nbsp;","affiliationURL":"#"}],"publishedDate":"2020-05-19T00:00:00.000-03:00","citationText":"Castro, 2020"}
 </script>
 
 <!--/radix_placeholder_front_matter-->
@@ -1356,407 +1362,250 @@ Labs!
 <!--/radix_placeholder_site_before_body-->
 
 <div class="d-title">
-<h1>Usando o Pytorch no R: Treinando o Seefood</h1>
-<p>Neste post iremos testar o uso do Pytorch no R com o auxílio do pacote reticulate, que permite a utilização de bibliotecas do Python diretamente no R. Isso ajuda a evitar (em parte) aquela disputa entre o R e o Python, uma vez que você pode usar o melhor de cada. Como exemplo, iremos treinar uma classificador de imagens que é a base do aplicativo Seefood que fez fama no seriado Silicon Valley da HBO.</p>
+<h1>Prevendo a qualidade de vinhos com o tidymodels</h1>
+<p>O objetivo principal deste post é apresentar o <em>tidymodels</em>, que é uma coleção de pacotes para modelagem e aprendizado de máquina o qual utiliza os princípios do <em>tidyverse</em>. Para isso, iremos utilizar uma base de dados de qualidade de vinhos e implementar modelos de classificação.</p>
 </div>
 
 <div class="d-byline">
   
-  Paulo Felipe Alencar
+  Diego Castro
   
-<br/>04-27-2020
+<br/>2020-05-19
 </div>
 
 <div class="d-article">
-<h2 id="introducao">Introdução</h2>
-<p>O Python é a principal linguagem hoje para machine learning, e isso, infelizmente, não tem discussão. Contudo, com o pacote <code>reticulate</code>, é possível utilizar diretamente as biliotecas do Python no R sem grandes problemas. Isto é, uma vez que você tenha instalado tudo que é necessário. A função <code>install_miniconda()</code> ajuda no processo. No entanto, é preciso também instalar o Pytorch no ambiente que será utilizado pelo reticulate. Na minha máquina (e o padrão é assim), utilizo o ambiente <code>r-reticulate</code>.</p>
-<p>Para exemplificar o uso do Pytorch, neste post será treinado um modelo que dá origem a aplicação Seefood que ficou famosa no seriado Silicon Valley da HBO. Esse modelo consiste em classificar uma imagem de comida em “hot dog” ou “not hot dog”. Em resumo, conforme <a href="https://silicon-valley.fandom.com/wiki/SeeFood">essa wiki</a>, a história pode ser resumida da seguinte forma:</p>
-<blockquote>
-<p>SeeFood was a pitch made up in the conference room by Erlich. It was supposed to be Shazam for food, but development stopped after the algorithm could only detect hot dogs. Erlich sold his equity before SeeFood was bought by Periscope for 30 million dollars making Jian-Yang “a very rich man”.</p>
-</blockquote>
-<p>O código desse post segue em grande parte o <a href="https://pytorch.org/tutorials/beginner/transfer_learning_tutorial.html">tutorial</a> disponível no portal do Pytorch. É bom lembrar que a escolha do Pytorch para esse post envolve apenas um interesse meu em conhecer esse framework. Obviamente, o mesmo modelo poderia ser treinado no tensorflow sem nenhum problema. Este post é apenas um experimento e o blog está servindo de arquivo. 🤓</p>
-<h2 id="pacotes-e-modulos">Pacotes e Módulos</h2>
-<p>Aqui estão listados os pacotes do R e bibliotecas do Python que iremos utilizar neste post. As biblotecas do Python que serão utilizadas são: <code>torch</code>, <code>torchvision</code>, <code>numpy</code> e <code>copy</code>.</p>
-<div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-library(reticulate)
-library(imager)
-library(glue)
-library(tidyverse)
-library(zeallot)
-
-# Bibliotecas e módulos do python
-py &lt;- import_builtins()
-torch &lt;- import(&quot;torch&quot;)
-torchvision &lt;- import(&quot;torchvision&quot;)
-np &lt;- import(&quot;numpy&quot;)
-copy &lt;- import(&quot;copy&quot;)
-
-transforms &lt;- torchvision$transforms
-datasets &lt;- torchvision$datasets
-models &lt;- torchvision$models
-optim &lt;- torch$optim
-nn &lt;- torch$nn
-F &lt;- torch$nn$functional</code></pre>
-</div>
+<p>Um dos grandes debates dos interessados em ciências de dados é em relação à superioridade do <em>R</em> ou do <em>Python</em>. Um argumento muitas vezes utilizado para apoiar o Python é que ele possui ferramentas mais adequadas para trabalhos que utilizam aprendizado de máquina, como, por exemplo, o pacote <em>sklearn</em>. A criação do <em>tidymodels</em> é uma tentativa de resposta a esse argumento. Assim como o <em>sklearn</em>, o <em>tidymodels</em> é um <em>framework</em> que reúne em mesmo ambiente diversas funções para modelagem e aprendizado de máquina. E o melhor, para quem está acostumado com o <em>tidyverse</em>, o <em>tidymodels</em> foi construído utilizando seus princípios e notações.</p>
+<p>A ideia deste post não é defender o <em>tidymodels</em>, nem compará-lo ao <em>sklearn</em>, mas apresentar como ele pode facilitar a vida do usuário de <em>R</em> que precisam aplicar técnicas de aprendizado de máquina. Para isso, vamos classificar vinhos segundo sua qualidade utilizando regressão logística e <em>random forest</em>.</p>
 <h2 id="dados">Dados</h2>
-<p>Os dados para esse post estão disponívels no Kaggle <a href="https://www.kaggle.com/dansbecker/hot-dog-not-hot-dog/data">neste link</a>. Foram utilizadas as imagens da pasta <code>seefood</code>. As imagens estão incialmente separadas apenas em treino e teste. Iremos, adicionalmente, criar a pasta validação e copiar algumas imagens da pasta de teste para essa nova pasta.</p>
+<p>A fonte dos nossos dados é o <em>UCI Machine Learning Repository</em> que, por sinal, é uma excelente fonte de dados para quem possui interesse em aprender como aplicar modelos aprendizado de máquina. A base que vamos utilizar chama-se <em>Wine Quality Data Set</em> e pode ser baixada neste <a href="http://archive.ics.uci.edu/ml/datasets/Wine+Quality">link</a>. Neste exemplo, usaremos a base de vinhos tintos que está no arquivo <em>winequality-red.csv</em>.</p>
+<p>As 1599 observações da base estão organizados da seguinte forma. A variável que queremos prever chamada-se <em>quality</em> e apresenta notas de 0 a 10 dadas aos vinhos. Além dela, existem mais 11 colunas que apresentam características dos vinhos, como densidade, ph, percentual de álcool, entre outras.</p>
+<p>Vamos, então, ter uma ideia geral de como são os dados.</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
-data_dir &lt;- &quot;../../dados/seefood&quot;
+library(tidyverse)
+library(janitor)
 
-if(!dir.exists(file.path(data_dir, &quot;valid&quot;))){
-  dir.create(file.path(data_dir, &quot;valid&quot;))
-  dir.create(file.path(data_dir, &quot;valid/hot_dog&quot;))
-  dir.create(file.path(data_dir, &quot;valid/not_hot_dog&quot;))
+vinhos &lt;- read_csv2(&quot;../../dados/winequality-red.csv&quot;) %&gt;% 
+  mutate_if(is.character, as.numeric) %&gt;% 
+  na.omit() %&gt;% 
+  clean_names()
 
-  classes &lt;- c(&quot;hot_dog&quot;, &quot;not_hot_dog&quot;)
-  for(classe in classes){
-    images &lt;- list.files(file.path(data_dir, &quot;test&quot;, classe))
-    set.seed(39031)
-    images &lt;- sample(images, 75)
-    for(image in images){
-      file.copy(
-        from = file.path(file.path(data_dir, &quot;test&quot;, classe, image)),
-        to = file.path(file.path(data_dir, &quot;valid&quot;, classe, image))
-      )
-      file.remove(file.path(file.path(data_dir, &quot;test&quot;, classe, image)))
-    }
-  }
-}</code></pre>
-</div>
-<h2 id="dataloaders">Dataloaders</h2>
-<p>Antes de definir propriamente os dataloaders, o código abaixo crias os “transforms” que na prática consistem em pré-processamentos das imagens. Apesar de existir uma enorme variedade de possibilidades, no código abaixo apenas redimensionamos as imagens e normalizamos os pixels para que eles assumam valores entre -1 e 1.</p>
-<div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-data_trasnforms &lt;- list(
-  train = transforms$Compose(
-    list(
-      transforms$Resize(c(256L, 256L)),
-      transforms$ToTensor(),
-      transforms$Normalize(c(0.5, 0.5, 0.5), c(0.5, 0.5, 0.5))
-    )
-  ),
-  valid = transforms$Compose(
-    list(      
-      transforms$Resize(c(256L, 256L)),
-      transforms$ToTensor(),
-      transforms$Normalize(c(0.5, 0.5, 0.5), c(0.5, 0.5, 0.5))
-    )
-  ),
-  test = transforms$Compose(
-    list(
-      transforms$Resize(c(256L, 256L)),
-      transforms$ToTensor(),
-      transforms$Normalize(c(0.5, 0.5, 0.5), c(0.5, 0.5, 0.5))
-    )
-  )
-)</code></pre>
-</div>
-<p>O código abaixo cria os dataloaders, que são os objetos que fornecerão os dados ao modelo que será treinado.</p>
-<div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-# Dataloaders ---------------------------------------------------------------
-sets &lt;- c(&quot;train&quot;, &quot;valid&quot;, &quot;test&quot;)
-
-image_datasets &lt;- map(sets, ~ {
-  datasets$ImageFolder(
-    file.path(data_dir, .x),
-    data_trasnforms[[.x]]
-  )
-}) %&gt;%
-  setNames(sets)
-
-dataloaders &lt;- map(sets, ~{
-  torch$utils$data$DataLoader(
-    image_datasets[[.x]],
-    batch_size = 8L,
-    shuffle = TRUE,
-    num_workers = 4L
-  )
-}) %&gt;%
-  setNames(sets)
-
-dataset_sizes &lt;- map_dbl(sets, ~ {
-  py$len(image_datasets[[.x]])
-}) %&gt;%
-  setNames(sets)
-
-print(dataset_sizes)</code></pre>
+glimpse(vinhos)</code></pre>
 <pre><code>
-train valid  test 
-  498   150   350 </code></pre>
+Observations: 1,597
+Variables: 12
+$ fixed_acidity        &lt;dbl&gt; 74, 78, 78, 112, 74, 74, 79, 73, 78,...
+$ volatile_acidity     &lt;dbl&gt; 0.700, 0.880, 0.760, 0.280, 0.700, 0...
+$ citric_acid          &lt;dbl&gt; 0.00, 0.00, 0.04, 0.56, 0.00, 0.00, ...
+$ residual_sugar       &lt;dbl&gt; 19, 26, 23, 19, 19, 18, 16, 12, 2, 6...
+$ chlorides            &lt;dbl&gt; 0.076, 0.098, 0.092, 0.075, 0.076, 0...
+$ free_sulfur_dioxide  &lt;dbl&gt; 11, 25, 15, 17, 11, 13, 15, 15, 9, 1...
+$ total_sulfur_dioxide &lt;dbl&gt; 34, 67, 54, 60, 34, 40, 59, 21, 18, ...
+$ density              &lt;dbl&gt; 0.9978, 0.9968, 0.9970, 0.9980, 0.99...
+$ p_h                  &lt;dbl&gt; 351, 32, 326, 316, 351, 351, 33, 339...
+$ sulphates            &lt;dbl&gt; 0.56, 0.68, 0.65, 0.58, 0.56, 0.56, ...
+$ alcohol              &lt;dbl&gt; 94, 98, 98, 98, 94, 94, 94, 10, 95, ...
+$ quality              &lt;dbl&gt; 5, 5, 5, 6, 5, 5, 5, 7, 7, 5, 5, 5, ...</code></pre>
 </div>
-<p>Abaixo mostramos uma amostra das imagens que formam esse dataset.</p>
+<p>É importante também entendermos a distribuição da nossa variável de interesse. O gráfico abaixo apresenta a quantidade de vezes que cada nota de qualidade aparece na base.</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
-class_names &lt;- image_datasets[[&#39;train&#39;]]$classes
-
-# Visualizando algumas imagens -----------------------------------------------
-iter_train &lt;- py$iter(dataloaders[[&quot;train&quot;]])
-c(images, labels) %&lt;-% iter_next(iter_train)
-images &lt;- images$numpy()
-labels &lt;- labels$numpy()
-labels &lt;- class_names[labels + 1]
-
-layout(matrix(1:4, 2, 2))
-for(i in 1:4){
-  images[i, , , , drop = FALSE] %&gt;%
-    aperm(c(3, 4, 1, 2)) %&gt;%
-    as.cimg() %&gt;% 
-    plot(main = labels[i])
-}</code></pre>
-<p><img src="usando-o-pytorch-no-r-treinando-o-seefood_files/figure-html5/unnamed-chunk-5-1.png" width="624" /></p>
+vinhos %&gt;% 
+  count(quality) %&gt;% 
+  mutate(quality = as.character(quality)) %&gt;% 
+  ggplot(aes(x = quality, y = n)) +
+  geom_col(width = 0.9, fill = &quot;lightblue3&quot;) +
+  scale_x_discrete(expand = expand_scale(0.3)) +
+  labs(
+    title = &quot;Distribuição de vinhos por nota (qualidade)&quot;,
+    x = &quot;Nota&quot;,
+    y = &quot;Contagem&quot;
+  ) +
+  theme_minimal()</code></pre>
+<p><img src="vinhos_com_tidymodels_files/figure-html5/unnamed-chunk-2-1.png" width="624" /></p>
 </div>
-<h2 id="funcao-para-treinamento-do-modelo">Função para Treinamento do Modelo</h2>
-<p>O processo de treinamento é customizado. Isto é, define-se cada passo do processo na função de treinamento (<code>train_model</code>). Apesar de ser a minha primeira experiência com o Pytorch, achei o processo bem intuitivo e de fácil definição, sendo similar ao processo de treinamento customizado do tensorflow. Basicamente, o processo é o seguinte:</p>
-<ul>
-<li>Fase de treinamento:
-<ul>
-<li>Para um batch de imagens, são computadas as predições do modelo.</li>
-<li>As predições são comparadas com os rótulos observados (reais) e é a função de perda (loss) é computada</li>
-<li>Com o valor da função perda calculado, os gradientes são calculados e aplicados para atualização dos pesos (parâmetros) do modelo.</li>
-</ul></li>
-<li>Fase de validação:
-<ul>
-<li>Para um batch de imagens, são computadas as predições do modelo.</li>
-<li>Nessa fase, os gradientes não são computados</li>
-</ul></li>
-</ul>
-<p>Ao final de cada “epoch”, são computados os valores finais da função de perda e da acurácia para os dados de treino e de validação.</p>
+<p>Vemos, então, que existe uma concentração de notas 5 e 6 e não há notas muito altas ou muito baixas na base. De qualquer forma, para a nossa análise, vamos apenas considerar duas classes de vinhos: bons e ruins. Consideraremos todos os vinhos com nota menor ou igual a 5 como vinhos ruins e vinhos com notas maiores do que 5 como vinhos bons. Repare abaixo que agora temos uma distribuição entre classes mais equilibrada.</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
-train_model &lt;- function(model, criterion, optimizer, scheduler, num_epochs = 25){
+vinhos &lt;- vinhos %&gt;% 
+  mutate(quality = as.factor(ifelse(quality &lt;= 5, &quot;ruim&quot;, &quot;bom&quot;)))
 
-  # Guarda os valores dos pesos e da acurácia para a &quot;melhor&quot; epoch
-  best_model_wts = copy$deepcopy(model$state_dict())
-  best_acc = 0
-
-  for (epoch in 1:num_epochs) {
-    cat(glue(&quot;Epoch {epoch}/{num_epochs}&quot;), &quot;\n&quot;)
-    cat(&quot;-----------------------------\n&quot;)
-    
-    for (phase in c(&quot;train&quot;, &quot;valid&quot;)) {
-      if (phase == &quot;train&quot;) {
-        model$train()
-      } else {
-        model$eval()
-      }
-
-      running_loss &lt;- 0
-      running_corrects &lt;- 0
-
-      iter_data &lt;- py$iter(dataloaders[[phase]])
-      
-      while (TRUE) {
-        data &lt;- iter_next(iter_data)
-        if (is.null(data)) {          
-          break
-        }
-      
-        inputs &lt;- data[[1]]
-        inputs &lt;- inputs$to(device)
-        labels &lt;- data[[2]]
-        labels &lt;- labels$to(device)
-
-        optimizer$zero_grad()
-      
-        with(torch$set_grad_enabled(phase == &quot;train&quot;), {
-          outputs &lt;- model(inputs)
-          preds &lt;- torch$max(outputs, 1L)$indices
-          loss &lt;- criterion(outputs, labels)
-      
-          # backward + optimize only if in training phase
-          if (phase == &quot;train&quot;) {
-            loss$backward()
-            optimizer$step()
-          }
-        })
-      
-        running_loss &lt;- running_loss + loss$item() * inputs$size(0L)
-        running_corrects &lt;- running_corrects + sum(preds$cpu()$numpy() == labels$cpu()$numpy())
-      }
-      
-      if (phase == &quot;train&quot;) {
-        scheduler$step()
-      }
-
-      epoch_loss &lt;- running_loss / dataset_sizes[[phase]]
-      epoch_acc &lt;- running_corrects / dataset_sizes[[phase]]
-
-      cat(glue(&quot;{phase} Loss: {round(epoch_loss,4)} Acc.: {round(epoch_acc, 4)}&quot;), &quot;\n&quot;)
-
-      if (phase == &quot;valid&quot; &amp; epoch_acc &gt; best_acc) {
-        best_acc &lt;- epoch_acc
-        best_model_wts &lt;- copy$deepcopy(model$state_dict())
-      }      
-    }   
-  }
-
-  model$load_state_dict(best_model_wts)
-
-  cat(&quot;-----------------------------\n&quot;)
-  cat(glue(&quot;Best val Acc: {round(best_acc, 4)}&quot;), &quot;\n&quot;)
-
-  return(model)
-
-}</code></pre>
+vinhos %&gt;% 
+  count(quality) %&gt;% 
+  ggplot(aes(x = quality, y = n)) +
+  geom_col(width = 0.5, fill = &quot;lightblue3&quot;) +
+  labs(
+    title = &quot;Distribuição de vinhos nível de qualidade&quot;,
+    x = &quot;Qualidade&quot;,
+    y = &quot;Contagem&quot;
+  ) +
+  theme_minimal()</code></pre>
+<p><img src="vinhos_com_tidymodels_files/figure-html5/unnamed-chunk-3-1.png" width="624" /></p>
 </div>
-<h2 id="definindo-o-modelo">Definindo o modelo</h2>
-<p>Aqui utilizamos uma técnica conhecida como Transfer Learning. Isto é, utilizamos um modelo que foi pré-treinado em uma base maior e que já “aprendeu” a extrair features das imagens para auxiliar no treinamento do nosso modelo. Na prática iremos só redimensionar a última camada para que o output seja de dimensão 2 (número de classes da nossa base) e treinar o modelo mais um pouco para que ele se ajuste melhor à nossa tarefa.</p>
+<h2 id="passo-a-passo-para-a-classificação-com-o-tidymodels">Passo-a-passo para a classificação com o Tidymodels</h2>
+<h3 id="separação-dos-dados-entre-treinamento-e-teste">Separação dos dados entre treinamento e teste</h3>
+<p>Uma boa prática em modelos de aprendizado de máquina é separar uma parcela dos dados para serem usados na avaliação final do modelo escolhido. Isso é feito para testar a performance do modelo em dados não vistos anteriormente e também para checar se não ocorre o chamado <em>overfitting</em> (quando nosso modelo prevê com uma precisão razoavelmente maior em dados vistos anteriormente em comparação com previsões usando novos dados). Usaremos 80% da base para treinar e selecionar o melhor modelo e 20% para testá-lo. Isso é feito com a função <code>initial_split()</code>, como mostrado abaixo.</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
-model_ft &lt;- models$resnet34(pretrained = TRUE)
-num_ftrs &lt;- model_ft$fc$in_features
-model_ft$fc &lt;- nn$Linear(num_ftrs, 2L)
+# Carrega o tidymodels
+library(tidymodels)
 
-device &lt;- torch$device(&quot;cuda:0&quot;)
-model_ft &lt;- model_ft$to(device)
-criterion &lt;- nn$CrossEntropyLoss()
-optimizer_ft = optim$AdamW(model_ft$parameters(), lr = 5e-5)
-lr_scheduler &lt;- optim$lr_scheduler
-exp_lr_scheduler = lr_scheduler$StepLR(optimizer_ft, step_size = 4L, gamma = 0.1)
+# Defina uma seed para reprodutibilidade do exemplo
+set.seed(123)
 
-model_ft &lt;- train_model(
-  model_ft,
-  criterion,
-  optimizer_ft,
-  exp_lr_scheduler,
-  num_epochs = 12L
-)</code></pre>
+# Split dos dados
+split &lt;- initial_split(data = vinhos, prop = 0.8, strata = quality)
+
+# Dados para treinamento e teste
+treinamento &lt;- training(split)
+teste &lt;- testing(split)</code></pre>
+</div>
+<p>Reparem que na função <code>initial_split()</code> definimos o parâmetro <em>strata</em> como a variável de qualidade. Isso quer dizer que no momento da separação dos dados, a função levará em consideração a proporção de observações de vinhos bons e ruins para mantê-la de maneira similar nos dados de treinamento e dados de teste. O objeto <em>split</em> é uma lista que contém, entre outras coisas, o <em>id</em> (a linha) de cada observação que vai para o conjunto de treinamento. Assim, as funções <code>training()</code> e <code>testing()</code> separam os dados baseados no objeto <em>split</em>.</p>
+<h3 id="pre-processamento">Pre-processamento</h3>
+<p>Qualquer pré-processamento que deve ocorrer antes do treinamento e do teste deve ser inserido aqui. Existe uma lista extensa de opções que você pode checar <a href="https://recipes.tidymodels.org/reference/index.html">neste link</a>. No nosso caso, vamos apenas normalizar os preditores, isto é, subtrair a média e dividir pelo desvio padrão cada uma das características do vinho.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+preprocess &lt;- recipe(quality ~ ., data = treinamento) %&gt;%
+  step_normalize(all_predictors()) </code></pre>
+</div>
+<p>O tidymodels faz uma analogia a uma receita, por isso o nome da primeira função é <em>recipe</em>. A lógica é, precisamos indicar todos os passos que devemos utilizar para deixar nossos dados prontos para o processo de análise de dados. Na função <code>recipe()</code>, indicamos uma fórmula e um conjunto de dados. A fórmula indica quem é a variável dependente (<em>outcome</em>) e quem são os preditores (<em>predictors</em>). Assim, podemos definir processamentos específicos para cada tipo de variável, como no caso da função <code>step_normalize()</code> que será aplicada apenas aos preditores. A definição do conjunto de dados é importante para o <em>tidymodels</em> saber com base em que ele calculará alguns parâmetros. Por exemplo, no <em>step_normalize</em> a média e o desvio-padrão de cada preditor serão calculados utilizando como base os dados de treinamento e não a base completa de vinhos.</p>
+<h3 id="modelos">Modelos</h3>
+<p>Como nosso objetivo é classificar os vinhos em ruins ou bons, nosso problema demanda algoritmos de classificação. Usaremos aqui a regressão logística, que de forma simples e imprecisa pode ser comparada a uma regressão linear para problemas de classificação, e o <em>random forest</em>, que é um algoritmo baseado em um conjunto de árvores de decisão (para mais detalhes, veja <a href="https://www.fulljoin.com.br/posts/2019-10-28-paralelizacao-de-search-grid-usando-random-forest/">este outro post do nosso blog</a>).</p>
+<p>Abaixo, definimos nossos modelos. A ideia não é <em>tunar</em> nenhum dos modelos, mas sim escolher entre um ou outro usando os parâmetros padrão.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+# regressão logística
+regressao_logistica &lt;- logistic_reg() %&gt;% 
+  set_engine(&quot;glm&quot;)
+
+# Random forest
+random_forest &lt;- rand_forest() %&gt;% 
+  set_engine(&quot;ranger&quot;) %&gt;% 
+  set_mode(&quot;classification&quot;)</code></pre>
+</div>
+<p>Em ambos os casos, primeiramente chamamos as funções responsáveis por criar os nossos modelos de regressão logística e <em>random forest</em>. Em seguida, definimos os <em>engines</em>, ou seja, especificamos qual pacote ou sistema será usado para treinar o modelo. No caso do <em>random forest</em> ainda definimos o modo classificação, já que esse modelo pode ser usado também para regressões.</p>
+<h3 id="workflows">Workflows</h3>
+<p>Os <em>workflows</em> são responsáveis definir todos os passos necessários para preparar os dados brutos, deixando-os prontos para serem treinados. Nos exemplos abaixo, os nossos <em>workflows</em> são formados por uma receita (que contém o pré-processamento dos dados) e um modelo de classificação.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+# Regressão logística
+wf_reg_log &lt;- workflow() %&gt;%
+  add_recipe(preprocess) %&gt;%
+  add_model(regressao_logistica)
+
+# Random forest
+wf_ran_for &lt;- workflow() %&gt;%
+  add_recipe(preprocess) %&gt;%
+  add_model(random_forest)</code></pre>
+</div>
+<h3 id="dados-de-análise-analysis-e-validação-assessment">Dados de análise (<em>analysis</em>) e validação (<em>assessment</em>)</h3>
+<p>Para escolher entre os dois modelos, vamos usar uma técnica chamada validação cruzada. Ela consiste em subdividir os dados (neste caso apenas os dados de treinamento) em partes iguais, separando uma delas para validação e usando as demais para análise. O que chamamos de análise é equivalente a treinamento, mas neste novo conjunto de dados. O mesmo ocorre para a validação, que seria o equivalente a teste. Usaremos no nosso exemplo 5 grupos ou, mais comumente chamado, 5 <em>folds</em>, que serão gerados pela função <code>vfold_cv()</code>.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+folds &lt;- vfold_cv(treinamento, v = 5, strata = quality)
+
+folds$splits</code></pre>
 <pre><code>
-Epoch 1/12 
------------------------------
-train Loss: 0.4157 Acc.: 0.8032 
-valid Loss: 0.2799 Acc.: 0.8533 
-Epoch 2/12 
------------------------------
-train Loss: 0.174 Acc.: 0.9378 
-valid Loss: 0.2975 Acc.: 0.88 
-Epoch 3/12 
------------------------------
-train Loss: 0.0842 Acc.: 0.9699 
-valid Loss: 0.246 Acc.: 0.8867 
-Epoch 4/12 
------------------------------
-train Loss: 0.112 Acc.: 0.9659 
-valid Loss: 0.2861 Acc.: 0.9067 
-Epoch 5/12 
------------------------------
-train Loss: 0.127 Acc.: 0.9478 
-valid Loss: 0.2874 Acc.: 0.8933 
-Epoch 6/12 
------------------------------
-train Loss: 0.0981 Acc.: 0.9538 
-valid Loss: 0.325 Acc.: 0.8467 
-Epoch 7/12 
------------------------------
-train Loss: 0.0759 Acc.: 0.9739 
-valid Loss: 0.2787 Acc.: 0.8933 
-Epoch 8/12 
------------------------------
-train Loss: 0.0365 Acc.: 0.992 
-valid Loss: 0.2737 Acc.: 0.9 
-Epoch 9/12 
------------------------------
-train Loss: 0.0678 Acc.: 0.9719 
-valid Loss: 0.3268 Acc.: 0.8467 
-Epoch 10/12 
------------------------------
-train Loss: 0.0372 Acc.: 0.994 
-valid Loss: 0.4178 Acc.: 0.8133 
-Epoch 11/12 
------------------------------
-train Loss: 0.0293 Acc.: 0.988 
-valid Loss: 0.2825 Acc.: 0.8867 
-Epoch 12/12 
------------------------------
-train Loss: 0.0563 Acc.: 0.9819 
-valid Loss: 0.279 Acc.: 0.8933 
------------------------------
-Best val Acc: 0.9067 </code></pre>
+$`1`
+&lt;1023/256/1279&gt;
+
+$`2`
+&lt;1023/256/1279&gt;
+
+$`3`
+&lt;1023/256/1279&gt;
+
+$`4`
+&lt;1023/256/1279&gt;
+
+$`5`
+&lt;1024/255/1279&gt;</code></pre>
 </div>
-<p>Olhando os resultados, fica claro que seria necessário adotar alguma estratégia para diminuir o overfitting. Poderíamos ter escrito um modelo mais customizado e adicionado camadas de <em>dropout</em>.</p>
-<h2 id="plotando-predicoes">Plotando predições</h2>
-<p>Agora vamos ver como o nosso classificador se sai:</p>
+<p>Repare que o <em>split</em> (subdivisão) dos dados possui aproximadamente 1023 observações para análise e 256 para validação. Agora os modelos serão treinados e avaliados em cada uma dessas subdivisões e no final será retornada a média das métricas de cada subdivisão. Usaremos como métrica a acurácia, ou seja, número de previsões corretas dividido pelo número total de previsões. Realizamos todo esse processo usando a função <code>fit_resamples()</code>.</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
-iter_test &lt;- py$iter(dataloaders[[&quot;test&quot;]])
-c(images, labels) %&lt;-% iter_next(iter_test)
-images &lt;- images$to(device)
-preds &lt;- model_ft(images)
-preds &lt;- torch$max(preds, 1L)$indices
-preds &lt;- preds$cpu()$numpy()
-preds &lt;- class_names[preds + 1]
-images &lt;- images$cpu()$numpy()
+# Regressão logística
+fit_reg_log &lt;- fit_resamples(
+  object = wf_reg_log,
+  resamples = folds,
+  metrics = metric_set(accuracy)
+)
 
-layout(matrix(1:4, 2, 2))
-for(i in 1:4){
-  images[i, , , , drop = FALSE] %&gt;%
-    aperm(c(3, 4, 1, 2)) %&gt;%
-    as.cimg() %&gt;%
-    plot(main = glue(&quot;Predição: {preds[i]}&quot;))
-}</code></pre>
-<p><img src="usando-o-pytorch-no-r-treinando-o-seefood_files/figure-html5/unnamed-chunk-8-1.png" width="624" /></p>
-</div>
-<h2 id="resultado-na-base-de-teste">Resultado na base de teste</h2>
-<div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-test_acc &lt;- 0
-running_corrects &lt;- 0
-invisible(model_ft$eval())
-N &lt;- dataset_sizes[[&quot;test&quot;]]
-iter_data &lt;- py$iter(dataloaders[[&quot;test&quot;]])
-with(torch$no_grad(), {
-  while (TRUE) {
-    data &lt;- iter_next(iter_data)
-    if (is.null(data)) {
-      break
-    }
-
-    inputs &lt;- data[[1]]
-    inputs &lt;- inputs$to(device)
-    labels &lt;- data[[2]]
-    labels &lt;- labels$to(device)
-    outputs &lt;- model_ft(inputs)
-    preds &lt;- torch$max(outputs, 1L)$indices
-
-    running_corrects &lt;- running_corrects + sum(preds$cpu()$numpy() == labels$cpu()$numpy())
-
-  }
-  cat(&quot;-----------------------------\n&quot;)
-  cat(glue(&quot;Test Acc: {round(running_corrects/N, 4)}&quot;), &quot;\n&quot;)
-})</code></pre>
+collect_metrics(fit_reg_log)</code></pre>
 <pre><code>
------------------------------
-Test Acc: 0.92 </code></pre>
+# A tibble: 1 x 5
+  .metric  .estimator  mean     n std_err
+  &lt;chr&gt;    &lt;chr&gt;      &lt;dbl&gt; &lt;int&gt;   &lt;dbl&gt;
+1 accuracy binary     0.691     5 0.00933</code></pre>
+<pre class="r"><code>
+# Random forest
+fit_ran_for &lt;- fit_resamples(
+  object = wf_ran_for,
+  resamples = folds,
+  metrics = metric_set(accuracy)
+)
+
+collect_metrics(fit_ran_for)</code></pre>
+<pre><code>
+# A tibble: 1 x 5
+  .metric  .estimator  mean     n std_err
+  &lt;chr&gt;    &lt;chr&gt;      &lt;dbl&gt; &lt;int&gt;   &lt;dbl&gt;
+1 accuracy binary     0.793     5  0.0101</code></pre>
 </div>
-<p>Nosso modelo conseguiu atingir a acurácia de 92,0%!</p>
-<p>Com isso, fechamos esse post! A ideia era mostrar que pode-se usar facilmente uma biblioteca em Python no R com a ajuda do reticulate. Dessa forma, não precisamos nos limitar a uma linguagem única e aproveitar o melhor de cada!</p>
-<div style="width:100%;height:0;padding-bottom:75%;position:relative;">
-<iframe src="https://giphy.com/embed/MuE0xWbEohUrxbm77r" width="100%" height="100%" style="position:absolute" frameBorder="0" class="giphy-embed" allowFullScreen>
-</iframe>
+<p>Podemos perceber que a acurácia do <em>random forest</em> é significativamente mais alta do que a da regressão logística. Vamos, agora, verificar se esse modelo mantém a qualidade das previsões em novos dados, ou seja, iremos treinar o modelo usando toda a base de treinamento e realizar as previsões usando a base de teste.</p>
+<h3 id="avaliação-final-do-modelo">Avaliação final do modelo</h3>
+<p>Vamos então treinar um novo <em>random forest</em> usando toda a base de treinamento. Para isso, aplicamos a função <code>fit()</code> no nosso <em>workflow</em> do <em>random forest</em>.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+rf_fit_workflow &lt;- fit(wf_ran_for, treinamento)</code></pre>
 </div>
-<p>
-<a href="https://giphy.com/gifs/hello-hi-waving-MuE0xWbEohUrxbm77r">via GIPHY</a>
-</p>
+<p>Com o modelo treinado em toda a base de treinamento, podemos agora avaliá-lo na base de teste. Primeiro, vamos gerar as previsões usando a função <code>predict()</code> e usar a função <code>bind_cols()</code> para juntar essas previsões com os dados reais de qualidade.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+df_previsoes &lt;- teste %&gt;% 
+  select(quality) %&gt;% 
+  bind_cols(
+    .,
+    predict(rf_fit_workflow, teste)
+  )</code></pre>
+</div>
+<p>Em seguida, geramos as métricas de nosso interesse. Para comparar com o resultados da seção anterior, usaremos a métrica acurácia.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+accuracy(data = df_previsoes, truth = quality, estimate = .pred_class)</code></pre>
+<pre><code>
+# A tibble: 1 x 3
+  .metric  .estimator .estimate
+  &lt;chr&gt;    &lt;chr&gt;          &lt;dbl&gt;
+1 accuracy binary         0.855</code></pre>
+</div>
+<p>Muito bom! Nosso <em>random forest</em> teve um resultado ainda melhor do que o obtido na validação cruzada para a seleção do melhor modelo. Vamos também entender como ocorre as previsões do modelo para cada classe usando a chamada matriz de confusão.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+conf_mat(data = df_previsoes, truth = quality, estimate = .pred_class) %&gt;% 
+  autoplot(., type = &quot;heatmap&quot;)</code></pre>
+<p><img src="vinhos_com_tidymodels_files/figure-html5/unnamed-chunk-13-1.png" width="624" /></p>
+</div>
+<p>Podemos ver que o modelo previu 158 vinhos como bons, mas 17 deles são considerados ruins. Do mesmo modo, previu 160 vinhos como ruins, errando 29 casos.</p>
+<h2 id="conclusões">Conclusões</h2>
+<p>Como comentado anteriormente, uma das grandes vantagens do <em>tidymodels</em> é que ele possui uma sintaxe muito amigável e parecida com o <em>tidyverse</em>. Percebemos que na verdade o <em>tidymodels</em> é formado por um conjunto de pacotes que são carregados automaticamente e realizam diferentes tarefas, desde o <em>split</em> dos dados até a avaliação de modelos. Este post mostrou apenas uma pequena parte do <em>tidymodels</em>. Sugiro que aprofundem o conhecimento em relação a esse <em>framework</em> acessando sua página oficial: <a href="https://www.tidymodels.org/">tidymodels.org</a>.</p>
 <!--radix_placeholder_article_footer-->
 <div class="article-footer">
   <p class="social_footer">
     <span class="disqus-comments">
       <i class="fas fa-comments"></i>
       &nbsp;
-      <span class="disqus-comment-count" data-disqus-identifier="posts/2020-04-27-usando-o-pytorch-no-r-treinando-o-seefood/">Comment on this article</span>
+      <span class="disqus-comment-count" data-disqus-identifier="posts/2020-05-18-qualidade-de-vinhos-com-tidymodels/">Comment on this article</span>
     </span>
     <span class="article-sharing">
       Share: &nbsp;
-      <a href="https://twitter.com/share?text=Usando%20o%20Pytorch%20no%20R%3A%20Treinando%20o%20Seefood&amp;url=https%3A%2F%2Fwww.fulljoin.com.br%2Fposts%2F2020-04-27-usando-o-pytorch-no-r-treinando-o-seefood%2F">
+      <a href="https://twitter.com/share?text=Prevendo%20a%20qualidade%20de%20vinhos%20com%20o%20tidymodels&amp;url=https%3A%2F%2Fwww.fulljoin.com.br%2Fposts%2F2020-05-18-qualidade-de-vinhos-com-tidymodels%2F">
         <i class="fab fa-twitter"></i>
       </a>
-      <a href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https%3A%2F%2Fwww.fulljoin.com.br%2Fposts%2F2020-04-27-usando-o-pytorch-no-r-treinando-o-seefood%2F&amp;title=Usando%20o%20Pytorch%20no%20R%3A%20Treinando%20o%20Seefood">
+      <a href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https%3A%2F%2Fwww.fulljoin.com.br%2Fposts%2F2020-05-18-qualidade-de-vinhos-com-tidymodels%2F&amp;title=Prevendo%20a%20qualidade%20de%20vinhos%20com%20o%20tidymodels">
         <i class="fab fa-linkedin"></i>
       </a>
-      <a href="https://www.facebook.com/sharer/sharer.php?s=100&amp;p[url]=https%3A%2F%2Fwww.fulljoin.com.br%2Fposts%2F2020-04-27-usando-o-pytorch-no-r-treinando-o-seefood%2F">
+      <a href="https://www.facebook.com/sharer/sharer.php?s=100&amp;p[url]=https%3A%2F%2Fwww.fulljoin.com.br%2Fposts%2F2020-05-18-qualidade-de-vinhos-com-tidymodels%2F">
         <i class="fab fa-facebook"></i>
       </a>
     </span>
@@ -1765,8 +1614,8 @@ Test Acc: 0.92 </code></pre>
   <div id="disqus_thread" class="hidden"></div>
   <script>
 var disqus_config = function () {
-  this.page.url = 'https://www.fulljoin.com.br/posts/2020-04-27-usando-o-pytorch-no-r-treinando-o-seefood/';
-  this.page.identifier = 'posts/2020-04-27-usando-o-pytorch-no-r-treinando-o-seefood/';
+  this.page.url = 'https://www.fulljoin.com.br/posts/2020-05-18-qualidade-de-vinhos-com-tidymodels/';
+  this.page.identifier = 'posts/2020-05-18-qualidade-de-vinhos-com-tidymodels/';
 };
 (function() {
   var d = document, s = d.createElement('script');
@@ -1789,12 +1638,12 @@ var disqus_config = function () {
 <div class="appendix-bottom">
   <h3 id="citation">Citation</h3>
   <p>For attribution, please cite this work as</p>
-  <pre class="citation-appendix short">Alencar (2020, April 27). Fulljoin: Usando o Pytorch no R: Treinando o Seefood. Retrieved from https://www.fulljoin.com.br/posts/2020-04-27-usando-o-pytorch-no-r-treinando-o-seefood/</pre>
+  <pre class="citation-appendix short">Castro (2020, May 19). Fulljoin: Prevendo a qualidade de vinhos com o tidymodels. Retrieved from https://www.fulljoin.com.br/posts/2020-05-18-qualidade-de-vinhos-com-tidymodels/</pre>
   <p>BibTeX citation</p>
-  <pre class="citation-appendix long">@misc{alencar2020usando,
-  author = {Alencar, Paulo Felipe},
-  title = {Fulljoin: Usando o Pytorch no R: Treinando o Seefood},
-  url = {https://www.fulljoin.com.br/posts/2020-04-27-usando-o-pytorch-no-r-treinando-o-seefood/},
+  <pre class="citation-appendix long">@misc{castro2020prevendo,
+  author = {Castro, Diego},
+  title = {Fulljoin: Prevendo a qualidade de vinhos com o tidymodels},
+  url = {https://www.fulljoin.com.br/posts/2020-05-18-qualidade-de-vinhos-com-tidymodels/},
   year = {2020}
 }</pre>
 </div>
