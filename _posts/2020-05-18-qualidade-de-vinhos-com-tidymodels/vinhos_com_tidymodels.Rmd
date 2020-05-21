@@ -1,7 +1,7 @@
 ---
 title: "Prevendo a qualidade de vinhos com o tidymodels"
 description: |
-  O objetivo principal deste post é apresentar o tidymodels, que é uma coleção de pacotes para modelagem e aprendizado de máquina o qual utiliza os princípios do tidyverse. Para isso, iremos utilizar uma base de dados de qualidade de vinhos e implementar modelos de classificação.
+  O objetivo principal deste post é apresentar o tidymodels, uma coleção de pacotes para modelagem e aprendizado de máquina que utilizam os princípios do tidyverse. Para isso, iremos utilizar uma base de dados de qualidade de vinhos e implementar modelos de classificação.
 author: "Diego Castro"
 date: "`r Sys.Date()`"
 output: 
@@ -24,7 +24,7 @@ A ideia deste post não é defender o *tidymodels*, nem compará-lo ao *sklearn*
 
 A fonte dos nossos dados é o *UCI Machine Learning Repository* que, por sinal, é uma excelente fonte de dados para quem possui interesse em aprender como aplicar modelos aprendizado de máquina. A base que vamos utilizar chama-se *Wine Quality Data Set* e pode ser baixada neste [link](http://archive.ics.uci.edu/ml/datasets/Wine+Quality). Neste exemplo, usaremos a base de vinhos tintos que está no arquivo *winequality-red.csv*.
 
-As 1599 observações da base estão organizados da seguinte forma. A variável que queremos prever chamada-se *quality* e apresenta notas de 0 a 10 dadas aos vinhos. Além dela, existem mais 11 colunas que apresentam características dos vinhos, como densidade, ph, percentual de álcool, entre outras. 
+As 1599 observações da base estão organizados da seguinte forma. A variável que queremos prever chama-se *quality* e apresenta notas de 0 a 10 dadas aos vinhos. Além dela, existem mais 11 colunas que apresentam características dos vinhos, como densidade, ph, percentual de álcool, entre outras. 
 
 Vamos, então, ter uma ideia geral de como são os dados.
 
@@ -99,16 +99,16 @@ teste <- testing(split)
 
 Reparem que na função `initial_split()` definimos o parâmetro *strata* como a variável de qualidade. Isso quer dizer que no momento da separação dos dados, a função levará em consideração a proporção de observações de vinhos bons e ruins para mantê-la de maneira similar nos dados de treinamento e dados de teste. O objeto *split* é uma lista que contém, entre outras coisas, o *id* (a linha) de cada observação que vai para o conjunto de treinamento. Assim, as funções `training()` e `testing()` separam os dados baseados no objeto *split*.
 
-### Pre-processamento
+### Pré-processamento
 
-Qualquer pré-processamento que deve ocorrer antes do treinamento e do teste deve ser inserido aqui. Existe uma lista extensa de opções que você pode checar [neste link](https://recipes.tidymodels.org/reference/index.html). No nosso caso, vamos apenas normalizar os preditores, isto é, subtrair a média e dividir pelo desvio padrão cada uma das características do vinho.
+Qualquer pré-processamento que deve ocorrer antes do treinamento e do teste deve ser inserido aqui. Existe uma lista extensa de opções que você pode checar [neste link](https://recipes.tidymodels.org/reference/index.html). No nosso caso, vamos incluir apenas um passo em nosso pré-processamento que retira variáveis independentes (preditores) caso tenham variância zero. A ideia deste passo é que variáveis que tenham valor único em toda a amostra não acrescentam informação ao modelo e, sobretudo, podem "quebrá-lo" quando algum passo requeira que as variáveis sejam divididas pelo desvio-padrão, por exemplo. 
 
 ```{r}
 preprocess <- recipe(quality ~ ., data = treinamento) %>%
-  step_normalize(all_predictors()) 
+  step_zv(all_predictors()) 
 ```
 
-O tidymodels faz uma analogia a uma receita, por isso o nome da primeira função é *recipe*. A lógica é, precisamos indicar todos os passos que devemos utilizar para deixar nossos dados prontos para o processo de análise de dados. Na função `recipe()`, indicamos uma fórmula e um conjunto de dados. A fórmula indica quem é a variável dependente (*outcome*) e quem são os preditores (*predictors*). Assim, podemos definir processamentos específicos para cada tipo de variável, como no caso da função `step_normalize()` que será aplicada apenas aos preditores. A definição do conjunto de dados é importante para o *tidymodels* saber com base em que ele calculará alguns parâmetros. Por exemplo, no *step_normalize* a média e o desvio-padrão de cada preditor serão calculados utilizando como base os dados de treinamento e não a base completa de vinhos.
+O tidymodels faz uma analogia a uma receita, por isso o nome da primeira função é *recipe*. A lógica é, precisamos indicar todos os passos que devemos utilizar para deixar nossos dados prontos para o processo de análise de dados. Na função `recipe()`, indicamos uma fórmula e um conjunto de dados. A fórmula indica quem é a variável dependente (*outcome*) e quem são os preditores (*predictors*). Assim, podemos definir processamentos específicos para cada tipo de variável, como no caso da função `step_zv()` que será aplicada apenas aos preditores. A definição do conjunto de dados é importante para o *tidymodels* saber com base em que ele calculará alguns parâmetros. Por exemplo, tivéssemos usado a função `step_normalize()` (para normalizar cada preditor), a média e o desvio-padrão de cada preditor seriam calculados utilizando como base os dados de treinamento e não a base completa de vinhos.
 
 ### Modelos
 
@@ -181,39 +181,35 @@ Podemos perceber que a acurácia do *random forest* é significativamente mais a
 
 ### Avaliação final do modelo
 
-Vamos então treinar um novo *random forest* usando toda a base de treinamento. Para isso, aplicamos a função `fit()` no nosso *workflow* do *random forest*.
+Vamos treinar um novo *random forest* usando toda a base de treinamento. Uma primeira alternativa seria aplicarmos a função `fit()` no nosso *workflow* do *random forest* usando a base de treinamento e, em seguida, a função `predict()` na base de teste. Iremos usar uma segunda alternativa que utiliza a função `last_fit()`. Nela, identificamos nosso *workflow* do *random forest*, o *split* inicial dos nossos dados e a métrica que queremos utilizar. O *output* dessa função é um *tibble* de onde podem ser extraídos, entre outras coisas, o valor da métrica de avaliação e um *tibble* com os valores reais e seus respectivos valores estimados. Vamos ao que interessa:
 
 ```{r}
-rf_fit_workflow <- fit(wf_ran_for, treinamento)
+fit_final <- last_fit(
+  object = wf_ran_for,
+  split = split,
+  metrics = metric_set(accuracy)
+)
+
+fit_final$.metrics[[1]]
 ```
 
-Com o modelo treinado em toda a base de treinamento, podemos agora avaliá-lo na base de teste. Primeiro, vamos gerar as previsões usando a função `predict()` e usar a função `bind_cols()` para juntar essas previsões com os dados reais de qualidade.
+Muito bom! Nosso *random forest* teve um resultado ainda melhor do que o obtido na validação cruzada para a seleção do melhor modelo. Vamos também entender como ocorrem as previsões do modelo para cada classe usando a chamada matriz de confusão.
 
 ```{r}
-df_previsoes <- teste %>% 
-  select(quality) %>% 
-  bind_cols(
-    .,
-    predict(rf_fit_workflow, teste)
-  )
+cm <- conf_mat(
+  data = fit_final$.predictions[[1]],
+  truth = quality,
+  estimate = .pred_class
+) 
+
+autoplot(cm, type = "heatmap")
 ```
 
-Em seguida, geramos as métricas de nosso interesse. Para comparar com o resultados da seção anterior, usaremos a métrica acurácia.
-
-```{r}
-accuracy(data = df_previsoes, truth = quality, estimate = .pred_class)
-```
-
-Muito bom! Nosso *random forest* teve um resultado ainda melhor do que o obtido na validação cruzada para a seleção do melhor modelo. Vamos também entender como ocorre as previsões do modelo para cada classe usando a chamada matriz de confusão.
-
-```{r}
-conf_mat(data = df_previsoes, truth = quality, estimate = .pred_class) %>% 
-  autoplot(., type = "heatmap")
-```
-
-Podemos ver que o modelo previu 158 vinhos como bons, mas 17 deles são considerados ruins. Do mesmo modo, previu 160 vinhos como ruins, errando 29 casos. 
+Podemos ver que o modelo previu `r sum(cm$table[1,])` vinhos como bons, mas `r cm$table[1,2]` deles são considerados ruins. Do mesmo modo, previu `r sum(cm$table[2,])` vinhos como ruins, errando `r cm$table[2,1]` casos. 
 
 
 ## Conclusões
 
-Como comentado anteriormente, uma das grandes vantagens do *tidymodels* é que ele possui uma sintaxe muito amigável e parecida com o *tidyverse*. Percebemos que na verdade o *tidymodels* é formado por um conjunto de pacotes que são carregados automaticamente e realizam diferentes tarefas, desde o *split* dos dados até a avaliação de modelos. Este post mostrou apenas uma pequena parte do *tidymodels*. Sugiro que aprofundem o conhecimento em relação a esse *framework* acessando sua página oficial: [tidymodels.org](https://www.tidymodels.org/).
+Como comentado anteriormente, uma das grandes vantagens do *tidymodels* é que ele possui uma sintaxe muito amigável e parecida com o *tidyverse*. Percebemos que na verdade o *tidymodels* é formado por um conjunto de pacotes que são carregados automaticamente e realizam diferentes tarefas, desde o *split* dos dados até a avaliação de modelos. Este post mostrou apenas uma pequena parte do *tidymodels*. Sugiro que aprofundem o conhecimento em relação a esse *framework* acessando sua página oficial em [tidymodels.org](https://www.tidymodels.org/) e façam suas próprias mágicas!
+
+<div style="width:100%;height:0;padding-bottom:92%;position:relative;"><iframe src="https://giphy.com/embed/12NUbkX6p4xOO4" width="100%" height="100%" style="position:absolute" frameBorder="0" class="giphy-embed" allowFullScreen></iframe></div><p><a href="https://giphy.com/gifs/shia-labeouf-12NUbkX6p4xOO4">via GIPHY</a></p>
