@@ -7,7 +7,16 @@
     <description>Fulljoin
 </description>
     <generator>Distill</generator>
-    <lastBuildDate>qua, 20 mai 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>dom, 31 mai 2020 00:00:00 +0000</lastBuildDate>
+    <item>
+      <title>Criando base de dados com as atas do Copom</title>
+      <dc:creator>Saulo Guerra</dc:creator>
+      <link>https://www.fulljoin.com.br/posts/2020-05-31-atas-copom</link>
+      <description>Nesse post vamos apresentar um script simples para obter os textos de todas as atas do Comitê de Política Monetária (Copom) e criar uma base pronta para exploração e análise textual</description>
+      <guid>https://www.fulljoin.com.br/posts/2020-05-31-atas-copom</guid>
+      <pubDate>dom, 31 mai 2020 00:00:00 +0000</pubDate>
+      <media:content url="https://www.fulljoin.com.br/posts/2020-05-31-atas-copom/../../images/copom.jpg" medium="image" type="image/jpeg"/>
+    </item>
     <item>
       <title>Prevendo a qualidade de vinhos com o tidymodels</title>
       <dc:creator>Diego Castro</dc:creator>
@@ -24,6 +33,7 @@
       <description>Neste post iremos testar o uso do Pytorch no R com o auxílio do pacote reticulate, que permite a utilização de bibliotecas do Python diretamente no R. Isso ajuda a evitar (em parte) aquela disputa entre o R e o Python, uma vez que você pode usar o melhor de cada. Como exemplo, iremos treinar uma classificador de imagens que é a base do aplicativo Seefood que fez fama no seriado Silicon Valley da HBO.</description>
       <guid>https://www.fulljoin.com.br/posts/2020-04-27-usando-o-pytorch-no-r-treinando-o-seefood</guid>
       <pubDate>seg, 27 abr 2020 00:00:00 +0000</pubDate>
+      <media:content url="https://www.fulljoin.com.br/posts/2020-04-27-usando-o-pytorch-no-r-treinando-o-seefood/usando-o-pytorch-no-r-treinando-o-seefood_files/figure-html5/unnamed-chunk-5-1.png" medium="image" type="image/png" width="1248" height="1344"/>
     </item>
     <item>
       <title>Manipulação de texto com stringr - parte IV</title>
@@ -87,15 +97,6 @@
       <guid>https://www.fulljoin.com.br/posts/2019-10-28-paralelizacao-de-search-grid-usando-random-forest</guid>
       <pubDate>sex, 01 nov 2019 00:00:00 +0000</pubDate>
       <media:content url="https://www.fulljoin.com.br/posts/2019-10-28-paralelizacao-de-search-grid-usando-random-forest/../../images/paralelizacao.jpg" medium="image" type="image/jpeg"/>
-    </item>
-    <item>
-      <title>Manipulação de texto com stringr - parte II</title>
-      <dc:creator>Miguel Cleaver</dc:creator>
-      <link>https://www.fulljoin.com.br/posts/2019-10-22-manipulao-de-texto-com-stringr-parte-ii</link>
-      <description>Este post continua a explorar funções úteis na manipulação de texto. Mais especificamente, iremos aprender a passar todas as letras de dados textuais para caixa baixa ou caixa alta. Também aprenderemos a capitalizar a primeira letra de cada palavra. Ademais, iremos ver algumas noções básicas de regex associadas ao uso da função str_detect.</description>
-      <guid>https://www.fulljoin.com.br/posts/2019-10-22-manipulao-de-texto-com-stringr-parte-ii</guid>
-      <pubDate>qua, 23 out 2019 00:00:00 +0000</pubDate>
-      <media:content url="https://www.fulljoin.com.br/posts/2019-10-22-manipulao-de-texto-com-stringr-parte-ii/../../images/logo_stringr.png" medium="image" type="image/png" width="439" height="419"/>
     </item>
   </channel>
 </rss>

@@ -1,0 +1,211 @@
+---
+title: "Criando base de dados com as atas do Copom"
+description: |
+  Nesse post vamos apresentar um script simples para obter os textos de todas as atas do Comitê de Política Monetária (Copom) e criar uma base pronta para exploração e análise textual
+author: Saulo Guerra
+date: 05-31-2020
+output:
+  distill::distill_article:
+    self_contained: false
+draft: false
+preview: ../../images/copom.jpg
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
+```
+
+O Comitê de Política Monetária (Copom) se reuné a cada 45 dias para definir taxa básica de juros da economia (Selic). 
+Além da definição da taxa Selic, essas reuniões produzem textos analíticos justificando, contextualizando e detalhando todo o embasamento técnico da decisão tomada pelo comitê. Esses textos são as Atas do Copom e podem ser encontradas em https://www.bcb.gov.br/publicacoes/atascopom. 
+
+As Atas são cuidadosamente avaliadas pelos agentes de mercado no intuito de ajustarem suas expectativas frente ao entendimento do cenário macroeconômico que o Copom apresenta. Trata-se de um conjunto de textos muito importante, escritos com cuidado para tentar passar sinais claros e convincentes aos agentes econômicos.
+
+Neste post vamos montar uma base de dados com toda história de textos das Atas do Copom. Após trazer esses textos para o R, iremos futuramente (em outro post) experimentar explorações e análise textual com essas Atas.
+
+O script resumido (e um pouco desorganizado) está disponível em https://github.com/sauloguerra/r-atascopom
+
+## Fonte dos dados
+
+Explorando um pouco a página de divulgação das atas do Copom, mais precisamente na página https://www.bcb.gov.br/publicacoes/atascopom/cronologicos, é possível notar chamada a dois endpoints de API, um para atas mais novas e outro para atas antigas. Clique nos links abaixo para ver o json em seu browser.
+
+Conteúdo da cahamda antiga: https://www.bcb.gov.br/api/servico/sitebcb/atascopom-conteudo/ultimas?quantidade=1000&filtro=
+
+Conteúdo da chamada nova: https://www.bcb.gov.br/api/servico/sitebcb/atascopom/ultimas?quantidade=1000&filtro=
+
+A API que retorna as atas mais recentes informa o link direto de acesso ao pdf da ata no campo "Url". Já a API das atas mais antigas retorna um link com a ata em html no campo "LinkPagina". Precisaremos definir uma abordagem diferente para cada tipo.
+
+Basicamente os dois endpoints retornam 3 campos de interesse que iremos utilizar: **DataReferencia, Titulo e Link**. Dessa forma, a estratégia inicial é montar um dataframe com o link de todas as atas, antigas e novas. Em seguida, percorreremos esse links baixando o conteúdo (texto) de cada ata.
+
+Começamos carregando alguns pacotes:
+
+```{r}
+## chamadas e scraping
+library(jsonlite)
+library(RCurl)
+library(rvest)
+## extração e manipulação
+library(tidyverse)
+library(pdftools)
+library(glue)
+```
+
+Definimos os caminhos das chamadas conforme os links mostrados acima:
+
+```{r}
+## url base para todas as chamadas
+url <- "https://www.bcb.gov.br"
+api_antigas <- "/api/servico/sitebcb/atascopom-conteudo/ultimas?quantidade=1000&filtro="
+api_novas <- "/api/servico/sitebcb/atascopom/ultimas?quantidade=1000&filtro="
+
+```
+
+Vamos a construção de um dataframe com o link de todas as atas. Chamamos as consultas e extraímos do conteúdo os campos de data, título e o link, indicando o tipo de cada ata. Lembrando, html são as atas antigas, pdf as novas.
+
+```{r}
+json_links_antigos <- getURL(glue("{url}{api_antigas}"))
+
+df_atas_antigas <- fromJSON(json_links_antigos, flatten = TRUE) %>%
+  .$conteudo %>%
+  select(DataReferencia, Titulo, LinkPagina) %>%
+  mutate(Tipo = "html")
+
+str(df_atas_antigas)
+
+json_links_novos <- getURL(glue("{url}{api_novas}"))
+
+df_atas_novas <- fromJSON(json_links_novos, flatten = TRUE) %>%
+  .$conteudo %>%
+  select(DataReferencia, Titulo, LinkPagina = Url) %>%
+  mutate(Tipo = "pdf")
+
+str(df_atas_novas)
+```
+
+Repare que por conta da diferença de retorno das duas chamadas, renomeamos o campo Url para LinkPagina, compatibilizando os dois grupos em um dataframe só.
+
+```{r}
+df_atas <- bind_rows(df_atas_novas, df_atas_antigas)
+
+str(df_atas)
+head(df_atas)
+tail(df_atas)
+```
+
+Teremos as atas desde janeiro de 1998 até a última publicada, totalizando mais de 200 atas.
+
+```{r}
+df_atas %>% filter(DataReferencia == min(DataReferencia))
+df_atas %>% filter(DataReferencia == max(DataReferencia))
+nrow(df_atas)
+```
+
+### Obtendo os textos das Atas
+ 
+Após consolidarmos um dataframe com a data da ata, o título da reunião e o link onde podemos obter a íntegra dos textos. Vamos percorrer esse dataframe acessando cada link e trazendo o texto para uma coluna nova no dataframe.
+
+O desafio nesse momento é justamente lidar com duas fontes diferentes: as atas mais novas estão em pdf, as mais antigas estão em html. Nesse caso, vamos definir duas funções diferentes para obter o texto, uma para html e outra para pdf.
+
+O link direto ao conteúdo das atas novas já está explícito em nosso dataframe, então basta acessar diretamente e converter de pdf para texto com o pacote `pdftools`
+
+```{r}
+conteudo_pdf <- function(link, url = "https://www.bcb.gov.br") {
+  pdf <- pdf_text(glue("{url}{link}")) %>%
+    as_vector() %>%
+    glue_collapse()
+
+  return(pdf)
+}
+```
+
+As antas antigas são um pouco mais desafiadoras de serem obtidas, mas nada que uma rápida investigação na página não resolva. A página tem uma renderização interna que recebe o html formatado de uma chamada própria no seguinte formato (clique para ver o json no seu browser):
+
+https://www.bcb.gov.br/api/servico/sitebcb/atascopom-conteudo/principal?filtro=IdentificadorUrl%20eq%20%2708062016%27
+
+Retirando os encodes de URL para ficar mais fácil de entender, basicamente a chamada se baseia no seguinte parâmetro:
+
+**filtro = IdentificadorUrl eq '08062016'**
+
+Sendo assim, bata extrair o código numércio do link em nosso dataframe e encaixá-lo nessa chamada (com encode URL adequado). Essa nova chamada nos dará acesso a um json que retorna o html pronto para ser renderizado em tela. Ele fica disponível no parâmetro "conteudo > OutrasInformacoes" do json retorno.
+
+```{r}
+conteudo_html <- function(link, url = "https://www.bcb.gov.br") {
+  api <- "/api/servico/sitebcb/atascopom-conteudo/principal?filtro=IdentificadorUrl"
+  codigo <- str_extract_all(link, "\\d+")
+  codigo <- URLencode(glue(" eq '{codigo}'"), reserved = T)
+  
+  json <- glue("{url}{api}{codigo}") %>%
+    fromJSON()
+  
+  txt <- read_html(json$conteudo$OutrasInformacoes) %>%
+    html_text() %>%
+    str_squish()
+  
+  return(txt)
+}
+```
+
+Com essas duas funções, basta percorrer nosso dataframe com os links de referência e guardar o texto das atas em uma nova coluna. Para exercício deste post, vamos baixar uma amostra aleatória de apenas 20 atas. Mas bastaria tirar essa restrição para baixar todas.
+
+Ao final, teremos uma colina extra chamada integra contendo o texto da ata, além das demais colunas com data e numeração da reunião.
+
+```{r}
+
+final <- df_atas %>%
+  sample_n(20) %>% 
+  mutate(
+    integra = map2_chr(Tipo, LinkPagina, ~ {
+      if (.x == "pdf") {
+        return(conteudo_pdf(.y))
+      }
+
+      return(conteudo_html(.y))
+    })
+  )
+
+str(final)
+```
+Vamos dar uma rápida olhada nos textos, mas suprimindo algumas partes para não poluir muito a postagem:
+
+```{r}
+parcial <- function(texto) {
+  paste(
+    str_sub(texto, end = 500),
+    "(.......)",
+    str_sub(texto, -500)
+  )
+}
+
+final %>%
+  slice(1) %>%
+  mutate(integra = parcial(integra))
+
+final %>%
+  slice(5) %>%
+  mutate(integra = parcial(integra))
+
+final %>%
+  slice(10) %>%
+  mutate(integra = parcial(integra))
+
+final %>%
+  slice(15) %>%
+  mutate(integra = parcial(integra))
+
+final %>%
+  slice(20) %>%
+  mutate(integra = parcial(integra))
+```
+
+Após tirar a restrição de amostra e baixar todos os textos, vamos escrever nosso dataframe completo para usarmos futuramente em um próximo post explorando uma análise textual do conteúdo dessas atas. Para escrita de conteúdo que vai ser lido novamente no R, é sempre bom usar o pacote fst, além de comprimir o tamanho, a leitura e escrita é super rápida.
+
+```{r, eval=FALSE}
+fst::write_fst(final, "./output/df_atas.fst")
+```
+
+## Conclusões
+
+A montagem da base foi razoavelmente simples, a maior dificuldade está em entender as APIs que o banco central utilizou para disponibilização das atas. Essa base pode ser uma fonte de informação valiosa para avaliar a história das decisões do Copom bem como tentar utilizá-la em cruzando com outras bases na tentativa de prever a reação do mercado frente às "entrelinhas" interpretadas nos textos das atas.
+
+Em um próximo post vamos aplicar algumas técnicas de análise textual e tentar extrair infomrações interessantes desses textos.
+
+<div style="width:100%;height:0;padding-bottom:64%;position:relative;"><iframe src="https://giphy.com/embed/l1J3CbFgn5o7DGRuE" width="100%" height="100%" style="position:absolute" frameBorder="0" class="giphy-embed" allowFullScreen></iframe></div><p><a href="https://giphy.com/gifs/goodbye-see-ya-you-l1J3CbFgn5o7DGRuE">via GIPHY</a></p>

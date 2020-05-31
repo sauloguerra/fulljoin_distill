@@ -19,53 +19,49 @@
  <!--/radix_placeholder_import_source-->
 
   <!--radix_placeholder_meta_tags-->
-<title>Fulljoin: Usando o Pytorch no R: Treinando o Seefood</title>
+<title>Fulljoin: Criando base de dados com as atas do Copom</title>
 
-<meta property="description" itemprop="description" content="Neste post iremos testar o uso do Pytorch no R com o auxílio do pacote reticulate, que permite a utilização de bibliotecas do Python diretamente no R. Isso ajuda a evitar (em parte) aquela disputa entre o R e o Python, uma vez que você pode usar o melhor de cada. Como exemplo, iremos treinar uma classificador de imagens que é a base do aplicativo Seefood que fez fama no seriado Silicon Valley da HBO."/>
+<meta property="description" itemprop="description" content="Nesse post vamos apresentar um script simples para obter os textos de todas as atas do Comitê de Política Monetária (Copom) e criar uma base pronta para exploração e análise textual"/>
 
-<link rel="canonical" href="https://www.fulljoin.com.br/posts/2020-04-27-usando-o-pytorch-no-r-treinando-o-seefood/"/>
+<link rel="canonical" href="https://www.fulljoin.com.br/posts/2020-05-31-atas-copom/"/>
 
 <!--  https://schema.org/Article -->
-<meta property="article:published" itemprop="datePublished" content="2020-04-27"/>
-<meta property="article:created" itemprop="dateCreated" content="2020-04-27"/>
-<meta name="article:author" content="Paulo Felipe Alencar"/>
+<meta property="article:published" itemprop="datePublished" content="2020-05-31"/>
+<meta property="article:created" itemprop="dateCreated" content="2020-05-31"/>
+<meta name="article:author" content="Saulo Guerra"/>
 
 <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
-<meta property="og:title" content="Fulljoin: Usando o Pytorch no R: Treinando o Seefood"/>
+<meta property="og:title" content="Fulljoin: Criando base de dados com as atas do Copom"/>
 <meta property="og:type" content="article"/>
-<meta property="og:description" content="Neste post iremos testar o uso do Pytorch no R com o auxílio do pacote reticulate, que permite a utilização de bibliotecas do Python diretamente no R. Isso ajuda a evitar (em parte) aquela disputa entre o R e o Python, uma vez que você pode usar o melhor de cada. Como exemplo, iremos treinar uma classificador de imagens que é a base do aplicativo Seefood que fez fama no seriado Silicon Valley da HBO."/>
-<meta property="og:url" content="https://www.fulljoin.com.br/posts/2020-04-27-usando-o-pytorch-no-r-treinando-o-seefood/"/>
-<meta property="og:image" content="https://www.fulljoin.com.br/posts/2020-04-27-usando-o-pytorch-no-r-treinando-o-seefood/usando-o-pytorch-no-r-treinando-o-seefood_files/figure-html5/unnamed-chunk-5-1.png"/>
-<meta property="og:image:width" content="1248"/>
-<meta property="og:image:height" content="1344"/>
+<meta property="og:description" content="Nesse post vamos apresentar um script simples para obter os textos de todas as atas do Comitê de Política Monetária (Copom) e criar uma base pronta para exploração e análise textual"/>
+<meta property="og:url" content="https://www.fulljoin.com.br/posts/2020-05-31-atas-copom/"/>
+<meta property="og:image" content="https://www.fulljoin.com.br/posts/2020-05-31-atas-copom/../../images/copom.jpg"/>
 <meta property="og:locale" content="en_US"/>
 <meta property="og:site_name" content="Fulljoin"/>
 
 <!--  https://dev.twitter.com/cards/types/summary -->
 <meta property="twitter:card" content="summary_large_image"/>
-<meta property="twitter:title" content="Fulljoin: Usando o Pytorch no R: Treinando o Seefood"/>
-<meta property="twitter:description" content="Neste post iremos testar o uso do Pytorch no R com o auxílio do pacote reticulate, que permite a utilização de bibliotecas do Python diretamente no R. Isso ajuda a evitar (em parte) aquela disputa entre o R e o Python, uma vez que você pode usar o melhor de cada. Como exemplo, iremos treinar uma classificador de imagens que é a base do aplicativo Seefood que fez fama no seriado Silicon Valley da HBO."/>
-<meta property="twitter:url" content="https://www.fulljoin.com.br/posts/2020-04-27-usando-o-pytorch-no-r-treinando-o-seefood/"/>
-<meta property="twitter:image" content="https://www.fulljoin.com.br/posts/2020-04-27-usando-o-pytorch-no-r-treinando-o-seefood/usando-o-pytorch-no-r-treinando-o-seefood_files/figure-html5/unnamed-chunk-5-1.png"/>
-<meta property="twitter:image:width" content="1248"/>
-<meta property="twitter:image:height" content="1344"/>
+<meta property="twitter:title" content="Fulljoin: Criando base de dados com as atas do Copom"/>
+<meta property="twitter:description" content="Nesse post vamos apresentar um script simples para obter os textos de todas as atas do Comitê de Política Monetária (Copom) e criar uma base pronta para exploração e análise textual"/>
+<meta property="twitter:url" content="https://www.fulljoin.com.br/posts/2020-05-31-atas-copom/"/>
+<meta property="twitter:image" content="https://www.fulljoin.com.br/posts/2020-05-31-atas-copom/../../images/copom.jpg"/>
 
 <!--  https://scholar.google.com/intl/en/scholar/inclusion.html#indexing -->
-<meta name="citation_title" content="Fulljoin: Usando o Pytorch no R: Treinando o Seefood"/>
-<meta name="citation_fulltext_html_url" content="https://www.fulljoin.com.br/posts/2020-04-27-usando-o-pytorch-no-r-treinando-o-seefood/"/>
-<meta name="citation_online_date" content="2020/04/27"/>
-<meta name="citation_publication_date" content="2020/04/27"/>
-<meta name="citation_author" content="Paulo Felipe Alencar"/>
+<meta name="citation_title" content="Fulljoin: Criando base de dados com as atas do Copom"/>
+<meta name="citation_fulltext_html_url" content="https://www.fulljoin.com.br/posts/2020-05-31-atas-copom/"/>
+<meta name="citation_online_date" content="2020/05/31"/>
+<meta name="citation_publication_date" content="2020/05/31"/>
+<meta name="citation_author" content="Saulo Guerra"/>
 <!--/radix_placeholder_meta_tags-->
   <!--radix_placeholder_rmarkdown_metadata-->
 
 <script type="text/json" id="radix-rmarkdown-metadata">
-{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","output","draft","citation_url","canonical_url"]}},"value":[{"type":"character","attributes":{},"value":["Usando o Pytorch no R: Treinando o Seefood"]},{"type":"character","attributes":{},"value":["Neste post iremos testar o uso do Pytorch no R com o auxílio do pacote reticulate, que permite a utilização de bibliotecas do Python diretamente no R. Isso ajuda a evitar (em parte) aquela disputa entre o R e o Python, uma vez que você pode usar o melhor de cada. Como exemplo, iremos treinar uma classificador de imagens que é a base do aplicativo Seefood que fez fama no seriado Silicon Valley da HBO."]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name"]}},"value":[{"type":"character","attributes":{},"value":["Paulo Felipe Alencar"]}]}]},{"type":"character","attributes":{},"value":["04-27-2020"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]}]},{"type":"logical","attributes":{},"value":[false]},{"type":"character","attributes":{},"value":["https://www.fulljoin.com.br/posts/2020-04-27-usando-o-pytorch-no-r-treinando-o-seefood/"]},{"type":"character","attributes":{},"value":["https://www.fulljoin.com.br/posts/2020-04-27-usando-o-pytorch-no-r-treinando-o-seefood/"]}]}
+{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","output","draft","preview","citation_url","canonical_url"]}},"value":[{"type":"character","attributes":{},"value":["Criando base de dados com as atas do Copom"]},{"type":"character","attributes":{},"value":["Nesse post vamos apresentar um script simples para obter os textos de todas as atas do Comitê de Política Monetária (Copom) e criar uma base pronta para exploração e análise textual"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name"]}},"value":[{"type":"character","attributes":{},"value":["Saulo Guerra"]}]}]},{"type":"character","attributes":{},"value":["05-31-2020"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]}]},{"type":"logical","attributes":{},"value":[false]},{"type":"character","attributes":{},"value":["../../images/copom.jpg"]},{"type":"character","attributes":{},"value":["https://www.fulljoin.com.br/posts/2020-05-31-atas-copom/"]},{"type":"character","attributes":{},"value":["https://www.fulljoin.com.br/posts/2020-05-31-atas-copom/"]}]}
 </script>
 <!--/radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-resource-manifest">
-  {"type":"character","attributes":{},"value":["usando-o-pytorch-no-r-treinando-o-seefood_files/bowser-1.9.3/bowser.min.js","usando-o-pytorch-no-r-treinando-o-seefood_files/distill-2.2.21/template.v2.js","usando-o-pytorch-no-r-treinando-o-seefood_files/figure-html5/unnamed-chunk-3-1.png","usando-o-pytorch-no-r-treinando-o-seefood_files/figure-html5/unnamed-chunk-5-1.png","usando-o-pytorch-no-r-treinando-o-seefood_files/figure-html5/unnamed-chunk-8-1.png","usando-o-pytorch-no-r-treinando-o-seefood_files/jquery-1.11.3/jquery.min.js","usando-o-pytorch-no-r-treinando-o-seefood_files/webcomponents-2.0.0/webcomponents.js"]}
+  {"type":"character","attributes":{},"value":["atas-copom_files/bowser-1.9.3/bowser.min.js","atas-copom_files/distill-2.2.21/template.v2.js","atas-copom_files/jquery-1.11.3/jquery.min.js","atas-copom_files/webcomponents-2.0.0/webcomponents.js"]}
   </script>
   <!--radix_placeholder_navigation_in_header-->
 
@@ -1330,7 +1326,7 @@ d-appendix {
 <!--radix_placeholder_front_matter-->
 
 <script id="distill-front-matter" type="text/json">
-{"title":"Usando o Pytorch no R: Treinando o Seefood","description":"Neste post iremos testar o uso do Pytorch no R com o auxílio do pacote reticulate, que permite a utilização de bibliotecas do Python diretamente no R. Isso ajuda a evitar (em parte) aquela disputa entre o R e o Python, uma vez que você pode usar o melhor de cada. Como exemplo, iremos treinar uma classificador de imagens que é a base do aplicativo Seefood que fez fama no seriado Silicon Valley da HBO.","authors":[{"author":"Paulo Felipe Alencar","authorURL":"#","affiliation":"&nbsp;","affiliationURL":"#"}],"publishedDate":"2020-04-27T00:00:00.000-03:00","citationText":"Alencar, 2020"}
+{"title":"Criando base de dados com as atas do Copom","description":"Nesse post vamos apresentar um script simples para obter os textos de todas as atas do Comitê de Política Monetária (Copom) e criar uma base pronta para exploração e análise textual","authors":[{"author":"Saulo Guerra","authorURL":"#","affiliation":"&nbsp;","affiliationURL":"#"}],"publishedDate":"2020-05-31T00:00:00.000-03:00","citationText":"Guerra, 2020"}
 </script>
 
 <!--/radix_placeholder_front_matter-->
@@ -1362,389 +1358,290 @@ Labs!
 <!--/radix_placeholder_site_before_body-->
 
 <div class="d-title">
-<h1>Usando o Pytorch no R: Treinando o Seefood</h1>
-<p>Neste post iremos testar o uso do Pytorch no R com o auxílio do pacote reticulate, que permite a utilização de bibliotecas do Python diretamente no R. Isso ajuda a evitar (em parte) aquela disputa entre o R e o Python, uma vez que você pode usar o melhor de cada. Como exemplo, iremos treinar uma classificador de imagens que é a base do aplicativo Seefood que fez fama no seriado Silicon Valley da HBO.</p>
+<h1>Criando base de dados com as atas do Copom</h1>
+<p>Nesse post vamos apresentar um script simples para obter os textos de todas as atas do Comitê de Política Monetária (Copom) e criar uma base pronta para exploração e análise textual</p>
 </div>
 
 <div class="d-byline">
   
-  Paulo Felipe Alencar
+  Saulo Guerra
   
-<br/>04-27-2020
+<br/>05-31-2020
 </div>
 
 <div class="d-article">
-<h2 id="introducao">Introdução</h2>
-<p>O Python é a principal linguagem hoje para machine learning, e isso, infelizmente, não tem discussão. Contudo, com o pacote <code>reticulate</code>, é possível utilizar diretamente as biliotecas do Python no R sem grandes problemas. Isto é, uma vez que você tenha instalado tudo que é necessário. A função <code>install_miniconda()</code> ajuda no processo. No entanto, é preciso também instalar o Pytorch no ambiente que será utilizado pelo reticulate. Na minha máquina (e o padrão é assim), utilizo o ambiente <code>r-reticulate</code>.</p>
-<p>Para exemplificar o uso do Pytorch, neste post será treinado um modelo que dá origem a aplicação Seefood que ficou famosa no seriado Silicon Valley da HBO. Esse modelo consiste em classificar uma imagem de comida em “hot dog” ou “not hot dog”. Em resumo, conforme <a href="https://silicon-valley.fandom.com/wiki/SeeFood">essa wiki</a>, a história pode ser resumida da seguinte forma:</p>
-<blockquote>
-<p>SeeFood was a pitch made up in the conference room by Erlich. It was supposed to be Shazam for food, but development stopped after the algorithm could only detect hot dogs. Erlich sold his equity before SeeFood was bought by Periscope for 30 million dollars making Jian-Yang “a very rich man”.</p>
-</blockquote>
-<p>O código desse post segue em grande parte o <a href="https://pytorch.org/tutorials/beginner/transfer_learning_tutorial.html">tutorial</a> disponível no portal do Pytorch. É bom lembrar que a escolha do Pytorch para esse post envolve apenas um interesse meu em conhecer esse framework. Obviamente, o mesmo modelo poderia ser treinado no tensorflow sem nenhum problema. Este post é apenas um experimento e o blog está servindo de arquivo. 🤓</p>
-<h2 id="pacotes-e-modulos">Pacotes e Módulos</h2>
-<p>Aqui estão listados os pacotes do R e bibliotecas do Python que iremos utilizar neste post. As biblotecas do Python que serão utilizadas são: <code>torch</code>, <code>torchvision</code>, <code>numpy</code> e <code>copy</code>.</p>
+<p>O Comitê de Política Monetária (Copom) se reuné a cada 45 dias para definir taxa básica de juros da economia (Selic). Além da definição da taxa Selic, essas reuniões produzem textos analíticos justificando, contextualizando e detalhando todo o embasamento técnico da decisão tomada pelo comitê. Esses textos são as Atas do Copom e podem ser encontradas em <a href="https://www.bcb.gov.br/publicacoes/atascopom" class="uri">https://www.bcb.gov.br/publicacoes/atascopom</a>.</p>
+<p>As Atas são cuidadosamente avaliadas pelos agentes de mercado no intuito de ajustarem suas expectativas frente ao entendimento do cenário macroeconômico que o Copom apresenta. Trata-se de um conjunto de textos muito importante, escritos com cuidado para tentar passar sinais claros e convincentes aos agentes econômicos.</p>
+<p>Neste post vamos montar uma base de dados com toda história de textos das Atas do Copom. Após trazer esses textos para o R, iremos futuramente (em outro post) experimentar explorações e análise textual com essas Atas.</p>
+<p>O script resumido (e um pouco desorganizado) está disponível em <a href="https://github.com/sauloguerra/r-atascopom" class="uri">https://github.com/sauloguerra/r-atascopom</a></p>
+<h2 id="fonte-dos-dados">Fonte dos dados</h2>
+<p>Explorando um pouco a página de divulgação das atas do Copom, mais precisamente na página <a href="https://www.bcb.gov.br/publicacoes/atascopom/cronologicos" class="uri">https://www.bcb.gov.br/publicacoes/atascopom/cronologicos</a>, é possível notar chamada a dois endpoints de API, um para atas mais novas e outro para atas antigas. Clique nos links abaixo para ver o json em seu browser.</p>
+<p>Conteúdo da cahamda antiga: <a href="https://www.bcb.gov.br/api/servico/sitebcb/atascopom-conteudo/ultimas?quantidade=1000&amp;filtro=" class="uri">https://www.bcb.gov.br/api/servico/sitebcb/atascopom-conteudo/ultimas?quantidade=1000&amp;filtro=</a></p>
+<p>Conteúdo da chamada nova: <a href="https://www.bcb.gov.br/api/servico/sitebcb/atascopom/ultimas?quantidade=1000&amp;filtro=" class="uri">https://www.bcb.gov.br/api/servico/sitebcb/atascopom/ultimas?quantidade=1000&amp;filtro=</a></p>
+<p>A API que retorna as atas mais recentes informa o link direto de acesso ao pdf da ata no campo “Url”. Já a API das atas mais antigas retorna um link com a ata em html no campo “LinkPagina”. Precisaremos definir uma abordagem diferente para cada tipo.</p>
+<p>Basicamente os dois endpoints retornam 3 campos de interesse que iremos utilizar: <strong>DataReferencia, Titulo e Link</strong>. Dessa forma, a estratégia inicial é montar um dataframe com o link de todas as atas, antigas e novas. Em seguida, percorreremos esse links baixando o conteúdo (texto) de cada ata.</p>
+<p>Começamos carregando alguns pacotes:</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
-library(reticulate)
-library(imager)
-library(glue)
+## chamadas e scraping
+library(jsonlite)
+library(RCurl)
+library(rvest)
+## extração e manipulação
 library(tidyverse)
-library(zeallot)
-
-# Bibliotecas e módulos do python
-py &lt;- import_builtins()
-torch &lt;- import(&quot;torch&quot;)
-torchvision &lt;- import(&quot;torchvision&quot;)
-np &lt;- import(&quot;numpy&quot;)
-copy &lt;- import(&quot;copy&quot;)
-
-transforms &lt;- torchvision$transforms
-datasets &lt;- torchvision$datasets
-models &lt;- torchvision$models
-optim &lt;- torch$optim
-nn &lt;- torch$nn
-F &lt;- torch$nn$functional</code></pre>
+library(pdftools)
+library(glue)</code></pre>
 </div>
-<h2 id="dados">Dados</h2>
-<p>Os dados para esse post estão disponívels no Kaggle <a href="https://www.kaggle.com/dansbecker/hot-dog-not-hot-dog/data">neste link</a>. Foram utilizadas as imagens da pasta <code>seefood</code>. As imagens estão incialmente separadas apenas em treino e teste. Iremos, adicionalmente, criar a pasta validação e copiar algumas imagens da pasta de teste para essa nova pasta.</p>
+<p>Definimos os caminhos das chamadas conforme os links mostrados acima:</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
-data_dir &lt;- &quot;../../dados/seefood&quot;
-
-if(!dir.exists(file.path(data_dir, &quot;valid&quot;))){
-  dir.create(file.path(data_dir, &quot;valid&quot;))
-  dir.create(file.path(data_dir, &quot;valid/hot_dog&quot;))
-  dir.create(file.path(data_dir, &quot;valid/not_hot_dog&quot;))
-
-  classes &lt;- c(&quot;hot_dog&quot;, &quot;not_hot_dog&quot;)
-  for(classe in classes){
-    images &lt;- list.files(file.path(data_dir, &quot;test&quot;, classe))
-    set.seed(39031)
-    images &lt;- sample(images, 75)
-    for(image in images){
-      file.copy(
-        from = file.path(file.path(data_dir, &quot;test&quot;, classe, image)),
-        to = file.path(file.path(data_dir, &quot;valid&quot;, classe, image))
-      )
-      file.remove(file.path(file.path(data_dir, &quot;test&quot;, classe, image)))
-    }
-  }
-}</code></pre>
+## url base para todas as chamadas
+url &lt;- &quot;https://www.bcb.gov.br&quot;
+api_antigas &lt;- &quot;/api/servico/sitebcb/atascopom-conteudo/ultimas?quantidade=1000&amp;filtro=&quot;
+api_novas &lt;- &quot;/api/servico/sitebcb/atascopom/ultimas?quantidade=1000&amp;filtro=&quot;</code></pre>
 </div>
-<h2 id="dataloaders">Dataloaders</h2>
-<p>Antes de definir propriamente os dataloaders, o código abaixo crias os “transforms” que na prática consistem em pré-processamentos das imagens. Apesar de existir uma enorme variedade de possibilidades, no código abaixo apenas redimensionamos as imagens e normalizamos os pixels para que eles assumam valores entre -1 e 1.</p>
+<p>Vamos a construção de um dataframe com o link de todas as atas. Chamamos as consultas e extraímos do conteúdo os campos de data, título e o link, indicando o tipo de cada ata. Lembrando, html são as atas antigas, pdf as novas.</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
-data_trasnforms &lt;- list(
-  train = transforms$Compose(
-    list(
-      transforms$Resize(c(256L, 256L)),
-      transforms$ToTensor(),
-      transforms$Normalize(c(0.5, 0.5, 0.5), c(0.5, 0.5, 0.5))
-    )
-  ),
-  valid = transforms$Compose(
-    list(      
-      transforms$Resize(c(256L, 256L)),
-      transforms$ToTensor(),
-      transforms$Normalize(c(0.5, 0.5, 0.5), c(0.5, 0.5, 0.5))
-    )
-  ),
-  test = transforms$Compose(
-    list(
-      transforms$Resize(c(256L, 256L)),
-      transforms$ToTensor(),
-      transforms$Normalize(c(0.5, 0.5, 0.5), c(0.5, 0.5, 0.5))
-    )
-  )
-)</code></pre>
-</div>
-<p>O código abaixo cria os dataloaders, que são os objetos que fornecerão os dados ao modelo que será treinado.</p>
-<div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-# Dataloaders ---------------------------------------------------------------
-sets &lt;- c(&quot;train&quot;, &quot;valid&quot;, &quot;test&quot;)
+json_links_antigos &lt;- getURL(glue(&quot;{url}{api_antigas}&quot;))
 
-image_datasets &lt;- map(sets, ~ {
-  datasets$ImageFolder(
-    file.path(data_dir, .x),
-    data_trasnforms[[.x]]
-  )
-}) %&gt;%
-  setNames(sets)
+df_atas_antigas &lt;- fromJSON(json_links_antigos, flatten = TRUE) %&gt;%
+  .$conteudo %&gt;%
+  select(DataReferencia, Titulo, LinkPagina) %&gt;%
+  mutate(Tipo = &quot;html&quot;)
 
-dataloaders &lt;- map(sets, ~{
-  torch$utils$data$DataLoader(
-    image_datasets[[.x]],
-    batch_size = 8L,
-    shuffle = TRUE,
-    num_workers = 4L
-  )
-}) %&gt;%
-  setNames(sets)
-
-dataset_sizes &lt;- map_dbl(sets, ~ {
-  py$len(image_datasets[[.x]])
-}) %&gt;%
-  setNames(sets)
-
-print(dataset_sizes)</code></pre>
+str(df_atas_antigas)</code></pre>
 <pre><code>
-train valid  test 
-  498   150   350 </code></pre>
+&#39;data.frame&#39;:   179 obs. of  4 variables:
+ $ DataReferencia: chr  &quot;2016-06-08T03:00:00Z&quot; &quot;2016-04-27T03:00:00Z&quot; &quot;2016-03-02T03:00:00Z&quot; &quot;2016-01-20T02:00:00Z&quot; ...
+ $ Titulo        : chr  &quot;199ª Reunião&quot; &quot;198ª Reunião&quot; &quot;197ª Reunião&quot; &quot;196ª Reunião&quot; ...
+ $ LinkPagina    : chr  &quot;/publicacoes/atascopom/08062016&quot; &quot;/publicacoes/atascopom/27042016&quot; &quot;/publicacoes/atascopom/02032016&quot; &quot;/publicacoes/atascopom/20012016&quot; ...
+ $ Tipo          : chr  &quot;html&quot; &quot;html&quot; &quot;html&quot; &quot;html&quot; ...</code></pre>
+<pre class="r"><code>
+json_links_novos &lt;- getURL(glue(&quot;{url}{api_novas}&quot;))
+
+df_atas_novas &lt;- fromJSON(json_links_novos, flatten = TRUE) %&gt;%
+  .$conteudo %&gt;%
+  select(DataReferencia, Titulo, LinkPagina = Url) %&gt;%
+  mutate(Tipo = &quot;pdf&quot;)
+
+str(df_atas_novas)</code></pre>
+<pre><code>
+&#39;data.frame&#39;:   31 obs. of  4 variables:
+ $ DataReferencia: chr  &quot;2020-05-06T03:00:00Z&quot; &quot;2020-03-18T03:00:00Z&quot; &quot;2020-02-05T03:00:00Z&quot; &quot;2019-12-11T03:00:00Z&quot; ...
+ $ Titulo        : chr  &quot;230ª Reunião&quot; &quot;229ª Reunião&quot; &quot;228ª Reunião&quot; &quot;227ª Reunião&quot; ...
+ $ LinkPagina    : chr  &quot;/content/copom/atascopom/Copom230-not20200506230.pdf&quot; &quot;/content/copom/atascopom/Copom229-not20200318229.pdf&quot; &quot;/content/copom/atascopom/Copom228-not20200205228.pdf&quot; &quot;/content/copom/atascopom/Copom227-not20191211227.pdf&quot; ...
+ $ Tipo          : chr  &quot;pdf&quot; &quot;pdf&quot; &quot;pdf&quot; &quot;pdf&quot; ...</code></pre>
 </div>
-<p>Abaixo mostramos uma amostra das imagens que formam esse dataset.</p>
+<p>Repare que por conta da diferença de retorno das duas chamadas, renomeamos o campo Url para LinkPagina, compatibilizando os dois grupos em um dataframe só.</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
-class_names &lt;- image_datasets[[&#39;train&#39;]]$classes
+df_atas &lt;- bind_rows(df_atas_novas, df_atas_antigas)
 
-# Visualizando algumas imagens -----------------------------------------------
-iter_train &lt;- py$iter(dataloaders[[&quot;train&quot;]])
-c(images, labels) %&lt;-% iter_next(iter_train)
-images &lt;- images$numpy()
-labels &lt;- labels$numpy()
-labels &lt;- class_names[labels + 1]
+str(df_atas)</code></pre>
+<pre><code>
+&#39;data.frame&#39;:   210 obs. of  4 variables:
+ $ DataReferencia: chr  &quot;2020-05-06T03:00:00Z&quot; &quot;2020-03-18T03:00:00Z&quot; &quot;2020-02-05T03:00:00Z&quot; &quot;2019-12-11T03:00:00Z&quot; ...
+ $ Titulo        : chr  &quot;230ª Reunião&quot; &quot;229ª Reunião&quot; &quot;228ª Reunião&quot; &quot;227ª Reunião&quot; ...
+ $ LinkPagina    : chr  &quot;/content/copom/atascopom/Copom230-not20200506230.pdf&quot; &quot;/content/copom/atascopom/Copom229-not20200318229.pdf&quot; &quot;/content/copom/atascopom/Copom228-not20200205228.pdf&quot; &quot;/content/copom/atascopom/Copom227-not20191211227.pdf&quot; ...
+ $ Tipo          : chr  &quot;pdf&quot; &quot;pdf&quot; &quot;pdf&quot; &quot;pdf&quot; ...</code></pre>
+<pre class="r"><code>
+head(df_atas)</code></pre>
+<pre><code>
+        DataReferencia       Titulo
+1 2020-05-06T03:00:00Z 230ª Reunião
+2 2020-03-18T03:00:00Z 229ª Reunião
+3 2020-02-05T03:00:00Z 228ª Reunião
+4 2019-12-11T03:00:00Z 227ª Reunião
+5 2019-10-30T03:00:00Z 226ª Reunião
+6 2019-09-18T03:00:00Z 225ª Reunião
+                                            LinkPagina Tipo
+1 /content/copom/atascopom/Copom230-not20200506230.pdf  pdf
+2 /content/copom/atascopom/Copom229-not20200318229.pdf  pdf
+3 /content/copom/atascopom/Copom228-not20200205228.pdf  pdf
+4 /content/copom/atascopom/Copom227-not20191211227.pdf  pdf
+5 /content/copom/atascopom/Copom226-not20191030226.pdf  pdf
+6 /content/copom/atascopom/Copom225-not20190918225.pdf  pdf</code></pre>
+<pre class="r"><code>
+tail(df_atas)</code></pre>
+<pre><code>
+          DataReferencia      Titulo                      LinkPagina
+205 1998-07-01T03:00:00Z 26ª Reunião /publicacoes/atascopom/01071998
+206 1998-06-01T03:00:00Z 25ª Reunião /publicacoes/atascopom/01061998
+207 1998-05-01T03:00:00Z 24ª Reunião /publicacoes/atascopom/01051998
+208 1998-04-01T03:00:00Z 23ª Reunião /publicacoes/atascopom/01041998
+209 1998-03-01T03:00:00Z 22ª Reunião /publicacoes/atascopom/01031998
+210 1998-01-28T02:00:00Z 21ª Reunião /publicacoes/atascopom/28011998
+    Tipo
+205 html
+206 html
+207 html
+208 html
+209 html
+210 html</code></pre>
+</div>
+<p>Teremos as atas desde janeiro de 1998 até a última publicada, totalizando mais de 200 atas.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+df_atas %&gt;% filter(DataReferencia == min(DataReferencia))</code></pre>
+<pre><code>
+        DataReferencia      Titulo                      LinkPagina
+1 1998-01-28T02:00:00Z 21ª Reunião /publicacoes/atascopom/28011998
+  Tipo
+1 html</code></pre>
+<pre class="r"><code>
+df_atas %&gt;% filter(DataReferencia == max(DataReferencia))</code></pre>
+<pre><code>
+        DataReferencia       Titulo
+1 2020-05-06T03:00:00Z 230ª Reunião
+                                            LinkPagina Tipo
+1 /content/copom/atascopom/Copom230-not20200506230.pdf  pdf</code></pre>
+<pre class="r"><code>
+nrow(df_atas)</code></pre>
+<pre><code>
+[1] 210</code></pre>
+</div>
+<h3 id="obtendo-os-textos-das-atas">Obtendo os textos das Atas</h3>
+<p>Após consolidarmos um dataframe com a data da ata, o título da reunião e o link onde podemos obter a íntegra dos textos. Vamos percorrer esse dataframe acessando cada link e trazendo o texto para uma coluna nova no dataframe.</p>
+<p>O desafio nesse momento é justamente lidar com duas fontes diferentes: as atas mais novas estão em pdf, as mais antigas estão em html. Nesse caso, vamos definir duas funções diferentes para obter o texto, uma para html e outra para pdf.</p>
+<p>O link direto ao conteúdo das atas novas já está explícito em nosso dataframe, então basta acessar diretamente e converter de pdf para texto com o pacote <code>pdftools</code></p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+conteudo_pdf &lt;- function(link, url = &quot;https://www.bcb.gov.br&quot;) {
+  pdf &lt;- pdf_text(glue(&quot;{url}{link}&quot;)) %&gt;%
+    as_vector() %&gt;%
+    glue_collapse()
 
-layout(matrix(1:4, 2, 2))
-for(i in 1:4){
-  images[i, , , , drop = FALSE] %&gt;%
-    aperm(c(3, 4, 1, 2)) %&gt;%
-    as.cimg() %&gt;% 
-    plot(main = labels[i])
+  return(pdf)
 }</code></pre>
-<p><img src="usando-o-pytorch-no-r-treinando-o-seefood_files/figure-html5/unnamed-chunk-5-1.png" width="624" /></p>
 </div>
-<h2 id="funcao-para-treinamento-do-modelo">Função para Treinamento do Modelo</h2>
-<p>O processo de treinamento é customizado. Isto é, define-se cada passo do processo na função de treinamento (<code>train_model</code>). Apesar de ser a minha primeira experiência com o Pytorch, achei o processo bem intuitivo e de fácil definição, sendo similar ao processo de treinamento customizado do tensorflow. Basicamente, o processo é o seguinte:</p>
-<ul>
-<li>Fase de treinamento:
-<ul>
-<li>Para um batch de imagens, são computadas as predições do modelo.</li>
-<li>As predições são comparadas com os rótulos observados (reais) e é a função de perda (loss) é computada</li>
-<li>Com o valor da função perda calculado, os gradientes são calculados e aplicados para atualização dos pesos (parâmetros) do modelo.</li>
-</ul></li>
-<li>Fase de validação:
-<ul>
-<li>Para um batch de imagens, são computadas as predições do modelo.</li>
-<li>Nessa fase, os gradientes não são computados</li>
-</ul></li>
-</ul>
-<p>Ao final de cada “epoch”, são computados os valores finais da função de perda e da acurácia para os dados de treino e de validação.</p>
+<p>As antas antigas são um pouco mais desafiadoras de serem obtidas, mas nada que uma rápida investigação na página não resolva. A página tem uma renderização interna que recebe o html formatado de uma chamada própria no seguinte formato (clique para ver o json no seu browser):</p>
+<p><a href="https://www.bcb.gov.br/api/servico/sitebcb/atascopom-conteudo/principal?filtro=IdentificadorUrl%20eq%20%2708062016%27" class="uri">https://www.bcb.gov.br/api/servico/sitebcb/atascopom-conteudo/principal?filtro=IdentificadorUrl%20eq%20%2708062016%27</a></p>
+<p>Retirando os encodes de URL para ficar mais fácil de entender, basicamente a chamada se baseia no seguinte parâmetro:</p>
+<p><strong>filtro = IdentificadorUrl eq ‘08062016’</strong></p>
+<p>Sendo assim, bata extrair o código numércio do link em nosso dataframe e encaixá-lo nessa chamada (com encode URL adequado). Essa nova chamada nos dará acesso a um json que retorna o html pronto para ser renderizado em tela. Ele fica disponível no parâmetro “conteudo &gt; OutrasInformacoes” do json retorno.</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
-train_model &lt;- function(model, criterion, optimizer, scheduler, num_epochs = 25){
-
-  # Guarda os valores dos pesos e da acurácia para a &quot;melhor&quot; epoch
-  best_model_wts = copy$deepcopy(model$state_dict())
-  best_acc = 0
-
-  for (epoch in 1:num_epochs) {
-    cat(glue(&quot;Epoch {epoch}/{num_epochs}&quot;), &quot;\n&quot;)
-    cat(&quot;-----------------------------\n&quot;)
-    
-    for (phase in c(&quot;train&quot;, &quot;valid&quot;)) {
-      if (phase == &quot;train&quot;) {
-        model$train()
-      } else {
-        model$eval()
+conteudo_html &lt;- function(link, url = &quot;https://www.bcb.gov.br&quot;) {
+  api &lt;- &quot;/api/servico/sitebcb/atascopom-conteudo/principal?filtro=IdentificadorUrl&quot;
+  codigo &lt;- str_extract_all(link, &quot;\\d+&quot;)
+  codigo &lt;- URLencode(glue(&quot; eq &#39;{codigo}&#39;&quot;), reserved = T)
+  
+  json &lt;- glue(&quot;{url}{api}{codigo}&quot;) %&gt;%
+    fromJSON()
+  
+  txt &lt;- read_html(json$conteudo$OutrasInformacoes) %&gt;%
+    html_text() %&gt;%
+    str_squish()
+  
+  return(txt)
+}</code></pre>
+</div>
+<p>Com essas duas funções, basta percorrer nosso dataframe com os links de referência e guardar o texto das atas em uma nova coluna. Para exercício deste post, vamos baixar uma amostra aleatória de apenas 20 atas. Mas bastaria tirar essa restrição para baixar todas.</p>
+<p>Ao final, teremos uma colina extra chamada integra contendo o texto da ata, além das demais colunas com data e numeração da reunião.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+final &lt;- df_atas %&gt;%
+  sample_n(20) %&gt;% 
+  mutate(
+    integra = map2_chr(Tipo, LinkPagina, ~ {
+      if (.x == &quot;pdf&quot;) {
+        return(conteudo_pdf(.y))
       }
 
-      running_loss &lt;- 0
-      running_corrects &lt;- 0
+      return(conteudo_html(.y))
+    })
+  )
 
-      iter_data &lt;- py$iter(dataloaders[[phase]])
-      
-      while (TRUE) {
-        data &lt;- iter_next(iter_data)
-        if (is.null(data)) {          
-          break
-        }
-      
-        inputs &lt;- data[[1]]
-        inputs &lt;- inputs$to(device)
-        labels &lt;- data[[2]]
-        labels &lt;- labels$to(device)
-
-        optimizer$zero_grad()
-      
-        with(torch$set_grad_enabled(phase == &quot;train&quot;), {
-          outputs &lt;- model(inputs)
-          preds &lt;- torch$max(outputs, 1L)$indices
-          loss &lt;- criterion(outputs, labels)
-      
-          # backward + optimize only if in training phase
-          if (phase == &quot;train&quot;) {
-            loss$backward()
-            optimizer$step()
-          }
-        })
-      
-        running_loss &lt;- running_loss + loss$item() * inputs$size(0L)
-        running_corrects &lt;- running_corrects + sum(preds$cpu()$numpy() == labels$cpu()$numpy())
-      }
-      
-      if (phase == &quot;train&quot;) {
-        scheduler$step()
-      }
-
-      epoch_loss &lt;- running_loss / dataset_sizes[[phase]]
-      epoch_acc &lt;- running_corrects / dataset_sizes[[phase]]
-
-      cat(glue(&quot;{phase} Loss: {round(epoch_loss,4)} Acc.: {round(epoch_acc, 4)}&quot;), &quot;\n&quot;)
-
-      if (phase == &quot;valid&quot; &amp; epoch_acc &gt; best_acc) {
-        best_acc &lt;- epoch_acc
-        best_model_wts &lt;- copy$deepcopy(model$state_dict())
-      }      
-    }   
-  }
-
-  model$load_state_dict(best_model_wts)
-
-  cat(&quot;-----------------------------\n&quot;)
-  cat(glue(&quot;Best val Acc: {round(best_acc, 4)}&quot;), &quot;\n&quot;)
-
-  return(model)
-
-}</code></pre>
-</div>
-<h2 id="definindo-o-modelo">Definindo o modelo</h2>
-<p>Aqui utilizamos uma técnica conhecida como Transfer Learning. Isto é, utilizamos um modelo que foi pré-treinado em uma base maior e que já “aprendeu” a extrair features das imagens para auxiliar no treinamento do nosso modelo. Na prática iremos só redimensionar a última camada para que o output seja de dimensão 2 (número de classes da nossa base) e treinar o modelo mais um pouco para que ele se ajuste melhor à nossa tarefa.</p>
-<div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-model_ft &lt;- models$resnet34(pretrained = TRUE)
-num_ftrs &lt;- model_ft$fc$in_features
-model_ft$fc &lt;- nn$Linear(num_ftrs, 2L)
-
-device &lt;- torch$device(&quot;cuda:0&quot;)
-model_ft &lt;- model_ft$to(device)
-criterion &lt;- nn$CrossEntropyLoss()
-optimizer_ft = optim$AdamW(model_ft$parameters(), lr = 5e-5)
-lr_scheduler &lt;- optim$lr_scheduler
-exp_lr_scheduler = lr_scheduler$StepLR(optimizer_ft, step_size = 4L, gamma = 0.1)
-
-model_ft &lt;- train_model(
-  model_ft,
-  criterion,
-  optimizer_ft,
-  exp_lr_scheduler,
-  num_epochs = 12L
-)</code></pre>
+str(final)</code></pre>
 <pre><code>
-Epoch 1/12 
------------------------------
-train Loss: 0.4157 Acc.: 0.8032 
-valid Loss: 0.2799 Acc.: 0.8533 
-Epoch 2/12 
------------------------------
-train Loss: 0.174 Acc.: 0.9378 
-valid Loss: 0.2975 Acc.: 0.88 
-Epoch 3/12 
------------------------------
-train Loss: 0.0842 Acc.: 0.9699 
-valid Loss: 0.246 Acc.: 0.8867 
-Epoch 4/12 
------------------------------
-train Loss: 0.112 Acc.: 0.9659 
-valid Loss: 0.2861 Acc.: 0.9067 
-Epoch 5/12 
------------------------------
-train Loss: 0.127 Acc.: 0.9478 
-valid Loss: 0.2874 Acc.: 0.8933 
-Epoch 6/12 
------------------------------
-train Loss: 0.0981 Acc.: 0.9538 
-valid Loss: 0.325 Acc.: 0.8467 
-Epoch 7/12 
------------------------------
-train Loss: 0.0759 Acc.: 0.9739 
-valid Loss: 0.2787 Acc.: 0.8933 
-Epoch 8/12 
------------------------------
-train Loss: 0.0365 Acc.: 0.992 
-valid Loss: 0.2737 Acc.: 0.9 
-Epoch 9/12 
------------------------------
-train Loss: 0.0678 Acc.: 0.9719 
-valid Loss: 0.3268 Acc.: 0.8467 
-Epoch 10/12 
------------------------------
-train Loss: 0.0372 Acc.: 0.994 
-valid Loss: 0.4178 Acc.: 0.8133 
-Epoch 11/12 
------------------------------
-train Loss: 0.0293 Acc.: 0.988 
-valid Loss: 0.2825 Acc.: 0.8867 
-Epoch 12/12 
------------------------------
-train Loss: 0.0563 Acc.: 0.9819 
-valid Loss: 0.279 Acc.: 0.8933 
------------------------------
-Best val Acc: 0.9067 </code></pre>
+&#39;data.frame&#39;:   20 obs. of  5 variables:
+ $ DataReferencia: chr  &quot;2003-04-01T03:00:00Z&quot; &quot;2007-10-25T02:00:00Z&quot; &quot;2016-08-31T03:00:00Z&quot; &quot;2010-06-09T03:00:00Z&quot; ...
+ $ Titulo        : chr  &quot;83ª Reunião&quot; &quot;130ª Reunião&quot; &quot;201ª Reunião&quot; &quot;151ª Reunião&quot; ...
+ $ LinkPagina    : chr  &quot;/publicacoes/atascopom/01042003&quot; &quot;/publicacoes/atascopom/25102007&quot; &quot;/content/copom/atascopom/COPOM201-not20160831201.pdf&quot; &quot;/publicacoes/atascopom/09062010&quot; ...
+ $ Tipo          : chr  &quot;html&quot; &quot;html&quot; &quot;pdf&quot; &quot;html&quot; ...
+ $ integra       : chr  &quot;Sumário Evolução recente da inflação Avaliação prospectiva das tendências da inflação Implementação da política&quot;| __truncated__ &quot;Sumário Evolução recente da economia Avaliação prospectiva das tendências da inflação Implementação da política&quot;| __truncated__ &quot;Notas da 201ª Reunião do\nComitê de Política Monetária (Copom)\ndo Banco Central do Brasil\n30 e 31 de agosto d&quot;| __truncated__ &quot;Sumário Evolução recente da economia Avaliação prospectiva das tendências da inflação Implementação da política&quot;| __truncated__ ...</code></pre>
 </div>
-<p>Olhando os resultados, fica claro que seria necessário adotar alguma estratégia para diminuir o overfitting. Poderíamos ter escrito um modelo mais customizado e adicionado camadas de <em>dropout</em>.</p>
-<h2 id="plotando-predicoes">Plotando predições</h2>
-<p>Agora vamos ver como o nosso classificador se sai:</p>
+<p>Vamos dar uma rápida olhada nos textos, mas suprimindo algumas partes para não poluir muito a postagem:</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
-iter_test &lt;- py$iter(dataloaders[[&quot;test&quot;]])
-c(images, labels) %&lt;-% iter_next(iter_test)
-images &lt;- images$to(device)
-preds &lt;- model_ft(images)
-preds &lt;- torch$max(preds, 1L)$indices
-preds &lt;- preds$cpu()$numpy()
-preds &lt;- class_names[preds + 1]
-images &lt;- images$cpu()$numpy()
+parcial &lt;- function(texto) {
+  paste(
+    str_sub(texto, end = 500),
+    &quot;(.......)&quot;,
+    str_sub(texto, -500)
+  )
+}
 
-layout(matrix(1:4, 2, 2))
-for(i in 1:4){
-  images[i, , , , drop = FALSE] %&gt;%
-    aperm(c(3, 4, 1, 2)) %&gt;%
-    as.cimg() %&gt;%
-    plot(main = glue(&quot;Predição: {preds[i]}&quot;))
-}</code></pre>
-<p><img src="usando-o-pytorch-no-r-treinando-o-seefood_files/figure-html5/unnamed-chunk-8-1.png" width="624" /></p>
-</div>
-<h2 id="resultado-na-base-de-teste">Resultado na base de teste</h2>
-<div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-test_acc &lt;- 0
-running_corrects &lt;- 0
-invisible(model_ft$eval())
-N &lt;- dataset_sizes[[&quot;test&quot;]]
-iter_data &lt;- py$iter(dataloaders[[&quot;test&quot;]])
-with(torch$no_grad(), {
-  while (TRUE) {
-    data &lt;- iter_next(iter_data)
-    if (is.null(data)) {
-      break
-    }
-
-    inputs &lt;- data[[1]]
-    inputs &lt;- inputs$to(device)
-    labels &lt;- data[[2]]
-    labels &lt;- labels$to(device)
-    outputs &lt;- model_ft(inputs)
-    preds &lt;- torch$max(outputs, 1L)$indices
-
-    running_corrects &lt;- running_corrects + sum(preds$cpu()$numpy() == labels$cpu()$numpy())
-
-  }
-  cat(&quot;-----------------------------\n&quot;)
-  cat(glue(&quot;Test Acc: {round(running_corrects/N, 4)}&quot;), &quot;\n&quot;)
-})</code></pre>
+final %&gt;%
+  slice(1) %&gt;%
+  mutate(integra = parcial(integra))</code></pre>
 <pre><code>
------------------------------
-Test Acc: 0.92 </code></pre>
+        DataReferencia      Titulo                      LinkPagina
+1 2003-04-01T03:00:00Z 83ª Reunião /publicacoes/atascopom/01042003
+  Tipo
+1 html
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              integra
+1 Sumário Evolução recente da inflação Avaliação prospectiva das tendências da inflação Implementação da política monetária Atividade econômica Mercado de trabalho Crédito e inadimplência Ambiente externo Comércio exterior Mercado monetário e operações de mercado aberto Glossário Data: 22 e 23/4/2003 Local: Sala de reuniões do 8º andar (22/4) e 20º andar (23/4) do Edifício-Sede do Banco Central - Brasília - DF Horário de início: 15h30 (22/4) e 11h30 (23/4) Horário de término: 18h30 (22/4) e 13h30  (.......) il IPAÍndice de Preços por Atacado IPC-BRÍndice de Preços ao Consumidor - Brasil IPCAÍndice de Preços ao Consumidor Amplo LFTLetras Financeiras do Tesouro LTNLetras do Tesouro Nacional NTN-CNotas do Tesouro Nacional - Série C OCDEOrganização para a Cooperação e Desenvolvimento Econômico OpepOrganização dos Países Produtores de Petróleo p.b.pontos base p.p.ponto percentual PIBProduto Interno Bruto PMEPesquisa Mensal do Emprego - IBGE SarsSíndrome Respiratória Aguda Grave VAR Vetor Auto Regressivo</code></pre>
+<pre class="r"><code>
+final %&gt;%
+  slice(5) %&gt;%
+  mutate(integra = parcial(integra))</code></pre>
+<pre><code>
+        DataReferencia      Titulo                      LinkPagina
+1 1998-09-01T03:00:00Z 27ª Reunião /publicacoes/atascopom/01091998
+  Tipo
+1 html
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              integra
+1 Sumário Preços e Nível de Atividade Agregados Monetários e Crédito Finanças Públicas Balanço de Pagamentos Ambiente Externo Evolução do Mercado de Câmbio Doméstico e Posição das Reservas Internacionais Liquidez Bancária Mercado Monetário e Operações de Mercado Aberto Diretrizes de Política Monetária Data: 02.09.1998 Local: Sala de reuniões do 8º andar do Edifício-Sede do Banco Central – Brasília-DF Horário de início: 16:15 h Horário de término: 19:30 h Presentes: Membros da Diretoria Colegiada G (.......) gio reforçaria a credibilidade do país repercutindo favoravelmente nos mercados internacionais. Após estas ponderações, decidiu-se, por votação unânime, fixar a TBC em 19,00% a.a. e a TBAN em 29,75% a.a. Ao final da reunião, foi lembrado que o Comitê voltaria a se reunir em 7 de outubro de 1998, às 16:30 h, conforme estabelecido no Calendário das Reuniões Ordinárias do COPOM, divulgado pelo Comunicado nº 5.898, de 12.11.1997, do Banco Central. Alexandre Pundek Rocha Secretário Executivo do COPOM</code></pre>
+<pre class="r"><code>
+final %&gt;%
+  slice(10) %&gt;%
+  mutate(integra = parcial(integra))</code></pre>
+<pre><code>
+        DataReferencia       Titulo                      LinkPagina
+1 2008-03-05T03:00:00Z 133ª Reunião /publicacoes/atascopom/05032008
+  Tipo
+1 html
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              integra
+1 Sumário Evolução recente da economia Avaliação prospectiva das tendências da inflação Implementação da política monetária Inflação Atividade econômica Expectativas e sondagens Mercado de trabalho Crédito e inadimplência Ambiente externo Comércio exterior e reservas internacionais Mercado monetário e operações de mercado aberto Data: 04 e 05/03/2008 Local: Sala de reuniões do 8º andar (04/03) e do 20º (05/03) do Edifício-Sede do Banco Central do Brasil – Brasília – DF Horário de início: 16h35 (04 (.......) jugada com a compra de LTN de vencimento em abril de 2008, em um total de R$9,5 bilhões. As vendas de NTN-B, de vencimento em 2011, 2013, 2017, 2024, 2035 e 2045, liquidadas mediante a entrega de outros títulos, somaram R$3,7 bilhões. O Tesouro realizou, também, leilões de venda de LFT de vencimento em 2012 e 2014, no montante de R$10,1 bilhões, aceitando como pagamento LFT de vencimento em 2008, e leilões de compra de LTN e de NTN-B, que alcançaram R$2,0 bilhões e R$0,2 bilhão, respectivamente.</code></pre>
+<pre class="r"><code>
+final %&gt;%
+  slice(15) %&gt;%
+  mutate(integra = parcial(integra))</code></pre>
+<pre><code>
+        DataReferencia       Titulo                      LinkPagina
+1 2008-09-18T03:00:00Z 137ª Reunião /publicacoes/atascopom/18092008
+  Tipo
+1 html
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              integra
+1 Sumário Evolução recente da economia Avaliação prospectiva das tendências da inflação Implementação da política monetária Inflação Atividade econômica Expectativas e sondagens Mercado de trabalho Crédito e inadimplência Ambiente externo Comércio exterior e reservas internacionais Mercado monetário e operações de mercado aberto Data: 09 e 10/09/2008 Local: Sala de reuniões do 8º andar (09/09) e do 20º (10/09) do Edifício-Sede do Banco Central do Brasil – Brasília – DF Horário de início: 17h20 (09 (.......) mpra de LTN de vencimento em outubro de 2008, em um total de R$1,1 bilhão. As vendas de NTN-B liquidadas mediante a entrega de outros títulos somaram R$7,3 bilhões e envolveram títulos de vencimento em 2011, 2013, 2017, 2024, 2035 e 2045. O Tesouro efetuou, também, leilões de venda de LFT de vencimento em 2012 e 2014, no montante de R$0,8 bilhão, aceitando como pagamento LFT de vencimento em 2008, e leilões de compra de LTN e de NTN-B, que alcançaram R$0,5 bilhão e R$83 milhões, respectivamente.</code></pre>
+<pre class="r"><code>
+final %&gt;%
+  slice(20) %&gt;%
+  mutate(integra = parcial(integra))</code></pre>
+<pre><code>
+        DataReferencia      Titulo                      LinkPagina
+1 2001-12-01T02:00:00Z 66ª Reunião /publicacoes/atascopom/01122001
+  Tipo
+1 html
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              integra
+1 Sumário Atividade econômica Ambiente externo Preços Mercado monetário e operações de mercado aberto Avaliação prospectiva das tendências da inflação Diretrizes de política monetária Glossário Data: 18 e 19/12/2001 Local: Sala de reuniões do 8º andar (no dia 18) e 20º andar (no dia 19) do Edifício-Sede do Banco Central - Brasília - DF Horário de início: 16:26 h dia 18 e 17:00 h dia 19 Horário de término: 20:23 h dia 18 e 21:08 h dia 19 Presentes: Membros da Diretoria Colegiada Arminio Fraga Neto  (.......) CHÍndice de Preços ao Consumidor Harmonizado IPPÍndice de Preços ao Produtor IR Imposto sobre a Renda IRF-MÍndice de Renda Fixa de Mercado IRRFImposto sobre a Renda Retido na Fonte LFTLetras Financeiras do Tesouro LTNLetras do Tesouro Nacional NAPMNational Association of Purchasing Managers NBCENotas do Banco Central - série E NTN-DNotas do Tesouro Nacional - série D p.b. pontos-base p.p.ponto percentual PEAPopulação Economicamente Ativa PIBProduto Interno Bruto STNSecretaria do Tesouro Nacional</code></pre>
 </div>
-<p>Nosso modelo conseguiu atingir a acurácia de 92,0%!</p>
-<p>Com isso, fechamos esse post! A ideia era mostrar que pode-se usar facilmente uma biblioteca em Python no R com a ajuda do reticulate. Dessa forma, não precisamos nos limitar a uma linguagem única e aproveitar o melhor de cada!</p>
-<div style="width:100%;height:0;padding-bottom:75%;position:relative;">
-<iframe src="https://giphy.com/embed/MuE0xWbEohUrxbm77r" width="100%" height="100%" style="position:absolute" frameBorder="0" class="giphy-embed" allowFullScreen>
+<p>Após tirar a restrição de amostra e baixar todos os textos, vamos escrever nosso dataframe completo para usarmos futuramente em um próximo post explorando uma análise textual do conteúdo dessas atas. Para escrita de conteúdo que vai ser lido novamente no R, é sempre bom usar o pacote fst, além de comprimir o tamanho, a leitura e escrita é super rápida.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+fst::write_fst(final, &quot;./output/df_atas.fst&quot;)</code></pre>
+</div>
+<h2 id="conclusões">Conclusões</h2>
+<p>A montagem da base foi razoavelmente simples, a maior dificuldade está em entender as APIs que o banco central utilizou para disponibilização das atas. Essa base pode ser uma fonte de informação valiosa para avaliar a história das decisões do Copom bem como tentar utilizá-la em cruzando com outras bases na tentativa de prever a reação do mercado frente às “entrelinhas” interpretadas nos textos das atas.</p>
+<p>Em um próximo post vamos aplicar algumas técnicas de análise textual e tentar extrair infomrações interessantes desses textos.</p>
+<div style="width:100%;height:0;padding-bottom:64%;position:relative;">
+<iframe src="https://giphy.com/embed/l1J3CbFgn5o7DGRuE" width="100%" height="100%" style="position:absolute" frameBorder="0" class="giphy-embed" allowFullScreen>
 </iframe>
 </div>
 <p>
-<a href="https://giphy.com/gifs/hello-hi-waving-MuE0xWbEohUrxbm77r">via GIPHY</a>
+<a href="https://giphy.com/gifs/goodbye-see-ya-you-l1J3CbFgn5o7DGRuE">via GIPHY</a>
 </p>
 <!--radix_placeholder_article_footer-->
 <div class="article-footer">
@@ -1752,17 +1649,17 @@ Test Acc: 0.92 </code></pre>
     <span class="disqus-comments">
       <i class="fas fa-comments"></i>
       &nbsp;
-      <span class="disqus-comment-count" data-disqus-identifier="posts/2020-04-27-usando-o-pytorch-no-r-treinando-o-seefood/">Comment on this article</span>
+      <span class="disqus-comment-count" data-disqus-identifier="posts/2020-05-31-atas-copom/">Comment on this article</span>
     </span>
     <span class="article-sharing">
       Share: &nbsp;
-      <a href="https://twitter.com/share?text=Usando%20o%20Pytorch%20no%20R%3A%20Treinando%20o%20Seefood&amp;url=https%3A%2F%2Fwww.fulljoin.com.br%2Fposts%2F2020-04-27-usando-o-pytorch-no-r-treinando-o-seefood%2F">
+      <a href="https://twitter.com/share?text=Criando%20base%20de%20dados%20com%20as%20atas%20do%20Copom&amp;url=https%3A%2F%2Fwww.fulljoin.com.br%2Fposts%2F2020-05-31-atas-copom%2F">
         <i class="fab fa-twitter"></i>
       </a>
-      <a href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https%3A%2F%2Fwww.fulljoin.com.br%2Fposts%2F2020-04-27-usando-o-pytorch-no-r-treinando-o-seefood%2F&amp;title=Usando%20o%20Pytorch%20no%20R%3A%20Treinando%20o%20Seefood">
+      <a href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https%3A%2F%2Fwww.fulljoin.com.br%2Fposts%2F2020-05-31-atas-copom%2F&amp;title=Criando%20base%20de%20dados%20com%20as%20atas%20do%20Copom">
         <i class="fab fa-linkedin"></i>
       </a>
-      <a href="https://www.facebook.com/sharer/sharer.php?s=100&amp;p[url]=https%3A%2F%2Fwww.fulljoin.com.br%2Fposts%2F2020-04-27-usando-o-pytorch-no-r-treinando-o-seefood%2F">
+      <a href="https://www.facebook.com/sharer/sharer.php?s=100&amp;p[url]=https%3A%2F%2Fwww.fulljoin.com.br%2Fposts%2F2020-05-31-atas-copom%2F">
         <i class="fab fa-facebook"></i>
       </a>
     </span>
@@ -1771,8 +1668,8 @@ Test Acc: 0.92 </code></pre>
   <div id="disqus_thread" class="hidden"></div>
   <script>
 var disqus_config = function () {
-  this.page.url = 'https://www.fulljoin.com.br/posts/2020-04-27-usando-o-pytorch-no-r-treinando-o-seefood/';
-  this.page.identifier = 'posts/2020-04-27-usando-o-pytorch-no-r-treinando-o-seefood/';
+  this.page.url = 'https://www.fulljoin.com.br/posts/2020-05-31-atas-copom/';
+  this.page.identifier = 'posts/2020-05-31-atas-copom/';
 };
 (function() {
   var d = document, s = d.createElement('script');
@@ -1795,12 +1692,12 @@ var disqus_config = function () {
 <div class="appendix-bottom">
   <h3 id="citation">Citation</h3>
   <p>For attribution, please cite this work as</p>
-  <pre class="citation-appendix short">Alencar (2020, April 27). Fulljoin: Usando o Pytorch no R: Treinando o Seefood. Retrieved from https://www.fulljoin.com.br/posts/2020-04-27-usando-o-pytorch-no-r-treinando-o-seefood/</pre>
+  <pre class="citation-appendix short">Guerra (2020, May 31). Fulljoin: Criando base de dados com as atas do Copom. Retrieved from https://www.fulljoin.com.br/posts/2020-05-31-atas-copom/</pre>
   <p>BibTeX citation</p>
-  <pre class="citation-appendix long">@misc{alencar2020usando,
-  author = {Alencar, Paulo Felipe},
-  title = {Fulljoin: Usando o Pytorch no R: Treinando o Seefood},
-  url = {https://www.fulljoin.com.br/posts/2020-04-27-usando-o-pytorch-no-r-treinando-o-seefood/},
+  <pre class="citation-appendix long">@misc{guerra2020criando,
+  author = {Guerra, Saulo},
+  title = {Fulljoin: Criando base de dados com as atas do Copom},
+  url = {https://www.fulljoin.com.br/posts/2020-05-31-atas-copom/},
   year = {2020}
 }</pre>
 </div>

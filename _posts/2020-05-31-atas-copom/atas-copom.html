@@ -1,0 +1,1258 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"/>
+  <meta name="generator" content="distill" />
+
+  <style type="text/css">
+  /* Hide doc at startup (prevent jankiness while JS renders/transforms) */
+  body {
+    visibility: hidden;
+  }
+  </style>
+
+ <!--radix_placeholder_import_source-->
+ <!--/radix_placeholder_import_source-->
+
+  <!--radix_placeholder_meta_tags-->
+  <title>Criando base de dados com as atas do Copom</title>
+  
+  <meta property="description" itemprop="description" content="Nesse post vamos apresentar um script simples para obter os textos de todas as atas do Comitê de Política Monetária (Copom) e criar uma base pronta para exploração e análise textual"/>
+  
+  
+  <!--  https://schema.org/Article -->
+  <meta property="article:published" itemprop="datePublished" content="2020-05-31"/>
+  <meta property="article:created" itemprop="dateCreated" content="2020-05-31"/>
+  <meta name="article:author" content="Saulo Guerra"/>
+  
+  <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
+  <meta property="og:title" content="Criando base de dados com as atas do Copom"/>
+  <meta property="og:type" content="article"/>
+  <meta property="og:description" content="Nesse post vamos apresentar um script simples para obter os textos de todas as atas do Comitê de Política Monetária (Copom) e criar uma base pronta para exploração e análise textual"/>
+  <meta property="og:locale" content="en_US"/>
+  
+  <!--  https://dev.twitter.com/cards/types/summary -->
+  <meta property="twitter:card" content="summary"/>
+  <meta property="twitter:title" content="Criando base de dados com as atas do Copom"/>
+  <meta property="twitter:description" content="Nesse post vamos apresentar um script simples para obter os textos de todas as atas do Comitê de Política Monetária (Copom) e criar uma base pronta para exploração e análise textual"/>
+  
+  <!--/radix_placeholder_meta_tags-->
+  <!--radix_placeholder_rmarkdown_metadata-->
+  
+  <script type="text/json" id="radix-rmarkdown-metadata">
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","output","draft","preview"]}},"value":[{"type":"character","attributes":{},"value":["Criando base de dados com as atas do Copom"]},{"type":"character","attributes":{},"value":["Nesse post vamos apresentar um script simples para obter os textos de todas as atas do Comitê de Política Monetária (Copom) e criar uma base pronta para exploração e análise textual\n"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name"]}},"value":[{"type":"character","attributes":{},"value":["Saulo Guerra"]}]}]},{"type":"character","attributes":{},"value":["05-31-2020"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]}]},{"type":"logical","attributes":{},"value":[false]},{"type":"character","attributes":{},"value":["../../images/copom.jpg"]}]}
+  </script>
+  <!--/radix_placeholder_rmarkdown_metadata-->
+  
+  <script type="text/json" id="radix-resource-manifest">
+  {"type":"character","attributes":{},"value":["atas-copom_files/bowser-1.9.3/bowser.min.js","atas-copom_files/distill-2.2.21/template.v2.js","atas-copom_files/jquery-1.11.3/jquery.min.js","atas-copom_files/webcomponents-2.0.0/webcomponents.js"]}
+  </script>
+  <!--radix_placeholder_navigation_in_header-->
+  <!--/radix_placeholder_navigation_in_header-->
+  <!--radix_placeholder_distill-->
+  
+  <style type="text/css">
+  
+  body {
+    background-color: white;
+  }
+  
+  .pandoc-table {
+    width: 100%;
+  }
+  
+  .pandoc-table>caption {
+    margin-bottom: 10px;
+  }
+  
+  .pandoc-table th:not([align]) {
+    text-align: left;
+  }
+  
+  .pagedtable-footer {
+    font-size: 15px;
+  }
+  
+  .html-widget {
+    margin-bottom: 2.0em;
+  }
+  
+  .l-screen-inset {
+    padding-right: 16px;
+  }
+  
+  .l-screen .caption {
+    margin-left: 10px;
+  }
+  
+  .shaded {
+    background: rgb(247, 247, 247);
+    padding-top: 20px;
+    padding-bottom: 20px;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  }
+  
+  .shaded .html-widget {
+    margin-bottom: 0;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+  }
+  
+  .shaded .shaded-content {
+    background: white;
+  }
+  
+  .text-output {
+    margin-top: 0;
+    line-height: 1.5em;
+  }
+  
+  .hidden {
+    display: none !important;
+  }
+  
+  d-article {
+    padding-bottom: 30px;
+  }
+  
+  d-appendix {
+    padding-top: 30px;
+  }
+  
+  d-article>p>img {
+    width: 100%;
+  }
+  
+  d-article iframe {
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    margin-bottom: 2.0em;
+    width: 100%;
+  }
+  
+  figure img.external {
+    background: white;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+    padding: 18px;
+    box-sizing: border-box;
+  }
+  
+  /* CSS for table of contents */
+  
+  .d-toc {
+    color: rgba(0,0,0,0.8);
+    font-size: 0.8em;
+    line-height: 1em;
+  }
+  
+  .d-toc-header {
+    font-size: 0.6rem;
+    font-weight: 400;
+    color: rgba(0, 0, 0, 0.5);
+    text-transform: uppercase;
+    margin-top: 0;
+    margin-bottom: 1.3em;
+  }
+  
+  .d-toc a {
+    border-bottom: none;
+  }
+  
+  .d-toc ul {
+    padding-left: 0;
+  }
+  
+  .d-toc li>ul {
+    padding-top: 0.8em;
+    padding-left: 16px;
+    margin-bottom: 0.6em;
+  }
+  
+  .d-toc ul,
+  .d-toc li {
+    list-style-type: none;
+  }
+  
+  .d-toc li {
+    margin-bottom: 0.9em;
+  }
+  
+  .d-toc-separator {
+    margin-top: 20px;
+    margin-bottom: 2em;
+  }
+  
+  .d-article-with-toc {
+    border-top: none;
+    padding-top: 0;
+  }
+  
+  
+  
+  /* Tweak code blocks (note that this CSS is repeated above in an injection
+     into the d-code shadow dom) */
+  
+  d-code {
+    overflow-x: auto !important;
+  }
+  
+  pre.d-code code.d-code {
+    padding-left: 10px;
+    font-size: 12px;
+    border-left: 2px solid rgba(0,0,0,0.1);
+  }
+  
+  pre.text-output {
+  
+    font-size: 12px;
+    color: black;
+    background: none;
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+    text-align: left;
+    white-space: pre;
+    word-spacing: normal;
+    word-break: normal;
+    word-wrap: normal;
+    line-height: 1.5;
+  
+    -moz-tab-size: 4;
+    -o-tab-size: 4;
+    tab-size: 4;
+  
+    -webkit-hyphens: none;
+    -moz-hyphens: none;
+    -ms-hyphens: none;
+    hyphens: none;
+  }
+  
+  @media(min-width: 768px) {
+  
+  d-code {
+    overflow-x: visible !important;
+  }
+  
+  pre.d-code code.d-code  {
+      padding-left: 18px;
+      font-size: 14px;
+  }
+  pre.text-output {
+    font-size: 14px;
+  }
+  }
+  
+  /* Figure */
+  
+  .figure {
+    position: relative;
+    margin-bottom: 2.5em;
+    margin-top: 1.5em;
+  }
+  
+  .figure img {
+    width: 100%;
+  }
+  
+  .figure .caption {
+    color: rgba(0, 0, 0, 0.6);
+    font-size: 12px;
+    line-height: 1.5em;
+  }
+  
+  .figure img.external {
+    background: white;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+    padding: 18px;
+    box-sizing: border-box;
+  }
+  
+  .figure .caption a {
+    color: rgba(0, 0, 0, 0.6);
+  }
+  
+  .figure .caption b,
+  .figure .caption strong, {
+    font-weight: 600;
+    color: rgba(0, 0, 0, 1.0);
+  }
+  
+  
+  
+  /* Tweak 1000px media break to show more text */
+  
+  @media(min-width: 1000px) {
+    .base-grid,
+    distill-header,
+    d-title,
+    d-abstract,
+    d-article,
+    d-appendix,
+    distill-appendix,
+    d-byline,
+    d-footnote-list,
+    d-citation-list,
+    distill-footer {
+      grid-template-columns: [screen-start] 1fr [page-start kicker-start] 80px [middle-start] 50px [text-start kicker-end] 65px 65px 65px 65px 65px 65px 65px 65px [text-end gutter-start] 65px [middle-end] 65px [page-end gutter-end] 1fr [screen-end];
+      grid-column-gap: 16px;
+    }
+  
+    .grid {
+      grid-column-gap: 16px;
+    }
+  
+    d-article {
+      font-size: 1.06rem;
+      line-height: 1.7em;
+    }
+    figure .caption, .figure .caption, figure figcaption {
+      font-size: 13px;
+    }
+  }
+  
+  @media(min-width: 1180px) {
+    .base-grid,
+    distill-header,
+    d-title,
+    d-abstract,
+    d-article,
+    d-appendix,
+    distill-appendix,
+    d-byline,
+    d-footnote-list,
+    d-citation-list,
+    distill-footer {
+      grid-template-columns: [screen-start] 1fr [page-start kicker-start] 60px [middle-start] 60px [text-start kicker-end] 60px 60px 60px 60px 60px 60px 60px 60px [text-end gutter-start] 60px [middle-end] 60px [page-end gutter-end] 1fr [screen-end];
+      grid-column-gap: 32px;
+    }
+  
+    .grid {
+      grid-column-gap: 32px;
+    }
+  }
+  
+  
+  /* Get the citation styles for the appendix (not auto-injected on render since
+     we do our own rendering of the citation appendix) */
+  
+  d-appendix .citation-appendix,
+  .d-appendix .citation-appendix {
+    font-size: 11px;
+    line-height: 15px;
+    border-left: 1px solid rgba(0, 0, 0, 0.1);
+    padding-left: 18px;
+    border: 1px solid rgba(0,0,0,0.1);
+    background: rgba(0, 0, 0, 0.02);
+    padding: 10px 18px;
+    border-radius: 3px;
+    color: rgba(150, 150, 150, 1);
+    overflow: hidden;
+    margin-top: -12px;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+  }
+  
+  
+  /* Social footer */
+  
+  .social_footer {
+    margin-top: 30px;
+    margin-bottom: 0;
+    color: rgba(0,0,0,0.67);
+  }
+  
+  .disqus-comments {
+    margin-right: 30px;
+  }
+  
+  .disqus-comment-count {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+    cursor: pointer;
+  }
+  
+  #disqus_thread {
+    margin-top: 30px;
+  }
+  
+  .article-sharing a {
+    border-bottom: none;
+    margin-right: 8px;
+  }
+  
+  .article-sharing a:hover {
+    border-bottom: none;
+  }
+  
+  .sidebar-section.subscribe {
+    font-size: 12px;
+    line-height: 1.6em;
+  }
+  
+  .subscribe p {
+    margin-bottom: 0.5em;
+  }
+  
+  
+  .article-footer .subscribe {
+    font-size: 15px;
+    margin-top: 45px;
+  }
+  
+  
+  /* Improve display for browsers without grid (IE/Edge <= 15) */
+  
+  .downlevel {
+    line-height: 1.6em;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
+    margin: 0;
+  }
+  
+  .downlevel .d-title {
+    padding-top: 6rem;
+    padding-bottom: 1.5rem;
+  }
+  
+  .downlevel .d-title h1 {
+    font-size: 50px;
+    font-weight: 700;
+    line-height: 1.1em;
+    margin: 0 0 0.5rem;
+  }
+  
+  .downlevel .d-title p {
+    font-weight: 300;
+    font-size: 1.2rem;
+    line-height: 1.55em;
+    margin-top: 0;
+  }
+  
+  .downlevel .d-byline {
+    padding-top: 0.8em;
+    padding-bottom: 0.8em;
+    font-size: 0.8rem;
+    line-height: 1.8em;
+  }
+  
+  .downlevel .section-separator {
+    border: none;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+  }
+  
+  .downlevel .d-article {
+    font-size: 1.06rem;
+    line-height: 1.7em;
+    padding-top: 1rem;
+    padding-bottom: 2rem;
+  }
+  
+  
+  .downlevel .d-appendix {
+    padding-left: 0;
+    padding-right: 0;
+    max-width: none;
+    font-size: 0.8em;
+    line-height: 1.7em;
+    margin-bottom: 0;
+    color: rgba(0,0,0,0.5);
+    padding-top: 40px;
+    padding-bottom: 48px;
+  }
+  
+  .downlevel .footnotes ol {
+    padding-left: 13px;
+  }
+  
+  .downlevel .base-grid,
+  .downlevel .distill-header,
+  .downlevel .d-title,
+  .downlevel .d-abstract,
+  .downlevel .d-article,
+  .downlevel .d-appendix,
+  .downlevel .distill-appendix,
+  .downlevel .d-byline,
+  .downlevel .d-footnote-list,
+  .downlevel .d-citation-list,
+  .downlevel .distill-footer,
+  .downlevel .appendix-bottom,
+  .downlevel .posts-container {
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+  
+  @media(min-width: 768px) {
+    .downlevel .base-grid,
+    .downlevel .distill-header,
+    .downlevel .d-title,
+    .downlevel .d-abstract,
+    .downlevel .d-article,
+    .downlevel .d-appendix,
+    .downlevel .distill-appendix,
+    .downlevel .d-byline,
+    .downlevel .d-footnote-list,
+    .downlevel .d-citation-list,
+    .downlevel .distill-footer,
+    .downlevel .appendix-bottom,
+    .downlevel .posts-container {
+    padding-left: 150px;
+    padding-right: 150px;
+    max-width: 900px;
+  }
+  }
+  
+  .downlevel pre code {
+    display: block;
+    border-left: 2px solid rgba(0, 0, 0, .1);
+    padding: 0 0 0 20px;
+    font-size: 14px;
+  }
+  
+  .downlevel code, .downlevel pre {
+    color: black;
+    background: none;
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+    text-align: left;
+    white-space: pre;
+    word-spacing: normal;
+    word-break: normal;
+    word-wrap: normal;
+    line-height: 1.5;
+  
+    -moz-tab-size: 4;
+    -o-tab-size: 4;
+    tab-size: 4;
+  
+    -webkit-hyphens: none;
+    -moz-hyphens: none;
+    -ms-hyphens: none;
+    hyphens: none;
+  }
+  
+  </style>
+  
+  <script type="application/javascript">
+  
+  function is_downlevel_browser() {
+    if (bowser.isUnsupportedBrowser({ msie: "12", msedge: "16"},
+                                   window.navigator.userAgent)) {
+      return true;
+    } else {
+      return window.load_distill_framework === undefined;
+    }
+  }
+  
+  // show body when load is complete
+  function on_load_complete() {
+  
+    // set body to visible
+    document.body.style.visibility = 'visible';
+  
+    // force redraw for leaflet widgets
+    if (window.HTMLWidgets) {
+      var maps = window.HTMLWidgets.findAll(".leaflet");
+      $.each(maps, function(i, el) {
+        var map = this.getMap();
+        map.invalidateSize();
+        map.eachLayer(function(layer) {
+          if (layer instanceof L.TileLayer)
+            layer.redraw();
+        });
+      });
+    }
+  
+    // trigger 'shown' so htmlwidgets resize
+    $('d-article').trigger('shown');
+  }
+  
+  function init_distill() {
+  
+    init_common();
+  
+    // create front matter
+    var front_matter = $('<d-front-matter></d-front-matter>');
+    $('#distill-front-matter').wrap(front_matter);
+  
+    // create d-title
+    $('.d-title').changeElementType('d-title');
+  
+    // create d-byline
+    var byline = $('<d-byline></d-byline>');
+    $('.d-byline').replaceWith(byline);
+  
+    // create d-article
+    var article = $('<d-article></d-article>');
+    $('.d-article').wrap(article).children().unwrap();
+  
+    // move posts container into article
+    $('.posts-container').appendTo($('d-article'));
+  
+    // create d-appendix
+    $('.d-appendix').changeElementType('d-appendix');
+  
+    // create d-bibliography
+    var bibliography = $('<d-bibliography></d-bibliography>');
+    $('#distill-bibliography').wrap(bibliography);
+  
+    // flag indicating that we have appendix items
+    var appendix = $('.appendix-bottom').children('h3').length > 0;
+  
+    // replace citations with <d-cite>
+    $('.citation').each(function(i, val) {
+      appendix = true;
+      var cites = $(this).attr('data-cites').split(" ");
+      var dt_cite = $('<d-cite></d-cite>');
+      dt_cite.attr('key', cites.join());
+      $(this).replaceWith(dt_cite);
+    });
+    // remove refs
+    $('#refs').remove();
+  
+    // replace footnotes with <d-footnote>
+    $('.footnote-ref').each(function(i, val) {
+      appendix = true;
+      var href = $(this).attr('href');
+      var id = href.replace('#', '');
+      var fn = $('#' + id);
+      var fn_p = $('#' + id + '>p');
+      fn_p.find('.footnote-back').remove();
+      var text = fn_p.html();
+      var dtfn = $('<d-footnote></d-footnote>');
+      dtfn.html(text);
+      $(this).replaceWith(dtfn);
+    });
+    // remove footnotes
+    $('.footnotes').remove();
+  
+    $('h1.appendix, h2.appendix').each(function(i, val) {
+      $(this).changeElementType('h3');
+    });
+    $('h3.appendix').each(function(i, val) {
+      var id = $(this).attr('id');
+      $('.d-toc a[href="#' + id + '"]').parent().remove();
+      appendix = true;
+      $(this).nextUntil($('h1, h2, h3')).addBack().appendTo($('d-appendix'));
+    });
+  
+    // show d-appendix if we have appendix content
+    $("d-appendix").css('display', appendix ? 'grid' : 'none');
+  
+    // replace code blocks with d-code
+    $('pre>code').each(function(i, val) {
+      var code = $(this);
+      var pre = code.parent();
+      var clz = "";
+      var language = pre.attr('class');
+      if (language) {
+        // map unknown languages to "clike" (without this they just dissapear)
+        if ($.inArray(language, ["bash", "clike", "css", "go", "html",
+                                 "javascript", "js", "julia", "lua", "markdown",
+                                 "markup", "mathml", "python", "svg", "xml"]) == -1)
+          language = "clike";
+        language = ' language="' + language + '"';
+        var dt_code = $('<d-code block' + language + clz + '></d-code>');
+        dt_code.text(code.text());
+        pre.replaceWith(dt_code);
+      } else {
+        code.addClass('text-output').unwrap().changeElementType('pre');
+      }
+    });
+  
+    // localize layout chunks to just output
+    $('.layout-chunk').each(function(i, val) {
+  
+      // capture layout
+      var layout = $(this).attr('data-layout');
+  
+      // apply layout to markdown level block elements
+      var elements = $(this).children().not('d-code, pre.text-output, script');
+      elements.each(function(i, el) {
+        var layout_div = $('<div class="' + layout + '"></div>');
+        if (layout_div.hasClass('shaded')) {
+          var shaded_content = $('<div class="shaded-content"></div>');
+          $(this).wrap(shaded_content);
+          $(this).parent().wrap(layout_div);
+        } else {
+          $(this).wrap(layout_div);
+        }
+      });
+  
+  
+      // unwrap the layout-chunk div
+      $(this).children().unwrap();
+    });
+  
+    // load distill framework
+    load_distill_framework();
+  
+    // wait for window.distillRunlevel == 4 to do post processing
+    function distill_post_process() {
+  
+      if (!window.distillRunlevel || window.distillRunlevel < 4)
+        return;
+  
+      // hide author/affiliations entirely if we have no authors
+      var front_matter = JSON.parse($("#distill-front-matter").html());
+      var have_authors = front_matter.authors && front_matter.authors.length > 0;
+      if (!have_authors)
+        $('d-byline').addClass('hidden');
+  
+      // table of contents
+      if (have_authors) // adjust border if we are in authors
+        $('.d-toc').parent().addClass('d-article-with-toc');
+  
+      // strip links that point to #
+      $('.authors-affiliations').find('a[href="#"]').removeAttr('href');
+  
+      // hide elements of author/affiliations grid that have no value
+      function hide_byline_column(caption) {
+        $('d-byline').find('h3:contains("' + caption + '")').parent().css('visibility', 'hidden');
+      }
+  
+      // affiliations
+      var have_affiliations = false;
+      for (var i = 0; i<front_matter.authors.length; ++i) {
+        var author = front_matter.authors[i];
+        if (author.affiliation !== "&nbsp;") {
+          have_affiliations = true;
+          break;
+        }
+      }
+      if (!have_affiliations)
+        $('d-byline').find('h3:contains("Affiliations")').css('visibility', 'hidden');
+  
+      // published date
+      if (!front_matter.publishedDate)
+        hide_byline_column("Published");
+  
+      // document object identifier
+      var doi = $('d-byline').find('h3:contains("DOI")');
+      var doi_p = doi.next().empty();
+      if (!front_matter.doi) {
+        // if we have a citation and valid citationText then link to that
+        if ($('#citation').length > 0 && front_matter.citationText) {
+          doi.html('Citation');
+          $('<a href="#citation"></a>')
+            .text(front_matter.citationText)
+            .appendTo(doi_p);
+        } else {
+          hide_byline_column("DOI");
+        }
+      } else {
+        $('<a></a>')
+           .attr('href', "https://doi.org/" + front_matter.doi)
+           .html(front_matter.doi)
+           .appendTo(doi_p);
+      }
+  
+       // change plural form of authors/affiliations
+      if (front_matter.authors.length === 1) {
+        var grid = $('.authors-affiliations');
+        grid.children('h3:contains("Authors")').text('Author');
+        grid.children('h3:contains("Affiliations")').text('Affiliation');
+      }
+  
+      // inject pre code styles (can't do this with a global stylesheet b/c a shadow root is used)
+      $('d-code').each(function(i, val) {
+        var style = document.createElement('style');
+        style.innerHTML = 'pre code { padding-left: 10px; font-size: 12px; border-left: 2px solid rgba(0,0,0,0.1); } ' +
+                          '@media(min-width: 768px) { pre code { padding-left: 18px; font-size: 14px; } }';
+        if (this.shadowRoot)
+          this.shadowRoot.appendChild(style);
+      });
+  
+      // move appendix-bottom entries to the bottom
+      $('.appendix-bottom').appendTo('d-appendix').children().unwrap();
+      $('.appendix-bottom').remove();
+  
+      // clear polling timer
+      clearInterval(tid);
+  
+      // show body now that everything is ready
+      on_load_complete();
+    }
+  
+    var tid = setInterval(distill_post_process, 50);
+    distill_post_process();
+  
+  }
+  
+  function init_downlevel() {
+  
+    init_common();
+  
+     // insert hr after d-title
+    $('.d-title').after($('<hr class="section-separator"/>'));
+  
+    // check if we have authors
+    var front_matter = JSON.parse($("#distill-front-matter").html());
+    var have_authors = front_matter.authors && front_matter.authors.length > 0;
+  
+    // manage byline/border
+    if (!have_authors)
+      $('.d-byline').remove();
+    $('.d-byline').after($('<hr class="section-separator"/>'));
+    $('.d-byline a').remove();
+  
+    // remove toc
+    $('.d-toc-header').remove();
+    $('.d-toc').remove();
+    $('.d-toc-separator').remove();
+  
+    // move appendix elements
+    $('h1.appendix, h2.appendix').each(function(i, val) {
+      $(this).changeElementType('h3');
+    });
+    $('h3.appendix').each(function(i, val) {
+      $(this).nextUntil($('h1, h2, h3')).addBack().appendTo($('.d-appendix'));
+    });
+  
+  
+    // inject headers into references and footnotes
+    var refs_header = $('<h3></h3>');
+    refs_header.text('References');
+    $('#refs').prepend(refs_header);
+  
+    var footnotes_header = $('<h3></h3');
+    footnotes_header.text('Footnotes');
+    $('.footnotes').children('hr').first().replaceWith(footnotes_header);
+  
+    // move appendix-bottom entries to the bottom
+    $('.appendix-bottom').appendTo('.d-appendix').children().unwrap();
+    $('.appendix-bottom').remove();
+  
+    // remove appendix if it's empty
+    if ($('.d-appendix').children().length === 0)
+      $('.d-appendix').remove();
+  
+    // prepend separator above appendix
+    $('.d-appendix').before($('<hr class="section-separator" style="clear: both"/>'));
+  
+    // trim code
+    $('pre>code').each(function(i, val) {
+      $(this).html($.trim($(this).html()));
+    });
+  
+    // move posts-container right before article
+    $('.posts-container').insertBefore($('.d-article'));
+  
+    $('body').addClass('downlevel');
+  
+    on_load_complete();
+  }
+  
+  
+  function init_common() {
+  
+    // jquery plugin to change element types
+    (function($) {
+      $.fn.changeElementType = function(newType) {
+        var attrs = {};
+  
+        $.each(this[0].attributes, function(idx, attr) {
+          attrs[attr.nodeName] = attr.nodeValue;
+        });
+  
+        this.replaceWith(function() {
+          return $("<" + newType + "/>", attrs).append($(this).contents());
+        });
+      };
+    })(jQuery);
+  
+    // prevent underline for linked images
+    $('a > img').parent().css({'border-bottom' : 'none'});
+  
+    // mark non-body figures created by knitr chunks as 100% width
+    $('.layout-chunk').each(function(i, val) {
+      var figures = $(this).find('img, .html-widget');
+      if ($(this).attr('data-layout') !== "l-body") {
+        figures.css('width', '100%');
+      } else {
+        figures.css('max-width', '100%');
+        figures.filter("[width]").each(function(i, val) {
+          var fig = $(this);
+          fig.css('width', fig.attr('width') + 'px');
+        });
+  
+      }
+    });
+  
+    // auto-append index.html to post-preview links in file: protocol
+    // and in rstudio ide preview
+    $('.post-preview').each(function(i, val) {
+      if (window.location.protocol === "file:")
+        $(this).attr('href', $(this).attr('href') + "index.html");
+    });
+  
+    // get rid of index.html references in header
+    if (window.location.protocol !== "file:") {
+      $('.distill-site-header a[href]').each(function(i,val) {
+        $(this).attr('href', $(this).attr('href').replace("index.html", "./"));
+      });
+    }
+  
+    // add class to pandoc style tables
+    $('tr.header').parent('thead').parent('table').addClass('pandoc-table');
+    $('.kable-table').children('table').addClass('pandoc-table');
+  
+    // add figcaption style to table captions
+    $('caption').parent('table').addClass("figcaption");
+  
+    // initialize posts list
+    if (window.init_posts_list)
+      window.init_posts_list();
+  
+    // implmement disqus comment link
+    $('.disqus-comment-count').click(function() {
+      window.headroom_prevent_pin = true;
+      $('#disqus_thread').toggleClass('hidden');
+      if (!$('#disqus_thread').hasClass('hidden')) {
+        var offset = $(this).offset();
+        $(window).resize();
+        $('html, body').animate({
+          scrollTop: offset.top - 35
+        });
+      }
+    });
+  }
+  
+  document.addEventListener('DOMContentLoaded', function() {
+    if (is_downlevel_browser())
+      init_downlevel();
+    else
+      window.addEventListener('WebComponentsReady', init_distill);
+  });
+  
+  </script>
+  
+  <!--/radix_placeholder_distill-->
+  <script src="atas-copom_files/jquery-1.11.3/jquery.min.js"></script>
+  <script src="atas-copom_files/bowser-1.9.3/bowser.min.js"></script>
+  <script src="atas-copom_files/webcomponents-2.0.0/webcomponents.js"></script>
+  <script src="atas-copom_files/distill-2.2.21/template.v2.js"></script>
+  <!--radix_placeholder_site_in_header-->
+  <!--/radix_placeholder_site_in_header-->
+
+
+</head>
+
+<body>
+
+<!--radix_placeholder_front_matter-->
+
+<script id="distill-front-matter" type="text/json">
+{"title":"Criando base de dados com as atas do Copom","description":"Nesse post vamos apresentar um script simples para obter os textos de todas as atas do Comitê de Política Monetária (Copom) e criar uma base pronta para exploração e análise textual","authors":[{"author":"Saulo Guerra","authorURL":"#","affiliation":"&nbsp;","affiliationURL":"#"}],"publishedDate":"2020-05-31T00:00:00.000-03:00","citationText":"Guerra, 2020"}
+</script>
+
+<!--/radix_placeholder_front_matter-->
+<!--radix_placeholder_navigation_before_body-->
+<!--/radix_placeholder_navigation_before_body-->
+<!--radix_placeholder_site_before_body-->
+<!--/radix_placeholder_site_before_body-->
+
+<div class="d-title">
+<h1>Criando base de dados com as atas do Copom</h1>
+<p>Nesse post vamos apresentar um script simples para obter os textos de todas as atas do Comitê de Política Monetária (Copom) e criar uma base pronta para exploração e análise textual</p>
+</div>
+
+<div class="d-byline">
+  
+  Saulo Guerra
+  
+<br/>05-31-2020
+</div>
+
+<div class="d-article">
+<p>O Comitê de Política Monetária (Copom) se reuné a cada 45 dias para definir taxa básica de juros da economia (Selic). Além da definição da taxa Selic, essas reuniões produzem textos analíticos justificando, contextualizando e detalhando todo o embasamento técnico da decisão tomada pelo comitê. Esses textos são as Atas do Copom e podem ser encontradas em <a href="https://www.bcb.gov.br/publicacoes/atascopom" class="uri">https://www.bcb.gov.br/publicacoes/atascopom</a>.</p>
+<p>As Atas são cuidadosamente avaliadas pelos agentes de mercado no intuito de ajustarem suas expectativas frente ao entendimento do cenário macroeconômico que o Copom apresenta. Trata-se de um conjunto de textos muito importante, escritos com cuidado para tentar passar sinais claros e convincentes aos agentes econômicos.</p>
+<p>Neste post vamos montar uma base de dados com toda história de textos das Atas do Copom. Após trazer esses textos para o R, iremos futuramente (em outro post) experimentar explorações e análise textual com essas Atas.</p>
+<p>O script resumido (e um pouco desorganizado) está disponível em <a href="https://github.com/sauloguerra/r-atascopom" class="uri">https://github.com/sauloguerra/r-atascopom</a></p>
+<h2 id="fonte-dos-dados">Fonte dos dados</h2>
+<p>Explorando um pouco a página de divulgação das atas do Copom, mais precisamente na página <a href="https://www.bcb.gov.br/publicacoes/atascopom/cronologicos" class="uri">https://www.bcb.gov.br/publicacoes/atascopom/cronologicos</a>, é possível notar chamada a dois endpoints de API, um para atas mais novas e outro para atas antigas. Clique nos links abaixo para ver o json em seu browser.</p>
+<p>Conteúdo da cahamda antiga: <a href="https://www.bcb.gov.br/api/servico/sitebcb/atascopom-conteudo/ultimas?quantidade=1000&amp;filtro=" class="uri">https://www.bcb.gov.br/api/servico/sitebcb/atascopom-conteudo/ultimas?quantidade=1000&amp;filtro=</a></p>
+<p>Conteúdo da chamada nova: <a href="https://www.bcb.gov.br/api/servico/sitebcb/atascopom/ultimas?quantidade=1000&amp;filtro=" class="uri">https://www.bcb.gov.br/api/servico/sitebcb/atascopom/ultimas?quantidade=1000&amp;filtro=</a></p>
+<p>A API que retorna as atas mais recentes informa o link direto de acesso ao pdf da ata no campo “Url”. Já a API das atas mais antigas retorna um link com a ata em html no campo “LinkPagina”. Precisaremos definir uma abordagem diferente para cada tipo.</p>
+<p>Basicamente os dois endpoints retornam 3 campos de interesse que iremos utilizar: <strong>DataReferencia, Titulo e Link</strong>. Dessa forma, a estratégia inicial é montar um dataframe com o link de todas as atas, antigas e novas. Em seguida, percorreremos esse links baixando o conteúdo (texto) de cada ata.</p>
+<p>Começamos carregando alguns pacotes:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+## chamadas e scraping
+library(jsonlite)
+library(RCurl)
+library(rvest)
+## extração e manipulação
+library(tidyverse)
+library(pdftools)
+library(glue)</code></pre>
+</div>
+<p>Definimos os caminhos das chamadas conforme os links mostrados acima:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+## url base para todas as chamadas
+url &lt;- &quot;https://www.bcb.gov.br&quot;
+api_antigas &lt;- &quot;/api/servico/sitebcb/atascopom-conteudo/ultimas?quantidade=1000&amp;filtro=&quot;
+api_novas &lt;- &quot;/api/servico/sitebcb/atascopom/ultimas?quantidade=1000&amp;filtro=&quot;</code></pre>
+</div>
+<p>Vamos a construção de um dataframe com o link de todas as atas. Chamamos as consultas e extraímos do conteúdo os campos de data, título e o link, indicando o tipo de cada ata. Lembrando, html são as atas antigas, pdf as novas.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+json_links_antigos &lt;- getURL(glue(&quot;{url}{api_antigas}&quot;))
+
+df_atas_antigas &lt;- fromJSON(json_links_antigos, flatten = TRUE) %&gt;%
+  .$conteudo %&gt;%
+  select(DataReferencia, Titulo, LinkPagina) %&gt;%
+  mutate(Tipo = &quot;html&quot;)
+
+str(df_atas_antigas)</code></pre>
+<pre><code>
+&#39;data.frame&#39;:   179 obs. of  4 variables:
+ $ DataReferencia: chr  &quot;2016-06-08T03:00:00Z&quot; &quot;2016-04-27T03:00:00Z&quot; &quot;2016-03-02T03:00:00Z&quot; &quot;2016-01-20T02:00:00Z&quot; ...
+ $ Titulo        : chr  &quot;199ª Reunião&quot; &quot;198ª Reunião&quot; &quot;197ª Reunião&quot; &quot;196ª Reunião&quot; ...
+ $ LinkPagina    : chr  &quot;/publicacoes/atascopom/08062016&quot; &quot;/publicacoes/atascopom/27042016&quot; &quot;/publicacoes/atascopom/02032016&quot; &quot;/publicacoes/atascopom/20012016&quot; ...
+ $ Tipo          : chr  &quot;html&quot; &quot;html&quot; &quot;html&quot; &quot;html&quot; ...</code></pre>
+<pre class="r"><code>
+json_links_novos &lt;- getURL(glue(&quot;{url}{api_novas}&quot;))
+
+df_atas_novas &lt;- fromJSON(json_links_novos, flatten = TRUE) %&gt;%
+  .$conteudo %&gt;%
+  select(DataReferencia, Titulo, LinkPagina = Url) %&gt;%
+  mutate(Tipo = &quot;pdf&quot;)
+
+str(df_atas_novas)</code></pre>
+<pre><code>
+&#39;data.frame&#39;:   31 obs. of  4 variables:
+ $ DataReferencia: chr  &quot;2020-05-06T03:00:00Z&quot; &quot;2020-03-18T03:00:00Z&quot; &quot;2020-02-05T03:00:00Z&quot; &quot;2019-12-11T03:00:00Z&quot; ...
+ $ Titulo        : chr  &quot;230ª Reunião&quot; &quot;229ª Reunião&quot; &quot;228ª Reunião&quot; &quot;227ª Reunião&quot; ...
+ $ LinkPagina    : chr  &quot;/content/copom/atascopom/Copom230-not20200506230.pdf&quot; &quot;/content/copom/atascopom/Copom229-not20200318229.pdf&quot; &quot;/content/copom/atascopom/Copom228-not20200205228.pdf&quot; &quot;/content/copom/atascopom/Copom227-not20191211227.pdf&quot; ...
+ $ Tipo          : chr  &quot;pdf&quot; &quot;pdf&quot; &quot;pdf&quot; &quot;pdf&quot; ...</code></pre>
+</div>
+<p>Repare que por conta da diferença de retorno das duas chamadas, renomeamos o campo Url para LinkPagina, compatibilizando os dois grupos em um dataframe só.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+df_atas &lt;- bind_rows(df_atas_novas, df_atas_antigas)
+
+str(df_atas)</code></pre>
+<pre><code>
+&#39;data.frame&#39;:   210 obs. of  4 variables:
+ $ DataReferencia: chr  &quot;2020-05-06T03:00:00Z&quot; &quot;2020-03-18T03:00:00Z&quot; &quot;2020-02-05T03:00:00Z&quot; &quot;2019-12-11T03:00:00Z&quot; ...
+ $ Titulo        : chr  &quot;230ª Reunião&quot; &quot;229ª Reunião&quot; &quot;228ª Reunião&quot; &quot;227ª Reunião&quot; ...
+ $ LinkPagina    : chr  &quot;/content/copom/atascopom/Copom230-not20200506230.pdf&quot; &quot;/content/copom/atascopom/Copom229-not20200318229.pdf&quot; &quot;/content/copom/atascopom/Copom228-not20200205228.pdf&quot; &quot;/content/copom/atascopom/Copom227-not20191211227.pdf&quot; ...
+ $ Tipo          : chr  &quot;pdf&quot; &quot;pdf&quot; &quot;pdf&quot; &quot;pdf&quot; ...</code></pre>
+<pre class="r"><code>
+head(df_atas)</code></pre>
+<pre><code>
+        DataReferencia       Titulo
+1 2020-05-06T03:00:00Z 230ª Reunião
+2 2020-03-18T03:00:00Z 229ª Reunião
+3 2020-02-05T03:00:00Z 228ª Reunião
+4 2019-12-11T03:00:00Z 227ª Reunião
+5 2019-10-30T03:00:00Z 226ª Reunião
+6 2019-09-18T03:00:00Z 225ª Reunião
+                                            LinkPagina Tipo
+1 /content/copom/atascopom/Copom230-not20200506230.pdf  pdf
+2 /content/copom/atascopom/Copom229-not20200318229.pdf  pdf
+3 /content/copom/atascopom/Copom228-not20200205228.pdf  pdf
+4 /content/copom/atascopom/Copom227-not20191211227.pdf  pdf
+5 /content/copom/atascopom/Copom226-not20191030226.pdf  pdf
+6 /content/copom/atascopom/Copom225-not20190918225.pdf  pdf</code></pre>
+<pre class="r"><code>
+tail(df_atas)</code></pre>
+<pre><code>
+          DataReferencia      Titulo                      LinkPagina
+205 1998-07-01T03:00:00Z 26ª Reunião /publicacoes/atascopom/01071998
+206 1998-06-01T03:00:00Z 25ª Reunião /publicacoes/atascopom/01061998
+207 1998-05-01T03:00:00Z 24ª Reunião /publicacoes/atascopom/01051998
+208 1998-04-01T03:00:00Z 23ª Reunião /publicacoes/atascopom/01041998
+209 1998-03-01T03:00:00Z 22ª Reunião /publicacoes/atascopom/01031998
+210 1998-01-28T02:00:00Z 21ª Reunião /publicacoes/atascopom/28011998
+    Tipo
+205 html
+206 html
+207 html
+208 html
+209 html
+210 html</code></pre>
+</div>
+<p>Teremos as atas desde janeiro de 1998 até a última publicada, totalizando mais de 200 atas.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+df_atas %&gt;% filter(DataReferencia == min(DataReferencia))</code></pre>
+<pre><code>
+        DataReferencia      Titulo                      LinkPagina
+1 1998-01-28T02:00:00Z 21ª Reunião /publicacoes/atascopom/28011998
+  Tipo
+1 html</code></pre>
+<pre class="r"><code>
+df_atas %&gt;% filter(DataReferencia == max(DataReferencia))</code></pre>
+<pre><code>
+        DataReferencia       Titulo
+1 2020-05-06T03:00:00Z 230ª Reunião
+                                            LinkPagina Tipo
+1 /content/copom/atascopom/Copom230-not20200506230.pdf  pdf</code></pre>
+<pre class="r"><code>
+nrow(df_atas)</code></pre>
+<pre><code>
+[1] 210</code></pre>
+</div>
+<h3 id="obtendo-os-textos-das-atas">Obtendo os textos das Atas</h3>
+<p>Após consolidarmos um dataframe com a data da ata, o título da reunião e o link onde podemos obter a íntegra dos textos. Vamos percorrer esse dataframe acessando cada link e trazendo o texto para uma coluna nova no dataframe.</p>
+<p>O desafio nesse momento é justamente lidar com duas fontes diferentes: as atas mais novas estão em pdf, as mais antigas estão em html. Nesse caso, vamos definir duas funções diferentes para obter o texto, uma para html e outra para pdf.</p>
+<p>O link direto ao conteúdo das atas novas já está explícito em nosso dataframe, então basta acessar diretamente e converter de pdf para texto com o pacote <code>pdftools</code></p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+conteudo_pdf &lt;- function(link, url = &quot;https://www.bcb.gov.br&quot;) {
+  pdf &lt;- pdf_text(glue(&quot;{url}{link}&quot;)) %&gt;%
+    as_vector() %&gt;%
+    glue_collapse()
+
+  return(pdf)
+}</code></pre>
+</div>
+<p>As antas antigas são um pouco mais desafiadoras de serem obtidas, mas nada que uma rápida investigação na página não resolva. A página tem uma renderização interna que recebe o html formatado de uma chamada própria no seguinte formato (clique para ver o json no seu browser):</p>
+<p><a href="https://www.bcb.gov.br/api/servico/sitebcb/atascopom-conteudo/principal?filtro=IdentificadorUrl%20eq%20%2708062016%27" class="uri">https://www.bcb.gov.br/api/servico/sitebcb/atascopom-conteudo/principal?filtro=IdentificadorUrl%20eq%20%2708062016%27</a></p>
+<p>Retirando os encodes de URL para ficar mais fácil de entender, basicamente a chamada se baseia no seguinte parâmetro:</p>
+<p><strong>filtro = IdentificadorUrl eq ‘08062016’</strong></p>
+<p>Sendo assim, bata extrair o código numércio do link em nosso dataframe e encaixá-lo nessa chamada (com encode URL adequado). Essa nova chamada nos dará acesso a um json que retorna o html pronto para ser renderizado em tela. Ele fica disponível no parâmetro “conteudo &gt; OutrasInformacoes” do json retorno.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+conteudo_html &lt;- function(link, url = &quot;https://www.bcb.gov.br&quot;) {
+  api &lt;- &quot;/api/servico/sitebcb/atascopom-conteudo/principal?filtro=IdentificadorUrl&quot;
+  codigo &lt;- str_extract_all(link, &quot;\\d+&quot;)
+  codigo &lt;- URLencode(glue(&quot; eq &#39;{codigo}&#39;&quot;), reserved = T)
+  
+  json &lt;- glue(&quot;{url}{api}{codigo}&quot;) %&gt;%
+    fromJSON()
+  
+  txt &lt;- read_html(json$conteudo$OutrasInformacoes) %&gt;%
+    html_text() %&gt;%
+    str_squish()
+  
+  return(txt)
+}</code></pre>
+</div>
+<p>Com essas duas funções, basta percorrer nosso dataframe com os links de referência e guardar o texto das atas em uma nova coluna. Para exercício deste post, vamos baixar uma amostra aleatória de apenas 20 atas. Mas bastaria tirar essa restrição para baixar todas.</p>
+<p>Ao final, teremos uma colina extra chamada integra contendo o texto da ata, além das demais colunas com data e numeração da reunião.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+final &lt;- df_atas %&gt;%
+  sample_n(20) %&gt;% 
+  mutate(
+    integra = map2_chr(Tipo, LinkPagina, ~ {
+      if (.x == &quot;pdf&quot;) {
+        return(conteudo_pdf(.y))
+      }
+
+      return(conteudo_html(.y))
+    })
+  )
+
+str(final)</code></pre>
+<pre><code>
+&#39;data.frame&#39;:   20 obs. of  5 variables:
+ $ DataReferencia: chr  &quot;2003-04-01T03:00:00Z&quot; &quot;2007-10-25T02:00:00Z&quot; &quot;2016-08-31T03:00:00Z&quot; &quot;2010-06-09T03:00:00Z&quot; ...
+ $ Titulo        : chr  &quot;83ª Reunião&quot; &quot;130ª Reunião&quot; &quot;201ª Reunião&quot; &quot;151ª Reunião&quot; ...
+ $ LinkPagina    : chr  &quot;/publicacoes/atascopom/01042003&quot; &quot;/publicacoes/atascopom/25102007&quot; &quot;/content/copom/atascopom/COPOM201-not20160831201.pdf&quot; &quot;/publicacoes/atascopom/09062010&quot; ...
+ $ Tipo          : chr  &quot;html&quot; &quot;html&quot; &quot;pdf&quot; &quot;html&quot; ...
+ $ integra       : chr  &quot;Sumário Evolução recente da inflação Avaliação prospectiva das tendências da inflação Implementação da política&quot;| __truncated__ &quot;Sumário Evolução recente da economia Avaliação prospectiva das tendências da inflação Implementação da política&quot;| __truncated__ &quot;Notas da 201ª Reunião do\nComitê de Política Monetária (Copom)\ndo Banco Central do Brasil\n30 e 31 de agosto d&quot;| __truncated__ &quot;Sumário Evolução recente da economia Avaliação prospectiva das tendências da inflação Implementação da política&quot;| __truncated__ ...</code></pre>
+</div>
+<p>Vamos dar uma rápida olhada nos textos, mas suprimindo algumas partes para não poluir muito a postagem:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+parcial &lt;- function(texto) {
+  paste(
+    str_sub(texto, end = 500),
+    &quot;(.......)&quot;,
+    str_sub(texto, -500)
+  )
+}
+
+final %&gt;%
+  slice(1) %&gt;%
+  mutate(integra = parcial(integra))</code></pre>
+<pre><code>
+        DataReferencia      Titulo                      LinkPagina
+1 2003-04-01T03:00:00Z 83ª Reunião /publicacoes/atascopom/01042003
+  Tipo
+1 html
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              integra
+1 Sumário Evolução recente da inflação Avaliação prospectiva das tendências da inflação Implementação da política monetária Atividade econômica Mercado de trabalho Crédito e inadimplência Ambiente externo Comércio exterior Mercado monetário e operações de mercado aberto Glossário Data: 22 e 23/4/2003 Local: Sala de reuniões do 8º andar (22/4) e 20º andar (23/4) do Edifício-Sede do Banco Central - Brasília - DF Horário de início: 15h30 (22/4) e 11h30 (23/4) Horário de término: 18h30 (22/4) e 13h30  (.......) il IPAÍndice de Preços por Atacado IPC-BRÍndice de Preços ao Consumidor - Brasil IPCAÍndice de Preços ao Consumidor Amplo LFTLetras Financeiras do Tesouro LTNLetras do Tesouro Nacional NTN-CNotas do Tesouro Nacional - Série C OCDEOrganização para a Cooperação e Desenvolvimento Econômico OpepOrganização dos Países Produtores de Petróleo p.b.pontos base p.p.ponto percentual PIBProduto Interno Bruto PMEPesquisa Mensal do Emprego - IBGE SarsSíndrome Respiratória Aguda Grave VAR Vetor Auto Regressivo</code></pre>
+<pre class="r"><code>
+final %&gt;%
+  slice(5) %&gt;%
+  mutate(integra = parcial(integra))</code></pre>
+<pre><code>
+        DataReferencia      Titulo                      LinkPagina
+1 1998-09-01T03:00:00Z 27ª Reunião /publicacoes/atascopom/01091998
+  Tipo
+1 html
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              integra
+1 Sumário Preços e Nível de Atividade Agregados Monetários e Crédito Finanças Públicas Balanço de Pagamentos Ambiente Externo Evolução do Mercado de Câmbio Doméstico e Posição das Reservas Internacionais Liquidez Bancária Mercado Monetário e Operações de Mercado Aberto Diretrizes de Política Monetária Data: 02.09.1998 Local: Sala de reuniões do 8º andar do Edifício-Sede do Banco Central – Brasília-DF Horário de início: 16:15 h Horário de término: 19:30 h Presentes: Membros da Diretoria Colegiada G (.......) gio reforçaria a credibilidade do país repercutindo favoravelmente nos mercados internacionais. Após estas ponderações, decidiu-se, por votação unânime, fixar a TBC em 19,00% a.a. e a TBAN em 29,75% a.a. Ao final da reunião, foi lembrado que o Comitê voltaria a se reunir em 7 de outubro de 1998, às 16:30 h, conforme estabelecido no Calendário das Reuniões Ordinárias do COPOM, divulgado pelo Comunicado nº 5.898, de 12.11.1997, do Banco Central. Alexandre Pundek Rocha Secretário Executivo do COPOM</code></pre>
+<pre class="r"><code>
+final %&gt;%
+  slice(10) %&gt;%
+  mutate(integra = parcial(integra))</code></pre>
+<pre><code>
+        DataReferencia       Titulo                      LinkPagina
+1 2008-03-05T03:00:00Z 133ª Reunião /publicacoes/atascopom/05032008
+  Tipo
+1 html
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              integra
+1 Sumário Evolução recente da economia Avaliação prospectiva das tendências da inflação Implementação da política monetária Inflação Atividade econômica Expectativas e sondagens Mercado de trabalho Crédito e inadimplência Ambiente externo Comércio exterior e reservas internacionais Mercado monetário e operações de mercado aberto Data: 04 e 05/03/2008 Local: Sala de reuniões do 8º andar (04/03) e do 20º (05/03) do Edifício-Sede do Banco Central do Brasil – Brasília – DF Horário de início: 16h35 (04 (.......) jugada com a compra de LTN de vencimento em abril de 2008, em um total de R$9,5 bilhões. As vendas de NTN-B, de vencimento em 2011, 2013, 2017, 2024, 2035 e 2045, liquidadas mediante a entrega de outros títulos, somaram R$3,7 bilhões. O Tesouro realizou, também, leilões de venda de LFT de vencimento em 2012 e 2014, no montante de R$10,1 bilhões, aceitando como pagamento LFT de vencimento em 2008, e leilões de compra de LTN e de NTN-B, que alcançaram R$2,0 bilhões e R$0,2 bilhão, respectivamente.</code></pre>
+<pre class="r"><code>
+final %&gt;%
+  slice(15) %&gt;%
+  mutate(integra = parcial(integra))</code></pre>
+<pre><code>
+        DataReferencia       Titulo                      LinkPagina
+1 2008-09-18T03:00:00Z 137ª Reunião /publicacoes/atascopom/18092008
+  Tipo
+1 html
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              integra
+1 Sumário Evolução recente da economia Avaliação prospectiva das tendências da inflação Implementação da política monetária Inflação Atividade econômica Expectativas e sondagens Mercado de trabalho Crédito e inadimplência Ambiente externo Comércio exterior e reservas internacionais Mercado monetário e operações de mercado aberto Data: 09 e 10/09/2008 Local: Sala de reuniões do 8º andar (09/09) e do 20º (10/09) do Edifício-Sede do Banco Central do Brasil – Brasília – DF Horário de início: 17h20 (09 (.......) mpra de LTN de vencimento em outubro de 2008, em um total de R$1,1 bilhão. As vendas de NTN-B liquidadas mediante a entrega de outros títulos somaram R$7,3 bilhões e envolveram títulos de vencimento em 2011, 2013, 2017, 2024, 2035 e 2045. O Tesouro efetuou, também, leilões de venda de LFT de vencimento em 2012 e 2014, no montante de R$0,8 bilhão, aceitando como pagamento LFT de vencimento em 2008, e leilões de compra de LTN e de NTN-B, que alcançaram R$0,5 bilhão e R$83 milhões, respectivamente.</code></pre>
+<pre class="r"><code>
+final %&gt;%
+  slice(20) %&gt;%
+  mutate(integra = parcial(integra))</code></pre>
+<pre><code>
+        DataReferencia      Titulo                      LinkPagina
+1 2001-12-01T02:00:00Z 66ª Reunião /publicacoes/atascopom/01122001
+  Tipo
+1 html
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              integra
+1 Sumário Atividade econômica Ambiente externo Preços Mercado monetário e operações de mercado aberto Avaliação prospectiva das tendências da inflação Diretrizes de política monetária Glossário Data: 18 e 19/12/2001 Local: Sala de reuniões do 8º andar (no dia 18) e 20º andar (no dia 19) do Edifício-Sede do Banco Central - Brasília - DF Horário de início: 16:26 h dia 18 e 17:00 h dia 19 Horário de término: 20:23 h dia 18 e 21:08 h dia 19 Presentes: Membros da Diretoria Colegiada Arminio Fraga Neto  (.......) CHÍndice de Preços ao Consumidor Harmonizado IPPÍndice de Preços ao Produtor IR Imposto sobre a Renda IRF-MÍndice de Renda Fixa de Mercado IRRFImposto sobre a Renda Retido na Fonte LFTLetras Financeiras do Tesouro LTNLetras do Tesouro Nacional NAPMNational Association of Purchasing Managers NBCENotas do Banco Central - série E NTN-DNotas do Tesouro Nacional - série D p.b. pontos-base p.p.ponto percentual PEAPopulação Economicamente Ativa PIBProduto Interno Bruto STNSecretaria do Tesouro Nacional</code></pre>
+</div>
+<p>Após tirar a restrição de amostra e baixar todos os textos, vamos escrever nosso dataframe completo para usarmos futuramente em um próximo post explorando uma análise textual do conteúdo dessas atas. Para escrita de conteúdo que vai ser lido novamente no R, é sempre bom usar o pacote fst, além de comprimir o tamanho, a leitura e escrita é super rápida.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+fst::write_fst(final, &quot;./output/df_atas.fst&quot;)</code></pre>
+</div>
+<h2 id="conclusões">Conclusões</h2>
+<p>A montagem da base foi razoavelmente simples, a maior dificuldade está em entender as APIs que o banco central utilizou para disponibilização das atas. Essa base pode ser uma fonte de informação valiosa para avaliar a história das decisões do Copom bem como tentar utilizá-la em cruzando com outras bases na tentativa de prever a reação do mercado frente às “entrelinhas” interpretadas nos textos das atas.</p>
+<p>Em um próximo post vamos aplicar algumas técnicas de análise textual e tentar extrair infomrações interessantes desses textos.</p>
+<div style="width:100%;height:0;padding-bottom:64%;position:relative;">
+<iframe src="https://giphy.com/embed/l1J3CbFgn5o7DGRuE" width="100%" height="100%" style="position:absolute" frameBorder="0" class="giphy-embed" allowFullScreen>
+</iframe>
+</div>
+<p>
+<a href="https://giphy.com/gifs/goodbye-see-ya-you-l1J3CbFgn5o7DGRuE">via GIPHY</a>
+</p>
+<!--radix_placeholder_article_footer-->
+<!--/radix_placeholder_article_footer-->
+</div>
+
+<div class="d-appendix">
+</div>
+
+
+<!--radix_placeholder_site_after_body-->
+<!--/radix_placeholder_site_after_body-->
+<!--radix_placeholder_appendices-->
+<div class="appendix-bottom"></div>
+<!--/radix_placeholder_appendices-->
+<!--radix_placeholder_navigation_after_body-->
+<!--/radix_placeholder_navigation_after_body-->
+
+</body>
+
+</html>
