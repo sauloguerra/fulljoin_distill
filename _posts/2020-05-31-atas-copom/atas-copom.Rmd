@@ -117,7 +117,7 @@ conteudo_pdf <- function(link, url = "https://www.bcb.gov.br") {
 }
 ```
 
-As antas antigas são um pouco mais desafiadoras de serem obtidas, mas nada que uma rápida investigação na página não resolva. A página tem uma renderização interna que recebe o html formatado de uma chamada própria no seguinte formato (clique para ver o json no seu browser):
+As atas antigas são um pouco mais desafiadoras de serem obtidas, mas nada que uma rápida investigação na página não resolva. A página tem uma renderização interna que recebe o html formatado de uma chamada própria no seguinte formato (clique para ver o json no seu browser):
 
 https://www.bcb.gov.br/api/servico/sitebcb/atascopom-conteudo/principal?filtro=IdentificadorUrl%20eq%20%2708062016%27
 
