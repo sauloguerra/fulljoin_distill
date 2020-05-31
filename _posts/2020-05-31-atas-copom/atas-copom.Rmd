@@ -15,7 +15,7 @@ preview: ../../images/copom.jpg
 knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
 ```
 
-O Comitê de Política Monetária (Copom) se reuné a cada 45 dias para definir taxa básica de juros da economia (Selic). 
+O Comitê de Política Monetária (Copom) se reúne a cada 45 dias para definir taxa básica de juros da economia (Selic). 
 Além da definição da taxa Selic, essas reuniões produzem textos analíticos justificando, contextualizando e detalhando todo o embasamento técnico da decisão tomada pelo comitê. Esses textos são as Atas do Copom e podem ser encontradas em https://www.bcb.gov.br/publicacoes/atascopom. 
 
 As Atas são cuidadosamente avaliadas pelos agentes de mercado no intuito de ajustarem suas expectativas frente ao entendimento do cenário macroeconômico que o Copom apresenta. Trata-se de um conjunto de textos muito importante, escritos com cuidado para tentar passar sinais claros e convincentes aos agentes econômicos.
@@ -34,7 +34,7 @@ Conteúdo da chamada nova: https://www.bcb.gov.br/api/servico/sitebcb/atascopom/
 
 A API que retorna as atas mais recentes informa o link direto de acesso ao pdf da ata no campo "Url". Já a API das atas mais antigas retorna um link com a ata em html no campo "LinkPagina". Precisaremos definir uma abordagem diferente para cada tipo.
 
-Basicamente os dois endpoints retornam 3 campos de interesse que iremos utilizar: **DataReferencia, Titulo e Link**. Dessa forma, a estratégia inicial é montar um dataframe com o link de todas as atas, antigas e novas. Em seguida, percorreremos esse links baixando o conteúdo (texto) de cada ata.
+Basicamente os dois endpoints retornam 3 campos de interesse que iremos utilizar: **DataReferencia, Titulo e Link**. Dessa forma, a estratégia inicial é montar um dataframe com o link de todas as atas, antigas e novas. Em seguida, percorremos esse links baixando o conteúdo (texto) de cada ata.
 
 Começamos carregando alguns pacotes:
 
@@ -125,7 +125,7 @@ Retirando os encodes de URL para ficar mais fácil de entender, basicamente a ch
 
 **filtro = IdentificadorUrl eq '08062016'**
 
-Sendo assim, bata extrair o código numércio do link em nosso dataframe e encaixá-lo nessa chamada (com encode URL adequado). Essa nova chamada nos dará acesso a um json que retorna o html pronto para ser renderizado em tela. Ele fica disponível no parâmetro "conteudo > OutrasInformacoes" do json retorno.
+Sendo assim, basta extrair o código numérico do link em nosso dataframe e encaixá-lo nessa chamada (com encode URL adequado). Essa nova chamada nos dará acesso a um json que retorna o html pronto para ser renderizado em tela. Ele fica disponível no parâmetro *"conteudo > OutrasInformacoes"* do json retorno.
 
 ```{r}
 conteudo_html <- function(link, url = "https://www.bcb.gov.br") {
@@ -146,7 +146,7 @@ conteudo_html <- function(link, url = "https://www.bcb.gov.br") {
 
 Com essas duas funções, basta percorrer nosso dataframe com os links de referência e guardar o texto das atas em uma nova coluna. Para exercício deste post, vamos baixar uma amostra aleatória de apenas 20 atas. Mas bastaria tirar essa restrição para baixar todas.
 
-Ao final, teremos uma colina extra chamada integra contendo o texto da ata, além das demais colunas com data e numeração da reunião.
+Ao final, teremos uma colina extra chamada **íntegra** contendo o texto da ata, além das demais colunas com data e numeração da reunião.
 
 ```{r}
 
@@ -206,6 +206,6 @@ fst::write_fst(final, "./output/df_atas.fst")
 
 A montagem da base foi razoavelmente simples, a maior dificuldade está em entender as APIs que o banco central utilizou para disponibilização das atas. Essa base pode ser uma fonte de informação valiosa para avaliar a história das decisões do Copom bem como tentar utilizá-la em cruzando com outras bases na tentativa de prever a reação do mercado frente às "entrelinhas" interpretadas nos textos das atas.
 
-Em um próximo post vamos aplicar algumas técnicas de análise textual e tentar extrair infomrações interessantes desses textos.
+Em um próximo post vamos aplicar algumas técnicas de análise textual e tentar extrair informações interessantes desses textos.
 
 <div style="width:100%;height:0;padding-bottom:64%;position:relative;"><iframe src="https://giphy.com/embed/l1J3CbFgn5o7DGRuE" width="100%" height="100%" style="position:absolute" frameBorder="0" class="giphy-embed" allowFullScreen></iframe></div><p><a href="https://giphy.com/gifs/goodbye-see-ya-you-l1J3CbFgn5o7DGRuE">via GIPHY</a></p>
