@@ -1,0 +1,215 @@
+---
+title: "Testes estatísticos z e t"
+description: |
+  Por meio de exemplos hipotéticos e partindo do pressuposto de que as condições para a validade dos testes estatísticos é atendida, mostramos, neste post, como aplicar dois testes estatísticos simples: o teste z e o teste t.
+author: Miguel Cleaver
+date: 06-14-2020
+output:
+  distill::distill_article:
+    self_contained: false
+preview: ../../images/dist_normal.png
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Uma vez que a fase do aprendizado básico da estatística esteja plenamente superada, pode-se usar o R para tornar a aplicação de testes estatísticos mais direta e menos cansativa. Embora os cálculos sejam relativamente triviais, sem o R (ou um software capaz de automatizar a avaliação desses testes) seria necessário calcular a média amostral e/ou populacional; o desvio padrão amostral e/ou populacional; e o erro padrão da média amostral. Após esses cálculos, as *estatísticas z* ou *t* seriam computadas. Além de também computar o intervalo de confiança, o protocolo ainda consiste em olhar as tabulações das *estatísticas z* ou *t* para saber se as estatísticas computadas caem na região crítica. É um processo repetitivo e tedioso, mas não precisamos perder a cabeça por causa isso.
+<br>
+
+<div style="width:100%;height:0;padding-bottom:75%;position:relative;"><iframe src="https://giphy.com/embed/3ohs81rDuEz9ioJzAA" width="100%" height="100%" style="position:absolute" frameBorder="0" class="giphy-embed" allowFullScreen></iframe></div><p><a href="https://giphy.com/gifs/angry-mad-computer-3ohs81rDuEz9ioJzAA">via GIPHY</a></p>
+
+<br>
+
+Neste post, mostramos, por meio de exemplos hipotéticos e partindo do pressuposto de que as condições para a validade dos testes estatísticos são atendidas, como podemos aplicar, utilizando o R, os *testes z* e *t* de uma forma mais direta do que o processo descrito acima.
+
+## Teste z
+
+Para aplicar o *teste z* devemos conhecer o desvio padrão populacional ($\sigma$). Dessa forma, não será possível aplicar o *teste z* sem o conhecimento prévio de $\sigma$. Nos casos em que $\sigma$ não é conhecido utilizamos o *teste t*.
+
+Primeiramente, carregamos o pacote que iremos utilizar:
+
+```{r}
+library(BSDA)
+```
+
+Como o R não possui nenhuma função nativa para aplicar o *teste z*, iremos utilizar o pacote BSDA, o qual possui a função `z.test`, que aplica o teste.
+
+Para nosso exemplo do *teste z* consideremos que estamos pesquisando um tratamento para emagrecer uma população hipotética cujo Índice de Massa Corporal (IMC) médio é 31 ($\mu = 31$) e o desvio padrão populacional é 5 ($\sigma = 5$). Salvemos essas informações para os objetos mu (média) e sigma (desvio-padrão):
+
+```{r}
+mu <- 31 # média populacional
+sigma <- 5 # desvio-padrão populacional
+```
+
+Agora suponhamos que 40 pessoas dessa população foram selecionadas aleatoriamente e após 6 meses de tratamento, obtivemos os seguintes dados:
+
+```{r}
+amostra <- c(30.93, 31.55, 27.45, 25.73, 31.03, 18.91, 31.15, 26.62, 26.58, 
+23.4, 27.42, 37.09, 29.85, 30.6, 24.25, 32.08, 23.57, 26.34, 
+33.6, 29.49, 31.9, 35.28, 24.78, 20.23, 20.01, 37.03, 25.59, 
+31.1, 31.06, 27.19, 32.06, 38.98, 38.25, 36.16, 29.27, 30.46, 
+26.38, 19.69, 36.84, 28.13)
+
+```
+
+Agora vamos aplicar o *teste z*. Como estamos interessados em saber se o tratamento reduz o IMC, faremos um teste unicaudal à esquerda e para isso utilizaremos o argumento `alternative = "less"` na função `z.test`. Além disso, como iremos adotar o valor de 95% para o intervalo de confiança, que é o padrão utilizado pela função `z.test`, não é necessário explicitar o argumento `conf.level` na função. Vejamos os resultados do teste:
+
+```{r}
+teste_z_unicaudal <- z.test(
+  x = amostra,
+  mu = mu,
+  sigma.x = sigma,
+  alternative = "less"
+)
+
+teste_z_unicaudal
+```
+
+A partir desses resultados, rejeitaríamos a hipótese nula ao nível de significância de 5%, mas não ao nível de 1%. Para fazer essa leitura basta observar o p-valor (p-value). Como o p-valor, que é igual a 0,01143 (1,143%), é menor do que o nível de significância de 5%, mas maior do que 1%, diz-se que há significância estatística apenas ao nível de 5%.
+
+Se o nosso tratamento pudesse ter efeito para qualquer dos lados, bastaria alterar o argumento `alternative` da função `z.test` para "two.sided". O código para o teste bicaudal ficaria da seguinte forma:
+
+```{r}
+teste_z_bicaudal <- z.test(
+  x = amostra,
+  mu = mu,
+  sigma.x = sigma,
+  alternative = "two.sided"
+)
+
+teste_z_bicaudal
+```
+
+Portanto, caso o teste fosse bicaudal, também rejeitaríamos a hipótese nula ao nível de significância de 5%, mas não ao nível de 1%.
+
+## Testes t
+
+Diferentemente do *teste z*, o *teste t* possui uma função nativa no R chamada `t.test`. Nesta seção veremos três exemplos simples de como aplicar o *teste t*.
+
+### Exemplo 1
+
+Neste exemplo, vamos supor que queremos avaliar se um novo método de ensino em escolas de economia tem impacto sobre o salário médio inicial dos economistas. Parte-se do pressuposto que o salário médio é conhecido e é igual a R$ 5.000. Adicionalmente, obtém-se uma amostra de 30 de salários iniciais de economistas que foram formados segundo o novo método de ensino. Os dados de renda desses economistas em reais são os seguintes:
+
+```{r}
+renda_inicial <- c(6585.8, 6880.8, 7326.1, 5411.9, 6745.4, 7318.1, 7068.9, 6978.3, 
+6114.8, 7564.6, 7754.5, 5276.7, 6733.6, 5981.9, 6565.7, 6347, 
+7653.2, 8157.5, 6112.8, 7113.6, 8496.9, 7636.2, 7284.5, 6831.7, 
+5531.3, 6447.9, 7054.1, 7002.1, 8002.2, 7567.3)
+```
+
+
+Para este exemplo, deseja-se aplicar um teste bicaudal, uma vez que não se sabe se o método tem necessariamente impactos positivos sobre o salário. Como o padrão da função `t.test` é aplicar um teste bicaudal, não será necessário definir o argumento `alternative="two.sided"`. Também vamos utilizar o intervalo de confiança padrão (95%) e não será necessário defini-lo na função. Apenas precisamos passar a amostra obtida `renda_inicial` e o salário médio inicial conhecido anteriormente na função `t.test`:
+
+
+```{r}
+t_renda <- t.test(x = renda_inicial,
+                  mu = 5000)
+
+t_renda
+```
+
+O *teste t* mostra que é possível rejeitar a hipótese nula aos níveis de significância de 5%, 1%, e 0,1%. Em outras palavras, temos evidências de que o novo método tem impactos positivos sobre o salário inicial dos economistas.
+
+### Exemplo 2
+
+Neste exemplo, vamos supor que estamos estudando um tratamento para reduzir o número médio de cigarros fumados por dia. Para isso, foi obtida uma amostra de dez fumantes que, antes do tratamento, fumavam em média os seguintes valores por dia:
+
+```{r}
+cigarros_antes <- c(26.01, 14.32, 20.5, 19.6,
+                    16.06, 19.81, 12.65, 19, 19.68, 21.66)
+```
+
+Após o tratamento, observamos que o número médio de cigarros fumados por dia passou a ser o seguinte:
+
+```{r}
+cigarros_tratamento <- c(6.37, 9.1, 4.88, 5.6,
+                         1.7, 7.57, 5.9, 10.17, 4.78, 2.95)
+```
+
+Como no exemplo, estamos trabalhando com amostras dependentes, precisamos fazer um teste t-pareado. Para isso basta especificar `paired = TRUE` na função `t.test`. Como não sabemos se o tratamento tem necessariamente efeitos positivos iremos fazer um teste bicaudal e adotaremos intervalo de confiança de 95%. Essas especificações são o padrão utilizado pela função e não precisaremos especificá-las.
+
+Vejamos como fazer o teste t-pareado:
+
+```{r}
+t_pareado <- t.test(x = cigarros_antes,
+                    y = cigarros_tratamento,
+                    paired = TRUE)
+
+t_pareado
+```
+
+A partir dos resultados, rejeita-se a hipótese nula a um nível de significância de 0,1%.
+
+
+### Exemplo 3
+
+Neste exemplo vamos supor que queremos verificar se há indícios de que a altura média de adultos da região A é diferente da altura média de adultos da região B.
+
+Para cada região foram obtidas 50 observações de altura (em cm). Vejamos nossas amostras:
+
+```{r}
+regiao_a <- c(181.35, 182.1, 183.89, 182.7, 165.64, 179.96, 186.75, 171.95, 
+188.13, 182.24, 189.3, 169.44, 176.68, 187.73, 180.91, 167.5, 
+179, 179.03, 173.09, 172.88, 165.94, 169.11, 186.19, 177.08, 
+179.54, 213.6, 178.95, 185.83, 184.34, 187, 162.61, 182.79, 183.26, 
+176.52, 174.09, 171.34, 165.51, 183.9, 163.91, 180.73, 179.45, 
+179.39, 189.74, 182.06, 193.21, 172.48, 178.53, 171.79, 190.53, 
+168.64)
+
+regiao_b <- c(146.76, 174.69, 166.33, 158.43, 184.17, 172.19, 169.3, 159.69, 
+169.36, 163.65, 172.62, 157.93, 162.21, 166.62, 172.26, 168.95, 
+148.16, 183.22, 163.69, 152.47, 158.92, 171.31, 170.03, 172.98, 
+176.29, 179.71, 158.63, 161.96, 166.99, 163.96, 144.9, 152.82, 
+168.06, 161.62, 173.4, 167.03, 155.84, 162.91, 168.11, 174.91, 
+148.32, 167.01, 167.96, 145.99, 160.27, 159.42, 167.8, 166.75, 
+160.22, 156.33)
+```
+
+Diferentemente do Exemplo 2, neste exemplo as amostras são independentes. Além disso, este exemplo também difere do anterior, pois trata-se de uma avaliação observacional em vez de um experimento.
+
+O fato de nossas amostras serem independentes implicam que o argumento `paired` deve ser igual a `FALSE`, mas como este é o argumento padrão da função não precisamos especificá-lo explicitamente.
+
+Para o caso analisado também devemos fazer uma avaliação da variância das amostras, mas para fins do nosso exemplo apenas vamos assumir que as variâncias de ambas as amostras são semelhantes o suficiente para utilizar o argumento `var.equal = TRUE`. 
+
+Caso tivéssemos evidências de que elas não são semelhantes usaríamos `var.equal = FALSE`, que no caso é o argumento padrão adotado pela função `t.test`. Assim como anteriormente, utilizamos um intervalo de confiança de 95% e aplicamos um teste bicaudal (não precisamos especificar esses argumentos na função, pois estes já são os argumentos utilizados de forma padrão na função).
+
+Vejamos os resultados do nosso teste t:
+
+```{r}
+t_independente <- t.test(x = regiao_a,
+                         y = regiao_b,
+                         var.equal = TRUE)
+t_independente
+```
+
+O nosso teste indica que a hipótese nula pode ser rejeitada a um nível de significância de 0,1%. Em outras palavras, a diferença entre a média de altura das duas regiões não é estatisticamente igual a zero.
+
+## Conclusão
+
+Neste post vimos que aplicar testes estatísticos no R é tranquilo e direto. 
+
+<br>
+
+<div style="width:100%;height:0;padding-bottom:70%;position:relative;"><iframe src="https://giphy.com/embed/b7ejxVhDtfSRq" width="100%" height="100%" style="position:absolute" frameBorder="0" class="giphy-embed" allowFullScreen></iframe></div><p><a href="https://giphy.com/gifs/food-life-the-simpsons-b7ejxVhDtfSRq">via GIPHY</a></p>
+
+<br>
+
+Vimos como aplicar o *teste z*. Também vimos três exemplos do *teste t*. No primeiro exemplo, comparamos uma amostra a uma média conhecida previamente; no segundo exemplo, partimos de um experimento hipotético de amostras **dependentes** para avaliar a eficácia de um tratamento; por fim, no terceiro exemplo, comparamos as alturas médias de duas amostras **independentes**.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

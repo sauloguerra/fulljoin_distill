@@ -7,7 +7,16 @@
     <description>Fulljoin
 </description>
     <generator>Distill</generator>
-    <lastBuildDate>dom, 31 mai 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>dom, 14 jun 2020 00:00:00 +0000</lastBuildDate>
+    <item>
+      <title>Testes estatísticos z e t</title>
+      <dc:creator>Miguel Cleaver</dc:creator>
+      <link>https://www.fulljoin.com.br/posts/2020-06-14-testes-z-e-t</link>
+      <description>Por meio de exemplos hipotéticos e partindo do pressuposto de que as condições para a validade dos testes estatísticos é atendida, mostramos, neste post, como aplicar dois testes estatísticos simples: o teste z e o teste t.</description>
+      <guid>https://www.fulljoin.com.br/posts/2020-06-14-testes-z-e-t</guid>
+      <pubDate>dom, 14 jun 2020 00:00:00 +0000</pubDate>
+      <media:content url="https://www.fulljoin.com.br/posts/2020-06-14-testes-z-e-t/../../images/dist_normal.png" medium="image" type="image/png" width="601" height="385"/>
+    </item>
     <item>
       <title>Criando base de dados com as atas do Copom</title>
       <dc:creator>Saulo Guerra</dc:creator>
@@ -33,13 +42,14 @@
       <description>Neste post iremos testar o uso do Pytorch no R com o auxílio do pacote reticulate, que permite a utilização de bibliotecas do Python diretamente no R. Isso ajuda a evitar (em parte) aquela disputa entre o R e o Python, uma vez que você pode usar o melhor de cada. Como exemplo, iremos treinar uma classificador de imagens que é a base do aplicativo Seefood que fez fama no seriado Silicon Valley da HBO.</description>
       <guid>https://www.fulljoin.com.br/posts/2020-04-27-usando-o-pytorch-no-r-treinando-o-seefood</guid>
       <pubDate>seg, 27 abr 2020 00:00:00 +0000</pubDate>
-      <media:content url="https://www.fulljoin.com.br/posts/2020-04-27-usando-o-pytorch-no-r-treinando-o-seefood/usando-o-pytorch-no-r-treinando-o-seefood_files/figure-html5/unnamed-chunk-5-1.png" medium="image" type="image/png" width="1248" height="1344"/>
     </item>
     <item>
       <title>Manipulação de texto com stringr - parte IV</title>
       <dc:creator>Miguel Cleaver</dc:creator>
       <link>https://www.fulljoin.com.br/posts/2020-03-02-manipulao-de-texto-com-stringr-parte-iv</link>
       <description>Na quarta parte da série de posts sobre manipulação de texto com stringr veremos como usar funções um pouco mais técnicas. Também discutimos o caso da função case_when do dplyr que pode ser bastante útil ao se trabalhar com texto.</description>
+      <category>Manipulação de texto</category>
+      <category>stringr</category>
       <guid>https://www.fulljoin.com.br/posts/2020-03-02-manipulao-de-texto-com-stringr-parte-iv</guid>
       <pubDate>ter, 17 mar 2020 00:00:00 +0000</pubDate>
       <media:content url="https://www.fulljoin.com.br/posts/2020-03-02-manipulao-de-texto-com-stringr-parte-iv/../../images/logo_stringr.png" medium="image" type="image/png" width="439" height="419"/>
@@ -85,18 +95,11 @@
       <dc:creator>Miguel Cleaver</dc:creator>
       <link>https://www.fulljoin.com.br/posts/2019-11-06-manipulao-de-texto-com-stringr-parte-iii</link>
       <description>Na terceira parte da série de posts sobre manipulação de texto com stringr veremos como usar funções que removem padrões encontrados no texto, que substituem padrões por outros e que eliminam espaços de formas diferentes. Também aprofundaremos com um pouco mais de regex.</description>
+      <category>Manipulação de texto</category>
+      <category>stringr</category>
       <guid>https://www.fulljoin.com.br/posts/2019-11-06-manipulao-de-texto-com-stringr-parte-iii</guid>
       <pubDate>qua, 06 nov 2019 00:00:00 +0000</pubDate>
       <media:content url="https://www.fulljoin.com.br/posts/2019-11-06-manipulao-de-texto-com-stringr-parte-iii/../../images/logo_stringr.png" medium="image" type="image/png" width="439" height="419"/>
-    </item>
-    <item>
-      <title>Entendendo os benefícios da paralelização usando Random Forest</title>
-      <dc:creator>Diego Castro</dc:creator>
-      <link>https://www.fulljoin.com.br/posts/2019-10-28-paralelizacao-de-search-grid-usando-random-forest</link>
-      <description>O objetivo principal deste post é apresentar como utilizar a paralelização no R e os ganhos de eficiência ao utilizá-la. Para mostrar este processo, um problema de classificação usando o modelo Random Forest (em português, Floresta Aleatória) é utilizado.</description>
-      <guid>https://www.fulljoin.com.br/posts/2019-10-28-paralelizacao-de-search-grid-usando-random-forest</guid>
-      <pubDate>sex, 01 nov 2019 00:00:00 +0000</pubDate>
-      <media:content url="https://www.fulljoin.com.br/posts/2019-10-28-paralelizacao-de-search-grid-usando-random-forest/../../images/paralelizacao.jpg" medium="image" type="image/jpeg"/>
     </item>
   </channel>
 </rss>
