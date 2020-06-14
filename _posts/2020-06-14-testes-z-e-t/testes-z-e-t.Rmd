@@ -66,7 +66,7 @@ teste_z_unicaudal <- z.test(
 teste_z_unicaudal
 ```
 
-A partir desses resultados, rejeitaríamos a hipótese nula ao nível de significância de 5%, mas não ao nível de 1%. Para fazer essa leitura basta observar o p-valor (p-value). Como o p-valor, que é igual a 0,01143 (1,143%), é menor do que o nível de significância de 5%, mas maior do que 1%, diz-se que há significância estatística apenas ao nível de 5%.
+A partir desses resultados, rejeitaríamos a hipótese nula ao nível de significância de 5%. Para fazer essa leitura basta observar o p-valor (p-value). Como o p-valor, que é igual a 0,01143 (1,143%), é menor do que o nível de significância de 5%, diz-se que há significância estatística apenas ao nível de 5%.
 
 Se o nosso tratamento pudesse ter efeito para qualquer dos lados, bastaria alterar o argumento `alternative` da função `z.test` para "two.sided". O código para o teste bicaudal ficaria da seguinte forma:
 
@@ -81,7 +81,7 @@ teste_z_bicaudal <- z.test(
 teste_z_bicaudal
 ```
 
-Portanto, caso o teste fosse bicaudal, também rejeitaríamos a hipótese nula ao nível de significância de 5%, mas não ao nível de 1%.
+Portanto, caso o teste fosse bicaudal, também rejeitaríamos a hipótese nula ao nível de significância de 5%.
 
 ## Testes t
 
@@ -89,7 +89,7 @@ Diferentemente do *teste z*, o *teste t* possui uma função nativa no R chamada
 
 ### Exemplo 1
 
-Neste exemplo, vamos supor que queremos avaliar se um novo método de ensino em escolas de economia tem impacto sobre o salário médio inicial dos economistas. Parte-se do pressuposto que o salário médio é conhecido e é igual a R$ 5.000. Adicionalmente, obtém-se uma amostra de 30 de salários iniciais de economistas que foram formados segundo o novo método de ensino. Os dados de renda desses economistas em reais são os seguintes:
+Neste exemplo, vamos supor que queremos avaliar se um novo método de ensino em escolas de economia tem impacto sobre o salário médio inicial dos economistas. Parte-se do pressuposto que o salário médio é conhecido e é igual a R$ 5.000. Adicionalmente, obtém-se uma amostra aleatória de 30 de salários iniciais de economistas que foram formados segundo o novo método de ensino. Os dados de renda desses economistas em reais são os seguintes:
 
 ```{r}
 renda_inicial <- c(6585.8, 6880.8, 7326.1, 5411.9, 6745.4, 7318.1, 7068.9, 6978.3, 
@@ -109,11 +109,11 @@ t_renda <- t.test(x = renda_inicial,
 t_renda
 ```
 
-O *teste t* mostra que é possível rejeitar a hipótese nula aos níveis de significância de 5%, 1%, e 0,1%. Em outras palavras, temos evidências de que o novo método tem impactos positivos sobre o salário inicial dos economistas.
+O *teste t* mostra que é possível rejeitar a hipótese nula aos nível de significância de 5%. Em outras palavras, temos evidências de que o novo método tem impactos positivos sobre o salário inicial dos economistas.
 
 ### Exemplo 2
 
-Neste exemplo, vamos supor que estamos estudando um tratamento para reduzir o número médio de cigarros fumados por dia. Para isso, foi obtida uma amostra de dez fumantes que, antes do tratamento, fumavam em média os seguintes valores por dia:
+Neste exemplo, vamos supor que estamos estudando um tratamento para reduzir o número médio de cigarros fumados por dia. Para isso, foi obtida uma amostra aleatória de dez fumantes que, antes do tratamento, fumavam em média os seguintes valores por dia:
 
 ```{r}
 cigarros_antes <- c(26.01, 14.32, 20.5, 19.6,
@@ -127,7 +127,7 @@ cigarros_tratamento <- c(6.37, 9.1, 4.88, 5.6,
                          1.7, 7.57, 5.9, 10.17, 4.78, 2.95)
 ```
 
-Como no exemplo, estamos trabalhando com amostras dependentes, precisamos fazer um teste t-pareado. Para isso basta especificar `paired = TRUE` na função `t.test`. Como não sabemos se o tratamento tem necessariamente efeitos positivos iremos fazer um teste bicaudal e adotaremos intervalo de confiança de 95%. Essas especificações são o padrão utilizado pela função e não precisaremos especificá-las.
+Como no exemplo estamos trabalhando com amostras dependentes, precisamos fazer um teste t-pareado. Para isso basta especificar `paired = TRUE` na função `t.test`. Como não sabemos se o tratamento tem necessariamente efeitos positivos iremos fazer um teste bicaudal e adotaremos intervalo de confiança de 95%. Essas especificações são o padrão utilizado pela função e não precisaremos especificá-las.
 
 Vejamos como fazer o teste t-pareado:
 
@@ -139,14 +139,14 @@ t_pareado <- t.test(x = cigarros_antes,
 t_pareado
 ```
 
-A partir dos resultados, rejeita-se a hipótese nula a um nível de significância de 0,1%.
+A partir dos resultados, rejeita-se a hipótese nula a um nível de significância de 5%.
 
 
 ### Exemplo 3
 
 Neste exemplo vamos supor que queremos verificar se há indícios de que a altura média de adultos da região A é diferente da altura média de adultos da região B.
 
-Para cada região foram obtidas 50 observações de altura (em cm). Vejamos nossas amostras:
+Para cada região foram obtidas 50 observações aleatórias de altura (em cm). Vejamos nossas amostras:
 
 ```{r}
 regiao_a <- c(181.35, 182.1, 183.89, 182.7, 165.64, 179.96, 186.75, 171.95, 
@@ -168,7 +168,7 @@ regiao_b <- c(146.76, 174.69, 166.33, 158.43, 184.17, 172.19, 169.3, 159.69,
 
 Diferentemente do Exemplo 2, neste exemplo as amostras são independentes. Além disso, este exemplo também difere do anterior, pois trata-se de uma avaliação observacional em vez de um experimento.
 
-O fato de nossas amostras serem independentes implicam que o argumento `paired` deve ser igual a `FALSE`, mas como este é o argumento padrão da função não precisamos especificá-lo explicitamente.
+O fato de nossas amostras serem independentes implicam que o argumento `paired` deve ser igual a `FALSE`, mas, como este é o argumento padrão da função, não precisamos especificá-lo explicitamente.
 
 Para o caso analisado também devemos fazer uma avaliação da variância das amostras, mas para fins do nosso exemplo apenas vamos assumir que as variâncias de ambas as amostras são semelhantes o suficiente para utilizar o argumento `var.equal = TRUE`. 
 
@@ -183,7 +183,7 @@ t_independente <- t.test(x = regiao_a,
 t_independente
 ```
 
-O nosso teste indica que a hipótese nula pode ser rejeitada a um nível de significância de 0,1%. Em outras palavras, a diferença entre a média de altura das duas regiões não é estatisticamente igual a zero.
+O nosso teste indica que a hipótese nula pode ser rejeitada a um nível de significância de 5%. Em outras palavras, há evidências de que adiferença entre a média de altura das duas regiões não é estatisticamente igual a zero.
 
 ## Conclusão
 
@@ -195,7 +195,7 @@ Neste post vimos que aplicar testes estatísticos no R é tranquilo e direto.
 
 <br>
 
-Vimos como aplicar o *teste z*. Também vimos três exemplos do *teste t*. No primeiro exemplo, comparamos uma amostra a uma média conhecida previamente; no segundo exemplo, partimos de um experimento hipotético de amostras **dependentes** para avaliar a eficácia de um tratamento; por fim, no terceiro exemplo, comparamos as alturas médias de duas amostras **independentes**.
+Vimos como aplicar o *teste z* a partir da comparação do IMC médio de uma amostra, que passa por um tratamento, com o IMC médio da população. Também vimos três exemplos do *teste t*. No primeiro exemplo, comparamos uma amostra a uma média conhecida previamente; no segundo exemplo, partimos de um experimento hipotético de amostras **dependentes** para avaliar a eficácia de um tratamento; por fim, no terceiro exemplo, comparamos as alturas médias de duas amostras **independentes**.
 
 
 

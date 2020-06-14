@@ -1440,7 +1440,7 @@ sample estimates:
 mean of x 
  29.20075 </code></pre>
 </div>
-<p>A partir desses resultados, rejeitaríamos a hipótese nula ao nível de significância de 5%, mas não ao nível de 1%. Para fazer essa leitura basta observar o p-valor (p-value). Como o p-valor, que é igual a 0,01143 (1,143%), é menor do que o nível de significância de 5%, mas maior do que 1%, diz-se que há significância estatística apenas ao nível de 5%.</p>
+<p>A partir desses resultados, rejeitaríamos a hipótese nula ao nível de significância de 5%. Para fazer essa leitura basta observar o p-valor (p-value). Como o p-valor, que é igual a 0,01143 (1,143%), é menor do que o nível de significância de 5%, diz-se que há significância estatística apenas ao nível de 5%.</p>
 <p>Se o nosso tratamento pudesse ter efeito para qualquer dos lados, bastaria alterar o argumento <code>alternative</code> da função <code>z.test</code> para “two.sided”. O código para o teste bicaudal ficaria da seguinte forma:</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
@@ -1464,11 +1464,11 @@ sample estimates:
 mean of x 
  29.20075 </code></pre>
 </div>
-<p>Portanto, caso o teste fosse bicaudal, também rejeitaríamos a hipótese nula ao nível de significância de 5%, mas não ao nível de 1%.</p>
+<p>Portanto, caso o teste fosse bicaudal, também rejeitaríamos a hipótese nula ao nível de significância de 5%.</p>
 <h2 id="testes-t">Testes t</h2>
 <p>Diferentemente do <em>teste z</em>, o <em>teste t</em> possui uma função nativa no R chamada <code>t.test</code>. Nesta seção veremos três exemplos simples de como aplicar o <em>teste t</em>.</p>
 <h3 id="exemplo-1">Exemplo 1</h3>
-<p>Neste exemplo, vamos supor que queremos avaliar se um novo método de ensino em escolas de economia tem impacto sobre o salário médio inicial dos economistas. Parte-se do pressuposto que o salário médio é conhecido e é igual a R$ 5.000. Adicionalmente, obtém-se uma amostra de 30 de salários iniciais de economistas que foram formados segundo o novo método de ensino. Os dados de renda desses economistas em reais são os seguintes:</p>
+<p>Neste exemplo, vamos supor que queremos avaliar se um novo método de ensino em escolas de economia tem impacto sobre o salário médio inicial dos economistas. Parte-se do pressuposto que o salário médio é conhecido e é igual a R$ 5.000. Adicionalmente, obtém-se uma amostra aleatória de 30 de salários iniciais de economistas que foram formados segundo o novo método de ensino. Os dados de renda desses economistas em reais são os seguintes:</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 renda_inicial &lt;- c(6585.8, 6880.8, 7326.1, 5411.9, 6745.4, 7318.1, 7068.9, 6978.3, 
@@ -1495,9 +1495,9 @@ sample estimates:
 mean of x 
   6918.18 </code></pre>
 </div>
-<p>O <em>teste t</em> mostra que é possível rejeitar a hipótese nula aos níveis de significância de 5%, 1%, e 0,1%. Em outras palavras, temos evidências de que o novo método tem impactos positivos sobre o salário inicial dos economistas.</p>
+<p>O <em>teste t</em> mostra que é possível rejeitar a hipótese nula aos nível de significância de 5%. Em outras palavras, temos evidências de que o novo método tem impactos positivos sobre o salário inicial dos economistas.</p>
 <h3 id="exemplo-2">Exemplo 2</h3>
-<p>Neste exemplo, vamos supor que estamos estudando um tratamento para reduzir o número médio de cigarros fumados por dia. Para isso, foi obtida uma amostra de dez fumantes que, antes do tratamento, fumavam em média os seguintes valores por dia:</p>
+<p>Neste exemplo, vamos supor que estamos estudando um tratamento para reduzir o número médio de cigarros fumados por dia. Para isso, foi obtida uma amostra aleatória de dez fumantes que, antes do tratamento, fumavam em média os seguintes valores por dia:</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 cigarros_antes &lt;- c(26.01, 14.32, 20.5, 19.6,
@@ -1509,7 +1509,7 @@ cigarros_antes &lt;- c(26.01, 14.32, 20.5, 19.6,
 cigarros_tratamento &lt;- c(6.37, 9.1, 4.88, 5.6,
                          1.7, 7.57, 5.9, 10.17, 4.78, 2.95)</code></pre>
 </div>
-<p>Como no exemplo, estamos trabalhando com amostras dependentes, precisamos fazer um teste t-pareado. Para isso basta especificar <code>paired = TRUE</code> na função <code>t.test</code>. Como não sabemos se o tratamento tem necessariamente efeitos positivos iremos fazer um teste bicaudal e adotaremos intervalo de confiança de 95%. Essas especificações são o padrão utilizado pela função e não precisaremos especificá-las.</p>
+<p>Como no exemplo estamos trabalhando com amostras dependentes, precisamos fazer um teste t-pareado. Para isso basta especificar <code>paired = TRUE</code> na função <code>t.test</code>. Como não sabemos se o tratamento tem necessariamente efeitos positivos iremos fazer um teste bicaudal e adotaremos intervalo de confiança de 95%. Essas especificações são o padrão utilizado pela função e não precisaremos especificá-las.</p>
 <p>Vejamos como fazer o teste t-pareado:</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
@@ -1530,10 +1530,10 @@ sample estimates:
 mean of the differences 
                  13.027 </code></pre>
 </div>
-<p>A partir dos resultados, rejeita-se a hipótese nula a um nível de significância de 0,1%.</p>
+<p>A partir dos resultados, rejeita-se a hipótese nula a um nível de significância de 5%.</p>
 <h3 id="exemplo-3">Exemplo 3</h3>
 <p>Neste exemplo vamos supor que queremos verificar se há indícios de que a altura média de adultos da região A é diferente da altura média de adultos da região B.</p>
-<p>Para cada região foram obtidas 50 observações de altura (em cm). Vejamos nossas amostras:</p>
+<p>Para cada região foram obtidas 50 observações aleatórias de altura (em cm). Vejamos nossas amostras:</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 regiao_a &lt;- c(181.35, 182.1, 183.89, 182.7, 165.64, 179.96, 186.75, 171.95, 
@@ -1553,7 +1553,7 @@ regiao_b &lt;- c(146.76, 174.69, 166.33, 158.43, 184.17, 172.19, 169.3, 159.69,
 160.22, 156.33)</code></pre>
 </div>
 <p>Diferentemente do Exemplo 2, neste exemplo as amostras são independentes. Além disso, este exemplo também difere do anterior, pois trata-se de uma avaliação observacional em vez de um experimento.</p>
-<p>O fato de nossas amostras serem independentes implicam que o argumento <code>paired</code> deve ser igual a <code>FALSE</code>, mas como este é o argumento padrão da função não precisamos especificá-lo explicitamente.</p>
+<p>O fato de nossas amostras serem independentes implicam que o argumento <code>paired</code> deve ser igual a <code>FALSE</code>, mas, como este é o argumento padrão da função, não precisamos especificá-lo explicitamente.</p>
 <p>Para o caso analisado também devemos fazer uma avaliação da variância das amostras, mas para fins do nosso exemplo apenas vamos assumir que as variâncias de ambas as amostras são semelhantes o suficiente para utilizar o argumento <code>var.equal = TRUE</code>.</p>
 <p>Caso tivéssemos evidências de que elas não são semelhantes usaríamos <code>var.equal = FALSE</code>, que no caso é o argumento padrão adotado pela função <code>t.test</code>. Assim como anteriormente, utilizamos um intervalo de confiança de 95% e aplicamos um teste bicaudal (não precisamos especificar esses argumentos na função, pois estes já são os argumentos utilizados de forma padrão na função).</p>
 <p>Vejamos os resultados do nosso teste t:</p>
@@ -1575,7 +1575,7 @@ sample estimates:
 mean of x mean of y 
  179.1666  164.4630 </code></pre>
 </div>
-<p>O nosso teste indica que a hipótese nula pode ser rejeitada a um nível de significância de 0,1%. Em outras palavras, a diferença entre a média de altura das duas regiões não é estatisticamente igual a zero.</p>
+<p>O nosso teste indica que a hipótese nula pode ser rejeitada a um nível de significância de 5%. Em outras palavras, há evidências de que adiferença entre a média de altura das duas regiões não é estatisticamente igual a zero.</p>
 <h2 id="conclusão">Conclusão</h2>
 <p>Neste post vimos que aplicar testes estatísticos no R é tranquilo e direto.</p>
 <p><br></p>
@@ -1587,7 +1587,7 @@ mean of x mean of y
 <a href="https://giphy.com/gifs/food-life-the-simpsons-b7ejxVhDtfSRq">via GIPHY</a>
 </p>
 <p><br></p>
-<p>Vimos como aplicar o <em>teste z</em>. Também vimos três exemplos do <em>teste t</em>. No primeiro exemplo, comparamos uma amostra a uma média conhecida previamente; no segundo exemplo, partimos de um experimento hipotético de amostras <strong>dependentes</strong> para avaliar a eficácia de um tratamento; por fim, no terceiro exemplo, comparamos as alturas médias de duas amostras <strong>independentes</strong>.</p>
+<p>Vimos como aplicar o <em>teste z</em> a partir da comparação do IMC médio de uma amostra, que passa por um tratamento, com o IMC médio da população. Também vimos três exemplos do <em>teste t</em>. No primeiro exemplo, comparamos uma amostra a uma média conhecida previamente; no segundo exemplo, partimos de um experimento hipotético de amostras <strong>dependentes</strong> para avaliar a eficácia de um tratamento; por fim, no terceiro exemplo, comparamos as alturas médias de duas amostras <strong>independentes</strong>.</p>
 <!--radix_placeholder_article_footer-->
 <div class="article-footer">
   <p class="social_footer">
