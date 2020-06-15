@@ -10,10 +10,13 @@
       }
     ],
     "date": "2020-06-14",
-    "categories": [],
+    "categories": [
+      "Estatística",
+      "Testes estatísticos"
+    ],
     "preview": "posts/2020-06-14-testes-z-e-t/../../images/dist_normal.png",
-    "last_modified": "2020-06-15T00:05:42-03:00",
-    "input_file": "testes-z-e-t.utf8.md",
+    "last_modified": "2020-06-15T11:14:00-03:00",
+    "input_file": {},
     "preview_width": 601,
     "preview_height": 385
   },
