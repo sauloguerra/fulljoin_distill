@@ -1,7 +1,7 @@
 ---
 title: "Testes estatísticos z e t"
 description: |
-  Por meio de exemplos hipotéticos e partindo do pressuposto de que as condições para a validade dos testes estatísticos é atendida, mostramos, neste post, como aplicar dois testes estatísticos simples: o teste z e o teste t.
+  Por meio de exemplos hipotéticos e partindo do pressuposto de que as condições para a validade dos testes estatísticos são atendidas, mostramos, neste post, como aplicar dois testes estatísticos simples: o teste z e o teste t.
 author: Miguel Cleaver
 date: 06-14-2020
 output:
@@ -109,7 +109,7 @@ t_renda <- t.test(x = renda_inicial,
 t_renda
 ```
 
-O *teste t* mostra que é possível rejeitar a hipótese nula aos nível de significância de 5%. Em outras palavras, temos evidências de que o novo método tem impactos positivos sobre o salário inicial dos economistas.
+O *teste t* mostra que é possível rejeitar a hipótese nula ao nível de significância de 5%. Em outras palavras, temos evidências de que o novo método tem impactos positivos sobre o salário inicial dos economistas.
 
 ### Exemplo 2
 
@@ -183,33 +183,13 @@ t_independente <- t.test(x = regiao_a,
 t_independente
 ```
 
-O nosso teste indica que a hipótese nula pode ser rejeitada a um nível de significância de 5%. Em outras palavras, há evidências de que adiferença entre a média de altura das duas regiões não é estatisticamente igual a zero.
+O nosso teste indica que a hipótese nula pode ser rejeitada a um nível de significância de 5%. Em outras palavras, há evidências de que a diferença entre a média de altura das duas regiões não é estatisticamente igual a zero.
 
 ## Conclusão
 
 Neste post vimos que aplicar testes estatísticos no R é tranquilo e direto. 
+Vimos como aplicar o *teste z* a partir da comparação do IMC médio de uma amostra, que passa por um tratamento, com o IMC médio da população. Também vimos três exemplos do *teste t*. No primeiro exemplo, comparamos uma amostra a uma média conhecida previamente; no segundo exemplo, partimos de um experimento hipotético de amostras **dependentes** para avaliar a eficácia de um tratamento; por fim, no terceiro exemplo, comparamos as alturas médias de duas amostras **independentes**.
 
 <br>
 
 <div style="width:100%;height:0;padding-bottom:70%;position:relative;"><iframe src="https://giphy.com/embed/b7ejxVhDtfSRq" width="100%" height="100%" style="position:absolute" frameBorder="0" class="giphy-embed" allowFullScreen></iframe></div><p><a href="https://giphy.com/gifs/food-life-the-simpsons-b7ejxVhDtfSRq">via GIPHY</a></p>
-
-<br>
-
-Vimos como aplicar o *teste z* a partir da comparação do IMC médio de uma amostra, que passa por um tratamento, com o IMC médio da população. Também vimos três exemplos do *teste t*. No primeiro exemplo, comparamos uma amostra a uma média conhecida previamente; no segundo exemplo, partimos de um experimento hipotético de amostras **dependentes** para avaliar a eficácia de um tratamento; por fim, no terceiro exemplo, comparamos as alturas médias de duas amostras **independentes**.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
