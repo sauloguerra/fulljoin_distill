@@ -1,5 +1,23 @@
 [
   {
+    "path": "posts/2020-06-17-leitura-de-notas-de-corretagem/",
+    "title": "Leitura de notas de corretagem",
+    "description": "Neste post mostramos como ler e extrair informações de uma nota de corretagem (padrão SINACOR) no R.",
+    "author": [
+      {
+        "name": "Miguel Cleaver",
+        "url": {}
+      }
+    ],
+    "date": "2020-06-17",
+    "categories": [],
+    "preview": "posts/2020-06-17-leitura-de-notas-de-corretagem/../../images/notas_corretagem.png",
+    "last_modified": "2020-06-18T22:32:08-03:00",
+    "input_file": "leitura-de-notas-de-corretagem.utf8.md",
+    "preview_width": 148,
+    "preview_height": 140
+  },
+  {
     "path": "posts/2020-06-14-testes-z-e-t/",
     "title": "Testes estatísticos z e t",
     "description": "Por meio de exemplos hipotéticos e partindo do pressuposto de que as condições para a validade dos testes estatísticos são atendidas, mostramos, neste post, como aplicar dois testes estatísticos simples: o teste z e o teste t.",

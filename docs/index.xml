@@ -7,7 +7,16 @@
     <description>Fulljoin
 </description>
     <generator>Distill</generator>
-    <lastBuildDate>dom, 14 jun 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>qua, 17 jun 2020 00:00:00 +0000</lastBuildDate>
+    <item>
+      <title>Leitura de notas de corretagem</title>
+      <dc:creator>Miguel Cleaver</dc:creator>
+      <link>https://www.fulljoin.com.br/posts/2020-06-17-leitura-de-notas-de-corretagem</link>
+      <description>Neste post mostramos como ler e extrair informações de uma nota de corretagem (padrão SINACOR) no R.</description>
+      <guid>https://www.fulljoin.com.br/posts/2020-06-17-leitura-de-notas-de-corretagem</guid>
+      <pubDate>qua, 17 jun 2020 00:00:00 +0000</pubDate>
+      <media:content url="https://www.fulljoin.com.br/posts/2020-06-17-leitura-de-notas-de-corretagem/../../images/notas_corretagem.png" medium="image" type="image/png" width="148" height="140"/>
+    </item>
     <item>
       <title>Testes estatísticos z e t</title>
       <dc:creator>Miguel Cleaver</dc:creator>
@@ -91,17 +100,6 @@
       <guid>https://www.fulljoin.com.br/posts/2019-11-14-diferentes-sintaxes-de-pacotes</guid>
       <pubDate>sex, 27 dez 2019 00:00:00 +0000</pubDate>
       <media:content url="https://www.fulljoin.com.br/posts/2019-11-14-diferentes-sintaxes-de-pacotes/tudo-sobre-joins-parte-2_files/figure-html5/unnamed-chunk-10-1.png" medium="image" type="image/png" width="1248" height="768"/>
-    </item>
-    <item>
-      <title>Manipulação de texto com stringr - parte III</title>
-      <dc:creator>Miguel Cleaver</dc:creator>
-      <link>https://www.fulljoin.com.br/posts/2019-11-06-manipulao-de-texto-com-stringr-parte-iii</link>
-      <description>Na terceira parte da série de posts sobre manipulação de texto com stringr veremos como usar funções que removem padrões encontrados no texto, que substituem padrões por outros e que eliminam espaços de formas diferentes. Também aprofundaremos com um pouco mais de regex.</description>
-      <category>Manipulação de texto</category>
-      <category>stringr</category>
-      <guid>https://www.fulljoin.com.br/posts/2019-11-06-manipulao-de-texto-com-stringr-parte-iii</guid>
-      <pubDate>qua, 06 nov 2019 00:00:00 +0000</pubDate>
-      <media:content url="https://www.fulljoin.com.br/posts/2019-11-06-manipulao-de-texto-com-stringr-parte-iii/../../images/logo_stringr.png" medium="image" type="image/png" width="439" height="419"/>
     </item>
   </channel>
 </rss>
