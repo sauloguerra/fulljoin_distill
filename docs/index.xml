@@ -9,13 +9,12 @@
     <generator>Distill</generator>
     <lastBuildDate>qua, 17 jun 2020 00:00:00 +0000</lastBuildDate>
     <item>
-      <title>Leitura de notas de corretagem</title>
+      <title>Extraindo dados das suas notas de corretagem em compra e venda de ações com R</title>
       <dc:creator>Miguel Cleaver</dc:creator>
       <link>https://www.fulljoin.com.br/posts/2020-06-17-leitura-de-notas-de-corretagem</link>
       <description>Neste post mostramos como ler e extrair informações de uma nota de corretagem (padrão SINACOR) no R.</description>
       <guid>https://www.fulljoin.com.br/posts/2020-06-17-leitura-de-notas-de-corretagem</guid>
       <pubDate>qua, 17 jun 2020 00:00:00 +0000</pubDate>
-      <media:content url="https://www.fulljoin.com.br/posts/2020-06-17-leitura-de-notas-de-corretagem/../../images/notas_corretagem.png" medium="image" type="image/png" width="148" height="140"/>
     </item>
     <item>
       <title>Testes estatísticos z e t</title>

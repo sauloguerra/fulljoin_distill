@@ -1,26 +1,27 @@
 ---
-title: "Leitura de notas de corretagem"
+title: "Extraindo dados das suas notas de corretagem em compra e venda de ações com R"
 description: Neste post mostramos como ler e extrair informações de uma nota de corretagem (padrão SINACOR) no R.
 author: Miguel Cleaver
 date: 06-17-2020
 output:
   distill::distill_article:
     self_contained: false
-preview: ../../images/notas_corretagem.png
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE, eval=FALSE)
+knitr::opts_chunk$set(echo = TRUE)
 ```
 
 
-Com os juros em queda, o mercado de ações tem ganhado atratividade. Operações de compra e venda de ações exigem que a pessoa física tenha controle de suas operações, de seus prejuízos e de seus lucros seja porque é necessário apurar o imposto de renda seja porque deseja-se acompanhar o próprio desempenho no mercado de ações.
+Com os juros em queda, o mercado de ações tem ganhado atratividade. Operações de compra e venda de ações exigem que a pessoa física tenha controle de suas operações, de seus prejuízos e de seus lucros, seja porque é necessário apurar o imposto de renda, seja porque deseja-se acompanhar o próprio desempenho no mercado de ações.
 
 Um procedimento comum para fazer o controle consiste em criar uma planilha e lançar as operações manualmente. É um procedimento relativamente tranquilo se a pessoa opera com pouca frequência. Contudo, à medida que a frequência de operações aumenta, o trabalho aumenta e a ideia de automatizar o processo se torna interessante. Nos procedimentos manuais ainda existe o risco de se lançar um valor errado (errar é da natureza humana), o que reforça a ideia de que seria interessante ter esse processo automatizado.
 
 Neste post não veremos como automatizar esse processo, mas mostraremos como ler uma nota de corretagem (extensão em pdf) para dentro do R e extrair e organizar as informações da nota em um data frame. A partir do entendimento de como ler uma nota por meio do R se torna mais fácil visualizar como automatizar o processo. Basicamente, é necessário criar uma função e iterá-la para cada nota de corretagem.
 
-Para este post usaremos como referência uma nota de corretagem da *Clear* com apenas uma operação relativa ao mercado de ações (padrão SINACOR). Para replicar os resultado deste post, o ideal é que você use uma nota da *Clear* com apenas uma operação, mas se não tiver nenhuma nota de corretagem da *Clear*, use uma nota de corretagem no padrão SINACOR de outra corretora e é bem possível que com pequenos ajustes no código você consiga ler a sua nota.
+Para este post usaremos como referência uma nota de corretagem da *Clear* com apenas uma operação relativa ao mercado de ações (padrão SINACOR). Além disso, é importante ressaltar que os dados da nota que usaremos foram mascarados, enquanto outros foram modificados. 
+
+Para replicar os resultado deste post, o ideal é que você use uma nota da *Clear* com apenas uma operação, mas se não tiver nenhuma nota de corretagem da *Clear*, use uma nota de corretagem no padrão SINACOR de outra corretora e é bem possível que com pequenos ajustes no código você consiga ler a sua nota.
 
 
 ## Primeiros passos
@@ -47,25 +48,43 @@ length(arquivo)
 
 Para ler a nota vamos fazer o seguinte:
 
-```{r}
+```{r, eval=FALSE}
 out <- readtext(arquivo)[[2]]
 ```
 
-Ao dar print no objeto `out` você verá a nota de corretagem no console do R com uma formatação cheia de `\r`, `\n` e espaços. Assim, primeiramente vamos buscar padronizar esse objeto por meio da eliminação de espaços desnecessários e da transformação de todas as letras para caixa baixa.
+```{r, echo = FALSE}
+out <- readRDS("nota teste.RDS")
+```
+
+
+Ao dar print no objeto `out` você verá a nota de corretagem no console do R com uma formatação cheia de `\r`, `\n` e espaços. Abaixo, basta rolar a barra de rolagem para a direita para ver como nossa nota foi lida para dentro do R. Observa-se que um dos problemas de trazer a nota para o R é que as informações estão completamente desorganizadas. Isso não é culpa do R, mas da estrutura do PDF.
+
+```{r}
+print(out)
+```
+
+
+Assim, primeiramente vamos buscar padronizar esse objeto por meio da eliminação de espaços desnecessários e da transformação de todas as letras para caixa baixa. 
 
 ```{r}
 out <- out %>% 
   str_squish() %>% 
   str_to_lower()
+
+out
 ```
+
+A seguir veremos que, apesar das informações desorganizadas, ainda será possível extrair informações da nota de corretagem.
 
 ## Extração de dados
 
-Agora podemos extrair as informações relevantes sobre nossa nota. Vamos supor que o nosso primeiro objetivo seja extrair o número da nota e a data do pregão. Como podemos fazer isso? Se você inspecionar o objeto `out` no console do R verá que o número da nota aparece imediatamente depois do termo "data pregão" e a data do pregão (formato dd/mm/aaaa) aparece depois do número da nota, mas antes do termo "clear". Com um pouco de conhecimento de regex, podemos fazer o seguinte:
+Agora podemos extrair as informações relevantes sobre nossa nota. Vamos supor que o nosso primeiro objetivo seja extrair o número da nota e a data do pregão. Como podemos fazer isso? Se você inspecionar o objeto `out` no console do R verá que o número da nota aparece imediatamente depois do termo "data pregão" e a data do pregão (formato dd/mm/aaaa) aparece depois do número da nota, mas antes do termo "clear corretora". Com um pouco de conhecimento de regex, podemos fazer o seguinte:
 
 ```{r}
 info_nota <- out %>% 
   str_extract("data pregão .+?(clear)")
+
+info_nota
 ```
 
 No objeto `info_nota` temos as duas informações que queremos. O número da nota e a data do pregão. Abaixo mostramos uma das formas de extrair cada uma das informações.
@@ -79,7 +98,19 @@ data_pregao <- info_nota %>%
   str_extract("[0-9]{2}/[0-9]{2}/[0-9]{4}")
 ```
 
-Agora vamos para o que de fato importa. Ao analisar o objeto `out` é possível notar que os dados da operação da nota de corretagem estão entre o termo "q negociação" e "resumo dos negócios". Portanto, uma forma de obter os dados de nossa operação consiste em fazer o seguinte:
+Uma observação que pode não ter ficado clara é que nós sabemos que 00000010 é o número da nota a partir da nota original no formato pdf.
+
+```{r}
+print(numero_nota)
+```
+
+Da mesma forma, sabemos que a data do pregão é a data contida na string `info_nota`, pois é assim que consta na nota original. É importante bater as correspondências com a nota original para saber onde a informação se encontra no string que criamos.
+
+```{r}
+print(data_pregao)
+```
+
+Agora vamos para o que de fato importa. Ao analisar o objeto `out` é possível notar que os dados da operação da nota de corretagem estão entre o termo "q negociação" e "resumo dos negócios" (isso será mais fácil de ver no seu próprio console do R). Portanto, uma forma de obter os dados de nossa operação consiste em fazer o seguinte:
 
 ```{r}
 dados_operacao <- out %>% 
@@ -89,6 +120,8 @@ dados_operacao <- out %>%
   .[[1]] %>% 
   .[1] %>% 
   str_squish()
+
+dados_operacao
 ```
 
 Se você inspecionar o objeto `dados_operacao` notará que é um segmento de texto que começa com "1-bovespa" e termina com o valor da transação. Em seguida, é necessário remover os pontos dos números, pois para nós os pontos são separadores de milhares, mas para o R os pontos indicam o início da parte decimal dos números. Se sua operação foi abaixo dos R$ 1000 não haverá separador de milhares, mas ainda assim é interessante manter o código abaixo para o caso de quando isso aconteça.
@@ -96,6 +129,8 @@ Se você inspecionar o objeto `dados_operacao` notará que é um segmento de tex
 ```{r}
 string <- dados_operacao %>% 
   str_remove_all("\\.")
+
+string
 ```
 
 Agora vamos extrair o "c" (compra) ou "v" (venda) da nossa operação com:
@@ -103,6 +138,8 @@ Agora vamos extrair o "c" (compra) ou "v" (venda) da nossa operação com:
 ```{r}
 cv <- string %>% 
   str_extract("(?<= )[cv]{1}(?= )")
+
+cv
 ```
 
 Por fim, extraímos o nome da empresa e os valores de quantidade, preço e valor:
@@ -148,6 +185,8 @@ operacoes <- tibble(
   preco = preco,
   valor = valor
 )
+
+rmarkdown::paged_table(operacoes)  
 ```
 
 ## Conclusão

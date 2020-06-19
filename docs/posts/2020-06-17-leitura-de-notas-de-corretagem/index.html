@@ -19,7 +19,7 @@
  <!--/radix_placeholder_import_source-->
 
   <!--radix_placeholder_meta_tags-->
-<title>Fulljoin: Leitura de notas de corretagem</title>
+<title>Fulljoin: Extraindo dados das suas notas de corretagem em compra e venda de ações com R</title>
 
 <meta property="description" itemprop="description" content="Neste post mostramos como ler e extrair informações de uma nota de corretagem (padrão SINACOR) no R."/>
 
@@ -31,27 +31,21 @@
 <meta name="article:author" content="Miguel Cleaver"/>
 
 <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
-<meta property="og:title" content="Fulljoin: Leitura de notas de corretagem"/>
+<meta property="og:title" content="Fulljoin: Extraindo dados das suas notas de corretagem em compra e venda de ações com R"/>
 <meta property="og:type" content="article"/>
 <meta property="og:description" content="Neste post mostramos como ler e extrair informações de uma nota de corretagem (padrão SINACOR) no R."/>
 <meta property="og:url" content="https://www.fulljoin.com.br/posts/2020-06-17-leitura-de-notas-de-corretagem/"/>
-<meta property="og:image" content="https://www.fulljoin.com.br/posts/2020-06-17-leitura-de-notas-de-corretagem/../../images/notas_corretagem.png"/>
-<meta property="og:image:width" content="148"/>
-<meta property="og:image:height" content="140"/>
 <meta property="og:locale" content="en_US"/>
 <meta property="og:site_name" content="Fulljoin"/>
 
 <!--  https://dev.twitter.com/cards/types/summary -->
-<meta property="twitter:card" content="summary_large_image"/>
-<meta property="twitter:title" content="Fulljoin: Leitura de notas de corretagem"/>
+<meta property="twitter:card" content="summary"/>
+<meta property="twitter:title" content="Fulljoin: Extraindo dados das suas notas de corretagem em compra e venda de ações com R"/>
 <meta property="twitter:description" content="Neste post mostramos como ler e extrair informações de uma nota de corretagem (padrão SINACOR) no R."/>
 <meta property="twitter:url" content="https://www.fulljoin.com.br/posts/2020-06-17-leitura-de-notas-de-corretagem/"/>
-<meta property="twitter:image" content="https://www.fulljoin.com.br/posts/2020-06-17-leitura-de-notas-de-corretagem/../../images/notas_corretagem.png"/>
-<meta property="twitter:image:width" content="148"/>
-<meta property="twitter:image:height" content="140"/>
 
 <!--  https://scholar.google.com/intl/en/scholar/inclusion.html#indexing -->
-<meta name="citation_title" content="Fulljoin: Leitura de notas de corretagem"/>
+<meta name="citation_title" content="Fulljoin: Extraindo dados das suas notas de corretagem em compra e venda de ações com R"/>
 <meta name="citation_fulltext_html_url" content="https://www.fulljoin.com.br/posts/2020-06-17-leitura-de-notas-de-corretagem/"/>
 <meta name="citation_online_date" content="2020/06/17"/>
 <meta name="citation_publication_date" content="2020/06/17"/>
@@ -60,12 +54,12 @@
   <!--radix_placeholder_rmarkdown_metadata-->
 
 <script type="text/json" id="radix-rmarkdown-metadata">
-{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","output","preview","citation_url","canonical_url"]}},"value":[{"type":"character","attributes":{},"value":["Leitura de notas de corretagem"]},{"type":"character","attributes":{},"value":["Neste post mostramos como ler e extrair informações de uma nota de corretagem (padrão SINACOR) no R."]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name"]}},"value":[{"type":"character","attributes":{},"value":["Miguel Cleaver"]}]}]},{"type":"character","attributes":{},"value":["06-17-2020"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]}]},{"type":"character","attributes":{},"value":["../../images/notas_corretagem.png"]},{"type":"character","attributes":{},"value":["https://www.fulljoin.com.br/posts/2020-06-17-leitura-de-notas-de-corretagem/"]},{"type":"character","attributes":{},"value":["https://www.fulljoin.com.br/posts/2020-06-17-leitura-de-notas-de-corretagem/"]}]}
+{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","output","citation_url","canonical_url"]}},"value":[{"type":"character","attributes":{},"value":["Extraindo dados das suas notas de corretagem em compra e venda de ações com R"]},{"type":"character","attributes":{},"value":["Neste post mostramos como ler e extrair informações de uma nota de corretagem (padrão SINACOR) no R."]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name"]}},"value":[{"type":"character","attributes":{},"value":["Miguel Cleaver"]}]}]},{"type":"character","attributes":{},"value":["06-17-2020"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]}]},{"type":"character","attributes":{},"value":["https://www.fulljoin.com.br/posts/2020-06-17-leitura-de-notas-de-corretagem/"]},{"type":"character","attributes":{},"value":["https://www.fulljoin.com.br/posts/2020-06-17-leitura-de-notas-de-corretagem/"]}]}
 </script>
 <!--/radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-resource-manifest">
-  {"type":"character","attributes":{},"value":["leitura-de-notas-de-corretagem_files/bowser-1.9.3/bowser.min.js","leitura-de-notas-de-corretagem_files/distill-2.2.21/template.v2.js","leitura-de-notas-de-corretagem_files/jquery-1.11.3/jquery.min.js","leitura-de-notas-de-corretagem_files/webcomponents-2.0.0/webcomponents.js"]}
+  {"type":"character","attributes":{},"value":["leitura-de-notas-de-corretagem_files/bowser-1.9.3/bowser.min.js","leitura-de-notas-de-corretagem_files/distill-2.2.21/template.v2.js","leitura-de-notas-de-corretagem_files/jquery-1.11.3/jquery.min.js","leitura-de-notas-de-corretagem_files/pagedtable-1.1/css/pagedtable.css","leitura-de-notas-de-corretagem_files/pagedtable-1.1/js/pagedtable.js","leitura-de-notas-de-corretagem_files/webcomponents-2.0.0/webcomponents.js","nota teste.RDS"]}
   </script>
   <!--radix_placeholder_navigation_in_header-->
 
@@ -1290,6 +1284,8 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 
 <!--/radix_placeholder_distill-->
+  <link href="../../site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
+  <script src="../../site_libs/pagedtable-1.1/js/pagedtable.js"></script>
   <script src="../../site_libs/jquery-1.11.3/jquery.min.js"></script>
   <script src="../../site_libs/bowser-1.9.3/bowser.min.js"></script>
   <script src="../../site_libs/webcomponents-2.0.0/webcomponents.js"></script>
@@ -1340,7 +1336,7 @@ d-appendix {
 <!--radix_placeholder_front_matter-->
 
 <script id="distill-front-matter" type="text/json">
-{"title":"Leitura de notas de corretagem","description":"Neste post mostramos como ler e extrair informações de uma nota de corretagem (padrão SINACOR) no R.","authors":[{"author":"Miguel Cleaver","authorURL":"#","affiliation":"&nbsp;","affiliationURL":"#"}],"publishedDate":"2020-06-17T00:00:00.000-03:00","citationText":"Cleaver, 2020"}
+{"title":"Extraindo dados das suas notas de corretagem em compra e venda de ações com R","description":"Neste post mostramos como ler e extrair informações de uma nota de corretagem (padrão SINACOR) no R.","authors":[{"author":"Miguel Cleaver","authorURL":"#","affiliation":"&nbsp;","affiliationURL":"#"}],"publishedDate":"2020-06-17T00:00:00.000-03:00","citationText":"Cleaver, 2020"}
 </script>
 
 <!--/radix_placeholder_front_matter-->
@@ -1372,7 +1368,7 @@ Labs!
 <!--/radix_placeholder_site_before_body-->
 
 <div class="d-title">
-<h1>Leitura de notas de corretagem</h1>
+<h1>Extraindo dados das suas notas de corretagem em compra e venda de ações com R</h1>
 <p>Neste post mostramos como ler e extrair informações de uma nota de corretagem (padrão SINACOR) no R.</p>
 </div>
 
@@ -1384,10 +1380,11 @@ Labs!
 </div>
 
 <div class="d-article">
-<p>Com os juros em queda, o mercado de ações tem ganhado atratividade. Operações de compra e venda de ações exigem que a pessoa física tenha controle de suas operações, de seus prejuízos e de seus lucros seja porque é necessário apurar o imposto de renda seja porque deseja-se acompanhar o próprio desempenho no mercado de ações.</p>
+<p>Com os juros em queda, o mercado de ações tem ganhado atratividade. Operações de compra e venda de ações exigem que a pessoa física tenha controle de suas operações, de seus prejuízos e de seus lucros, seja porque é necessário apurar o imposto de renda, seja porque deseja-se acompanhar o próprio desempenho no mercado de ações.</p>
 <p>Um procedimento comum para fazer o controle consiste em criar uma planilha e lançar as operações manualmente. É um procedimento relativamente tranquilo se a pessoa opera com pouca frequência. Contudo, à medida que a frequência de operações aumenta, o trabalho aumenta e a ideia de automatizar o processo se torna interessante. Nos procedimentos manuais ainda existe o risco de se lançar um valor errado (errar é da natureza humana), o que reforça a ideia de que seria interessante ter esse processo automatizado.</p>
 <p>Neste post não veremos como automatizar esse processo, mas mostraremos como ler uma nota de corretagem (extensão em pdf) para dentro do R e extrair e organizar as informações da nota em um data frame. A partir do entendimento de como ler uma nota por meio do R se torna mais fácil visualizar como automatizar o processo. Basicamente, é necessário criar uma função e iterá-la para cada nota de corretagem.</p>
-<p>Para este post usaremos como referência uma nota de corretagem da <em>Clear</em> com apenas uma operação relativa ao mercado de ações (padrão SINACOR). Para replicar os resultado deste post, o ideal é que você use uma nota da <em>Clear</em> com apenas uma operação, mas se não tiver nenhuma nota de corretagem da <em>Clear</em>, use uma nota de corretagem no padrão SINACOR de outra corretora e é bem possível que com pequenos ajustes no código você consiga ler a sua nota.</p>
+<p>Para este post usaremos como referência uma nota de corretagem da <em>Clear</em> com apenas uma operação relativa ao mercado de ações (padrão SINACOR). Além disso, é importante ressaltar que os dados da nota que usaremos foram mascarados, enquanto outros foram modificados.</p>
+<p>Para replicar os resultado deste post, o ideal é que você use uma nota da <em>Clear</em> com apenas uma operação, mas se não tiver nenhuma nota de corretagem da <em>Clear</em>, use uma nota de corretagem no padrão SINACOR de outra corretora e é bem possível que com pequenos ajustes no código você consiga ler a sua nota.</p>
 <h2 id="primeiros-passos">Primeiros passos</h2>
 <p>Crie um projeto no Rstudio. Se possível selecione uma nota de corretagem (o arquivo deve ter extensão pdf) com apenas uma operação (de ações) e coloque na pasta que você acabou de criar o projeto.</p>
 <p>Agora crie um script de R. Nele você fará os experimentos que iremos desenvolver aqui.</p>
@@ -1403,25 +1400,46 @@ library(readtext)</code></pre>
 <pre class="r"><code>
 arquivo &lt;- list.files(pattern = &quot;pdf$&quot;)
 length(arquivo)</code></pre>
+<pre><code>
+[1] 0</code></pre>
 </div>
 <p>Para ler a nota vamos fazer o seguinte:</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 out &lt;- readtext(arquivo)[[2]]</code></pre>
 </div>
-<p>Ao dar print no objeto <code>out</code> você verá a nota de corretagem no console do R com uma formatação cheia de <code>\r</code>, <code>\n</code> e espaços. Assim, primeiramente vamos buscar padronizar esse objeto por meio da eliminação de espaços desnecessários e da transformação de todas as letras para caixa baixa.</p>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<p>Ao dar print no objeto <code>out</code> você verá a nota de corretagem no console do R com uma formatação cheia de <code>\r</code>, <code>\n</code> e espaços. Abaixo, basta rolar a barra de rolagem para a direita para ver como nossa nota foi lida para dentro do R. Observa-se que um dos problemas de trazer a nota para o R é que as informações estão completamente desorganizadas. Isso não é culpa do R, mas da estrutura do PDF.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+print(out)</code></pre>
+<pre><code>
+[1] &quot;                                            NOTA DE CORRETAGEM\r\n                                                                                                                                                                                 Nr. nota              Folha     Data pregão\r\n                                                                                                                                                                                      00000010                1      18/06/2020\r\n                                                  CLEAR CORRETORA - GRUPO XP\r\n                                                  Av. Presidente Juscelino Kubitschek - Torre Sul, 1909 - 29º ANDAR VILA OLIMPIA                                   4543-907                            SAO PAULO - SP\r\n                                                  Tel. 4003-6245 Fax: (55 ) -\r\n                                                  Internet: www.clear.com.br SAC: 0800-774-0404                                                                    e-mail: atendimento@clear.com.br\r\n                                                  C.N.P.J: 02.332.886/0011-78                                                                                      Carta Patente:\r\n                                                  Ouvidoria: Tel. 0800.774.0404                                                                                    e-mail ouvidoria: ouvidoria@clear.com.br\r\nCliente                                                                                                                                                                        C.P.F./C.N.P.J/C.V.M./C.O.B.\r\n  0000xx                                            FULANO DA SILVA                                                                                         000.000.000-00\r\n                                                     ENDEREÇO DO FULANO                                             Tel. (0xx) xxxx-xxxx           Código cliente                       Assessor\r\n                                                     CEP CIDADE DO FULANO                                                                                                              000-0 000xxxx                      0\r\nParticipante destino do repasse                                                                    Cliente                               Valor                                 Custodiante                                C.I\r\n                                                                                                   -                                     0                                                                                     N\r\nBanco           Agência                                   Conta corrente                           Acionista                             Administrador                         Complemento nome                           P. Vinc\r\nxxx             xxxxx                                     xxxx                                                                                                                                                                N\r\nNegócios realizados\r\n Q Negociação                    C/V Tipo mercado                       Prazo        Especificação do título                    Obs. (*) Quantidade            Preço / Ajuste         Valor Operação / Ajuste                  D/C\r\n       1-BOVESPA                   C VISTA                                           ITAUSA          PN ED N1                                              100                11,92                              1.192,00        D\r\nResumo dos Negócios                                                                                                             Resumo Financeiro\r\nDebêntures                                                                                                                 0,00 Clearing\r\nVendas à vista                                                                                                             0,00 Valor líquido das operações                                                        1.192,00       D\r\nCompras à vista                                                                                                       1.192,00  Taxa de liquidação                                                                       0,32     D\r\nOpções - compras                                                                                                           0,00 Taxa de Registro                                                                         0,00     D\r\nOpções - vendas                                                                                                            0,00 Total CBLC                                                                         1.192,32       D\r\nOperações à termo                                                                                                          0,00 Bolsa\r\nValor das oper. c/ títulos públ. (v. nom.)                                                                                 0,00 Taxa de termo/opções                                                                     0,00     D\r\nValor das operações                                                                                                   1.192,00  Taxa A.N.A.                                                                              0,00     D\r\n                                                                                                                                Emolumentos                                                                              0,04     D\r\n                                                                                                                                Total Bovespa / Soma                                                                     0,04     D\r\nEspecificações diversas                                                                                                         Corretagem / Despesas\r\n                                                                                                                                Clearing                                                                                 0,00 D\r\n                                                                                                                                Execução                                                                                 0,00\r\nA coluna Q indica liquidação no Agente do Qualificado.                                                                          Execução casa                                                                            0,00\r\n                                                                                                                                Impostos                                                                                 0,00\r\n                                                                                                                                I.R.R.F. s/ operações, base R$0,00                                                       0,00\r\n                                                                                                                                Outras Bovespa                                                                           0,00 D\r\n                                                                                                                                Total corretagem / Despesas                                                              0,00 D\r\n (*) Observações                                             A - Posição futuro                  T - Liquidação pelo Bruto      Líquido para                                                             1.192,36 D\r\n                                                                                                                                Observação: (1) As operações a termo não são computadas no líquido da fatura.\r\n 2 - Corretora ou pessoa vinculada atuou na contra parte.    C - Clubes e fundos de Ações        I - POP\r\n # - Negócio direto                                          P - Carteira Própria\r\n 8 - Liquidação Institucional                                H - Home Broker\r\n D - Day Trade                                               X - Box\r\n F - Cobertura                                               Y - Desmanche de Box\r\n B - Debêntures                                              L - Precatório\r\nCapitais e regiões metropolitanas: 4003-6245 Demais localidades: 0800-887-9107 SAC: 0800-774-0404 Ouvidoria: 0800-200-5550\r\n&quot;</code></pre>
+</div>
+<p>Assim, primeiramente vamos buscar padronizar esse objeto por meio da eliminação de espaços desnecessários e da transformação de todas as letras para caixa baixa.</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 out &lt;- out %&gt;% 
   str_squish() %&gt;% 
-  str_to_lower()</code></pre>
+  str_to_lower()
+
+out</code></pre>
+<pre><code>
+[1] &quot;nota de corretagem nr. nota folha data pregão 00000010 1 18/06/2020 clear corretora - grupo xp av. presidente juscelino kubitschek - torre sul, 1909 - 29º andar vila olimpia 4543-907 sao paulo - sp tel. 4003-6245 fax: (55 ) - internet: www.clear.com.br sac: 0800-774-0404 e-mail: atendimento@clear.com.br c.n.p.j: 02.332.886/0011-78 carta patente: ouvidoria: tel. 0800.774.0404 e-mail ouvidoria: ouvidoria@clear.com.br cliente c.p.f./c.n.p.j/c.v.m./c.o.b. 0000xx fulano da silva 000.000.000-00 endereço do fulano tel. (0xx) xxxx-xxxx código cliente assessor cep cidade do fulano 000-0 000xxxx 0 participante destino do repasse cliente valor custodiante c.i - 0 n banco agência conta corrente acionista administrador complemento nome p. vinc xxx xxxxx xxxx n negócios realizados q negociação c/v tipo mercado prazo especificação do título obs. (*) quantidade preço / ajuste valor operação / ajuste d/c 1-bovespa c vista itausa pn ed n1 100 11,92 1.192,00 d resumo dos negócios resumo financeiro debêntures 0,00 clearing vendas à vista 0,00 valor líquido das operações 1.192,00 d compras à vista 1.192,00 taxa de liquidação 0,32 d opções - compras 0,00 taxa de registro 0,00 d opções - vendas 0,00 total cblc 1.192,32 d operações à termo 0,00 bolsa valor das oper. c/ títulos públ. (v. nom.) 0,00 taxa de termo/opções 0,00 d valor das operações 1.192,00 taxa a.n.a. 0,00 d emolumentos 0,04 d total bovespa / soma 0,04 d especificações diversas corretagem / despesas clearing 0,00 d execução 0,00 a coluna q indica liquidação no agente do qualificado. execução casa 0,00 impostos 0,00 i.r.r.f. s/ operações, base r$0,00 0,00 outras bovespa 0,00 d total corretagem / despesas 0,00 d (*) observações a - posição futuro t - liquidação pelo bruto líquido para 1.192,36 d observação: (1) as operações a termo não são computadas no líquido da fatura. 2 - corretora ou pessoa vinculada atuou na contra parte. c - clubes e fundos de ações i - pop # - negócio direto p - carteira própria 8 - liquidação institucional h - home broker d - day trade x - box f - cobertura y - desmanche de box b - debêntures l - precatório capitais e regiões metropolitanas: 4003-6245 demais localidades: 0800-887-9107 sac: 0800-774-0404 ouvidoria: 0800-200-5550&quot;</code></pre>
 </div>
+<p>A seguir veremos que, apesar das informações desorganizadas, ainda será possível extrair informações da nota de corretagem.</p>
 <h2 id="extração-de-dados">Extração de dados</h2>
-<p>Agora podemos extrair as informações relevantes sobre nossa nota. Vamos supor que o nosso primeiro objetivo seja extrair o número da nota e a data do pregão. Como podemos fazer isso? Se você inspecionar o objeto <code>out</code> no console do R verá que o número da nota aparece imediatamente depois do termo “data pregão” e a data do pregão (formato dd/mm/aaaa) aparece depois do número da nota, mas antes do termo “clear”. Com um pouco de conhecimento de regex, podemos fazer o seguinte:</p>
+<p>Agora podemos extrair as informações relevantes sobre nossa nota. Vamos supor que o nosso primeiro objetivo seja extrair o número da nota e a data do pregão. Como podemos fazer isso? Se você inspecionar o objeto <code>out</code> no console do R verá que o número da nota aparece imediatamente depois do termo “data pregão” e a data do pregão (formato dd/mm/aaaa) aparece depois do número da nota, mas antes do termo “clear corretora”. Com um pouco de conhecimento de regex, podemos fazer o seguinte:</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 info_nota &lt;- out %&gt;% 
-  str_extract(&quot;data pregão .+?(clear)&quot;)</code></pre>
+  str_extract(&quot;data pregão .+?(clear)&quot;)
+
+info_nota</code></pre>
+<pre><code>
+[1] &quot;data pregão 00000010 1 18/06/2020 clear&quot;</code></pre>
 </div>
 <p>No objeto <code>info_nota</code> temos as duas informações que queremos. O número da nota e a data do pregão. Abaixo mostramos uma das formas de extrair cada uma das informações.</p>
 <div class="layout-chunk" data-layout="l-body">
@@ -1433,7 +1451,21 @@ numero_nota &lt;- info_nota %&gt;%
 data_pregao &lt;- info_nota %&gt;% 
   str_extract(&quot;[0-9]{2}/[0-9]{2}/[0-9]{4}&quot;)</code></pre>
 </div>
-<p>Agora vamos para o que de fato importa. Ao analisar o objeto <code>out</code> é possível notar que os dados da operação da nota de corretagem estão entre o termo “q negociação” e “resumo dos negócios”. Portanto, uma forma de obter os dados de nossa operação consiste em fazer o seguinte:</p>
+<p>Uma observação que pode não ter ficado clara é que nós sabemos que 00000010 é o número da nota a partir da nota original no formato pdf.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+print(numero_nota)</code></pre>
+<pre><code>
+[1] &quot;00000010&quot;</code></pre>
+</div>
+<p>Da mesma forma, sabemos que a data do pregão é a data contida na string <code>info_nota</code>, pois é assim que consta na nota original. É importante bater as correspondências com a nota original para saber onde a informação se encontra no string que criamos.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+print(data_pregao)</code></pre>
+<pre><code>
+[1] &quot;18/06/2020&quot;</code></pre>
+</div>
+<p>Agora vamos para o que de fato importa. Ao analisar o objeto <code>out</code> é possível notar que os dados da operação da nota de corretagem estão entre o termo “q negociação” e “resumo dos negócios” (isso será mais fácil de ver no seu próprio console do R). Portanto, uma forma de obter os dados de nossa operação consiste em fazer o seguinte:</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 dados_operacao &lt;- out %&gt;% 
@@ -1442,19 +1474,31 @@ dados_operacao &lt;- out %&gt;%
   str_split(&quot;(?&lt;=[0-9] )[cd]{1} &quot;) %&gt;% 
   .[[1]] %&gt;% 
   .[1] %&gt;% 
-  str_squish()</code></pre>
+  str_squish()
+
+dados_operacao</code></pre>
+<pre><code>
+[1] &quot;1-bovespa c vista itausa pn ed n1 100 11,92 1.192,00&quot;</code></pre>
 </div>
 <p>Se você inspecionar o objeto <code>dados_operacao</code> notará que é um segmento de texto que começa com “1-bovespa” e termina com o valor da transação. Em seguida, é necessário remover os pontos dos números, pois para nós os pontos são separadores de milhares, mas para o R os pontos indicam o início da parte decimal dos números. Se sua operação foi abaixo dos R$ 1000 não haverá separador de milhares, mas ainda assim é interessante manter o código abaixo para o caso de quando isso aconteça.</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 string &lt;- dados_operacao %&gt;% 
-  str_remove_all(&quot;\\.&quot;)</code></pre>
+  str_remove_all(&quot;\\.&quot;)
+
+string</code></pre>
+<pre><code>
+[1] &quot;1-bovespa c vista itausa pn ed n1 100 11,92 1192,00&quot;</code></pre>
 </div>
 <p>Agora vamos extrair o “c” (compra) ou “v” (venda) da nossa operação com:</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 cv &lt;- string %&gt;% 
-  str_extract(&quot;(?&lt;= )[cv]{1}(?= )&quot;)</code></pre>
+  str_extract(&quot;(?&lt;= )[cv]{1}(?= )&quot;)
+
+cv</code></pre>
+<pre><code>
+[1] &quot;c&quot;</code></pre>
 </div>
 <p>Por fim, extraímos o nome da empresa e os valores de quantidade, preço e valor:</p>
 <div class="layout-chunk" data-layout="l-body">
@@ -1497,7 +1541,14 @@ operacoes &lt;- tibble(
   quantidade = quantidade,
   preco = preco,
   valor = valor
-)</code></pre>
+)
+
+rmarkdown::paged_table(operacoes)  </code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["numero"],"name":[1],"type":["chr"],"align":["left"]},{"label":["data"],"name":[2],"type":["chr"],"align":["left"]},{"label":["compra_venda"],"name":[3],"type":["chr"],"align":["left"]},{"label":["tipo_mercado"],"name":[4],"type":["chr"],"align":["left"]},{"label":["especificacao_titulo"],"name":[5],"type":["chr"],"align":["left"]},{"label":["quantidade"],"name":[6],"type":["dbl"],"align":["right"]},{"label":["preco"],"name":[7],"type":["dbl"],"align":["right"]},{"label":["valor"],"name":[8],"type":["dbl"],"align":["right"]}],"data":[{"1":"00000010","2":"18/06/2020","3":"c","4":"vista","5":"itausa pn ed n1","6":"100","7":"11.92","8":"1192"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
 </div>
 <h2 id="conclusão">Conclusão</h2>
 <p>Neste post mostramos como ler uma nota de corretagem da <em>Clear</em>. Adicionalmente, requisitamos que a nota contenha apenas uma operação (de ações). Com isso, esperamos ter simplificado o exercício o suficiente tornar o aprendizado mais fácil. Até a próxima!</p>
@@ -1518,10 +1569,10 @@ operacoes &lt;- tibble(
     </span>
     <span class="article-sharing">
       Share: &nbsp;
-      <a href="https://twitter.com/share?text=Leitura%20de%20notas%20de%20corretagem&amp;url=https%3A%2F%2Fwww.fulljoin.com.br%2Fposts%2F2020-06-17-leitura-de-notas-de-corretagem%2F">
+      <a href="https://twitter.com/share?text=Extraindo%20dados%20das%20suas%20notas%20de%20corretagem%20em%20compra%20e%20venda%20de%20a%C3%A7%C3%B5es%20com%20R&amp;url=https%3A%2F%2Fwww.fulljoin.com.br%2Fposts%2F2020-06-17-leitura-de-notas-de-corretagem%2F">
         <i class="fab fa-twitter"></i>
       </a>
-      <a href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https%3A%2F%2Fwww.fulljoin.com.br%2Fposts%2F2020-06-17-leitura-de-notas-de-corretagem%2F&amp;title=Leitura%20de%20notas%20de%20corretagem">
+      <a href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https%3A%2F%2Fwww.fulljoin.com.br%2Fposts%2F2020-06-17-leitura-de-notas-de-corretagem%2F&amp;title=Extraindo%20dados%20das%20suas%20notas%20de%20corretagem%20em%20compra%20e%20venda%20de%20a%C3%A7%C3%B5es%20com%20R">
         <i class="fab fa-linkedin"></i>
       </a>
       <a href="https://www.facebook.com/sharer/sharer.php?s=100&amp;p[url]=https%3A%2F%2Fwww.fulljoin.com.br%2Fposts%2F2020-06-17-leitura-de-notas-de-corretagem%2F">
@@ -1557,11 +1608,11 @@ var disqus_config = function () {
 <div class="appendix-bottom">
   <h3 id="citation">Citation</h3>
   <p>For attribution, please cite this work as</p>
-  <pre class="citation-appendix short">Cleaver (2020, June 17). Fulljoin: Leitura de notas de corretagem. Retrieved from https://www.fulljoin.com.br/posts/2020-06-17-leitura-de-notas-de-corretagem/</pre>
+  <pre class="citation-appendix short">Cleaver (2020, June 17). Fulljoin: Extraindo dados das suas notas de corretagem em compra e venda de ações com R. Retrieved from https://www.fulljoin.com.br/posts/2020-06-17-leitura-de-notas-de-corretagem/</pre>
   <p>BibTeX citation</p>
-  <pre class="citation-appendix long">@misc{cleaver2020leitura,
+  <pre class="citation-appendix long">@misc{cleaver2020extraindo,
   author = {Cleaver, Miguel},
-  title = {Fulljoin: Leitura de notas de corretagem},
+  title = {Fulljoin: Extraindo dados das suas notas de corretagem em compra e venda de ações com R},
   url = {https://www.fulljoin.com.br/posts/2020-06-17-leitura-de-notas-de-corretagem/},
   year = {2020}
 }</pre>
