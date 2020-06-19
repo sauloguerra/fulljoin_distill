@@ -1397,11 +1397,17 @@ library(readtext)</code></pre>
 </div>
 <p>Se você seguiu os passos até aqui corretamente, o objeto de nome <code>arquivo</code> deve ter tamanho 1 e deve ter o nome da nota de corretagem que você quer ler.</p>
 <div class="layout-chunk" data-layout="l-body">
+
+</div>
+<div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
-arquivo &lt;- list.files(pattern = &quot;pdf$&quot;)
+arquivo &lt;- list.files(pattern = &quot;pdf$&quot;)</code></pre>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
 length(arquivo)</code></pre>
 <pre><code>
-[1] 0</code></pre>
+[1] 1</code></pre>
 </div>
 <p>Para ler a nota vamos fazer o seguinte:</p>
 <div class="layout-chunk" data-layout="l-body">

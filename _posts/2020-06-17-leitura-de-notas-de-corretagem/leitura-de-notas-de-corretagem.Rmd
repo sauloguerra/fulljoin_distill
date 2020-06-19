@@ -41,10 +41,19 @@ library(readtext)
 
 Se você seguiu os passos até aqui corretamente, o objeto de nome `arquivo` deve ter tamanho 1 e deve ter o nome da nota de corretagem que você quer ler.
 
-```{r}
+```{r, echo=FALSE}
+arquivo <- 1
+```
+
+
+```{r, eval=FALSE}
 arquivo <- list.files(pattern = "pdf$")
+```
+
+```{r}
 length(arquivo)
 ```
+
 
 Para ler a nota vamos fazer o seguinte:
 
