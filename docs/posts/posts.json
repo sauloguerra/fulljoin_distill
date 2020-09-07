@@ -1,6 +1,6 @@
 [
   {
-    "path": "posts/2020-09-06-usando-o-vs-code-no-r/",
+    "path": "posts/2020-09-06-usando-o-r-no-vs-code/",
     "title": "Usando o R no VS Code",
     "description": "Neste post detalhamos como configurar o VS Code para uso do R.",
     "author": [
@@ -9,10 +9,10 @@
         "url": {}
       }
     ],
-    "date": "2020-09-06",
+    "date": "2020-09-07",
     "categories": [],
-    "preview": "posts/2020-09-06-usando-o-vs-code-no-r/../../images/vscode.png",
-    "last_modified": "2020-09-07T12:17:45-03:00",
+    "preview": "posts/2020-09-06-usando-o-r-no-vs-code/../../images/vscode.png",
+    "last_modified": "2020-09-07T13:03:37-03:00",
     "input_file": {},
     "preview_width": 1169,
     "preview_height": 605

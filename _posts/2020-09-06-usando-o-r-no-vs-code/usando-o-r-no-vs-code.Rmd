@@ -2,7 +2,7 @@
 title: "Usando o R no VS Code"
 description: Neste post detalhamos como configurar o VS Code para uso do R. 
 author: Paulo Alencar
-date: 09-06-2020
+date: 09-07-2020
 output:
   distill::distill_article:
     self_contained: false
