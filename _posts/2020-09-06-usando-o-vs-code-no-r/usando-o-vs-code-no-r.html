@@ -19,369 +19,39 @@
  <!--/radix_placeholder_import_source-->
 
   <!--radix_placeholder_meta_tags-->
-  <title>Fulljoin: Projetos, Cursos e Consultoria</title>
+  <title>Usando o VS Code no R</title>
 
-  <meta property="description" itemprop="description" content="Gostaria de um curso personalizado? Consultoria para projetos que envolva dados? Fala com a gente, podemos te ajudar!"/>
+  <meta property="description" itemprop="description" content="Neste post detalhamos como configurar o VS Code para uso do R."/>
 
 
+  <!--  https://schema.org/Article -->
+  <meta property="article:published" itemprop="datePublished" content="2020-09-06"/>
+  <meta property="article:created" itemprop="dateCreated" content="2020-09-06"/>
+  <meta name="article:author" content="Paulo Alencar"/>
 
   <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
-  <meta property="og:title" content="Fulljoin: Projetos, Cursos e Consultoria"/>
+  <meta property="og:title" content="Usando o VS Code no R"/>
   <meta property="og:type" content="article"/>
-  <meta property="og:description" content="Gostaria de um curso personalizado? Consultoria para projetos que envolva dados? Fala com a gente, podemos te ajudar!"/>
+  <meta property="og:description" content="Neste post detalhamos como configurar o VS Code para uso do R."/>
   <meta property="og:locale" content="en_US"/>
-  <meta property="og:site_name" content="Fulljoin"/>
 
   <!--  https://dev.twitter.com/cards/types/summary -->
   <meta property="twitter:card" content="summary"/>
-  <meta property="twitter:title" content="Fulljoin: Projetos, Cursos e Consultoria"/>
-  <meta property="twitter:description" content="Gostaria de um curso personalizado? Consultoria para projetos que envolva dados? Fala com a gente, podemos te ajudar!"/>
+  <meta property="twitter:title" content="Usando o VS Code no R"/>
+  <meta property="twitter:description" content="Neste post detalhamos como configurar o VS Code para uso do R."/>
 
   <!--/radix_placeholder_meta_tags-->
   <!--radix_placeholder_rmarkdown_metadata-->
 
   <script type="text/json" id="radix-rmarkdown-metadata">
-  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description"]}},"value":[{"type":"character","attributes":{},"value":["Projetos, Cursos e Consultoria"]},{"type":"character","attributes":{},"value":["Gostaria de um curso personalizado? Consultoria para projetos que envolva dados? Fala com a gente, podemos te ajudar!"]}]}
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","output","draft","preview"]}},"value":[{"type":"character","attributes":{},"value":["Usando o VS Code no R"]},{"type":"character","attributes":{},"value":["Neste post detalhamos como configurar o VS Code para uso do R."]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name"]}},"value":[{"type":"character","attributes":{},"value":["Paulo Alencar"]}]}]},{"type":"character","attributes":{},"value":["09-06-2020"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]}]},{"type":"logical","attributes":{},"value":[false]},{"type":"character","attributes":{},"value":["../../images/vscode.png"]}]}
   </script>
   <!--/radix_placeholder_rmarkdown_metadata-->
-  <!--radix_placeholder_navigation_in_header-->
-
-  <script type="application/javascript">
-
-    window.headroom_prevent_pin = false;
-
-    window.document.addEventListener("DOMContentLoaded", function (event) {
-
-      // initialize headroom for banner
-      var header = $('header').get(0);
-      var headerHeight = header.offsetHeight;
-      var headroom = new Headroom(header, {
-        onPin : function() {
-          if (window.headroom_prevent_pin) {
-            window.headroom_prevent_pin = false;
-            headroom.unpin();
-          }
-        }
-      });
-      headroom.init();
-      if(window.location.hash)
-        headroom.unpin();
-      $(header).addClass('headroom--transition');
-
-      // offset scroll location for banner on hash change
-      // (see: https://github.com/WickyNilliams/headroom.js/issues/38)
-      window.addEventListener("hashchange", function(event) {
-        window.scrollTo(0, window.pageYOffset - (headerHeight + 25));
-      });
-
-      // responsive menu
-      $('.distill-site-header').each(function(i, val) {
-        var topnav = $(this);
-        var toggle = topnav.find('.nav-toggle');
-        toggle.on('click', function() {
-          topnav.toggleClass('responsive');
-        });
-      });
-
-      // nav dropdowns
-      $('.nav-dropbtn').click(function(e) {
-        $(this).next('.nav-dropdown-content').toggleClass('nav-dropdown-active');
-        $(this).parent().siblings('.nav-dropdown')
-           .children('.nav-dropdown-content').removeClass('nav-dropdown-active');
-      });
-      $("body").click(function(e){
-        $('.nav-dropdown-content').removeClass('nav-dropdown-active');
-      });
-      $(".nav-dropdown").click(function(e){
-        e.stopPropagation();
-      });
-    });
+  
+  <script type="text/json" id="radix-resource-manifest">
+  {"type":"character","attributes":{},"value":["install_language_server.gif","intro_vscode.png","radian.gif","testando_vscode.gif","testing_r_vscode.gif","usando-o-vs-code-no-r_files/bowser-1.9.3/bowser.min.js","usando-o-vs-code-no-r_files/distill-2.2.21/template.v2.js","usando-o-vs-code-no-r_files/header-attrs-2.3/header-attrs.js","usando-o-vs-code-no-r_files/jquery-1.11.3/jquery.min.js","usando-o-vs-code-no-r_files/webcomponents-2.0.0/webcomponents.js"]}
   </script>
-
-  <style type="text/css">
-
-  /* Theme (user-documented overrideables for nav appearance) */
-
-  .distill-site-nav {
-    color: rgba(255, 255, 255, 0.8);
-    background-color: #455a64;
-    font-size: 15px;
-    font-weight: 300;
-  }
-
-  .distill-site-nav a {
-    color: inherit;
-    text-decoration: none;
-  }
-
-  .distill-site-nav a:hover {
-    color: white;
-  }
-
-  @media print {
-    .distill-site-nav {
-      display: none;
-    }
-  }
-
-  .distill-site-header {
-
-  }
-
-  .distill-site-footer {
-
-  }
-
-
-  /* Site Header */
-
-  .distill-site-header {
-    width: 100%;
-    box-sizing: border-box;
-    z-index: 3;
-  }
-
-  .distill-site-header .nav-left {
-    display: inline-block;
-    margin-left: 8px;
-  }
-
-  @media screen and (max-width: 768px) {
-    .distill-site-header .nav-left {
-      margin-left: 0;
-    }
-  }
-
-
-  .distill-site-header .nav-right {
-    float: right;
-    margin-right: 8px;
-  }
-
-  .distill-site-header a,
-  .distill-site-header .title {
-    display: inline-block;
-    text-align: center;
-    padding: 14px 10px 14px 10px;
-  }
-
-  .distill-site-header .title {
-    font-size: 18px;
-  }
-
-  .distill-site-header .logo {
-    padding: 0;
-  }
-
-  .distill-site-header .logo img {
-    display: none;
-    max-height: 20px;
-    width: auto;
-    margin-bottom: -4px;
-  }
-
-  .distill-site-header .nav-image img {
-    max-height: 18px;
-    width: auto;
-    display: inline-block;
-    margin-bottom: -3px;
-  }
-
-
-
-  @media screen and (min-width: 1000px) {
-    .distill-site-header .logo img {
-      display: inline-block;
-    }
-    .distill-site-header .nav-left {
-      margin-left: 20px;
-    }
-    .distill-site-header .nav-right {
-      margin-right: 20px;
-    }
-    .distill-site-header .title {
-      padding-left: 12px;
-    }
-  }
-
-
-  .distill-site-header .nav-toggle {
-    display: none;
-  }
-
-  .nav-dropdown {
-    display: inline-block;
-    position: relative;
-  }
-
-  .nav-dropdown .nav-dropbtn {
-    border: none;
-    outline: none;
-    color: rgba(255, 255, 255, 0.8);
-    padding: 16px 10px;
-    background-color: transparent;
-    font-family: inherit;
-    font-size: inherit;
-    font-weight: inherit;
-    margin: 0;
-    margin-top: 1px;
-    z-index: 2;
-  }
-
-  .nav-dropdown-content {
-    display: none;
-    position: absolute;
-    background-color: white;
-    min-width: 200px;
-    border: 1px solid rgba(0,0,0,0.15);
-    border-radius: 4px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.1);
-    z-index: 1;
-    margin-top: 2px;
-    white-space: nowrap;
-    padding-top: 4px;
-    padding-bottom: 4px;
-  }
-
-  .nav-dropdown-content hr {
-    margin-top: 4px;
-    margin-bottom: 4px;
-    border: none;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-  }
-
-  .nav-dropdown-active {
-    display: block;
-  }
-
-  .nav-dropdown-content a, .nav-dropdown-content .nav-dropdown-header {
-    color: black;
-    padding: 6px 24px;
-    text-decoration: none;
-    display: block;
-    text-align: left;
-  }
-
-  .nav-dropdown-content .nav-dropdown-header {
-    display: block;
-    padding: 5px 24px;
-    padding-bottom: 0;
-    text-transform: uppercase;
-    font-size: 14px;
-    color: #999999;
-    white-space: nowrap;
-  }
-
-  .nav-dropdown:hover .nav-dropbtn {
-    color: white;
-  }
-
-  .nav-dropdown-content a:hover {
-    background-color: #ddd;
-    color: black;
-  }
-
-  .nav-right .nav-dropdown-content {
-    margin-left: -45%;
-    right: 0;
-  }
-
-  @media screen and (max-width: 768px) {
-    .distill-site-header a, .distill-site-header .nav-dropdown  {display: none;}
-    .distill-site-header a.nav-toggle {
-      float: right;
-      display: block;
-    }
-    .distill-site-header .title {
-      margin-left: 0;
-    }
-    .distill-site-header .nav-right {
-      margin-right: 0;
-    }
-    .distill-site-header {
-      overflow: hidden;
-    }
-    .nav-right .nav-dropdown-content {
-      margin-left: 0;
-    }
-  }
-
-
-  @media screen and (max-width: 768px) {
-    .distill-site-header.responsive {position: relative;}
-    .distill-site-header.responsive a.nav-toggle {
-      position: absolute;
-      right: 0;
-      top: 0;
-    }
-    .distill-site-header.responsive a,
-    .distill-site-header.responsive .nav-dropdown {
-      display: block;
-      text-align: left;
-    }
-    .distill-site-header.responsive .nav-left,
-    .distill-site-header.responsive .nav-right {
-      width: 100%;
-    }
-    .distill-site-header.responsive .nav-dropdown {float: none;}
-    .distill-site-header.responsive .nav-dropdown-content {position: relative;}
-    .distill-site-header.responsive .nav-dropdown .nav-dropbtn {
-      display: block;
-      width: 100%;
-      text-align: left;
-    }
-  }
-
-  /* Site Footer */
-
-  .distill-site-footer {
-    width: 100%;
-    overflow: hidden;
-    box-sizing: border-box;
-    z-index: 3;
-    margin-top: 30px;
-    padding-top: 30px;
-    padding-bottom: 30px;
-    text-align: center;
-  }
-
-  /* Headroom */
-
-  d-title {
-    padding-top: 6rem;
-  }
-
-  @media print {
-    d-title {
-      padding-top: 4rem;
-    }
-  }
-
-  .headroom {
-    z-index: 1000;
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-  }
-
-  .headroom--transition {
-    transition: all .4s ease-in-out;
-  }
-
-  .headroom--unpinned {
-    top: -100px;
-  }
-
-  .headroom--pinned {
-    top: 0;
-  }
-
-  </style>
-
-  <link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet"/>
-  <link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet"/>
-  <script src="site_libs/headroom-0.9.4/headroom.min.js"></script>
+  <!--radix_placeholder_navigation_in_header-->
   <!--/radix_placeholder_navigation_in_header-->
   <!--radix_placeholder_distill-->
 
@@ -1267,50 +937,14 @@
   </script>
 
   <!--/radix_placeholder_distill-->
-  <script src="site_libs/header-attrs-2.3/header-attrs.js"></script>
-  <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
-  <script src="site_libs/bowser-1.9.3/bowser.min.js"></script>
-  <script src="site_libs/webcomponents-2.0.0/webcomponents.js"></script>
-  <script src="site_libs/distill-2.2.21/template.v2.js"></script>
+  <script src="usando-o-vs-code-no-r_files/header-attrs-2.3/header-attrs.js"></script>
+  <script src="usando-o-vs-code-no-r_files/jquery-1.11.3/jquery.min.js"></script>
+  <script src="usando-o-vs-code-no-r_files/bowser-1.9.3/bowser.min.js"></script>
+  <script src="usando-o-vs-code-no-r_files/webcomponents-2.0.0/webcomponents.js"></script>
+  <script src="usando-o-vs-code-no-r_files/distill-2.2.21/template.v2.js"></script>
   <!--radix_placeholder_site_in_header-->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-75406624-1"></script>
-  <script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'UA-75406624-1');
-  </script>
-  <style type="text/css">
-  d-article {
-      font-weight: 300;
-  }
-
-  d-code {
-      background: #f7f7f7;
-  }
-
-  pre.text-output {
-      color: #d2a963;
-      background: #2f2f2f;
-      padding: 10px;
-  }
-
-  .distill-site-nav {
-      background-color: #268bd2;
-  }
-
-  .distill-site-header .title {
-      font-size: 20px;
-      font-weight: bolder;
-  }
-
-  d-appendix {
-      display: none !important;
-  }
-  </style>
   <!--/radix_placeholder_site_in_header-->
 
-  <link rel="stylesheet" href="styles.css" type="text/css"/>
 
 </head>
 
@@ -1319,53 +953,125 @@
 <!--radix_placeholder_front_matter-->
 
 <script id="distill-front-matter" type="text/json">
-{"title":"Projetos, Cursos e Consultoria","description":"Gostaria de um curso personalizado? Consultoria para projetos que envolva dados? Fala com a gente, podemos te ajudar!","authors":[]}
+{"title":"Usando o VS Code no R","description":"Neste post detalhamos como configurar o VS Code para uso do R.","authors":[{"author":"Paulo Alencar","authorURL":"#","affiliation":"&nbsp;","affiliationURL":"#"}],"publishedDate":"2020-09-06T00:00:00.000-03:00","citationText":"Alencar, 2020"}
 </script>
 
 <!--/radix_placeholder_front_matter-->
 <!--radix_placeholder_navigation_before_body-->
-<header class="header header--fixed" role="banner">
-<nav class="distill-site-nav distill-site-header">
-<div class="nav-left">
-<a href="index.html" class="title">Fulljoin</a>
-</div>
-<div class="nav-right">
-<div class="nav-dropdown">
-<button class="nav-dropbtn">
-Labs!
- 
-<span class="down-arrow">&#x25BE;</span>
-</button>
-<div class="nav-dropdown-content">
-<a href="dashboard_pnad.html">Dashboard PNAD continua</a>
-</div>
-</div>
-<a href="index.html">Posts</a>
-<a href="about.html">Autores</a>
-<a href="javascript:void(0);" class="nav-toggle">&#9776;</a>
-</div>
-</nav>
-</header>
 <!--/radix_placeholder_navigation_before_body-->
 <!--radix_placeholder_site_before_body-->
 <!--/radix_placeholder_site_before_body-->
 
 <div class="d-title">
-<h1>Projetos, Cursos e Consultoria</h1>
-<p><p>Gostaria de um curso personalizado? Consultoria para projetos que envolva dados? Fala com a gente, podemos te ajudar!</p></p>
+<h1>Usando o VS Code no R</h1>
+<p>Neste post detalhamos como configurar o VS Code para uso do R.</p>
 </div>
 
+<div class="d-byline">
+  
+  Paulo Alencar
+  
+<br/>09-06-2020
+</div>
 
 <div class="d-article">
-<p>(draft)</p>
-<h2 id="o-que-podemos-fazer-por-você">O que podemos fazer por você?</h2>
+<h2 id="introdução">Introdução</h2>
+<p>Neste post, irei mostra como configurar o VS Code para trabalhar com o R. O VS Code é um dos principais editores de códigos atualmente. Ele conta com uma série de funcionalidades e extensões que facilitam a vida de quem está escrevendo o código. Quem trabalha com o R, normalmente trabalha com RStudio, que é um ambiente de desenvolvimento totalmente planejado para aumentar a produtividade com o R.</p>
+<p>Sem querer entrar na discussão de quem é melhor ou pior e considerando que as funcionalidade para R no VS code ainda estão em fase de desenvolvimento, o objetivo deste post é apenas apresentar essa outra possibilidade para quem trabalha com o R. Uma das vantagens do VS Code é o amplo conjunto de extensões que podem auxiliar o usuário. Por outro lado, é fato que o RStudio é uma ferramenta bem mais madura para desenvolvimento em R.</p>
+<p>O passo a passo da configuração do R para o VS Code será feito para o Windows. Estou assumindo que usuários de Linux conseguem fazer a configuração a partir de instruções gerais. Por fim, assume-se que o usuário já possui uma instalação de R na sua máquina.</p>
+<h2 id="instalando-o-vs-code">Instalando o VS Code</h2>
+<p>O VS Code pode ser instalado <a href="https://code.visualstudio.com/download">neste link</a> sem maiores dificuldades. Uma vez instalado, você verá o aplicativo da seguinte forma:</p>
+<p><img src="intro_vscode.png" /></p>
+<h2 id="configurando-para-uso-do-r">Configurando para uso do R</h2>
+<p>Para usar o R no VS Code, será necessário instalar a extensão “R”. Para isso, você pode:</p>
 <ul>
-<li>Treinamentos personalizados</li>
-<li>Cenários e previsões</li>
-<li>Automação de relatórios analíticos</li>
-<li>Integração de dados, scraping e ETL em geral</li>
-<li>Visualizações e storytelling</li>
+<li>digitar <code>CTRL + SHIFT + X</code>;</li>
+<li>Ir em <code>File &gt; Preferences &gt; Extensions</code>;</li>
+<li>Clicar no ícone com quatro quadrados na barra à esquerda.</li>
 </ul>
+<p>Na barra de pequisa, procure por “R” e instale a extensão desenvolvida por Yuki Ueda. Basta clicar em no botão verde “Install”.</p>
+<p>Com a extensão instalada, clique na engrenagem e “Extensions Settings”. No campo, R.exe path for Windows indique o caminho do executável do R no seu computador. Por exemplo, no meu computador, o caminho é: <code>C:\Program Files\R\R-4.0.2\bin\R.exe</code>. Mais adiante, irei mostrar como configurar o <a href="https://github.com/randy3k/radian">Radian</a>, que é um console alternativo para o R.</p>
+<p>Outra extensão importante para ser instalada é a “language server” para o R. Nas extensões, procure por “r-lsp” e faça a instalação. Essa extensão pede que voce instale o pacote de R “languageserver”. Pode-se instalar a versão do CRAN ou a de desenvolvimento. Vamos fazer o seguinte:</p>
+<ul>
+<li>Tecle “Ctrl + N” para abrir um novo script;</li>
+<li>No canto direito inferior, clique em “Plain Text” e altere para “R” (também é possível utilizar o atalho “Ctrl + K” e depois tecle “m”;</li>
+<li>Depois escreva “install.packages(“languageserver”)” ou “devtools::install_github(”REditorSupport/languageserver“)”</li>
+<li>Com o cursor na linha do comando, tecle <code>Ctrl + Enter</code> para executar.</li>
+</ul>
+<p><img src="install_language_server.gif" /></p>
+<p>Se por algum motivo ocorrer algum error de permissão negada no momento da instalação, tente abrir o VS Code com permisões de administrador.</p>
+<p>Uma vez que você concluiu a instalação desse pacote, clique no ícone de engrenagem da extensão “R LSP Client”. Lá existirão algumas opções. Em Lsp: Path, inclua o caminho para o executável no R (Exemplo: <code>C:\Program Files\R\R-4.0.2\bin\R.exe.</code>).</p>
+<h2 id="testando">Testando</h2>
+<p>Vamos fazer um teste rápido para saber se tudo está funcionando: - Crie um novo arquivo (Ctrl + N) e mude a linguagem para o R. - Teste o seguinte código:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+library(tidyverse)
+
+head(mtcars) %&gt;%
+  View()</code></pre>
+</div>
+<p><img src="testando_vscode.gif" /></p>
+<p>Se o código rodou normalmente, é sinal que tudo funcionou corretamente.</p>
+<h2 id="adicionando-atalhos">Adicionando atalhos</h2>
+<p>Quem usa o RStudio está acostumado, por exemplo, ao atalhos “Alt + -“ e “Ctrl + Shift + m” para, respectivamente, o assignment “&lt;-“ e o pipe “%&gt;%”. Para adicionar esses atalhos no VS Code, faça o seguinte:</p>
+<ul>
+<li>Clique em View &gt; Command Palette ou tecle o atalho “Ctrl + Shift + P”;</li>
+<li>Na caixa de busca, procure “Preferences: Open Keyboard Shortcuts (JSON);</li>
+<li>Cole o seguintes código (você pode adicionar mais atalhos do seu interesse):</li>
+</ul>
+<pre class="js"><code>
+// Place your key bindings in this file to override the defaults
+[
+    {
+        &quot;key&quot;: &quot;alt+-&quot;,
+        &quot;command&quot;: &quot;type&quot;,
+        &quot;when&quot;: &quot;editorLangId == r || editorLangId == rmd &amp;&amp; editorTextFocus&quot;,
+        &quot;args&quot;: { &quot;text&quot;: &quot; &lt;- &quot; }
+    },
+    {
+        &quot;key&quot;: &quot;ctrl+shift+m&quot;,
+        &quot;command&quot;: &quot;type&quot;,
+        &quot;when&quot;: &quot;editorLangId == r || editorLangId == rmd &amp;&amp; editorTextFocus&quot;,
+        &quot;args&quot;: { &quot;text&quot;: &quot; %&gt;% &quot; }
+    },
+    {
+        &quot;key&quot;: &quot;f1&quot;,
+        &quot;command&quot;: &quot;r.runCommandWithSelectionOrWord&quot;,
+        &quot;when&quot;: &quot;editorTextFocus &amp;&amp; editorLangId == &#39;r&#39;&quot;,
+        &quot;args&quot;: &quot;help($$)&quot;
+    },
+    {
+        &quot;key&quot;: &quot;f2&quot;,
+        &quot;command&quot;: &quot;r.runCommandWithSelectionOrWord&quot;,
+        &quot;when&quot;: &quot;editorTextFocus &amp;&amp; editorLangId == &#39;r&#39;&quot;,
+        &quot;args&quot;: &quot;View($$)&quot;
+    },
+    {
+        &quot;key&quot;: &quot;alt+ctrl+b&quot;,
+        &quot;command&quot;: &quot;r.runCommand&quot;,
+        &quot;when&quot;: &quot;editorTextFocus &amp;&amp; editorLangId == &#39;r&#39;&quot;,
+        &quot;args&quot;: &quot;carbonate::carbon$new()$browse()&quot;
+    }
+]</code></pre>
+<h2 id="configurando-o-radian">Configurando o Radian</h2>
+<p>O Radian é um console alternativo para R. O projeto pode ser encontrado no Github <a href="https://github.com/randy3k/radian">neste link</a>. Para usar o radian, é preciso ter uma instalação do Python no seu computador. A maneira mais prática é instalar o pacote <code>reticulate</code> do R e usar a função <code>install_miniconda()</code>. Considerando que o Python está instalado, o próximo passar é instalar o Radian.</p>
+<p>Nos meus testes, não tive sucesso com as funções <code>conda_install()</code> ou <code>pip_install()</code>. Por isso, vou mostrar como fazer a instalação a partir do terminal. Primeiramente, ainda no R, veja onde está a sua instalação do miniconda: <code>reticulate::py_config()</code>. No meu caso, o endereço é: <code>C:/Users/paulo/AppData/Local/r-miniconda</code>.</p>
+<p>Agora, siga os seguintes passos:</p>
+<ul>
+<li>No VS Code, clique em <code>Terminal &gt; New Terminal</code>;</li>
+<li>Com o terminal aberto, digite {MINICONDA_PATH}/condabin/activate.bat r-reticulate para ativar o environment <code>r-reticulate</code>. Note que {MINICONDA_PATH} deve ser substituído pelo caminho do miniconda no seu computador.</li>
+<li>Assumindo que o passo anterior funcionou e que vc esteja com o environment <code>r-reticulate</code> ativado, execute o código <code>pip install -U radian</code>.</li>
+<li>Execute <code>radian</code> no mesmo terminal para verificar que tudo deu certo.</li>
+</ul>
+<p>Se tudo deu certo, você precisa indicar o executável do Radian para o VS Code. Para isso, vá em extensões, procure a extensão “R” e entre nas configurações (clique na engrenagem). No <code>R.exe for Windows</code>, inclua o caminho para o <code>radian.exe</code>. Esse arquivo estará dentro do environment <code>r-reticulate</code>. Por exemplo, no meu caso, o caminho é: <code>C:\Users\paulo\AppData\Local\r-miniconda\envs\r-reticulate\Scripts\radian.exe</code>.</p>
+<p>Feche o VS Code e abra novamente. Se tudo estiver ok, quando você for executar um novo script, o seguinte comportamente deve ser observado:</p>
+<p><img src="radian.gif" /></p>
+<h2 id="rmarkdown">Rmarkdown</h2>
+<p>É possível executar arquivos Rmd no VS Code sem problemas. No entanto, não há, por enquanto, tantas funcionalidades para o Rmarkdown quanto no RStudio. Todavia, em breve haverá avanços nessa parte. Veja <a href="https://twitter.com/renkun_ken/status/1299382192624209925">este tweet</a> do <a href="https://twitter.com/renkun_ken"><code>@renkun_ken</code></a>.</p>
+<h2 id="finalizando">Finalizando</h2>
+<p>Para mais exemplos de uso do VS Code sugiro, novamente, o twitter do <a href="https://twitter.com/renkun_ken"><code>@renkun_ken</code></a>. Ele apresenta uma série de exemplos de funcionalidade que ele implementou ou está implementando.</p>
+<p>Por hoje, era isso. Se você encontrou algum problema ou tem alguma dúvida, por favor deixe um comentário para eu saber como posso expandir esse post. Obrigado!</p>
+<p><img src="https://media.giphy.com/media/KJ1f5iTl4Oo7u/giphy.gif" /></p>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>
@@ -1380,11 +1086,7 @@ Labs!
 <div class="appendix-bottom"></div>
 <!--/radix_placeholder_appendices-->
 <!--radix_placeholder_navigation_after_body-->
-<div class="distill-site-nav distill-site-footer">
-<p>Gostou do blog? <u><a href='https://www.buymeacoffee.com/LYcEmgQ'>Pague-nos um cafezinho!</a></u></p>
-</div>
 <!--/radix_placeholder_navigation_after_body-->
-
 
 </body>
 
