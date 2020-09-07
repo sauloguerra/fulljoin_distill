@@ -9,13 +9,13 @@
     <generator>Distill</generator>
     <lastBuildDate>dom, 06 set 2020 00:00:00 +0000</lastBuildDate>
     <item>
-      <title>Usando o VS Code no R</title>
+      <title>Usando o R no VS Code</title>
       <dc:creator>Paulo Alencar</dc:creator>
       <link>https://www.fulljoin.com.br/posts/2020-09-06-usando-o-vs-code-no-r</link>
       <description>Neste post detalhamos como configurar o VS Code para uso do R.</description>
       <guid>https://www.fulljoin.com.br/posts/2020-09-06-usando-o-vs-code-no-r</guid>
       <pubDate>dom, 06 set 2020 00:00:00 +0000</pubDate>
-      <media:content url="https://www.fulljoin.com.br/posts/2020-09-06-usando-o-vs-code-no-r/../../images/vscode.png" medium="image" type="image/png" width="672" height="392"/>
+      <media:content url="https://www.fulljoin.com.br/posts/2020-09-06-usando-o-vs-code-no-r/../../images/vscode.png" medium="image" type="image/png" width="1169" height="605"/>
     </item>
     <item>
       <title>Extraindo dados das suas notas de corretagem em compra e venda de ações com R</title>

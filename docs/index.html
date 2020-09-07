@@ -611,6 +611,16 @@
     color: rgba(0, 0, 0, 1.0);
   }
 
+  /* Citations */
+
+  d-article .citation {
+    color: inherit;
+    cursor: inherit;
+  }
+
+  div.hanging-indent{
+    margin-left: 1em; text-indent: -1em;
+  }
 
 
   /* Tweak 1000px media break to show more text */
@@ -932,23 +942,8 @@
     // create d-appendix
     $('.d-appendix').changeElementType('d-appendix');
 
-    // create d-bibliography
-    var bibliography = $('<d-bibliography></d-bibliography>');
-    $('#distill-bibliography').wrap(bibliography);
-
     // flag indicating that we have appendix items
     var appendix = $('.appendix-bottom').children('h3').length > 0;
-
-    // replace citations with <d-cite>
-    $('.citation').each(function(i, val) {
-      appendix = true;
-      var cites = $(this).attr('data-cites').split(" ");
-      var dt_cite = $('<d-cite></d-cite>');
-      dt_cite.attr('key', cites.join());
-      $(this).replaceWith(dt_cite);
-    });
-    // remove refs
-    $('#refs').remove();
 
     // replace footnotes with <d-footnote>
     $('.footnote-ref').each(function(i, val) {
@@ -965,6 +960,9 @@
     });
     // remove footnotes
     $('.footnotes').remove();
+
+    // move refs into #references-listing
+    $('#references-listing').replaceWith($('#refs'));
 
     $('h1.appendix, h2.appendix').each(function(i, val) {
       $(this).changeElementType('h3');
@@ -1676,10 +1674,10 @@ function init_posts_list() {
 <div class="publishedDate">Sept. 6, 2020</div>
 </div>
 <div class="thumbnail">
-<img data-src="posts/2020-09-06-usando-o-vs-code-no-r/../../images/vscode.png"/>
+<img data-src="images/vscode.png"/>
 </div>
 <div class="description">
-<h2>Usando o VS Code no R</h2>
+<h2>Usando o R no VS Code</h2>
 <p>Neste post detalhamos como configurar o VS Code para uso do R.</p>
 </div>
 </a>
@@ -1702,7 +1700,7 @@ function init_posts_list() {
 <div class="publishedDate">June 14, 2020</div>
 </div>
 <div class="thumbnail">
-<img data-src="posts/2020-06-14-testes-z-e-t/../../images/dist_normal.png"/>
+<img data-src="images/dist_normal.png"/>
 </div>
 <div class="description">
 <h2>Testes estatísticos z e t</h2>
@@ -1715,7 +1713,7 @@ function init_posts_list() {
 <div class="publishedDate">May 31, 2020</div>
 </div>
 <div class="thumbnail">
-<img data-src="posts/2020-05-31-atas-copom/../../images/copom.jpg"/>
+<img data-src="images/copom.jpg"/>
 </div>
 <div class="description">
 <h2>Criando base de dados com as atas do Copom</h2>
@@ -1728,7 +1726,7 @@ function init_posts_list() {
 <div class="publishedDate">May 20, 2020</div>
 </div>
 <div class="thumbnail">
-<img data-src="posts/2020-05-18-qualidade-de-vinhos-com-tidymodels/../../images/tidymodels_sticker.png"/>
+<img data-src="images/tidymodels_sticker.png"/>
 </div>
 <div class="description">
 <h2>Prevendo a qualidade de vinhos com o tidymodels</h2>
@@ -1754,7 +1752,7 @@ function init_posts_list() {
 <div class="publishedDate">March 17, 2020</div>
 </div>
 <div class="thumbnail">
-<img data-src="posts/2020-03-02-manipulao-de-texto-com-stringr-parte-iv/../../images/logo_stringr.png"/>
+<img data-src="images/logo_stringr.png"/>
 </div>
 <div class="description">
 <h2>Manipulação de texto com stringr - parte IV</h2>
@@ -1767,7 +1765,7 @@ function init_posts_list() {
 <div class="publishedDate">March 1, 2020</div>
 </div>
 <div class="thumbnail">
-<img data-src="posts/2020-03-01-nbsvm-com-o-keras-no-r-classificando-anlises-de-filmes-imbd/../../images/keras2.png"/>
+<img data-src="images/keras2.png"/>
 </div>
 <div class="description">
 <h2>NBSVM com o Keras no R: Classificando Análises de Filmes (IMBd)</h2>
@@ -1780,7 +1778,7 @@ function init_posts_list() {
 <div class="publishedDate">Jan. 29, 2020</div>
 </div>
 <div class="thumbnail">
-<img data-src="posts/2020-01-25-dplyr-para-datatable/../../images/r-datatable.png"/>
+<img data-src="images/r-datatable.png"/>
 </div>
 <div class="description">
 <h2>Problemas com memória ou tempo de execução no dplyr? Use o data.table</h2>
@@ -1819,7 +1817,7 @@ function init_posts_list() {
 <div class="publishedDate">Nov. 6, 2019</div>
 </div>
 <div class="thumbnail">
-<img data-src="posts/2019-11-06-manipulao-de-texto-com-stringr-parte-iii/../../images/logo_stringr.png"/>
+<img data-src="images/logo_stringr.png"/>
 </div>
 <div class="description">
 <h2>Manipulação de texto com stringr - parte III</h2>
@@ -1832,7 +1830,7 @@ function init_posts_list() {
 <div class="publishedDate">Nov. 1, 2019</div>
 </div>
 <div class="thumbnail">
-<img data-src="posts/2019-10-28-paralelizacao-de-search-grid-usando-random-forest/../../images/paralelizacao.jpg"/>
+<img data-src="images/paralelizacao.jpg"/>
 </div>
 <div class="description">
 <h2>Entendendo os benefícios da paralelização usando Random Forest</h2>
@@ -1845,7 +1843,7 @@ function init_posts_list() {
 <div class="publishedDate">Oct. 23, 2019</div>
 </div>
 <div class="thumbnail">
-<img data-src="posts/2019-10-22-manipulao-de-texto-com-stringr-parte-ii/../../images/logo_stringr.png"/>
+<img data-src="images/logo_stringr.png"/>
 </div>
 <div class="description">
 <h2>Manipulação de texto com stringr - parte II</h2>
@@ -1871,7 +1869,7 @@ function init_posts_list() {
 <div class="publishedDate">Oct. 13, 2019</div>
 </div>
 <div class="thumbnail">
-<img data-src="posts/2019-10-13-manipulao-de-texto-com-stringr/../../images/logo_stringr.png"/>
+<img data-src="images/logo_stringr.png"/>
 </div>
 <div class="description">
 <h2>Manipulação de texto com stringr</h2>
@@ -1884,7 +1882,7 @@ function init_posts_list() {
 <div class="publishedDate">Oct. 1, 2019</div>
 </div>
 <div class="thumbnail">
-<img data-src="posts/2019-10-01-b3-rvest-cei-parte-3/../../images/cei_retorno_carteira.png"/>
+<img data-src="images/cei_retorno_carteira.png"/>
 </div>
 <div class="description">
 <h2>Avaliando sua carteira: Explorando dados financeiros com R - parte 3</h2>
@@ -1897,7 +1895,7 @@ function init_posts_list() {
 <div class="publishedDate">Sept. 21, 2019</div>
 </div>
 <div class="thumbnail">
-<img data-src="posts/2019-09-19-loop-vs-alternativas/../../images/capa_loop.png"/>
+<img data-src="images/capa_loop.png"/>
 </div>
 <div class="description">
 <h2>Por que evitar for loops em R?</h2>
@@ -1910,7 +1908,7 @@ function init_posts_list() {
 <div class="publishedDate">Sept. 16, 2019</div>
 </div>
 <div class="thumbnail">
-<img data-src="posts/2019-09-04-integrando-o-r-com-excel/../../images/excel_mtcars.PNG"/>
+<img data-src="images/excel_mtcars.PNG"/>
 </div>
 <div class="description">
 <h2>R com Excel</h2>
@@ -1923,7 +1921,7 @@ function init_posts_list() {
 <div class="publishedDate">Sept. 10, 2019</div>
 </div>
 <div class="thumbnail">
-<img data-src="posts/2019-09-03-b3-rvest-cei/../../images/cei_rvest.png"/>
+<img data-src="images/cei_rvest.png"/>
 </div>
 <div class="description">
 <h2>CEI + rvest: Explorando dados financeiros com R - parte 2</h2>
@@ -1949,7 +1947,7 @@ function init_posts_list() {
 <div class="publishedDate">Aug. 27, 2019</div>
 </div>
 <div class="thumbnail">
-<img data-src="posts/2019-07-18-b3-rvest-explorando-dados-financeiros-com-r/../../images/b3_rvest.png"/>
+<img data-src="images/b3_rvest.png"/>
 </div>
 <div class="description">
 <h2>B3 + rvest: Explorando dados financeiros com R - parte 1</h2>
@@ -1975,7 +1973,7 @@ function init_posts_list() {
 <div class="publishedDate">July 31, 2019</div>
 </div>
 <div class="thumbnail">
-<img data-src="posts/2019-07-31-traduo-de-dados-textuais-com-googlelanguager/../../images/google.PNG"/>
+<img data-src="images/google.PNG"/>
 </div>
 <div class="description">
 <h2>Tradução de dados textuais com googleLanguageR</h2>
@@ -2001,7 +1999,7 @@ function init_posts_list() {
 <div class="publishedDate">July 25, 2019</div>
 </div>
 <div class="thumbnail">
-<img data-src="posts/2019-07-23-rstudio-dicas/../../images/dicas_funcao.gif"/>
+<img data-src="images/dicas_funcao.gif"/>
 </div>
 <div class="description">
 <h2>R e Rstudio - Dicas</h2>
@@ -2014,7 +2012,7 @@ function init_posts_list() {
 <div class="publishedDate">July 16, 2019</div>
 </div>
 <div class="thumbnail">
-<img data-src="posts/2019-07-16-web-scraping-com-r/../../images/cbf.gif"/>
+<img data-src="images/cbf.gif"/>
 </div>
 <div class="description">
 <h2>Scraping de dados da CBF com rvest</h2>
@@ -2027,7 +2025,7 @@ function init_posts_list() {
 <div class="publishedDate">July 15, 2019</div>
 </div>
 <div class="thumbnail">
-<img data-src="posts/2019-07-15-estamos-de-volta/../../images/voltamos.png"/>
+<img data-src="images/voltamos.png"/>
 </div>
 <div class="description">
 <h2>Estamos de volta!</h2>
@@ -2068,7 +2066,7 @@ técnicas chamadas de bag-of-words e tf-idf.</p>
 <div class="publishedDate">March 12, 2017</div>
 </div>
 <div class="thumbnail">
-<img data-src="posts/2017-03-12-introducao-d3plusr/../../images/D3plusR.png"/>
+<img data-src="images/D3plusR.png"/>
 </div>
 <div class="description">
 <h2>Introdução ao D3plusR</h2>
@@ -2081,7 +2079,7 @@ técnicas chamadas de bag-of-words e tf-idf.</p>
 <div class="publishedDate">Jan. 28, 2017</div>
 </div>
 <div class="thumbnail">
-<img data-src="posts/2017-01-28-bases-de-dados-kaggle/../../images/kaggle.png"/>
+<img data-src="images/kaggle.png"/>
 </div>
 <div class="description">
 <h2>Bases de Dados Públicas - Kaggle</h2>
@@ -2107,7 +2105,7 @@ técnicas chamadas de bag-of-words e tf-idf.</p>
 <div class="publishedDate">Aug. 16, 2016</div>
 </div>
 <div class="thumbnail">
-<img data-src="posts/2016-08-01-manipulacao-de-dados-parte-1/../../images/dplyr.png"/>
+<img data-src="images/dplyr.png"/>
 </div>
 <div class="description">
 <h2>Manipulação de dados - Parte 1: dplyr básico</h2>
@@ -2120,7 +2118,7 @@ técnicas chamadas de bag-of-words e tf-idf.</p>
 <div class="publishedDate">July 30, 2016</div>
 </div>
 <div class="thumbnail">
-<img data-src="posts/2016-07-30-comex-vis/../../images/comexvis.png"/>
+<img data-src="images/comexvis.png"/>
 </div>
 <div class="description">
 <h2>Comex Vis e a visualização de dados no Brasil</h2>
@@ -2366,7 +2364,7 @@ A ideia é postar sobre programação, estatística, machine learning e análise
 <a href="#">More articles &raquo;</a>
 </div>
 </div>
-<!--/radix_placeholder_article_listing-->
+<!--/radix_placeholder_article_listing-->
 
 <div class="d-title">
 <h1>Fulljoin</h1>

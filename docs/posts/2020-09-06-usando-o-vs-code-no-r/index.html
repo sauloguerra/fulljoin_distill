@@ -19,7 +19,7 @@
  <!--/radix_placeholder_import_source-->
 
   <!--radix_placeholder_meta_tags-->
-<title>Fulljoin: Usando o VS Code no R</title>
+<title>Fulljoin: Usando o R no VS Code</title>
 
 <meta property="description" itemprop="description" content="Neste post detalhamos como configurar o VS Code para uso do R."/>
 
@@ -31,27 +31,27 @@
 <meta name="article:author" content="Paulo Alencar"/>
 
 <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
-<meta property="og:title" content="Fulljoin: Usando o VS Code no R"/>
+<meta property="og:title" content="Fulljoin: Usando o R no VS Code"/>
 <meta property="og:type" content="article"/>
 <meta property="og:description" content="Neste post detalhamos como configurar o VS Code para uso do R."/>
 <meta property="og:url" content="https://www.fulljoin.com.br/posts/2020-09-06-usando-o-vs-code-no-r/"/>
 <meta property="og:image" content="https://www.fulljoin.com.br/posts/2020-09-06-usando-o-vs-code-no-r/../../images/vscode.png"/>
-<meta property="og:image:width" content="672"/>
-<meta property="og:image:height" content="392"/>
+<meta property="og:image:width" content="1169"/>
+<meta property="og:image:height" content="605"/>
 <meta property="og:locale" content="en_US"/>
 <meta property="og:site_name" content="Fulljoin"/>
 
 <!--  https://dev.twitter.com/cards/types/summary -->
 <meta property="twitter:card" content="summary_large_image"/>
-<meta property="twitter:title" content="Fulljoin: Usando o VS Code no R"/>
+<meta property="twitter:title" content="Fulljoin: Usando o R no VS Code"/>
 <meta property="twitter:description" content="Neste post detalhamos como configurar o VS Code para uso do R."/>
 <meta property="twitter:url" content="https://www.fulljoin.com.br/posts/2020-09-06-usando-o-vs-code-no-r/"/>
 <meta property="twitter:image" content="https://www.fulljoin.com.br/posts/2020-09-06-usando-o-vs-code-no-r/../../images/vscode.png"/>
-<meta property="twitter:image:width" content="672"/>
-<meta property="twitter:image:height" content="392"/>
+<meta property="twitter:image:width" content="1169"/>
+<meta property="twitter:image:height" content="605"/>
 
 <!--  https://scholar.google.com/intl/en/scholar/inclusion.html#indexing -->
-<meta name="citation_title" content="Fulljoin: Usando o VS Code no R"/>
+<meta name="citation_title" content="Fulljoin: Usando o R no VS Code"/>
 <meta name="citation_fulltext_html_url" content="https://www.fulljoin.com.br/posts/2020-09-06-usando-o-vs-code-no-r/"/>
 <meta name="citation_online_date" content="2020/09/06"/>
 <meta name="citation_publication_date" content="2020/09/06"/>
@@ -60,7 +60,7 @@
   <!--radix_placeholder_rmarkdown_metadata-->
 
 <script type="text/json" id="radix-rmarkdown-metadata">
-{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","output","draft","preview","citation_url","canonical_url"]}},"value":[{"type":"character","attributes":{},"value":["Usando o VS Code no R"]},{"type":"character","attributes":{},"value":["Neste post detalhamos como configurar o VS Code para uso do R."]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name"]}},"value":[{"type":"character","attributes":{},"value":["Paulo Alencar"]}]}]},{"type":"character","attributes":{},"value":["09-06-2020"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]}]},{"type":"logical","attributes":{},"value":[false]},{"type":"character","attributes":{},"value":["../../images/vscode.png"]},{"type":"character","attributes":{},"value":["https://www.fulljoin.com.br/posts/2020-09-06-usando-o-vs-code-no-r/"]},{"type":"character","attributes":{},"value":["https://www.fulljoin.com.br/posts/2020-09-06-usando-o-vs-code-no-r/"]}]}
+{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","output","draft","preview","citation_url","canonical_url"]}},"value":[{"type":"character","attributes":{},"value":["Usando o R no VS Code"]},{"type":"character","attributes":{},"value":["Neste post detalhamos como configurar o VS Code para uso do R."]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name"]}},"value":[{"type":"character","attributes":{},"value":["Paulo Alencar"]}]}]},{"type":"character","attributes":{},"value":["09-06-2020"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]}]},{"type":"logical","attributes":{},"value":[false]},{"type":"character","attributes":{},"value":["../../images/vscode.png"]},{"type":"character","attributes":{},"value":["https://www.fulljoin.com.br/posts/2020-09-06-usando-o-vs-code-no-r/"]},{"type":"character","attributes":{},"value":["https://www.fulljoin.com.br/posts/2020-09-06-usando-o-vs-code-no-r/"]}]}
 </script>
 <!--/radix_placeholder_rmarkdown_metadata-->
   
@@ -633,6 +633,16 @@ pre.text-output {
   color: rgba(0, 0, 0, 1.0);
 }
 
+/* Citations */
+
+d-article .citation {
+  color: inherit;
+  cursor: inherit;
+}
+
+div.hanging-indent{
+  margin-left: 1em; text-indent: -1em;
+}
 
 
 /* Tweak 1000px media break to show more text */
@@ -954,23 +964,8 @@ function init_distill() {
   // create d-appendix
   $('.d-appendix').changeElementType('d-appendix');
 
-  // create d-bibliography
-  var bibliography = $('<d-bibliography></d-bibliography>');
-  $('#distill-bibliography').wrap(bibliography);
-
   // flag indicating that we have appendix items
   var appendix = $('.appendix-bottom').children('h3').length > 0;
-
-  // replace citations with <d-cite>
-  $('.citation').each(function(i, val) {
-    appendix = true;
-    var cites = $(this).attr('data-cites').split(" ");
-    var dt_cite = $('<d-cite></d-cite>');
-    dt_cite.attr('key', cites.join());
-    $(this).replaceWith(dt_cite);
-  });
-  // remove refs
-  $('#refs').remove();
 
   // replace footnotes with <d-footnote>
   $('.footnote-ref').each(function(i, val) {
@@ -987,6 +982,9 @@ function init_distill() {
   });
   // remove footnotes
   $('.footnotes').remove();
+
+  // move refs into #references-listing
+  $('#references-listing').replaceWith($('#refs'));
 
   $('h1.appendix, h2.appendix').each(function(i, val) {
     $(this).changeElementType('h3');
@@ -1341,7 +1339,7 @@ d-appendix {
 <!--radix_placeholder_front_matter-->
 
 <script id="distill-front-matter" type="text/json">
-{"title":"Usando o VS Code no R","description":"Neste post detalhamos como configurar o VS Code para uso do R.","authors":[{"author":"Paulo Alencar","authorURL":"#","affiliation":"&nbsp;","affiliationURL":"#"}],"publishedDate":"2020-09-06T00:00:00.000-03:00","citationText":"Alencar, 2020"}
+{"title":"Usando o R no VS Code","description":"Neste post detalhamos como configurar o VS Code para uso do R.","authors":[{"author":"Paulo Alencar","authorURL":"#","affiliation":"&nbsp;","affiliationURL":"#"}],"publishedDate":"2020-09-06T00:00:00.000-03:00","citationText":"Alencar, 2020"}
 </script>
 
 <!--/radix_placeholder_front_matter-->
@@ -1373,7 +1371,7 @@ Labs!
 <!--/radix_placeholder_site_before_body-->
 
 <div class="d-title">
-<h1>Usando o VS Code no R</h1>
+<h1>Usando o R no VS Code</h1>
 <p>Neste post detalhamos como configurar o VS Code para uso do R.</p>
 </div>
 
@@ -1386,8 +1384,8 @@ Labs!
 
 <div class="d-article">
 <h2 id="introdução">Introdução</h2>
-<p>Neste post, irei mostra como configurar o VS Code para trabalhar com o R. O VS Code é um dos principais editores de códigos atualmente. Ele conta com uma série de funcionalidades e extensões que facilitam a vida de quem está escrevendo o código. Quem trabalha com o R, normalmente trabalha com RStudio, que é um ambiente de desenvolvimento totalmente planejado para aumentar a produtividade com o R.</p>
-<p>Sem querer entrar na discussão de quem é melhor ou pior e considerando que as funcionalidade para R no VS code ainda estão em fase de desenvolvimento, o objetivo deste post é apenas apresentar essa outra possibilidade para quem trabalha com o R. Uma das vantagens do VS Code é o amplo conjunto de extensões que podem auxiliar o usuário. Por outro lado, é fato que o RStudio é uma ferramenta bem mais madura para desenvolvimento em R.</p>
+<p>Neste post, irei mostrar como configurar o VS Code para trabalhar com o R. O VS Code é um dos principais editores de códigos atualmente. Ele conta com uma série de funcionalidades e extensões que facilitam a vida de quem está escrevendo o código. Quem trabalha com o R, normalmente trabalha com RStudio, que é um ambiente de desenvolvimento totalmente planejado para aumentar a produtividade com o R.</p>
+<p>Sem querer entrar na discussão de quem é melhor ou pior e considerando que as funcionalidades para R no VS code ainda estão em fase de desenvolvimento, o objetivo deste post é apenas apresentar essa outra possibilidade para quem trabalha com o R. Uma das vantagens do VS Code é o amplo conjunto de extensões que podem auxiliar o usuário. Por outro lado, é fato que o RStudio é uma ferramenta bem mais madura para desenvolvimento em R.</p>
 <p>O passo a passo da configuração do R para o VS Code será feito para o Windows. Estou assumindo que usuários de Linux conseguem fazer a configuração a partir de instruções gerais. Por fim, assume-se que o usuário já possui uma instalação de R na sua máquina.</p>
 <h2 id="instalando-o-vs-code">Instalando o VS Code</h2>
 <p>O VS Code pode ser instalado <a href="https://code.visualstudio.com/download">neste link</a> sem maiores dificuldades. Uma vez instalado, você verá o aplicativo da seguinte forma:</p>
@@ -1397,14 +1395,14 @@ Labs!
 <ul>
 <li>digitar <code>CTRL + SHIFT + X</code>;</li>
 <li>Ir em <code>File &gt; Preferences &gt; Extensions</code>;</li>
-<li>Clicar no ícone com quatro quadrados na barra à esquerda.</li>
+<li>Clicar no ícone com quatro quadrados na barra de atividades.</li>
 </ul>
-<p>Na barra de pequisa, procure por “R” e instale a extensão desenvolvida por Yuki Ueda. Basta clicar em no botão verde “Install”.</p>
-<p>Com a extensão instalada, clique na engrenagem e “Extensions Settings”. No campo, R.exe path for Windows indique o caminho do executável do R no seu computador. Por exemplo, no meu computador, o caminho é: <code>C:\Program Files\R\R-4.0.2\bin\R.exe</code>. Mais adiante, irei mostrar como configurar o <a href="https://github.com/randy3k/radian">Radian</a>, que é um console alternativo para o R.</p>
+<p>Na barra de pequisa, procure por “R” e instale a extensão desenvolvida por Yuki Ueda. Basta clicar no botão verde “Install”.</p>
+<p>Com a extensão instalada, clique na engrenagem, que irá aparecer no lugar do lugar do botão verde “Install”, e “Extension Settings”. No campo, R.exe path for Windows indique o caminho do executável do R no seu computador. Por exemplo, no meu computador, o caminho é: <code>C:\Program Files\R\R-4.0.2\bin\R.exe</code>. Mais adiante, irei mostrar como configurar o <a href="https://github.com/randy3k/radian">Radian</a>, que é um console alternativo para o R.</p>
 <p>Outra extensão importante para ser instalada é a “language server” para o R. Nas extensões, procure por “r-lsp” e faça a instalação. Essa extensão pede que voce instale o pacote de R “languageserver”. Pode-se instalar a versão do CRAN ou a de desenvolvimento. Vamos fazer o seguinte:</p>
 <ul>
-<li>Tecle “Ctrl + N” para abrir um novo script;</li>
-<li>No canto direito inferior, clique em “Plain Text” e altere para “R” (também é possível utilizar o atalho “Ctrl + K” e depois tecle “m”;</li>
+<li>Tecle <code>Ctrl + N</code> para abrir um novo script;</li>
+<li>No canto direito inferior, clique em “Plain Text” e altere para “R” (também é possível utilizar o atalho <code>Ctrl + K</code> e depois tecle <code>m</code>);</li>
 <li>Depois escreva “install.packages(“languageserver”)” ou “devtools::install_github(”REditorSupport/languageserver“)”</li>
 <li>Com o cursor na linha do comando, tecle <code>Ctrl + Enter</code> para executar.</li>
 </ul>
@@ -1412,7 +1410,11 @@ Labs!
 <p>Se por algum motivo ocorrer algum error de permissão negada no momento da instalação, tente abrir o VS Code com permisões de administrador.</p>
 <p>Uma vez que você concluiu a instalação desse pacote, clique no ícone de engrenagem da extensão “R LSP Client”. Lá existirão algumas opções. Em Lsp: Path, inclua o caminho para o executável no R (Exemplo: <code>C:\Program Files\R\R-4.0.2\bin\R.exe.</code>).</p>
 <h2 id="testando">Testando</h2>
-<p>Vamos fazer um teste rápido para saber se tudo está funcionando: - Crie um novo arquivo (Ctrl + N) e mude a linguagem para o R. - Teste o seguinte código:</p>
+<p>Vamos fazer um teste rápido para saber se tudo está funcionando:</p>
+<ul>
+<li>Crie um novo arquivo (<code>Ctrl + N</code>) e mude a linguagem para o R.</li>
+<li>Escreva o seguinte código:</li>
+</ul>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 library(tidyverse)
@@ -1420,13 +1422,16 @@ library(tidyverse)
 head(mtcars) %&gt;%
   View()</code></pre>
 </div>
+<ul>
+<li>Selecione o código e o execute (<code>Ctrl + Enter</code>).</li>
+</ul>
 <p><img src="testando_vscode.gif" /></p>
 <p>Se o código rodou normalmente, é sinal que tudo funcionou corretamente.</p>
 <h2 id="adicionando-atalhos">Adicionando atalhos</h2>
-<p>Quem usa o RStudio está acostumado, por exemplo, ao atalhos “Alt + -“ e “Ctrl + Shift + m” para, respectivamente, o assignment “&lt;-“ e o pipe “%&gt;%”. Para adicionar esses atalhos no VS Code, faça o seguinte:</p>
+<p>Quem usa o RStudio está acostumado, por exemplo, ao atalhos <code>Alt + -</code> e <code>Ctrl + Shift + m</code> para, respectivamente, o assignment “&lt;-“ e o pipe “%&gt;%”. Para adicionar esses e outros atalhos no VS Code, faça o seguinte:</p>
 <ul>
 <li>Clique em View &gt; Command Palette ou tecle o atalho “Ctrl + Shift + P”;</li>
-<li>Na caixa de busca, procure “Preferences: Open Keyboard Shortcuts (JSON);</li>
+<li>Na caixa de busca, procure “Preferences: Open Keyboard Shortcuts (JSON)”;</li>
 <li>Cole o seguintes código (você pode adicionar mais atalhos do seu interesse):</li>
 </ul>
 <pre class="js"><code>
@@ -1469,7 +1474,7 @@ head(mtcars) %&gt;%
 <p>Agora, siga os seguintes passos:</p>
 <ul>
 <li>No VS Code, clique em <code>Terminal &gt; New Terminal</code>;</li>
-<li>Com o terminal aberto, digite {MINICONDA_PATH}/condabin/activate.bat r-reticulate para ativar o environment <code>r-reticulate</code>. Note que {MINICONDA_PATH} deve ser substituído pelo caminho do miniconda no seu computador.</li>
+<li>Com o terminal aberto, digite <code>{MINICONDA_PATH}/condabin/activate.bat r-reticulate</code> para ativar o environment <code>r-reticulate</code>. Note que {MINICONDA_PATH} deve ser substituído pelo caminho do miniconda no seu computador.</li>
 <li>Assumindo que o passo anterior funcionou e que vc esteja com o environment <code>r-reticulate</code> ativado, execute o código <code>pip install -U radian</code>.</li>
 <li>Execute <code>radian</code> no mesmo terminal para verificar que tudo deu certo.</li>
 </ul>
@@ -1492,10 +1497,10 @@ head(mtcars) %&gt;%
     </span>
     <span class="article-sharing">
       Share: &nbsp;
-      <a href="https://twitter.com/share?text=Usando%20o%20VS%20Code%20no%20R&amp;url=https%3A%2F%2Fwww.fulljoin.com.br%2Fposts%2F2020-09-06-usando-o-vs-code-no-r%2F">
+      <a href="https://twitter.com/share?text=Usando%20o%20R%20no%20VS%20Code&amp;url=https%3A%2F%2Fwww.fulljoin.com.br%2Fposts%2F2020-09-06-usando-o-vs-code-no-r%2F">
         <i class="fab fa-twitter"></i>
       </a>
-      <a href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https%3A%2F%2Fwww.fulljoin.com.br%2Fposts%2F2020-09-06-usando-o-vs-code-no-r%2F&amp;title=Usando%20o%20VS%20Code%20no%20R">
+      <a href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https%3A%2F%2Fwww.fulljoin.com.br%2Fposts%2F2020-09-06-usando-o-vs-code-no-r%2F&amp;title=Usando%20o%20R%20no%20VS%20Code">
         <i class="fab fa-linkedin"></i>
       </a>
       <a href="https://www.facebook.com/sharer/sharer.php?s=100&amp;p[url]=https%3A%2F%2Fwww.fulljoin.com.br%2Fposts%2F2020-09-06-usando-o-vs-code-no-r%2F">
@@ -1531,11 +1536,11 @@ var disqus_config = function () {
 <div class="appendix-bottom">
   <h3 id="citation">Citation</h3>
   <p>For attribution, please cite this work as</p>
-  <pre class="citation-appendix short">Alencar (2020, Sept. 6). Fulljoin: Usando o VS Code no R. Retrieved from https://www.fulljoin.com.br/posts/2020-09-06-usando-o-vs-code-no-r/</pre>
+  <pre class="citation-appendix short">Alencar (2020, Sept. 6). Fulljoin: Usando o R no VS Code. Retrieved from https://www.fulljoin.com.br/posts/2020-09-06-usando-o-vs-code-no-r/</pre>
   <p>BibTeX citation</p>
   <pre class="citation-appendix long">@misc{alencar2020usando,
   author = {Alencar, Paulo},
-  title = {Fulljoin: Usando o VS Code no R},
+  title = {Fulljoin: Usando o R no VS Code},
   url = {https://www.fulljoin.com.br/posts/2020-09-06-usando-o-vs-code-no-r/},
   year = {2020}
 }</pre>

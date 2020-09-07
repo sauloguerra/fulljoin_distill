@@ -1,5 +1,5 @@
 ---
-title: "Usando o VS Code no R"
+title: "Usando o R no VS Code"
 description: Neste post detalhamos como configurar o VS Code para uso do R. 
 author: Paulo Alencar
 date: 09-06-2020
@@ -15,9 +15,9 @@ knitr::opts_chunk$set(echo = FALSE)
 ```
 
 ## Introdução
-Neste post, irei mostra como configurar o VS Code para trabalhar com o R. O VS Code é um dos principais editores de códigos atualmente. Ele conta com uma série de funcionalidades e extensões que facilitam a vida de quem está escrevendo o código.  Quem trabalha com o R, normalmente trabalha com RStudio, que é um ambiente de desenvolvimento totalmente planejado para aumentar a produtividade com o R. 
+Neste post, irei mostrar como configurar o VS Code para trabalhar com o R. O VS Code é um dos principais editores de códigos atualmente. Ele conta com uma série de funcionalidades e extensões que facilitam a vida de quem está escrevendo o código.  Quem trabalha com o R, normalmente trabalha com RStudio, que é um ambiente de desenvolvimento totalmente planejado para aumentar a produtividade com o R. 
 
-Sem querer entrar na discussão de quem é melhor ou pior e considerando que as funcionalidade para R no VS code ainda estão em fase de desenvolvimento, o objetivo deste post é apenas apresentar essa outra possibilidade para quem trabalha com o R. Uma das vantagens do VS Code é o amplo conjunto de extensões que podem auxiliar o usuário. Por outro lado, é fato que o RStudio é uma ferramenta bem mais madura para desenvolvimento em R.
+Sem querer entrar na discussão de quem é melhor ou pior e considerando que as funcionalidades para R no VS code ainda estão em fase de desenvolvimento, o objetivo deste post é apenas apresentar essa outra possibilidade para quem trabalha com o R. Uma das vantagens do VS Code é o amplo conjunto de extensões que podem auxiliar o usuário. Por outro lado, é fato que o RStudio é uma ferramenta bem mais madura para desenvolvimento em R.
 
 O passo a passo da configuração do R para o VS Code será feito para o Windows. Estou assumindo que usuários de Linux conseguem fazer a configuração a partir de instruções gerais.
 Por fim, assume-se que o usuário já possui uma instalação de R na sua máquina.
@@ -32,16 +32,16 @@ Para usar o R no VS Code, será necessário instalar a extensão “R”. Para i
 
 * digitar `CTRL + SHIFT + X`;
 * Ir em `File > Preferences > Extensions`;
-* Clicar no ícone com quatro quadrados na barra à esquerda.
+* Clicar no ícone com quatro quadrados na barra de atividades.
 
-Na barra de pequisa, procure por “R” e instale a extensão desenvolvida por Yuki Ueda. Basta clicar em no botão verde “Install”. 
+Na barra de pequisa, procure por “R” e instale a extensão desenvolvida por Yuki Ueda. Basta clicar no botão verde “Install”. 
 
-Com a extensão instalada, clique na engrenagem e “Extensions Settings”. No campo, R.exe path for Windows indique o caminho do executável do R no seu computador. Por exemplo, no meu computador, o caminho é: `C:\Program Files\R\R-4.0.2\bin\R.exe`. Mais adiante, irei mostrar como configurar o [Radian]( https://github.com/randy3k/radian), que é um console alternativo para o R.
+Com a extensão instalada, clique na engrenagem, que irá aparecer no lugar do lugar do botão verde "Install", e “Extension Settings”. No campo, R.exe path for Windows indique o caminho do executável do R no seu computador. Por exemplo, no meu computador, o caminho é: `C:\Program Files\R\R-4.0.2\bin\R.exe`. Mais adiante, irei mostrar como configurar o [Radian]( https://github.com/randy3k/radian), que é um console alternativo para o R.
 
 Outra extensão importante para ser instalada é a “language server” para o R. Nas extensões, procure por “r-lsp” e faça a instalação. Essa extensão pede que voce instale o pacote de R “languageserver”. Pode-se instalar a versão do CRAN ou a de desenvolvimento. Vamos fazer o seguinte:
 
-* Tecle “Ctrl + N” para abrir um novo script;
-* No canto direito inferior, clique em “Plain Text” e altere para “R” (também é possível utilizar o atalho “Ctrl + K” e depois tecle “m”;
+* Tecle `Ctrl + N` para abrir um novo script;
+* No canto direito inferior, clique em “Plain Text” e altere para “R” (também é possível utilizar o atalho `Ctrl + K` e depois tecle `m`);
 * Depois escreva “install.packages(“languageserver”)” ou “devtools::install_github("REditorSupport/languageserver")”
 * Com o cursor na linha do comando, tecle `Ctrl + Enter` para executar. 
 
@@ -53,8 +53,9 @@ Uma vez que você concluiu a instalação desse pacote, clique no ícone de engr
 
 ## Testando
 Vamos fazer um teste rápido para saber se tudo está funcionando:
- - Crie um novo arquivo (Ctrl + N) e mude a linguagem para o R.
- - Teste o seguinte código:
+
+ - Crie um novo arquivo (`Ctrl + N`) e mude a linguagem para o R.
+ - Escreva o seguinte código:
 
 ```{r, echo = TRUE, eval = FALSE}
 library(tidyverse)
@@ -62,6 +63,8 @@ library(tidyverse)
 head(mtcars) %>%
   View()
 ```
+ - Selecione o código e o execute (`Ctrl + Enter`).
+
 ![](testando_vscode.gif)
 
 
@@ -69,10 +72,10 @@ Se o código rodou normalmente, é sinal que tudo funcionou corretamente.
 
 ## Adicionando atalhos
 
-Quem usa o RStudio está acostumado, por exemplo, ao atalhos “Alt + -“ e “Ctrl + Shift + m” para, respectivamente, o assignment “<-“ e o pipe “%>%”. Para adicionar esses atalhos no VS Code, faça o seguinte:
+Quem usa o RStudio está acostumado, por exemplo, ao atalhos `Alt + -` e `Ctrl + Shift + m` para, respectivamente, o assignment “<-“ e o pipe “%>%”. Para adicionar esses e outros atalhos no VS Code, faça o seguinte:
 
  - Clique em View > Command Palette ou tecle o atalho “Ctrl + Shift + P”;
- - Na caixa de busca, procure “Preferences: Open Keyboard Shortcuts (JSON);
+ - Na caixa de busca, procure “Preferences: Open Keyboard Shortcuts (JSON)";
  - Cole o seguintes código (você pode adicionar mais atalhos do seu interesse):
 
 ```js
@@ -120,7 +123,7 @@ Nos meus testes, não tive sucesso com as funções `conda_install()` ou `pip_in
 Agora, siga os seguintes passos:
 
 * No VS Code, clique em `Terminal > New Terminal`;
-* Com o terminal aberto, digite {MINICONDA_PATH}/condabin/activate.bat r-reticulate para ativar o environment `r-reticulate`. Note que {MINICONDA_PATH} deve ser substituído pelo caminho do miniconda no seu computador.
+* Com o terminal aberto, digite `{MINICONDA_PATH}/condabin/activate.bat r-reticulate` para ativar o environment `r-reticulate`. Note que {MINICONDA_PATH} deve ser substituído pelo caminho do miniconda no seu computador.
 * Assumindo que o passo anterior funcionou e que vc esteja com o environment `r-reticulate` ativado, execute o código `pip install -U radian`.
 * Execute `radian` no mesmo terminal para verificar que tudo deu certo.
 
